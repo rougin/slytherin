@@ -1,5 +1,5 @@
 <?php if ( ! defined('SYSTEM')) exit('No direct script access allowed');
-abstract class Controller
+class Controller
 {
 	public function __construct()
 	{
