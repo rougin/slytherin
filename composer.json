@@ -1,0 +1,14 @@
+{
+	"name": "rougin/illuminati",
+	"description": "A barebone PHP-MVC Framework",
+	"require": {
+		"symfony/finder": "2.1.2"
+	},
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Rougin Gutib",
+			"email": "rougin.royce@gmail.com"
+		}
+	]
+}
