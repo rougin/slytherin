@@ -25,3 +25,5 @@ class Load
 	{
 		return self::file('helpers', $file);
 	}
+
+}
