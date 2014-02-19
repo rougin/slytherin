@@ -1,4 +1,6 @@
 <?php
+
+use Illuminate\Database;
 class Helloworld extends Controller
 {
 
@@ -12,6 +14,10 @@ class Helloworld extends Controller
 		echo 'hello illuminati<br/>';
 		$acheche = Load::model('acheche');
 		$acheche->add();
+		echo '<pre>';
+		print_r(get_declared_classes());
+		echo '</pre>';
+		$x = new Connection();
 	}
 
 	public function method($name, $name2 = NULL)

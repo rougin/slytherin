@@ -2,7 +2,6 @@
 	"name": "rougin/illuminati",
 	"description": "A barebone PHP-MVC Framework",
 	"require": {
-		"laravel/framework": "4.1.*"
 	},
 	"license": "MIT",
 	"authors": [
