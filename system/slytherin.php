@@ -7,7 +7,7 @@ require SYSTEM . 'model.php';
 class Slytherin
 {
 
-	public $controller = DEFAULT_CONTROLLER;
+	public $controller = NULL;
 	public $method = 'index';
 	public $parameters = NULL;
 	public $url = NULL;
@@ -15,6 +15,8 @@ class Slytherin
 
 	public function __construct()
 	{
+		global $routes;
+		$this->controller = $routes['default_controller'];
 		$this->segments = $this->strip_url();
 		if(isset($this->segments[0]) && $this->segments[0] != NULL)
 		{
