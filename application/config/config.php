@@ -1,3 +1,7 @@
 <?php
-define('DEFAULT_CONTROLLER', 'helloworld');
+$routes['default_controller'] = 'helloworld';
+$database['hostname'] = '';
+$database['username'] = '';
+$database['password'] = '';
+$database['database_name'] = '';
 ?>
