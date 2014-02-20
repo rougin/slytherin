@@ -1,5 +1,4 @@
 <?php
-
 class Database
 {
 
@@ -21,14 +20,7 @@ class Database
 	public static $results = NULL;
 	private static $_instance = NULL; /* load a null instance */
 
-	public function __construct()
-	{
-		global $database;
-		/* connect to the database using the specified information in the configuration */
-		mysql_connect($database['hostname'], $database['username'], $database['password']);
-		/* selects the database */
-		mysql_select_db($database['database_name']);
-	}
+	public static $query = NULL;
 
 	public function _having($fields, $data = NULL, $operator)
 	{
@@ -44,7 +36,10 @@ class Database
 			foreach ($fields as $key => $value)
 			{
 				self::$having .= $key . self::check_symbol($key) . " '" . $value . "' ";
-				if ($counter++ < count($fields) - 1) { self::$having .= ", "; }
+				if ($counter++ < count($fields) - 1)
+				{
+					self::$having .= ", ";
+				}
 			}	
 		}
 		else
@@ -70,7 +65,7 @@ class Database
 			$syntax = self::$like;
 		}
 		self::$like .= self::check_syntax($syntax, $operator, 'where');
-		self::$like .= $field . " " . $boolean . "LIKE " . self::get_wildcard($match, $wildcard) . " ";
+		self::$like .= $field . " " . $boolean . "LIKE '" . self::get_wildcard($match, $wildcard) . "' ";
 		return self::get_instance();
 	}
 
@@ -120,7 +115,10 @@ class Database
 			foreach ($data as $each_data)
 			{
 				$datas .= "'" . $each_data . "'";
-				if ($counter++ < count($data) - 1) { $datas .= ", "; }
+				if ($counter++ < count($data) - 1)
+				{
+					$datas .= ", ";
+				}
 			}
 		}
 		self::$where_in .= self::check_syntax(self::$where_in, $operator, 'where');
@@ -166,16 +164,6 @@ class Database
 	{
 		self::$distinct = "DISTINCT ";
 		return self::get_instance();
-	}
-
-	public function execute($query)
-	{
-		self::$results = mysql_query($query);
-		if (!$query)
-		{
-			/* prompt a mysql_error */
-			Error::mysql_error(mysql_error());
-		}
 	}
 
 	public function from($tables)
@@ -240,14 +228,17 @@ class Database
 			$query .= self::$limit;	
 		}
 
-		self::execute($query);
+		self::$query = $query;
 		return self::get_instance();
 	}
 
 	public function get_instance()
 	{
 		/* if there is not instance, create a new instance */
-		if (self::$_instance === NULL) { self::$_instance = new self; }
+		if (self::$_instance === NULL)
+		{
+			self::$_instance = new self;
+		}
 		return self::$_instance;
 	}
 
@@ -283,7 +274,10 @@ class Database
 			foreach ($fields as $field)
 			{
 				self::$group_by .= $field;
-				if ($counter++ < count($fields) - 1) { self::$group_by .= ", "; }
+				if ($counter++ < count($fields) - 1)
+				{
+					self::$group_by .= ", ";
+				}
 			}
 		}
 		return self::get_instance();
@@ -307,39 +301,39 @@ class Database
 		return self::$insert;
 	}
 
-	public function into($result)
+	public function into($type)
 	{
-		/* if the result wants to be as an object */
-		if ($result == 'object')
+		global $database;
+		$fetch = array('object' => PDO::FETCH_OBJ, 'array' => PDO::FETCH_ASSOC);
+		if (strpos($type, 'row') !== FALSE)
 		{
-			/* fetch data by object */
-			while($row_data = mysql_fetch_object(self::$results))
-			{
-				/* assign the new row to the results */
-				$results[] = $row_data;
-			}
+			$type = str_replace('_', '', str_replace('row', '', $type));
+			$row = 1;
 		}
-		if ($result == 'object_row')
+		else if ($type != 'object' && $type != 'array')
 		{
-			/* assign the new row to the results */
-			$results = mysql_fetch_object(self::$results);
+			exit('error');
 		}
-		/* else if the result wants to be as an array */
-		else if ($result == 'array')
+		$options = array(PDO::ATTR_DEFAULT_FETCH_MODE => $fetch[$type], PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
+		$db = new PDO($database['type'] . ':host=' . $database['hostname'] . ';dbname=' . $database['database_name'], $database['username'], $database['password'], $options);
+		$result = $db->prepare(self::$query);
+		$result->execute();
+		if (isset($row))
 		{
-			/* fetch data by array */
-			while($row_data = mysql_fetch_assoc(self::$results))
-			{
-				/* assign the new row to the results */
-				$results[] = $row_data;
-			}
+			return $result->fetch();
 		}
-		return $results;
+		else
+		{
+			return $result->fetchAll();
+		}
 	}
 
 	public function join($table, $field, $type = NULL)
 	{
-		if ($type != NULL) { $type = strtoupper($type) . " "; }
+		if ($type != NULL)
+		{
+			$type = strtoupper($type) . " ";
+		}
 		self::$join =  $type . "JOIN " . $table . " ON " . $field;
 		return self::get_instance();
 	}
