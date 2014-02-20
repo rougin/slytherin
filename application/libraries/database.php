@@ -17,7 +17,7 @@ class Database
 	public static $update = NULL;
 	public static $delete = NULL;
 	
-	public static $results = NULL;
+	public static $result = NULL;
 	private static $_instance = NULL; /* load a null instance */
 
 	public static $query = NULL;
@@ -228,7 +228,18 @@ class Database
 			$query .= self::$limit;	
 		}
 
-		self::$query = $query;
+		try
+		{
+			global $database;
+			self::$query = $query;
+			$db = new PDO($database['type'] . ':host=' . $database['hostname'] . ';dbname=' . $database['database_name'], $database['username'], $database['password']);
+			self::$result = $db->prepare(self::$query);
+			self::$result->execute();
+		}
+		catch (PDOException $e)
+		{
+			exit('Database connection could not be established.');
+		}
 		return self::get_instance();
 	}
 
@@ -303,7 +314,6 @@ class Database
 
 	public function into($type)
 	{
-		global $database;
 		$fetch = array('object' => PDO::FETCH_OBJ, 'array' => PDO::FETCH_ASSOC);
 		if (strpos($type, 'row') !== FALSE)
 		{
@@ -314,17 +324,13 @@ class Database
 		{
 			exit('error');
 		}
-		$options = array(PDO::ATTR_DEFAULT_FETCH_MODE => $fetch[$type], PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING);
-		$db = new PDO($database['type'] . ':host=' . $database['hostname'] . ';dbname=' . $database['database_name'], $database['username'], $database['password'], $options);
-		$result = $db->prepare(self::$query);
-		$result->execute();
 		if (isset($row))
 		{
-			return $result->fetch();
+			return self::$result->fetch($fetch[$type]);
 		}
 		else
 		{
-			return $result->fetchAll();
+			return self::$result->fetchAll($fetch[$type]);
 		}
 	}
 
