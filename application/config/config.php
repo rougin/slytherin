@@ -1,7 +1,8 @@
 <?php
 $routes['default_controller'] = 'helloworld';
-$database['hostname'] = '';
-$database['username'] = '';
+$database['type'] = 'mysql';
+$database['hostname'] = 'localhost';
+$database['username'] = 'root';
 $database['password'] = '';
-$database['database_name'] = '';
+$database['database_name'] = 'periodicals';
 ?>
