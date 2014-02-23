@@ -34,10 +34,10 @@ class Slytherin
 		if (file_exists($path))
 		{
 			require_once($path);
+			$baseController = new Controller();
 			$controller = new $controller();		
 			if (is_subclass_of($controller, 'Controller'))
 			{
-				$baseController = new Controller();
 				if (method_exists($controller, $method))
 				{
 					$parameters = new ReflectionMethod($controller, $method);
