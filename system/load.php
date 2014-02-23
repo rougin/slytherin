@@ -26,4 +26,12 @@ class Load
 		return self::file('helpers', $file);
 	}
 
+    public function view($file, $data = NULL)
+	{
+	    if ($data != NULL)
+	    {
+	        extract($data);
+	    }
+		return require_once APPLICATION . 'views/' . $file;
+	}
 }
