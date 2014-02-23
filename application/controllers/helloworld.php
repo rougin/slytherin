@@ -3,19 +3,21 @@
 class Helloworld extends Controller
 {
 
-	public function __construct()
-	{
-		echo 'this is __construct<br/>';
-	}
-
 	public function index()
 	{
-		echo 'hello illuminati<br/>';
+		Load::view('welcome.php');
 	}
 
-	public function method($name, $name2 = NULL)
+	public function hello($name, $name2 = NULL)
 	{
-		echo 'this is ', $name, ' ', $name2, '<br/>';
+	    if ($name2 != NULL)
+	    {
+	        echo 'hello ', $name, ' and ', $name2, '!<br/>';
+	    }
+	    else
+	    {
+	        echo 'hello ', $name, '!<br/>';
+	    }
 	}
 
 }
