@@ -32,6 +32,6 @@ class Load
 	    {
 	        extract($data);
 	    }
-		return require_once APPLICATION . 'views/' . $file;
+		require_once APPLICATION . 'views/' . $file;
 	}
 }
