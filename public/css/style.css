@@ -1,0 +1,18 @@
+.navigation-bar
+{
+	font-family: 'Open Sans';
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 200px;
+	/*float: left;
+	width: 250px;
+	margin-right: -3px;*/
+}
+
+.content
+{
+	font-family: 'Open Sans';
+	margin-top: 0px;
+	margin-left: 200px;
+}
