@@ -10,7 +10,7 @@ ROUTES
 You can set your own routing rules here. Routes can either be
 specified using wildcards(soon) or Regular Expressions(soon)
 */
-$routes['default_controller'] = 'helloworld';
+$routes['default_controller'] = 'documentation';
 
 /*
 DATABASE CONFIGURATION
@@ -23,4 +23,11 @@ $database['hostname'] = 'localhost';
 $database['username'] = 'root';
 $database['password'] = '';
 $database['database_name'] = 'periodicals';
+
+/*
+AUTOLOAD LIBRARIES AND HELPERS
+If you want to load your libraries or helpers globally, you insert them here
+*/
+$libraries = array();
+$helpers = array('url');
 ?>
