@@ -2,16 +2,18 @@
 <p>
 	Hi! Welcome to the Slytherin Documentation. In this guide we will show you how to setup, install and configure Slytherin. Let's get started!
 </p>
-<h1>What is Slytherin?</h1>
-<p>
-	Slytherin is a simple and easy to understand PHP skeleton framework that uses a Model-View-Controller (MVC) software pattern. Unlike other other frameworks
-	that provides big libraries that is unnecessary in building your wep application or site, Slytherin uses Composer to add, update or even remove external
-	libraries with ease. With these, you have the right to select the libraries that you want to use, minimizing the size of your project and it also provides
-	flexibility to the framework.
-</p>
+<div id="about-slytherin">
+	<h1>What is Slytherin?</h1>
+	<p>
+		Slytherin is a simple and easy to understand PHP skeleton framework that uses a Model-View-Controller (MVC) software pattern. Unlike other other frameworks
+		that provides big libraries that is unnecessary in building your wep application or site, Slytherin uses Composer to add, update or even remove external
+		libraries with ease. With these, you have the right to select the libraries that you want to use, minimizing the size of your project and it also provides
+		flexibility to the framework.
+	</p>
+</div>
 <h1>Installation</h1>
 <p></p>
-<h1>Model-View-Controller</h1>
+<h1>The MVC (Model-View-Controller)</h1>
 <p>
 	The Model-View-Controller is a software pattern for implementing user interfaces. It divides a given software application into three interconnected parts,
 	so as to seperate internal representations of information from the ways that information is presented to or accepted from the user. (Reenskaug and Coplien, 2009)
