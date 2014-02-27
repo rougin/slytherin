@@ -36,8 +36,8 @@ class Slytherin
 			require_once($path);
 			$baseController = new Controller();
 			$controller = new $controller();		
-			if (is_subclass_of($controller, 'Controller'))
-			{
+			// if (is_subclass_of($controller, 'Controller'))
+			// {
 				if (method_exists($controller, $method))
 				{
 					$parameters = new ReflectionMethod($controller, $method);
@@ -52,11 +52,11 @@ class Slytherin
 				{
 					echo '\'', $method, '\' method not found';
 				}
-			}
-			else
-			{
-				echo 'The controller is not a subclass of \'Controller\' base class';
-			}
+			// }
+			// else
+			// {
+			// 	echo 'The controller is not a subclass of \'Controller\' base class';
+			// }
 		}
 		else
 		{
