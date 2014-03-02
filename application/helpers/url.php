@@ -10,6 +10,13 @@ class URL
 	{
 		$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 		$segments = explode('/', $path);
-		return $segments[$number];
+		if (!isset($segments[$number]) || $segments[$number] == NULL)
+		{
+			return NULL;
+		}
+		else
+		{
+			return $segments[$number];
+		}
 	}
 }
