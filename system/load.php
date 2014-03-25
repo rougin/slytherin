@@ -4,16 +4,14 @@ class Load
 	public function file($name, $file)
 	{
 		require APPLICATION . $name . '/' . strtolower($file) . '.php';
-		if ($name != 'helpers')
-		{
+		if ($name != 'helpers') {
 			return new $file();
 		}
 	}
 
 	public function files($name, $files)
 	{
-		foreach ($files as $file)
-		{
+		foreach ($files as $file) {
 			self::file($name, $file);
 		}	
 	}
@@ -46,8 +44,7 @@ class Load
 
 	public function view($file, $data = NULL)
 	{
-		if ($data != NULL)
-		{
+		if ($data != NULL) {
 			extract($data);
 		}
 		require_once APPLICATION . 'views/' . $file . '.php';

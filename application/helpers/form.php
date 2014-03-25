@@ -5,12 +5,10 @@ class Form
 	public function _input($name, $value = NULL, $attributes = NULL, $type)
 	{
 		$input = '<input type="' . $type . '" name="' . $name . '" ';
-		if ($value != NULL)
-		{
+		if ($value != NULL) {
 			$input .= 'value="' . $value . '"';
 		}
-		if ($attributes != NULL)
-		{
+		if ($attributes != NULL) {
 			$input .= $attributes;
 		}
 		return $input . "/>\n";

@@ -8,8 +8,7 @@ class Template
 	static public function merge($templates, $separator = "\n")
 	{
 		$output = "";
-		foreach ($templates as $template)
-		{
+		foreach ($templates as $template) {
 			$content = (get_class($template) !== "Template")
 			? "Error, incorrect type - expected Template."
 			: $template->output();
@@ -25,20 +24,16 @@ class Template
 
 	public function output()
 	{
-		if (class_exists(self::$file))
-		{
+		if (class_exists(self::$file)) {
 			echo "yeah";
 		}
-		if (!file_exists(self::$file))
-		{
+		if (!file_exists(self::$file)) {
 			return "Error loading template file (self::$file).<br />";
 		}
 		$output = file_get_contents(self::$file);
-		foreach (self::$values as $key => $value)
-		{
+		foreach (self::$values as $key => $value) {
 			$tag_to_replace = "@$key";
-			if (strpos($value, ".php") !== FALSE)
-			{
+			if (strpos($value, ".php") !== FALSE) {
 				$value = file_get_contents(SYSTEM . "/views/" . $value);
 				$value = eval("?>" . $value . "<?");
 			}
