@@ -11,8 +11,7 @@ class Session
 	}
 	public function data($name = NULL)
 	{
-		if ($name == NULL || $name == '')
-		{
+		if ($name == NULL || $name == '') {
 			return $_SESSION;
 		}
 		return $_SESSION[$name];

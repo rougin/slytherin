@@ -18,12 +18,10 @@ class Slytherin
 		global $routes;
 		$this->controller = $routes['default_controller'];
 		$this->segments = $this->strip_url();
-		if(isset($this->segments[0]) && $this->segments[0] != NULL)
-		{
+		if(isset($this->segments[0]) && $this->segments[0] != NULL) {
 			$this->controller = $this->segments[0];
 		}
-		if(isset($this->segments[1]) && $this->segments[1] != NULL)
-		{
+		if(isset($this->segments[1]) && $this->segments[1] != NULL) {
 			$this->method = $this->segments[1];
 		}
 		$this->get($this->controller, $this->method, APPLICATION . 'controllers/' . $this->controller . '.php');
@@ -31,25 +29,21 @@ class Slytherin
 
 	public function get($controller, $method, $path)
 	{
-		if (file_exists($path))
-		{
+		if (file_exists($path)) {
 			require_once($path);
 			$baseController = new Controller();
 			$controller = new $controller();		
 			// if (is_subclass_of($controller, 'Controller'))
 			// {
-				if (method_exists($controller, $method))
-				{
+				if (method_exists($controller, $method)) {
 					$parameters = new ReflectionMethod($controller, $method);
 					$segments = count($this->segments) - 2;
-					if ($segments < 0)
-					{
+					if ($segments < 0) {
 						$segments = 0;
 					}
 					call_user_method_array($method, $controller, array_splice($this->segments, 2));
 				}
-				else
-				{
+				else {
 					echo '\'', $method, '\' method not found';
 				}
 			// }
@@ -58,8 +52,7 @@ class Slytherin
 			// 	echo 'The controller is not a subclass of \'Controller\' base class';
 			// }
 		}
-		else
-		{
+		else {
 			echo '\'', $controller, '\' controller not found';
 		}
 	}
@@ -68,8 +61,7 @@ class Slytherin
 	{
 		$request_url = (isset($_SERVER['REQUEST_URI'])) ? $_SERVER['REQUEST_URI'] : NULL;
 		$script_url = (isset($_SERVER['PHP_SELF'])) ? $_SERVER['PHP_SELF'] : NULL;
-		if($request_url != $script_url)
-		{
+		if($request_url != $script_url) {
 			$index = str_replace('index.php', NULL, $script_url);
 			$this->url = trim(preg_replace('/' . str_replace('/', '\/', $index) . '/', NULL, $request_url, 1), '/');
 		}

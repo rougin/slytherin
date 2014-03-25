@@ -24,26 +24,21 @@ class Database
 
 	public function _having($fields, $data = NULL, $operator)
 	{
-		if (isset($fields) && isset($data))
-		{
+		if (isset($fields) && isset($data)) {
 			self::$having .= self::check_syntax(self::$having, $operator, 'having');
 			self::$having .= $fields . self::check_symbol($fields) . " '" . $data . "' ";
 		}
-		else if (is_array($fields))
-		{
+		else if (is_array($fields)) {
 			$counter = 0;
 			self::$having .= self::check_syntax(self::$having, $operator, 'having');
-			foreach ($fields as $key => $value)
-			{
+			foreach ($fields as $key => $value) {
 				self::$having .= $key . self::check_symbol($key) . " '" . $value . "' ";
-				if ($counter++ < count($fields) - 1)
-				{
+				if ($counter++ < count($fields) - 1) {
 					self::$having .= ", ";
 				}
 			}	
 		}
-		else
-		{
+		else {
 			self::$having .= self::check_syntax(self::$where, $operator, 'where');
 			self::$having .= "HAVING " . $fields . " ";
 		}
@@ -52,16 +47,13 @@ class Database
 
 	public function _like($field, $match, $wildcard = 'both', $boolean, $operator)
 	{
-		if (self::$where != NULL)
-		{
+		if (self::$where != NULL) {
 			$syntax = self::$where;
 		}
-		else if (self::$where_in != NULL)
-		{
+		else if (self::$where_in != NULL) {
 			$syntax = self::$where_in;	
 		}
-		else
-		{
+		else {
 			$syntax = self::$like;
 		}
 		self::$like .= self::check_syntax($syntax, $operator, 'where');
@@ -71,12 +63,10 @@ class Database
 
 	public function _select($fields, $operator = NULL)
 	{
-		if ($operator != NULL)
-		{
+		if ($operator != NULL) {
 			self::$select = "SELECT " . $operator . "(" . $fields . ") ";
 		}
-		else
-		{
+		else {
 			self::$select = "SELECT " . $fields . " ";
 		}
 		return self::get_instance();
@@ -84,21 +74,17 @@ class Database
 
 	public function _where($field, $data = NULL, $operator = NULL)
 	{
-		if (is_array($field))
-		{
-			foreach ($field as $key => $value)
-			{
+		if (is_array($field)) {
+			foreach ($field as $key => $value) {
 				self::$where .= self::check_syntax(self::$where, $operator, 'where');
 				self::$where .= $key . self::check_symbol($key) . " '" . $value . "' ";
 			}
 		}
-		else if ($field != NULL && $data != NULL)
-		{
+		else if ($field != NULL && $data != NULL) {
 			self::$where .= self::check_syntax(self::$where, $operator, 'where');
 			self::$where .= $field . self::check_symbol($field) . " '" . $data . "' ";
 		}
-		else
-		{
+		else {
 			self::$where .= self::check_syntax(self::$where, $operator, 'where');
 			self::$where .= $field . " ";
 		}
@@ -108,15 +94,12 @@ class Database
 	public function _where_in($field, $data, $boolean = NULL, $operator = NULL)
 	{
 		/* WHERE $field in ($data) */
-		if (is_array($data))
-		{
+		if (is_array($data)) {
 			$counter = 0;
 			$datas = NULL;
-			foreach ($data as $each_data)
-			{
+			foreach ($data as $each_data) {
 				$datas .= "'" . $each_data . "'";
-				if ($counter++ < count($data) - 1)
-				{
+				if ($counter++ < count($data) - 1) {
 					$datas .= ", ";
 				}
 			}
@@ -128,32 +111,27 @@ class Database
 
 	public function check_symbol($field)
 	{
-		if (strpos($field, '!=') !== FALSE || strpos($field, '<') !== FALSE || strpos($field, '>') !== FALSE || strpos($field, '=') !== FALSE)
-		{
+		if (strpos($field, '!=') !== FALSE || strpos($field, '<') !== FALSE || strpos($field, '>') !== FALSE || strpos($field, '=') !== FALSE) {
 			return "";
 		}
-		else
-		{
+		else {
 			return " =";
 		}
 	}
 
 	public function check_syntax($syntax, $operator, $type)
 	{
-		if (preg_match("/$type/i", $syntax))
-		{
+		if (preg_match("/$type/i", $syntax)) {
 			return strtoupper($operator) . " ";
 		}
-		else
-		{
+		else {
 			return strtoupper($type) . " ";
 		}
 	}
 
 	public function delete($table, $data = NULL)
 	{
-		if ($data != NULL)
-		{
+		if ($data != NULL) {
 			self::where($data);
 		}
 		self::$delete = "DELETE FROM " . $table . " ";
@@ -175,69 +153,55 @@ class Database
 	public function get($table = NULL)
 	{
 		$query = NULL;
-		if (self::$select != NULL)
-		{
+		if (self::$select != NULL) {
 			$query .= self::$select;
 		}
-		else
-		{
+		else {
 			$query .= "SELECT * ";
 		}
-		if (self::$from != NULL)
-		{
+		if (self::$from != NULL) {
 			$query .= self::$from;
 		}
-		else if ($table != NULL)
-		{
+		else if ($table != NULL) {
 			$query .= "FROM " . $table . " ";
 		}
-		if (self::$where != NULL)
-		{
+		if (self::$where != NULL) {
 			$query .= self::$where;
 		}
-		else if (self::$where_in != NULL)
-		{
+		else if (self::$where_in != NULL) {
 			$query .= self::$where_in;
 		}
-		if (self::$having != NULL)
-		{
+		if (self::$having != NULL) {
 			$query .= self::$having;
 		}
-		if (self::$group_by != NULL)
-		{
+		if (self::$group_by != NULL) {
 			$query .= self::$group_by;
 		}
-		if (self::$distinct != NULL)
-		{
+		if (self::$distinct != NULL) {
 			$query = str_replace("SELECT ", "SELECT DISTINCT ", $query);
 		}
-		if (self::$like != NULL)
-		{
+		if (self::$like != NULL) {
 			$query .= self::$like;	
 		}
-		if (self::$join != NULL)
-		{
+		if (self::$join != NULL) {
 			$query .= self::$join;
 		}
-		if (self::$order_by != NULL)
-		{
+		if (self::$order_by != NULL) {
 			$query .= self::$order_by;	
 		}
-		if (self::$limit != NULL)
-		{
+		if (self::$limit != NULL) {
 			$query .= self::$limit;	
 		}
 
-		try
-		{
+		try {
 			global $database;
 			self::$query = $query;
-			$db = new PDO($database['type'] . ':host=' . $database['hostname'] . ';dbname=' . $database['database_name'], $database['username'], $database['password']);
+			$db = new PDO($database['type'] . ':host=' . $database['hostname'] . ';dbname=' . $database['database_name'],
+				$database['username'], $database['password']);
 			self::$result = $db->prepare(self::$query);
 			self::$result->execute();
 		}
-		catch (PDOException $e)
-		{
+		catch (PDOException $e) {
 			exit('Database connection could not be established.');
 		}
 		return self::get_instance();
@@ -246,8 +210,7 @@ class Database
 	public function get_instance()
 	{
 		/* if there is not instance, create a new instance */
-		if (self::$_instance === NULL)
-		{
+		if (self::$_instance === NULL) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
@@ -262,16 +225,13 @@ class Database
 
 	public function get_wildcard($match, $wildcard)
 	{
-		if ($wildcard == 'both')
-		{
+		if ($wildcard == 'both') {
 			return "%" . $match . "%";
 		}
-		else if ($wildcard == 'left')
-		{
+		else if ($wildcard == 'left') {
 			return "%" . $match;
 		}
-		else if ($wildcard == 'right')
-		{
+		else if ($wildcard == 'right') {
 			return $match . "%";
 		}
 	}
@@ -279,14 +239,11 @@ class Database
 	public function group_by($fields)
 	{
 		self::$group_by .= "GROUP BY ";
-		if (is_array($fields))
-		{
+		if (is_array($fields)) {
 			$counter = 0;
-			foreach ($fields as $field)
-			{
+			foreach ($fields as $field) {
 				self::$group_by .= $field;
-				if ($counter++ < count($fields) - 1)
-				{
+				if ($counter++ < count($fields) - 1) {
 					self::$group_by .= ", ";
 				}
 			}
@@ -301,8 +258,7 @@ class Database
 
 	public function insert($table, $data)
 	{
-		foreach ($data as $key => $value)
-		{
+		foreach ($data as $key => $value) {
 			$fields[] = $key;
 			$values[] = "'" . $value . "'";
 		}
@@ -315,29 +271,24 @@ class Database
 	public function into($type)
 	{
 		$fetch = array('object' => PDO::FETCH_OBJ, 'array' => PDO::FETCH_ASSOC);
-		if (strpos($type, 'row') !== FALSE)
-		{
+		if (strpos($type, 'row') !== FALSE) {
 			$type = str_replace('_', '', str_replace('row', '', $type));
 			$row = 1;
 		}
-		else if ($type != 'object' && $type != 'array')
-		{
+		else if ($type != 'object' && $type != 'array') {
 			exit('error');
 		}
-		if (isset($row))
-		{
+		if (isset($row)) {
 			return self::$result->fetch($fetch[$type]);
 		}
-		else
-		{
+		else {
 			return self::$result->fetchAll($fetch[$type]);
 		}
 	}
 
 	public function join($table, $field, $type = NULL)
 	{
-		if ($type != NULL)
-		{
+		if ($type != NULL) {
 			$type = strtoupper($type) . " ";
 		}
 		self::$join =  $type . "JOIN " . $table . " ON " . $field;
@@ -351,8 +302,7 @@ class Database
 
 	public function limit($result, $offset = NULL)
 	{
-		if ($offset != NULL)
-		{
+		if ($offset != NULL) {
 			$offset = $offset . ", ";
 		}
 		self::$limit .= "LIMIT " . $offset . $result; 
@@ -398,12 +348,10 @@ class Database
 	{
 		$space = NULL;
 		self::$order_by .= self::check_syntax(self::$order_by, ',', 'order by');
-		if ($arrangement == NULL)
-		{
+		if ($arrangement == NULL) {
 			$space = " ";
 		}
-		else
-		{
+		else {
 			$arrangement = " " . $arrangement;
 		}
 		self::$order_by .= $fields . $space . strtoupper($arrangement) . " ";
@@ -437,8 +385,7 @@ class Database
 
 	public function update($table, $data)
 	{
-		foreach ($data as $key => $value)
-		{
+		foreach ($data as $key => $value) {
 			$fields[] = $key . " = '" . $value . "'";
 		}
 		$fields = implode(', ', $fields);
