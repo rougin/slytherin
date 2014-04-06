@@ -3,7 +3,7 @@ class URL
 {
 	public function base($url = NULL)
 	{
-		return 'http://' . $_SERVER['HTTP_HOST'] . '/' . $url;
+		return URL . $url;
 	}
 
 	public function segment($number)
