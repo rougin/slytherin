@@ -35,6 +35,7 @@ class Slytherin
 			$controller = new $controller();		
 			// if (is_subclass_of($controller, 'Controller'))
 			// {
+				$method = strtok($method, '?');
 				if (method_exists($controller, $method)) {
 					$parameters = new ReflectionMethod($controller, $method);
 					$segments = count($this->segments) - 2;
@@ -43,9 +44,9 @@ class Slytherin
 					}
 					call_user_method_array($method, $controller, array_splice($this->segments, 2));
 				}
-				else {
-					echo '\'', $method, '\' method not found';
-				}
+				// else {
+				// 	echo '\'', $method, '\' method not found';
+				// }
 			// }
 			// else
 			// {
