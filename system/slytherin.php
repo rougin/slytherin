@@ -44,9 +44,9 @@ class Slytherin
 					}
 					call_user_method_array($method, $controller, array_splice($this->segments, 2));
 				}
-				// else {
-				// 	echo '\'', $method, '\' method not found';
-				// }
+				else {
+					echo '\'', $method, '\' method not found';
+				}
 			// }
 			// else
 			// {
