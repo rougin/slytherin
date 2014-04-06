@@ -5,8 +5,7 @@ define('URL', 'http://slytherin.dev/');
 define('SYSTEM', dirname(__FILE__) . '/system/');
 define('VENDOR', dirname(__FILE__) . '/vendor/');
 
-if (file_exists('vendor/autoload.php'))
-{
+if (file_exists('vendor/autoload.php')) {
 	require 'vendor/autoload.php';
 }
 
