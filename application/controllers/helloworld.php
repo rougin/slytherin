@@ -5,7 +5,7 @@ class Helloworld extends Controller
 
 	public function index()
 	{
-		Load::view('welcome.php');
+		Load::view('welcome');
 	}
 
 	public function hello($name, $name2 = NULL)
