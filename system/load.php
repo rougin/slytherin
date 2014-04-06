@@ -3,9 +3,11 @@ class Load
 {
 	public function file($name, $file)
 	{
-		require APPLICATION . $name . '/' . strtolower($file) . '.php';
-		if ($name != 'helpers') {
-			return new $file();
+		if (!class_exists($file)) {
+			require APPLICATION . $name . '/' . strtolower($file) . '.php';
+			if ($name != 'helpers') {
+				return new $file();
+			}
 		}
 	}
 
