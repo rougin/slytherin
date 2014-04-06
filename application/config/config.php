@@ -10,7 +10,7 @@ ROUTES
 You can set your own routing rules here. Routes can either be
 specified using wildcards(soon) or Regular Expressions(soon)
 */
-$routes['default_controller'] = 'documentation';
+$routes['default_controller'] = 'welcome';
 
 /*
 DATABASE CONFIGURATION
