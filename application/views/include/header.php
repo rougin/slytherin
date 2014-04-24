@@ -23,9 +23,10 @@
 		<div class="row">
 			<div class="col-sm-3 col-md-2 sidebar">
 				<ul class="nav nav-sidebar">
-					<li <?php echo $urls['about']; ?>><a href="<?php echo URL::base('documentation/about'); ?>">What is Slytherin PHP?</a></li>
-					<li <?php echo $urls['installation']; ?>><a href="<?php echo URL::base('documentation/installation'); ?>">Installation</a></li>
-					<li <?php echo $urls['mvc']; ?>><a href="<?php echo URL::base('documentation/mvc'); ?>">Model-View-Controller</a></li>
+					<li <?php echo @$urls['index']; ?>><a href="<?php echo URL::base('documentation/index'); ?>">Home</a></li>
+					<li <?php echo @$urls['about']; ?>><a href="<?php echo URL::base('documentation/about'); ?>">What is Slytherin PHP?</a></li>
+					<li <?php echo @$urls['installation']; ?>><a href="<?php echo URL::base('documentation/installation'); ?>">Installation</a></li>
+					<li <?php echo @$urls['mvc']; ?>><a href="<?php echo URL::base('documentation/mvc'); ?>">Model-View-Controller</a></li>
 					<!-- <li <?php echo $urls['quickstart']; ?>><a href="<?php echo URL::base('documentation/quickstart'); ?>">Quickstart</a></li> -->
 				</ul>
 			</div>
