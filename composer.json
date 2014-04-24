@@ -1,6 +1,6 @@
 {
 	"name": "rougin/slytherin",
-	"description": "A barebone PHP-MVC Framework",
+	"description": "A barebones PHP framework with an MVC software pattern",
 	"require": {
 		"php": ">=5.3.0",
 	},
