@@ -1,4 +1,4 @@
-<?php if ( ! defined('SYSTEM')) exit('No direct script access allowed');
+<?php if (!defined('SYSTEM')) exit('No direct script access allowed');
 
 require APPLICATION . 'config/config.php';
 require SYSTEM . 'controller.php';
