@@ -1,9 +1,8 @@
 <html>
 <head>
-    <title>Welcome to Slytherin</title>
+    <title>Slytherin PHP</title>
 </head>
 <body>
-<p>Welcome to Slytherin PHP! :D</p>
-<p>Hehehehehehe</p>
+<p>Hello world. Hello Slytherin.</p>
 </body>
 </html>
