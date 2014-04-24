@@ -3,12 +3,6 @@ class Documentation extends Controller
 {
 	public function __construct()
 	{
-		$urls = array(
-					'about' => '',
-					'installation' => '',
-					'mvc' => '',
-					'quickstart' => ''
-				);
 		$urls[URL::segment(2)] = 'class="active"';
 		Load::view('include/header', array('urls' => $urls));
 	}
