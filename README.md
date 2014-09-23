@@ -2,12 +2,9 @@
 
 ###Slytherin PHP Framework
 
-A simple PHP skeleton framework for PHP that uses a Model-View-Controller (MVC) software pattern. Unlike the other frameworks that provides big libraries that is unnecessary in building your web applications or web sites, Slytherin utilizes the power of Composer to add, update or even remove external libraries with ease. With these, you have the right to select the libraries that you want to use, minimizing the size of your project and it also provides flexibility to the framework.
+A small and simple PHP framework for PHP that is based on the Model-View-Controller (MVC) development pattern. Unlike the other frameworks that provides big libraries that you don't need in developing your web applications, this framework utilizes [Composer](https://getcomposer.org) to add, update or even remove external libraries with ease.
 
-###Installation
-
-1. Download this as ZIP.
-2. Extract the files to your server.
-
-The other method is by cloning this repository to your server:<br/>
-<code>git clone https://github.com/rougin/slytherin-php.git</code>
+###TODO
+- [ ] compliance to PSR
+- [ ] revamp code
+- [ ] small as possible
