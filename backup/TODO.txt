@@ -1,0 +1,15 @@
+* base URL
+* get controller
+* get method
+* get parameters
+* get $_GET
+* trim slashes
+* PDO database
+* libraries
+* helpers
+* security
+* clean code
+* comments
+* error handling UI
+* view class
+* model class
