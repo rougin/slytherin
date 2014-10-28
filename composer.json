@@ -12,7 +12,7 @@
 			"email": "rougin.royce@gmail.com"
 		}
 	],
-	"bin": ["bin/install"],
+	"bin": ["bin/install.php"],
 	"autoload": {
 		"psr-0": {
 			"Slytherin": "src/"
