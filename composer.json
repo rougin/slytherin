@@ -12,8 +12,13 @@
 			"email": "rougin.royce@gmail.com"
 		}
 	],
-	"bin": ["bin/slytherin-install"],
+	"bin": ["bin/install"],
 	"autoload": {
+		"classmap": [
+			"app/controllers",
+			"app/models",
+			"app/views"
+		],
 		"psr-0": {
 			"Slytherin": "src/"
 		}
