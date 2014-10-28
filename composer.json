@@ -13,10 +13,10 @@
 		}
 	],
 	"scripts": {
-        "post-install-cmd": [
-            "php vendor/rougin/slytherin/bin/install.php"
-        ]
-    },
+		"pre-install-cmd": [
+			"php vendor/rougin/slytherin/bin/install.php"
+		]
+	},
 	"autoload": {
 		"psr-0": {
 			"Slytherin": "src/"
