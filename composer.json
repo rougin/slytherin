@@ -12,11 +12,6 @@
 			"email": "rougin.royce@gmail.com"
 		}
 	],
-	"scripts": {
-		"pre-install-cmd": [
-			"php vendor/rougin/slytherin/bin/install.php"
-		]
-	},
 	"autoload": {
 		"psr-0": {
 			"Slytherin": "src/"
