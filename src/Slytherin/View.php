@@ -1,19 +1,27 @@
 <?php
 
-namespace Slytherin;
+/**
+ * View Class
+ */
 
 class View
 {
 
-	public static function render($view, $data)
+	/**
+	 * Render the specified view file to the browser
+	 * 
+	 * @param  string $view
+	 * @param  array  $data
+	 */
+	public static function render($view, $data = NULL)
 	{
 		/**
 		 * Assume the directory of the view file
 		 */
 		
-		$viewFile = 'app/views/' . $view . '.php';
+		$file = 'app/views/' . preg_replace('{/$}', '', $view) . '.php';
 
-		if ( ! file_exists($viewFile)) {
+		if ( ! file_exists($file)) {
 			return self::error('The view file you specified cannot be found from the app/views/ directory');
 		}
 
@@ -21,14 +29,11 @@ class View
 		 * Extract the specific parameters to the view
 		 */
 
-		extract($data);
+		if ($data) {
+			extract($data);
+		}
 
-		include $viewFile;
-	}
-
-	public static function error($message)
-	{
-		return trigger_error($message, E_USER_ERROR);
+		include $file;
 	}
 
 }
