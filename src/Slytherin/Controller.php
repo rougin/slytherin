@@ -1,13 +1,7 @@
 <?php
 
-namespace Slytherin;
+/**
+ * Base Controller Class
+ */
 
-class Controller
-{
-
-	public function __construct()
-	{
-		return 'adsadsads';
-	}
-
-}
+class Controller {}
