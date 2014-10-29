@@ -1,5 +1,7 @@
 <?php
 
+namespace Slytherin;
+
 /**
  * The Slytherin Application
  */
