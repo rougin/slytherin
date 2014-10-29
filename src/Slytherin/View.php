@@ -1,5 +1,7 @@
 <?php
 
+namespace Slytherin;
+
 /**
  * View Class
  */
