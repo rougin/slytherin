@@ -82,7 +82,7 @@ $composer =
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"rougin/slytherin": "dev-master",
+		"rougin/slytherin": "dev-master"
 	},
 	"autoload": {
 		"classmap": [
