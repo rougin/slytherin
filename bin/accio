@@ -45,7 +45,9 @@ fclose($file);
  * Creates an index.php as the centralized entry point for handling requests
  */
 
-$index =
+
+if ( ! file_exists('index.php')) {
+	$index =
 '<?php
 
 /**
@@ -70,31 +72,10 @@ $router = new Slytherin\Router();
 $app = new Slytherin\Application($router);
 $app->run();';
 
-$file = fopen('index.php', 'wb');
-chmod('index.php', 0777);
-file_put_contents('index.php', $index);
-fclose($file);
+	$file = fopen('index.php', 'wb');
+	chmod('index.php', 0777);
+	file_put_contents('index.php', $index);
+	fclose($file);
+}
 
-$composer =
-'{
-	"name": "rougin/slytherin",
-	"description": "Slytherin PHP",
-	"license": "MIT",
-	"type": "project",
-	"require": {
-		"rougin/slytherin": "dev-master"
-	},
-	"autoload": {
-		"classmap": [
-			"app/controllers",
-			"app/libraries",
-			"app/models"
-		]
-	}
-}';
-
-$file = fopen('composer.json', 'wb');
-chmod('composer.json', 0777);
-file_put_contents('composer.json', $composer);
-fclose($file);
-system('composer update');
+echo 'Accio! *poof*', PHP_EOL;

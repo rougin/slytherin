@@ -15,6 +15,24 @@ class Application
 	public function __construct(Router $router)
 	{
 		$this->_router = $router;
+
+		/**
+		 * Autoload controller files
+		 */
+
+		spl_autoload_register(function ($class) {
+			$controller = 'app/controllers/' . $class . '.php';
+			$library    = 'app/libraries/' . $class . '.php';
+			$model      = 'app/models/' . $class . '.php';
+
+			if (file_exists($controller)) {
+				include $controller;
+			} elseif (file_exists($library)) {
+				include $library;
+			} elseif (file_exists($model)) {
+				include $model;
+			}
+		});
 	}
 
 	/**
