@@ -1,6 +1,4 @@
-<?php
-
-namespace Slytherin;
+<?php namespace Slytherin;
 
 /**
  * The Slytherin Application
@@ -17,24 +15,6 @@ class Application
 	public function __construct(Router $router)
 	{
 		$this->_router = $router;
-
-		/**
-		 * Autoload controller files
-		 */
-
-		spl_autoload_register(function ($class) {
-			$controller = 'app/controllers/' . $class . '.php';
-			$library    = 'app/libraries/' . $class . '.php';
-			$model      = 'app/models/' . $class . '.php';
-
-			if (file_exists($controller)) {
-				include $controller;
-			} elseif (file_exists($library)) {
-				include $library;
-			} elseif (file_exists($model)) {
-				include $model;
-			}
-		});
 	}
 
 	/**
@@ -65,13 +45,14 @@ class Application
 		$directories = array(
 			'app/',
 			'app/controllers/',
+			'app/libraries/',
 			'app/models/',
 			'app/views/'
 		);
 
 		foreach ($directories as $directory) {
 			if (! file_exists($directory)) {
-				return trigger_error('"' . $directory . '" cannot be found');
+				return trigger_error('"' . $directory . '" cannot be found', E_USER_ERROR);
 			}
 		}
 	}
@@ -84,7 +65,7 @@ class Application
 	protected function _checkMethod()
 	{
 		if ( ! method_exists($this->_router->getController(), $this->_router->getMethod())) {
-			return trigger_error('"' . $this->_router->getMethod() . '" method cannot be found from the "' . $this->_router->getController() . '" controller');
+			return trigger_error('"' . $this->_router->getMethod() . '" method cannot be found from the "' . $this->_router->getController() . '" controller', E_USER_ERROR);
 		}
 	}
 
@@ -99,7 +80,7 @@ class Application
 		$constructorParameters = array();
 
 		if ( ! file_exists($controllerFile)) {
-			return trigger_error('"' . $this->_router->getController() . '" controller cannot be found from the "app/controllers/" directory');
+			return trigger_error('"' . $this->_router->getController() . '" controller cannot be found from the "app/controllers/" directory', E_USER_ERROR);
 		}
 
 		/**
@@ -113,21 +94,23 @@ class Application
 		 */
 
 		if ( ! $class->getParentClass() || ($class->getParentClass()->name != 'Controller' && $class->getParentClass()->name != 'Slytherin\Controller')) {
-			return trigger_error('Class "' . $this->_router->getController() . '" must be extended to a "Controller" class');
+			return trigger_error('Class "' . $this->_router->getController() . '" must be extended to a "Controller" class', E_USER_ERROR);
 		}
 
 		$constructor = $class->getConstructor();
 
-		foreach ($constructor->getParameters() as $parameter) {
-			/**
-			 * Get the class name without needing the class to be loaded
-			 */
-			
-			preg_match('/\[\s\<\w+?>\s([\w]+)/s', $parameter->__toString(), $matches);
-			$object = isset($matches[1]) ? $matches[1] : NULL;
+		if ($constructor) {
+			foreach ($constructor->getParameters() as $parameter) {
+				/**
+				 * Get the class name without needing the class to be loaded
+				 */
+				
+				preg_match('/\[\s\<\w+?>\s([\w]+)/s', $parameter->__toString(), $matches);
+				$object = isset($matches[1]) ? $matches[1] : NULL;
 
-			if ($object) {
-				$constructorParameters[] = new $object();
+				if ($object) {
+					$constructorParameters[] = new $object();
+				}
 			}
 		}
 
