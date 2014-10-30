@@ -1,6 +1,4 @@
-<?php
-
-namespace Slytherin;
+<?php namespace Slytherin;
 
 /**
  * View Class
@@ -24,7 +22,7 @@ class View
 		$file = 'app/views/' . preg_replace('{/$}', '', $view) . '.php';
 
 		if ( ! file_exists($file)) {
-			return self::error('The view file you specified cannot be found from the app/views/ directory');
+			return trigger_error('The view file you specified cannot be found from the app/views/ directory', E_USER_ERROR);
 		}
 
 		/**

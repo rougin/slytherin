@@ -1,6 +1,4 @@
-<?php
-
-namespace Slytherin;
+<?php namespace Slytherin;
 
 /**
  * Routing Class
@@ -23,7 +21,7 @@ class Router
 		 */
 		
 		$this->_method     = 'index';
-		$this->_parameters = array(); 
+		$this->_parameters = array();
 
 		$this->_defineUrls();
 

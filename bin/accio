@@ -53,8 +53,9 @@ $index =
  */
 
 include \'vendor/autoload.php\';
-include \'vendor/rougin/slytherin/src/Slytherin/Controller.php\';
-include \'vendor/rougin/slytherin/src/Slytherin/View.php\';
+
+use Slytherin\Application;
+use Slytherin\Router;
 
 /**
  * Load the router
@@ -74,4 +75,26 @@ chmod('index.php', 0777);
 file_put_contents('index.php', $index);
 fclose($file);
 
-echo 'Accio! *poof*', PHP_EOL;
+$composer =
+'{
+	"name": "rougin/slytherin",
+	"description": "Slytherin PHP",
+	"license": "MIT",
+	"type": "project",
+	"require": {
+		"rougin/slytherin": "dev-master",
+	},
+	"autoload": {
+		"classmap": [
+			"app/controllers",
+			"app/libraries",
+			"app/models"
+		]
+	}
+}';
+
+$file = fopen('composer.json', 'wb');
+chmod('composer.json', 0777);
+file_put_contents('composer.json', $composer);
+fclose($file);
+system('composer update');
