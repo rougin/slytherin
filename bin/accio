@@ -8,6 +8,10 @@ if ( ! file_exists('app/')) {
 	mkdir('app/');
 }
 
+if ( ! file_exists('app/config/')) {
+	mkdir('app/config');
+}
+
 if ( ! file_exists('app/controllers/')) {
 	mkdir('app/controllers');
 }
@@ -57,6 +61,7 @@ if ( ! file_exists('index.php')) {
 include \'vendor/autoload.php\';
 
 use Slytherin\Application;
+use Slytherin\Config;
 use Slytherin\Router;
 
 /**
