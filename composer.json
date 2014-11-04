@@ -19,7 +19,7 @@
     "bin": ["bin/accio"],
     "autoload": {
         "psr-4": {
-            "Slytherin\\": "src/Slytherin"
+            "Slytherin\\": "src"
         }
     }
 }
