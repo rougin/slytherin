@@ -5,7 +5,7 @@
  */
 
 if ( ! file_exists('app/')) {
-	mkdir('app/');
+	mkdir('app');
 }
 
 if ( ! file_exists('app/config/')) {
@@ -49,37 +49,64 @@ fclose($file);
  * Creates an index.php as the centralized entry point for handling requests
  */
 
-
 if ( ! file_exists('index.php')) {
 	$index =
 '<?php
 
 /**
- * Load the Composer Autoloader, Base Controller, and the View classes
+ * Load the Composer Autoloader
  */
 
 include \'vendor/autoload.php\';
 
-use Slytherin\Application;
-use Slytherin\Config;
-use Slytherin\Router;
-
 /**
- * Load the router
+ * Import the Slytherin namespace
  */
 
-$router = new Slytherin\Router();
+use Slytherin\Application;
+use Slytherin\Config;
+
+/**
+ * Load Pux\'s Mux (https://github.com/c9s/Pux)
+ */
+
+$route = new \Pux\Mux();
+
+/**
+ * Include the user\'s specified routes
+ */
+
+include \'app/config/routes.php\';
 
 /**
  * Initialize and Run Slytherin
  */
 
-$app = new Slytherin\Application($router);
+$app = new Application($route);
 $app->run();';
 
 	$file = fopen('index.php', 'wb');
 	chmod('index.php', 0777);
 	file_put_contents('index.php', $index);
+	fclose($file);
+}
+
+/**
+ * Create a routes.php for handling the user specified routes
+ */
+
+if ( ! file_exists('app/config/routes')) {
+	$routes =
+'<?php
+
+/**
+ * Default controller
+ */
+
+$route->any(\'/\', \'Welcome:index\');';
+	
+	$file = fopen('app/config/routes.php', 'wb');
+	file_put_contents('app/config/routes.php', $routes);
 	fclose($file);
 }
 
