@@ -3,7 +3,8 @@
     "description": "A simple and extensible PHP library for creating small projects",
     "keywords": ["mvc", "framework", "barebones"],
     "require": {
-        "php": ">=5.3.0"
+        "php": ">=5.3.0",
+        "corneltek/pux": "~1.5"
     },
     "license": "MIT",
     "authors": [
