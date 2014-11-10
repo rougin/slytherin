@@ -8,25 +8,26 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 Installation Instructions
 ============
 1. This library requires [Composer](https://getcomposer.org) and [Git](http://git-scm.com) in order to get it work. Download and install the latest version of it first. The instructions for that can be found [here](http://git-scm.com/downloads) and [here](https://getcomposer.org/download/). If you have already installed Composer and Git on your system, then you can skip this step.
+
 2. Add the Slytherin package in your require-list in ```composer.json``` and then run ```composer install```:
 
-  ```
-  {
-      "require": {
-          "rougin/slytherin": "dev-master"
-      }
-  }
-  ```
-  
+	```
+	{
+		"require": {
+			"rougin/slytherin": "dev-master"
+		}
+	}
+	```
+
 3. After the installation, run this command from the PHP CLI:
 
-  For Unix and Mac:
+	For Unix and Mac:
 
 	```php vendor/bin/accio```
 	
-  For Windows or if there are no symbolic links found at ```vendor/bin``` directory:
+	For Windows or if there are no symbolic links found at ```vendor/bin``` directory:
 
-  ```php vendor/rougin/slytherin/bin/accio```
+	```php vendor/rougin/slytherin/bin/accio```
 
 4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or in [GitHub](https://github.com/search?utf8=%E2%9C%93&q=php+library)!) and create an awesome and cool PHP project! :smile:
 
