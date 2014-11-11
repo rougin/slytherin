@@ -113,12 +113,22 @@ class Application
 		$this->_router->any('/', array('Welcome', 'index'));
 		
 		/**
+		 * Create an instance of the router
+		 */
+
+		$route = $this->_router;
+
+		/**
+		 * Include the user's specified routes
+		 */
+
+		include 'app/config/routes.php';
+
+		/**
 		 * Dispatch and execute the route
 		 */
 
-		$route = $this->_router->dispatch('/' . $url);
-
-		echo Executor::execute($route);
+		echo Executor::execute($route->dispatch('/' . strtok($url, '?')));
 	}
 
 	/**
@@ -194,7 +204,7 @@ class Application
 		
 		if (empty($segments[0])) return 0;
 
-		$this->_controller = $segments[0];
+		$this->_controller = strtok($segments[0], '?');
 
 		$class       = new \ReflectionClass(ucfirst($this->_controller));
 		$constructor = $class->getConstructor();

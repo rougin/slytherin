@@ -4,28 +4,69 @@
  * Creates a series of directories
  */
 
-if ( ! file_exists('app/')) {
-	mkdir('app');
+$directories = array(
+	'app/',
+	'app/config/',
+	'app/controllers/',
+	'app/libraries/',
+	'app/models/',
+	'app/views/'
+);
+
+foreach ($directories as $directory) {
+	if ( ! file_exists($directory)) {
+		mkdir($directory);
+	}
 }
 
-if ( ! file_exists('app/config/')) {
-	mkdir('app/config');
+/**
+ * Create the "Welcome" controller and view files
+ */
+
+if ( ! file_exists('app/controllers/Welcome.php')) {
+	$welcome =
+'<?php
+
+use Slytherin\Controller;
+use Slytherin\View;
+
+/**
+ * Welcome Controller Class
+ */
+
+class Welcome extends Controller
+{
+
+	public function index()
+	{
+		return View::render(\'welcome/index\');
+	}
+
+}';
+
+	$file = fopen('app/controllers/Welcome.php', 'wb');
+	file_put_contents('app/controllers/Welcome.php', $welcome);
+	fclose($file);
 }
 
-if ( ! file_exists('app/controllers/')) {
-	mkdir('app/controllers');
-}
+if ( ! file_exists('app/views/welcome/')) {
+	mkdir('app/views/welcome/');
 
-if ( ! file_exists('app/libraries/')) {
-	mkdir('app/libraries');
-}
+	$welcomeIndex =
+'<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Slytherin</title>
+</head>
+<body>
+	Hello there, wizard!
+</body>
+</html>';
 
-if ( ! file_exists('app/models/')) {
-	mkdir('app/models');
-}
-
-if ( ! file_exists('app/views/')) {
-	mkdir('app/views');
+	$file = fopen('app/views/welcome/index.php', 'wb');
+	file_put_contents('app/views/welcome/index.php', $welcomeIndex);
+	fclose($file);
 }
 
 /**
@@ -73,12 +114,6 @@ use Slytherin\Config;
 $route = new \Pux\Mux();
 
 /**
- * Include the user\'s specified routes
- */
-
-include \'app/config/routes.php\';
-
-/**
  * Initialize and Run Slytherin
  */
 
@@ -98,6 +133,15 @@ $app->run();';
 if ( ! file_exists('app/config/routes')) {
 	$routes =
 '<?php
+
+/**
+ * Application Routes
+ * 
+ * Here is where you can register all of the routes for an application.
+ * If your controller has one or more of the following methods: 
+ * 	create, destroy, edit, index, show, store, and update
+ * You don\'t need to include them here, the routing for them is already done by Slytherin.
+ */
 
 /**
  * Default controller

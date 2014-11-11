@@ -22,7 +22,7 @@ class View
 		$file = 'app/views/' . preg_replace('{/$}', '', $view) . '.php';
 
 		if ( ! file_exists($file)) {
-			return trigger_error('The view file you specified cannot be found from the app/views/ directory', E_USER_ERROR);
+			return trigger_error('The view file that you specified cannot be found from the <b>app/views</b> directory', E_USER_ERROR);
 		}
 
 		/**
