@@ -51,6 +51,14 @@ class Application
 	public function run()
 	{
 		$this->_getController();
+		
+		$route = $this->_router;
+
+		/**
+		 * Include the user's specified routes
+		 */
+
+		include 'app/config/routes.php';
 
 		foreach ($this->_methods as $method => $parameters) {
 			if ($method == '__construct') continue;
@@ -100,7 +108,7 @@ class Application
 			 * Define the specified route
 			 */
 
-			$this->_router->$httpMethod($pattern, array(ucfirst($this->_controller), $method), $options);
+			$route->$httpMethod($pattern, array(ucfirst($this->_controller), $method), $options);
 		}
 
 		/**
@@ -109,20 +117,6 @@ class Application
 
 		$url = str_replace(BASE_URL, '', CURRENT_URL);
 		$url = (substr($url, -1) == '/') ? substr($url, 0, strlen($url) - 1) : $url;
-
-		$this->_router->any('/', array('Welcome', 'index'));
-		
-		/**
-		 * Create an instance of the router
-		 */
-
-		$route = $this->_router;
-
-		/**
-		 * Include the user's specified routes
-		 */
-
-		include 'app/config/routes.php';
 
 		/**
 		 * Dispatch and execute the route
