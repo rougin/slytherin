@@ -10,10 +10,11 @@ class View
 	/**
 	 * Render the specified view file to the browser
 	 * 
-	 * @param  string $view
-	 * @param  array  $data
+	 * @param  string  $view
+	 * @param  array   $data
+	 * @param  boolean $return
 	 */
-	public static function render($view, $data = NULL)
+	public static function render($view, $data = NULL, $return = FALSE)
 	{
 		/**
 		 * Assume the directory of the view file
@@ -33,7 +34,24 @@ class View
 			extract($data);
 		}
 
-		include $file;
+		/**
+		 * Buffer the file and get its output
+		 * else include the file
+		 */
+
+		if ($return) {
+			ob_start();
+			
+			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($file))));
+
+			$stringResult = ob_get_contents();
+			
+			@ob_end_clean();
+
+			return $stringResult;
+		} else {
+			include $file;
+		}
 	}
 
 }
