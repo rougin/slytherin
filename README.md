@@ -29,7 +29,7 @@ Installation Instructions
 
 	```php vendor/rougin/slytherin/bin/accio```
 
-4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here in [GitHub](https://github.com/search?utf8=%E2%9C%93&q=php+library)) and create an awesome and cool PHP project! :smile:
+4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here in [GitHub](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! :smile:
 
 **NOTE:** This library is in early development and is not ready for production. Use it at your own will and risk. :smile:
 
