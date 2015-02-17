@@ -7,6 +7,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 Installation Instructions
 ============
+
 1. This library requires [Composer](https://getcomposer.org) and [Git](http://git-scm.com) in order to get it work. Download and install the latest version of it first. The instructions for that can be found [here](http://git-scm.com/downloads) and [here](https://getcomposer.org/download/). If you have already installed Composer and Git on your system, then you can skip this step.
 
 2. Add the Slytherin package in your require-list in ```composer.json``` and then run ```composer install```:

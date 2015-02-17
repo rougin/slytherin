@@ -4,8 +4,7 @@
  * View Class
  */
 
-class View
-{
+class View {
 
 	/**
 	 * Render the specified view file to the browser

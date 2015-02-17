@@ -7,8 +7,7 @@ use Pux\Mux;
  * The Slytherin Application
  */
 
-class Application
-{
+class Application {
 
 	protected $_constructorArguments = array();
 
@@ -92,23 +91,57 @@ class Application
 			 * Set the HTTP verb for the specified method
 			 */
 
-			$httpMethod = ($method == 'destroy' || $method == 'delete') ? 'delete' : 'get';
-			$httpMethod = ($method == 'index') ? 'get' : $httpMethod;
-			$httpMethod = ($method == 'store') ? 'post' : $httpMethod;
-			$httpMethod = ($method == 'update') ? 'put' : $httpMethod;
+			switch ($method) {
+				case 'destroy':
+					$httpMethod = 'delete';
+					break;
+				case 'delete':
+					$httpMethod = 'delete';
+					break;
+				case 'store':
+					$httpMethod = 'post';
+					break;
+				case 'update':
+					$httpMethod = 'put';
+					break;
+				default:
+					$httpMethod = 'get';
+					break;
+			}
 
 			/**
 			 * Add an additional pattern for 'create' and 'edit' methods
 			 */
 
 			$pattern = '/' . $this->_controller . $segments;
-			$pattern = ($method == 'create') ? $pattern . '/create' : (($method == 'edit') ? $pattern . '/edit' : $pattern);
+
+			switch ($method) {
+				case 'create':
+					$pattern .= '/create';
+					break;
+				case 'edit':
+					$pattern .= '/edit';
+					break;
+			}
 
 			/**
 			 * Define the specified route
 			 */
 
-			$route->$httpMethod($pattern, array(ucfirst($this->_controller), $method), $options);
+			switch ($httpMethod) {
+				case 'get':
+					$route->get($pattern, array(ucfirst($this->_controller), $method), $options);
+					break;
+				case 'post':
+					$route->post($pattern, array(ucfirst($this->_controller), $method), $options);
+					break;
+				case 'put':
+					$route->put($pattern, array(ucfirst($this->_controller), $method), $options);
+					break;
+				case 'delete':
+					$route->delete($pattern, array(ucfirst($this->_controller), $method), $options);
+					break;
+			}
 		}
 
 		/**
@@ -142,7 +175,7 @@ class Application
 		);
 
 		foreach ($directories as $directory) {
-			if (! file_exists($directory)) {
+			if ( ! file_exists($directory)) {
 				return trigger_error('"' . $directory . '" cannot be found', E_USER_ERROR);
 			}
 		}
@@ -196,7 +229,9 @@ class Application
 		 * Set the first index as the controller
 		 */
 		
-		if (empty($segments[0])) return 0;
+		if (empty($segments[0])) {
+			return 0;
+		}
 
 		$this->_controller = strtok($segments[0], '?');
 
@@ -211,6 +246,7 @@ class Application
 				
 				preg_match('/\[\s\<\w+?>\s([\w]+)/s', $parameter->__toString(), $matches);
 				$object = isset($matches[1]) ? $matches[1] : NULL;
+
 				if ($object) {
 					$this->_constructorArguments[] = new $object();
 				}
@@ -229,7 +265,11 @@ class Application
 			 */
 
 			foreach ($method->getParameters() as $parameter) {
-				$this->_methods[$method->name][$parameter->name] = ($parameter->isOptional()) ? $parameter->getDefaultValue() : NULL;
+				$this->_methods[$method->name][$parameter->name] = NULL;
+
+				if ($parameter->isOptional()) {
+					$this->_methods[$method->name][$parameter->name] = $parameter->getDefaultValue();
+				}
 			}
 		}
 	}

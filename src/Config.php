@@ -4,8 +4,7 @@
  * Config Class
  */
 
-class Config
-{
+class Config {
 
 	protected static $_config = array();
 
