@@ -20,18 +20,18 @@ Installation Instructions
 	}
 	```
 
+	```$ composer install```
+
 3. After the installation, run this command from the PHP CLI:
 
 	For Unix and Mac:
 
-	```php vendor/bin/accio```
+	```$ php vendor/bin/accio```
 	
 	For Windows or if there are no symbolic links found at ```vendor/bin``` directory:
 
-	```php vendor/rougin/slytherin/bin/accio```
+	```$ php vendor/rougin/slytherin/bin/accio```
 
-4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here in [GitHub](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! :smile:
-
-**NOTE:** This library is in early development and is not ready for production. Use it at your own will and risk. :smile:
+4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here in [GitHub](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the Wiki section :smile: 
 
 Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
