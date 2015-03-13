@@ -25,7 +25,7 @@ foreach ($directories as $directory) {
 
 if ( ! file_exists('app/controllers/Welcome.php')) {
 	$welcome =
-'<?php
+'<?php namespace Controllers;
 
 use Slytherin\Controller;
 use Slytherin\View;
@@ -147,7 +147,7 @@ if ( ! file_exists('app/config/routes')) {
  * Default controller
  */
 
-$route->any(\'/\', \'Welcome:index\');';
+$route->any(\'/\', \'Controllers\\\\Welcome:index\');';
 	
 	$file = fopen('app/config/routes.php', 'wb');
 	file_put_contents('app/config/routes.php', $routes);

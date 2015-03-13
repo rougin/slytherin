@@ -16,6 +16,13 @@ Installation Instructions
 	{
 		"require": {
 			"rougin/slytherin": "dev-master"
+		},
+		"autoload": {
+			"psr-4": {
+				"Controllers\\": "app/controllers",
+				"Libraries\\": "app/libraries",
+				"Models\\": "app/models"
+			}
 		}
 	}
 	```

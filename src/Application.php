@@ -24,24 +24,6 @@ class Application {
 		$this->_defineUrls();
 		
 		$this->_router = $router;
-
-		/**
-		 * Autoload files
-		 */
-
-		spl_autoload_register(function ($class) {
-			$controller = 'app/controllers/' . $class . '.php';
-			$library    = 'app/libraries/' . $class . '.php';
-			$model      = 'app/models/' . $class . '.php';
-
-			if (file_exists($controller)) {
-				include $controller;
-			} elseif (file_exists($library)) {
-				include $library;
-			} elseif (file_exists($model)) {
-				include $model;
-			}
-		});
 	}
 
 	/**
@@ -62,8 +44,12 @@ class Application {
 		foreach ($this->_methods as $method => $parameters) {
 			if ($method == '__construct') continue;
 
-			$options  = (empty($this->_constructorArguments)) ? array() : array('constructor_args' => $this->_constructorArguments);
-			
+			if (empty($this->_constructorArguments)) {
+				$options = array();
+			} else {
+				$options = array('constructor_args' => $this->_constructorArguments);
+			}
+
 			$regex    = array();
 			$segments = NULL;
 
@@ -235,7 +221,7 @@ class Application {
 
 		$this->_controller = strtok($segments[0], '?');
 
-		$class       = new \ReflectionClass(ucfirst($this->_controller));
+		$class       = new \ReflectionClass($controllerName);
 		$constructor = $class->getConstructor();
 
 		if ($constructor && count($constructor->getParameters()) != 0) {
