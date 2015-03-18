@@ -1,7 +1,7 @@
 {
     "name": "rougin/slytherin",
     "description": "A simple and extensible PHP library for creating small projects",
-    "keywords": ["mvc", "framework", "barebones"],
+    "keywords": ["barebones", "extensible", "library", "mvc"],
     "require": {
         "php": ">=5.3.0",
         "corneltek/pux": "~1.5"
@@ -17,7 +17,7 @@
             "email": "angelrefamonte@gmail.com"
         }
     ],
-    "bin": ["bin/accio"],
+    "bin": ["bin/slytherize"],
     "autoload": {
         "psr-4": {
             "Slytherin\\": "src"
