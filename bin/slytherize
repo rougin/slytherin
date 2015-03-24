@@ -34,8 +34,7 @@ use Slytherin\View;
  * Welcome Controller Class
  */
 
-class Welcome extends Controller
-{
+class Welcome extends Controller {
 
 	public function index()
 	{
@@ -127,10 +126,39 @@ $app->run();';
 }
 
 /**
+ * Create a database.php for storing the database credentials
+ */
+
+if ( ! file_exists('app/config/database.php')) {
+	$database =
+'<?php
+
+/**
+ * Database Configuration
+ * 
+ * This is where you will setup your database credentials that
+ * will be used by Slytherin\Model class. Take note that it will
+ * use the PDO driver that is already included in PHP.
+ */
+
+return array(
+	\'hostname\' => \'localhost\',
+	\'username\' => \'root\',
+	\'password\' => \'\',
+	\'database\' => \'\',
+	\'driver\'   => \'mysql\'
+);';
+
+	$file = fopen('app/config/database.php', 'wb');
+	file_put_contents('app/config/database.php', $database);
+	fclose($file);
+}
+
+/**
  * Create a routes.php for handling the user specified routes
  */
 
-if ( ! file_exists('app/config/routes')) {
+if ( ! file_exists('app/config/routes.php')) {
 	$routes =
 '<?php
 
@@ -139,7 +167,7 @@ if ( ! file_exists('app/config/routes')) {
  * 
  * Here is where you can register all of the routes for an application.
  * If your controller has one or more of the following methods: 
- * 	create, destroy, edit, index, show, store, and update
+ * 	create(), destroy(), edit(), index(), show(), store(), and update()
  * You don\'t need to include them here, the routing for them is already done by Slytherin.
  */
 
@@ -148,10 +176,10 @@ if ( ! file_exists('app/config/routes')) {
  */
 
 $route->any(\'/\', \'Controllers\\\\Welcome:index\');';
-	
+
 	$file = fopen('app/config/routes.php', 'wb');
 	file_put_contents('app/config/routes.php', $routes);
 	fclose($file);
 }
 
-echo 'Accio! *poof*', PHP_EOL;
+echo 'Slytherin is now properly setup!' . PHP_EOL;

@@ -4,7 +4,7 @@ use Pux\Executor;
 use Pux\Mux;
 
 /**
- * The Slytherin Application
+ * Application Class
  */
 
 class Application {

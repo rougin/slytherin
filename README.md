@@ -39,4 +39,85 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the Wiki section :smile:
 
+# Usage
+
+Let's use a table named ```account``` and it contains 3 columns:
+
+* ```id```       integer
+* ```name```     string
+* ```username``` string
+
+**app/controllers/Accounts.php**
+
+```php
+namespace Controllers;
+
+use Slytherin\Controller;
+use Slytherin\View;
+use Models\User;
+
+class Accounts extends Controller {
+
+	public function index()
+	{
+		$user = new User();
+
+		$data['accounts'] = User->getAll();
+
+		return View::render('accounts/index', $data);
+	}
+	
+}
+```
+
+**app/models/User.php**
+
+```php
+namespace Models;
+
+use Slytherin\Model;
+
+class User extends Model {
+	
+	public static function getAll()
+	{
+		$accounts = array();
+
+		$statement = $this->databaseHandle->prepare('SELECT * FROM account');
+		$statement->execute();
+		$statement->setFetchMode(\PDO::FETCH_OBJ);
+
+		while ($row = $statement->fetch()) {
+			$accounts[] = $row;
+		}
+
+		return $accounts;
+	}
+
+}
+```
+
+```$this->databaseHandle``` is an instance of a PDO object. For more information about PDO, you can view it [here](http://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059)
+
+**app/views/accounts/index.php***
+
+```php
+<table>
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Username</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php foreach ($accounts as $account): ?>
+			<tr>
+				<td><?php echo $account->name; ?></td>
+				<td><?php echo $account->accountname; ?></td>
+			</tr>
+		<?php endforeach; ?>
+	</tbody>
+</table>
+```
+
 Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
