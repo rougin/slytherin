@@ -54,15 +54,14 @@ namespace Controllers;
 
 use Slytherin\Controller;
 use Slytherin\View;
-use Models\User;
+use Models\Account;
 
 class Accounts extends Controller {
 
 	public function index()
 	{
-		$user = new User();
-
-		$data['accounts'] = User->getAll();
+		$account = new Account();
+		$data['accounts'] = $account->getAll();
 
 		return View::render('accounts/index', $data);
 	}
@@ -70,15 +69,37 @@ class Accounts extends Controller {
 }
 ```
 
-**app/models/User.php**
+**app/config/database.php**
+
+```php
+/**
+ * Database Configuration
+ * 
+ * This is where you will setup your database credentials that
+ * will be used by Slytherin\Model class. Take note that it will
+ * use the PDO driver that is already included in PHP.
+ */
+
+// Include your database credentials below
+
+return array(
+	'hostname' => 'localhost',
+	'username' => 'root',
+	'password' => '',
+	'database' => '',
+	'driver'   => 'mysql'
+);
+```
+
+**app/models/Account.php**
 
 ```php
 namespace Models;
 
 use Slytherin\Model;
 
-class User extends Model {
-	
+class Account extends Model {
+
 	public static function getAll()
 	{
 		$accounts = array();
@@ -97,9 +118,9 @@ class User extends Model {
 }
 ```
 
-```$this->databaseHandle``` is an instance of a PDO object. For more information about PDO, you can view it [here](http://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059)
+```$this->databaseHandle``` is an instance of a ```PDO``` object. For more information about ```PDO```, you can view it [here](http://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059).
 
-**app/views/accounts/index.php***
+**app/views/accounts/index.php**
 
 ```php
 <table>
@@ -113,7 +134,7 @@ class User extends Model {
 		<?php foreach ($accounts as $account): ?>
 			<tr>
 				<td><?php echo $account->name; ?></td>
-				<td><?php echo $account->accountname; ?></td>
+				<td><?php echo $account->username; ?></td>
 			</tr>
 		<?php endforeach; ?>
 	</tbody>
