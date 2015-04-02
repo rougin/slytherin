@@ -1,16 +1,23 @@
 <?php namespace Slytherin;
 
+use Noodlehaus\Config;
+
 /**
  * Base Model Class
+ *
+ * @package Slytherin
  */
-
 class Model {
 
 	public $databaseHandle = NULL;
 
+	/**
+	 * Load the database handle to be used for
+	 * accessing the database
+	 */
 	public function __construct()
 	{
-		$credentials = require 'app/config/database.php';
+		$credentials = Config::load('app/config/database.php');
 
 		$this->databaseHandle = new \PDO(
 			$credentials['driver'] .

@@ -4,6 +4,8 @@
     "keywords": ["barebones", "extensible", "library", "mvc"],
     "require": {
         "php": ">=5.3.0",
+        "filp/whoops": "*",
+        "hassankhan/config": "*",
         "corneltek/pux": "~1.5"
     },
     "license": "MIT",

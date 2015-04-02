@@ -100,6 +100,15 @@ if ( ! file_exists('index.php')) {
 include \'vendor/autoload.php\';
 
 /**
+ * Integrate Whoops (A PHP Error Handler)
+ * https://github.com/filp/whoops
+ */
+
+$whoops = new \Whoops\Run;
+$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+$whoops->register();
+
+/**
  * Import the Slytherin namespace
  */
 
@@ -169,6 +178,9 @@ if ( ! file_exists('app/config/routes.php')) {
  * If your controller has one or more of the following methods: 
  * 	create(), destroy(), edit(), index(), show(), store(), and update()
  * You don\'t need to include them here, the routing for them is already done by Slytherin.
+ *
+ * "Pux" was used as the router for Slytherin. For more information on
+ * how to create a route, just go here: http://c9s.github.io/Pux 
  */
 
 /**

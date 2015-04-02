@@ -2,8 +2,9 @@
 
 /**
  * View Class
+ *
+ * @package Slytherin
  */
-
 class View {
 
 	/**

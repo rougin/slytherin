@@ -5,8 +5,9 @@ use Pux\Mux;
 
 /**
  * Application Class
+ *
+ * @package Slytherin
  */
-
 class Application {
 
 	protected $_constructorArguments = array();
@@ -44,10 +45,10 @@ class Application {
 		foreach ($this->_methods as $method => $parameters) {
 			if ($method == '__construct') continue;
 
-			if (empty($this->_constructorArguments)) {
-				$options = array();
-			} else {
-				$options = array('constructor_args' => $this->_constructorArguments);
+			$options = array();
+
+			if ( ! empty($this->_constructorArguments)) {
+				$options['constructor_args'] = $this->_constructorArguments;
 			}
 
 			$regex    = array();
@@ -114,18 +115,20 @@ class Application {
 			 * Define the specified route
 			 */
 
+			$source = array(ucfirst($this->_controller), $method);
+
 			switch ($httpMethod) {
 				case 'get':
-					$route->get($pattern, array(ucfirst($this->_controller), $method), $options);
+					$route->get($pattern, $source, $options);
 					break;
 				case 'post':
-					$route->post($pattern, array(ucfirst($this->_controller), $method), $options);
+					$route->post($pattern, $source, $options);
 					break;
 				case 'put':
-					$route->put($pattern, array(ucfirst($this->_controller), $method), $options);
+					$route->put($pattern, $source, $options);
 					break;
 				case 'delete':
-					$route->delete($pattern, array(ucfirst($this->_controller), $method), $options);
+					$route->delete($pattern, $source, $options);
 					break;
 			}
 		}
@@ -202,6 +205,8 @@ class Application {
 
 	/**
 	 * Check the controller and get its contents
+	 *
+	 * @return boolean
 	 */
 	protected function _getController()
 	{
