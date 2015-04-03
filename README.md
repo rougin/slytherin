@@ -141,4 +141,46 @@ class Account extends Model {
 </table>
 ```
 
+## Creating a Library
+
+**app/libraries/SampleLibrary.php**
+
+```php
+namespace Libraries
+
+class SampleLibrary {
+	
+	public static function sayHello($name) {
+		return 'Hello ' . $name . '!';
+	}
+
+}
+
+```
+
+To call the library, just use the alias ```Libraries\SampleLibrary```:
+
+```php
+namespace Controllers;
+
+use Slytherin\Controller;
+use Slytherin\View;
+use Libraries\SampleLibrary;
+
+/**
+ * Welcome Controller Class
+ */
+
+class Welcome extends Controller {
+
+	public function index()
+	{
+		$name = 'Slytherin';
+
+		return SampleLibrary::sayHello($name);
+	}
+
+}
+```
+
 Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
