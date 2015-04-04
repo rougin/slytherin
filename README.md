@@ -41,7 +41,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 # Usage
 
-Let's use a table named ```account``` and it contains 3 columns:
+Let us use a table named ```account``` and it contains 3 columns:
 
 * ```id```       integer
 * ```name```     string
@@ -56,6 +56,11 @@ use Slytherin\Controller;
 use Slytherin\View;
 use Models\Account;
 
+/**
+ * Accounts Controller
+ * 
+ * @category Controllers
+ */
 class Accounts extends Controller {
 
 	public function index()
@@ -98,6 +103,11 @@ namespace Models;
 
 use Slytherin\Model;
 
+/**
+ * Account Model
+ * 
+ * @category Models
+ */
 class Account extends Model {
 
 	public static function getAll()
@@ -141,13 +151,18 @@ class Account extends Model {
 </table>
 ```
 
-## Creating a Library
+### Creating a Library
 
 **app/libraries/SampleLibrary.php**
 
 ```php
-namespace Libraries
+namespace Libraries;
 
+/**
+ * Sample Library
+ * 
+ * @category Libraries
+ */
 class SampleLibrary {
 	
 	public static function sayHello($name) {
