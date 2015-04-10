@@ -37,7 +37,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 	```$ php vendor/rougin/slytherin/bin/slytherize```
 
-4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the Wiki section :smile:
+4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the [Wiki section](https://github.com/rougin/slytherin/wiki)! :smile:
 
 # Usage
 
@@ -197,5 +197,17 @@ class Welcome extends Controller {
 
 }
 ```
+
+# Libraries used
+
+Slytherin utilizes third-party libraries that can be found on [Github](https://github.com/ziadoz/awesome-php) to prevent us from [reinventing the wheel](http://en.wikipedia.org/wiki/Reinventing_the_wheel). We encourage you to use the other libraries freely available on Internet to be able to learn new technologies and to save your time in developing your precious web application!
+
+Here is the list of libraries that we current used:
+
+* [Config](https://github.com/hassankhan/config) - a file configuration loader that supports PHP, INI, XML, JSON, and YML files
+* [Pux](https://github.com/c9s/Pux) - a high performance PHP router
+* [Whoops!](https://github.com/filp/whoops) - PHP Error for cool kids
+
+We want to make a documentation about those libraries in here, but it's like *reinventing the wheel* right? :smile: So if you want to learn more about those libraries, just go to there respective ```README.md``` or Wiki pages!
 
 Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
