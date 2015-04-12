@@ -170,7 +170,6 @@ class SampleLibrary {
 	}
 
 }
-
 ```
 
 To call the library, just use the alias ```Libraries\SampleLibrary```:
