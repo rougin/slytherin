@@ -17,10 +17,19 @@ foreach ($directories as $directory) {
 	if ( ! file_exists($directory)) {
 		mkdir($directory);
 	}
+
+	if ( ! file_exists($directory . 'index.html')) {
+		$errorMessage = 'There is something wrong to the page you requested!';
+		$file = fopen($directory . 'index.html', 'wb');
+
+		file_put_contents($directory . 'index.html', $errorMessage);
+		fclose($file);
+	}
 }
 
 /**
- * Create the "Welcome" controller and view files
+ * Create the "Welcome" controller and "view" files
+ * and also a user-friendly error page
  */
 
 if ( ! file_exists('app/controllers/Welcome.php')) {
@@ -51,20 +60,18 @@ class Welcome extends Controller {
 if ( ! file_exists('app/views/welcome/')) {
 	mkdir('app/views/welcome/');
 
-	$welcomeIndex =
-'<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Slytherin</title>
-</head>
-<body>
-	Hello there, wizard!
-</body>
-</html>';
+	$welcomeIndex = 'Hello world!';
 
 	$file = fopen('app/views/welcome/index.php', 'wb');
 	file_put_contents('app/views/welcome/index.php', $welcomeIndex);
+	fclose($file);
+}
+
+if ( ! file_exists('app/views/404.php')) {
+	$errorMessage = 'There is something wrong to the page you requested!';
+
+	$file = fopen('app/views/404.php', 'wb');
+	file_put_contents('app/views/404.php', $errorMessage);
 	fclose($file);
 }
 
@@ -100,12 +107,41 @@ if ( ! file_exists('index.php')) {
 include \'vendor/autoload.php\';
 
 /**
- * Integrate Whoops (A PHP Error Handler)
+ * This is where you can change the application environment
+ * of your application. You can choose from "development" and
+ * "production".
+ *
+ * According to Patrick Louys, Never show any errors in your
+ * production environment. A stack trace or even just a
+ * simple error message can help someone to gain access to
+ * your system. Always show a user friendly error page
+ * instead and send an email to yourself, write to a log or
+ * something similar. So only you can see the errors in the
+ * production environment.
+ *
+ * References:
  * https://github.com/filp/whoops
+ * https://github.com/PatrickLouys/no-framework-tutorial/blob/master/03-error-handler.md
  */
 
+error_reporting(E_ALL);
+
+$environment = \'production\';
+
+/**
+* Register the error handler
+*/
+
 $whoops = new \Whoops\Run;
-$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+
+if ($environment !== \'production\') {
+	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+} else {
+	$whoops->pushHandler(function ($error) {
+		echo \Slytherin\View::render(\'404\');
+	});
+}
+
 $whoops->register();
 
 /**
@@ -175,6 +211,7 @@ if ( ! file_exists('app/config/routes.php')) {
  * Application Routes
  * 
  * Here is where you can register all of the routes for an application.
+ *
  * If your controller has one or more of the following methods: 
  * 	create(), destroy(), edit(), index(), show(), store(), and update()
  * You don\'t need to include them here, the routing for them is already done by Slytherin.
