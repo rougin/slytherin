@@ -1,3 +1,4 @@
+[![forthebadge](http://forthebadge.com/images/badges/built-with-swag.svg)](http://forthebadge.com)
 [![endorse](https://api.coderwall.com/rougin/endorsecount.png)](https://coderwall.com/rougin)
 
 # Slytherin
