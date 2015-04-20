@@ -13,18 +13,21 @@ class Model {
 
 	/**
 	 * Load the database handle to be used for
-	 * accessing the database
+	 * accessing the specified database
+	 * 
+	 * @param string $databaseName
 	 */
-	public function __construct()
+	public function __construct($databaseName = 'default')
 	{
-		$credentials = Config::load('app/config/database.php');
+		$credentials = Config::load('app/config/databases.php');
+		$credential = $credentials->get($databaseName);
 
 		$this->databaseHandle = new \PDO(
-			$credentials['driver'] .
-			':host=' . $credentials['hostname'] .
-			';dbname=' . $credentials['database'],
-			$credentials['username'],
-			$credentials['password']
+			$credential['driver'] .
+			':host=' . $credential['hostname'] .
+			';dbname=' . $credential['database'],
+			$credential['username'],
+			$credential['password']
 		);
 
 		$this->databaseHandle->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);

@@ -74,7 +74,7 @@ class Accounts extends Controller {
 }
 ```
 
-**app/config/database.php**
+**app/config/databases.php**
 
 ```php
 /**
@@ -88,11 +88,13 @@ class Accounts extends Controller {
 // Include your database credentials below
 
 return array(
-	'hostname' => 'localhost',
-	'username' => 'root',
-	'password' => '',
-	'database' => '',
-	'driver'   => 'mysql'
+	'default' => array(
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => '',
+		'driver'   => 'mysql'
+	)
 );
 ```
 
@@ -129,6 +131,38 @@ class Account extends Model {
 ```
 
 ```$this->databaseHandle``` is an instance of a ```PDO``` object. For more information about ```PDO```, you can view it [here](http://code.tutsplus.com/tutorials/why-you-should-be-using-phps-pdo-for-database-access--net-12059).
+
+You can also specify the database connection to be used in a model. For example, if I want to load my ```Account``` model with another database connection rather than the ```default``` connection, I'll just add a new element to the ```databases.php```:
+
+**app/config/databases.php**
+
+```php
+return array(
+	'default' => array(
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => '',
+		'driver'   => 'mysql'
+	),
+	'my_another_connection' => array(
+		'hostname' => 'localhost',
+		'username' => 'root',
+		'password' => '',
+		'database' => '',
+		'driver'   => 'mysql'
+	)
+);
+```
+
+Then add it in the ```Account``` model as a parameter:
+
+**app/controllers/Accounts.php**
+
+```php
+$account = new Account('my_another_connection');
+$data['accounts'] = $account->getAll();
+```
 
 **app/views/accounts/index.php**
 

@@ -107,7 +107,7 @@ if ( ! file_exists('index.php')) {
 include \'vendor/autoload.php\';
 
 /**
- * This is where you can change the application environment
+ * This is where you can change the environment
  * of your application. You can choose from "development" and
  * "production".
  *
@@ -126,7 +126,7 @@ include \'vendor/autoload.php\';
 
 error_reporting(E_ALL);
 
-$environment = \'production\';
+$environment = \'development\';
 
 /**
 * Register the error handler
@@ -171,10 +171,10 @@ $app->run();';
 }
 
 /**
- * Create a database.php for storing the database credentials
+ * Create a databases.php for storing database credentials
  */
 
-if ( ! file_exists('app/config/database.php')) {
+if ( ! file_exists('app/config/databases.php')) {
 	$database =
 '<?php
 
@@ -187,15 +187,17 @@ if ( ! file_exists('app/config/database.php')) {
  */
 
 return array(
-	\'hostname\' => \'localhost\',
-	\'username\' => \'root\',
-	\'password\' => \'\',
-	\'database\' => \'\',
-	\'driver\'   => \'mysql\'
+	\'default\' => array(
+		\'hostname\' => \'localhost\',
+		\'username\' => \'root\',
+		\'password\' => \'\',
+		\'database\' => \'\',
+		\'driver\'   => \'mysql\'
+	)
 );';
 
-	$file = fopen('app/config/database.php', 'wb');
-	file_put_contents('app/config/database.php', $database);
+	$file = fopen('app/config/databases.php', 'wb');
+	file_put_contents('app/config/databases.php', $database);
 	fclose($file);
 }
 
