@@ -111,7 +111,7 @@ include \'vendor/autoload.php\';
  * of your application. You can choose from "development" and
  * "production".
  *
- * According to Patrick Louys, Never show any errors in your
+ * According to Patrick Louys, never show any errors in your
  * production environment. A stack trace or even just a
  * simple error message can help someone to gain access to
  * your system. Always show a user friendly error page
