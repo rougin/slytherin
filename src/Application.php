@@ -224,9 +224,9 @@ class Application {
 			return 0;
 		}
 
-		$this->_controller = strtok($segments[0], '?');
+		$this->_controller = '\Controllers\\' . ucfirst(strtok($segments[0], '?'));
 
-		$class       = new \ReflectionClass($controllerName);
+		$class       = new \ReflectionClass($this->_controller);
 		$constructor = $class->getConstructor();
 
 		if ($constructor && count($constructor->getParameters()) != 0) {
