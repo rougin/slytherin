@@ -219,7 +219,7 @@ if ( ! file_exists('app/config/routes.php')) {
  * You don\'t need to include them here, the routing for them is already done by Slytherin.
  *
  * "Pux" was used as the router for Slytherin. For more information on
- * how to create a route, just go here: http://c9s.github.io/Pux 
+ * how to create a route, just go here: http://c9s.github.io/Pux
  */
 
 /**
