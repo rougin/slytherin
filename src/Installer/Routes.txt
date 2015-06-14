@@ -1,0 +1,20 @@
+<?php
+
+/**
+ * Application Routes
+ * 
+ * Here is where you can register all of the routes for an application.
+ *
+ * If your controller has one or more of the following methods: 
+ * 	create(), destroy(), edit(), index(), show(), store(), and update()
+ * You don't need to include them here, the routing for them is already done by Slytherin.
+ *
+ * "Pux" was used as the router for Slytherin. For more information on
+ * how to create a route, just go here: http://c9s.github.io/Pux
+ */
+
+/**
+ * Default controller
+ */
+
+$route->any('/', 'Controllers\\Welcome:index');

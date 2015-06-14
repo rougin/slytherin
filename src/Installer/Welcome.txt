@@ -1,0 +1,17 @@
+<?php namespace Controllers;
+
+use Slytherin\Controller;
+use Slytherin\View;
+
+/**
+ * Welcome Controller Class
+ */
+
+class Welcome extends Controller {
+
+	public function index()
+	{
+		return View::render('welcome/index');
+	}
+
+}
