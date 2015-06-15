@@ -1,4 +1,4 @@
-<?php namespace Slytherin;
+<?php namespace Rougin\Slytherin;
 
 /**
  * Base Controller Class
