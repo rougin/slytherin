@@ -1,5 +1,3 @@
-[![forthebadge](http://forthebadge.com/images/badges/built-with-swag.svg)](http://forthebadge.com)
-
 # Slytherin
 
 [![Latest Stable Version](https://poser.pugx.org/rougin/slytherin/v/stable)](https://packagist.org/packages/rougin/slytherin) [![Total Downloads](https://poser.pugx.org/rougin/slytherin/downloads)](https://packagist.org/packages/rougin/slytherin) [![Latest Unstable Version](https://poser.pugx.org/rougin/slytherin/v/unstable)](https://packagist.org/packages/rougin/slytherin) [![License](https://poser.pugx.org/rougin/slytherin/license)](https://packagist.org/packages/rougin/slytherin) [![endorse](https://api.coderwall.com/rougin/endorsecount.png)](https://coderwall.com/rougin)
@@ -15,7 +13,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 	```json
 	{
 		"require": {
-			"rougin/slytherin": "dev-master"
+			"rougin/slytherin": "*"
 		},
 		"autoload": {
 			"psr-4": {
@@ -29,17 +27,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 	Then run ```$ composer install```
 
-3. After the installation, run this command from the [PHP CLI](http://php.net/manual/en/features.commandline.php):
-
-	**For Unix and Mac**
-
-	```$ php vendor/bin/slytherize```
-	
-	**For Windows or if there are no symbolic links found at ```vendor/bin``` directory**
-
-	```$ php vendor/rougin/slytherin/bin/slytherize```
-
-4. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the [Wiki section](https://github.com/rougin/slytherin/wiki)! :smile:
+3. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the [Wiki section](https://github.com/rougin/slytherin/wiki)! :smile:
 
 # Usage
 
@@ -54,8 +42,8 @@ Let us use a table named ```account``` and it contains 3 columns:
 ```php
 namespace Controllers;
 
-use Slytherin\Controller;
-use Slytherin\View;
+use Rougin\Slytherin\Controller;
+use Rougin\Slytherin\View;
 use Models\Account;
 
 /**
@@ -83,7 +71,7 @@ class Accounts extends Controller {
  * Database Configuration
  * 
  * This is where you will setup your database credentials that
- * will be used by Slytherin\Model class. Take note that it will
+ * will be used by Rougin\Slytherin\Model class. Take note that it will
  * use the PDO driver that is already included in PHP.
  */
 
@@ -105,7 +93,7 @@ return array(
 ```php
 namespace Models;
 
-use Slytherin\Model;
+use Rougin\Slytherin\Model;
 
 /**
  * Account Model
@@ -213,8 +201,8 @@ To call the library, just use the alias ```Libraries\SampleLibrary```:
 ```php
 namespace Controllers;
 
-use Slytherin\Controller;
-use Slytherin\View;
+use Rougin\Slytherin\Controller;
+use Rougin\Slytherin\View;
 use Libraries\SampleLibrary;
 
 /**
@@ -243,6 +231,6 @@ Here are the list of libraries that we currently used:
 * [Pux](https://github.com/c9s/Pux) - a high performance PHP router
 * [Whoops!](https://github.com/filp/whoops) - PHP Error for cool kids
 
-We want to make a documentation about those libraries in here, but it's like *reinventing the wheel* right? :smile: So if you want to learn more about those libraries, just go to there respective ```README.md``` or their Wiki pages!
+We want to make a documentation about those libraries in here, but it's like *reinventing the wheel* right? :smile: So if you want to learn more about those libraries, just go to their respective ```README.md``` or their Wiki pages!
 
 Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
