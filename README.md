@@ -10,22 +10,22 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 2. Add the ```Slytherin``` package in your ```require``` list in ```composer.json```:
 
-	```json
-	{
-		"require": {
-			"rougin/slytherin": "*"
-		},
-		"autoload": {
-			"psr-4": {
-				"Controllers\\": "app/controllers",
-				"Libraries\\": "app/libraries",
-				"Models\\": "app/models"
-			}
-		}
-	}
-	```
+    ```json
+    {
+      "require": {
+        "rougin/slytherin": "*"
+      },
+      "autoload": {
+        "psr-4": {
+          "Controllers\\": "app/controllers",
+          "Libraries\\": "app/libraries",
+          "Models\\": "app/models"
+        }
+      }
+    }
+    ```
 
-	Then run ```$ composer install```
+    Then run ```$ composer install```
 
 3. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the [Wiki section](https://github.com/rougin/slytherin/wiki)! :smile:
 
@@ -53,14 +53,14 @@ use Models\Account;
  */
 class Accounts extends Controller {
 
-	public function index()
-	{
-		$account = new Account();
-		$data['accounts'] = $account->getAll();
+    public function index()
+    {
+        $account = new Account();
+        $data['accounts'] = $account->getAll();
 
-		return View::render('accounts/index', $data);
-	}
-	
+        return View::render('accounts/index', $data);
+    }
+    
 }
 ```
 
@@ -78,13 +78,13 @@ class Accounts extends Controller {
 // Include your database credentials below
 
 return array(
-	'default' => array(
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => '',
-		'driver'   => 'mysql'
-	)
+    'default' => array(
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'driver'   => 'mysql'
+    )
 );
 ```
 
@@ -102,20 +102,20 @@ use Rougin\Slytherin\Model;
  */
 class Account extends Model {
 
-	public static function getAll()
-	{
-		$accounts = array();
+    public static function getAll()
+    {
+        $accounts = array();
 
-		$statement = $this->databaseHandle->prepare('SELECT * FROM account');
-		$statement->execute();
-		$statement->setFetchMode(\PDO::FETCH_OBJ);
+        $statement = $this->databaseHandle->prepare('SELECT * FROM account');
+        $statement->execute();
+        $statement->setFetchMode(\PDO::FETCH_OBJ);
 
-		while ($row = $statement->fetch()) {
-			$accounts[] = $row;
-		}
+        while ($row = $statement->fetch()) {
+            $accounts[] = $row;
+        }
 
-		return $accounts;
-	}
+        return $accounts;
+    }
 
 }
 ```
@@ -128,20 +128,20 @@ You can also specify the database connection to be used in a model. For example,
 
 ```php
 return array(
-	'default' => array(
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => '',
-		'driver'   => 'mysql'
-	),
-	'my_another_connection' => array(
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => '',
-		'driver'   => 'mysql'
-	)
+    'default' => array(
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'driver'   => 'mysql'
+    ),
+    'my_another_connection' => array(
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'driver'   => 'mysql'
+    )
 );
 ```
 
@@ -158,20 +158,20 @@ $data['accounts'] = $account->getAll();
 
 ```php
 <table>
-	<thead>
-		<tr>
-			<th>Name</th>
-			<th>Username</th>
-		</tr>
-	</thead>
-	<tbody>
-		<?php foreach ($accounts as $account): ?>
-			<tr>
-				<td><?php echo $account->name; ?></td>
-				<td><?php echo $account->username; ?></td>
-			</tr>
-		<?php endforeach; ?>
-	</tbody>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($accounts as $account): ?>
+            <tr>
+                <td><?php echo $account->name; ?></td>
+                <td><?php echo $account->username; ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 ```
 
@@ -188,10 +188,10 @@ namespace Libraries;
  * @category Libraries
  */
 class SampleLibrary {
-	
-	public static function sayHello($name) {
-		return 'Hello ' . $name . '!';
-	}
+    
+    public static function sayHello($name) {
+        return 'Hello ' . $name . '!';
+    }
 
 }
 ```
@@ -211,12 +211,12 @@ use Libraries\SampleLibrary;
 
 class Welcome extends Controller {
 
-	public function index()
-	{
-		$name = 'Slytherin';
+    public function index()
+    {
+        $name = 'Slytherin';
 
-		return SampleLibrary::sayHello($name);
-	}
+        return SampleLibrary::sayHello($name);
+    }
 
 }
 ```
