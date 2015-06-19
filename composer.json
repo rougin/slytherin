@@ -23,10 +23,5 @@
     "psr-4": {
       "Rougin\\Slytherin\\": "src"
     }
-  },
-  "scripts" : {
-    "post-install-cmd": [
-      "Rougin\\Slytherin\\Installer\\Installer::slytherize"
-    ]
   }
 }
