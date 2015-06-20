@@ -1,7 +1,7 @@
 <?php namespace Controllers;
 
-use Slytherin\Controller;
-use Slytherin\View;
+use Rougin\Slytherin\Controller;
+use Rougin\Slytherin\View;
 
 /**
  * Welcome Controller Class

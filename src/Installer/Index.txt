@@ -4,7 +4,17 @@
  * Load the Composer Autoloader
  */
 
-include 'vendor/autoload.php';
+require realpath('vendor') . '/autoload.php';
+
+/**
+ * Import the Slytherin namespace
+ */
+
+use Pux\Mux;
+use Rougin\Slytherin\Application;
+use Rougin\Slytherin\View;
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 /**
  * This is where you can change the environment
@@ -32,33 +42,26 @@ $environment = 'development';
 * Register the error handler
 */
 
-$whoops = new \Whoops\Run;
+$whoops = new Run;
 
 if ($environment !== 'production') {
-	$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+	$whoops->pushHandler(new PrettyPageHandler);
 } else {
 	$whoops->pushHandler(function ($error) {
-		echo \Slytherin\View::render('404');
+		echo View::render('404');
 	});
 }
 
 $whoops->register();
 
 /**
- * Import the Slytherin namespace
- */
-
-use Slytherin\Application;
-use Slytherin\Config;
-
-/**
  * Load Pux's Mux (https://github.com/c9s/Pux)
  */
 
-$route = new \Pux\Mux();
+$route = new Mux();
 
 /**
- * Initialize and Run Slytherin
+ * Initialize and run Slytherin
  */
 
 $app = new Application($route);
