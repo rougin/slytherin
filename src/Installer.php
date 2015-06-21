@@ -1,4 +1,4 @@
-<?php namespace Rougin\Slytherin\Installer;
+<?php namespace Rougin\Slytherin;
 
 use Composer\Installer\PackageEvent;
 use Composer\Script\Event;
@@ -16,7 +16,7 @@ class Installer
 	 * 
 	 * @return integer
 	 */
-	public static function slytherize(Event $event = null)
+	public static function deploy(Event $event = null)
 	{
 		/**
 		 * Creates a series of directories
@@ -51,7 +51,7 @@ class Installer
 		 */
 
 		if ( ! file_exists('app/controllers/Welcome.php')) {
-			$welcome = file_get_contents(__DIR__ . '/Welcome.txt');
+			$welcome = file_get_contents(__DIR__ . '/Templates/Welcome.txt');
 
 			$file = fopen('app/controllers/Welcome.php', 'wb');
 			file_put_contents('app/controllers/Welcome.php', $welcome);
@@ -80,7 +80,7 @@ class Installer
 		 * Creates a .htacess for clean urls
 		 */
 
-		$htaccess = file_get_contents(__DIR__ . '/Htaccess.txt');
+		$htaccess = file_get_contents(__DIR__ . '/Templates/Htaccess.txt');
 
 		$file = fopen('.htaccess', 'wb');
 		chmod('.htaccess', 0777);
@@ -92,7 +92,7 @@ class Installer
 		 */
 
 		if ( ! file_exists('index.php')) {
-			$index = file_get_contents(__DIR__ . '/Index.txt');
+			$index = file_get_contents(__DIR__ . '/Templates/Index.txt');
 
 			$file = fopen('index.php', 'wb');
 			chmod('index.php', 0777);
@@ -105,7 +105,7 @@ class Installer
 		 */
 
 		if ( ! file_exists('app/config/databases.php')) {
-			$database = file_get_contents(__DIR__ . '/Databases.txt');
+			$database = file_get_contents(__DIR__ . '/Templates/Databases.txt');
 
 			$file = fopen('app/config/databases.php', 'wb');
 			file_put_contents('app/config/databases.php', $database);
@@ -117,7 +117,7 @@ class Installer
 		 */
 
 		if ( ! file_exists('app/config/routes.php')) {
-			$routes = file_get_contents(__DIR__ . '/Routes.txt');
+			$routes = file_get_contents(__DIR__ . '/Templates/Routes.txt');
 
 			$file = fopen('app/config/routes.php', 'wb');
 			file_put_contents('app/config/routes.php', $routes);

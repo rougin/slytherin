@@ -1,7 +1,7 @@
 {
   "name": "rougin/slytherin",
   "description": "A simple and extensible PHP library for creating small projects",
-  "keywords": ["barebones", "extensible", "library", "mvc"],
+  "keywords": ["barebones", "extensible", "library", "mvc", "php"],
   "require": {
     "php": ">=5.3.0",
     "corneltek/pux": "~1.5",

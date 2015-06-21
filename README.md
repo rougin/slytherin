@@ -24,7 +24,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
       },
       "scripts": {
         "post-install-cmd": [
-          "Rougin\\Slytherin\\Installer\\Installer::slytherize"
+          "Rougin\\Slytherin\\Installer::deploy"
         ]
       }
     }
