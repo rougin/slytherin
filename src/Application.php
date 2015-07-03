@@ -21,7 +21,6 @@ class Application {
 	 */
 	public function __construct(Mux $router)
 	{
-		$this->_checkDirectories();
 		$this->_defineUrls();
 		
 		$this->_router = $router;
@@ -144,30 +143,6 @@ class Application {
 		 * Dispatch and execute the route
 		 */
 
-		echo Executor::execute($route->dispatch('/' . strtok($url, '?')));
-	}
-
-	/**
-	 * Check if the directories are already existed
-	 * 
-	 * @return error
-	 */
-	protected function _checkDirectories()
-	{
-		$directories = array(
-			'app/',
-			'app/controllers/',
-			'app/config/',
-			'app/libraries/',
-			'app/models/',
-			'app/views/'
-		);
-
-		foreach ($directories as $directory) {
-			if ( ! file_exists($directory)) {
-				return trigger_error('"' . $directory . '" cannot be found', E_USER_ERROR);
-			}
-		}
 	}
 
 	/**
