@@ -74,26 +74,9 @@ class Application {
 			}
 
 			/**
-			 * Set the HTTP verb for the specified method
+			 * Add an additional pattern for 'create' and 'edit' methods
 			 */
 
-			switch ($method) {
-				case 'destroy':
-					$httpMethod = 'delete';
-					break;
-				case 'delete':
-					$httpMethod = 'delete';
-					break;
-				case 'store':
-					$httpMethod = 'post';
-					break;
-				case 'update':
-					$httpMethod = 'put';
-					break;
-				default:
-					$httpMethod = 'get';
-					break;
-			}
 
 			/**
 			 * Add an additional pattern for 'create' and 'edit' methods
