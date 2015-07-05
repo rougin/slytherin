@@ -77,42 +77,55 @@ class Application {
 			 * Add an additional pattern for 'create' and 'edit' methods
 			 */
 
-
-			/**
-			 * Add an additional pattern for 'create' and 'edit' methods
-			 */
-
-			$pattern = '/' . $this->_controller . $segments;
-
-			switch ($method) {
-				case 'create':
-					$pattern .= '/create';
-					break;
-				case 'edit':
-					$pattern .= '/edit';
-					break;
-			}
+			$pattern = '/' . $this->_controller . '/' . $method . $segments;
 
 			/**
 			 * Define the specified route
 			 */
 
-			$source = array(ucfirst($this->_controller), $method);
+			$source = 'Controllers\\' . ucfirst($this->_controller) . ':' . $method;
 
-			switch ($httpMethod) {
-				case 'get':
-					$route->get($pattern, $source, $options);
-					break;
-				case 'post':
-					$route->post($pattern, $source, $options);
-					break;
-				case 'put':
-					$route->put($pattern, $source, $options);
-					break;
+			/**
+			 * Set the HTTP verb for the specified method
+			 */
+
+			/**
+			 * Add a new route if the method is index
+			 */
+
+			if ($hasIndex) {
+				$route->get(str_replace('/index', '', $pattern), $source, $options);
+				$hasIndex = FALSE;
+
+				$routes[] = array(
+					'pattern' => str_replace('/index', '', $pattern),
+					'source' => $source,
+					'options' => $options
+				);
+			}
+
+			switch ($method) {
 				case 'delete':
 					$route->delete($pattern, $source, $options);
 					break;
+				case 'post':
+				case 'update':
+					$route->post($pattern, $source, $options);
+					break;
+				case 'put':
+				case 'store':
+					$route->put($pattern, $source, $options);
+					break;
+				default:
+					$route->get($pattern, $source, $options);
+					break;
 			}
+
+			$routes[] = array(
+				'pattern' => $pattern,
+				'source' => $source,
+				'options' => $options
+			);
 		}
 
 		/**
@@ -121,11 +134,13 @@ class Application {
 
 		$url = str_replace(BASE_URL, '', CURRENT_URL);
 		$url = (substr($url, -1) == '/') ? substr($url, 0, strlen($url) - 1) : $url;
+		$url = '/' . strtok($url, '?');
 
 		/**
 		 * Dispatch and execute the route
 		 */
 
+		echo Executor::execute($route->dispatch($url));
 	}
 
 	/**
