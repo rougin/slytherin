@@ -148,15 +148,16 @@ class Application {
 	 */
 	protected function _defineUrls()
 	{
+		$baseUrl    = 'http://localhost/';
+		$isHttps    = (isset($_SERVER['HTTPS'])) ? 's' : '';
+		$scriptName = substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
+
 		/**
 		 * Get the base url from the $_SERVER['HTTP_HOST']
 		 */
 
 		if (isset($_SERVER['HTTP_HOST'])) {
-			$baseUrl = 'http' . (isset($_SERVER['HTTPS']) ? 's' : '') . '://' . $_SERVER['HTTP_HOST']
-				. substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
-		} else {
-			$baseUrl = 'http://localhost/';
+			$baseUrl = 'http' . $isHttps . '://' . $_SERVER['HTTP_HOST'] . $scriptName;
 		}
 
 		/**
