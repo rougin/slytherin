@@ -193,14 +193,20 @@ class Application {
 		/**
 		 * Set the first index as the controller
 		 */
-		
+
 		if (empty($segments[0])) {
 			return 0;
 		}
 
-		$this->_controller = '\Controllers\\' . ucfirst(strtok($segments[0], '?'));
+		$controller        = '\\Controllers\\' . ucfirst(strtok($segments[0], '?'));
+		$this->_controller = strtok($segments[0], '?');
 
-		$class       = new \ReflectionClass($this->_controller);
+		try {
+			$class = new \ReflectionClass($controller);
+		} catch (\ReflectionException $exception) {
+			return 0;
+		}
+
 		$constructor = $class->getConstructor();
 
 		if ($constructor && count($constructor->getParameters()) != 0) {
