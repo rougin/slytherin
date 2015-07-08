@@ -41,17 +41,26 @@ class Application {
 
 		include 'app/config/routes.php';
 
-		foreach ($this->_methods as $method => $parameters) {
-			if ($method == '__construct') continue;
+		$hasIndex = FALSE;
+		$index = array();
+		$routes = array();
 
-			$options = array();
+		foreach ($this->_methods as $method => $parameters) {
+			$options  = array();
+			$regex    = array();
+			$segments = NULL;
+
+			if ($method == '__construct') {
+				continue;
+			}
+
+			if ($method == 'index' && ! is_array($parameters)) {
+				$hasIndex = TRUE;
+			}
 
 			if ( ! empty($this->_constructorArguments)) {
 				$options['constructor_args'] = $this->_constructorArguments;
 			}
-
-			$regex    = array();
-			$segments = NULL;
 
 			/**
 			 * Implode the parameters and create a regex pattern
