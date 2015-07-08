@@ -225,6 +225,10 @@ class Application {
 		}
 
 		foreach ($class->getMethods() as $method) {
+			if (! $method->isPublic()) {
+				continue;
+			}
+
 			/**
 			 * Add the curent method to the list of methods
 			 */
