@@ -1,5 +1,10 @@
 <?php namespace Rougin\Slytherin;
 
+use Rougin\Slytherin\Uri;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+use rcastera\Browser\Session\Session;
+
 /**
  * View Class
  *
@@ -12,46 +17,17 @@ class View {
 	 * 
 	 * @param  string  $view
 	 * @param  array   $data
-	 * @param  boolean $return
 	 */
-	public static function render($view, $data = NULL, $return = FALSE)
+	public static function render($view, $data = array())
 	{
-		/**
-		 * Assume the directory of the view file
-		 */
-		
-		$file = 'app/views/' . preg_replace('{/$}', '', $view) . '.php';
+		$loader  = new Twig_Loader_Filesystem(APPPATH . 'views');
+		$session = new Session();
+		$twig    = new Twig_Environment($loader);
 
-		if ( ! file_exists($file)) {
-			return trigger_error('The view file that you specified cannot be found from the <b>app/views</b> directory', E_USER_ERROR);
-		}
+		$data['session']    = $session->getSession();
+		$data['uriSegment'] = Uri::get();
 
-		/**
-		 * Extract the specific parameters to the view
-		 */
-
-		if ($data) {
-			extract($data);
-		}
-
-		/**
-		 * Buffer the file and get its output
-		 * else include the file
-		 */
-
-		if ($return) {
-			ob_start();
-			
-			echo eval('?>'.preg_replace('/;*\s*\?>/', '; ?>', str_replace('<?=', '<?php echo ', file_get_contents($file))));
-
-			$stringResult = ob_get_contents();
-			
-			@ob_end_clean();
-
-			return $stringResult;
-		} else {
-			include $file;
-		}
+		return $twig->render($view . '.php', $data);
 	}
 
 }
