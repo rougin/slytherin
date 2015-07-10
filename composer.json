@@ -1,12 +1,13 @@
 {
   "name": "rougin/slytherin",
   "description": "A simple and extensible PHP library for creating small projects",
-  "keywords": ["barebones", "extensible", "library", "mvc", "php"],
+  "keywords": ["barebones", "extensible", "library", "mvc", "simple", "php", "project"],
   "require": {
     "php": ">=5.3.0",
     "corneltek/pux": "~1.5",
     "filp/whoops": "*",
-    "hassankhan/config": "*"
+    "hassankhan/config": "*",
+    "twig/twig": "*"
   },
   "license": "MIT",
   "authors": [

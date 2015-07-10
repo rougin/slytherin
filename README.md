@@ -234,6 +234,7 @@ Here are the list of libraries that we currently used:
 
 * [Config](https://github.com/hassankhan/config) - a file configuration loader that supports PHP, INI, XML, JSON, and YML files
 * [Pux](https://github.com/c9s/Pux) - a high performance PHP router
+* [Twig](http://twig.sensiolabs.org/) - A comprehensive templating language
 * [Whoops!](https://github.com/filp/whoops) - PHP Error for cool kids
 
 We want to make a documentation about those libraries in here, but it's like *reinventing the wheel* right? :smile: So if you want to learn more about those libraries, just go to their respective ```README.md``` or their Wiki pages!

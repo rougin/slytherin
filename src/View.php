@@ -1,9 +1,7 @@
 <?php namespace Rougin\Slytherin;
 
-use Rougin\Slytherin\Uri;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
-use rcastera\Browser\Session\Session;
 
 /**
  * View Class
@@ -23,9 +21,6 @@ class View {
 		$loader  = new Twig_Loader_Filesystem(APPPATH . 'views');
 		$session = new Session();
 		$twig    = new Twig_Environment($loader);
-
-		$data['session']    = $session->getSession();
-		$data['uriSegment'] = Uri::get();
 
 		return $twig->render($view . '.php', $data);
 	}

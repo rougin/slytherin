@@ -42,8 +42,6 @@ class Application {
 		include 'app/config/routes.php';
 
 		$hasIndex = FALSE;
-		$index = array();
-		$routes = array();
 
 		foreach ($this->_methods as $method => $parameters) {
 			$options  = array();
@@ -105,12 +103,6 @@ class Application {
 			if ($hasIndex) {
 				$route->get(str_replace('/index', '', $pattern), $source, $options);
 				$hasIndex = FALSE;
-
-				$routes[] = array(
-					'pattern' => str_replace('/index', '', $pattern),
-					'source' => $source,
-					'options' => $options
-				);
 			}
 
 			switch ($method) {
@@ -129,12 +121,6 @@ class Application {
 					$route->get($pattern, $source, $options);
 					break;
 			}
-
-			$routes[] = array(
-				'pattern' => $pattern,
-				'source' => $source,
-				'options' => $options
-			);
 		}
 
 		/**
