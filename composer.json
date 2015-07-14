@@ -1,28 +1,28 @@
 {
-  "name": "rougin/slytherin",
-  "description": "A simple and extensible PHP library for creating small projects",
-  "keywords": ["barebones", "extensible", "library", "mvc", "simple", "php", "project"],
-  "require": {
-    "php": ">=5.3.0",
-    "corneltek/pux": "~1.5",
-    "filp/whoops": "*",
-    "hassankhan/config": "*",
-    "twig/twig": "*"
-  },
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Rougin Gutib",
-      "email": "rougingutib@gmail.com"
+    "name": "rougin/slytherin",
+    "description": "A simple and extensible PHP library for creating small projects",
+    "keywords": ["barebones", "extensible", "library", "mvc", "simple", "php", "project"],
+    "require": {
+        "php": ">=5.3.0",
+        "corneltek/pux": "~1.5",
+        "filp/whoops": "*",
+        "hassankhan/config": "*",
+        "twig/twig": "*"
     },
-    {
-      "name": "Angel Refamonte",
-      "email": "angelrefamonte@gmail.com"
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Rougin Gutib",
+            "email": "rougingutib@gmail.com"
+        },
+        {
+            "name": "Angel Refamonte",
+            "email": "angelrefamonte@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Rougin\\Slytherin\\": "src"
+        }
     }
-  ],
-  "autoload": {
-    "psr-4": {
-      "Rougin\\Slytherin\\": "src"
-    }
-  }
 }
