@@ -1,5 +1,6 @@
 <?php namespace Rougin\Slytherin;
 
+use Rougin\Slytherin\Uri;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
 
@@ -8,8 +9,8 @@ use Twig_Loader_Filesystem;
  *
  * @package Slytherin
  */
-class View {
-
+class View
+{
 	/**
 	 * Render the specified view file to the browser
 	 * 
@@ -19,10 +20,11 @@ class View {
 	public static function render($view, $data = array())
 	{
 		$loader  = new Twig_Loader_Filesystem(APPPATH . 'views');
-		$session = new Session();
 		$twig    = new Twig_Environment($loader);
+
+		$data['session']    = (isset($_SESSION)) ? $_SESSION : array();
+		$data['uriSegment'] = Uri::get();
 
 		return $twig->render($view . '.php', $data);
 	}
-
 }
