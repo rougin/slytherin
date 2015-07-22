@@ -8,22 +8,23 @@ use Pux\Mux;
  *
  * @package Slytherin
  */
-class Application {
+class Application
+{
 
-	protected $_constructorArguments = array();
-
-	protected $_controller = NULL;
-	protected $_methods    = array();
-	protected $_router     = NULL;
+	protected $arguments  = array();
+	protected $controller = NULL;
+	protected $methods    = array();
+	protected $router     = NULL;
 
 	/**
 	 * Load the necessary configurations
 	 */
 	public function __construct(Mux $router)
 	{
-		$this->_defineUrls();
-		
-		$this->_router = $router;
+		$this->defineUrls();
+		$this->getController();
+
+		$this->router = $router;
 	}
 
 	/**
@@ -31,9 +32,7 @@ class Application {
 	 */
 	public function run()
 	{
-		$this->_getController();
-		
-		$route = $this->_router;
+		$route = $this->router;
 
 		/**
 		 * Include the user's specified routes
@@ -42,8 +41,10 @@ class Application {
 		include 'app/config/routes.php';
 
 		$hasIndex = FALSE;
+		$index = array();
+		$routes = array();
 
-		foreach ($this->_methods as $method => $parameters) {
+		foreach ($this->methods as $method => $parameters) {
 			$options  = array();
 			$regex    = array();
 			$segments = NULL;
@@ -56,14 +57,14 @@ class Application {
 				$hasIndex = TRUE;
 			}
 
-			if ( ! empty($this->_constructorArguments)) {
-				$options['constructor_args'] = $this->_constructorArguments;
+			if ( ! empty($this->arguments)) {
+				$options['constructor_args'] = $this->arguments;
 			}
 
 			/**
 			 * Implode the parameters and create a regex pattern
 			 */
-			
+
 			if (is_array($parameters)) {
 				foreach ($parameters as $parameter => $defaultValue) {
 					$segments .= '/:' . $parameter;
@@ -84,17 +85,13 @@ class Application {
 			 * Add an additional pattern for 'create' and 'edit' methods
 			 */
 
-			$pattern = '/' . $this->_controller . '/' . $method . $segments;
+			$pattern = '/' . $this->controller . '/' . $method . $segments;
 
 			/**
 			 * Define the specified route
 			 */
 
-			$source = 'Controllers\\' . ucfirst($this->_controller) . ':' . $method;
-
-			/**
-			 * Set the HTTP verb for the specified method
-			 */
+			$source = 'Controllers\\' . ucfirst($this->controller) . ':' . $method;
 
 			/**
 			 * Add a new route if the method is index
@@ -103,7 +100,17 @@ class Application {
 			if ($hasIndex) {
 				$route->get(str_replace('/index', '', $pattern), $source, $options);
 				$hasIndex = FALSE;
+
+				$routes[] = array(
+					'pattern' => str_replace('/index', '', $pattern),
+					'source' => $source,
+					'options' => $options
+				);
 			}
+
+			/**
+			 * Set the HTTP verb for the specified method
+			 */
 
 			switch ($method) {
 				case 'delete':
@@ -121,15 +128,23 @@ class Application {
 					$route->get($pattern, $source, $options);
 					break;
 			}
+
+			$routes[] = array(
+				'pattern' => $pattern,
+				'source' => $source,
+				'options' => $options
+			);
 		}
+
+		// echo '<pre>';
+		// print_r($routes);
+		// echo '</pre>';
 
 		/**
 		 * Set the URL to be dispatch
 		 */
 
-		$url = str_replace(BASE_URL, '', CURRENT_URL);
-		$url = (substr($url, -1) == '/') ? substr($url, 0, strlen($url) - 1) : $url;
-		$url = '/' . strtok($url, '?');
+		$url = $this->cleanUrl(BASE_URL, CURRENT_URL);
 
 		/**
 		 * Dispatch and execute the route
@@ -139,11 +154,36 @@ class Application {
 	}
 
 	/**
+	 * Clean the specified URL
+	 * 
+	 * @param  string $baseUrl
+	 * @param  string $currentUrl
+	 * @return string
+	 */
+	protected function cleanUrl($baseUrl, $currentUrl)
+	{
+		$url = str_replace($baseUrl, '', $currentUrl);
+
+		if (substr($url, -1) == '/') {
+			$url = substr($url, 0, strlen($url) - 1);
+		}
+
+		if (strpos($url, '?') !== FALSE) {
+			$questionMark = strpos($url, '?');
+
+			return '/' . substr($url, 0, $questionMark);
+		}
+
+		return '/' . $url;
+	}
+
+	/**
 	 * Define the base and current urls
 	 */
-	protected function _defineUrls()
+	protected function defineUrls()
 	{
 		$baseUrl    = 'http://localhost/';
+		$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 		$isHttps    = (isset($_SERVER['HTTPS'])) ? 's' : '';
 		$scriptName = substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
 
@@ -169,7 +209,7 @@ class Application {
 		 */
 
 		define('BASE_URL', $baseUrl);
-		define('CURRENT_URL', 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI']);
+		define('CURRENT_URL', $currentUrl);
 	}
 
 	/**
@@ -177,7 +217,7 @@ class Application {
 	 *
 	 * @return boolean
 	 */
-	protected function _getController()
+	protected function getController()
 	{
 		/**
 		 * Seperate the links from the string difference of BASE_URL and CURRENT_URL
@@ -193,13 +233,13 @@ class Application {
 			return 0;
 		}
 
-		$controller        = '\\Controllers\\' . ucfirst(strtok($segments[0], '?'));
-		$this->_controller = strtok($segments[0], '?');
+		$this->controller = strtok($segments[0], '?');
+		$controller = '\\Controllers\\' . ucfirst($this->controller);
 
 		try {
 			$class = new \ReflectionClass($controller);
 		} catch (\ReflectionException $exception) {
-			return 0;
+			return $exception;
 		}
 
 		$constructor = $class->getConstructor();
@@ -209,12 +249,12 @@ class Application {
 				/**
 				 * Get the class name without needing the class to be loaded
 				 */
-				
+
 				preg_match('/\[\s\<\w+?>\s([\w]+)/s', $parameter->__toString(), $matches);
 				$object = isset($matches[1]) ? $matches[1] : NULL;
 
 				if ($object) {
-					$this->_constructorArguments[] = new $object();
+					$this->arguments[] = new $object();
 				}
 			}
 		}
@@ -228,17 +268,17 @@ class Application {
 			 * Add the curent method to the list of methods
 			 */
 
-			$this->_methods[$method->name] = NULL;
+			$this->methods[$method->name] = NULL;
 
 			/**
 			 * Get the parameters for the each specified method
 			 */
 
 			foreach ($method->getParameters() as $parameter) {
-				$this->_methods[$method->name][$parameter->name] = NULL;
+				$this->methods[$method->name][$parameter->name] = NULL;
 
 				if ($parameter->isOptional()) {
-					$this->_methods[$method->name][$parameter->name] = $parameter->getDefaultValue();
+					$this->methods[$method->name][$parameter->name] = $parameter->getDefaultValue();
 				}
 			}
 		}
