@@ -7,8 +7,8 @@ use Noodlehaus\Config;
  *
  * @package Slytherin
  */
-class Model {
-
+class Model
+{
 	public $databaseHandle = NULL;
 
 	/**
@@ -32,5 +32,4 @@ class Model {
 
 		$this->databaseHandle->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
-
 }

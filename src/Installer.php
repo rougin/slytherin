@@ -10,7 +10,6 @@ use Composer\Script\Event;
  */
 class Installer 
 {
-
 	/**
 	 * Run the post installation process
 	 * 
@@ -124,5 +123,4 @@ class Installer
 			fclose($file);
 		}
 	}
-
 }
