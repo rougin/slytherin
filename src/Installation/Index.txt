@@ -1,0 +1,21 @@
+<?php
+
+/**
+ * Define the specified directories
+ */
+
+define('APP', __DIR__ . '/../app');
+define('VENDOR', __DIR__ . '/../vendor');
+define('SOURCE', __DIR__ . '/../src');
+
+/**
+ * Load the Composer autoloader
+ */
+
+require VENDOR . '/autoload.php';
+
+/**
+ * Boostrap the application
+ */
+
+require SOURCE . '/Bootstrap.php';

@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Application Routes
+ * 
+ * Here is where you can register all of the routes for an application.
+ * Most of the modern PHP routers use that set of parameters below.
+ */
+
+return [
+    ['GET', '/', ['Controllers\Welcome', 'index']]
+];

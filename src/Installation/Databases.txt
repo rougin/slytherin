@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Database Configuration
+ * 
+ * This is where you will setup your database credentials that
+ * can be used in the libraries in the application
+ */
+
+return [
+    'default' => [
+        'hostname' => 'localhost',
+        'username' => 'root',
+        'password' => '',
+        'database' => '',
+        'driver'   => 'mysql'
+    ]
+];

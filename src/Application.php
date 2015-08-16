@@ -1,287 +1,201 @@
-<?php namespace Rougin\Slytherin;
+<?php
 
-use Pux\Executor;
-use Pux\Mux;
+namespace Rougin\Slytherin;
+
+use ReflectionClass;
 
 /**
  * Application Class
  *
+ * The place where we integrate the components and dispatch the specified
+ * route to the application
+ * 
  * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
 class Application
 {
+    private $components;
+    private $config;
+    private $content;
+    private $injector;
+    private $request;
+    private $response;
 
-	protected $arguments  = array();
-	protected $controller = NULL;
-	protected $methods    = array();
-	protected $router     = NULL;
+    /**
+     * @param array  $config
+     * @param array  $components
+     * @param object $injector
+     */
+    public function __construct($config, $components, $injector)
+    {
+        $this->config = $config;
+        $this->components = $components;
+        $this->injector = $injector;
+    }
 
-	/**
-	 * Load the necessary configurations
-	 */
-	public function __construct(Mux $router)
-	{
-		$this->defineUrls();
-		$this->getController();
+    /**
+     * Run the application
+     * 
+     * @return void
+     */
+    public function run()
+    {
+        $this->setErrorHandler(
+            $this->components['error_handler'],
+            $this->config['environment']
+        );
 
-		$this->router = $router;
-	}
+        $this->setHttp(
+            $this->components['request'],
+            $this->components['response']
+        );
 
-	/**
-	 * Run the application
-	 */
-	public function run()
-	{
-		$route = $this->router;
+        $this->setRouter($this->components['router']);
 
-		/**
-		 * Include the user's specified routes
-		 */
+        /**
+         * Return the list of headers if any
+         */
 
-		include 'app/config/routes.php';
+        if (is_array($this->response->getHeaders())) {
+            foreach ($this->response->getHeaders() as $header) {
+                header($header);
+            }
+        }
 
-		$hasIndex = FALSE;
-		$index = array();
-		$routes = array();
+        /**
+         * Return the content
+         */
 
-		foreach ($this->methods as $method => $parameters) {
-			$options  = array();
-			$regex    = array();
-			$segments = NULL;
+        echo $this->response->getContent();
+    }
 
-			if ($method == '__construct') {
-				continue;
-			}
+    /**
+     * Check if there is a dependency injector include from the
+     * list of components
+     * 
+     * @return boolean
+     */
+    protected function hasDependencyInjector()
+    {
+        return is_object($this->injector) ? TRUE : FALSE;
+    }
 
-			if ($method == 'index' && ! is_array($parameters)) {
-				$hasIndex = TRUE;
-			}
+    /**
+     * Sets up the error handler if included
+     *
+     * @return object|integer
+     */
+    protected function setErrorHandler($errroHandler, $environment)
+    {
+        error_reporting(E_ALL);
 
-			if ( ! empty($this->arguments)) {
-				$options['constructor_args'] = $this->arguments;
-			}
+        /**
+         * Check if an error handler is included in the list of components
+         */
 
-			/**
-			 * Implode the parameters and create a regex pattern
-			 */
+        if (!$errroHandler) {
+            return 0;
+        }
 
-			if (is_array($parameters)) {
-				foreach ($parameters as $parameter => $defaultValue) {
-					$segments .= '/:' . $parameter;
+        /**
+         * If the included error handler is a string, then use a dependency
+         * injector to instantiate the said error handler
+         */
 
-					$regex[$parameter] = '\w+';
-					$regex[$parameter] = (gettype($defaultValue) == 'integer') ? '\d+' : $regex[$parameter];
-				}
+        if (is_string($errroHandler) && $this->hasDependencyInjector()) {
+            $errroHandler = $this->injector->make($errroHandler);
+        }
 
-				/**
-				 * Get the options
-				 */
+        /**
+         * Set up the environment to be used in the application
+         */
 
-				$options['default'] = $parameters;
-				$options['require'] = $regex;
-			}
+        $errroHandler->setEnvironment($environment);
 
-			/**
-			 * Add an additional pattern for 'create' and 'edit' methods
-			 */
+        /**
+         * Run the specified error handler
+         */
 
-			$pattern = '/' . $this->controller . '/' . $method . $segments;
+        return $errroHandler->display();
+    }
 
-			/**
-			 * Define the specified route
-			 */
+    /**
+     * Sets up the HTTP components
+     *
+     * @return void
+     */
+    protected function setHttp($request, $response)
+    {
+        /**
+         * If the included request object is a string, then use a dependency
+         * injector to instantiate the said request object
+         */
 
-			$source = 'Controllers\\' . ucfirst($this->controller) . ':' . $method;
+        if (is_string($request) && $this->hasDependencyInjector()) {
+            $this->request = $this->injector->make($request);
+        } else {
+            $this->request = $request;
+        }
 
-			/**
-			 * Add a new route if the method is index
-			 */
+        /**
+         * If the included response object is a string, then use a dependency
+         * injector to instantiate the said response object
+         */
 
-			if ($hasIndex) {
-				$route->get(str_replace('/index', '', $pattern), $source, $options);
-				$hasIndex = FALSE;
+        if (is_string($response) && $this->hasDependencyInjector()) {
+            $this->response = $this->injector->make($response);
+        } else {
+            $this->response = $response;
+        }
+    }
 
-				$routes[] = array(
-					'pattern' => str_replace('/index', '', $pattern),
-					'source' => $source,
-					'options' => $options
-				);
-			}
+    /**
+     * Sets up the router to handle route requests
+     *
+     * @return void
+     */
+    protected function setRouter($router)
+    {
+        /**
+         * If the included router is a string, then use a dependency injector
+         * to instantiate the said router
+         */
 
-			/**
-			 * Set the HTTP verb for the specified method
-			 */
+        if (is_string($router) && $this->hasDependencyInjector()) {
+            $router = $this->injector->make($router);
+        }
 
-			switch ($method) {
-				case 'delete':
-					$route->delete($pattern, $source, $options);
-					break;
-				case 'post':
-				case 'update':
-					$route->post($pattern, $source, $options);
-					break;
-				case 'put':
-				case 'store':
-					$route->put($pattern, $source, $options);
-					break;
-				default:
-					$route->get($pattern, $source, $options);
-					break;
-			}
+        /**
+         * Get the request route
+         */
 
-			$routes[] = array(
-				'pattern' => $pattern,
-				'source' => $source,
-				'options' => $options
-			);
-		}
+        $route = $router->dispatch();
 
-		// echo '<pre>';
-		// print_r($routes);
-		// echo '</pre>';
+        /**
+         * Return the received route if it is a string
+         */
 
-		/**
-		 * Set the URL to be dispatch
-		 */
+        if (is_string($route)) {
+            $this->response->setContent($route);
 
-		$url = $this->cleanUrl(BASE_URL, CURRENT_URL);
+            return;
+        }
 
-		/**
-		 * Dispatch and execute the route
-		 */
+        /**
+         * Return the received route to a dependency injector if the result
+         * contains a class name, method and its parameters
+         */
 
-		echo Executor::execute($route->dispatch($url));
-	}
+        list($className, $method, $parameters) = $route;
 
-	/**
-	 * Clean the specified URL
-	 * 
-	 * @param  string $baseUrl
-	 * @param  string $currentUrl
-	 * @return string
-	 */
-	protected function cleanUrl($baseUrl, $currentUrl)
-	{
-		$url = str_replace($baseUrl, '', $currentUrl);
+        if ($this->hasDependencyInjector()) {
+            $class = $this->injector->make($className);
+        } else {
+            $reflect = new ReflectionClass($className);
+            $class = $reflect->newInstanceArgs($parameters);
+        }
 
-		if (substr($url, -1) == '/') {
-			$url = substr($url, 0, strlen($url) - 1);
-		}
-
-		if (strpos($url, '?') !== FALSE) {
-			$questionMark = strpos($url, '?');
-
-			return '/' . substr($url, 0, $questionMark);
-		}
-
-		return '/' . $url;
-	}
-
-	/**
-	 * Define the base and current urls
-	 */
-	protected function defineUrls()
-	{
-		$baseUrl    = 'http://localhost/';
-		$currentUrl = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
-		$isHttps    = (isset($_SERVER['HTTPS'])) ? 's' : '';
-		$scriptName = substr($_SERVER['SCRIPT_NAME'], 0, -strlen(basename($_SERVER['SCRIPT_NAME'])));
-
-		/**
-		 * Get the base url from the $_SERVER['HTTP_HOST']
-		 */
-
-		if (isset($_SERVER['HTTP_HOST'])) {
-			$baseUrl = 'http' . $isHttps . '://' . $_SERVER['HTTP_HOST'] . $scriptName;
-		}
-
-		/**
-		 * Check the HTTP method from the form
-		 */
-
-		if (isset($_POST['_method']) && ($_POST['_method'] == 'PUT' || $_POST['_method'] == 'DELETE')) {
-			$_SERVER['REQUEST_METHOD'] = $_POST['_method'];
-			unset($_POST['_method']);
-		}
-
-		/**
-		 * Define the following URLs
-		 */
-
-		define('BASE_URL', $baseUrl);
-		define('CURRENT_URL', $currentUrl);
-	}
-
-	/**
-	 * Check the controller and get its contents
-	 *
-	 * @return boolean
-	 */
-	protected function getController()
-	{
-		/**
-		 * Seperate the links from the string difference of BASE_URL and CURRENT_URL
-		 */
-
-		$segments = explode('/', str_replace(BASE_URL, '', CURRENT_URL));
-
-		/**
-		 * Set the first index as the controller
-		 */
-
-		if (empty($segments[0])) {
-			return 0;
-		}
-
-		$this->controller = strtok($segments[0], '?');
-		$controller = '\\Controllers\\' . ucfirst($this->controller);
-
-		try {
-			$class = new \ReflectionClass($controller);
-		} catch (\ReflectionException $exception) {
-			return $exception;
-		}
-
-		$constructor = $class->getConstructor();
-
-		if ($constructor && count($constructor->getParameters()) != 0) {
-			foreach ($constructor->getParameters() as $parameter) {
-				/**
-				 * Get the class name without needing the class to be loaded
-				 */
-
-				preg_match('/\[\s\<\w+?>\s([\w]+)/s', $parameter->__toString(), $matches);
-				$object = isset($matches[1]) ? $matches[1] : NULL;
-
-				if ($object) {
-					$this->arguments[] = new $object();
-				}
-			}
-		}
-
-		foreach ($class->getMethods() as $method) {
-			if (! $method->isPublic()) {
-				continue;
-			}
-
-			/**
-			 * Add the curent method to the list of methods
-			 */
-
-			$this->methods[$method->name] = NULL;
-
-			/**
-			 * Get the parameters for the each specified method
-			 */
-
-			foreach ($method->getParameters() as $parameter) {
-				$this->methods[$method->name][$parameter->name] = NULL;
-
-				if ($parameter->isOptional()) {
-					$this->methods[$method->name][$parameter->name] = $parameter->getDefaultValue();
-				}
-			}
-		}
-	}
-
+        $this->response->setContent(call_user_func_array([$class, $method], $parameters));
+    }
 }
