@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Interfaces;
+namespace Rougin\Slytherin\Interfaces\IoC;
 
 /**
  * Dependency Injector Interface
