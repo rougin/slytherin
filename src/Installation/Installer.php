@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin;
+namespace Rougin\Slytherin\Installation;
 
 use Composer\Script\Event;
 
