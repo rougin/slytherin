@@ -2,13 +2,16 @@
 
 namespace Rougin\Slytherin;
 
-use ReflectionClass;
+use Rougin\Slytherin\Interfaces\Dispatching\RouterInterface;
+use Rougin\Slytherin\Interfaces\ErrorHandling\ErrorHandlerInterface;
+use Rougin\Slytherin\Interfaces\Http\RequestInterface;
+use Rougin\Slytherin\Interfaces\Http\ResponseInterface;
+use Rougin\Slytherin\Interfaces\IoC\DependencyInjectorInterface;
 
 /**
  * Application Class
  *
- * The place where we integrate the components and dispatch the specified
- * route to the application
+ * Integrates all specified components into the application
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -16,156 +19,82 @@ use ReflectionClass;
 class Application
 {
     private $components;
-    private $config;
-    private $content;
-    private $injector;
-    private $request;
-    private $response;
 
     /**
-     * @param array  $config
      * @param array  $components
      * @param object $injector
      */
-    public function __construct($config, $components, $injector)
+    public function __construct($components)
     {
-        $this->config = $config;
         $this->components = $components;
-        $this->injector = $injector;
     }
 
     /**
-     * Run the application
+     * Runs the application
      * 
      * @return void
      */
     public function run()
     {
-        $this->setErrorHandler(
-            $this->components['error_handler'],
-            $this->config['environment']
-        );
+        $this->setErrorHandler($this->components['error_handler']);
 
-        $this->setHttp(
+        list($request, $response) = $this->setHttp(
             $this->components['request'],
             $this->components['response']
         );
 
-        $this->setRouter($this->components['router']);
-
-        /**
-         * Return the list of headers if any
-         */
-
-        if (is_array($this->response->getHeaders())) {
-            foreach ($this->response->getHeaders() as $header) {
-                header($header);
-            }
-        }
+        $injector = $this->components['dependency_injector'];
+        $result = $this->setRouter($this->components['router'], $injector);
 
         /**
          * Return the content
          */
 
-        echo $this->response->getContent();
-    }
-
-    /**
-     * Check if there is a dependency injector include from the
-     * list of components
-     * 
-     * @return boolean
-     */
-    protected function hasDependencyInjector()
-    {
-        return is_object($this->injector) ? TRUE : FALSE;
+        $response->setContent($result);
+        echo $response->getContent();
     }
 
     /**
      * Sets up the error handler if included
-     *
-     * @return object|integer
+     * 
+     * @param  ErrorHandlerInterface $errorHandler
+     * @return object|void
      */
-    protected function setErrorHandler($errroHandler, $environment)
-    {
-        error_reporting(E_ALL);
-
-        /**
-         * Check if an error handler is included in the list of components
-         */
-
-        if (!$errroHandler) {
-            return 0;
+    protected function setErrorHandler(
+        ErrorHandlerInterface $errorHandler = null
+    ) {
+        if ( ! $errorHandler) {
+            return;
         }
 
-        /**
-         * If the included error handler is a string, then use a dependency
-         * injector to instantiate the said error handler
-         */
-
-        if (is_string($errroHandler) && $this->hasDependencyInjector()) {
-            $errroHandler = $this->injector->make($errroHandler);
-        }
-
-        /**
-         * Set up the environment to be used in the application
-         */
-
-        $errroHandler->setEnvironment($environment);
-
-        /**
-         * Run the specified error handler
-         */
-
-        return $errroHandler->display();
+        return $errorHandler->display();
     }
 
     /**
      * Sets up the HTTP components
-     *
-     * @return void
+     * 
+     * @param  RequestInterface  $request
+     * @param  ResponseInterface $response
+     * @return array
      */
-    protected function setHttp($request, $response)
-    {
-        /**
-         * If the included request object is a string, then use a dependency
-         * injector to instantiate the said request object
-         */
-
-        if (is_string($request) && $this->hasDependencyInjector()) {
-            $this->request = $this->injector->make($request);
-        } else {
-            $this->request = $request;
-        }
-
-        /**
-         * If the included response object is a string, then use a dependency
-         * injector to instantiate the said response object
-         */
-
-        if (is_string($response) && $this->hasDependencyInjector()) {
-            $this->response = $this->injector->make($response);
-        } else {
-            $this->response = $response;
-        }
+    protected function setHttp(
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        return [$request, $response];
     }
 
     /**
      * Sets up the router to handle route requests
-     *
+     * 
+     * @param  RouterInterface             $router
+     * @param  DependencyInjectorInterface $injector
      * @return void
      */
-    protected function setRouter($router)
-    {
-        /**
-         * If the included router is a string, then use a dependency injector
-         * to instantiate the said router
-         */
-
-        if (is_string($router) && $this->hasDependencyInjector()) {
-            $router = $this->injector->make($router);
-        }
-
+    protected function setRouter(
+        RouterInterface $router,
+        DependencyInjectorInterface $injector
+    ) {
         /**
          * Get the request route
          */
@@ -177,9 +106,7 @@ class Application
          */
 
         if (is_string($route)) {
-            $this->response->setContent($route);
-
-            return;
+            return $route;
         }
 
         /**
@@ -187,15 +114,9 @@ class Application
          * contains a class name, method and its parameters
          */
 
-        list($className, $method, $parameters) = $route;
+        list($class, $method, $parameters) = $route;
+        $class = $injector->make($class);
 
-        if ($this->hasDependencyInjector()) {
-            $class = $this->injector->make($className);
-        } else {
-            $reflect = new ReflectionClass($className);
-            $class = $reflect->newInstanceArgs($parameters);
-        }
-
-        $this->response->setContent(call_user_func_array([$class, $method], $parameters));
+        return call_user_func_array([$class, $method], $parameters);
     }
 }
