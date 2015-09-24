@@ -1,35 +1,79 @@
 # Slytherin
 
-[![Latest Stable Version](https://poser.pugx.org/rougin/slytherin/v/stable)](https://packagist.org/packages/rougin/slytherin) [![Total Downloads](https://poser.pugx.org/rougin/slytherin/downloads)](https://packagist.org/packages/rougin/slytherin) [![Latest Unstable Version](https://poser.pugx.org/rougin/slytherin/v/unstable)](https://packagist.org/packages/rougin/slytherin) [![License](https://poser.pugx.org/rougin/slytherin/license)](https://packagist.org/packages/rougin/slytherin) [![endorse](https://api.coderwall.com/rougin/endorsecount.png)](https://coderwall.com/rougin)
+[![Latest Version on Packagist][ico-version]][link-packagist]
+[![Software License][ico-license]](LICENSE.md)
+[![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
+[![Total Downloads][ico-downloads]][link-downloads]
 
-Heavily inspired by this awesome [tutorial](https://github.com/PatrickLouys/no-framework-tutorial), Slytherin is a simple and extensible PHP library that tries to achieve a SOLID-based design for creating small and large applications. Unlike the other frameworks that provides big libraries that you don't need in developing your web applications, this library utilizes [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external libraries with ease.
+An extensible PHP library for creating small and large web applications.
 
-# Installation
+## Install
 
-1. This library requires [Composer](https://getcomposer.org) and [Git](http://git-scm.com) in order to get it work. Download and install the latest version of it first. The instructions for that can be found [here](http://git-scm.com/downloads) and [here](https://getcomposer.org/download/). If you have already installed Composer and Git on your system, then you can skip this step.
+Via Composer
 
-2. Add the ```Slytherin``` package in your ```require``` list in ```composer.json```:
+``` bash
+$ composer require rougin/slytherin
+```
 
-    ```json
-    {
-      "require": {
-        "rougin/slytherin": "dev-master"
-      },
-      "autoload": {
-        "psr-4": {
-          "App\\": "src/"
-        }
-      },
-      "scripts": {
-        "post-install-cmd": [
-          "Rougin\\Slytherin\\Installer::deploy"
-        ]
-      }
-    }
-    ```
+## Usage
 
-    Then run ```$ composer install```
+``` php
+use Rougin\Slytherin\Application;
 
-3. Aaaand you're done! Try to experiment this library with other libraries that currently exists on [Packagist](https://packagist.org/) (or even here at [awesome-php](https://github.com/ziadoz/awesome-php)) and create an awesome and cool PHP project! You can also share your set of libraries in the [Wiki section](https://github.com/rougin/slytherin/wiki)! :smile:
+$components = [
+    'dependency_injector' => '',
+    'error_handler' => '',
+    'request' => '',
+    'response' => '',
+    'router' => ''
+];
 
-Found a bug? Want to contribute? Feel free to open an issue or create a pull request. :+1:
+$application = new Application($components);
+$application->run();
+```
+
+Regarding the ```$components``` above, you need to select a library of your choice and implement it with an interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section in the wiki.
+
+## Change log
+
+Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
+
+## Testing
+
+``` bash
+$ composer test
+```
+
+## Contributing
+
+Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
+
+## Security
+
+If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
+
+## Credits
+
+- [Rougin Royce Gutib][link-author]
+- [All Contributors][link-contributors]
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+[ico-version]: https://img.shields.io/packagist/v/rougin/slytherin.svg?style=flat-square
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/rougin/slytherin/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/rougin/slytherin.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/rougin/slytherin.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/rougin/slytherin.svg?style=flat-square
+
+[link-packagist]: https://packagist.org/packages/rougin/slytherin
+[link-travis]: https://travis-ci.org/rougin/slytherin
+[link-scrutinizer]: https://scrutinizer-ci.com/g/rougin/slytherin/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
+[link-downloads]: https://packagist.org/packages/rougin/slytherin
+[link-author]: https://github.com/rougin
+[link-contributors]: ../../contributors

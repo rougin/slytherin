@@ -1,20 +1,47 @@
 {
     "name": "rougin/slytherin",
-    "description": "A simple and extensible PHP library for creating small or large projects",
-    "keywords": ["barebones", "extensible", "library", "mvc", "php"],
+    "description": "An extensible PHP library for creating small and large web applications",
+    "keywords": [
+        "barebones",
+        "extensible",
+        "library",
+        "mvc",
+        "php",
+        "slytherin"
+    ],
+    "homepage": "https://github.com/rougin/slytherin",
     "license": "MIT",
     "authors": [
         {
-            "name": "Rougin Gutib",
-            "email": "rougingutib@gmail.com"
+            "name": "Rougin Royce Gutib",
+            "email": "rougingutib@gmail.com",
+            "homepage": "http://rougin.github.io",
+            "role": "Developer"
         }
     ],
     "require": {
-        "php": ">=5.5.0"
+        "php" : ">=5.3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit" : "4.*",
+        "scrutinizer/ocular": "~1.1"
     },
     "autoload": {
         "psr-4": {
-            "Rougin\\Slytherin\\": "src/"
+            "Rougin\\Slytherin\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Rougin\\Slytherin\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
         }
     }
 }
