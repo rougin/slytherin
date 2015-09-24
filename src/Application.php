@@ -21,8 +21,7 @@ class Application
     private $components;
 
     /**
-     * @param array  $components
-     * @param object $injector
+     * @param array $components
      */
     public function __construct($components)
     {
@@ -38,7 +37,7 @@ class Application
     {
         $this->setErrorHandler($this->components['error_handler']);
 
-        list($request, $response) = $this->setHttp(
+        $response = $this->setHttp(
             $this->components['request'],
             $this->components['response']
         );
@@ -46,10 +45,7 @@ class Application
         $injector = $this->components['dependency_injector'];
         $result = $this->setRouter($this->components['router'], $injector);
 
-        /**
-         * Return the content
-         */
-
+        // Sets and returns the content
         $response->setContent($result);
         echo $response->getContent();
     }
@@ -89,31 +85,21 @@ class Application
      * 
      * @param  RouterInterface             $router
      * @param  DependencyInjectorInterface $injector
-     * @return void
+     * @return array
      */
     protected function setRouter(
         RouterInterface $router,
         DependencyInjectorInterface $injector
     ) {
-        /**
-         * Get the request route
-         */
-
+        // Gets the request route
         $route = $router->dispatch();
 
-        /**
-         * Return the received route if it is a string
-         */
-
+        // Returns the received route if it is a string
         if (is_string($route)) {
             return $route;
         }
 
-        /**
-         * Return the received route to a dependency injector if the result
-         * contains a class name, method and its parameters
-         */
-
+        // Extract the result into variables
         list($class, $method, $parameters) = $route;
         $class = $injector->make($class);
 
