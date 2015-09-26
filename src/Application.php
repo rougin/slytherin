@@ -37,7 +37,7 @@ class Application
     {
         $this->setErrorHandler($this->components['error_handler']);
 
-        $response = $this->setHttp(
+        $http = $this->setHttp(
             $this->components['request'],
             $this->components['response']
         );
@@ -46,8 +46,8 @@ class Application
         $result = $this->setRouter($this->components['router'], $injector);
 
         // Sets and returns the content
-        $response->setContent($result);
-        echo $response->getContent();
+        $http->response->setContent($result);
+        echo $http->response->getContent();
     }
 
     /**
@@ -77,7 +77,7 @@ class Application
         RequestInterface $request,
         ResponseInterface $response
     ) {
-        return [$request, $response];
+        return (object) ['request' => $request, 'response' => $response];
     }
 
     /**
@@ -85,7 +85,7 @@ class Application
      * 
      * @param  RouterInterface             $router
      * @param  DependencyInjectorInterface $injector
-     * @return array
+     * @return array|string
      */
     protected function setRouter(
         RouterInterface $router,
