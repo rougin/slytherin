@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Interfaces\Template;
+namespace Rougin\Slytherin\Template;
 
 /**
  * Renderer Interface

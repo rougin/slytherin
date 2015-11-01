@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Interfaces\IoC;
+namespace Rougin\Slytherin\IoC;
 
 /**
  * Dependency Injector Interface
@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Interfaces\IoC;
 interface DependencyInjectorInterface
 {
     /**
-     * Instantiate/provision a class instance
+     * Instantiates/provisions a class instance.
      *
      * @param  string $name
      * @param  array  $args

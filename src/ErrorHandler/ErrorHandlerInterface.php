@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Interfaces\ErrorHandling;
+namespace Rougin\Slytherin\ErrorHandler;
 
 /**
  * Error Handler Interface
@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Interfaces\ErrorHandling;
 interface ErrorHandlerInterface
 {
     /**
-     * Sets up the environment to be used
+     * Sets up the environment to be used.
      * 
      * @param  string $environment
      * @return void

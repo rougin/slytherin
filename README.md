@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-An extensible PHP library for creating small and large web applications.
+An Extensible PHP Library/Framework For The Courageous And Fearless.
 
 ## Install
 
@@ -20,21 +20,27 @@ $ composer require rougin/slytherin
 ## Usage
 
 ``` php
-use Rougin\Slytherin\Application;
+$components = new Rougin\Slytherin\ComponentCollection;
 
-$components = [
-    'dependency_injector' => '',
-    'error_handler' => '',
-    'request' => '',
-    'response' => '',
-    'router' => ''
-];
+$components
+    ->setDependencyInjector(/* Your favorite dependency injector */)
+    ->setDispatcher(/* Your favorite dispatcher/router */)
+    ->setErrorHandler(/* Your favorite error handler */)
+    ->setHttp(
+    	/* Your favorite request handler */,
+    	/* Your favorite response handler */
+    );
 
-$application = new Application($components);
+$application = Rougin\Slytherin\Application($components);
+
 $application->run();
 ```
 
-Regarding the ```$components``` above, you need to select a library of your choice and implement it with an interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section in the wiki.
+Regarding the ```$components``` above, you need to select a library of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section in the wiki.
+
+### Libraries
+
+Slytherin also provides sample implementations on each component (dependency injector, HTTP, etc.) that are built on top of other existing libraries. You will need to install their respective dependencies first before you can use it directly.
 
 ## Change log
 

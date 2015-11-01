@@ -1,11 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Interfaces\Http;
+namespace Rougin\Slytherin\Http;
 
 /**
  * Request Interface
  *
- * An interface for handling third party HTTP Request libraries
+ * An interface for handling third party HTTP Request libraries.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
