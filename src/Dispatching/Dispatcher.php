@@ -2,10 +2,11 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
+use Closure;
+use Rougin\Slytherin\Http\ResponseInterface;
 use FastRoute\Dispatcher as FastRouteDispatcher;
+use Rougin\Slytherin\Dispatching\RouterInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
-use Rougin\Slytherin\Http\ResponseInterface as Response;
-use Rougin\Slytherin\Dispatching\RouterInterface as Router;
 
 /**
  * Dispatcher
@@ -24,10 +25,13 @@ class Dispatcher implements DispatcherInterface
     protected $router;
 
     /**
-     * @param Router   $router
-     * @param Response $response
+     * @param RouterInterface   $router
+     * @param ResponseInterface $response
      */
-    public function __construct(Router $router, Response $response)
+    public function __construct(
+        RouterInterface $router,
+        ResponseInterface $response
+    )
     {
         $this->router = $router;
         $this->response = $response;
@@ -44,6 +48,10 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
+        $className = '';
+        $method = '';
+        $parameters = [];
+
         $routeInfo = $this->dispatcher->dispatch($httpMethod, $uri);
 
         switch ($routeInfo[0]) {

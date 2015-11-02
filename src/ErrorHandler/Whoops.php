@@ -50,7 +50,7 @@ class Whoops implements ErrorHandlerInterface
         if ($this->environment !== 'production') {
             $this->whoops->pushHandler(new PrettyPageHandler);
         } else {
-            $this->whoops->pushHandler(function ($e) {
+            $this->whoops->pushHandler(function () {
                 echo 'Friendly error page and send an email to the developer';
             });
         }

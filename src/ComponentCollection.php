@@ -89,18 +89,16 @@ class ComponentCollection
     }
 
     /**
-     * Gets the HTTP components
+     * Gets the HTTP components.
      * 
-     * @return Request|Response
+     * @return mixed
      */
-    public function getHttp($type = '')
+    public function getHttp()
     {
-        return ($type)
-            ? $this->getComponent($type)
-            : [
-                $this->getComponent('request'),
-                $this->getComponent('response')
-            ];
+        return [
+            $this->getComponent('request'),
+            $this->getComponent('response')
+        ];
     }
 
     /**

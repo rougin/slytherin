@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Template;
 
-use League\Url\Url;
 use Twig_Environment;
 use Rougin\Slytherin\Template\RendererInterface;
 
@@ -18,7 +17,6 @@ use Rougin\Slytherin\Template\RendererInterface;
 class Twig implements RendererInterface
 {
     protected $renderer;
-    protected $url;
 
     /**
      * @param Twig_Environment $renderer
@@ -26,7 +24,6 @@ class Twig implements RendererInterface
     public function __construct(Twig_Environment $renderer)
     {
         $this->renderer = $renderer;
-        $this->url = Url::createFromServer($_SERVER);
     }
 
     /**
@@ -38,8 +35,6 @@ class Twig implements RendererInterface
      */
     public function render($template, $data = [])
     {
-        $data['baseUrl'] = $this->url->getBaseUrl();
-
         return $this->renderer->render("$template.html", $data);
     }
 }

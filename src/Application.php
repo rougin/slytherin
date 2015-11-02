@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin;
 
 use Rougin\Slytherin\ComponentCollection;
+use Rougin\Slytherin\Http\RequestInterface;
 
 /**
  * Application
@@ -33,14 +34,16 @@ class Application
     {
         if ($this->components->getErrorHandler()) {
             $errorHandler = $this->components->getErrorHandler();
+
             $errorHandler->display();
         }
 
-        $this->components->getHttp('response')->setContent(
-            $this->getRoute()
-        );
+        list($request, $response) = $this->components->getHttp();
 
-        echo $this->components->getHttp('response')->getContent();
+        // Gets the selected route and sets it as the content
+        $response->setContent($this->getRoute($request));
+
+        echo $response->getContent();
     }
 
     /**
@@ -48,12 +51,12 @@ class Application
      *
      * @return array|string
      */
-    protected function getRoute()
+    protected function getRoute(RequestInterface $request)
     {
         // Gets the requested route
         $route = $this->components->getDispatcher()->dispatch(
-            $this->components->getHttp('request')->getMethod(),
-            $this->components->getHttp('request')->getPath()
+            $request->getMethod(),
+            $request->getPath()
         );
 
         // Returns the received route if it is a string
