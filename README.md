@@ -31,7 +31,7 @@ $components
     	/* Your favorite response handler */
     );
 
-$application = Rougin\Slytherin\Application($components);
+$application = new Rougin\Slytherin\Application($components);
 
 $application->run();
 ```
