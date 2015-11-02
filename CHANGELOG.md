@@ -2,7 +2,7 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-01
+## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 
 ### Added
 - Interface-based library implementations
