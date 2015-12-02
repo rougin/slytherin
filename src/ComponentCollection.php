@@ -2,11 +2,11 @@
 
 namespace Rougin\Slytherin;
 
-use Rougin\Slytherin\Http\RequestInterface as Request;
-use Rougin\Slytherin\Http\ResponseInterface as Response;
+use Psr\Http\Message\RequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
+use Interop\Container\ContainerInterface as Container;
 use Rougin\Slytherin\Dispatching\DispatcherInterface as Dispatcher;
 use Rougin\Slytherin\ErrorHandler\ErrorHandlerInterface as ErrorHandler;
-use Rougin\Slytherin\IoC\DependencyInjectorInterface as DependencyInjector;
 
 /**
  * Component Collection
@@ -18,34 +18,37 @@ use Rougin\Slytherin\IoC\DependencyInjectorInterface as DependencyInjector;
  */
 class ComponentCollection
 {
-    protected $components;
+    /**
+     * @var array
+     */
+    protected $components = [];
 
     /**
      * @param array $components
      */
-    public function __construct(array $components = array())
+    public function __construct(array $components = [])
     {
         $this->components = $components;
     }
 
     /**
-     * Gets an instance of the dependency injector
+     * Gets an instance of the container.
      * 
-     * @return DependencyInjector
+     * @return Container
      */
-    public function getDependencyInjector()
+    public function getContainer()
     {
-        return $this->getComponent('dependency_injector');
+        return $this->getComponent('container');
     }
 
     /**
-     * Sets the dependency injector.
+     * Sets the container.
      * 
-     * @param DependencyInjector $injector
+     * @param Container $container
      */
-    public function setDependencyInjector(DependencyInjector $injector)
+    public function setContainer(Container $container)
     {
-        return $this->setComponent('dependency_injector', $injector);
+        return $this->setComponent('container', $container);
     }
 
     /**
@@ -59,7 +62,7 @@ class ComponentCollection
     }
 
     /**
-     * Sets the dispatcher
+     * Sets the dispatcher.
      * 
      * @param Dispatcher $dispatcher
      */
@@ -69,7 +72,7 @@ class ComponentCollection
     }
 
     /**
-     * Gets the error handler
+     * Gets the error handler.
      * 
      * @return ErrorHandler
      */
@@ -123,6 +126,10 @@ class ComponentCollection
      */
     protected function getComponent($type)
     {
+        if (! isset($this->components[$type])) {
+            return null;
+        }
+
         return $this->components[$type];
     }
 

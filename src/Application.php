@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
 use Rougin\Slytherin\ComponentCollection;
-use Rougin\Slytherin\Http\RequestInterface;
 
 /**
  * Application
@@ -15,6 +16,9 @@ use Rougin\Slytherin\Http\RequestInterface;
  */
 class Application
 {
+    /**
+     * @var ComponentCollection
+     */
     private $components;
 
     /**
@@ -40,33 +44,51 @@ class Application
 
         list($request, $response) = $this->components->getHttp();
 
-        // Gets the selected route and sets it as the content
-        $response->setContent($this->getRoute($request));
+        $route = $this->getRoute($request);
 
-        echo $response->getContent();
+        if ($route instanceof ResponseInterface) {
+            $response = $route;
+        }
+
+        // Sets the HTTP response code.
+        http_response_code($response->getStatusCode());
+
+        // Gets the selected route and sets it as the content.
+        if (! $response->getBody()) {
+            $response->getBody()->write($route);
+        }
+
+        echo $response->getBody();
     }
 
     /**
      * Gets the route result from the dispatcher.
-     *
-     * @return array|string
+     * 
+     * @param  RequestInterface $request
+     * @return string
      */
     protected function getRoute(RequestInterface $request)
     {
         // Gets the requested route
         $route = $this->components->getDispatcher()->dispatch(
             $request->getMethod(),
-            $request->getPath()
+            $request->getUri()->getPath()
         );
 
-        // Returns the received route if it is a string
-        if (is_string($route)) {
-            return $route;
+        // Extract the result into variables
+        list($function, $parameters) = $route;
+
+        if (is_object($function)) {
+            return call_user_func($function, $parameters);
         }
 
-        // Extract the result into variables
-        list($class, $method, $parameters) = $route;
-        $class = $this->components->getDependencyInjector()->make($class);
+        list($class, $method) = $function;
+
+        if (! $this->components->getContainer()->has($class)) {
+            $this->components->getContainer()->add($class);
+        }
+
+        $class = $this->components->getContainer()->get($class);
 
         return call_user_func_array([$class, $method], $parameters);
     }
