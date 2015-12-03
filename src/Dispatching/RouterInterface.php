@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Dispatching;
 /**
  * Router Interface
  *
- * An interface for handling third party routers
+ * An interface for handling third party routers.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Dispatching;
 /**
  * Dispatcher Interface
  *
- * An interface for handling third party route dispatchers
+ * An interface for handling third party route dispatchers.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

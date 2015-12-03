@@ -2,29 +2,32 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use FastRoute\RouteCollector;
 use Rougin\Slytherin\Dispatching\RouterInterface;
 
 /**
- * Router
+ * Dispatcher
  *
- * A simple router that is built on top of FastRoute.
- *
- * https://github.com/nikic/FastRoute
+ * A simple implementation of a router that is based on
+ * Rougin\Slytherin\Dispatching\RouterInterface.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
 class Router implements RouterInterface
 {
-    protected $routes;
+    /**
+     * @var array
+     */
+    protected $routes = [];
 
     /**
      * @param array $routes
      */
-    public function __construct(array $routes = array())
+    public function __construct(array $routes = [])
     {
-        $this->routes = $routes;
+        foreach ($routes as $route) {
+            $this->addRoute($route[0], $route[1], $route[2]);
+        }
     }
 
     /**
@@ -36,7 +39,12 @@ class Router implements RouterInterface
      */
     public function addRoute($httpMethod, $route, $handler)
     {
-        array_push($this->routes, [$httpMethod, $route, $handler]);
+        preg_match('/:[a-z]*/', $route, $parameters);
+
+        $pattern = str_replace($parameters, '(\w+)', $route);
+        $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
+
+        array_push($this->routes, [$httpMethod, $pattern, $handler]);
 
         return $this;
     }
@@ -48,10 +56,6 @@ class Router implements RouterInterface
      */
     public function getRoutes()
     {
-        return function (RouteCollector $routeCollector) {
-            foreach ($this->routes as $route) {
-                $routeCollector->addRoute($route[0], $route[1], $route[2]);
-            }
-        };
+        return $this->routes;
     }
 }

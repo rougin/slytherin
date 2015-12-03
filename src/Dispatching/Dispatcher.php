@@ -2,41 +2,32 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Closure;
-use Rougin\Slytherin\Http\ResponseInterface;
-use FastRoute\Dispatcher as FastRouteDispatcher;
+use Exception;
 use Rougin\Slytherin\Dispatching\RouterInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
  * Dispatcher
  *
- * A simple dispatcher that is built on top of FastRoute.
- *
- * https://github.com/nikic/FastRoute
+ * A simple implementation of a route dispatcher that is based on
+ * Rougin\Slytherin\Dispatching\DispatcherInterface.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
 class Dispatcher implements DispatcherInterface
 {
-    protected $dispatcher;
-    protected $response;
+    /**
+     * @var RouterInterface
+     */
     protected $router;
 
     /**
-     * @param RouterInterface   $router
-     * @param ResponseInterface $response
+     * @param RouterInterface $router
      */
-    public function __construct(
-        RouterInterface $router,
-        ResponseInterface $response
-    )
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
-        $this->response = $response;
-
-        $this->dispatcher = \FastRoute\simpleDispatcher($router->getRoutes());
     }
 
     /**
@@ -48,38 +39,34 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $className = '';
         $method = '';
+        $className = '';
         $parameters = [];
 
-        $routeInfo = $this->dispatcher->dispatch($httpMethod, $uri);
+        foreach ($this->router->getRoutes() as $route) {
+            $hasMatch = preg_match($route[1], $uri, $parameters);
 
-        switch ($routeInfo[0]) {
-            case FastRouteDispatcher::NOT_FOUND:
-                $this->response->setContent('404 - Page not found');
-                $this->response->setStatusCode(404);
+            if ( ! $hasMatch) {
+                continue;
+            }
 
-                return $this->response->getContent();
-            case FastRouteDispatcher::METHOD_NOT_ALLOWED:
-                $this->response->setContent('405 - Method not allowed');
-                $this->response->setStatusCode(405);
+            array_shift($parameters);
 
-                return $this->response->getContent();
-            case FastRouteDispatcher::FOUND:
-                $isClosure = $routeInfo[1] instanceof Closure;
+            $parameters = array_values($parameters);
 
-                if (is_object($routeInfo[1]) && $isClosure) {
-                    $handler = $routeInfo[1];
-                    $parameters = $routeInfo[2];
+            if (is_object($route[2])) {
+                return [$route[2], $parameters];
+            }
 
-                    return call_user_func($handler, $parameters);
-                }
+            list($className, $method) = $route[2];
 
-                $className = $routeInfo[1][0];
-                $method = $routeInfo[1][1];
-                $parameters = $routeInfo[2];
+            break;
         }
 
-        return [$className, $method, $parameters];
+        if (! $className || ! $method) {
+            throw new Exception('Route "'.$uri.'" not found', 1);
+        }
+
+        return [[$className, $method], $parameters];
     }
 }
