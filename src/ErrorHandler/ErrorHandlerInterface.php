@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\ErrorHandler;
 /**
  * Error Handler Interface
  *
- * An interface for handling third party error handlers
+ * An interface for handling third party error handlers.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
