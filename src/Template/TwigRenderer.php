@@ -6,24 +6,23 @@ use Twig_Environment;
 use Rougin\Slytherin\Template\RendererInterface;
 
 /**
- * Twig
+ * Renderer
  *
  * A simple implementation of a renderer that is based on top of Sensiolab's
- * Twig template engine.
+ * Twig - a flexible, fast, and secure template engine for PHP.
+ *
+ * http://twig.sensiolabs.org
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Twig implements RendererInterface
+class TwigRenderer implements RendererInterface
 {
     protected $renderer;
 
-    /**
-     * @param Twig_Environment $renderer
-     */
-    public function __construct(Twig_Environment $renderer)
+    public function __construct()
     {
-        $this->renderer = $renderer;
+        $this->renderer = new Twig_Environment;
     }
 
     /**
