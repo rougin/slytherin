@@ -2,6 +2,18 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
+## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0)
+
+### Added
+- `ComponentCollection::setContainer` for adding libraries that is implemented in [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
+
+### Changed
+- Renamed sample library implementations
+
+### Removed
+- `Http` directory (Will now adopt [PSR-7](http://www.php-fig.org/psr/psr-7/) implementations)
+- `ComponentCollection::setInjector`
+
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 
 ### Added
