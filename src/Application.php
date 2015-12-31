@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin;
 
+use Rougin\Slytherin\Components;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Rougin\Slytherin\ComponentCollection;
 
 /**
  * Application
@@ -17,14 +17,14 @@ use Rougin\Slytherin\ComponentCollection;
 class Application
 {
     /**
-     * @var ComponentCollection
+     * @var \Rougin\Slytherin\Components
      */
     private $components;
 
     /**
-     * @param ComponentCollection $components
+     * @param \Rougin\Slytherin\Components $components
      */
-    public function __construct(ComponentCollection $components)
+    public function __construct(Components $components)
     {
         $this->components = $components;
     }

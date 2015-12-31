@@ -8,6 +8,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - `ComponentCollection::setContainer` for adding libraries that is implemented in [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
 
 ### Changed
+- `ComponentCollection` to `Components`
 - Renamed sample library implementations
 
 ### Removed

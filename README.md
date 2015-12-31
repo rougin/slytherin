@@ -20,7 +20,7 @@ $ composer require rougin/slytherin
 ## Usage
 
 ``` php
-$components = new Rougin\Slytherin\ComponentCollection;
+$components = new Rougin\Slytherin\Components;
 
 $components
     ->setDependencyInjector(/* Your favorite dependency injector */)

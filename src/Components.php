@@ -2,11 +2,11 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Http\Message\RequestInterface as Request;
-use Psr\Http\Message\ResponseInterface as Response;
-use Interop\Container\ContainerInterface as Container;
-use Rougin\Slytherin\Dispatching\DispatcherInterface as Dispatcher;
-use Rougin\Slytherin\ErrorHandler\ErrorHandlerInterface as ErrorHandler;
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Interop\Container\ContainerInterface;
+use Rougin\Slytherin\Dispatching\DispatcherInterface;
+use Rougin\Slytherin\Debugger\DebuggerInterface;
 
 /**
  * Component Collection
@@ -16,7 +16,7 @@ use Rougin\Slytherin\ErrorHandler\ErrorHandlerInterface as ErrorHandler;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ComponentCollection
+class Components
 {
     /**
      * @var array
@@ -24,17 +24,9 @@ class ComponentCollection
     protected $components = [];
 
     /**
-     * @param array $components
-     */
-    public function __construct(array $components = [])
-    {
-        $this->components = $components;
-    }
-
-    /**
      * Gets an instance of the container.
      * 
-     * @return Container
+     * @return \Interop\Container\ContainerInterface
      */
     public function getContainer()
     {
@@ -44,9 +36,9 @@ class ComponentCollection
     /**
      * Sets the container.
      * 
-     * @param Container $container
+     * @param \Interop\Container\ContainerInterface $container
      */
-    public function setContainer(Container $container)
+    public function setContainer(ContainerInterface $container)
     {
         return $this->setComponent('container', $container);
     }
@@ -54,7 +46,7 @@ class ComponentCollection
     /**
      * Gets the dispatcher.
      * 
-     * @return Dispatcher
+     * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
     public function getDispatcher()
     {
@@ -64,31 +56,31 @@ class ComponentCollection
     /**
      * Sets the dispatcher.
      * 
-     * @param Dispatcher $dispatcher
+     * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
      */
-    public function setDispatcher(Dispatcher $dispatcher)
+    public function setDispatcher(DispatcherInterface $dispatcher)
     {
         return $this->setComponent('dispatcher', $dispatcher);
     }
 
     /**
-     * Gets the error handler.
+     * Gets the debugger.
      * 
-     * @return ErrorHandler
+     * @return \Rougin\Slytherin\Debugger\DebuggerInterface
      */
-    public function getErrorHandler()
+    public function getDebugger()
     {
-        return $this->getComponent('error_handler');
+        return $this->getComponent('debugger');
     }
 
     /**
-     * Sets the error handler.
+     * Sets the debugger.
      * 
-     * @param  ErrorHandler $errorHandler
+     * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
      */
-    public function setErrorHandler(ErrorHandler $errorHandler)
+    public function setDebugger(DebuggerInterface $debugger)
     {
-        return $this->setComponent('error_handler', $errorHandler);
+        return $this->setComponent('debugger', $debugger);
     }
 
     /**
@@ -107,11 +99,11 @@ class ComponentCollection
     /**
      * Sets the HTTP components.
      * 
-     * @param  Request  $request
-     * @param  Response $response
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface $response
      * @return array
      */
-    public function setHttp(Request $request, Response $response)
+    public function setHttp(RequestInterface $request, ResponseInterface $response)
     {
         $this->setComponent('request', $request);
 
@@ -124,7 +116,7 @@ class ComponentCollection
      * @param  string $type
      * @return mixed
      */
-    protected function getComponent($type)
+    private function getComponent($type)
     {
         if (! isset($this->components[$type])) {
             return null;
@@ -139,7 +131,7 @@ class ComponentCollection
      * @param string $type
      * @param mixed  $component
      */
-    protected function setComponent($type, $component)
+    private function setComponent($type, $component)
     {
         $this->components[$type] = $component;
 
