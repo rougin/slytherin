@@ -6,17 +6,21 @@ use ReflectionClass;
 use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
+/**
+ * Container
+ *
+ * A simple implementation of a container that is based on
+ * Rougin\Slytherin\IoC\ContainerInterface.
+ * 
+ * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 class Container implements ContainerInterface
 {
     /**
      * @var array
      */
     private $instances = [];
-
-    /**
-     * @var array
-     */
-    private $shared = [];
 
     /**
      * Adds a new instance to the container.

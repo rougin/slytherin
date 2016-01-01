@@ -23,13 +23,13 @@ $ composer require rougin/slytherin
 $components = new Rougin\Slytherin\Components;
 
 $components
-    ->setDependencyInjector(/* Your favorite dependency injector */)
     ->setDispatcher(/* Your favorite dispatcher/router */)
     ->setErrorHandler(/* Your favorite error handler */)
     ->setHttp(
     	/* Your favorite request handler */,
     	/* Your favorite response handler */
     );
+    ->setContainer(new Acme\IoC\Container)
 
 $application = new Rougin\Slytherin\Application($components);
 
