@@ -18,11 +18,17 @@ use Rougin\Slytherin\Template\RendererInterface;
  */
 class TwigRenderer implements RendererInterface
 {
-    protected $renderer;
+    /**
+     * @var Twig_Environment
+     */
+    protected $twig;
 
-    public function __construct()
+    /**
+     * @param Twig_Environment $twig
+     */
+    public function __construct(Twig_Environment $twig)
     {
-        $this->renderer = new Twig_Environment;
+        $this->twig = $twig;
     }
 
     /**
@@ -32,8 +38,8 @@ class TwigRenderer implements RendererInterface
      * @param  array  $data
      * @return string
      */
-    public function render($template, $data = [])
+    public function render($template, array $data = [])
     {
-        return $this->renderer->render("$template.html", $data);
+        return $this->twig->render("$template.html", $data);
     }
 }
