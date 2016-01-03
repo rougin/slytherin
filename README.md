@@ -24,12 +24,12 @@ $components = new Rougin\Slytherin\Components;
 
 $components
     ->setDispatcher(/* Your favorite dispatcher/router */)
-    ->setErrorHandler(/* Your favorite error handler */)
     ->setHttp(
     	/* Your favorite request handler */,
     	/* Your favorite response handler */
     );
     ->setContainer(new Acme\IoC\Container)
+    ->setDebugger(new Acme\Debug\Debugger)
 
 $application = new Rougin\Slytherin\Application($components);
 

@@ -36,10 +36,8 @@ class Application
      */
     public function run()
     {
-        if ($this->components->getErrorHandler()) {
-            $errorHandler = $this->components->getErrorHandler();
-
-            $errorHandler->display();
+        if ($debugger = $this->components->getDebugger()) {
+            $debugger->display();
         }
 
         list($request, $response) = $this->components->getHttp();

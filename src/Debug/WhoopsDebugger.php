@@ -1,23 +1,23 @@
 <?php
 
-namespace Rougin\Slytherin\ErrorHandler;
+namespace Rougin\Slytherin\Debug;
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
-use Rougin\Slytherin\ErrorHandler\ErrorHandlerInterface;
+use Rougin\Slytherin\Debug\DebuggerInterface;
 
 /**
- * Error Handler
+ * Debugger
  *
- * A simple implementation of an error handler built on top of
- * Filipe Dobreira's Whoops - php errors for cool kids.
+ * A simple implementation of a debugger built on top of
+ * Filipe Dobreira's Whoops! - php errors for cool kids.
  *
  * http://filp.github.io/whoops
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ErrorHandler implements ErrorHandlerInterface
+class WhoopsDebugger implements DebuggerInterface
 {
     /**
      * @var string
@@ -25,16 +25,17 @@ class ErrorHandler implements ErrorHandlerInterface
     protected $environment = '';
 
     /**
-     * @var Run
+     * @var \Whoops\Run
      */
     protected $whoops;
 
     /**
-     * @param string $environment
+     * @param \Whoops\Run $whoops
+     * @param string      $environment
      */
-    public function __construct($environment = 'development')
+    public function __construct(Run $whoops, $environment = 'development')
     {
-        $this->whoops = new Run;
+        $this->whoops = $whoops;
         $this->environment = $environment;
     }
 
@@ -50,7 +51,7 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Registers the instance as an error handler.
+     * Registers the instance as a debugger.
      * 
      * @return object
      */

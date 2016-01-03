@@ -1,16 +1,16 @@
 <?php
 
-namespace Rougin\Slytherin\ErrorHandler;
+namespace Rougin\Slytherin\Debug;
 
 /**
- * Error Handler Interface
+ * Debugger Interface
  *
- * An interface for handling third party error handlers.
+ * An interface for handling third party debuggers.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ErrorHandlerInterface
+interface DebuggerInterface
 {
     /**
      * Sets up the environment to be used.
@@ -21,7 +21,7 @@ interface ErrorHandlerInterface
     public function setEnvironment($environment);
 
     /**
-     * Registers the instance as an error handler.
+     * Registers the instance as a debugger.
      * 
      * @return object
      */
