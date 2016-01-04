@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Exception;
+use UnexpectedValueException;
 use Rougin\Slytherin\Dispatching\RouterInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
@@ -18,12 +18,12 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
 class Dispatcher implements DispatcherInterface
 {
     /**
-     * @var RouterInterface
+     * @var \Rougin\Slytherin\Dispatching\RouterInterface
      */
     protected $router;
 
     /**
-     * @param RouterInterface $router
+     * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
@@ -36,6 +36,8 @@ class Dispatcher implements DispatcherInterface
      * @param  string $httpMethod
      * @param  string $uri
      * @return array|string
+     *
+     * @throws UnexpectedValueException
      */
     public function dispatch($httpMethod, $uri)
     {
@@ -64,7 +66,7 @@ class Dispatcher implements DispatcherInterface
         }
 
         if (! $className || ! $method) {
-            throw new Exception('Route "'.$uri.'" not found', 1);
+            throw new UnexpectedValueException('Route "'.$uri.'" not found', 1);
         }
 
         return [[$className, $method], $parameters];

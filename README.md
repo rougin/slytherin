@@ -23,12 +23,12 @@ $ composer require rougin/slytherin
 $components = new Rougin\Slytherin\Components;
 
 $components
-    ->setDispatcher(/* Your favorite dispatcher/router */)
     ->setHttp(
     	/* Your favorite request handler */,
     	/* Your favorite response handler */
     );
     ->setContainer(new Acme\IoC\Container)
+    ->setDispatcher(new Acme\Dispatching\Dispatcher)
     ->setDebugger(new Acme\Debug\Debugger)
 
 $application = new Rougin\Slytherin\Application($components);
