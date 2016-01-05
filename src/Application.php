@@ -62,10 +62,10 @@ class Application
     /**
      * Gets the route result from the dispatcher.
      * 
-     * @param  RequestInterface $request
+     * @param  \Psr\Http\Message\RequestInterface $request
      * @return string
      */
-    protected function getRoute(RequestInterface $request)
+    private function getRoute(RequestInterface $request)
     {
         // Gets the requested route
         $route = $this->components->getDispatcher()->dispatch(

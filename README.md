@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-An Extensible PHP Library/Framework For The Courageous And Fearless.
+Yet Another Extensible PHP Library/Framework.
 
 ## Install
 
@@ -23,13 +23,10 @@ $ composer require rougin/slytherin
 $components = new Rougin\Slytherin\Components;
 
 $components
-    ->setHttp(
-    	/* Your favorite request handler */,
-    	/* Your favorite response handler */
-    );
     ->setContainer(new Acme\IoC\Container)
     ->setDispatcher(new Acme\Dispatching\Dispatcher)
     ->setDebugger(new Acme\Debug\Debugger)
+    ->setHttp(new Acme\Http\Request, new Acme\Http\Response);
 
 $application = new Rougin\Slytherin\Application($components);
 
