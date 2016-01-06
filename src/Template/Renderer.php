@@ -36,21 +36,15 @@ class Renderer implements RendererInterface
      *
      * @param  string  $template
      * @param  array   $data
-     * @param  boolean $toString
      * @return string
      */
-    public function render($template, array $data = [], $toString = false)
+    public function render($template, array $data = [])
     {
         $file = $this->getTemplate("$template.php");
 
         // Extracts the specific parameters to the template.
-        if ($data) {
+        if ( ! empty($data)) {
             extract($data);
-        }
-
-        // Buffers the file and get its output, else include the file
-        if ($toString) {
-            return $this->toString($file);
         }
 
         include $file;
@@ -86,28 +80,5 @@ class Renderer implements RendererInterface
         }
 
         return new InvalidArgumentException('Template file not found.');
-    }
-
-    /**
-     * Returns the output to string.
-     * 
-     * @param  string $file
-     * @return string
-     */
-    private function toString($file)
-    {
-        ob_start();
-
-        $fileContents = file_get_contents($file);
-        $removedTags = str_replace('<?=', '<?php echo ', $fileContents);
-        $result = preg_replace('/;*\s*\?>/', '; ?>', $removedTags);
-
-        echo eval('?>' . $result);
-
-        $result = ob_get_contents();
-
-        ob_end_clean();
-
-        return $result;
     }
 }
