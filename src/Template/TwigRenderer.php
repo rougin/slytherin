@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Template;
 
 use Twig_Environment;
-use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * Renderer

@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\IoC;
 
 use ReflectionClass;
-use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
 /**

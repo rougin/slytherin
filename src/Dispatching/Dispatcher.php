@@ -4,7 +4,6 @@ namespace Rougin\Slytherin\Dispatching;
 
 use UnexpectedValueException;
 use Rougin\Slytherin\Dispatching\RouterInterface;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
  * Dispatcher

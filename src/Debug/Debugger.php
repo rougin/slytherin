@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Debug;
 
-use Rougin\Slytherin\Debug\DebuggerInterface;
-
 /**
  * Debugger
  *

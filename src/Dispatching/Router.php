@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Rougin\Slytherin\Dispatching\RouterInterface;
-
 /**
  * Dispatcher
  *

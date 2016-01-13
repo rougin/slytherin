@@ -52,7 +52,7 @@ class Application
         http_response_code($response->getStatusCode());
 
         // Gets the selected route and sets it as the content.
-        if (! $response->getBody()) {
+        if ( ! $response->getBody() || $response->getBody() == '') {
             $response->getBody()->write($route);
         }
 

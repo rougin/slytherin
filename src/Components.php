@@ -4,9 +4,9 @@ namespace Rougin\Slytherin;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Interop\Container\ContainerInterface;
+use Rougin\Slytherin\IoC\ContainerInterface;
+use Rougin\Slytherin\Debug\DebuggerInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
-use Rougin\Slytherin\Debugger\DebuggerInterface;
 
 /**
  * Component Collection
@@ -26,7 +26,7 @@ class Components
     /**
      * Gets an instance of the container.
      * 
-     * @return \Interop\Container\ContainerInterface
+     * @return \Rougin\Slytherin\IoC\ContainerInterface
      */
     public function getContainer()
     {
@@ -36,7 +36,7 @@ class Components
     /**
      * Sets the container.
      * 
-     * @param \Interop\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\IoC\ContainerInterface $container
      */
     public function setContainer(ContainerInterface $container)
     {

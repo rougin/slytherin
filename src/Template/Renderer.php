@@ -6,7 +6,6 @@ use FilesystemIterator;
 use InvalidArgumentException;
 use RecursiveIteratorIterator;
 use RecursiveDirectoryIterator;
-use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * Renderer

@@ -4,7 +4,6 @@ namespace Rougin\Slytherin\Debug;
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
-use Rougin\Slytherin\Debug\DebuggerInterface;
 
 /**
  * Debugger
