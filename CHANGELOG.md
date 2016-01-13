@@ -2,7 +2,7 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0)
+## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) 2016-01-13
 
 ### Added
 - `ComponentCollection::setContainer` for adding packages implemented on [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
