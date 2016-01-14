@@ -82,7 +82,7 @@ class Application
 
         list($class, $method) = $function;
 
-        if (! $this->components->getContainer()->has($class)) {
+        if ( ! $this->components->getContainer()->has($class)) {
             $this->components->getContainer()->add($class);
         }
 
