@@ -37,6 +37,16 @@ class Debugger implements DebuggerInterface
     }
 
     /**
+     * Gets the specified environment.
+     *
+     * @return string
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    /**
      * Registers the instance as a debugger.
      * 
      * @return string

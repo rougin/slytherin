@@ -21,6 +21,13 @@ interface DebuggerInterface
     public function setEnvironment($environment);
 
     /**
+     * Gets the specified environment.
+     *
+     * @return string
+     */
+    public function getEnvironment();
+
+    /**
      * Registers the instance as a debugger.
      * 
      * @return object
