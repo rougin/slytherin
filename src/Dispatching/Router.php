@@ -16,6 +16,11 @@ class Router implements RouterInterface
     /**
      * @var array
      */
+    protected $original = [];
+
+    /**
+     * @var array
+     */
     protected $routes = [];
 
     /**
@@ -31,9 +36,9 @@ class Router implements RouterInterface
     /**
      * Adds a new route.
      * 
-     * @param string|string[] $httpMethod
-     * @param string          $route
-     * @param mixed           $handler
+     * @param  string|string[] $httpMethod
+     * @param  string          $route
+     * @param  mixed           $handler
      */
     public function addRoute($httpMethod, $route, $handler)
     {
@@ -42,9 +47,27 @@ class Router implements RouterInterface
         $pattern = str_replace($parameters, '(\w+)', $route);
         $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
 
+        array_push($this->original, [$httpMethod, $route, $handler]);
         array_push($this->routes, [$httpMethod, $pattern, $handler]);
 
         return $this;
+    }
+
+    /**
+     * Returns a route details based on the specified URI.
+     * 
+     * @param  string $uri
+     * @return array|null
+     */
+    public function getRoute($uri)
+    {
+        foreach ($this->original as $route) {
+            if ($route[1] == $uri) {
+                return $route;
+            }
+        }
+
+        return null;
     }
 
     /**

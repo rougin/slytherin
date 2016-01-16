@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Dispatching;
 
 use UnexpectedValueException;
-use Rougin\Slytherin\Dispatching\RouterInterface;
 
 /**
  * Dispatcher
@@ -45,9 +44,7 @@ class Dispatcher implements DispatcherInterface
         $parameters = [];
 
         foreach ($this->router->getRoutes() as $route) {
-            $hasMatch = preg_match($route[1], $uri, $parameters);
-
-            if ( ! $hasMatch) {
+            if ( ! preg_match($route[1], $uri, $parameters)) {
                 continue;
             }
 
