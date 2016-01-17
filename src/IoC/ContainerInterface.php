@@ -12,4 +12,13 @@ use Interop\Container\ContainerInterface as InteropContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ContainerInterface extends InteropContainerInterface {}
+interface ContainerInterface extends InteropContainerInterface
+{
+    /**
+     * Adds a new instance to the container.
+     * 
+     * @param string  $id
+     * @param mixed   $concrete
+     */
+    public function add($id, $concrete = null);
+}
