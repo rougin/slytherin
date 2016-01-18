@@ -10,7 +10,7 @@ use RecursiveDirectoryIterator;
 /**
  * Renderer
  *
- * A simple implementation of a renderer.
+ * A simple implementation of a template renderer.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -46,7 +46,7 @@ class Renderer implements RendererInterface
             extract($data);
         }
 
-        include $file;
+        return include $file;
     }
 
     /**

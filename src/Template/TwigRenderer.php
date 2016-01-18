@@ -7,8 +7,8 @@ use Twig_Environment;
 /**
  * Renderer
  *
- * A simple implementation of a renderer that is based on top of Sensiolab's
- * Twig - a flexible, fast, and secure template engine for PHP.
+ * A simple implementation of a template renderer that is based on top of
+ * Sensiolab's Twig - a flexible, fast, and secure template engine for PHP.
  *
  * http://twig.sensiolabs.org
  * 
