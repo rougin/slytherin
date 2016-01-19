@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Test\Debug;
 
 use Rougin\Slytherin\Debug\Debugger;
-use Rougin\Slytherin\Debug\DebuggerInterface;
 
 use PHPUnit_Framework_TestCase;
 
@@ -54,6 +53,8 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function testDebuggerInterface()
     {
-        $this->assertInstanceOf(DebuggerInterface::class, $this->debugger);
+        $interface = 'Rougin\Slytherin\Debug\DebuggerInterface';
+
+        $this->assertInstanceOf($interface, $this->debugger);
     }
 }

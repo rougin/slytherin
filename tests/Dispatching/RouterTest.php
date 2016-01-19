@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Test\Dispatching;
 
 use Rougin\Slytherin\Dispatching\Router;
-use Rougin\Slytherin\Dispatching\RouterInterface;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixtures\TestController;
@@ -25,7 +24,14 @@ class RouterTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        ['GET', '/', [TestController::class, 'index']],
+        [
+            'GET',
+            '/',
+            [
+                'Rougin\Slytherin\Test\Fixtures\TestController',
+                'index'
+            ]
+        ],
     ];
 
     /**
@@ -71,6 +77,8 @@ class RouterTest extends PHPUnit_Framework_TestCase
      */
     public function testRouterInterface()
     {
-        $this->assertInstanceOf(RouterInterface::class, $this->router);
+        $interface = 'Rougin\Slytherin\Dispatching\RouterInterface';
+
+        $this->assertInstanceOf($interface, $this->router);
     }
 }

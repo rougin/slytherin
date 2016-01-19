@@ -4,7 +4,6 @@ namespace Rougin\Slytherin\Test\Dispatching;
 
 use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Dispatching\Dispatcher;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixtures\TestController;
@@ -30,7 +29,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routes = [
-            ['GET', '/', [TestController::class, 'index']],
+            [
+                'GET',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixtures\TestController',
+                    'index'
+                ]
+            ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
@@ -45,9 +51,15 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     {
         $controller = new TestController;
 
-        list($class, $parameters) = $this->dispatcher->dispatch('GET', '/');
+        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
-        $result = call_user_func_array($class, $parameters);
+        if (is_object($callback)) {
+            $result = call_user_func($callback, $parameters);
+        } else {
+            list($class, $method) = $callback;
+
+            $result = call_user_func_array($callback, $parameters);
+        }
 
         $this->assertEquals($controller->index(), $result);
     }
@@ -59,6 +71,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatcherInterface()
     {
-        $this->assertInstanceOf(DispatcherInterface::class, $this->dispatcher);
+        $interface = 'Rougin\Slytherin\Dispatching\DispatcherInterface';
+
+        $this->assertInstanceOf($interface, $this->dispatcher);
     }
 }
