@@ -51,11 +51,15 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     {
         $controller = new TestController;
 
-        list($class, $parameters) = $this->dispatcher->dispatch('GET', '/');
+        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
-        print_r($class);
+        if (is_object($callback)) {
+            $result = call_user_func($callback, $parameters);
+        } else {
+            $callback[0] = new $callback[0];
 
-        $result = call_user_func_array($class, $parameters);
+            $result = call_user_func_array($callback, $parameters);
+        }
 
         $this->assertEquals($controller->index(), $result);
     }
