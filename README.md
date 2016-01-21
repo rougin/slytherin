@@ -14,8 +14,10 @@ Yet Another Extensible PHP Library/Framework.
 Via Composer
 
 ``` bash
-$ composer require rougin/slytherin
+$ composer require rougin/slytherin --no-dev
 ```
+
+`--no-dev` must be included to exclude the libraries that are used only for testing.
 
 ## Usage
 
@@ -37,7 +39,7 @@ Regarding the ```$components``` above, you need to select a library of your choi
 
 ### Libraries
 
-Slytherin also provides sample implementations on each component (dependency injector, HTTP, etc.) that are built on top of other existing libraries. You will need to install their respective dependencies first before you can use it directly.
+Slytherin also provide sample implementations on each component (dependency injector, HTTP, etc.) that are built on top of other existing libraries. You will need to install their respective dependencies first before you can use it directly.
 
 ## Change log
 

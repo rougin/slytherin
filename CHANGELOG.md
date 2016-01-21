@@ -2,6 +2,17 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
+## [0.4.1](https://github.com/rougin/slytherin/compare/v0.1.0...v0.4.1) 2016-01-15
+
+### Added
+- `add` method in `ContainerInterface`
+- `setHandler` method in `WhoopsDebugger`
+- Third party implementations for [Auryn](https://github.com/rdlowrey/auryn), [FastRoute](https://github.com/nikic/FastRoute) and [League\Container](http://container.thephpleague.com)
+- Unit tests
+
+### Removed
+- Dependencies in `composer.json`
+
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) 2016-01-13
 
 ### Added
