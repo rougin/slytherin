@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Debug;
 
 use Whoops\Run;
+use Whoops\Handler\HandlerInterface;
 use Whoops\Handler\PrettyPageHandler;
 
 /**
@@ -50,6 +51,26 @@ class WhoopsDebugger implements DebuggerInterface
     }
 
     /**
+     * Gets the specified environment.
+     *
+     * @return string
+     */
+    public function getEnvironment()
+    {
+        return $this->environment;
+    }
+
+    /**
+     * Returns a listing of handlers.
+     * 
+     * @return array
+     */
+    public function getHandlers()
+    {
+        return $this->whoops->getHandlers();
+    }
+
+    /**
      * Registers the instance as a debugger.
      * 
      * @return object
@@ -58,14 +79,20 @@ class WhoopsDebugger implements DebuggerInterface
     {
         error_reporting(E_ALL);
 
-        if ($this->environment !== 'production') {
+        if ($this->environment === 'development') {
             $this->whoops->pushHandler(new PrettyPageHandler);
-        } else {
-            $this->whoops->pushHandler(function () {
-                echo 'Friendly error page and send an email to the developer';
-            });
         }
 
         return $this->whoops->register();
+    }
+
+    /**
+     * Sets a handler.
+     * 
+     * @param \Whoops\Handler\HandlerInterface $handler
+     */
+    public function setHandler(HandlerInterface $handler)
+    {
+        $this->whoops->pushHandler($handler);
     }
 }
