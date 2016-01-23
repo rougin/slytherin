@@ -5,7 +5,6 @@ namespace Rougin\Slytherin\Test\Debug;
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Rougin\Slytherin\Debug\WhoopsDebugger;
-use Rougin\Slytherin\Debug\DebuggerInterface;
 
 use PHPUnit_Framework_TestCase;
 
@@ -70,6 +69,8 @@ class WhoopsDebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function testDebuggerInterface()
     {
-        $this->assertInstanceOf(DebuggerInterface::class, $this->debugger);
+        $interface = 'Rougin\Slytherin\Debug\DebuggerInterface';
+
+        $this->assertInstanceOf($interface, $this->debugger);
     }
 }

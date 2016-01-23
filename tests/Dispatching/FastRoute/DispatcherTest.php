@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
 
 use Rougin\Slytherin\Dispatching\FastRoute\Router;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
 use Rougin\Slytherin\Dispatching\FastRoute\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
@@ -65,6 +64,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatcherInterface()
     {
-        $this->assertInstanceOf(DispatcherInterface::class, $this->dispatcher);
+        $interface = 'Rougin\Slytherin\Dispatching\DispatcherInterface';
+
+        $this->assertInstanceOf($interface, $this->dispatcher);
     }
 }

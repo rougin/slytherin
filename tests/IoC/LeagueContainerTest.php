@@ -3,11 +3,9 @@
 namespace Rougin\Slytherin\Test\IoC;
 
 use Rougin\Slytherin\IoC\LeagueContainer;
-use Rougin\Slytherin\IoC\ContainerInterface;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixtures\TestClass;
-use Rougin\Slytherin\Test\Fixtures\TestController;
 use Rougin\Slytherin\Test\Fixtures\TestWithParameterController;
 
 /**
@@ -22,6 +20,11 @@ class LeagueContainerTest extends PHPUnit_Framework_TestCase
      * @var \Rougin\Slytherin\IoC\ContainerInterface
      */
     protected $container;
+
+    /**
+     * @var string
+     */
+    protected $class = 'Rougin\Slytherin\Test\Fixtures\TestWithParameterController';
 
     /**
      * Sets up the container.
@@ -40,9 +43,9 @@ class LeagueContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethod()
     {
-        $this->container->add(TestWithParameterController::class);
+        $this->container->add($this->class);
 
-        $this->assertTrue($this->container->has(TestWithParameterController::class));
+        $this->assertTrue($this->container->has($this->class));
     }
 
     /**
@@ -52,14 +55,16 @@ class LeagueContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
-        $this->container->add(TestClass::class);
+        $testClass = 'Rougin\Slytherin\Test\Fixtures\TestClass';
 
-        $this->container->add(TestWithParameterController::class)
-            ->withArgument(TestClass::class);
+        $this->container->add($testClass);
+
+        $this->container->add($this->class)
+            ->withArgument($testClass);
 
         $this->assertEquals(
             new TestWithParameterController(new TestClass),
-            $this->container->get(TestWithParameterController::class)
+            $this->container->get($this->class)
         );
     }
 
@@ -70,9 +75,11 @@ class LeagueContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testHasMethod()
     {
-        $this->container->add(TestController::class);
+        $class = 'Rougin\Slytherin\Test\Fixtures\TestController';
 
-        $this->assertTrue($this->container->has(TestController::class));
+        $this->container->add($class);
+
+        $this->assertTrue($this->container->has($class));
     }
 
     /**
@@ -82,6 +89,8 @@ class LeagueContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testContainerInterface()
     {
-        $this->assertInstanceOf(ContainerInterface::class, $this->container);
+        $interface = 'Rougin\Slytherin\IoC\ContainerInterface';
+
+        $this->assertInstanceOf($interface, $this->container);
     }
 }
