@@ -24,7 +24,14 @@ class RouterTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        ['GET', '/', [TestController::class, 'index']],
+        [
+            'GET',
+            '/',
+            [
+                'Rougin\Slytherin\Test\Fixtures\TestController',
+                'index'
+            ]
+        ],
     ];
 
     /**
