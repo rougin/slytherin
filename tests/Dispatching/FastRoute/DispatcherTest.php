@@ -29,7 +29,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routes = [
-            ['GET', '/', [TestController::class, 'index']],
+            [
+                'GET',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixtures\TestController',
+                    'index'
+                ]
+            ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
