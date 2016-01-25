@@ -65,7 +65,7 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        if (! $this->has($id)) {
+        if ( ! $this->has($id)) {
             $message = 'Alias (%s) is not being managed by the container';
 
             throw new NotFoundException(sprintf($message, $id));

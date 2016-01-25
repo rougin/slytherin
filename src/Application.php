@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Rougin\Slytherin\Components;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 

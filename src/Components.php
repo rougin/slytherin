@@ -118,7 +118,7 @@ class Components
      */
     private function getComponent($type)
     {
-        if (! isset($this->components[$type])) {
+        if ( ! isset($this->components[$type])) {
             return null;
         }
 

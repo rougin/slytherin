@@ -7,7 +7,6 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Added
 - `add` method in `ContainerInterface`
 - `setHandler` method in `WhoopsDebugger`
-- Third party implementations for [Auryn](https://github.com/rdlowrey/auryn), [FastRoute](https://github.com/nikic/FastRoute) and [League\Container](http://container.thephpleague.com)
 - Unit tests
 
 ### Removed

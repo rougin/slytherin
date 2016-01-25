@@ -61,7 +61,7 @@ class Dispatcher implements DispatcherInterface
             break;
         }
 
-        if (! $className || ! $method) {
+        if ( ! $className || ! $method) {
             throw new UnexpectedValueException('Route "'.$uri.'" not found', 1);
         }
 
