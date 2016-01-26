@@ -46,17 +46,24 @@ class Renderer implements RendererInterface
             extract($data);
         }
 
-        return include $file;
+        ob_start();
+        
+        include $file;
+
+        $contents = ob_get_contents();
+
+        ob_end_clean();
+
+        return $contents;
     }
 
     /**
      * Gets the specified template from the list of directories.
      *
      * @param  string $template
+     * @return string
      *
      * @throws \InvalidArgumentException
-     *
-     * @return string
      */
     private function getTemplate($template)
     {
@@ -78,6 +85,8 @@ class Renderer implements RendererInterface
             }
         }
 
-        return new InvalidArgumentException('Template file not found.');
+        throw new InvalidArgumentException('Template file not found.');
+
+        return '';
     }
 }

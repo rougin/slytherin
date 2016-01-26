@@ -59,6 +59,16 @@ class RouterTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests if the getRoute() method returns null.
+     * 
+     * @return void
+     */
+    public function testEmptyGetRouteMethod()
+    {
+        $this->assertNull($this->router->getRoute('/'));
+    }
+
+    /**
      * Tests if the specified routes exists in the listing of routes.
      * 
      * @return void

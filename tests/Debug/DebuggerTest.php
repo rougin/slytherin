@@ -47,6 +47,16 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the display() method.
+     * 
+     * @return void
+     */
+    public function testDisplayMethod()
+    {
+        $this->assertEquals('', $this->debugger->display());
+    }
+
+    /**
      * Tests if the debugger is implemented in DebuggerInterface.
      * 
      * @return void

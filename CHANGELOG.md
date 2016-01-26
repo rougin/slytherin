@@ -5,12 +5,11 @@ All Notable changes to `Slytherin` will be documented in this file
 ## [0.4.1](https://github.com/rougin/slytherin/compare/v0.1.0...v0.4.1) 2016-01-15
 
 ### Added
-- `add` method in `ContainerInterface`
-- `setHandler` method in `WhoopsDebugger`
 - Unit tests
 
 ### Removed
-- Dependencies in `composer.json`
+- Third party packages in `composer.json`
+- `IoC` directory (will now require implementations in [Interop\Container](https://github.com/container-interop/container-interop))
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) 2016-01-13
 
@@ -24,7 +23,7 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ### Removed
 - `ComponentCollection::setInjector`
-- `Http` directory (Will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
+- `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 
