@@ -67,6 +67,8 @@ class Renderer implements RendererInterface
      */
     private function getTemplate($template)
     {
+        $result = '';
+
         foreach ($this->directories as $directory) {
             $location = new RecursiveDirectoryIterator(
                 $directory,
@@ -80,13 +82,15 @@ class Renderer implements RendererInterface
 
             foreach ($iterator as $path) {
                 if (strpos($path, $template) !== false) {
-                    return $path;
+                    $result = $path;
                 }
             }
         }
 
-        throw new InvalidArgumentException('Template file not found.');
+        if ($result === '') {
+            throw new InvalidArgumentException('Template file not found.');
+        }
 
-        return '';
+        return $result;
     }
 }

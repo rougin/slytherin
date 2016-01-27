@@ -61,13 +61,17 @@ class Router implements RouterInterface
      */
     public function getRoute($uri)
     {
+        $result = null;
+
         foreach ($this->original as $route) {
             if ($route[1] == $uri) {
-                return $route;
+                $result = $route;
+
+                break;
             }
         }
 
-        return null;
+        return $result;
     }
 
     /**

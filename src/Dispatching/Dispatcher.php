@@ -20,6 +20,14 @@ class Dispatcher implements DispatcherInterface
      */
     protected $router;
 
+    protected $validHttpMethods = [
+        'DELETE',
+        'GET',
+        'PATCH',
+        'POST',
+        'PUT',
+    ];
+
     /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
      */
@@ -48,6 +56,12 @@ class Dispatcher implements DispatcherInterface
                 continue;
             }
 
+            if ( ! in_array($route[0], $this->validHttpMethods)) {
+                $message = 'Used method is not allowed';
+
+                throw new UnexpectedValueException($message);
+            }
+
             array_shift($parameters);
 
             $parameters = array_values($parameters);
@@ -62,9 +76,7 @@ class Dispatcher implements DispatcherInterface
         }
 
         if ( ! $className || ! $method) {
-            $message = 'Route "' . $uri . '" not found';
-
-            throw new UnexpectedValueException($message, 1);
+            throw new UnexpectedValueException('Route "'.$uri.'" not found');
         }
 
         return [[$className, $method], $parameters];
