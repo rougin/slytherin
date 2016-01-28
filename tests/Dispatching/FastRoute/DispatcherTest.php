@@ -1,9 +1,9 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching;
+namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
 
-use Rougin\Slytherin\Dispatching\Router;
-use Rougin\Slytherin\Dispatching\Dispatcher;
+use Rougin\Slytherin\Dispatching\FastRoute\Router;
+use Rougin\Slytherin\Dispatching\FastRoute\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\TestClass;
@@ -57,19 +57,23 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if dispatch() returned successfully with a class.
+     * Tests if dispatch() returned successfully.
      * 
      * @return void
      */
-    public function testDispatchMethodWithClass()
+    public function testDispatchMethod()
     {
         $controller = new TestClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
-        $callback[0] = new $callback[0];
+        if (is_object($callback)) {
+            $result = call_user_func($callback, $parameters);
+        } else {
+            $callback[0] = new $callback[0];
 
-        $result = call_user_func_array($callback, $parameters);
+            $result = call_user_func_array($callback, $parameters);
+        }
 
         $this->assertEquals($controller->index(), $result);
     }
@@ -95,7 +99,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException', 'Route "/test" not found');
+        $this->setExpectedException('UnexpectedValueException');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
     }
@@ -112,7 +116,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
             'Used method is not allowed'
         );
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hello');
+        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
     }
 
     /**

@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixtures;
+namespace Rougin\Slytherin\Test\Fixture;
 
 /**
- * Test Controller
+ * Test Class
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestController
+class TestClass
 {
     /**
      * Returns a string 'Hello'.

@@ -1,22 +1,22 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixtures;
+namespace Rougin\Slytherin\Test\Fixture;
 
 /**
- * Test With Parameter Controller
+ * Test Class With Parameter
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestWithParameterController
+class TestClassWithParameter
 {
     /**
-     * @var \Rougin\Slytherin\Test\Fixtures\TestClass
+     * @var \Rougin\Slytherin\Test\Fixture\TestClass
      */
     protected $class;
 
     /**
-     * @param \Rougin\Slytherin\Test\Fixtures\TestClass $class
+     * @param \Rougin\Slytherin\Test\Fixture\TestClass $class
      */
     public function __construct(TestClass $class)
     {

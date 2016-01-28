@@ -1,8 +1,8 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching;
+namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
 
-use Rougin\Slytherin\Dispatching\Router;
+use Rougin\Slytherin\Dispatching\FastRoute\Router;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\TestClass;
@@ -77,7 +77,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
     {
         $this->router = new Router($this->routes);
 
-        $this->assertCount(1, $this->router->getRoutes());
+        $this->assertInstanceOf('Closure', $this->router->getRoutes());
     }
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixtures;
+namespace Rougin\Slytherin\Test\Fixture;
 
 /**
  * Test Interface

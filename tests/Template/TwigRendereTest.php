@@ -2,11 +2,13 @@
 
 namespace Rougin\Slytherin\Test\Template;
 
-use Rougin\Slytherin\Template\Renderer;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
+use Rougin\Slytherin\Template\TwigRenderer;
 
 use PHPUnit_Framework_TestCase;
 
-class RendererTest extends PHPUnit_Framework_TestCase
+class TwigRendererTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -20,11 +22,10 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $directories = [
-            __DIR__ . '/../Fixture/Templates'
-        ];
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../Fixture/Templates');
+        $twig = new Twig_Environment($loader);
 
-        $this->renderer = new Renderer($directories);
+        $this->renderer = new TwigRenderer($twig);
     }
 
     /**
@@ -52,17 +53,5 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $rendered = $this->renderer->render('testWithData', $data);
 
         $this->assertEquals($expected, $rendered);
-    }
-
-    /**
-     * Tests if the specified template is not found.
-     * 
-     * @return void
-     */
-    public function testTemplateNotFound()
-    {
-        $this->setExpectedException('InvalidArgumentException');
-
-        $this->renderer->render('hello');
     }
 }

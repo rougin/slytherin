@@ -2,7 +2,11 @@
 
 namespace Rougin\Slytherin\Test;
 
+use Zend\Diactoros\Response;
+use Zend\Diactoros\ServerRequestFactory;
+
 use Rougin\Slytherin\Components;
+use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Debug\Debugger;
 use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Dispatching\Dispatcher;
@@ -25,6 +29,20 @@ class ComponentsTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->components = new Components;
+    }
+
+    /**
+     * Tests the setContainer() method.
+     *
+     * @return void
+     */
+    public function testSetContainerMethod()
+    {
+        $container = new Container;
+
+        $this->components->setContainer($container);
+
+        $this->assertEquals($container, $this->components->getContainer());
     }
 
     /**
@@ -53,5 +71,33 @@ class ComponentsTest extends PHPUnit_Framework_TestCase
         $this->components->setDebugger($debugger);
 
         $this->assertEquals($debugger, $this->components->getDebugger());
+    }
+
+    /**
+     * Tests the setHttp() method.
+     *
+     * @return void
+     */
+    public function testSetHttpMethod()
+    {
+        $response = new Response;
+        $request = ServerRequestFactory::fromGlobals();
+
+        $this->components->setHttp($request, $response);
+
+        $this->assertEquals(
+            [ $request, $response ],
+            $this->components->getHttp()
+        );
+    }
+
+    /**
+     * Tests if getComponent() returns null.
+     * 
+     * @return void
+     */
+    public function testGetNullComponent()
+    {
+        $this->assertNull($this->components->getContainer());
     }
 }
