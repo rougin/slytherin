@@ -76,7 +76,9 @@ class Dispatcher implements DispatcherInterface
         }
 
         if ( ! $className || ! $method) {
-            throw new UnexpectedValueException('Route "'.$uri.'" not found');
+            $message = 'Route "'.$uri.'" not found';
+
+            throw new UnexpectedValueException($message);
         }
 
         return [[$className, $method], $parameters];

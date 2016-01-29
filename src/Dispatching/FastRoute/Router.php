@@ -64,11 +64,11 @@ class Router implements RouterInterface
     /**
      * Returns a listing of routes available.
      * 
-     * @return mixed
+     * @return callable
      */
     public function getRoutes()
     {
-        return function (RouteCollector $routeCollector) {
+        return function(RouteCollector $routeCollector) {
             foreach ($this->routes as $route) {
                 $routeCollector->addRoute($route[0], $route[1], $route[2]);
             }

@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\IoC;
 
 use ReflectionClass;
-use League\Container\Container as BaseContainer;
+use League\Container\Container as BaseLeagueContainer;
 use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
 /**
@@ -16,4 +16,4 @@ use Rougin\Slytherin\IoC\Exception\NotFoundException;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends BaseContainer implements ContainerInterface {}
+class LeagueContainer extends BaseLeagueContainer implements ContainerInterface {}

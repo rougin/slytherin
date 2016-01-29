@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin\Debug;
 
-use Whoops\Run;
 use Whoops\Handler\HandlerInterface;
 use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
 
 /**
  * Debugger
@@ -63,7 +63,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Returns a listing of handlers.
      * 
-     * @return array
+     * @return HandlerInterface[]
      */
     public function getHandlers()
     {
@@ -73,7 +73,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Registers the instance as a debugger.
      * 
-     * @return object
+     * @return Run
      */
     public function display()
     {

@@ -16,12 +16,20 @@ use Rougin\Slytherin\IoC\Exception\NotFoundException;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends Injector implements ContainerInterface
+class AurynContainer extends BaseContainer implements ContainerInterface
 {
     /**
-     * @var array
+     * @var \Auryn\Injector
      */
-    private $instances = [];
+    public $injector;
+
+    /**
+     * @param \Auryn\Injector $injector
+     */
+    public function __construct(Injector $injector)
+    {
+        $this->injector = $injector;
+    }
 
     /**
      * Adds a new instance to the container.
@@ -43,41 +51,8 @@ class AurynContainer extends Injector implements ContainerInterface
             $arguments = $concrete;
         }
 
-        $this->instances[$id] = $this->make($id, $arguments);
+        $this->instances[$id] = $this->injector->make($id, $arguments);
 
         return $this;
-    }
-
-    /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param string $id Identifier of the entry to look for.
-     *
-     * @throws NotFoundException  No entry was found for this identifier.
-     * @throws ContainerException Error while retrieving the entry.
-     *
-     * @return mixed Entry.
-     */
-    public function get($id)
-    {
-        if (! $this->has($id)) {
-            $message = 'Alias (%s) is not being managed by the container';
-
-            throw new NotFoundException(sprintf($message, $id));
-        }
-
-        return $this->instances[$id];
-    }
-
-    /**
-     * Returns true if the container can return an entry for the given identifier.
-     * Returns false otherwise.
-     *
-     * @param  string $id Identifier of the entry to look for.
-     * @return boolean
-     */
-    public function has($id)
-    {
-        return isset($this->instances[$id]);
     }
 }

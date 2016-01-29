@@ -3,10 +3,10 @@
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use Closure;
-use UnexpectedValueException;
 use FastRoute\Dispatcher as FastRouteDispatcher;
-use Rougin\Slytherin\Dispatching\RouterInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
+use Rougin\Slytherin\Dispatching\RouterInterface;
+use UnexpectedValueException;
 
 /**
  * FastRoute Dispatcher
@@ -50,7 +50,7 @@ class Dispatcher implements DispatcherInterface
 
         switch ($routeInfo[0]) {
             case FastRouteDispatcher::NOT_FOUND:
-                $message = 'Route "' . $uri . '" not found';
+                $message = 'Route "'.$uri.'" not found';
 
                 throw new UnexpectedValueException($message);
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:

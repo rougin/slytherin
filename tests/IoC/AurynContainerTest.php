@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Test\IoC;
 
-use Rougin\Slytherin\IoC\AurynContainer;
-
 use Auryn\Injector;
-use PHPUnit_Framework_TestCase;
+use Rougin\Slytherin\IoC\AurynContainer;
 use Rougin\Slytherin\Test\Fixture\TestClass;
 use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
+
+use PHPUnit_Framework_TestCase;
 
 /**
  * Auryn Container Test
@@ -34,7 +34,7 @@ class AurynContainerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->container = new AurynContainer;
+        $this->container = new AurynContainer(new Injector);
     }
 
     /**
