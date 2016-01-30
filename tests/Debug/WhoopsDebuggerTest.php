@@ -55,11 +55,12 @@ class WhoopsDebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetHandlerMethod()
     {
-        $handler = new PrettyPageHandler;
+        $this->debugger->setHandler(new PrettyPageHandler);
 
-        $this->debugger->setHandler($handler);
-
-        $this->assertEquals(1, count($this->debugger->getHandlers()));
+        $this->assertInstanceOf(
+            'Whoops\Handler\PrettyPageHandler',
+            $this->debugger->getHandlers()[0]
+        );
     }
 
     /**

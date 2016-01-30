@@ -93,8 +93,6 @@ class WhoopsDebugger implements DebuggerInterface
      */
     public function setHandler(HandlerInterface $handler)
     {
-        $this->whoops->pushHandler(function() use ($handler) {
-            return $handlers;
-        });
+        $this->whoops->pushHandler($handler);
     }
 }
