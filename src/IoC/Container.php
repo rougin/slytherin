@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\IoC;
 
 use ReflectionClass;
-use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
 /**
  * Container
@@ -82,9 +81,6 @@ class Container extends BaseContainer implements ContainerInterface
 
         // Loop over the constructor arguments
         foreach ($parameters as $param) {
-            // Here we should perform a bunch of checks, such as: isArray(),
-            // isCallable(), isDefaultValueAvailable(), isOptional() etc.
-
             if ($param->isOptional()) {
                 $newParameters[] = $param->isDefaultValueAvailable()
                     ? $param->getDefaultValue()

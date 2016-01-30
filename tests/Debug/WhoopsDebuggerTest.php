@@ -59,7 +59,7 @@ class WhoopsDebuggerTest extends PHPUnit_Framework_TestCase
 
         $this->debugger->setHandler($handler);
 
-        $this->assertContains($handler, $this->debugger->getHandlers());
+        $this->assertEquals(1, count($this->debugger->getHandlers()));
     }
 
     /**

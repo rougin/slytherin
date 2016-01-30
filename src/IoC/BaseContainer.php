@@ -2,20 +2,19 @@
 
 namespace Rougin\Slytherin\IoC;
 
-use ReflectionClass;
-use Interop\Container\ContainerInterface;
 use Rougin\Slytherin\IoC\Exception\NotFoundException;
+use Interop\Container\ContainerInterface as InteropContainerInterface;
 
 /**
  * Base Container
  *
  * A simple implementation of a container that is based on
- * Rougin\Slytherin\IoC\ContainerInterface.
+ * Interop\Container\ContainerInterface.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class BaseContainer implements ContainerInterface
+class BaseContainer implements InteropContainerInterface
 {
     /**
      * @var array

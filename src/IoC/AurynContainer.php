@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\IoC;
 
 use Auryn\Injector;
-use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
 /**
  * Auryn Container

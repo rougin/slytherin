@@ -14,8 +14,10 @@ Yet Another Extensible PHP Library/Framework.
 Via Composer
 
 ``` bash
-$ composer require rougin/slytherin
+$ composer require rougin/slytherin --no-dev
 ```
+
+**Warning**: If you install Slytherin with dev dependencies, you will get packages that you may not use for your next web application (e.g., [Auryn](https://github.com/rdlowrey/auryn), [Diactoros](https://github.com/zendframework/zend-diactoros), etc.). These packages are required for testing only. They are not included when you run Composer with `--no-dev`.
 
 ## Usage
 
@@ -33,7 +35,7 @@ $application = new Rougin\Slytherin\Application($components);
 $application->run();
 ```
 
-Regarding the ```$components``` above, you need to select a library of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section in the wiki. Slytherin also provide sample implementations on each component (container, HTTP, etc.).
+Regarding the example implementation above, you need to select a package of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
 ## Change log
 

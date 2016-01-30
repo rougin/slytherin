@@ -80,7 +80,7 @@ class WhoopsDebugger implements DebuggerInterface
         error_reporting(E_ALL);
 
         if ($this->environment === 'development') {
-            $this->whoops->pushHandler(new PrettyPageHandler);
+            $this->setHandler(new PrettyPageHandler);
         }
 
         return $this->whoops->register();
@@ -93,6 +93,8 @@ class WhoopsDebugger implements DebuggerInterface
      */
     public function setHandler(HandlerInterface $handler)
     {
-        $this->whoops->pushHandler($handler);
+        $this->whoops->pushHandler(function() use ($handler) {
+            return $handlers;
+        });
     }
 }
