@@ -71,11 +71,6 @@ class Container extends BaseContainer implements ContainerInterface
         // (collection of ReflectionParameter instances)
         $parameters = $constructor->getParameters();
 
-        // If there is a constructor, but no dependencies, our job is done.
-        if (count($parameters) === 0) {
-            return new $class;
-        }
-
         // This is were we store the dependencies
         $newParameters = [];
 

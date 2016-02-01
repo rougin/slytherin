@@ -42,9 +42,7 @@ class Renderer implements RendererInterface
         $file = $this->getTemplate("$template.php");
 
         // Extracts the specific parameters to the template.
-        if ( ! empty($data)) {
-            extract($data);
-        }
+        extract($data);
 
         ob_start();
         
@@ -67,8 +65,6 @@ class Renderer implements RendererInterface
      */
     private function getTemplate($template)
     {
-        $result = '';
-
         foreach ($this->directories as $directory) {
             $location = new RecursiveDirectoryIterator(
                 $directory,
@@ -82,15 +78,11 @@ class Renderer implements RendererInterface
 
             foreach ($iterator as $path) {
                 if (strpos($path, $template) !== false) {
-                    $result = $path;
+                    return $path;
                 }
             }
         }
 
-        if ($result === '') {
-            throw new InvalidArgumentException('Template file not found.');
-        }
-
-        return $result;
+        throw new InvalidArgumentException('Template file not found.');
     }
 }

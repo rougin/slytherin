@@ -2,14 +2,14 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [0.4.1](https://github.com/rougin/slytherin/compare/v0.1.0...v0.4.1) 2016-01-15
+## [0.4.1](https://github.com/rougin/slytherin/compare/v0.1.0...v0.4.1) 2016-02-01
 
 ### Added
+- Implementations for packages [Auryn](https://github.com/rdlowrey/auryn), [FastRoute](https://github.com/nikic/FastRoute), [League\Container](http://container.thephpleague.com) and [Whoops](https://github.com/filp/whoops)
 - Unit tests
 
-### Removed
-- Third party packages in `composer.json`
-- `IoC` directory (will now require implementations in [Interop\Container](https://github.com/container-interop/container-interop))
+### Changed
+- Moved required packages to `require-dev` in `composer.json`
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) 2016-01-13
 
