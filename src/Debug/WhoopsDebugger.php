@@ -89,9 +89,9 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Sets a handler.
      * 
-     * @param \Whoops\Handler\HandlerInterface $handler
+     * @param callable|HandlerInterface $handler
      */
-    public function setHandler(HandlerInterface $handler)
+    public function setHandler($handler)
     {
         $this->whoops->pushHandler($handler);
     }

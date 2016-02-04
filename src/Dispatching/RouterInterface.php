@@ -24,7 +24,7 @@ interface RouterInterface
     /**
      * Returns a listing of routes available.
      * 
-     * @return mixed
+     * @return array|callable
      */
     public function getRoutes();
 }
