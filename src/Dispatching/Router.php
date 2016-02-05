@@ -11,18 +11,8 @@ namespace Rougin\Slytherin\Dispatching;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router implements RouterInterface
+class Router extends BaseRouter
 {
-    /**
-     * @var array
-     */
-    protected $original = [];
-
-    /**
-     * @var array
-     */
-    protected $routes = [];
-
     /**
      * @param array $routes
      */
@@ -34,53 +24,23 @@ class Router implements RouterInterface
     }
 
     /**
-     * Adds a new route.
-     * 
-     * @param  string|string[] $httpMethod
-     * @param  string          $route
-     * @param  mixed           $handler
-     */
-    public function addRoute($httpMethod, $route, $handler)
-    {
-        preg_match('/:[a-z]*/', $route, $parameters);
-
-        $pattern = str_replace($parameters, '(\w+)', $route);
-        $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
-
-        array_push($this->original, [$httpMethod, $route, $handler]);
-        array_push($this->routes, [$httpMethod, $pattern, $handler]);
-
-        return $this;
-    }
-
-    /**
-     * Returns a route details based on the specified URI.
-     * 
-     * @param  string $uri
-     * @return array|null
-     */
-    public function getRoute($uri)
-    {
-        $result = null;
-
-        foreach ($this->original as $route) {
-            if ($route[1] == $uri) {
-                $result = $route;
-
-                break;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Returns a listing of routes available.
      * 
-     * @return mixed
+     * @return array
      */
     public function getRoutes()
     {
-        return $this->routes;
+        $routes = [];
+
+        foreach ($this->routes as $route) {
+            preg_match('/:[a-z]*/', $route[1], $parameters);
+
+            $pattern = str_replace($parameters, '(\w+)', $route[1]);
+            $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
+
+            array_push($routes, [$route[0], $pattern, $route[2]]);
+        }
+
+        return $routes;
     }
 }

@@ -19,4 +19,14 @@ class TestClass
     {
         return 'Hello';
     }
+
+    /**
+     * Returns a string 'Store'.
+     * 
+     * @return string
+     */
+    public function store()
+    {
+        return 'Store';
+    }
 }

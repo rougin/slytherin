@@ -55,7 +55,10 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
         $this->router->addRoute($httpMethod, $uri, $handler);
 
-        $this->assertEquals($this->routes[0], $this->router->getRoute($uri));
+        $this->assertEquals(
+            $this->routes[0],
+            $this->router->getRoute($httpMethod, $uri)
+        );
     }
 
     /**
@@ -65,7 +68,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
      */
     public function testEmptyGetRouteMethod()
     {
-        $this->assertNull($this->router->getRoute('/test'));
+        $this->assertNull($this->router->getRoute('GET', '/test'));
     }
 
     /**
