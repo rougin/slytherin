@@ -38,6 +38,14 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
                 ]
             ],
             [
+                'POST',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixture\TestClass',
+                    'store'
+                ]
+            ],
+            [
                 'GET',
                 '/hi',
                 function () {
@@ -72,6 +80,24 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $result = call_user_func_array($callback, $parameters);
 
         $this->assertEquals($controller->index(), $result);
+    }
+
+    /**
+     * Tests if dispatch() returned successfully with a class.
+     * 
+     * @return void
+     */
+    public function testDispatchMethodWithClassAndPostMethod()
+    {
+        $controller = new TestClass;
+
+        list($callback, $parameters) = $this->dispatcher->dispatch('POST', '/');
+
+        $callback[0] = new $callback[0];
+
+        $result = call_user_func_array($callback, $parameters);
+
+        $this->assertEquals($controller->store(), $result);
     }
 
     /**
