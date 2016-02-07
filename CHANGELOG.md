@@ -2,7 +2,15 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [0.4.1](https://github.com/rougin/slytherin/compare/v0.1.0...v0.4.1) 2016-02-01
+## [0.4.2](https://github.com/rougin/slytherin/compare/v0.4.1...v0.4.2) 2016-02-07
+
+### Added
+- [Dispatching\BaseRouter](https://github.com/rougin/slytherin/blob/v0.4.2/src/Dispatching/BaseRouter.php)
+
+### Fixed
+- Issue on parsing a route of the same URI but different HTTP method
+
+## [0.4.1](https://github.com/rougin/slytherin/compare/v0.4.0...v0.4.1) 2016-02-01
 
 ### Added
 - Implementations for packages [Auryn](https://github.com/rdlowrey/auryn), [FastRoute](https://github.com/nikic/FastRoute), [League\Container](http://container.thephpleague.com) and [Whoops](https://github.com/filp/whoops)
