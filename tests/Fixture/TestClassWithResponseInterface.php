@@ -27,8 +27,13 @@ class TestClassWithResponseInterface
 
     public function index()
     {
-        $this->response->getBody()->write('Hello');
+        $response = $this->response
+            ->withStatus(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Credentials', 'true');
 
-        return $this->response;
+        $response->getBody()->write('Hello');
+
+        return $response;
     }
 }

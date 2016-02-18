@@ -118,12 +118,13 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $application = new Application($this->components);
 
-        echo $application->run();
+        $application->run();
     }
 
     /**
      * Tests the run() method with a response as result.
      * 
+     * @runInSeparateProcess
      * @return void
      */
     public function testRunMethodWithResponse()
@@ -134,7 +135,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $application = new Application($this->components);
 
-        echo $application->run();
+        $application->run();
     }
 
     /**
@@ -150,7 +151,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $application = new Application($this->components);
 
-        echo $application->run();
+        $application->run();
     }
 
     /**

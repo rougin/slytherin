@@ -41,30 +41,35 @@ class Application
 
         list($request, $response) = $this->components->getHttp();
 
-        $route = $this->getRoute($request);
+        $result = $this->getResponse($request);
 
-        if ($route instanceof ResponseInterface) {
-            $response = $route;
+        if ($result instanceof ResponseInterface) {
+            $response = $result;
+        }
+
+        // Gets the selected route and sets it as the content.
+        if ( ! $response->getBody() || $response->getBody() == '') {
+            $response->getBody()->write($result);
+        }
+
+        // Sets the specified headers, if any.
+        foreach ($response->getHeaders() as $name => $value) {
+            header($name . ': ' . implode(',', $value));
         }
 
         // Sets the HTTP response code.
         http_response_code($response->getStatusCode());
 
-        // Gets the selected route and sets it as the content.
-        if ( ! $response->getBody() || $response->getBody() == '') {
-            $response->getBody()->write($route);
-        }
-
         echo $response->getBody();
     }
 
     /**
-     * Gets the route result from the dispatcher.
+     * Gets the response from the dispatcher.
      * 
      * @param  \Psr\Http\Message\RequestInterface $request
-     * @return string
+     * @return mixed
      */
-    private function getRoute(RequestInterface $request)
+    private function getResponse(RequestInterface $request)
     {
         // Gets the requested route
         $route = $this->components->getDispatcher()->dispatch(
