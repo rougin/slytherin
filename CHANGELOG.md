@@ -2,6 +2,11 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
+## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) 2016-02-19
+
+### Added
+- Setting of headers in `Response` (if any)
+
 ## [0.4.2](https://github.com/rougin/slytherin/compare/v0.4.1...v0.4.2) 2016-02-07
 
 ### Added
