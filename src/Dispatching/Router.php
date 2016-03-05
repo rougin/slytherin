@@ -19,7 +19,15 @@ class Router extends BaseRouter
     public function __construct(array $routes = [])
     {
         foreach ($routes as $route) {
-            $this->addRoute($route[0], $route[1], $route[2]);
+            list($httpMethod, $uri, $handler) = $route;
+
+            $middlewares = (isset($route[3])) ? $route[3] : [];
+
+            if (is_string($middlewares)) {
+                $middlewares = [$middlewares];
+            }
+
+            $this->addRoute($httpMethod, $uri, $handler, $middlewares);
         }
     }
 
@@ -38,7 +46,7 @@ class Router extends BaseRouter
             $pattern = str_replace($parameters, '(\w+)', $route[1]);
             $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
 
-            array_push($routes, [$route[0], $pattern, $route[2]]);
+            array_push($routes, [$route[0], $pattern, $route[2], $route[3]]);
         }
 
         return $routes;

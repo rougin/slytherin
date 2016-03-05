@@ -50,6 +50,7 @@ class Dispatcher implements DispatcherInterface
         $method = '';
         $className = '';
         $parameters = [];
+        $middlewares = [];
 
         foreach ($this->router->getRoutes() as $route) {
             $hasMatch = preg_match($route[1], $uri, $parameters);
@@ -68,8 +69,10 @@ class Dispatcher implements DispatcherInterface
 
             $parameters = array_values($parameters);
 
+            $middlewares = $route[3];
+
             if (is_object($route[2])) {
-                return [$route[2], $parameters];
+                return [$route[2], $parameters, $middlewares];
             }
 
             list($className, $method) = $route[2];
@@ -83,6 +86,6 @@ class Dispatcher implements DispatcherInterface
             throw new UnexpectedValueException($message);
         }
 
-        return [[$className, $method], $parameters];
+        return [[$className, $method], $parameters, $middlewares];
     }
 }

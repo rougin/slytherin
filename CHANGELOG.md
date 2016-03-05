@@ -2,6 +2,11 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
+## [Unreleased](https://github.com/rougin/slytherin/compare/v0.4.3...HEAD)
+
+### Added
+- `Middleware` component
+
 ## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) 2016-02-19
 
 ### Added

@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 
 use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\Debug\DebuggerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
@@ -109,6 +110,26 @@ class Components
         $this->setComponent('request', $request);
 
         return $this->setComponent('response', $response);
+    }
+
+    /**
+     * Gets the middlware.
+     * 
+     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
+     */
+    public function getMiddleware()
+    {
+        return $this->getComponent('middlware');
+    }
+
+    /**
+     * Sets the middlware.
+     * 
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     */
+    public function setMiddleware(MiddlewareInterface $middlware)
+    {
+        return $this->setComponent('middlware', $middlware);
     }
 
     /**

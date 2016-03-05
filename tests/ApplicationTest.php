@@ -14,6 +14,7 @@ use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Debug\WhoopsDebugger;
 use Rougin\Slytherin\Dispatching\Dispatcher;
+use Rougin\Slytherin\Middleware\StratigilityMiddleware;
 
 use PHPUnit_Framework_TestCase;
 
@@ -50,6 +51,15 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
                 'index'
             ]
         ],
+        [
+            'GET',
+            '/middleware',
+            [
+                'Rougin\Slytherin\Test\Fixture\TestClass',
+                'index'
+            ],
+            'Rougin\Slytherin\Test\Fixture\TestMiddleware',
+        ],
     ];
 
     /**
@@ -59,46 +69,38 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->routes[] = [
-            'GET',
-            '/callback',
-            function () {
-                return 'Hello';
-            }
-        ];
+        $callback = ['GET', '/callback', function () { return 'Hello'; }];
+
+        array_push($this->routes, $callback);
 
         $container = new Container;
         $components = new Components;
 
-        $container->add(
-            'Rougin\Slytherin\Dispatching\DispatcherInterface',
-            new Dispatcher(new Router($this->routes))
-        );
+        $dispatcher = 'Rougin\Slytherin\Dispatching\DispatcherInterface';
 
-        $components->setDispatcher(
-            $container->get('Rougin\Slytherin\Dispatching\DispatcherInterface')
-        );
+        $container->add($dispatcher, new Dispatcher(new Router($this->routes)));
+        $components->setDispatcher($container->get($dispatcher));
 
-        $container->add(
-            'Psr\Http\Message\RequestInterface',
-            ServerRequestFactory::fromGlobals()
-        );
+        $request = 'Psr\Http\Message\RequestInterface';
+        $response = 'Psr\Http\Message\ResponseInterface';
 
-        $container->add('Psr\Http\Message\ResponseInterface', new Response);
+        $container->add($request, ServerRequestFactory::fromGlobals());
+        $container->add($response, new Response);
 
         $components->setHttp(
-            $container->get('Psr\Http\Message\RequestInterface'),
-            $container->get('Psr\Http\Message\ResponseInterface')
+            $container->get($request),
+            $container->get($response)
         );
 
-        $container->add(
-            'Rougin\Slytherin\Debug\DebuggerInterface',
-            new WhoopsDebugger(new Run)
-        );
+        $debugger = 'Rougin\Slytherin\Debug\DebuggerInterface';
 
-        $components->setDebugger(
-            $container->get('Rougin\Slytherin\Debug\DebuggerInterface')
-        );
+        $container->add($debugger, new WhoopsDebugger(new Run));
+        $components->setDebugger($container->get($debugger));
+
+        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+
+        $container->add($middleware, new StratigilityMiddleware);
+        $components->setMiddleware($container->get($middleware));
 
         $components->setContainer($container);
 
@@ -148,6 +150,22 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $this->expectOutputString('Hello');
 
         $this->setRequest('GET', '/callback');
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
+     * Checks if the application runs the middleware.
+     * 
+     * @return void
+     */
+    public function testRunMethodWithMiddleware()
+    {
+        $this->expectOutputString('Loaded with middleware');
+
+        $this->setRequest('GET', '/middleware');
 
         $application = new Application($this->components);
 

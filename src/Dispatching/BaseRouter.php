@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\Dispatching;
 
 /**
- * Dispatcher
+ * Base Router
  *
  * A simple implementation of a router that is based on
  * Rougin\Slytherin\Dispatching\RouterInterface.
@@ -22,12 +22,15 @@ abstract class BaseRouter implements RouterInterface
      * Adds a new route.
      * 
      * @param string|string[] $httpMethod
-     * @param string          $route
-     * @param mixed           $handler
+     * @param string $route
+     * @param mixed  $handler
+     * @param array  $middlewares
      */
-    public function addRoute($httpMethod, $route, $handler)
+    public function addRoute($httpMethod, $route, $handler, $middlewares = [])
     {
-        array_push($this->routes, [$httpMethod, $route, $handler]);
+        $class = [$httpMethod, $route, $handler, $middlewares];
+
+        array_push($this->routes, $class);
 
         return $this;
     }
@@ -45,6 +48,10 @@ abstract class BaseRouter implements RouterInterface
 
         foreach ($this->routes as $route) {
             if ($route[0] == $httpMethod && $route[1] == $uri) {
+                if (empty($route[3])) {
+                    unset($route[3]);
+                }
+
                 $result = $route;
 
                 break;

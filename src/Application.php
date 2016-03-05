@@ -5,6 +5,9 @@ namespace Rougin\Slytherin;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
+use Rougin\Slytherin\IoC\ContainerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
+
 /**
  * Application
  *
@@ -39,16 +42,16 @@ class Application
             $debugger->display();
         }
 
+        $container = $this->components->getContainer();
+        $middleware = $this->components->getMiddleware();
+
         list($request, $response) = $this->components->getHttp();
 
-        $result = $this->getResponse($request);
+        $result = $this->dispatch($container, $middleware, $request, $response);
 
         if ($result instanceof ResponseInterface) {
             $response = $result;
-        }
-
-        // Gets the selected route and sets it as the content.
-        if ( ! $response->getBody() || $response->getBody() == '') {
+        } else {
             $response->getBody()->write($result);
         }
 
@@ -64,33 +67,53 @@ class Application
     }
 
     /**
-     * Gets the response from the dispatcher.
+     * Gets the result from the dispatcher.
      * 
-     * @param  \Psr\Http\Message\RequestInterface $request
-     * @return mixed
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return \Psr\Http\Message\ResponseInterface|mixed
      */
-    private function getResponse(RequestInterface $request)
-    {
-        // Gets the requested route
+    private function dispatch(
+        ContainerInterface $container,
+        MiddlewareInterface $middleware,
+        RequestInterface $request,
+        ResponseInterface $response
+    ) {
+        // Gets the requested route from the dispatcher
         $route = $this->components->getDispatcher()->dispatch(
             $request->getMethod(),
             $request->getUri()->getPath()
         );
 
         // Extract the result into variables
-        list($function, $parameters) = $route;
+        list($function, $parameters, $middlewares) = $route;
 
-        if (is_object($function)) {
+        $result = null;
+
+        if ( ! empty($middlewares)) {
+            foreach ($middlewares as $class) {
+                $middleware->pipe(new $class);
+            }
+
+            $result = $middleware($request, $response);
+        }
+
+        if ($result && ! empty($result->getBody(true))) {
+            return $result;
+        }
+
+        // If the function is a callback, return immediately.
+        if (is_callable($function) && is_object($function)) {
             return call_user_func($function, $parameters);
         }
 
         list($class, $method) = $function;
 
-        if ( ! $this->components->getContainer()->has($class)) {
-            $this->components->getContainer()->add($class);
+        if ( ! $container->has($class)) {
+            $container->add($class);
         }
 
-        $class = $this->components->getContainer()->get($class);
+        $class = $container->get($class);
 
         return call_user_func_array([$class, $method], $parameters);
     }
