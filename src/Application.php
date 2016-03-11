@@ -98,7 +98,7 @@ class Application
             $result = $middleware($request, $response);
         }
 
-        if ($result && ! empty($result->getBody(true))) {
+        if ($result && $result->getBody(true) != '') {
             return $result;
         }
 
