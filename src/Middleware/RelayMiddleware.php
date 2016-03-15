@@ -2,32 +2,32 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Zend\Stratigility\MiddlewarePipe;
+use Relay\RelayBuilder;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Stratigility Middleware
+ * Relay Middleware
  *
- * A simple implementation of middleware that is built on top of Zend's Stratigility.
+ * A simple implementation of middleware that is built on top of Relay.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
- * @link    https://github.com/zendframework/zend-stratigility
+ * @link    http://relayphp.com
  */
-class StratigilityMiddleware implements MiddlewareInterface
+class RelayMiddleware implements MiddlewareInterface
 {
     /**
-     * @var \Zend\Stratigility\MiddlewarePipe
+     * @var \Relay\RelayBuilder
      */
-    protected $middleware;
+    protected $builder;
 
     /**
-     * @param \Zend\Stratigility\MiddlewarePipe $middleware
+     * @param \Relay\RelayBuilder $builder
      */
-    public function __construct(MiddlewarePipe $middleware)
+    public function __construct(RelayBuilder $builder)
     {
-        $this->middleware = $middleware;
+        $this->builder = $builder;
     }
 
     /**
@@ -40,11 +40,13 @@ class StratigilityMiddleware implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, array $queue = [])
     {
-        $middleware = $this->middleware;
+        $middlewares = [];
 
         foreach ($queue as $class) {
-            $middleware->pipe(new $class);
+            array_push($middlewares, new $class);
         }
+
+        $middleware = $this->builder->newInstance($middlewares);
 
         return $middleware($request, $response);
     }

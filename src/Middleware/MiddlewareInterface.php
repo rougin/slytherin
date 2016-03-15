@@ -16,12 +16,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 interface MiddlewareInterface
 {
     /**
-     * Processes an incoming request or response.
+     * Processes the specified middlewares in queue.
      * 
-     * @param  Psr\Http\Message\RequestInterface  $request
-     * @param  Psr\Http\Message\ResponseInterface $response
-     * @param  callable|null $out
-     * @return Psr\Http\Message\ResponseInterface|null
+     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  array $queue
+     * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(Request $request, Response $response, callable $out = null);
+    public function __invoke(Request $request, Response $response, array $queue = []);
 }

@@ -4,7 +4,9 @@ namespace Rougin\Slytherin\Test;
 
 use Whoops\Run;
 use Zend\Diactoros\Uri;
+use Relay\RelayBuilder;
 use Zend\Diactoros\Response;
+use Zend\Stratigility\MiddlewarePipe;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
 
@@ -14,6 +16,7 @@ use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Debug\WhoopsDebugger;
 use Rougin\Slytherin\Dispatching\Dispatcher;
+use Rougin\Slytherin\Middleware\RelayMiddleware;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
 
 use PHPUnit_Framework_TestCase;
@@ -97,11 +100,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $container->add($debugger, new WhoopsDebugger(new Run));
         $components->setDebugger($container->get($debugger));
 
-        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-
-        $container->add($middleware, new StratigilityMiddleware);
-        $components->setMiddleware($container->get($middleware));
-
         $components->setContainer($container);
 
         $this->components = $components;
@@ -157,12 +155,42 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks if the application runs the middleware.
+     * Checks if the application runs in the StratigilityMiddleware.
      * 
      * @return void
      */
-    public function testRunMethodWithMiddleware()
+    public function testRunMethodWithStratigilityMiddleware()
     {
+        $container = $this->components->getContainer();
+        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+        $pipe = new MiddlewarePipe;
+
+        $container->add($middleware, new StratigilityMiddleware($pipe));
+        $this->components->setMiddleware($container->get($middleware));
+
+        $this->expectOutputString('Loaded with middleware');
+
+        $this->setRequest('GET', '/middleware');
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
+     * Checks if the application runs in the RelayMiddleware.
+     * 
+     * @return void
+     */
+    public function testRunMethodWithRelayMiddleware()
+    {
+        $container = $this->components->getContainer();
+        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+        $builder = new RelayBuilder;
+
+        $container->add($middleware, new RelayMiddleware($builder));
+        $this->components->setMiddleware($container->get($middleware));
+
         $this->expectOutputString('Loaded with middleware');
 
         $this->setRequest('GET', '/middleware');

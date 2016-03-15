@@ -47,7 +47,7 @@ class Application
 
         list($request, $response) = $this->components->getHttp();
 
-        $result = $this->dispatch($container, $middleware, $request, $response);
+        $result = $this->dispatch($container, $request, $response, $middleware);
 
         if ($result instanceof ResponseInterface) {
             $response = $result;
@@ -68,16 +68,18 @@ class Application
 
     /**
      * Gets the result from the dispatcher.
-     * 
-     * @param  \Psr\Http\Message\RequestInterface  $request
+     *
+     * @param  \Rougin\Slytherin\IoC\ContainerInterface $container
+     * @param  \Psr\Http\Message\RequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
      * @return \Psr\Http\Message\ResponseInterface|mixed
      */
     private function dispatch(
         ContainerInterface $container,
-        MiddlewareInterface $middleware,
         RequestInterface $request,
-        ResponseInterface $response
+        ResponseInterface $response,
+        MiddlewareInterface $middleware = null
     ) {
         // Gets the requested route from the dispatcher
         $route = $this->components->getDispatcher()->dispatch(
@@ -90,12 +92,8 @@ class Application
 
         $result = null;
 
-        if ( ! empty($middlewares)) {
-            foreach ($middlewares as $class) {
-                $middleware->pipe(new $class);
-            }
-
-            $result = $middleware($request, $response);
+        if ($middleware && ! empty($middlewares)) {
+            $result = $middleware($request, $response, $middlewares);
         }
 
         if ($result && $result->getBody(true) != '') {
