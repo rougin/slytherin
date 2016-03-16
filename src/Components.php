@@ -133,6 +133,26 @@ class Components
     }
 
     /**
+     * Gets the request.
+     * 
+     * @return \Psr\Http\Message\RequestInterface
+     */
+    public function getRequest()
+    {
+        return $this->getComponent('request');
+    }
+
+    /**
+     * Gets the response.
+     * 
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getResponse()
+    {
+        return $this->getComponent('response');
+    }
+
+    /**
      * Gets the selected component.
      * 
      * @param  string $type

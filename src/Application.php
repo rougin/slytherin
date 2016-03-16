@@ -32,7 +32,40 @@ class Application
     }
 
     /**
-     * Runs the application
+     * Handles a request to convert it to a response.
+     *
+     * @param  \Psr\Http\Message\RequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function handle(RequestInterface $request)
+    {
+        // Gets the specified components
+        $dispatcher = $this->components->getDispatcher();
+        $middleware = $this->components->getMiddleware();
+        $response = $this->components->getResponse();
+
+        // Gets the requested route from the dispatcher.
+        $httpMethod = $request->getMethod();
+        $uri = $request->getUri()->getPath();
+        $result = $dispatcher->dispatch($httpMethod, $uri);
+
+        // Extracts the result into variables.
+        list($function, $parameters, $middlewares) = $result;
+
+        // Calls the specified middlewares.
+        if ($middleware && ! empty($middlewares)) {
+            $response = $middleware($request, $response, $middlewares);
+        }
+
+        if ($response->getBody(true) != '') {
+            return $response;
+        }
+
+        return $this->toResponse($function, $parameters);
+    }
+
+    /**
+     * Runs the application.
      * 
      * @return void
      */
@@ -42,18 +75,7 @@ class Application
             $debugger->display();
         }
 
-        $container = $this->components->getContainer();
-        $middleware = $this->components->getMiddleware();
-
-        list($request, $response) = $this->components->getHttp();
-
-        $result = $this->dispatch($container, $request, $response, $middleware);
-
-        if ($result instanceof ResponseInterface) {
-            $response = $result;
-        } else {
-            $response->getBody()->write($result);
-        }
+        $response = $this->handle($this->components->getRequest());
 
         // Sets the specified headers, if any.
         foreach ($response->getHeaders() as $name => $value) {
@@ -67,52 +89,43 @@ class Application
     }
 
     /**
-     * Gets the result from the dispatcher.
-     *
-     * @param  \Rougin\Slytherin\IoC\ContainerInterface $container
-     * @param  \Psr\Http\Message\RequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
-     * @return \Psr\Http\Message\ResponseInterface|mixed
+     * Converts the returned data into a response.
+     * 
+     * @param  array|callable $function
+     * @param  array          $parameters
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    private function dispatch(
-        ContainerInterface $container,
-        RequestInterface $request,
-        ResponseInterface $response,
-        MiddlewareInterface $middleware = null
-    ) {
-        // Gets the requested route from the dispatcher
-        $route = $this->components->getDispatcher()->dispatch(
-            $request->getMethod(),
-            $request->getUri()->getPath()
-        );
+    protected function toResponse($function, array $parameters = [])
+    {
+        $container = $this->components->getContainer();
+        $response = null;
 
-        // Extract the result into variables
-        list($function, $parameters, $middlewares) = $route;
-
-        $result = null;
-
-        if ($middleware && ! empty($middlewares)) {
-            $result = $middleware($request, $response, $middlewares);
-        }
-
-        if ($result && $result->getBody(true) != '') {
-            return $result;
-        }
-
-        // If the function is a callback, return immediately.
+        // If the function is a callback.
         if (is_callable($function) && is_object($function)) {
-            return call_user_func($function, $parameters);
+            $response = call_user_func($function, $parameters);
         }
 
-        list($class, $method) = $function;
+        // If the function returns an array.
+        if (is_array($function)) {
+            list($class, $method) = $function;
 
-        if ( ! $container->has($class)) {
-            $container->add($class);
+            if ( ! $container->has($class)) {
+                $container->add($class);
+            }
+
+            $class = $container->get($class);
+
+            $response = call_user_func_array([$class, $method], $parameters);
         }
 
-        $class = $container->get($class);
+        // Checks if the result does not have instance of ResponseInterface.
+        if ( ! $response instanceof ResponseInterface) {
+            $result = $response;
+            $response = $this->components->getResponse();
 
-        return call_user_func_array([$class, $method], $parameters);
+            $response->getBody()->write($result);
+        }
+
+        return $response;
     }
 }
