@@ -8,6 +8,9 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Middleware` component
 - `Application::handle` and `Application::toResponse` methods
 
+### Changed
+- PHP version to `v5.4.0`
+
 ## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) 2016-02-19
 
 ### Added
