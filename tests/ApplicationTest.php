@@ -178,29 +178,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks if the application runs in the RelayMiddleware.
-     * 
-     * @return void
-     */
-    public function testRunMethodWithRelayMiddleware()
-    {
-        $container = $this->components->getContainer();
-        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-        $builder = new RelayBuilder;
-
-        $container->add($middleware, new RelayMiddleware($builder));
-        $this->components->setMiddleware($container->get($middleware));
-
-        $this->expectOutputString('Loaded with middleware');
-
-        $this->setRequest('GET', '/middleware');
-
-        $application = new Application($this->components);
-
-        $application->run();
-    }
-
-    /**
      * Changes the HTTP method and the uri of the request.
      * 
      * @param string $httpMethod
