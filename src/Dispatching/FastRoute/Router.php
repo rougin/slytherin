@@ -3,8 +3,9 @@
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use FastRoute\RouteCollector;
-use Rougin\Slytherin\Dispatching\RouterInterface;
+
 use Rougin\Slytherin\Dispatching\BaseRouter;
+use Rougin\Slytherin\Dispatching\RouterInterface;
 
 /**
  * FastRoute Router

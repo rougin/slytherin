@@ -3,10 +3,11 @@
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use Closure;
-use FastRoute\Dispatcher as FastRouteDispatcher;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-use Rougin\Slytherin\Dispatching\RouterInterface;
 use UnexpectedValueException;
+use FastRoute\Dispatcher as FastRouteDispatcher;
+
+use Rougin\Slytherin\Dispatching\RouterInterface;
+use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
  * FastRoute Dispatcher

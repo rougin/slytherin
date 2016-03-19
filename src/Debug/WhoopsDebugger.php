@@ -2,15 +2,15 @@
 
 namespace Rougin\Slytherin\Debug;
 
+use Whoops\Run;
 use Whoops\Handler\HandlerInterface;
 use Whoops\Handler\PrettyPageHandler;
-use Whoops\Run;
 
 /**
  * Debugger
  *
- * A simple implementation of a debugger built on top of
- * Filipe Dobreira's Whoops! - php errors for cool kids.
+ * A simple implementation of a debugger built on top of Filipe Dobreira's
+ * Whoops! - php errors for cool kids.
  *
  * http://filp.github.io/whoops
  * 
@@ -63,7 +63,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Returns a listing of handlers.
      * 
-     * @return HandlerInterface[]
+     * @return array
      */
     public function getHandlers()
     {
@@ -73,7 +73,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Registers the instance as a debugger.
      * 
-     * @return Run
+     * @return \Whoops\Run
      */
     public function display()
     {
@@ -89,7 +89,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Sets a handler.
      * 
-     * @param callable|HandlerInterface $handler
+     * @param \Whoops\Handler\HandlerInterface|callable $handler
      */
     public function setHandler($handler)
     {

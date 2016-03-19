@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\IoC;
 
 use ReflectionClass;
 use League\Container\Container as BaseLeagueContainer;
+
 use Rougin\Slytherin\IoC\Exception\NotFoundException;
 
 /**

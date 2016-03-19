@@ -9,7 +9,8 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 /**
  * Stratigility Middleware
  *
- * A simple implementation of middleware that is built on top of Zend's Stratigility.
+ * A simple implementation of middleware that is built on top of
+ * Zend Framework's Stratigility.
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
