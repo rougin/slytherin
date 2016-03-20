@@ -7,6 +7,7 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Added
 - `Middleware` component
 - `Application::handle` and `Application::toResponse` methods
+- `HttpKernelInterface` for interoperability
 
 ### Changed
 - PHP version to `v5.4.0`

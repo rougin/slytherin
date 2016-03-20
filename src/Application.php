@@ -2,10 +2,12 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 use Rougin\Slytherin\IoC\ContainerInterface;
+use Rougin\Slytherin\Http\HttpFoundationFactory;
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
@@ -16,12 +18,12 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Application
+class Application extends HttpFoundationFactory implements HttpKernelInterface
 {
     /**
      * @var \Rougin\Slytherin\Components
      */
-    private $components;
+    protected $components;
 
     /**
      * @param \Rougin\Slytherin\Components $components
@@ -33,20 +35,22 @@ class Application
 
     /**
      * Handles a request to convert it to a response.
-     *
-     * @param  \Psr\Http\Message\RequestInterface $request
-     * @return \Psr\Http\Message\ResponseInterface
+     * 
+     * @param  \Symfony\Component\HttpFoundation\Request $request
+     * @param  integer $type
+     * @param  boolean $catch
+     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function handle(RequestInterface $request)
+    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
     {
         // Gets the specified components
         $dispatcher = $this->components->getDispatcher();
         $middleware = $this->components->getMiddleware();
-        $response = $this->components->getResponse();
+        $response = $this->components->getHttpResponse();
 
         // Gets the requested route from the dispatcher.
         $httpMethod = $request->getMethod();
-        $uri = $request->getUri()->getPath();
+        $uri = $request->getPathInfo();
         $result = $dispatcher->dispatch($httpMethod, $uri);
 
         // Extracts the result into variables.
@@ -54,14 +58,18 @@ class Application
 
         // Calls the specified middlewares.
         if ($middleware && ! empty($middlewares)) {
-            $response = $middleware($request, $response, $middlewares);
+            $psrRequest = $this->components->getHttpRequest();
+            $response = $middleware($psrRequest, $response, $middlewares);
         }
 
-        if ($response->getBody(true) != '') {
-            return $response;
+        // Converts the result into a Symfony response.
+        if ($response && $response->getBody(true) != '') {
+            return $this->createResponse($response);
         }
 
-        return $this->toResponse($function, $parameters);
+        $response = $this->createPsrResponse($function, $parameters);
+
+        return $this->createResponse($response);
     }
 
     /**
@@ -75,27 +83,21 @@ class Application
             $debugger->display();
         }
 
-        $response = $this->handle($this->components->getRequest());
+        $psrRequest = $this->components->getHttpRequest();
+        $symfonyRequest = $this->createRequest($psrRequest);
+        $symfonyResponse = $this->handle($symfonyRequest);
 
-        // Sets the specified headers, if any.
-        foreach ($response->getHeaders() as $name => $value) {
-            header($name . ': ' . implode(',', $value));
-        }
-
-        // Sets the HTTP response code.
-        http_response_code($response->getStatusCode());
-
-        echo $response->getBody();
+        $symfonyResponse->send();
     }
 
     /**
-     * Converts the returned data into a response.
+     * Converts the returned data into a PSR-compliant response.
      * 
      * @param  array|callable $function
-     * @param  array          $parameters
+     * @param  array $parameters
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function toResponse($function, array $parameters = [])
+    protected function createPsrResponse($function, array $parameters = [])
     {
         $container = $this->components->getContainer();
         $response = null;
@@ -121,7 +123,7 @@ class Application
         // Checks if the result does not have instance of ResponseInterface.
         if ( ! $response instanceof ResponseInterface) {
             $result = $response;
-            $response = $this->components->getResponse();
+            $response = $this->components->getHttpResponse();
 
             $response->getBody()->write($result);
         }

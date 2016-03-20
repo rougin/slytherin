@@ -137,7 +137,7 @@ class Components
      * 
      * @return \Psr\Http\Message\RequestInterface
      */
-    public function getRequest()
+    public function getHttpRequest()
     {
         return $this->getComponent('request');
     }
@@ -147,7 +147,7 @@ class Components
      * 
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getResponse()
+    public function getHttpResponse()
     {
         return $this->getComponent('response');
     }

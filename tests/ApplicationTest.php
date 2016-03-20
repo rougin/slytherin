@@ -9,6 +9,7 @@ use Zend\Diactoros\Response;
 use Zend\Stratigility\MiddlewarePipe;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
+use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 
 use Rougin\Slytherin\Components;
 use Rougin\Slytherin\Application;
@@ -52,6 +53,14 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             [
                 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface',
                 'index'
+            ]
+        ],
+        [
+            'GET',
+            '/error',
+            [
+                'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface',
+                'error'
             ]
         ],
         [
@@ -129,7 +138,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function testRunMethodWithResponse()
     {
-        $this->expectOutputString('Hello');
+        $this->expectOutputString('Hello with response');
 
         $this->setRequest('GET', '/hello');
 

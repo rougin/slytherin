@@ -32,7 +32,19 @@ class TestClassWithResponseInterface
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('Access-Control-Allow-Credentials', 'true');
 
-        $response->getBody()->write('Hello');
+        $response->getBody()->write('Hello with response');
+
+        return $response;
+    }
+
+    public function error()
+    {
+        $response = $this->response
+            ->withStatus(401)
+            ->withHeader('Content-Type', 'application/json')
+            ->withHeader('Access-Control-Allow-Credentials', 'true');
+
+        $response->getBody()->write('Hello with error response');
 
         return $response;
     }
