@@ -22,7 +22,7 @@
     "require": {
         "php" : ">=5.4.0",
         "symfony/psr-http-message-bridge": "^0.2.0",
-        "symfony/http-kernel": "^3.0"
+        "symfony/http-kernel": "^2.8"
     },
     "require-dev": {
         "filp/whoops": "^1.1",
