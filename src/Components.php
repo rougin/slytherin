@@ -2,8 +2,8 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\Debug\DebuggerInterface;
@@ -101,11 +101,11 @@ class Components
     /**
      * Sets the HTTP components.
      * 
-     * @param  \Psr\Http\Message\RequestInterface  $request
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return array
      */
-    public function setHttp(RequestInterface $request, ResponseInterface $response)
+    public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
         $this->setComponent('request', $request);
 
@@ -135,7 +135,7 @@ class Components
     /**
      * Gets the request.
      * 
-     * @return \Psr\Http\Message\RequestInterface
+     * @return \Psr\Http\Message\ServerRequestInterface
      */
     public function getHttpRequest()
     {

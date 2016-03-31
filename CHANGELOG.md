@@ -11,6 +11,7 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ### Changed
 - PHP version to `v5.4.0`
+- Interface from `RequestInterface` to `ServerRequestInterface` in `Components`
 
 ## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) 2016-02-19
 
