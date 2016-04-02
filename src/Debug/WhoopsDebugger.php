@@ -63,7 +63,7 @@ class WhoopsDebugger implements DebuggerInterface
     /**
      * Returns a listing of handlers.
      * 
-     * @return array
+     * @return \Whoops\Handler\HandlerInterface[]
      */
     public function getHandlers()
     {

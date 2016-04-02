@@ -6,9 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 
-use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\Http\HttpFoundationFactory;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * Application
