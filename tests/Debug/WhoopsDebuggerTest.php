@@ -64,6 +64,23 @@ class WhoopsDebuggerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests if the specified handler is in the debugger's list of handlers.
+     * 
+     * @return void
+     */
+    public function testSetHandlerMethodWithCallback()
+    {
+        $this->debugger->setHandler(function () {
+            return 'Hello';
+        });
+
+        $this->assertInstanceOf(
+            'Whoops\Handler\CallbackHandler',
+            $this->debugger->getHandlers()[0]
+        );
+    }
+
+    /**
      * Tests the display() method.
      * 
      * @return void

@@ -37,12 +37,12 @@ class HttpFoundationFactory extends HttpFactory
         $server = array_replace($server, $psrRequest->getServerParams());
 
         return new Request(
-            $psrRequest->getQueryParams(),
-            $psrRequest->getParsedBody(),
-            $psrRequest->getAttributes(),
-            $psrRequest->getCookieParams(),
-            $psrRequest->getUploadedFiles(),
-            $server,
+            (array) $psrRequest->getQueryParams(),
+            (array) $psrRequest->getParsedBody(),
+            (array) $psrRequest->getAttributes(),
+            (array) $psrRequest->getCookieParams(),
+            (array) $psrRequest->getUploadedFiles(),
+            (array) $server,
             $psrRequest->getBody()->__toString()
         );
     }

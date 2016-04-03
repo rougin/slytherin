@@ -3,10 +3,10 @@
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use Closure;
+use FastRoute;
 use UnexpectedValueException;
 use FastRoute\Dispatcher as FastRouteDispatcher;
 
-use Rougin\Slytherin\Dispatching\RouterInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
@@ -27,11 +27,11 @@ class Dispatcher implements DispatcherInterface
     protected $dispatcher;
 
     /**
-     * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
+     * @param \Rougin\Slytherin\Dispatching\FastRoute\Router $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(Router $router)
     {
-        $this->dispatcher = \FastRoute\simpleDispatcher($router->getRoutes());
+        $this->dispatcher = FastRoute\simpleDispatcher($router->getRoutes());
     }
 
     /**
