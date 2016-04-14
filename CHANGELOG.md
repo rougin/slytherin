@@ -2,12 +2,13 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.4.3...HEAD)
+## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) 2016-04-14
 
 ### Added
 - `Middleware` component
 - `Application::handle` and `Application::toResponse` methods
 - `HttpKernelInterface` for interoperability
+- `ComponentCollection` class
 
 ### Changed
 - PHP version to `v5.4.0`

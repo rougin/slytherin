@@ -41,9 +41,9 @@ class Router extends BaseRouter
         $routes = [];
 
         foreach ($this->routes as $route) {
-            preg_match('/:[a-z]*/', $route[1], $parameters);
+            preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
-            $pattern = str_replace($parameters, '(\w+)', $route[1]);
+            $pattern = str_replace($parameters[0], '(\w+)', $route[1]);
             $pattern = '/^'.str_replace('/', '\/', $pattern).'$/';
 
             array_push($routes, [$route[0], $pattern, $route[2], $route[3]]);

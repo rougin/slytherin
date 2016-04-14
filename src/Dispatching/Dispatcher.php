@@ -20,6 +20,9 @@ class Dispatcher implements DispatcherInterface
      */
     protected $router;
 
+    /**
+     * @var array
+     */
     protected $validHttpMethods = [
         'DELETE',
         'GET',
@@ -55,7 +58,7 @@ class Dispatcher implements DispatcherInterface
         foreach ($this->router->getRoutes() as $route) {
             $hasMatch = preg_match($route[1], $uri, $parameters);
 
-            if (! $hasMatch || $httpMethod != $route[0]) {
+            if ( ! $hasMatch || $httpMethod != $route[0]) {
                 continue;
             }
 
