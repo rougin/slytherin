@@ -23,10 +23,16 @@ class TwigRenderer implements RendererInterface
     protected $twig;
 
     /**
+     * @var array
+     */
+    protected $globals = [];
+
+    /**
      * @param Twig_Environment $twig
      */
-    public function __construct(Twig_Environment $twig)
+    public function __construct(Twig_Environment $twig, $globals = [])
     {
+        $this->globals = $globals;
         $this->twig = $twig;
     }
 
@@ -39,6 +45,8 @@ class TwigRenderer implements RendererInterface
      */
     public function render($template, array $data = [])
     {
+        $data = array_merge($data, $this->globals);
+
         return $this->twig->render("$template.html", $data);
     }
 }
