@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template;
 
-use Twig_Environment;
+use Rougin\Slytherin\Template\Twig\Renderer as BaseRenderer;
 
 /**
  * Renderer
@@ -15,38 +15,4 @@ use Twig_Environment;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TwigRenderer implements RendererInterface
-{
-    /**
-     * @var Twig_Environment
-     */
-    protected $twig;
-
-    /**
-     * @var array
-     */
-    protected $globals = [];
-
-    /**
-     * @param Twig_Environment $twig
-     */
-    public function __construct(Twig_Environment $twig, $globals = [])
-    {
-        $this->globals = $globals;
-        $this->twig = $twig;
-    }
-
-    /**
-     * Renders a template.
-     *
-     * @param  string $template
-     * @param  array  $data
-     * @return string
-     */
-    public function render($template, array $data = [])
-    {
-        $data = array_merge($data, $this->globals);
-
-        return $this->twig->render("$template.html", $data);
-    }
-}
+class TwigRenderer extends BaseRenderer {}

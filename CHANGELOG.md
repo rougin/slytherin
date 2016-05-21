@@ -5,7 +5,10 @@ All Notable changes to `Slytherin` will be documented in this file
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.5.0...HEAD)
 
 ### Added
-- Parameter for adding default data in `Template\TwigRenderer`
+- Parameter for adding default data and file extension in `Template\TwigRenderer`
+
+### Changed
+- File and directory structure
 
 ## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) 2016-04-14
 

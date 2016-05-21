@@ -1,8 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\IoC;
+namespace Rougin\Slytherin\IoC\League;
 
-use Rougin\Slytherin\IoC\League\Container as BaseLeagueContainer;
+use ReflectionClass;
+use League\Container\Container as LeagueContainer;
+
+use Rougin\Slytherin\IoC\ContainerInterface;
 
 /**
  * LeagueContainer
@@ -14,4 +17,4 @@ use Rougin\Slytherin\IoC\League\Container as BaseLeagueContainer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends BaseLeagueContainer {}
+class Container extends LeagueContainer implements ContainerInterface {}

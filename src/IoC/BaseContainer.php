@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\IoC;
 
 use Interop\Container\ContainerInterface as InteropContainerInterface;
 
-use Rougin\Slytherin\IoC\Exception\NotFoundException;
+use Rougin\Slytherin\IoC\Vanilla\Exception\NotFoundException;
 
 /**
  * Base Container

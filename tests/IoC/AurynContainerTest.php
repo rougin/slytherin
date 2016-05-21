@@ -102,7 +102,7 @@ class AurynContainerTest extends PHPUnit_Framework_TestCase
     public function testGetMethodWithError()
     {
         $this->setExpectedException(
-            'Rougin\Slytherin\IoC\Exception\NotFoundException'
+            'Rougin\Slytherin\IoC\Vanilla\Exception\NotFoundException'
         );
 
         $this->container->get($this->class);
