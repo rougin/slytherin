@@ -2,7 +2,7 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.5.0...HEAD)
+## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.0...v0.6.0)
 
 ### Added
 - Parameter for adding default data and file extension in `Template\TwigRenderer`
