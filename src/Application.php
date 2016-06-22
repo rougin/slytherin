@@ -19,14 +19,14 @@ use Rougin\Slytherin\Http\HttpFoundationFactory;
 class Application extends HttpFoundationFactory implements HttpKernelInterface
 {
     /**
-     * @var \Rougin\Slytherin\Components
+     * @var \Rougin\Slytherin\ComponentCollection
      */
     protected $components;
 
     /**
-     * @param \Rougin\Slytherin\Components $components
+     * @param \Rougin\Slytherin\ComponentCollection $components
      */
-    public function __construct(Components $components)
+    public function __construct(ComponentCollection $components)
     {
         $this->components = $components;
     }
