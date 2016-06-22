@@ -57,7 +57,6 @@ class Application
      * Gets the result from the dispatcher.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
      * @return array
      */
     private function dispatchRoute(ServerRequestInterface $request)
