@@ -36,7 +36,7 @@
     "autoload": {
         "psr-4": {
             "Rougin\\Slytherin\\": "src",
-            "Rougin\\Slytherin\\Container": "src/IoC"
+            "Rougin\\Slytherin\\Container\\": "src/IoC"
         }
     },
     "autoload-dev": {
