@@ -20,9 +20,7 @@
         }
     ],
     "require": {
-        "php" : ">=5.4.0",
-        "symfony/http-kernel": "^2.8",
-        "symfony/psr-http-message-bridge": "^0.2.0"
+        "php" : ">=5.4.0"
     },
     "require-dev": {
         "filp/whoops": "^1.1",
@@ -37,7 +35,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Rougin\\Slytherin\\": "src"
+            "Rougin\\Slytherin\\": "src",
+            "Rougin\\Slytherin\\Container": "src/IoC"
         }
     },
     "autoload-dev": {

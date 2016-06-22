@@ -3,10 +3,10 @@
 namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ResponseInterface;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
-use Rougin\Slytherin\Http\HttpFoundationFactory;
+use Rougin\Slytherin\IoC\ContainerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * Application
@@ -16,12 +16,12 @@ use Rougin\Slytherin\Http\HttpFoundationFactory;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Application extends HttpFoundationFactory implements HttpKernelInterface
+class Application
 {
     /**
      * @var \Rougin\Slytherin\ComponentCollection
      */
-    protected $components;
+    private $components;
 
     /**
      * @param \Rougin\Slytherin\ComponentCollection $components
@@ -32,99 +32,122 @@ class Application extends HttpFoundationFactory implements HttpKernelInterface
     }
 
     /**
-     * Handles a request to convert it to a response.
-     * 
-     * @param  \Symfony\Component\HttpFoundation\Request $request
-     * @param  integer $type
-     * @param  boolean $catch
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = true)
-    {
-        // Gets the specified components
-        $dispatcher = $this->components->getDispatcher();
-        $middleware = $this->components->getMiddleware();
-        $response = $this->components->getHttpResponse();
-
-        // Gets the requested route from the dispatcher.
-        $httpMethod = $request->getMethod();
-        $uri = $request->getPathInfo();
-        $result = $dispatcher->dispatch($httpMethod, $uri);
-
-        // Extracts the result into variables.
-        list($function, $parameters, $middlewares) = $result;
-
-        // Calls the specified middlewares.
-        if ($middleware && ! empty($middlewares)) {
-            $psrRequest = $this->components->getHttpRequest();
-            $response = $middleware($psrRequest, $response, $middlewares);
-        }
-
-        // Converts the result into a Symfony response.
-        if ($response && $response->getBody(true) != '') {
-            return $this->createResponse($response);
-        }
-
-        $response = $this->createPsrResponse($function, $parameters);
-
-        return $this->createResponse($response);
-    }
-
-    /**
-     * Runs the application.
+     * Runs the application
      * 
      * @return void
      */
     public function run()
     {
+        $request = $this->components->getHttpRequest();
+
         if ($debugger = $this->components->getDebugger()) {
             $debugger->display();
         }
 
-        $psrRequest = $this->components->getHttpRequest();
-        $symfonyRequest = $this->createRequest($psrRequest);
-        $symfonyResponse = $this->handle($symfonyRequest);
+        list($function, $middlewares) = $this->dispatchRoute($request);
 
-        $symfonyResponse->send();
+        if ( ! $response = $this->prepareMiddleware($middlewares)) {
+            $response = $this->setResponse($this->resolveClass($function));
+        }
+
+        echo $response->getBody();
     }
 
     /**
-     * Converts the returned data into a PSR-compliant response.
+     * Gets the result from the dispatcher.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return array
+     */
+    private function dispatchRoute(ServerRequestInterface $request)
+    {
+        $dispatcher = $this->components->getDispatcher();
+        $path = $request->getUri()->getPath();
+
+        // Gets the requested route from the dispatcher
+        $route = $dispatcher->dispatch($request->getMethod(), $path);
+
+        // Extract the result into variables
+        list($function, $parameters, $middlewares) = $route;
+
+        return [ [ $function, $parameters ], $middlewares ];
+    }
+
+    /**
+     * Prepares the defined middlewares.
      * 
-     * @param  array|callable $function
-     * @param  array $parameters
+     * @param  array $middlewares
+     * @return mixed
+     */
+    private function prepareMiddleware($middlewares = [])
+    {
+        $middleware = $this->components->getMiddleware();
+        $result = null;
+
+        list($request, $response) = $this->components->getHttp();
+
+        if ($middleware && ! empty($middlewares)) {
+            $result = $middleware($request, $response, $middlewares);
+        }
+
+        if ($result instanceof ResponseInterface) {
+            return $this->setResponse($result);
+        }
+
+        return $result;
+    }
+
+    /**
+     * Resolves the result based from the dispatched route.
+     * 
+     * @param  array $function
+     * @return mixed
+     */
+    private function resolveClass($function)
+    {
+        list($class, $parameters) = $function;
+
+        if (is_callable($class) && is_object($class)) {
+            return call_user_func($class, $parameters);
+        }
+
+        $container = $this->components->getContainer();
+
+        list($className, $method) = $class;
+
+        if ( ! $container->has($className)) {
+            $container->add($className);
+        }
+
+        $result = $container->get($className);
+
+        return call_user_func_array([ $result, $method ], $parameters);
+    }
+
+    /**
+     * Sets the response to the user.
+     * 
+     * @param  mixed $result
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function createPsrResponse($function, array $parameters = [])
+    private function setResponse($result)
     {
-        $container = $this->components->getContainer();
-        $response = null;
+        $response = $this->components->getHttpResponse();
 
-        // If the function is a callback.
-        if (is_callable($function) && is_object($function)) {
-            $response = call_user_func($function, $parameters);
-        }
-
-        // If the function returns an array.
-        if (is_array($function)) {
-            list($class, $method) = $function;
-
-            if ( ! $container->has($class)) {
-                $container->add($class);
-            }
-
-            $class = $container->get($class);
-
-            $response = call_user_func_array([$class, $method], $parameters);
-        }
-
-        // Checks if the result does not have instance of ResponseInterface.
-        if ( ! $response instanceof ResponseInterface) {
-            $result = $response;
-            $response = $this->components->getHttpResponse();
-
+        if ($result instanceof ResponseInterface) {
+            $response = $result;
+        } else {
             $response->getBody()->write($result);
         }
+
+        // Sets the specified headers, if any.
+        foreach ($response->getHeaders() as $name => $value) {
+            header($name . ': ' . implode(',', $value));
+        }
+
+        // Sets the HTTP response code.
+        http_response_code($response->getStatusCode());
 
         return $response;
     }

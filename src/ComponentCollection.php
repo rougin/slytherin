@@ -92,10 +92,7 @@ class ComponentCollection
      */
     public function getHttp()
     {
-        return [
-            $this->getComponent('request'),
-            $this->getComponent('response')
-        ];
+        return [ $this->getHttpRequest(), $this->getHttpResponse() ];
     }
 
     /**
