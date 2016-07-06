@@ -72,6 +72,14 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             ],
             'Rougin\Slytherin\Test\Fixture\TestMiddleware',
         ],
+        [
+            'PUT',
+            '/hello',
+            [
+                'Rougin\Slytherin\Test\Fixture\TestClassWithPutHttpMethod',
+                'index'
+            ]
+        ],
     ];
 
     /**
@@ -187,17 +195,48 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the run() method with a PUT HTTP method.
+     * 
+     * @runInSeparateProcess
+     * @return void
+     */
+    public function testRunMethodWithPutHttpMethod()
+    {
+        $this->expectOutputString('Hello from PUT HTTP method');
+
+        $this->setRequest('PUT', '/hello', [ '_method' => 'PUT' ]);
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
      * Changes the HTTP method and the uri of the request.
      * 
      * @param string $httpMethod
      * @param string $uri
+     * @param array  $data
      * @return void
      */
-    private function setRequest($httpMethod, $uri)
+    private function setRequest($httpMethod, $uri, $data = [])
     {
         list($request, $response) = $this->components->getHttp();
 
         $request = $request->withMethod($httpMethod)->withUri(new Uri($uri));
+
+        switch ($httpMethod) {
+            case 'GET':
+                $request = $request->withQueryParams($data);
+
+                break;
+            case 'POST':
+            case 'PUT':
+            case 'DELETE':
+                $request = $request->withParsedBody($data);
+
+                break;
+        }
 
         $this->components->setHttp($request, $response);
     }

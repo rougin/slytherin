@@ -5,9 +5,6 @@ namespace Rougin\Slytherin;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Rougin\Slytherin\IoC\ContainerInterface;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
-
 /**
  * Application
  *
@@ -62,10 +59,16 @@ class Application
     private function dispatchRoute(ServerRequestInterface $request)
     {
         $dispatcher = $this->components->getDispatcher();
+        $method = $request->getMethod();
         $path = $request->getUri()->getPath();
+        $post = $request->getParsedBody();
+
+        if (isset($post['_method'])) {
+            $method = strtoupper($post['_method']);
+        }
 
         // Gets the requested route from the dispatcher
-        $route = $dispatcher->dispatch($request->getMethod(), $path);
+        $route = $dispatcher->dispatch($method, $path);
 
         // Extract the result into variables
         list($function, $parameters, $middlewares) = $route;
@@ -90,11 +93,11 @@ class Application
             $result = $middleware($request, $response, $middlewares);
         }
 
-        if ($result instanceof ResponseInterface) {
-            return $this->setResponse($result);
+        if ( ! $result instanceof ResponseInterface) {
+            return $result;
         }
 
-        return $result;
+        return $this->setResponse($result);
     }
 
     /**
