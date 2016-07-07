@@ -43,7 +43,9 @@ class Application
 
         list($function, $middlewares) = $this->dispatchRoute($request);
 
-        if ( ! $response = $this->prepareMiddleware($middlewares)) {
+        $response = $this->prepareMiddleware($middlewares);
+
+        if ( ! $response || $response->getBody() == '') {
             $response = $this->setResponse($this->resolveClass($function));
         }
 
@@ -60,8 +62,8 @@ class Application
     {
         $dispatcher = $this->components->getDispatcher();
         $method = $request->getMethod();
-        $path = $request->getUri()->getPath();
         $post = $request->getParsedBody();
+        $path = $request->getUri()->getPath();
 
         if (isset($post['_method'])) {
             $method = strtoupper($post['_method']);
@@ -93,11 +95,7 @@ class Application
             $result = $middleware($request, $response, $middlewares);
         }
 
-        if ( ! $result instanceof ResponseInterface) {
-            return $result;
-        }
-
-        return $this->setResponse($result);
+        return ($result) ? $this->setResponse($result) : null;
     }
 
     /**

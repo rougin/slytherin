@@ -10,6 +10,9 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Changed
 - Version of `filp/whoops`
 
+### Fixed
+- Returning of result when using a `Middleware` component
+
 ### Removed
 - `HttpKernelInterface`
 
