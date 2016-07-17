@@ -2,22 +2,12 @@
 
 namespace Rougin\Slytherin\Test;
 
-use Whoops\Run;
 use Zend\Diactoros\Uri;
-use Relay\RelayBuilder;
-use Zend\Diactoros\Response;
 use Zend\Stratigility\MiddlewarePipe;
-use Zend\Diactoros\Response\SapiEmitter;
-use Zend\Diactoros\ServerRequestFactory;
-use Symfony\Bridge\PsrHttpMessage\Factory\HttpFoundationFactory;
 
-use Rougin\Slytherin\Components;
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\IoC\Container;
-use Rougin\Slytherin\Dispatching\Router;
-use Rougin\Slytherin\Debug\WhoopsDebugger;
-use Rougin\Slytherin\Dispatching\Dispatcher;
-use Rougin\Slytherin\Middleware\RelayMiddleware;
+use Rougin\Slytherin\Component\Collector;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
 
 use PHPUnit_Framework_TestCase;
@@ -36,90 +26,22 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     protected $components;
 
     /**
-     * @var array
-     */
-    protected $routes = [
-        [
-            'GET',
-            '/',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClass',
-                'index'
-            ],
-        ],
-        [
-            'GET',
-            '/hello',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface',
-                'index'
-            ]
-        ],
-        [
-            'GET',
-            '/error',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface',
-                'error'
-            ]
-        ],
-        [
-            'GET',
-            '/middleware',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClass',
-                'index'
-            ],
-            'Rougin\Slytherin\Test\Fixture\TestMiddleware',
-        ],
-        [
-            'PUT',
-            '/hello',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClassWithPutHttpMethod',
-                'index'
-            ]
-        ],
-    ];
-
-    /**
      * Sets up the application.
      *
      * @return void
      */
     public function setUp()
     {
-        $callback = ['GET', '/callback', function () { return 'Hello'; }];
+        $components = [
+            'Rougin\Slytherin\Test\Fixture\Components\DebuggerComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\DispatcherComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\HttpComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\SingleComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\CollectionComponent',
+        ];
 
-        array_push($this->routes, $callback);
-
-        $container = new Container;
-        $components = new Components;
-
-        $dispatcher = 'Rougin\Slytherin\Dispatching\DispatcherInterface';
-
-        $container->add($dispatcher, new Dispatcher(new Router($this->routes)));
-        $components->setDispatcher($container->get($dispatcher));
-
-        $request = 'Psr\Http\Message\RequestInterface';
-        $response = 'Psr\Http\Message\ResponseInterface';
-
-        $container->add($request, ServerRequestFactory::fromGlobals());
-        $container->add($response, new Response);
-
-        $components->setHttp(
-            $container->get($request),
-            $container->get($response)
-        );
-
-        $debugger = 'Rougin\Slytherin\Debug\DebuggerInterface';
-
-        $container->add($debugger, new WhoopsDebugger(new Run));
-        $components->setDebugger($container->get($debugger));
-
-        $components->setContainer($container);
-
-        $this->components = $components;
+        $this->components = Collector::get(new Container, $components, $GLOBALS);
     }
 
     /**

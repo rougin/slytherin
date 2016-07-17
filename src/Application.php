@@ -5,6 +5,8 @@ namespace Rougin\Slytherin;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Rougin\Slytherin\Component\Collection;
+
 /**
  * Application
  *
@@ -16,14 +18,14 @@ use Psr\Http\Message\ServerRequestInterface;
 class Application
 {
     /**
-     * @var \Rougin\Slytherin\ComponentCollection
+     * @var \Rougin\Slytherin\Component\Collection
      */
     private $components;
 
     /**
-     * @param \Rougin\Slytherin\ComponentCollection $components
+     * @param \Rougin\Slytherin\Component\Collection $components
      */
-    public function __construct(ComponentCollection $components)
+    public function __construct(Collection $components)
     {
         $this->components = $components;
     }

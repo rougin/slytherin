@@ -6,6 +6,7 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ### Added
 - HTTP method spoofing
+- `Component` directory for handling components
 
 ### Changed
 - Version of `filp/whoops`
