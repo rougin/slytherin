@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
 use Rougin\Slytherin\IoC\ContainerInterface;
 
 /**
@@ -45,8 +42,8 @@ class Collector
                 case 'http':
                     list($request, $response) = $component->get();
 
-                    $container->add(ServerRequestInterface::class, $request);
-                    $container->add(ResponseInterface::class, $response);
+                    $container->add('Psr\Http\Message\ServerRequestInterface', $request);
+                    $container->add('Psr\Http\Message\ResponseInterface', $response);
 
                     $collection->setHttp($request, $response);
 
