@@ -18,7 +18,7 @@ class SingleComponent extends AbstractComponent
      * 
      * @var string
      */
-    protected $className = TestClass::class;
+    protected $className = 'Rougin\Slytherin\Test\Fixture\TestClass';
 
     /**
      * Returns an instance from the named class.
