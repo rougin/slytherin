@@ -2,7 +2,7 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.6.0...HEAD)
+## [0.7.0](https://github.com/rougin/slytherin/compare/v0.6.0...v0.7.0)
 
 ### Added
 - HTTP method spoofing
