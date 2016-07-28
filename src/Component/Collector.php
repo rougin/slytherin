@@ -53,9 +53,7 @@ class Collector
                     break;
             }
 
-            if ( ! $component->getType()) {
-                self::set($component, $container);
-            }
+            self::set($component, $container);
         }
 
         $collection->setContainer($container);
@@ -76,6 +74,10 @@ class Collector
      */
     private static function set(ComponentInterface $component, ContainerInterface & $container)
     {
+        if ($component->getType()) {
+            return;
+        }
+
         $componentContainer = $component->needsContainer() ? $container : null;
         $componentName = (string) $component;
         $component = $component->get($componentContainer);

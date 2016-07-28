@@ -53,8 +53,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $classMethod = '';
-        $className   = '';
+        $class       = '';
         $middlewares = [];
         $parameters  = [];
 
@@ -69,24 +68,18 @@ class Dispatcher implements DispatcherInterface
 
             array_shift($parameters);
 
-            $parameters = array_values($parameters);
-
+            $class       = $route[2];
             $middlewares = $route[3];
-
-            if (is_object($route[2])) {
-                return [$route[2], $parameters, $middlewares];
-            }
-
-            list($className, $classMethod) = $route[2];
+            $parameters  = array_values($parameters);
 
             break;
         }
 
-        if ( ! $className || ! $classMethod) {
+        if ( ! $class) {
             throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return [[$className, $classMethod], $parameters, $middlewares];
+        return [$class, $parameters, $middlewares];
     }
 
     /**
