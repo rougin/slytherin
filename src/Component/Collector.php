@@ -51,9 +51,11 @@ class Collector
                     $collection->setMiddleware($component->get());
 
                     break;
-            }
+                default:
+                    self::set($component, $container);
 
-            self::set($component, $container);
+                    break;
+            }
         }
 
         $collection->setContainer($container);
@@ -74,10 +76,6 @@ class Collector
      */
     private static function set(ComponentInterface $component, ContainerInterface & $container)
     {
-        if ($component->getType()) {
-            return;
-        }
-
         $componentContainer = $component->needsContainer() ? $container : null;
         $componentName = (string) $component;
         $component = $component->get($componentContainer);
