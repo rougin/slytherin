@@ -68,7 +68,7 @@ class Renderer implements RendererInterface
     private function getTemplate($template)
     {
         foreach ($this->directories as $directory) {
-            if ($files = glob($directory . '/' . $template)) {
+            if ($files = glob("$directory/$template")) {
                 return $files[0];
             }
         }
