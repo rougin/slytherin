@@ -28,7 +28,6 @@ class Collector
 
         foreach ($components as $component) {
             $component = new $component;
-            $componentContainer = $component->needsContainer() ? $container : null;
 
             switch ($component->getType()) {
                 case 'dispatcher':
@@ -55,16 +54,7 @@ class Collector
             }
 
             if ( ! $component->getType()) {
-                $componentName = (string) $component;
-                $component = $component->get($componentContainer);
-
-                if (is_array($component)) {
-                    foreach ($component as $key => $value) {
-                        $container->add($key, $value);
-                    }
-                } else {
-                    $container->add($componentName, $component);
-                }
+                self::set($component, $container);
             }
         }
 
@@ -75,5 +65,27 @@ class Collector
         }
 
         return $collection;
+    }
+
+    /**
+     * Sets the component and add it to the container.
+     * 
+     * @param  \Rougin\Slytherin\Component\ComponentInterface $component
+     * @param  \Rougin\Slytherin\IoC\ContainerInterface &$container
+     * @return void
+     */
+    private static function set(ComponentInterface $component, ContainerInterface &$container)
+    {
+        $componentContainer = $component->needsContainer() ? $container : null;
+        $componentName = (string) $component;
+        $component = $component->get($componentContainer);
+
+        if (is_array($component)) {
+            foreach ($component as $key => $value) {
+                $container->add($key, $value);
+            }
+        } else {
+            $container->add($componentName, $component);
+        }
     }
 }

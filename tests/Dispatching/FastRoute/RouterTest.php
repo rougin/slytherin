@@ -30,7 +30,8 @@ class RouterTest extends PHPUnit_Framework_TestCase
             [
                 'Rougin\Slytherin\Test\Fixture\TestClass',
                 'index'
-            ]
+            ],
+            []
         ],
     ];
 

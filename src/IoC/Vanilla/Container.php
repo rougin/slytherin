@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\IoC\Vanilla;
 
 use ReflectionClass;
+use ReflectionParameter;
 
 use Rougin\Slytherin\IoC\BaseContainer;
 use Rougin\Slytherin\IoC\ContainerInterface;
@@ -50,6 +51,24 @@ class Container extends BaseContainer implements ContainerInterface
     }
 
     /**
+     * Sets the parameter from the ReflectionParameter class.
+     * 
+     * @param  \ReflectionParameter $parameter
+     * @param  array &$parameters
+     * @return void
+     */
+    private function setParameter(ReflectionParameter $parameter, &$parameters = [])
+    {
+        $newParameter = null;
+
+        if ($parameter->isDefaultValueAvailable()) {
+            $newParameter = $parameter->getDefaultValue();
+        }
+
+        array_push($parameters, $newParameter);
+    }
+
+    /**
      * Resolves the dependencies on the specified class.
      *
      * @link   http://goo.gl/wN8Vaz
@@ -58,39 +77,34 @@ class Container extends BaseContainer implements ContainerInterface
      */
     private function resolve($class)
     {
-        // Reflect on the $class
-        $reflectionClass = new ReflectionClass($class);
-
-        // Fetch the constructor (instance of ReflectionMethod)
-        $constructor = $reflectionClass->getConstructor();
-
-        // If there is no constructor, there is no dependencies, which means
-        // that our job is done.
-        if ( ! $constructor) {
-            return new $class;
-        }
-
-        // Fetch the arguments from the constructor
-        // (collection of ReflectionParameter instances)
-        $parameters = $constructor->getParameters();
-
         // This is were we store the dependencies
         $newParameters = [];
 
+        // Reflect on the $class
+        $reflectionClass = new ReflectionClass($class);
+
+        // If there is no constructor, there is no dependencies, which means
+        // that our job is done.
+        if ( ! $constructor = $reflectionClass->getConstructor()) {
+            return new $class;
+        } else {
+            // Fetch the arguments from the constructor
+            // (collection of ReflectionParameter instances)
+            $parameters = $constructor->getParameters();
+        }
+
         // Loop over the constructor arguments
-        foreach ($parameters as $param) {
-            if ($param->isOptional()) {
-                $newParameters[] = $param->isDefaultValueAvailable()
-                    ? $param->getDefaultValue()
-                    : null;
+        foreach ($parameters as $parameter) {
+            if ($parameter->isOptional()) {
+                $this->setParameter($parameter, $newParameters);
 
                 continue;
             }
 
-            $class = $param->getClass()->getName();
+            $class = $parameter->getClass()->getName();
 
             if ($this->has($class)) {
-                $newParameters[] = $this->get($class);
+                array_push($newParameters, $this->get($class));
 
                 continue;
             }
@@ -99,7 +113,7 @@ class Container extends BaseContainer implements ContainerInterface
             // dependencies, by recursively calling the resolve() method.
             // At one point, we will reach the bottom of the nested
             // dependencies we need in order to instantiate the class.
-            $newParameters[] = $this->resolve($class);
+            array_push($newParameters, $this->resolve($class));
         }
 
         // Return the reflected class, instantiated with all its dependencies

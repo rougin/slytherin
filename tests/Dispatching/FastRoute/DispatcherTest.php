@@ -113,7 +113,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(
             'UnexpectedValueException',
-            'Used method is not allowed'
+            "Used method's not allowed"
         );
 
         list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');

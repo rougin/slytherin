@@ -43,35 +43,31 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $className = '';
-        $method = '';
-        $parameters = [];
+        $className   = '';
+        $classMethod = '';
+        $parameters  = [];
 
         $routeInfo = $this->dispatcher->dispatch($httpMethod, $uri);
 
         switch ($routeInfo[0]) {
             case FastRouteDispatcher::NOT_FOUND:
-                $message = 'Route "'.$uri.'" not found';
-
-                throw new UnexpectedValueException($message);
+                throw new UnexpectedValueException("Route \"$uri\" not found");
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:
-                $message = 'Used method is not allowed';
-
-                throw new UnexpectedValueException($message);
+                throw new UnexpectedValueException("Used method's not allowed");
             case FastRouteDispatcher::FOUND:
                 $isClosure = $routeInfo[1] instanceof Closure;
 
                 if (is_object($routeInfo[1]) && $isClosure) {
-                    return [$routeInfo[1], $routeInfo[2]];
+                    return [ $routeInfo[1], $routeInfo[2] ];
                 }
 
-                $className = $routeInfo[1][0];
-                $method = $routeInfo[1][1];
-                $parameters = $routeInfo[2];
+                $className   = $routeInfo[1][0];
+                $classMethod = $routeInfo[1][1];
+                $parameters  = $routeInfo[2];
 
                 break;
         }
 
-        return [[$className, $method], $parameters];
+        return [ [ $className, $classMethod ], $parameters ];
     }
 }

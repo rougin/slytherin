@@ -68,20 +68,8 @@ class Renderer implements RendererInterface
     private function getTemplate($template)
     {
         foreach ($this->directories as $directory) {
-            $location = new RecursiveDirectoryIterator(
-                $directory,
-                FilesystemIterator::SKIP_DOTS
-            );
-
-            $iterator = new RecursiveIteratorIterator(
-                $location,
-                RecursiveIteratorIterator::SELF_FIRST
-            );
-
-            foreach ($iterator as $path) {
-                if (strpos($path, $template) !== false) {
-                    return $path;
-                }
+            if ($files = glob($directory . '/' . $template)) {
+                return $files[0];
             }
         }
 

@@ -53,10 +53,10 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $method = '';
-        $className = '';
-        $parameters = [];
+        $classMethod = '';
+        $className   = '';
         $middlewares = [];
+        $parameters  = [];
 
         foreach ($this->router->getRoutes() as $route) {
             $hasMatch = preg_match($route[1], $uri, $parameters);
@@ -65,11 +65,7 @@ class Dispatcher implements DispatcherInterface
                 continue;
             }
 
-            if ( ! in_array($route[0], $this->validHttpMethods)) {
-                $message = 'Used method is not allowed';
-
-                throw new UnexpectedValueException($message);
-            }
+            $this->isValidHttpMethod($route[0]);
 
             array_shift($parameters);
 
@@ -78,20 +74,31 @@ class Dispatcher implements DispatcherInterface
             $middlewares = $route[3];
 
             if (is_object($route[2])) {
-                return [$route[2], $parameters, $middlewares];
+                return [ $route[2], $parameters, $middlewares ];
             }
 
-            list($className, $method) = $route[2];
+            list($className, $classMethod) = $route[2];
 
             break;
         }
 
-        if ( ! $className || ! $method) {
-            $message = 'Route "'.$uri.'" not found';
-
-            throw new UnexpectedValueException($message);
+        if ( ! $className || ! $classMethod) {
+            throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return [[$className, $method], $parameters, $middlewares];
+        return [ [ $className, $classMethod ], $parameters, $middlewares ];
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     * 
+     * @param  string  $httpMethod
+     * @return void
+     */
+    private function isValidHttpMethod($httpMethod)
+    {
+        if ( ! in_array($httpMethod, $this->validHttpMethods)) {
+            throw new UnexpectedValueException('Used method is not allowed');
+        }
     }
 }

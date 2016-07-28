@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-abstract class AbstractComponent
+abstract class AbstractComponent implements ComponentInterface
 {
     /**
      * Name of the class to be added in the container.
