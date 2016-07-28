@@ -74,7 +74,7 @@ class Collector
      * @param  \Rougin\Slytherin\IoC\ContainerInterface &$container
      * @return void
      */
-    private static function set(ComponentInterface $component, ContainerInterface &$container)
+    private static function set(ComponentInterface $component, ContainerInterface & $container)
     {
         $componentContainer = $component->needsContainer() ? $container : null;
         $componentName = (string) $component;

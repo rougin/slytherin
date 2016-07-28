@@ -58,7 +58,7 @@ class Dispatcher implements DispatcherInterface
                 $isClosure = $routeInfo[1] instanceof Closure;
 
                 if (is_object($routeInfo[1]) && $isClosure) {
-                    return [ $routeInfo[1], $routeInfo[2] ];
+                    return [$routeInfo[1], $routeInfo[2]];
                 }
 
                 $className   = $routeInfo[1][0];
@@ -68,6 +68,6 @@ class Dispatcher implements DispatcherInterface
                 break;
         }
 
-        return [ [ $className, $classMethod ], $parameters ];
+        return [[$className, $classMethod], $parameters];
     }
 }

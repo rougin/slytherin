@@ -28,7 +28,7 @@ abstract class BaseRouter implements RouterInterface
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = [])
     {
-        $class = [ $httpMethod, $route, $handler, $middlewares ];
+        $class = [$httpMethod, $route, $handler, $middlewares];
 
         array_push($this->routes, $class);
 

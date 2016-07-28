@@ -74,7 +74,7 @@ class Dispatcher implements DispatcherInterface
             $middlewares = $route[3];
 
             if (is_object($route[2])) {
-                return [ $route[2], $parameters, $middlewares ];
+                return [$route[2], $parameters, $middlewares];
             }
 
             list($className, $classMethod) = $route[2];
@@ -86,7 +86,7 @@ class Dispatcher implements DispatcherInterface
             throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return [ [ $className, $classMethod ], $parameters, $middlewares ];
+        return [[$className, $classMethod], $parameters, $middlewares];
     }
 
     /**
