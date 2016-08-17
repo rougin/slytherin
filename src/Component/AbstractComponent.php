@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Interop\Container\ContainerInterface;
-
 /**
  * Component Abstract
  *
@@ -71,16 +69,5 @@ abstract class AbstractComponent implements ComponentInterface
     public function __toString()
     {
         return $this->className;
-    }
-
-    /**
-     * Sets the component and add it to the container of your choice.
-     * 
-     * @param  \Interop\Container\ContainerInterface $container
-     * @return void
-     */
-    public function set(ContainerInterface &$container)
-    {
-        return;
     }
 }

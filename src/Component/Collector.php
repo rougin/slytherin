@@ -41,6 +41,9 @@ class Collector
                 case 'http':
                     list($request, $response) = $component->get();
 
+                    $container->add('Psr\Http\Message\ServerRequestInterface', $request);
+                    $container->add('Psr\Http\Message\ResponseInterface', $response);
+
                     $collection->setHttp($request, $response);
 
                     break;
@@ -53,8 +56,6 @@ class Collector
 
                     break;
             }
-
-            $component->set($container);
         }
 
         $collection->setContainer($container);

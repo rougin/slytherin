@@ -16,7 +16,7 @@ class Application
 {
     use Traits\DispatchRouteTrait,
         Traits\PrepareHttpResponseTrait,
-        Traits\PrepareMiddlewaresTrait,
+        // Traits\PrepareMiddlewaresTrait,
         Traits\ResolveClassTrait;
 
     /**
@@ -46,19 +46,21 @@ class Application
         $request    = $this->components->getHttpRequest();
         $response   = $this->components->getHttpResponse();
 
-        if ($debugger && $debugger->getEnvironment() == 'development') {
+        if ($debugger) {
             $debugger->display();
         }
 
         list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
 
-        $result = $this->prepareMiddlewares($middleware, $request, $response, $middlewares);
-
-        if ( ! $result || $result->getBody() == '') {
-            $classObject = $this->resolveClass($container, $function);
-            $result      = $this->prepareHttpResponse($classObject, $response);
+        if ($middleware && ! empty($middlewares)) {
+            $response = $middleware($request, $response, $middlewares);
         }
 
-        echo $result->getBody();
+        if ( ! $response || $response->getBody() == '') {
+            $class    = $this->resolveClass($container, $function);
+            $response = $this->prepareHttpResponse($class);
+        }
+
+        echo $response->getBody();
     }
 }
