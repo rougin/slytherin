@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\IoC\Auryn;
 use Auryn\Injector;
 
 use Rougin\Slytherin\IoC\BaseContainer;
-use Interop\Container\ContainerInterface;
+use Rougin\Slytherin\IoC\ContainerInterface;
 
 /**
  * Auryn Container

@@ -1,12 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\IoC\Vanilla;
+namespace Rougin\Slytherin\Test\IoC;
 
 use Rougin\Slytherin\IoC\Container;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\TestClass;
-use Rougin\Slytherin\Test\Fixture\TestAnotherClass;
 use Rougin\Slytherin\Test\Fixture\TestClassWithInterface;
 use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
 
@@ -45,7 +44,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethod()
     {
-        $this->container->add($this->class, new $this->class(new TestClass, new TestAnotherClass));
+        $this->container->add($this->class);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -59,7 +58,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Test\Fixture\TestClass';
 
-        $this->container->add($class, new $class);
+        $this->container->add($class);
 
         $this->assertTrue($this->container->has($class));
     }
@@ -73,7 +72,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Test\Fixture\TestClassWithOptionalParameter';
 
-        $this->container->add($class, new $class);
+        $this->container->add($class);
 
         $this->assertTrue($this->container->has($class));
     }
@@ -87,7 +86,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->container->add(
             $this->class,
-            new TestClassWithParameter(new TestClass, new TestAnotherClass)
+            new TestClassWithParameter(new TestClass)
         );
 
         $this->assertTrue($this->container->has($this->class));
@@ -104,7 +103,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $interface = 'Rougin\Slytherin\Test\Fixture\TestInterface';
 
         $this->container
-            ->add($class, new $class)
+            ->add($class)
             ->alias($interface, $class);
 
         $this->assertTrue($this->container->has($interface));
@@ -117,10 +116,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
-        $this->container->add($this->class, new $this->class(new TestClass, new TestAnotherClass));
+        $this->container->add($this->class);
 
         $this->assertEquals(
-            new TestClassWithParameter(new TestClass, new TestAnotherClass),
+            new TestClassWithParameter(new TestClass),
             $this->container->get($this->class)
         );
     }
@@ -134,7 +133,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Test\Fixture\TestClassWithEmptyConstructor';
 
-        $this->container->add($class, new $class);
+        $this->container->add($class);
 
         $this->assertTrue($this->container->has($class));
     }
@@ -164,8 +163,9 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $class = 'Rougin\Slytherin\Test\Fixture\TestClassWithInterface';
         $classWithParameter = 'Rougin\Slytherin\Test\Fixture\TestClassWithInterfaceParameter';
 
-        $this->container->add($interface, new TestClassWithInterface);
-        $this->container->add($classWithParameter, $this->container->get($interface));
+        $this->container
+            ->add($interface, new TestClassWithInterface)
+            ->add($classWithParameter);
 
         $this->assertTrue($this->container->has($classWithParameter));
     }
@@ -179,8 +179,20 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Test\Fixture\TestClass';
 
-        $this->container->add($class, new $class);
+        $this->container->add($class);
 
         $this->assertTrue($this->container->has($class));
+    }
+
+    /**
+     * Tests if the container is implemented in ContainerInterface.
+     * 
+     * @return void
+     */
+    public function testContainerInterface()
+    {
+        $interface = 'Rougin\Slytherin\IoC\ContainerInterface';
+
+        $this->assertInstanceOf($interface, $this->container);
     }
 }

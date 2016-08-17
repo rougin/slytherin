@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\IoC\League;
 use ReflectionClass;
 use League\Container\Container as LeagueContainer;
 
+use Rougin\Slytherin\IoC\ContainerInterface;
+
 /**
  * LeagueContainer
  *
@@ -15,4 +17,4 @@ use League\Container\Container as LeagueContainer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends LeagueContainer {}
+class Container extends LeagueContainer implements ContainerInterface {}

@@ -1,12 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\IoC\League;
+namespace Rougin\Slytherin\Test\IoC;
 
 use Rougin\Slytherin\IoC\LeagueContainer;
 
 use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\TestClass;
-use Rougin\Slytherin\Test\Fixture\TestAnotherClass;
 use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
 
 /**
@@ -15,7 +14,7 @@ use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends PHPUnit_Framework_TestCase
+class LeagueContainerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -44,7 +43,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethod()
     {
-        $this->container->add($this->class, new TestClassWithParameter(new TestClass, new TestAnotherClass));
+        $this->container->add($this->class);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -56,12 +55,15 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
+        $testClass = 'Rougin\Slytherin\Test\Fixture\TestClass';
+
+        $this->container->add($testClass);
+
         $this->container->add($this->class)
-            ->withArgument(new TestClass)
-            ->withArgument(new TestAnotherClass);
+            ->withArgument($testClass);
 
         $this->assertEquals(
-            new TestClassWithParameter(new TestClass, new TestAnotherClass),
+            new TestClassWithParameter(new TestClass),
             $this->container->get($this->class)
         );
     }
@@ -78,5 +80,17 @@ class ContainerTest extends PHPUnit_Framework_TestCase
         $this->container->add($class);
 
         $this->assertTrue($this->container->has($class));
+    }
+
+    /**
+     * Tests if the container is implemented in ContainerInterface.
+     * 
+     * @return void
+     */
+    public function testContainerInterface()
+    {
+        $interface = 'Rougin\Slytherin\IoC\ContainerInterface';
+
+        $this->assertInstanceOf($interface, $this->container);
     }
 }

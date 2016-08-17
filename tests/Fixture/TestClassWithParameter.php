@@ -11,27 +11,15 @@ namespace Rougin\Slytherin\Test\Fixture;
 class TestClassWithParameter
 {
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\TestAnotherClass
-     */
-    protected $another;
-
-    /**
      * @var \Rougin\Slytherin\Test\Fixture\TestClass
      */
     protected $class;
 
     /**
      * @param \Rougin\Slytherin\Test\Fixture\TestClass $class
-     * @param \Rougin\Slytherin\Test\Fixture\TestAnotherClass $another
      */
-    public function __construct(TestClass $class, TestAnotherClass $another)
+    public function __construct(TestClass $class)
     {
         $this->class = $class;
-        $this->another = $another;
-    }
-
-    public function index()
-    {
-        return $this->class->index();
     }
 }

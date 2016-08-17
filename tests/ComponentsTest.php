@@ -1,25 +1,25 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Component;
+namespace Rougin\Slytherin\Test;
 
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 
+use Rougin\Slytherin\Components;
 use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Debug\Debugger;
 use Rougin\Slytherin\Dispatching\Router;
-use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Dispatching\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
 
 /**
- * Component Collection Test
+ * Components Test
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class CollectionTest extends PHPUnit_Framework_TestCase
+class ComponentsTest extends PHPUnit_Framework_TestCase
 {
     /**
      * Sets up the component class.
@@ -28,7 +28,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->components = new Collection;
+        $this->components = new Components;
     }
 
     /**

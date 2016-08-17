@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching\Vanilla;
+namespace Rougin\Slytherin\Test\Dispatching;
 
 use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Dispatching\Dispatcher;
@@ -29,10 +29,36 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
-            [ 'POST', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'store' ] ],
-            [ 'GET', '/hi', function () { return 'Hi'; } ],
-            [ 'TEST', '/hello', function () { return 'It must not go through here'; } ],
+            [
+                'GET',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixture\TestClass',
+                    'index'
+                ]
+            ],
+            [
+                'POST',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixture\TestClass',
+                    'store'
+                ]
+            ],
+            [
+                'GET',
+                '/hi',
+                function () {
+                    return 'Hi';
+                }
+            ],
+            [
+                'TEST',
+                '/hello',
+                function () {
+                    return 'It must not go through here';
+                }
+            ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
@@ -95,7 +121,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('UnexpectedValueException', 'Route "/test" not found');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
     }
@@ -107,7 +133,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('UnexpectedValueException', 'Used method is not allowed');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hello');
     }

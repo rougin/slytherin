@@ -29,9 +29,28 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
-            [ 'GET', '/hi', function () { return 'Hi'; } ],
-            [ 'TEST', '/hello', function () { return 'It must not go through here'; } ],
+            [
+                'GET',
+                '/',
+                [
+                    'Rougin\Slytherin\Test\Fixture\TestClass',
+                    'index'
+                ]
+            ],
+            [
+                'GET',
+                '/hi',
+                function () {
+                    return 'Hi';
+                }
+            ],
+            [
+                'TEST',
+                '/hello',
+                function () {
+                    return 'It must not go through here';
+                }
+            ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
@@ -92,7 +111,10 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException(
+            'UnexpectedValueException',
+            "Used method's not allowed"
+        );
 
         list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
     }

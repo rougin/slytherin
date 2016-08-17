@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Template\Twig;
+namespace Rougin\Slytherin\Test\Template;
 
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -8,7 +8,7 @@ use Rougin\Slytherin\Template\TwigRenderer;
 
 use PHPUnit_Framework_TestCase;
 
-class RendererTest extends PHPUnit_Framework_TestCase
+class TwigRendererTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -22,7 +22,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../Fixture/Templates');
+        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../Fixture/Templates');
         $twig = new Twig_Environment($loader);
 
         $this->renderer = new TwigRenderer($twig);

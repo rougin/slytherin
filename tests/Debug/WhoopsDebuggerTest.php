@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Debug\Whoops;
+namespace Rougin\Slytherin\Test\Debug;
 
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
@@ -14,7 +14,7 @@ use PHPUnit_Framework_TestCase;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends PHPUnit_Framework_TestCase
+class WhoopsDebuggerTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Debug\DebuggerInterface
