@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Rougin\Slytherin\IoC\ContainerInterface;
+use Interop\Container\ContainerInterface;
 
 /**
  * Component Collector
@@ -17,7 +17,7 @@ class Collector
     /**
      * Collects the specified components.
      * 
-     * @param  \Rougin\Slytherin\IoC\ContainerInterface $container
+     * @param  \Interop\Container\ContainerInterface $container
      * @param  array|null $globals
      * @param  array      $components
      * @return \Rougin\Slytherin\Component\Collection
@@ -71,7 +71,7 @@ class Collector
      * Sets the component and add it to the container.
      * 
      * @param  \Rougin\Slytherin\Component\ComponentInterface $component
-     * @param  \Rougin\Slytherin\IoC\ContainerInterface &$container
+     * @param  \Interop\Container\ContainerInterface &$container
      * @return void
      */
     private static function set(ComponentInterface $component, ContainerInterface & $container)

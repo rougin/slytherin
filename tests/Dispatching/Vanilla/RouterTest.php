@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching;
+namespace Rougin\Slytherin\Test\Dispatching\Vanilla;
 
 use Rougin\Slytherin\Dispatching\Router;
 
@@ -24,15 +24,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        [
-            'GET',
-            '/',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClass',
-                'index',
-            ],
-            []
-        ],
+        [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], [] ],
     ];
 
     /**
