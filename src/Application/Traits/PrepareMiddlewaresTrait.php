@@ -13,9 +13,10 @@ trait PrepareMiddlewaresTrait
      * Sets the response to the user.
      * 
      * @param  mixed $result
+     * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    abstract protected function prepareHttpResponse($result);
+    abstract protected function prepareHttpResponse($result, ResponseInterface $response);
 
     /**
      * Prepares the defined middlewares.
@@ -31,6 +32,6 @@ trait PrepareMiddlewaresTrait
             $result = $middleware($request, $response, $middlewares);
         }
 
-        return ($result) ? $this->prepareHttpResponse($result) : null;
+        return ($result) ? $this->prepareHttpResponse($result, $response) : null;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Interop\Container\ContainerInterface;
+
 /**
  * Component Interface
  *
@@ -10,4 +12,13 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ComponentInterface {}
+interface ComponentInterface
+{
+    /**
+     * Sets the component and add it to the container of your choice.
+     * 
+     * @param  \Interop\Container\ContainerInterface &$container
+     * @return void
+     */
+    public function set(ContainerInterface &$container);
+}
