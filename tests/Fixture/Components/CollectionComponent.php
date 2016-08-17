@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
-use Rougin\Slytherin\Test\Fixture\TestClass;
 use Rougin\Slytherin\Component\AbstractComponent;
+
+use Rougin\Slytherin\Test\Fixture\TestClass;
 use Rougin\Slytherin\Test\Fixture\TestClassWithEmptyConstructor;
 
 /**

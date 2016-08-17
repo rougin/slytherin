@@ -31,6 +31,8 @@ class DispatcherComponent extends AbstractComponent
     {
         $routes = [
             [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], ],
+            [ 'GET', '/optional', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithOptionalParameter', 'index' ], ],
+            [ 'GET', '/parameter', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithParameter', 'index' ], ],
             [ 'GET', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'index' ] ],
             [ 'GET', '/error', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'error' ] ],
             [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\TestMiddleware', ],

@@ -1,13 +1,13 @@
 <?php
 
-namespace Rougin\Slytherin\Test;
+namespace Rougin\Slytherin\Test\Application;
 
 use Zend\Diactoros\Uri;
 use Zend\Stratigility\MiddlewarePipe;
 
 use Rougin\Slytherin\Application;
-use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Component\Collector;
+use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
 
 use PHPUnit_Framework_TestCase;
@@ -78,6 +78,40 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the run() method with a parameter.
+     * 
+     * @runInSeparateProcess
+     * @return void
+     */
+    public function testRunMethodWithParameter()
+    {
+        $this->expectOutputString('Hello');
+
+        $this->setRequest('GET', '/parameter');
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
+     * Tests the run() method with an optional parameter.
+     * 
+     * @runInSeparateProcess
+     * @return void
+     */
+    public function testRunMethodWithOptionalParameter()
+    {
+        $this->expectOutputString('Hello');
+
+        $this->setRequest('GET', '/optional');
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
      * Tests the run() method with a callback as result.
      * 
      * @return void
@@ -100,11 +134,12 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function testRunMethodWithStratigilityMiddleware()
     {
-        $container = $this->components->getContainer();
+        $container  = $this->components->getContainer();
         $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-        $pipe = new MiddlewarePipe;
+        $pipe       = new MiddlewarePipe;
 
         $container->add($middleware, new StratigilityMiddleware($pipe));
+
         $this->components->setMiddleware($container->get($middleware));
 
         $this->expectOutputString('Loaded with middleware');
