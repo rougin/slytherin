@@ -3,8 +3,8 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
+<!-- [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality] -->
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Yet Another Extensible PHP Library/Framework.
@@ -14,10 +14,8 @@ Yet Another Extensible PHP Library/Framework.
 Via Composer
 
 ``` bash
-$ composer require rougin/slytherin --no-dev
+$ composer require rougin/slytherin
 ```
-
-**Warning**: If you install Slytherin with dev dependencies, you will get packages that you may not use for your next web application (e.g., [Auryn](https://github.com/rdlowrey/auryn), [Diactoros](https://github.com/zendframework/zend-diactoros), etc.). These packages are required for testing only. They are not included when you run Composer with `--no-dev`.
 
 ## Usage
 

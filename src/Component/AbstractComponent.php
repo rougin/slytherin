@@ -54,26 +54,6 @@ abstract class AbstractComponent implements ComponentInterface
     }
 
     /**
-     * Checks if the components needs a container.
-     * 
-     * @return boolean
-     */
-    public function needsContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * Returns the class name;
-     * 
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->className;
-    }
-
-    /**
      * Sets the component and add it to the container of your choice.
      * 
      * @param  \Interop\Container\ContainerInterface $container

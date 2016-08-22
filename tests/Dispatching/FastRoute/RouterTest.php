@@ -42,6 +42,10 @@ class RouterTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('FastRoute\RouteCollector')) {
+            $this->markTestSkipped('FastRoute is not installed.');
+        }
+
         $this->router = new Router;
     }
 

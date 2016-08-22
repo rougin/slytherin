@@ -22,6 +22,10 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('Twig_Environment')) {
+            $this->markTestSkipped('Twig is not installed.');
+        }
+
         $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../Fixture/Templates');
         $twig = new Twig_Environment($loader);
 

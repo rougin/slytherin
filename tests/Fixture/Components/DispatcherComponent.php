@@ -35,7 +35,7 @@ class DispatcherComponent extends AbstractComponent
             [ 'GET', '/parameter', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithParameter', 'index' ], ],
             [ 'GET', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'index' ] ],
             [ 'GET', '/error', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'error' ] ],
-            [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\TestMiddleware', ],
+            [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\TestLastMiddleware', ],
             [ 'PUT', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithPutHttpMethod', 'index' ] ],
             [ 'GET', '/callback', function () { return 'Hello'; } ],
         ];

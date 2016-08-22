@@ -2,9 +2,7 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
-use Whoops\Run;
-
-use Rougin\Slytherin\Debug\Whoops\Debugger;
+use Rougin\Slytherin\Debug\Vanilla\Debugger;
 use Rougin\Slytherin\Component\AbstractComponent;
 
 /**
@@ -30,7 +28,7 @@ class DebuggerComponent extends AbstractComponent
      */
     public function get()
     {
-        $debugger = new Debugger(new Run);
+        $debugger = new Debugger;
 
         $debugger->setEnvironment('development');
 

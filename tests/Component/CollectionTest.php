@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Test\Component;
 
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequestFactory;
-
 use Rougin\Slytherin\IoC\Container;
 use Rougin\Slytherin\Debug\Debugger;
 use Rougin\Slytherin\Dispatching\Router;
@@ -12,6 +9,8 @@ use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Dispatching\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
+use Rougin\Slytherin\Test\Fixture\Http\Response;
+use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
 /**
  * Component Collection Test
@@ -38,6 +37,10 @@ class CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testSetContainerMethod()
     {
+        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+            $this->markTestSkipped('Container Interop is not installed.');
+        }
+
         $container = new Container;
 
         $this->components->setContainer($container);
@@ -81,7 +84,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
     public function testSetHttpMethod()
     {
         $response = new Response;
-        $request = ServerRequestFactory::fromGlobals();
+        $request = new ServerRequest;
 
         $this->components->setHttp($request, $response);
 

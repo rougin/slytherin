@@ -33,6 +33,10 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('Whoops\Run')) {
+            $this->markTestSkipped('Whoops is not installed.');
+        }
+
         $this->debugger = new WhoopsDebugger(new Run);
     }
 

@@ -28,6 +28,10 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('FastRoute\Dispatcher')) {
+            $this->markTestSkipped('FastRoute is not installed.');
+        }
+
         $routes = [
             [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
             [ 'GET', '/hi', function () { return 'Hi'; } ],

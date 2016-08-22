@@ -2,15 +2,15 @@
 
 namespace Rougin\Slytherin\Test\Application;
 
-use Zend\Diactoros\Uri;
 use Zend\Stratigility\MiddlewarePipe;
 
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Component\Collector;
 use Rougin\Slytherin\IoC\Vanilla\Container;
-use Rougin\Slytherin\Middleware\StratigilityMiddleware;
+use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
 use PHPUnit_Framework_TestCase;
+use Rougin\Slytherin\Test\Fixture\Http\Uri;
 
 /**
  * Application Test
@@ -36,7 +36,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'Rougin\Slytherin\Test\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Test\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Test\Fixture\Components\HttpComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
+            // 'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
             'Rougin\Slytherin\Test\Fixture\Components\SingleComponent',
             'Rougin\Slytherin\Test\Fixture\Components\CollectionComponent',
         ];
@@ -128,17 +128,20 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks if the application runs in the StratigilityMiddleware.
+     * Checks if the application runs in the VanillaMiddleware.
      * 
      * @return void
      */
-    public function testRunMethodWithStratigilityMiddleware()
+    public function testRunMethodWithMiddleware()
     {
+        if ( ! class_exists('Zend\Stratigility\MiddlewarePipe')) {
+            $this->markTestSkipped('Zend Stratigility is not installed.');
+        }
+
         $container  = $this->components->getContainer();
         $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-        $pipe       = new MiddlewarePipe;
 
-        $container->add($middleware, new StratigilityMiddleware($pipe));
+        $container->add($middleware, new Middleware(new MiddlewarePipe));
 
         $this->components->setMiddleware($container->get($middleware));
 

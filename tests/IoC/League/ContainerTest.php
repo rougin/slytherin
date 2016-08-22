@@ -34,6 +34,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('League\Container\Container')) {
+            $this->markTestSkipped('League Container is not installed.');
+        }
+
         $this->container = new LeagueContainer;
     }
 

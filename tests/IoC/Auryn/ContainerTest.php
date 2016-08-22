@@ -35,6 +35,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! class_exists('Auryn\Injector')) {
+            $this->markTestSkipped('Auryn is not installed.');
+        }
+
         $this->container = new AurynContainer(new Injector);
     }
 

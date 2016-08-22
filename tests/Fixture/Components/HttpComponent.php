@@ -2,11 +2,11 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
-use Zend\Diactoros\Response;
-use Zend\Diactoros\ServerRequestFactory;
 use Interop\Container\ContainerInterface;
 
+use Rougin\Slytherin\Test\Fixture\Http\Response;
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
 /**
  * HTTP Component
@@ -41,7 +41,7 @@ class HttpComponent extends AbstractComponent
      */
     public function get()
     {
-        $this->request  = ServerRequestFactory::fromGlobals();
+        $this->request  = new ServerRequest;
         $this->response = new Response;
 
         return [ $this->request, $this->response ];

@@ -2,17 +2,16 @@
 
 namespace Rougin\Slytherin\Test\Fixture;
 
-use Zend\Stratigility\MiddlewareInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Test Middleware
+ * Test First Middleware
  * 
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestMiddleware implements MiddlewareInterface
+class TestFirstMiddleware
 {
     /**
      * @param  \Psr\Http\Message\ResponseInterface $request
@@ -22,8 +21,8 @@ class TestMiddleware implements MiddlewareInterface
      */
     public function __invoke(Request $request, Response $response, callable $next = null)
     {
-        $response->getBody()->write('Loaded with middleware');
+        $response->getBody()->write('First!');
 
-        return $response;
+        return $next($request, $response);
     }
 }
