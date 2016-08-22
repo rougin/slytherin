@@ -3,8 +3,6 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
-<!-- [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality] -->
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Yet Another Extensible PHP Library/Framework.
@@ -71,8 +69,6 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [link-packagist]: https://packagist.org/packages/rougin/slytherin
 [link-travis]: https://travis-ci.org/rougin/slytherin
-[link-scrutinizer]: https://scrutinizer-ci.com/g/rougin/slytherin/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
 [link-downloads]: https://packagist.org/packages/rougin/slytherin
 [link-author]: https://github.com/rougin
 [link-contributors]: ../../contributors

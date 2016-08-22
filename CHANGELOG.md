@@ -4,9 +4,6 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.6.0...HEAD)
 
-### Added
-- `Middleware\Vanilla\Middleware`
-
 ### Fixed
 - Using `add` in `Component\Collector` if not using `IoC\Vanilla\Container`
 
