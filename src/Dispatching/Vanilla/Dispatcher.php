@@ -85,7 +85,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the specified method is a valid HTTP method.
      *
-     * @param  string  $httpMethod
+     * @param  string $httpMethod
      * @return void
      */
     private function isValidHttpMethod($httpMethod)

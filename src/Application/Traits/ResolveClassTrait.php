@@ -35,7 +35,7 @@ trait ResolveClassTrait
      *
      * @link   http://goo.gl/wN8Vaz
      * @param  \Interop\Container\ContainerInterface $container
-     * @param  string $className
+     * @param  string                                $className
      * @return mixed
      */
     private function resolve(ContainerInterface $container, $className)
@@ -88,7 +88,7 @@ trait ResolveClassTrait
      * Sets the parameter from the ReflectionParameter class.
      *
      * @param  \ReflectionParameter $parameter
-     * @param  array &$parameters
+     * @param  array                &$parameters
      * @return void
      */
     private function setParameter(ReflectionParameter $parameter, &$parameters = [])

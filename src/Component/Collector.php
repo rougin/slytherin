@@ -18,8 +18,8 @@ class Collector
      * Collects the specified components.
      *
      * @param  \Interop\Container\ContainerInterface $container
-     * @param  array|null $globals
-     * @param  array      $components
+     * @param  array|null                            $globals
+     * @param  array                                 $components
      * @return \Rougin\Slytherin\Component\Collection
      */
     public static function get(ContainerInterface $container, $components = [], &$globals = null)

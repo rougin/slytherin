@@ -22,9 +22,9 @@ abstract class BaseRouter implements RouterInterface
      * Adds a new route.
      *
      * @param string|string[] $httpMethod
-     * @param string $route
-     * @param mixed  $handler
-     * @param array  $middlewares
+     * @param string          $route
+     * @param mixed           $handler
+     * @param array           $middlewares
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = [])
     {

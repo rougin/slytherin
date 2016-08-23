@@ -78,7 +78,7 @@ class Collection
     /**
      * Sets the debugger.
      *
-     * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
+     * @param \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
      */
     public function setDebugger(DebuggerInterface $debugger)
     {
@@ -99,7 +99,7 @@ class Collection
      * Sets the HTTP components.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  \Psr\Http\Message\ResponseInterface      $response
      * @return array
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
@@ -122,7 +122,7 @@ class Collection
     /**
      * Sets the middlware.
      *
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     * @param \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
      */
     public function setMiddleware(MiddlewareInterface $middlware)
     {
