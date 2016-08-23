@@ -44,7 +44,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'Rougin\Slytherin\Test\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Test\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Test\Fixture\Components\HttpComponent',
-            // 'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
+            'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
             'Rougin\Slytherin\Test\Fixture\Components\SingleComponent',
             'Rougin\Slytherin\Test\Fixture\Components\CollectionComponent',
         ];

@@ -52,7 +52,7 @@ class Application
 
         list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
 
-        $result = $this->prepareMiddlewares($middleware, $request, $response, $middlewares);
+        $result = $this->prepareMiddlewares($middleware, $middlewares);
 
         if (! $result || $result->getBody() == '') {
             $classObject = $this->resolveClass($container, $function);

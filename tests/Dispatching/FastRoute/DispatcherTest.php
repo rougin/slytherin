@@ -28,7 +28,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! class_exists('FastRoute\Dispatcher')) {
+        if ( ! interface_exists('FastRoute\Dispatcher')) {
             $this->markTestSkipped('FastRoute is not installed.');
         }
 

@@ -140,7 +140,9 @@ class ServerRequest extends Message implements ServerRequestInterface
 
     public function withAttribute($name, $value)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->attributes[$name] = $value;
+
+        return $this;
     }
 
     public function withoutAttribute($name)

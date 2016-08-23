@@ -2,10 +2,9 @@
 
 namespace Rougin\Slytherin\Application\Traits;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
 
-use Rougin\Slytherin\Middleware\MiddlewareInterface as Middleware;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 trait PrepareMiddlewaresTrait
 {
@@ -16,7 +15,7 @@ trait PrepareMiddlewaresTrait
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    abstract protected function prepareHttpResponse($result, Response $response);
+    abstract protected function prepareHttpResponse($result, ResponseInterface $response);
 
     /**
      * Prepares the defined middlewares.
@@ -24,9 +23,11 @@ trait PrepareMiddlewaresTrait
      * @param  array $middlewares
      * @return mixed
      */
-    private function prepareMiddlewares(Middleware $middleware = null, Request $request, Response $response, array $middlewares = [])
+    private function prepareMiddlewares(MiddlewareInterface $middleware = null, array $middlewares = [])
     {
-        $result = null;
+        $request  = $this->components->getHttpRequest();
+        $response = $this->components->getHttpResponse();
+        $result   = null;
 
         if ($middleware && ! empty($middlewares)) {
             $result = $middleware($request, $response, $middlewares);
