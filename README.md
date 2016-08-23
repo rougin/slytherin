@@ -40,6 +40,15 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Testing
 
 ``` bash
+$ composer require \
+  filp/whoops \
+  league/container \
+  nikic/fast-route \
+  rdlowrey/auryn \
+  twig/twig \
+  zendframework/zend-diactoros \
+  zendframework/zend-stratigility \
+  --dev
 $ composer test
 ```
 
