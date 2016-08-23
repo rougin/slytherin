@@ -32,6 +32,14 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+            $this->markTestSkipped('Container Interop is not installed.');
+        }
+
+        if ( ! interface_exists('Psr\Http\Message\ResponseInterface')) {
+            $this->markTestSkipped('PSR HTTP Message is not installed.');
+        }
+
         $components = [
             'Rougin\Slytherin\Test\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Test\Fixture\Components\DispatcherComponent',

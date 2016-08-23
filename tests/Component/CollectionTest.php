@@ -83,6 +83,10 @@ class CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testSetHttpMethod()
     {
+        if ( ! interface_exists('Psr\Http\Message\ResponseInterface')) {
+            $this->markTestSkipped('PSR HTTP Message is not installed.');
+        }
+
         $response = new Response;
         $request = new ServerRequest;
 

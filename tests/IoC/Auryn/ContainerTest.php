@@ -39,6 +39,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Auryn is not installed.');
         }
 
+        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+            $this->markTestSkipped('Container Interop is not installed.');
+        }
+
         $this->container = new AurynContainer(new Injector);
     }
 
