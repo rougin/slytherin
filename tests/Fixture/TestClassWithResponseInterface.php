@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Test Class With Response Interface
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */

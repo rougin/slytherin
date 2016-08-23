@@ -10,7 +10,7 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * Whoops Debugger Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -33,7 +33,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! class_exists('Whoops\Run')) {
+        if (! class_exists('Whoops\Run')) {
             $this->markTestSkipped('Whoops is not installed.');
         }
 
@@ -42,7 +42,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the debugger's environment is equal to the specified environment.
-     * 
+     *
      * @return void
      */
     public function testSetEnvironmentMethod()
@@ -54,7 +54,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified handler is in the debugger's list of handlers.
-     * 
+     *
      * @return void
      */
     public function testSetHandlerMethod()
@@ -69,7 +69,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified handler is in the debugger's list of handlers.
-     * 
+     *
      * @return void
      */
     public function testSetHandlerMethodWithCallback()
@@ -86,7 +86,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the display() method.
-     * 
+     *
      * @return void
      */
     public function testDisplayMethod()
@@ -96,7 +96,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the debugger is implemented in DebuggerInterface.
-     * 
+     *
      * @return void
      */
     public function testDebuggerInterface()

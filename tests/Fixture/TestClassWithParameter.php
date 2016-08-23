@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\Test\Fixture;
 
 /**
  * Test Class With Parameter
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */

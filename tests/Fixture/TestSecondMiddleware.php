@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
  * Test Second Middleware
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -26,7 +26,8 @@ class TestSecondMiddleware
         $response->getBody()->write($result . ' Second!');
 
         echo 'next:' . PHP_EOL;
-        print_r($next);exit;
+        print_r($next);
+        exit;
 
         return $next($request, $response);
     }

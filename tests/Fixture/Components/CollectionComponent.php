@@ -17,7 +17,7 @@ class CollectionComponent extends AbstractComponent
 {
     /**
      * Returns an instance from the named class.
-     * 
+     *
      * @return mixed
      */
     public function get()

@@ -14,7 +14,7 @@ use Rougin\Slytherin\Test\Fixture\Http\Uri;
 
 /**
  * Application Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -32,11 +32,11 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+        if (! interface_exists('Interop\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
-        if ( ! interface_exists('Psr\Http\Message\ResponseInterface')) {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
@@ -54,7 +54,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method.
-     * 
+     *
      * @return void
      */
     public function testRunMethod()
@@ -70,7 +70,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with a response as result.
-     * 
+     *
      * @runInSeparateProcess
      * @return void
      */
@@ -87,7 +87,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with a parameter.
-     * 
+     *
      * @runInSeparateProcess
      * @return void
      */
@@ -104,7 +104,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with an optional parameter.
-     * 
+     *
      * @runInSeparateProcess
      * @return void
      */
@@ -121,7 +121,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with a callback as result.
-     * 
+     *
      * @return void
      */
     public function testRunMethodWithCallback()
@@ -137,12 +137,12 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Checks if the application runs in the VanillaMiddleware.
-     * 
+     *
      * @return void
      */
     public function testRunMethodWithMiddleware()
     {
-        if ( ! class_exists('Zend\Stratigility\MiddlewarePipe')) {
+        if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
@@ -164,7 +164,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with a PUT HTTP method.
-     * 
+     *
      * @runInSeparateProcess
      * @return void
      */
@@ -181,7 +181,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
     /**
      * Changes the HTTP method and the uri of the request.
-     * 
+     *
      * @param string $httpMethod
      * @param string $uri
      * @param array  $data

@@ -11,7 +11,7 @@ use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
 
 /**
  * League Container Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -34,7 +34,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! class_exists('League\Container\Container')) {
+        if (! class_exists('League\Container\Container')) {
             $this->markTestSkipped('League Container is not installed.');
         }
 
@@ -43,7 +43,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the added instance exists.
-     * 
+     *
      * @return void
      */
     public function testAddMethod()
@@ -55,7 +55,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified instance can be returned.
-     * 
+     *
      * @return void
      */
     public function testGetMethod()
@@ -72,7 +72,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the added instance exists.
-     * 
+     *
      * @return void
      */
     public function testHasMethod()

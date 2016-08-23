@@ -10,7 +10,7 @@ use Rougin\Slytherin\Test\Fixture\TestClass;
 
 /**
  * Dispatcher Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -31,8 +31,12 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         $routes = [
             [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
             [ 'POST', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'store' ] ],
-            [ 'GET', '/hi', function () { return 'Hi'; } ],
-            [ 'TEST', '/hello', function () { return 'It must not go through here'; } ],
+            [ 'GET', '/hi', function () {
+                return 'Hi';
+            } ],
+            [ 'TEST', '/hello', function () {
+                return 'It must not go through here';
+            } ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
@@ -40,7 +44,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with a class.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithClass()
@@ -58,7 +62,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with a class.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithClassAndPostMethod()
@@ -76,7 +80,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with a closure.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithClosure()
@@ -90,7 +94,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with an error.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithError()
@@ -102,7 +106,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with an invalid method.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithInvalidMethod()
@@ -114,7 +118,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the dispatcher is implemented in DispatcherInterface.
-     * 
+     *
      * @return void
      */
     public function testDispatcherInterface()

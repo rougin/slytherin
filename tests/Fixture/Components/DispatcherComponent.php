@@ -17,14 +17,14 @@ class DispatcherComponent extends AbstractComponent
     /**
      * Type of the component:
      * dispatcher, debugger, http, middleware
-     * 
+     *
      * @var string
      */
     protected $type = 'dispatcher';
 
     /**
      * Returns an instance from the named class.
-     * 
+     *
      * @return mixed
      */
     public function get()
@@ -37,7 +37,9 @@ class DispatcherComponent extends AbstractComponent
             [ 'GET', '/error', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'error' ] ],
             [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\TestLastMiddleware', ],
             [ 'PUT', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithPutHttpMethod', 'index' ] ],
-            [ 'GET', '/callback', function () { return 'Hello'; } ],
+            [ 'GET', '/callback', function () {
+                return 'Hello';
+            } ],
         ];
 
         return new Dispatcher(new Router($routes));

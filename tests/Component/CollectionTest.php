@@ -14,7 +14,7 @@ use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
 /**
  * Component Collection Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -37,7 +37,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testSetContainerMethod()
     {
-        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+        if (! interface_exists('Interop\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
@@ -83,7 +83,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
      */
     public function testSetHttpMethod()
     {
-        if ( ! interface_exists('Psr\Http\Message\ResponseInterface')) {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
@@ -100,7 +100,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if getComponent() returns null.
-     * 
+     *
      * @return void
      */
     public function testGetNullComponent()
