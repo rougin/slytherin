@@ -11,8 +11,10 @@ use Rougin\Slytherin\Template\Twig\Renderer as BaseRenderer;
  * Sensiolab's Twig - a flexible, fast, and secure template engine for PHP.
  *
  * http://twig.sensiolabs.org
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TwigRenderer extends BaseRenderer {}
+class TwigRenderer extends BaseRenderer
+{
+}

@@ -7,7 +7,7 @@ namespace Rougin\Slytherin\Dispatching;
  *
  * A simple implementation of a router that is based on
  * Rougin\Slytherin\Dispatching\RouterInterface.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -20,7 +20,7 @@ abstract class BaseRouter implements RouterInterface
 
     /**
      * Adds a new route.
-     * 
+     *
      * @param string|string[] $httpMethod
      * @param string $route
      * @param mixed  $handler
@@ -59,7 +59,7 @@ abstract class BaseRouter implements RouterInterface
 
     /**
      * Returns a listing of routes available.
-     * 
+     *
      * @return array|callable
      */
     abstract public function getRoutes();

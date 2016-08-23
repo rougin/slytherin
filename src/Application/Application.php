@@ -8,7 +8,7 @@ use Rougin\Slytherin\Component\Collection;
  * Application
  *
  * Integrates all specified components into the application.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -34,7 +34,7 @@ class Application
 
     /**
      * Runs the application
-     * 
+     *
      * @return void
      */
     public function run()
@@ -54,7 +54,7 @@ class Application
 
         $result = $this->prepareMiddlewares($middleware, $request, $response, $middlewares);
 
-        if ( ! $result || $result->getBody() == '') {
+        if (! $result || $result->getBody() == '') {
             $classObject = $this->resolveClass($container, $function);
             $result      = $this->prepareHttpResponse($classObject, $response);
         }

@@ -11,8 +11,10 @@ use Rougin\Slytherin\Debug\Whoops\Debugger as BaseDebugger;
  * Whoops! - php errors for cool kids.
  *
  * http://filp.github.io/whoops
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class WhoopsDebugger extends BaseDebugger {}
+class WhoopsDebugger extends BaseDebugger
+{
+}

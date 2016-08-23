@@ -12,7 +12,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  *
  * A simple implementation of a route dispatcher that is based on
  * Rougin\Slytherin\Dispatching\DispatcherInterface.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -44,7 +44,7 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
-     * 
+     *
      * @param  string $httpMethod
      * @param  string $uri
      * @return array|string
@@ -60,7 +60,7 @@ class Dispatcher implements DispatcherInterface
         foreach ($this->router->getRoutes() as $route) {
             $hasMatch = preg_match($route[1], $uri, $parameters);
 
-            if ( ! $hasMatch || $httpMethod != $route[0]) {
+            if (! $hasMatch || $httpMethod != $route[0]) {
                 continue;
             }
 
@@ -75,7 +75,7 @@ class Dispatcher implements DispatcherInterface
             break;
         }
 
-        if ( ! $class) {
+        if (! $class) {
             throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
@@ -84,13 +84,13 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Checks if the specified method is a valid HTTP method.
-     * 
+     *
      * @param  string  $httpMethod
      * @return void
      */
     private function isValidHttpMethod($httpMethod)
     {
-        if ( ! in_array($httpMethod, $this->validHttpMethods)) {
+        if (! in_array($httpMethod, $this->validHttpMethods)) {
             throw new UnexpectedValueException('Used method is not allowed');
         }
     }

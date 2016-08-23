@@ -15,7 +15,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  * A simple implementation of dispatcher that is built on top of FastRoute.
  *
  * https://github.com/nikic/FastRoute
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -36,7 +36,7 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
-     * 
+     *
      * @param  string $httpMethod
      * @param  string $uri
      * @return array|string

@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Dispatching;
  * Router Interface
  *
  * An interface for handling third party routers.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -14,7 +14,7 @@ interface RouterInterface
 {
     /**
      * Adds a new route.
-     * 
+     *
      * @param string|string[] $httpMethod
      * @param string          $route
      * @param mixed           $handler
@@ -23,7 +23,7 @@ interface RouterInterface
 
     /**
      * Returns a listing of routes available.
-     * 
+     *
      * @return mixed
      */
     public function getRoutes();

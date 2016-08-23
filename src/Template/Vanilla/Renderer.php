@@ -13,7 +13,7 @@ use Rougin\Slytherin\Template\RendererInterface;
  * Renderer
  *
  * A simple implementation of a template renderer.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */

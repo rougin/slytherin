@@ -14,7 +14,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  * Component Collection
  *
  * Contains all the required components for Slytherin.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -27,7 +27,7 @@ class Collection
 
     /**
      * Gets an instance of the container.
-     * 
+     *
      * @return \Interop\Container\ContainerInterface
      */
     public function getContainer()
@@ -37,7 +37,7 @@ class Collection
 
     /**
      * Sets the container.
-     * 
+     *
      * @param \Interop\Container\ContainerInterface $container
      */
     public function setContainer(ContainerInterface $container)
@@ -47,7 +47,7 @@ class Collection
 
     /**
      * Gets the dispatcher.
-     * 
+     *
      * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
     public function getDispatcher()
@@ -57,7 +57,7 @@ class Collection
 
     /**
      * Sets the dispatcher.
-     * 
+     *
      * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
      */
     public function setDispatcher(DispatcherInterface $dispatcher)
@@ -67,7 +67,7 @@ class Collection
 
     /**
      * Gets the debugger.
-     * 
+     *
      * @return \Rougin\Slytherin\Debugger\DebuggerInterface
      */
     public function getDebugger()
@@ -77,7 +77,7 @@ class Collection
 
     /**
      * Sets the debugger.
-     * 
+     *
      * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
      */
     public function setDebugger(DebuggerInterface $debugger)
@@ -87,7 +87,7 @@ class Collection
 
     /**
      * Gets the HTTP components.
-     * 
+     *
      * @return mixed
      */
     public function getHttp()
@@ -97,7 +97,7 @@ class Collection
 
     /**
      * Sets the HTTP components.
-     * 
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return array
@@ -111,7 +111,7 @@ class Collection
 
     /**
      * Gets the middlware.
-     * 
+     *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function getMiddleware()
@@ -121,7 +121,7 @@ class Collection
 
     /**
      * Sets the middlware.
-     * 
+     *
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
      */
     public function setMiddleware(MiddlewareInterface $middlware)
@@ -131,7 +131,7 @@ class Collection
 
     /**
      * Gets the request.
-     * 
+     *
      * @return \Psr\Http\Message\ServerRequestInterface
      */
     public function getHttpRequest()
@@ -141,7 +141,7 @@ class Collection
 
     /**
      * Gets the response.
-     * 
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getHttpResponse()
@@ -151,13 +151,13 @@ class Collection
 
     /**
      * Gets the selected component.
-     * 
+     *
      * @param  string $type
      * @return mixed
      */
     private function getComponent($type)
     {
-        if ( ! isset($this->components[$type])) {
+        if (! isset($this->components[$type])) {
             return null;
         }
 
@@ -166,7 +166,7 @@ class Collection
 
     /**
      * Sets the selected component.
-     * 
+     *
      * @param string $type
      * @param mixed  $component
      */
@@ -177,4 +177,3 @@ class Collection
         return $this;
     }
 }
-

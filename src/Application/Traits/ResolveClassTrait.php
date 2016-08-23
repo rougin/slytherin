@@ -11,7 +11,7 @@ trait ResolveClassTrait
 {
     /**
      * Resolves the result based from the dispatched route.
-     * 
+     *
      * @param  array $function
      * @return mixed
      */
@@ -48,7 +48,7 @@ trait ResolveClassTrait
 
         // If there is no constructor, there is no dependencies, which means
         // that our job is done.
-        if ( ! $constructor = $reflectionClass->getConstructor()) {
+        if (! $constructor = $reflectionClass->getConstructor()) {
             return new $className;
         } else {
             // Fetch the arguments from the constructor
@@ -86,7 +86,7 @@ trait ResolveClassTrait
 
     /**
      * Sets the parameter from the ReflectionParameter class.
-     * 
+     *
      * @param  \ReflectionParameter $parameter
      * @param  array &$parameters
      * @return void

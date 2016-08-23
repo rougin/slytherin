@@ -8,7 +8,7 @@ use Rougin\Slytherin\IoC\BaseContainer;
  * Container
  *
  * A container that extends on Rougin\Slytherin\IoC\BaseContainer.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -16,7 +16,7 @@ class Container extends BaseContainer
 {
     /**
      * Adds a new instance to the container.
-     * 
+     *
      * @param string $id
      * @param mixed  $concrete
      */
@@ -29,7 +29,7 @@ class Container extends BaseContainer
 
     /**
      * Creates an alias for a specified class.
-     * 
+     *
      * @param string $alias
      * @param string $original
      */

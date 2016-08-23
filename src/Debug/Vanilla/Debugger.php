@@ -29,7 +29,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Sets up the environment to be used.
-     * 
+     *
      * @param  string $environment
      * @return void
      */
@@ -50,7 +50,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Registers the instance as a debugger.
-     * 
+     *
      * @return string
      */
     public function display()

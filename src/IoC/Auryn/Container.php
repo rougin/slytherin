@@ -14,7 +14,7 @@ use Interop\Container\ContainerInterface;
  * Daniel Lowrey's Auryn Inversion Of Control (IoC) Dependency Injector.
  *
  * https://github.com/rdlowrey/auryn
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -35,7 +35,7 @@ class Container extends BaseContainer implements ContainerInterface
 
     /**
      * Adds a new instance to the container.
-     * 
+     *
      * @param string $id
      * @param mixed  $concrete
      */

@@ -9,7 +9,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
  * Middleware Interface
  *
  * An interface for handling third party middlewares.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -17,7 +17,7 @@ interface MiddlewareInterface
 {
     /**
      * Processes the specified middlewares in queue.
-     * 
+     *
      * @param  \Psr\Http\Message\RequestInterface  $request
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @param  array $queue

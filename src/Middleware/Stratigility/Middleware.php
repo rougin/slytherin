@@ -13,7 +13,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  *
  * A simple implementation of middleware that is built on top of
  * Zend Framework's Stratigility.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
@@ -35,7 +35,7 @@ class Middleware implements MiddlewareInterface
 
     /**
      * Processes the specified middlewares in queue.
-     * 
+     *
      * @param  \Psr\Http\Message\RequestInterface  $request
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @param  array $queue

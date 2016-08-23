@@ -11,7 +11,7 @@ use Rougin\Slytherin\IoC\Vanilla\Exception\NotFoundException;
  *
  * A simple implementation of a container that is based on
  * Interop\Container\ContainerInterface.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -34,7 +34,7 @@ class BaseContainer implements ContainerInterface
      */
     public function get($id)
     {
-        if ( ! $this->has($id)) {
+        if (! $this->has($id)) {
             $message = 'Alias (%s) is not being managed by the container';
 
             throw new NotFoundException(sprintf($message, $id));

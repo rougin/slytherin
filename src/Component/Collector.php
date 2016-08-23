@@ -8,7 +8,7 @@ use Interop\Container\ContainerInterface;
  * Component Collector
  *
  * Collects all components into Collection.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -16,7 +16,7 @@ class Collector
 {
     /**
      * Collects the specified components.
-     * 
+     *
      * @param  \Interop\Container\ContainerInterface $container
      * @param  array|null $globals
      * @param  array      $components

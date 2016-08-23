@@ -10,7 +10,7 @@ use Rougin\Slytherin\Dispatching\RouterInterface;
  *
  * A simple implementation of a router that is based on
  * Rougin\Slytherin\Dispatching\RouterInterface.
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -36,7 +36,7 @@ class Router extends BaseRouter
 
     /**
      * Returns a listing of routes available.
-     * 
+     *
      * @return array
      */
     public function getRoutes()

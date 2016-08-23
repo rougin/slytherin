@@ -15,7 +15,7 @@ use Rougin\Slytherin\Debug\DebuggerInterface;
  * Whoops! - php errors for cool kids.
  *
  * http://filp.github.io/whoops
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -43,7 +43,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Sets up the environment to be used.
-     * 
+     *
      * @param  string $environment
      * @return void
      */
@@ -64,7 +64,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Returns a listing of handlers.
-     * 
+     *
      * @return \Whoops\Handler\HandlerInterface[]
      */
     public function getHandlers()
@@ -74,7 +74,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Registers the instance as a debugger.
-     * 
+     *
      * @return \Whoops\Run
      */
     public function display()
@@ -90,7 +90,7 @@ class Debugger implements DebuggerInterface
 
     /**
      * Sets a handler.
-     * 
+     *
      * @param \Whoops\Handler\HandlerInterface|callable $handler
      */
     public function setHandler($handler)

@@ -12,4 +12,6 @@ use Rougin\Slytherin\Debug\Vanilla\Debugger as VanillaDebugger;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Debugger extends VanillaDebugger {}
+class Debugger extends VanillaDebugger
+{
+}

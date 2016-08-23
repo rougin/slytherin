@@ -13,7 +13,7 @@ use Rougin\Slytherin\Template\RendererInterface;
  * Sensiolab's Twig - a flexible, fast, and secure template engine for PHP.
  *
  * http://twig.sensiolabs.org
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */

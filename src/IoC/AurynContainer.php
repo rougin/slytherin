@@ -11,8 +11,10 @@ use Rougin\Slytherin\IoC\Auryn\Container as BaseAurynContainer;
  * Daniel Lowrey's Auryn Inversion Of Control (IoC) Dependency Injector.
  *
  * https://github.com/rdlowrey/auryn
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends BaseAurynContainer {}
+class AurynContainer extends BaseAurynContainer
+{
+}

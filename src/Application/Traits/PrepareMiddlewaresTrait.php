@@ -11,7 +11,7 @@ trait PrepareMiddlewaresTrait
 {
     /**
      * Sets the response to the user.
-     * 
+     *
      * @param  mixed $result
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
@@ -20,7 +20,7 @@ trait PrepareMiddlewaresTrait
 
     /**
      * Prepares the defined middlewares.
-     * 
+     *
      * @param  array $middlewares
      * @return mixed
      */
