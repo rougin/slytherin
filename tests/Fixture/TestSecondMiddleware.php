@@ -25,10 +25,6 @@ class TestSecondMiddleware
 
         $response->getBody()->write($result . ' Second!');
 
-        echo 'next:' . PHP_EOL;
-        print_r($next);
-        exit;
-
         return $next($request, $response);
     }
 }
