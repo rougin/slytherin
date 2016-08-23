@@ -18,7 +18,7 @@ $ composer require rougin/slytherin
 ## Usage
 
 ``` php
-$components = new Rougin\Slytherin\Components;
+$components = new Rougin\Slytherin\Component\Collection;
 
 $components
     ->setContainer(new Acme\IoC\Container)
