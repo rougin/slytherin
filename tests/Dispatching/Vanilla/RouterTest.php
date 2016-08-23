@@ -9,7 +9,7 @@ use Rougin\Slytherin\Test\Fixture\TestClass;
 
 /**
  * Router Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -39,7 +39,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the newly added route exists in the router.
-     * 
+     *
      * @return void
      */
     public function testAddRouteMethod()
@@ -56,7 +56,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the getRoute() method returns null.
-     * 
+     *
      * @return void
      */
     public function testEmptyGetRouteMethod()
@@ -66,7 +66,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified routes exists in the listing of routes.
-     * 
+     *
      * @return void
      */
     public function testGetRoutesMethod()
@@ -78,7 +78,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the router is implemented in RouterInterface.
-     * 
+     *
      * @return void
      */
     public function testRouterInterface()

@@ -29,7 +29,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the render() method.
-     * 
+     *
      * @return void
      */
     public function testRenderMethod()
@@ -41,7 +41,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the render() method with data.
-     * 
+     *
      * @return void
      */
     public function testRenderMethodWithData()
@@ -56,7 +56,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified template is not found.
-     * 
+     *
      * @return void
      */
     public function testTemplateNotFound()

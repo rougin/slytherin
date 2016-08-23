@@ -10,7 +10,7 @@ use Rougin\Slytherin\Test\Fixture\TestClass;
 
 /**
  * Dispatcher Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -28,14 +28,18 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! interface_exists('FastRoute\Dispatcher')) {
+        if (! interface_exists('FastRoute\Dispatcher')) {
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
         $routes = [
             [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
-            [ 'GET', '/hi', function () { return 'Hi'; } ],
-            [ 'TEST', '/hello', function () { return 'It must not go through here'; } ],
+            [ 'GET', '/hi', function () {
+                return 'Hi';
+            } ],
+            [ 'TEST', '/hello', function () {
+                return 'It must not go through here';
+            } ],
         ];
 
         $this->dispatcher = new Dispatcher(new Router($routes));
@@ -43,7 +47,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethod()
@@ -65,7 +69,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with a closure.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithClosure()
@@ -79,7 +83,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with an error.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithError()
@@ -91,7 +95,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if dispatch() returned successfully with an invalid method.
-     * 
+     *
      * @return void
      */
     public function testDispatchMethodWithInvalidMethod()
@@ -103,7 +107,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the dispatcher is implemented in DispatcherInterface.
-     * 
+     *
      * @return void
      */
     public function testDispatcherInterface()

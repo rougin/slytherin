@@ -8,7 +8,7 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * Debugger Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -36,7 +36,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the debugger's environment is equal to the specified environment.
-     * 
+     *
      * @return void
      */
     public function testSetEnvironmentMethod()
@@ -48,7 +48,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the display() method.
-     * 
+     *
      * @return void
      */
     public function testDisplayMethod()
@@ -58,7 +58,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the debugger is implemented in DebuggerInterface.
-     * 
+     *
      * @return void
      */
     public function testDebuggerInterface()

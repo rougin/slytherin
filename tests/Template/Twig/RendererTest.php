@@ -22,7 +22,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! class_exists('Twig_Environment')) {
+        if (! class_exists('Twig_Environment')) {
             $this->markTestSkipped('Twig is not installed.');
         }
 
@@ -34,7 +34,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the render() method.
-     * 
+     *
      * @return void
      */
     public function testRenderMethod()
@@ -46,7 +46,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests the render() method with data.
-     * 
+     *
      * @return void
      */
     public function testRenderMethodWithData()

@@ -6,7 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 
 /**
  * Test Class With PUT HTTP Method
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */

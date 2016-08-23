@@ -19,7 +19,7 @@ class HttpComponent extends AbstractComponent
     /**
      * Type of the component:
      * dispatcher, debugger, http, middleware
-     * 
+     *
      * @var string
      */
     protected $type = 'http';
@@ -36,7 +36,7 @@ class HttpComponent extends AbstractComponent
 
     /**
      * Returns an instance from the named class.
-     * 
+     *
      * @return mixed
      */
     public function get()
@@ -49,7 +49,7 @@ class HttpComponent extends AbstractComponent
 
     /**
      * Sets the component and add it to the container of your choice.
-     * 
+     *
      * @param  \Interop\Container\ContainerInterface $container
      * @return void
      */

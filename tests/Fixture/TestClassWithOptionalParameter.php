@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\Test\Fixture;
 
 /**
  * Test Class With Optional Parameter
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -22,7 +22,7 @@ class TestClassWithOptionalParameter
 
     /**
      * Returns a string 'Hello'.
-     * 
+     *
      * @return string
      */
     public function index()

@@ -12,7 +12,7 @@ use PHPUnit_Framework_TestCase;
 
 /**
  * Auryn Container Test
- * 
+ *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
@@ -35,11 +35,11 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if ( ! class_exists('Auryn\Injector')) {
+        if (! class_exists('Auryn\Injector')) {
             $this->markTestSkipped('Auryn is not installed.');
         }
 
-        if ( ! interface_exists('Interop\Container\ContainerInterface')) {
+        if (! interface_exists('Interop\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
@@ -48,7 +48,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the added instance exists.
-     * 
+     *
      * @return void
      */
     public function testAddMethod()
@@ -60,7 +60,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests add() method with a concrete as a parameter.
-     * 
+     *
      * @return void
      */
     public function testAddMethodWithConcreteParameter()
@@ -75,7 +75,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests add() method with parameters.
-     * 
+     *
      * @return void
      */
     public function testAddMethodWithParameters()
@@ -90,7 +90,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the specified instance can be returned.
-     * 
+     *
      * @return void
      */
     public function testGetMethod()
@@ -105,7 +105,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests get() method with an error.
-     * 
+     *
      * @return void
      */
     public function testGetMethodWithError()
@@ -119,7 +119,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
 
     /**
      * Tests if the added instance exists.
-     * 
+     *
      * @return void
      */
     public function testHasMethod()
