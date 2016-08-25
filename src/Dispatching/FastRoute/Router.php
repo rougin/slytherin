@@ -36,7 +36,7 @@ class Router extends BaseRouter
 
     /**
      * Sets the collector of routes.
-     * 
+     *
      * @param \FastRoute\RouteCollector $collector
      */
     public function setCollector(RouteCollector $collector)

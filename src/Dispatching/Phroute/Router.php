@@ -39,7 +39,7 @@ class Router extends BaseRouter
 
     /**
      * Sets the collector of routes.
-     * 
+     *
      * @param \Phroute\Phroute\RouteCollector $collector
      */
     public function setCollector(RouteCollector $collector)
