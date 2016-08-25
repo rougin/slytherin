@@ -9,6 +9,7 @@ use Rougin\Slytherin\IoC\Auryn\Container as BaseAurynContainer;
  *
  * A simple implementation of a container that is built on top of
  * Daniel Lowrey's Auryn Inversion Of Control (IoC) Dependency Injector.
+ * NOTE: To be removed in v1.0.0
  *
  * https://github.com/rdlowrey/auryn
  *
