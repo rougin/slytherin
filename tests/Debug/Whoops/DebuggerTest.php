@@ -61,10 +61,9 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
     {
         $this->debugger->setHandler(new PrettyPageHandler);
 
-        $this->assertInstanceOf(
-            'Whoops\Handler\PrettyPageHandler',
-            $this->debugger->getHandlers()[0]
-        );
+        $handler = $this->debugger->getHandlers()[0];
+
+        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handler);
     }
 
     /**
@@ -78,10 +77,9 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
             return 'Hello';
         });
 
-        $this->assertInstanceOf(
-            'Whoops\Handler\CallbackHandler',
-            $this->debugger->getHandlers()[0]
-        );
+        $handler = $this->debugger->getHandlers()[0];
+
+        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handler);
     }
 
     /**

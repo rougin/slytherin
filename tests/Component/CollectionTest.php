@@ -92,10 +92,7 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $this->components->setHttp($request, $response);
 
-        $this->assertEquals(
-            [ $request, $response ],
-            $this->components->getHttp()
-        );
+        $this->assertEquals([ $request, $response ], $this->components->getHttp());
     }
 
     /**

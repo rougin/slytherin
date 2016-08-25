@@ -53,8 +53,8 @@ class RendererTest extends PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $data = [ 'name' => 'template' ];
-        $rendered = $this->renderer->render('testWithTwigData', $data, 'php');
+        $data     = [ 'name' => 'template' ];
+        $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
 
         $this->assertEquals($expected, $rendered);
     }

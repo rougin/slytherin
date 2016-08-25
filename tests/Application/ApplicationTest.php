@@ -146,12 +146,9 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
-        $container  = $this->components->getContainer();
         $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
 
-        $container->add($middleware, new Middleware(new MiddlewarePipe));
-
-        $this->components->setMiddleware($container->get($middleware));
+        $this->components->setMiddleware(new Middleware(new MiddlewarePipe));
 
         $this->expectOutputString('Loaded with middleware');
 

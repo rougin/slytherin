@@ -6,7 +6,6 @@ use Phroute\Phroute\RouteCollector;
 use Rougin\Slytherin\Dispatching\Phroute\Router;
 
 use PHPUnit_Framework_TestCase;
-use Rougin\Slytherin\Test\Fixture\TestClass;
 
 /**
  * Router Test
@@ -25,15 +24,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        [
-            'GET',
-            '/',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClass',
-                'index'
-            ],
-            []
-        ],
+        [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ], [] ],
     ];
 
     /**
@@ -63,10 +54,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
         $this->router->addRoute($httpMethod, $uri, $handler);
 
-        $this->assertEquals(
-            $this->routes[0],
-            $this->router->getRoute($httpMethod, $uri)
-        );
+        $this->assertEquals($this->routes[0], $this->router->getRoute($httpMethod, $uri));
     }
 
     /**

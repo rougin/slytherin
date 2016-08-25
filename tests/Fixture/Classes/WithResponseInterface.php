@@ -1,16 +1,16 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Test Class With Response Interface
+ * With Response Interface
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestClassWithResponseInterface
+class WithResponseInterface
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -25,6 +25,11 @@ class TestClassWithResponseInterface
         $this->response = $response;
     }
 
+    /**
+     * Returns a response with a text of "Hello with response".
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function index()
     {
         $response = $this->response
@@ -37,6 +42,11 @@ class TestClassWithResponseInterface
         return $response;
     }
 
+    /**
+     * Returns a response with a text of "Hello with error response".
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function error()
     {
         $response = $this->response

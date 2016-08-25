@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 /**
- * Test Class With Optional Parameter
+ * With Optional Parameter
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestClassWithOptionalParameter
+class WithOptionalParameter
 {
     protected $name;
 

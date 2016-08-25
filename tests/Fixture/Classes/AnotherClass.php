@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 /**
- * Test Class
+ * Another Class
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestClass
+class AnotherClass
 {
     /**
      * Returns a string 'Hello'.

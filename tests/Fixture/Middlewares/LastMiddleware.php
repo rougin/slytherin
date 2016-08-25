@@ -1,17 +1,17 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 /**
- * Test Last Middleware
+ * Last Middleware
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestLastMiddleware
+class LastMiddleware
 {
     /**
      * @param  \Psr\Http\Message\ResponseInterface $request

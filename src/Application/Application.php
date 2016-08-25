@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Http\Message\ResponseInterface;
+
 use Rougin\Slytherin\Component\Collection;
 
 /**
@@ -50,14 +52,20 @@ class Application
             $debugger->display();
         }
 
-        list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
+        $result = $this->dispatchRoute($dispatcher, $request);
 
-        $result = $this->prepareMiddlewares($middleware, $middlewares);
+        // NOTE: To be removed in v1.0.0
+        if (is_array($result)) {
+            list($function, $middlewares) = $result;
 
-        if (! $result || $result->getBody() == '') {
-            $classObject = $this->resolveClass($container, $function);
-            $result      = $this->prepareHttpResponse($classObject, $response);
+            $result = $this->prepareMiddlewares($middleware, $middlewares);
+
+            if (! $result || $result->getBody() == '') {
+                $result = $this->resolveClass($container, $function);
+            }
         }
+
+        $result = $this->prepareHttpResponse($result, $response);
 
         echo $result->getBody();
     }

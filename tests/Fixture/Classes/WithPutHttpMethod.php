@@ -1,16 +1,16 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Test Class With PUT HTTP Method
+ * With PUT HTTP Method
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestClassWithPutHttpMethod
+class WithPutHttpMethod
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -25,6 +25,11 @@ class TestClassWithPutHttpMethod
         $this->response = $response;
     }
 
+    /**
+     * Returns a response with a text of "Hello from PUT HTTP method".
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function index()
     {
         $response = $this->response

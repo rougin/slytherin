@@ -30,13 +30,13 @@ class DispatcherComponent extends AbstractComponent
     public function get()
     {
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], ],
-            [ 'GET', '/optional', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithOptionalParameter', 'index' ], ],
-            [ 'GET', '/parameter', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithParameter', 'index' ], ],
-            [ 'GET', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'index' ] ],
-            [ 'GET', '/error', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithResponseInterface', 'error' ] ],
-            [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\TestLastMiddleware', ],
-            [ 'PUT', '/hello', [ 'Rougin\Slytherin\Test\Fixture\TestClassWithPutHttpMethod', 'index' ] ],
+            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ] ],
+            [ 'GET', '/optional', [ 'Rougin\Slytherin\Test\Fixture\Classes\WithOptionalParameter', 'index' ] ],
+            [ 'GET', '/parameter', [ 'Rougin\Slytherin\Test\Fixture\Classes\WithParameter', 'index' ] ],
+            [ 'GET', '/hello', [ 'Rougin\Slytherin\Test\Fixture\Classes\WithResponseInterface', 'index' ] ],
+            [ 'GET', '/error', [ 'Rougin\Slytherin\Test\Fixture\Classes\WithResponseInterface', 'error' ] ],
+            [ 'GET', '/middleware', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ], 'Rougin\Slytherin\Test\Fixture\Middlewares\LastMiddleware' ],
+            [ 'PUT', '/hello', [ 'Rougin\Slytherin\Test\Fixture\Classes\WithPutHttpMethod', 'index' ] ],
             [ 'GET', '/callback', function () {
                 return 'Hello';
             } ],

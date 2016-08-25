@@ -6,7 +6,7 @@ use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Dispatching\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
-use Rougin\Slytherin\Test\Fixture\TestClass;
+use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
 
 /**
  * Dispatcher Test
@@ -29,8 +29,8 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
-            [ 'POST', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'store' ] ],
+            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ] ],
+            [ 'POST', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'store' ] ],
             [ 'GET', '/hi', function () {
                 return 'Hi';
             } ],
@@ -49,7 +49,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClass()
     {
-        $controller = new TestClass;
+        $controller = new NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
@@ -67,7 +67,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClassAndPostMethod()
     {
-        $controller = new TestClass;
+        $controller = new NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('POST', '/');
 

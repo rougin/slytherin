@@ -20,9 +20,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $directories = [
-            __DIR__ . '/../../Fixture/Templates'
-        ];
+        $directories = [ __DIR__ . '/../../Fixture/Templates' ];
 
         $this->renderer = new Renderer($directories);
     }
@@ -48,8 +46,8 @@ class RendererTest extends PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $data = [ 'name' => 'template' ];
-        $rendered = $this->renderer->render('testWithData', $data);
+        $data     = [ 'name' => 'template' ];
+        $rendered = $this->renderer->render('test-with-data', $data);
 
         $this->assertEquals($expected, $rendered);
     }

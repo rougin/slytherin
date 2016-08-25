@@ -1,13 +1,13 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 /**
- * Test Interface
+ * New Interface
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface TestInterface
+interface NewInterface
 {
 }

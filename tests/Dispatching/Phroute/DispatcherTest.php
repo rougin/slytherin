@@ -6,7 +6,7 @@ use Rougin\Slytherin\Dispatching\Phroute\Router;
 use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
 
 use PHPUnit_Framework_TestCase;
-use Rougin\Slytherin\Test\Fixture\TestClass;
+use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
 
 /**
  * Dispatcher Test
@@ -33,7 +33,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         }
 
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\TestClass', 'index' ] ],
+            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ] ],
             [ 'GET', '/hi', function () {
                 return 'Hi';
             } ],
@@ -52,7 +52,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethod()
     {
-        $controller = new TestClass;
+        $controller = new NewClass;
 
         $this->assertEquals($controller->index(), $this->dispatcher->dispatch('GET', '/'));
     }

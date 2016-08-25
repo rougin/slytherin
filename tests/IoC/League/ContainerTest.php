@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Test\IoC\League;
 
-use Rougin\Slytherin\IoC\LeagueContainer;
+use Rougin\Slytherin\IoC\League\Container;
 
 use PHPUnit_Framework_TestCase;
-use Rougin\Slytherin\Test\Fixture\TestClass;
-use Rougin\Slytherin\Test\Fixture\TestAnotherClass;
-use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
+use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
 
 /**
  * League Container Test
@@ -25,7 +25,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Test\Fixture\TestClassWithParameter';
+    protected $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithParameter';
+
+    /**
+     * @var \Rougin\Slytherin\Test\Fixture\Classes\WithParameter
+     */
+    protected $instance;
 
     /**
      * Sets up the container.
@@ -38,7 +43,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('League Container is not installed.');
         }
 
-        $this->container = new LeagueContainer;
+        $this->container = new Container;
+        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**
@@ -48,7 +54,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethod()
     {
-        $this->container->add($this->class, new TestClassWithParameter(new TestClass, new TestAnotherClass));
+        $this->container->add($this->class, $this->instance);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -61,13 +67,10 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     public function testGetMethod()
     {
         $this->container->add($this->class)
-            ->withArgument(new TestClass)
-            ->withArgument(new TestAnotherClass);
+            ->withArgument(new NewClass)
+            ->withArgument(new AnotherClass);
 
-        $this->assertEquals(
-            new TestClassWithParameter(new TestClass, new TestAnotherClass),
-            $this->container->get($this->class)
-        );
+        $this->assertEquals($this->instance, $this->container->get($this->class));
     }
 
     /**
@@ -77,7 +80,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testHasMethod()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\TestClass';
+        $class = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
 
         $this->container->add($class);
 

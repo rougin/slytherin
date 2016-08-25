@@ -3,10 +3,10 @@
 namespace Rougin\Slytherin\Test\IoC\Auryn;
 
 use Auryn\Injector;
-use Rougin\Slytherin\IoC\AurynContainer;
-use Rougin\Slytherin\Test\Fixture\TestClass;
-use Rougin\Slytherin\Test\Fixture\TestAnotherClass;
-use Rougin\Slytherin\Test\Fixture\TestClassWithParameter;
+use Rougin\Slytherin\IoC\Auryn\Container;
+use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
 
 use PHPUnit_Framework_TestCase;
 
@@ -26,7 +26,12 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Test\Fixture\TestClassWithParameter';
+    protected $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithParameter';
+
+    /**
+     * @var \Rougin\Slytherin\Test\Fixture\Classes\WithParameter
+     */
+    protected $instance;
 
     /**
      * Sets up the container.
@@ -43,7 +48,8 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
-        $this->container = new AurynContainer(new Injector);
+        $this->container = new Container(new Injector);
+        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**
@@ -53,7 +59,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethod()
     {
-        $this->container->add($this->class, new TestClassWithParameter(new TestClass, new TestAnotherClass));
+        $this->container->add($this->class, $this->instance);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -65,10 +71,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethodWithConcreteParameter()
     {
-        $this->container->add(
-            $this->class,
-            new TestClassWithParameter(new TestClass, new TestAnotherClass)
-        );
+        $this->container->add($this->class, $this->instance);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -80,10 +83,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testAddMethodWithParameters()
     {
-        $this->container->add(
-            $this->class,
-            [ ':class' => new TestClass ]
-        );
+        $this->container->add($this->class, [ ':class' => new NewClass ]);
 
         $this->assertTrue($this->container->has($this->class));
     }
@@ -97,10 +97,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
     {
         $this->container->add($this->class);
 
-        $this->assertEquals(
-            new TestClassWithParameter(new TestClass, new TestAnotherClass),
-            $this->container->get($this->class)
-        );
+        $this->assertEquals($this->instance, $this->container->get($this->class));
     }
 
     /**
@@ -110,9 +107,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithError()
     {
-        $this->setExpectedException(
-            'Rougin\Slytherin\IoC\Vanilla\Exception\NotFoundException'
-        );
+        $this->setExpectedException('Rougin\Slytherin\IoC\Vanilla\Exception\NotFoundException');
 
         $this->container->get($this->class);
     }
@@ -124,7 +119,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
      */
     public function testHasMethod()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\TestClass';
+        $class = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
 
         $this->container->add($class);
 

@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture;
+namespace Rougin\Slytherin\Test\Fixture\Classes;
 
 /**
- * Test Class With Empty Constructor
+ * With Empty Constructor
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TestClassWithEmptyConstructor
+class WithEmptyConstructor
 {
     public function __construct()
     {

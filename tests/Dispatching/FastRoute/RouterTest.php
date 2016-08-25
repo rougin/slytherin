@@ -2,10 +2,13 @@
 
 namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
 
+use FastRoute\RouteCollector;
+use FastRoute\RouteParser\Std;
+use FastRoute\DataGenerator\GroupCountBased;
+
 use Rougin\Slytherin\Dispatching\FastRoute\Router;
 
 use PHPUnit_Framework_TestCase;
-use Rougin\Slytherin\Test\Fixture\TestClass;
 
 /**
  * Router Test
@@ -24,15 +27,7 @@ class RouterTest extends PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        [
-            'GET',
-            '/',
-            [
-                'Rougin\Slytherin\Test\Fixture\TestClass',
-                'index'
-            ],
-            []
-        ],
+        [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ], [] ],
     ];
 
     /**
@@ -46,7 +41,11 @@ class RouterTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
+        $collector = new RouteCollector(new Std, new GroupCountBased);
+
         $this->router = new Router;
+
+        $this->router->setCollector($collector);
     }
 
     /**
