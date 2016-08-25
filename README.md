@@ -44,6 +44,7 @@ $ composer require \
   filp/whoops \
   league/container \
   nikic/fast-route \
+  phroute/phroute \
   rdlowrey/auryn \
   twig/twig \
   zendframework/zend-diactoros \

@@ -4,6 +4,9 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.6.0...HEAD)
 
+### Added
+- Implementation for [Phroute](https://github.com/mrjgreen/phroute) package
+
 ### Fixed
 - Using `add` in `Component\Collector` if not using `IoC\Vanilla\Container`
 
