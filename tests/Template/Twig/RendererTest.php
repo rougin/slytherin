@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Test\Template\Twig;
 
 use Twig_Environment;
 use Twig_Loader_Filesystem;
+
 use Rougin\Slytherin\Template\TwigRenderer;
 
 use PHPUnit_Framework_TestCase;
@@ -16,6 +17,11 @@ class RendererTest extends PHPUnit_Framework_TestCase
     protected $renderer;
 
     /**
+     * @var \Twig_Environment
+     */
+    protected $twig;
+
+    /**
      * Sets up the renderer.
      *
      * @return void
@@ -26,10 +32,11 @@ class RendererTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Twig is not installed.');
         }
 
-        $loader = new Twig_Loader_Filesystem(__DIR__ . '/../../Fixture/Templates');
-        $twig = new Twig_Environment($loader);
+        $directory = __DIR__ . '/../../Fixture/Templates';
+        $loader    = new Twig_Loader_Filesystem($directory);
 
-        $this->renderer = new TwigRenderer($twig);
+        $this->twig     = new Twig_Environment($loader);
+        $this->renderer = new TwigRenderer($this->twig);
     }
 
     /**
@@ -39,9 +46,9 @@ class RendererTest extends PHPUnit_Framework_TestCase
      */
     public function testRenderMethod()
     {
-        $result = 'This is a text from a template.';
+        $expected = 'This is a text from a template.';
 
-        $this->assertEquals($result, $this->renderer->render('test', [], 'php'));
+        $this->assertEquals($expected, $this->renderer->render('test', [], 'php'));
     }
 
     /**
@@ -57,5 +64,19 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
 
         $this->assertEquals($expected, $rendered);
+    }
+
+    /**
+     * Tests the render() method with a global variable.
+     *
+     * @return void
+     */
+    public function testRenderMethodWithGlobals()
+    {
+        $expected = 'This is a text from a template.';
+        $globals  = [ 'name' => 'template' ];
+        $renderer = new TwigRenderer($this->twig, $globals);
+
+        $this->assertEquals($expected, $renderer->render('test-with-twig-data', [], 'php'));
     }
 }

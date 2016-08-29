@@ -20,21 +20,20 @@ use Rougin\Slytherin\Template\RendererInterface;
 class Renderer implements RendererInterface
 {
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     protected $twig;
 
     /**
-     * @var array
-     */
-    protected $globals = [];
-
-    /**
      * @param Twig_Environment $twig
+     * @param array            $globals
      */
-    public function __construct(Twig_Environment $twig, $globals = [])
+    public function __construct(Twig_Environment $twig, array $globals = [])
     {
-        $this->globals = $globals;
+        foreach ($globals as $key => $value) {
+            $twig->addGlobal($key, $value);
+        }
+
         $this->twig = $twig;
     }
 
@@ -46,10 +45,8 @@ class Renderer implements RendererInterface
      * @param  string $fileExtension
      * @return string
      */
-    public function render($template, array $data = [], $fileExtension = 'html')
+    public function render($template, array $data = [], $fileExtension = 'twig')
     {
-        $data = array_merge($data, $this->globals);
-
         return $this->twig->render("$template.$fileExtension", $data);
     }
 }

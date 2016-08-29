@@ -7,6 +7,9 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Added
 - Implementation for [Phroute](https://github.com/mrjgreen/phroute) package
 
+### Changed
+- Set globals to `Twig_Environment` when creating an instance in `Template\TwigRenderer`
+
 ### Fixed
 - Using `add` in `Component\Collector` if not using `IoC\Vanilla\Container`
 
