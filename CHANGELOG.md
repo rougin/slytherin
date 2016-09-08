@@ -2,7 +2,7 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.6.0...HEAD)
+## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
 ### Added
 - Implementation for [Phroute](https://github.com/mrjgreen/phroute) package

@@ -28,8 +28,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Rougin\\Slytherin\\": "src",
-            "Rougin\\Slytherin\\Containers\\": "src/IoC"
+            "Rougin\\Slytherin\\": "src"
         }
     },
     "autoload-dev": {
@@ -42,7 +41,7 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.8-dev"
+            "dev-master": "0.9-dev"
         }
     }
 }
