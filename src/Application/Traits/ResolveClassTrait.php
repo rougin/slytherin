@@ -2,11 +2,14 @@
 
 namespace Rougin\Slytherin\Application\Traits;
 
-use ReflectionClass;
-use ReflectionParameter;
-
 use Interop\Container\ContainerInterface;
 
+/**
+ * Resolve Class Trait
+ *
+ * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 trait ResolveClassTrait
 {
     /**
@@ -41,10 +44,10 @@ trait ResolveClassTrait
     private function resolve(ContainerInterface $container, $className)
     {
         // This is were we store the dependencies
-        $newParameters = [];
+        $parameters = [];
 
         // Reflect on the $className
-        $reflectionClass = new ReflectionClass($className);
+        $reflectionClass = new \ReflectionClass($className);
 
         // If there is no constructor, there is no dependencies, which means
         // that our job is done.
@@ -53,52 +56,32 @@ trait ResolveClassTrait
         } else {
             // Fetch the arguments from the constructor
             // (collection of ReflectionParameter instances)
-            $parameters = $constructor->getParameters();
+            $oldParameters = $constructor->getParameters();
         }
 
         // Loop over the constructor arguments
-        foreach ($parameters as $parameter) {
+        $callback = function ($parameter) use ($container, &$parameters) {
             if ($parameter->isOptional()) {
-                $this->setParameter($parameter, $newParameters);
-
-                continue;
+                return array_push($parameters, $parameter->getDefaultValue());
             }
 
             $class = $parameter->getClass()->getName();
 
             if ($container->has($class)) {
-                array_push($newParameters, $container->get($class));
-
-                continue;
+                return array_push($parameters, $container->get($class));
             }
 
             // This is where 'the magic happens'. We resolve each of the
             // dependencies, by recursively calling the resolve() method.
             // At one point, we will reach the bottom of the nested
             // dependencies we need in order to instantiate the class.
-            array_push($newParameters, $this->resolve($container, $class));
-        }
+            array_push($parameters, $this->resolve($container, $class));
+        };
+
+        array_walk($oldParameters, $callback);
 
         // Return the reflected class, instantiated with all its dependencies
         // (this happens once for all the nested dependencies).
-        return $reflectionClass->newInstanceArgs($newParameters);
-    }
-
-    /**
-     * Sets the parameter from the ReflectionParameter class.
-     *
-     * @param  \ReflectionParameter $parameter
-     * @param  array                &$parameters
-     * @return void
-     */
-    private function setParameter(ReflectionParameter $parameter, &$parameters = [])
-    {
-        $newParameter = null;
-
-        if ($parameter->isDefaultValueAvailable()) {
-            $newParameter = $parameter->getDefaultValue();
-        }
-
-        array_push($parameters, $newParameter);
+        return $reflectionClass->newInstanceArgs($parameters);
     }
 }

@@ -6,6 +6,12 @@ use Psr\Http\Message\ResponseInterface;
 
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
+/**
+ * Prepare Middleware Trait
+ *
+ * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 trait PrepareMiddlewaresTrait
 {
     /**

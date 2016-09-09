@@ -2,6 +2,14 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
+## [Unreleased](https://github.com/rougin/slytherin/compare/v0.7.0...HEAD) - [CURRENT_DATE]
+
+### Added
+- Test in `Phroute` in `Application`
+
+### Fixed
+- Route error when accessing application in localhost (`127.0.0.1`, `::1`)
+
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
 ### Added

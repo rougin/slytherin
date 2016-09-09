@@ -15,33 +15,12 @@ use Interop\Container\ContainerInterface;
 abstract class AbstractComponent implements ComponentInterface
 {
     /**
-     * Name of the class to be added in the container.
-     *
-     * @var string
-     */
-    protected $className = '';
-
-    /**
-     * Checks if the said component needs a container.
-     *
-     * @var boolean
-     */
-    protected $container = false;
-
-    /**
      * Type of the component:
      * dispatcher, debugger, http, middleware
      *
      * @var string
      */
     protected $type;
-
-    /**
-     * Returns an instance from the named class.
-     *
-     * @return mixed
-     */
-    abstract public function get();
 
     /**
      * Returns the type of the component.
@@ -54,13 +33,12 @@ abstract class AbstractComponent implements ComponentInterface
     }
 
     /**
-     * Sets the component and add it to the container of your choice.
+     * Sets the component. Can also add it to the container.
      *
      * @param  \Interop\Container\ContainerInterface $container
      * @return void
      */
     public function set(ContainerInterface &$container)
     {
-        return;
     }
 }

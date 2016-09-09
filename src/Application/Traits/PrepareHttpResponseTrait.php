@@ -4,6 +4,12 @@ namespace Rougin\Slytherin\Application\Traits;
 
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Preapre HTTP Response Trait
+ *
+ * @package Slytherin
+ * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ */
 trait PrepareHttpResponseTrait
 {
     /**

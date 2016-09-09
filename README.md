@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Yet Another Extensible PHP Library/Framework.
+Slytherin is a simple and extensible PHP library that tries to achieve a [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based design for creating your next web application. It uses [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external packages.
 
 ## Install
 
@@ -60,6 +60,13 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 ## Security
 
 If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
+
+## References
+
+- [Jamie York's](https://github.com/ziadoz) [Awesome PHP!](https://github.com/ziadoz/awesome-php)
+- [Dominik Liebler's](https://github.com/domnikl) [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest/)
+- [Patrick Louys'](https://github.com/PatrickLouys/no-framework-tutorial) [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial)
+- [Tony R Quilkey's](https://github.com/trq) [Fucking Small Framework](https://github.com/trq/fucking-small)
 
 ## Credits
 

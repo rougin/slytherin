@@ -79,7 +79,7 @@ class Dispatcher implements DispatcherInterface
             throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return [$class, $parameters, $middlewares];
+        return [ $class, $parameters, $middlewares ];
     }
 
     /**

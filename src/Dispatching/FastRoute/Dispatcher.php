@@ -61,6 +61,6 @@ class Dispatcher implements DispatcherInterface
                 break;
         }
 
-        return [$class, $parameters];
+        return [ $class, $parameters ];
     }
 }

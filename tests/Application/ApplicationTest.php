@@ -4,12 +4,18 @@ namespace Rougin\Slytherin\Test\Application;
 
 use Zend\Stratigility\MiddlewarePipe;
 
-use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Component\Collector;
+use Rougin\Slytherin\Application\Application;
+
 use Rougin\Slytherin\IoC\Vanilla\Container;
+
+use Rougin\Slytherin\Dispatching\Phroute\Router;
+use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
+
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
 use PHPUnit_Framework_TestCase;
+
 use Rougin\Slytherin\Test\Fixture\Http\Uri;
 
 /**
@@ -170,6 +176,27 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         $this->expectOutputString('Hello from PUT HTTP method');
 
         $this->setRequest('PUT', '/hello', [ '_method' => 'PUT' ]);
+
+        $application = new Application($this->components);
+
+        $application->run();
+    }
+
+    /**
+     * Tests the run() method with Phroute as dispatcher.
+     *
+     * @return void
+     */
+    public function testRunMethodWithPhroute()
+    {
+        $this->expectOutputString('Hello');
+
+        $this->setRequest('GET', '/');
+
+        $class  = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
+        $routes = [ [ 'GET', '/', [ $class, 'index' ] ] ];
+
+        $this->components->setDispatcher(new Dispatcher(new Router($routes)));
 
         $application = new Application($this->components);
 

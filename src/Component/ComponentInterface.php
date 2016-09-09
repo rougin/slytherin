@@ -15,7 +15,7 @@ use Interop\Container\ContainerInterface;
 interface ComponentInterface
 {
     /**
-     * Sets the component and add it to the container of your choice.
+     * Sets the component. Can also add it to the container.
      *
      * @param  \Interop\Container\ContainerInterface &$container
      * @return void

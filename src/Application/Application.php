@@ -41,12 +41,12 @@ class Application
      */
     public function run()
     {
+        list($request, $response) = $this->components->getHttp();
+
         $container  = $this->components->getContainer();
         $debugger   = $this->components->getDebugger();
         $dispatcher = $this->components->getDispatcher();
         $middleware = $this->components->getMiddleware();
-        $request    = $this->components->getHttpRequest();
-        $response   = $this->components->getHttpResponse();
 
         if ($debugger && $debugger->getEnvironment() == 'development') {
             $debugger->display();

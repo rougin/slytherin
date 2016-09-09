@@ -36,19 +36,24 @@ class HttpComponent extends AbstractComponent
 
     /**
      * Returns an instance from the named class.
+     * It's used in supporting component types for Slytherin.
      *
      * @return mixed
      */
     public function get()
     {
-        $this->request  = new ServerRequest;
+        $slash  = DIRECTORY_SEPARATOR;
+        $root   = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
+        $server = [ 'REMOTE_ADDR' => '127.0.0.1', 'DOCUMENT_ROOT' => $root ];
+
+        $this->request  = new ServerRequest('1.1', [], null, '/', 'GET', null, $server);
         $this->response = new Response;
 
         return [ $this->request, $this->response ];
     }
 
     /**
-     * Sets the component and add it to the container of your choice.
+     * Sets the component. Can also add it to the container.
      *
      * @param  \Interop\Container\ContainerInterface $container
      * @return void

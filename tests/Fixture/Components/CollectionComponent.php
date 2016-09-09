@@ -17,6 +17,7 @@ class CollectionComponent extends AbstractComponent
 {
     /**
      * Returns an instance from the named class.
+     * It's used in supporting component types for Slytherin.
      *
      * @return mixed
      */
