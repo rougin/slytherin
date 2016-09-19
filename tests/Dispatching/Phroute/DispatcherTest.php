@@ -54,7 +54,9 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     {
         $controller = new NewClass;
 
-        $this->assertEquals($controller->index(), $this->dispatcher->dispatch('GET', '/'));
+        $expected = [ $controller->index(), null, [] ];
+
+        $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/'));
     }
 
     /**
@@ -64,7 +66,9 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClosure()
     {
-        $this->assertEquals('Hi', $this->dispatcher->dispatch('GET', '/hi'));
+        $expected = [ 'Hi', null, [] ];
+
+        $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/hi'));
     }
 
     /**

@@ -25,11 +25,17 @@ class Dispatcher implements DispatcherInterface
     protected $dispatcher;
 
     /**
+     * @var \Rougin\Slytherin\Dispatching\RouterInterface
+     */
+    protected $router;
+
+    /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
         $this->dispatcher = new PhrouteDispatcher($router->getRoutes());
+        $this->router     = $router;
     }
 
     /**
@@ -37,10 +43,14 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|string
+     * @return array
      */
     public function dispatch($httpMethod, $uri)
     {
-        return $this->dispatcher->dispatch($httpMethod, $uri);
+        $routeInfo   = $this->router->getRoute($httpMethod, $uri);
+        $routeResult = $this->dispatcher->dispatch($httpMethod, $uri);
+        $middlewares = ($routeResult && isset($routeInfo[3])) ? $route[3] : [];
+
+        return [ $routeResult, null, $middlewares ];
     }
 }
