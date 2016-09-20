@@ -28,11 +28,17 @@ class Dispatcher implements DispatcherInterface
     protected $dispatcher;
 
     /**
+     * @var \Rougin\Slytherin\Dispatching\RouterInterface
+     */
+    protected $router;
+
+    /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
         $this->dispatcher = FastRoute\simpleDispatcher($router->getRoutes());
+        $this->router     = $router;
     }
 
     /**
@@ -40,27 +46,34 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|string
+     * @return array
      */
     public function dispatch($httpMethod, $uri)
     {
-        $class      = '';
-        $parameters = [];
+        $className   = '';
+        $middlewares = [];
+        $parameters  = [];
 
-        $routeInfo = $this->dispatcher->dispatch($httpMethod, $uri);
+        $result = $this->dispatcher->dispatch($httpMethod, $uri);
+        $route  = $this->router->getRoute($httpMethod, $uri);
 
-        switch ($routeInfo[0]) {
+        switch ($result[0]) {
             case FastRouteDispatcher::NOT_FOUND:
                 throw new UnexpectedValueException("Route \"$uri\" not found");
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:
                 throw new UnexpectedValueException("Used method's not allowed");
             case FastRouteDispatcher::FOUND:
-                $class      = $routeInfo[1];
-                $parameters = $routeInfo[2];
+                $className  = $result[1];
+                $parameters = $result[2];
+
+                // Checks if the result contains middlewares
+                if ($route[2] == $className && isset($route[3])) {
+                    $middlewares = $route[3];
+                }
 
                 break;
         }
 
-        return [ $class, $parameters ];
+        return [ $className, $parameters, $middlewares ];
     }
 }

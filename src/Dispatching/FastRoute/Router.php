@@ -56,8 +56,10 @@ class Router extends BaseRouter
         $routes = array_merge($this->routes, $this->collector->getData());
 
         return function (RouteCollector $collector) use ($routes) {
-            foreach ($this->routes as $route) {
-                $collector->addRoute($route[0], $route[1], $route[2]);
+            foreach ($routes as $route) {
+                if (! empty($route)) {
+                    $collector->addRoute($route[0], $route[1], $route[2]);
+                }
             }
         };
     }

@@ -33,7 +33,12 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
         }
 
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ] ],
+            [
+                'GET',
+                '/',
+                [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ],
+                'Rougin\Slytherin\Test\Fixture\Middlewares\LastMiddleware'
+            ],
             [ 'GET', '/hi', function () {
                 return 'Hi';
             } ],
@@ -82,7 +87,7 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an error.
+     * Tests if dispatch() returned with an error.
      *
      * @return void
      */
@@ -94,11 +99,23 @@ class DispatcherTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an invalid method.
+     * Tests if dispatch() returned with an invalid method.
      *
      * @return void
      */
     public function testDispatchMethodWithInvalidMethod()
+    {
+        $this->setExpectedException('UnexpectedValueException');
+
+        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
+    }
+
+    /**
+     * Tests if dispatch() returned successfully with a middleware.
+     *
+     * @return void
+     */
+    public function testDispatchMethodWithMiddleware()
     {
         $this->setExpectedException('UnexpectedValueException');
 
