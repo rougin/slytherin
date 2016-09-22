@@ -47,7 +47,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|string
+     * @return array
      *
      * @throws UnexpectedValueException
      */
