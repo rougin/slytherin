@@ -5,7 +5,8 @@ All Notable changes to `Slytherin` will be documented in this file
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.7.0...HEAD) - [CURRENT_DATE]
 
 ### Added
-- Test in `Phroute` in `Application`
+- Unit test for `Phroute` in `Application\Application`
+- Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 
 ### Fixed
 - Route error when accessing application in localhost (`127.0.0.1`, `::1`)
