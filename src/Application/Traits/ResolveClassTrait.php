@@ -15,11 +15,16 @@ trait ResolveClassTrait
     /**
      * Resolves the result based from the dispatched route.
      *
-     * @param  array $function
+     * @param  \Interop\Container\ContainerInterface $container
+     * @param  array|string                          $function
      * @return mixed
      */
     private function resolveClass(ContainerInterface $container, $function)
     {
+        if (is_string($function)) {
+            return $function;
+        }
+
         list($class, $parameters) = $function;
 
         if (is_callable($class) && is_object($class)) {
@@ -43,9 +48,6 @@ trait ResolveClassTrait
      */
     private function resolve(ContainerInterface $container, $className)
     {
-        // This is were we store the dependencies
-        $parameters = [];
-
         // Reflect on the $className
         $reflectionClass = new \ReflectionClass($className);
 
@@ -53,35 +55,52 @@ trait ResolveClassTrait
         // that our job is done.
         if (! $constructor = $reflectionClass->getConstructor()) {
             return new $className;
-        } else {
-            // Fetch the arguments from the constructor
-            // (collection of ReflectionParameter instances)
-            $oldParameters = $constructor->getParameters();
         }
 
-        // Loop over the constructor arguments
-        $callback = function ($parameter) use ($container, &$parameters) {
+        // Fetch the parameters from the constructor
+        // (collection of ReflectionParameter instances)
+        $parameters = $constructor->getParameters();
+
+        // This is were we store the dependencies
+        $arguments = $this->setArguments($container, $parameters);
+
+        // Return the reflected class, instantiated with all its dependencies
+        // (this happens once for all the nested dependencies).
+        return $reflectionClass->newInstanceArgs($arguments);
+    }
+
+    /**
+     * Sets the arguments from the specified class.
+     *
+     * @param  \Interop\Container\ContainerInterface $container
+     * @param  array                                 $parameters
+     * @return array
+     */
+    private function setArguments(ContainerInterface $container, array $parameters)
+    {
+        $arguments = [];
+
+        // Loop over the constructor parameters
+        $callback = function ($parameter) use ($container, &$arguments) {
             if ($parameter->isOptional()) {
-                return array_push($parameters, $parameter->getDefaultValue());
+                return array_push($arguments, $parameter->getDefaultValue());
             }
 
             $class = $parameter->getClass()->getName();
 
             if ($container->has($class)) {
-                return array_push($parameters, $container->get($class));
+                return array_push($arguments, $container->get($class));
             }
 
             // This is where 'the magic happens'. We resolve each of the
             // dependencies, by recursively calling the resolve() method.
             // At one point, we will reach the bottom of the nested
             // dependencies we need in order to instantiate the class.
-            array_push($parameters, $this->resolve($container, $class));
+            array_push($arguments, $this->resolve($container, $class));
         };
 
-        array_walk($oldParameters, $callback);
+        array_walk($parameters, $callback);
 
-        // Return the reflected class, instantiated with all its dependencies
-        // (this happens once for all the nested dependencies).
-        return $reflectionClass->newInstanceArgs($parameters);
+        return $arguments;
     }
 }

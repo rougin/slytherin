@@ -26,8 +26,9 @@ trait PrepareMiddlewaresTrait
     /**
      * Prepares the defined middlewares.
      *
-     * @param  array $middlewares
-     * @return mixed
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
+     * @param  array                                            $middlewares
+     * @return \Psr\Http\Message\ResponseInterface|null
      */
     private function prepareMiddlewares(MiddlewareInterface $middleware = null, array $middlewares = [])
     {

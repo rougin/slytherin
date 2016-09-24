@@ -104,6 +104,25 @@ class Collection
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
+        $addresses = [ '127.0.0.1', '::1' ];
+        $server    = $request->getServerParams();
+
+        // Manually change the URI if it is in localhost
+        if ($request->getUri() && in_array($server['REMOTE_ADDR'], $addresses)) {
+            $path = $request->getUri()->getPath();
+
+            $search  = [ '\\', '/', DIRECTORY_SEPARATOR . 'public' ];
+            $replace = [ DIRECTORY_SEPARATOR, DIRECTORY_SEPARATOR, '' ];
+
+            $cwd = str_replace($search, $replace, getcwd());
+            $uri = str_replace($search, $replace, $server['DOCUMENT_ROOT'] . $path);
+
+            $path = str_replace([ $cwd, '\\' ], [ '', '/' ], $uri);
+            $uri  = $request->getUri()->withPath($path);
+
+            $request = $request->withUri($uri);
+        }
+
         $this->setComponent('request', $request);
 
         return $this->setComponent('response', $response);

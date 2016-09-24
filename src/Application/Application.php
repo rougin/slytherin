@@ -52,17 +52,12 @@ class Application
             $debugger->display();
         }
 
-        $result = $this->dispatchRoute($dispatcher, $request);
+        list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
 
-        // NOTE: To be removed in v1.0.0
-        if (is_array($result)) {
-            list($function, $middlewares) = $result;
+        $result = $this->prepareMiddlewares($middleware, $middlewares);
 
-            $result = $this->prepareMiddlewares($middleware, $middlewares);
-
-            if (! $result || $result->getBody() == '') {
-                $result = $this->resolveClass($container, $function);
-            }
+        if (! $result || $result->getBody() == '') {
+            $result = $this->resolveClass($container, $function);
         }
 
         $result = $this->prepareHttpResponse($result, $response);
