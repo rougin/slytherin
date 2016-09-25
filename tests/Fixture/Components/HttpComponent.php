@@ -42,9 +42,15 @@ class HttpComponent extends AbstractComponent
      */
     public function get()
     {
-        $slash  = DIRECTORY_SEPARATOR;
-        $root   = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
-        $server = [ 'REMOTE_ADDR' => '127.0.0.1', 'DOCUMENT_ROOT' => $root ];
+        $slash = DIRECTORY_SEPARATOR;
+        $root  = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
+
+        $server = [
+            'DOCUMENT_ROOT'   => $root,
+            'REMOTE_ADDR'     => '127.0.0.1',
+            'SCRIPT_FILENAME' => '/var/www/html/slytherin/index.php',
+            'SCRIPT_NAME'     => '/slytherin/index.php'
+        ];
 
         $this->request  = new ServerRequest('1.1', [], null, '/', 'GET', null, $server);
         $this->response = new Response;

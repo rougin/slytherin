@@ -5,13 +5,11 @@ namespace Rougin\Slytherin\Test\Application;
 use Zend\Stratigility\MiddlewarePipe;
 
 use Rougin\Slytherin\Component\Collector;
-use Rougin\Slytherin\Application\Application;
-
+use Rougin\Slytherin\Http\BaseUriGuesser;
 use Rougin\Slytherin\IoC\Vanilla\Container;
-
+use Rougin\Slytherin\Application\Application;
 use Rougin\Slytherin\Dispatching\Phroute\Router;
 use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
-
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
 use PHPUnit_Framework_TestCase;
@@ -216,6 +214,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         list($request, $response) = $this->components->getHttp();
 
         $request = $request->withMethod($httpMethod)->withUri(new Uri($uri));
+        $request = BaseUriGuesser::guess($request);
 
         switch ($httpMethod) {
             case 'GET':

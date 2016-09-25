@@ -103,7 +103,9 @@ class ServerRequest extends Message implements ServerRequestInterface
 
     public function withRequestTarget($requestTarget)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->requestTarget = $requestTarget;
+
+        return clone $this;
     }
 
     public function getMethod()
@@ -178,7 +180,9 @@ class ServerRequest extends Message implements ServerRequestInterface
      */
     public function withCookieParams(array $cookies)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->cookies = $cookies;
+
+        return clone $this;
     }
 
     /**
@@ -257,7 +261,9 @@ class ServerRequest extends Message implements ServerRequestInterface
      */
     public function withUploadedFiles(array $uploadedFiles)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->uploadedFiles = $uploadedFiles;
+
+        return clone $this;
     }
 
     /**
