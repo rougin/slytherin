@@ -3,6 +3,8 @@
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
 [![Build Status][ico-travis]][link-travis]
+[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Slytherin is a simple and extensible PHP library that tries to achieve a [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based design for creating your next web application. It uses [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external packages.
@@ -86,6 +88,8 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 
 [link-packagist]: https://packagist.org/packages/rougin/slytherin
 [link-travis]: https://travis-ci.org/rougin/slytherin
+[link-scrutinizer]: https://scrutinizer-ci.com/g/rougin/slytherin/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
 [link-downloads]: https://packagist.org/packages/rougin/slytherin
 [link-author]: https://github.com/rougin
 [link-contributors]: ../../contributors
