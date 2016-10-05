@@ -63,13 +63,9 @@ class Dispatcher implements DispatcherInterface
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:
                 throw new UnexpectedValueException("Used method's not allowed");
             case FastRouteDispatcher::FOUND:
-                $className  = $result[1];
-                $parameters = $result[2];
-
-                // Checks if the result contains middlewares
-                if ($route[2] == $className && isset($route[3])) {
-                    $middlewares = $route[3];
-                }
+                $className   = $result[1];
+                $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : [];
+                $parameters  = $result[2];
 
                 break;
         }

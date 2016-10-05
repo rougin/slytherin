@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Application\Traits;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
@@ -30,11 +31,9 @@ trait PrepareMiddlewaresTrait
      * @param  array                                            $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    private function prepareMiddlewares(MiddlewareInterface $middleware = null, array $middlewares = [])
+    private function prepareMiddlewares(ServerRequestInterface $request, ResponseInterface $response, MiddlewareInterface $middleware = null, array $middlewares = [])
     {
-        $request  = $this->components->getHttpRequest();
-        $response = $this->components->getHttpResponse();
-        $result   = null;
+        $result = null;
 
         if ($middleware && ! empty($middlewares)) {
             $result = $middleware($request, $response, $middlewares);

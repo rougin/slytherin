@@ -2,8 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Middleware Interface
@@ -23,5 +23,5 @@ interface MiddlewareInterface
      * @param  array                               $queue
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(Request $request, Response $response, array $queue = []);
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = []);
 }

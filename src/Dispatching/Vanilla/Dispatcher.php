@@ -26,13 +26,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * @var array
      */
-    protected $validHttpMethods = [
-        'DELETE',
-        'GET',
-        'PATCH',
-        'POST',
-        'PUT',
-    ];
+    protected $validHttpMethods = [ 'DELETE', 'GET', 'PATCH', 'POST', 'PUT' ];
 
     /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
@@ -53,45 +47,59 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $class       = '';
-        $middlewares = [];
-        $parameters  = [];
+        $callback = function ($route) use ($httpMethod, $uri) {
+            return $this->parseRoute($httpMethod, $uri, $route);
+        };
 
-        foreach ($this->router->getRoutes() as $route) {
-            $hasMatch = preg_match($route[1], $uri, $parameters);
+        $routes = $this->router->getRoutes();
+        $routes = array_values(array_filter(array_map($callback, $routes)));
 
-            if (! $hasMatch || $httpMethod != $route[0]) {
-                continue;
-            }
-
-            $this->isValidHttpMethod($route[0]);
-
-            array_shift($parameters);
-
-            $class       = $route[2];
-            $middlewares = $route[3];
-            $parameters  = array_values($parameters);
-
-            break;
-        }
-
-        if (! $class) {
+        if (empty($routes)) {
             throw new UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return [ $class, $parameters, $middlewares ];
+        return $routes[0];
     }
 
     /**
      * Checks if the specified method is a valid HTTP method.
      *
      * @param  string $httpMethod
-     * @return void
+     * @return boolean
+     *
+     * @throws UnexpectedValueException
      */
     private function isValidHttpMethod($httpMethod)
     {
         if (! in_array($httpMethod, $this->validHttpMethods)) {
             throw new UnexpectedValueException('Used method is not allowed');
         }
+
+        return true;
+    }
+
+    /**
+     * Parses the specified route and make some checks.
+     *
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @param  array  $route
+     * @return array|null
+     */
+    private function parseRoute($httpMethod, $uri, $route)
+    {
+        $hasMatch = preg_match($route[1], $uri, $parameters);
+
+        if (! $hasMatch || $httpMethod != $route[0]) {
+            return null;
+        }
+
+        if (! $this->isValidHttpMethod($route[0]) || empty($route[2])) {
+            return null;
+        }
+
+        array_shift($parameters);
+
+        return [ $route[2], array_values($parameters), $route[3] ];
     }
 }

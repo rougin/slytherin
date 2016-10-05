@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
 use Rougin\Slytherin\Component\Collection;
@@ -21,6 +22,9 @@ class Application
         Traits\PrepareMiddlewaresTrait,
         Traits\ResolveClassTrait;
 
+    const MASTER_REQUEST = 1;
+    const SUB_REQUEST    = 2;
+
     /**
      * @var \Rougin\Slytherin\Component\Collection
      */
@@ -35,33 +39,48 @@ class Application
     }
 
     /**
+     * Handles a ServerRequestInterface to convert it to a ResponseInterface.
+     * 
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  integer                                  $type
+     * @param  boolean                                  $catch
+     * @return \Psr\Http\Message\ResponseInterface
+     * @throws \Exception When an Exception occurs during processing
+     */
+    public function handle(ServerRequestInterface $request, $type = self::MASTER_REQUEST, $catch = true)
+    {
+        $container  = $this->components->getContainer();
+        $dispatcher = $this->components->getDispatcher();
+        $middleware = $this->components->getMiddleware();
+        $response   = $this->components->getHttpResponse();
+
+        list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
+
+        $result = $this->prepareMiddlewares($request, $response, $middleware, $middlewares);
+
+        if (! $result || $result->getBody() == '') {
+            $result = $this->resolveClass($container, $function);
+        }
+
+        return $this->prepareHttpResponse($result, $response);
+    }
+
+    /**
      * Runs the application
      *
      * @return void
      */
     public function run()
     {
-        list($request, $response) = $this->components->getHttp();
-
-        $container  = $this->components->getContainer();
-        $debugger   = $this->components->getDebugger();
-        $dispatcher = $this->components->getDispatcher();
-        $middleware = $this->components->getMiddleware();
+        $debugger = $this->components->getDebugger();
 
         if ($debugger && $debugger->getEnvironment() == 'development') {
             $debugger->display();
         }
 
-        list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
+        $request  = $this->components->getHttpRequest();
+        $response = $this->handle($request, self::MASTER_REQUEST, true);
 
-        $result = $this->prepareMiddlewares($middleware, $middlewares);
-
-        if (! $result || $result->getBody() == '') {
-            $result = $this->resolveClass($container, $function);
-        }
-
-        $result = $this->prepareHttpResponse($result, $response);
-
-        echo $result->getBody();
+        echo $response->getBody();
     }
 }

@@ -6,6 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Base URI Guesser
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

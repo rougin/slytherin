@@ -26,7 +26,7 @@ class Collector
     {
         $collection = new Collection;
 
-        foreach ($components as $component) {
+        $callback = function ($component) use (&$collection, &$container) {
             $component = new $component;
 
             switch ($component->getType()) {
@@ -51,7 +51,9 @@ class Collector
             }
 
             $component->set($container);
-        }
+        };
+
+        array_walk($components, $callback);
 
         $collection->setContainer($container);
 
