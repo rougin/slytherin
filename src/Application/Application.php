@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Application;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
 
 use Rougin\Slytherin\Component\Collection;
 
@@ -22,9 +21,6 @@ class Application
         Traits\PrepareMiddlewaresTrait,
         Traits\ResolveClassTrait;
 
-    const MASTER_REQUEST = 1;
-    const SUB_REQUEST    = 2;
-
     /**
      * @var \Rougin\Slytherin\Component\Collection
      */
@@ -40,14 +36,11 @@ class Application
 
     /**
      * Handles a ServerRequestInterface to convert it to a ResponseInterface.
-     * 
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  integer                                  $type
-     * @param  boolean                                  $catch
      * @return \Psr\Http\Message\ResponseInterface
-     * @throws \Exception When an Exception occurs during processing
      */
-    public function handle(ServerRequestInterface $request, $type = self::MASTER_REQUEST, $catch = true)
+    public function handle(ServerRequestInterface $request)
     {
         $container  = $this->components->getContainer();
         $dispatcher = $this->components->getDispatcher();
@@ -79,7 +72,7 @@ class Application
         }
 
         $request  = $this->components->getHttpRequest();
-        $response = $this->handle($request, self::MASTER_REQUEST, true);
+        $response = $this->handle($request);
 
         echo $response->getBody();
     }

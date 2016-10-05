@@ -88,13 +88,12 @@ class Dispatcher implements DispatcherInterface
      */
     private function parseRoute($httpMethod, $uri, $route)
     {
-        $hasMatch = preg_match($route[1], $uri, $parameters);
+        $hasRouteMatch  = preg_match($route[1], $uri, $parameters);
+        $sameHttpMethod = $httpMethod == $route[0];
 
-        if (! $hasMatch || $httpMethod != $route[0]) {
-            return null;
-        }
+        $this->isValidHttpMethod($route[0]);
 
-        if (! $this->isValidHttpMethod($route[0]) || empty($route[2])) {
+        if (! $hasRouteMatch || ! $sameHttpMethod || empty($route[2])) {
             return null;
         }
 
