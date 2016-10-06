@@ -15,12 +15,12 @@ trait ResolveClassTrait
     /**
      * Parses the specified arguments.
      *
+     * @param  \Interop\Container\ContainerInterface $container
      * @param  \ReflectionParameter                  $parameter
      * @param  array                                 &$arguments
-     * @param  \Interop\Container\ContainerInterface $container
      * @return void
      */
-    private function parseParameters($parameter, array &$arguments, ContainerInterface $container)
+    private function parseParameters(ContainerInterface $container, $parameter, array &$arguments)
     {
         if ($parameter->isOptional()) {
             return array_push($arguments, $parameter->getDefaultValue());
@@ -89,15 +89,29 @@ trait ResolveClassTrait
         $parameters = $constructor->getParameters();
 
         // This is were we store the dependencies
-        $arguments = [];
-
-        // Loop over the constructor parameters
-        foreach ($parameters as $parameter) {
-            $this->parseParameters($parameter, $arguments, $container);
-        }
+        $arguments = $this->setArguments($container, $parameters);
 
         // Return the reflected class, instantiated with all its dependencies
         // (this happens once for all the nested dependencies).
         return $reflectionClass->newInstanceArgs($arguments);
+    }
+
+    /**
+     * Sets the arguments from the specified class.
+     *
+     * @param  \Interop\Container\ContainerInterface $container
+     * @param  array                                 $parameters
+     * @return array
+     */
+    private function setArguments(ContainerInterface $container, array $parameters)
+    {
+        $arguments = [];
+
+        // Loop over the constructor parameters
+        foreach ($parameters as $parameter) {
+            $this->parseParameters($container, $parameter, $arguments);
+        }
+
+        return $arguments;
     }
 }
