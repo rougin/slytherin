@@ -29,21 +29,16 @@ class Collector
         $callback = function ($component) use (&$collection, &$container) {
             $component = new $component;
 
-            switch ($component->getType()) {
-                case 'http':
+            if (! empty($component->getType())) {
+                $method = 'set' . ucfirst($component->getType());
+
+                if ($component->getType() == 'http') {
                     list($request, $response) = $component->get();
 
-                    $collection->setHttp($request, $response);
-
-                    break;
-                default:
-                    $method = 'set' . ucfirst($component->getType());
-
-                    if ($method != 'set') {
-                        $collection->$method($component->get());
-                    }
-
-                    break;
+                    $collection->$method($request, $response);
+                } else {
+                    $collection->$method($component->get());
+                }
             }
 
             $component->set($container);

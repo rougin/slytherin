@@ -50,10 +50,6 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $className   = '';
-        $middlewares = [];
-        $parameters  = [];
-
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
         $route  = $this->router->getRoute($httpMethod, $uri);
 
@@ -62,14 +58,10 @@ class Dispatcher implements DispatcherInterface
                 throw new UnexpectedValueException("Route \"$uri\" not found");
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:
                 throw new UnexpectedValueException("Used method's not allowed");
-            case FastRouteDispatcher::FOUND:
-                $className   = $result[1];
-                $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : [];
-                $parameters  = $result[2];
-
-                break;
         }
 
-        return [ $className, $parameters, $middlewares ];
+        $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : [];
+
+        return [ $result[1], $result[2], $middlewares ];
     }
 }
