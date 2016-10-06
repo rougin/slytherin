@@ -21,7 +21,7 @@ trait PrepareHttpResponseTrait
      */
     protected function prepareHttpResponse($result, ResponseInterface $response)
     {
-        if ($result instanceof ResponseInterface) {
+        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
             $response = $result;
         } else {
             $response->getBody()->write($result);

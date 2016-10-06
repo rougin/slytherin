@@ -49,7 +49,7 @@ class Dispatcher implements DispatcherInterface
     {
         $routeInfo   = $this->router->getRoute($httpMethod, $uri);
         $routeResult = $this->dispatcher->dispatch($httpMethod, $uri);
-        $middlewares = ($routeResult && isset($routeInfo[3])) ? $route[3] : [];
+        $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : [];
 
         return [ $routeResult, null, $middlewares ];
     }

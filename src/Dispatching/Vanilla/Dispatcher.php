@@ -91,11 +91,11 @@ class Dispatcher implements DispatcherInterface
         $hasRouteMatch  = preg_match($route[1], $uri, $parameters);
         $sameHttpMethod = $httpMethod == $route[0];
 
-        $this->isValidHttpMethod($route[0]);
-
         if (! $hasRouteMatch || ! $sameHttpMethod || empty($route[2])) {
             return null;
         }
+
+        $this->isValidHttpMethod($route[0]);
 
         array_shift($parameters);
 

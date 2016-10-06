@@ -30,22 +30,18 @@ class Collector
             $component = new $component;
 
             switch ($component->getType()) {
-                case 'dispatcher':
-                    $collection->setDispatcher($component->get());
-
-                    break;
-                case 'debugger':
-                    $collection->setDebugger($component->get());
-
-                    break;
                 case 'http':
                     list($request, $response) = $component->get();
 
                     $collection->setHttp($request, $response);
 
                     break;
-                case 'middleware':
-                    $collection->setMiddleware($component->get());
+                default:
+                    $method = 'set' . ucfirst($component->getType());
+
+                    if ($method != 'set') {
+                        $collection->$method($component->get());
+                    }
 
                     break;
             }

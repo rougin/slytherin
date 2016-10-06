@@ -25,7 +25,6 @@ trait DispatchRouteTrait
         $method = $request->getMethod();
         $path   = $request->getUri()->getPath();
         $post   = $request->getParsedBody();
-        $server = $request->getServerParams();
 
         // For PATCH and DELETE HTTP methods
         if (isset($post['_method'])) {
