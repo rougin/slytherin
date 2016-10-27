@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Base URI Guesser
  * NOTE: To be removed in v1.0.0
@@ -19,7 +17,7 @@ class BaseUriGuesser
      * @param  Psr\Http\Message\ServerRequestInterface $request
      * @return Psr\Http\Message\ServerRequestInterface
      */
-    public static function guess(ServerRequestInterface $request)
+    public static function guess(\Psr\Http\Message\ServerRequestInterface $request)
     {
         $server = $request->getServerParams();
 

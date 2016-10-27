@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Rougin\Slytherin\Dispatching\Vanilla\Router as VanillaRouter;
-
 /**
  * Dispatcher
  *
@@ -14,6 +12,6 @@ use Rougin\Slytherin\Dispatching\Vanilla\Router as VanillaRouter;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends VanillaRouter
+class Router extends \Rougin\Slytherin\Dispatching\Vanilla\Router
 {
 }

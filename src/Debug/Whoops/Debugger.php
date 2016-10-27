@@ -2,12 +2,6 @@
 
 namespace Rougin\Slytherin\Debug\Whoops;
 
-use Whoops\Run;
-use Whoops\Handler\HandlerInterface;
-use Whoops\Handler\PrettyPageHandler;
-
-use Rougin\Slytherin\Debug\DebuggerInterface;
-
 /**
  * Debugger
  *
@@ -19,7 +13,7 @@ use Rougin\Slytherin\Debug\DebuggerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Debugger implements DebuggerInterface
+class Debugger implements \Rougin\Slytherin\Debug\DebuggerInterface
 {
     /**
      * @var string
@@ -35,7 +29,7 @@ class Debugger implements DebuggerInterface
      * @param \Whoops\Run $whoops
      * @param string      $environment
      */
-    public function __construct(Run $whoops, $environment = 'development')
+    public function __construct(\Whoops\Run $whoops, $environment = 'development')
     {
         $this->whoops = $whoops;
         $this->environment = $environment;
@@ -82,7 +76,7 @@ class Debugger implements DebuggerInterface
         error_reporting(E_ALL);
 
         if ($this->environment === 'development') {
-            $this->setHandler(new PrettyPageHandler);
+            $this->setHandler(new \Whoops\Handler\PrettyPageHandler);
         }
 
         return $this->whoops->register();

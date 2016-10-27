@@ -2,11 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware\Stratigility;
 
-use Zend\Stratigility\MiddlewarePipe;
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
-
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Stratigility Middleware
@@ -18,7 +15,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
-class Middleware implements MiddlewareInterface
+class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 {
     /**
      * @var \Zend\Stratigility\MiddlewarePipe
@@ -28,7 +25,7 @@ class Middleware implements MiddlewareInterface
     /**
      * @param \Zend\Stratigility\MiddlewarePipe $middleware
      */
-    public function __construct(MiddlewarePipe $middleware)
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $middleware)
     {
         $this->middleware = $middleware;
     }
@@ -36,12 +33,12 @@ class Middleware implements MiddlewareInterface
     /**
      * Processes the specified middlewares in queue.
      *
-     * @param  \Psr\Http\Message\RequestInterface  $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  array                               $queue
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface      $response
+     * @param  array                                    $queue
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(Request $request, Response $response, array $queue = [])
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = [])
     {
         $middleware = $this->middleware;
 

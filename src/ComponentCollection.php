@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Rougin\Slytherin\Component\Collection;
-
 /**
  * Component Collection
  *
@@ -13,6 +11,6 @@ use Rougin\Slytherin\Component\Collection;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ComponentCollection extends Collection
+class ComponentCollection extends Component\Collection
 {
 }

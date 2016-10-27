@@ -2,13 +2,6 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
-use FilesystemIterator;
-use InvalidArgumentException;
-use RecursiveIteratorIterator;
-use RecursiveDirectoryIterator;
-
-use Rougin\Slytherin\Template\RendererInterface;
-
 /**
  * Renderer
  *
@@ -17,7 +10,7 @@ use Rougin\Slytherin\Template\RendererInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Renderer implements RendererInterface
+class Renderer implements \Rougin\Slytherin\Template\RendererInterface
 {
     /**
      * @var array
@@ -73,6 +66,6 @@ class Renderer implements RendererInterface
             }
         }
 
-        throw new InvalidArgumentException('Template file not found.');
+        throw new \InvalidArgumentException('Template file not found.');
     }
 }

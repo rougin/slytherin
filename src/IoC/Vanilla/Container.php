@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\IoC\Vanilla;
 
-use Rougin\Slytherin\IoC\BaseContainer;
-
 /**
  * Container
  *
@@ -12,7 +10,7 @@ use Rougin\Slytherin\IoC\BaseContainer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends BaseContainer
+class Container extends \Rougin\Slytherin\IoC\BaseContainer
 {
     /**
      * Adds a new instance to the container.

@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\IoC\Vanilla\Exception;
 
-use InvalidArgumentException;
-use Interop\Container\Exception\NotFoundException as InteropNotFoundException;
-
 /**
  * Not Found Exception
  *
@@ -13,6 +10,6 @@ use Interop\Container\Exception\NotFoundException as InteropNotFoundException;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class NotFoundException extends InvalidArgumentException implements InteropNotFoundException
+class NotFoundException extends \InvalidArgumentException implements \Interop\Container\Exception\NotFoundException
 {
 }

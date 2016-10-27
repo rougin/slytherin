@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Rougin\Slytherin\Application\Application as BaseApplication;
-
 /**
  * Application
  *
@@ -12,6 +10,6 @@ use Rougin\Slytherin\Application\Application as BaseApplication;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Application extends BaseApplication
+class Application extends Application\Application
 {
 }

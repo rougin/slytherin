@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Debug;
 
-use Rougin\Slytherin\Debug\Whoops\Debugger as BaseDebugger;
-
 /**
  * Debugger
  *
@@ -16,6 +14,6 @@ use Rougin\Slytherin\Debug\Whoops\Debugger as BaseDebugger;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class WhoopsDebugger extends BaseDebugger
+class WhoopsDebugger extends \Rougin\Slytherin\Debug\Whoops\Debugger
 {
 }

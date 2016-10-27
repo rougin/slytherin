@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use UnexpectedValueException;
-
-use Rougin\Slytherin\Dispatching\RouterInterface;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-
 /**
  * Dispatcher
  *
@@ -16,7 +11,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\RouterInterface
@@ -31,7 +26,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(\Rougin\Slytherin\Dispatching\RouterInterface $router)
     {
         $this->router = $router;
     }
@@ -55,7 +50,7 @@ class Dispatcher implements DispatcherInterface
         $routes = array_values(array_filter(array_map($callback, $routes)));
 
         if (empty($routes)) {
-            throw new UnexpectedValueException("Route \"$uri\" not found");
+            throw new \UnexpectedValueException("Route \"$uri\" not found");
         }
 
         return $routes[0];
@@ -72,7 +67,7 @@ class Dispatcher implements DispatcherInterface
     private function isValidHttpMethod($httpMethod)
     {
         if (! in_array($httpMethod, $this->validHttpMethods)) {
-            throw new UnexpectedValueException('Used method is not allowed');
+            throw new \UnexpectedValueException('Used method is not allowed');
         }
 
         return true;
