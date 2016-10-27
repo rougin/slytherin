@@ -53,15 +53,31 @@ class Dispatcher implements DispatcherInterface
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
         $route  = $this->router->getRoute($httpMethod, $uri);
 
-        switch ($result[0]) {
+        $this->throwException($result[0], $uri);
+
+        $middlewares = [];
+
+        if ($route[2] == $route[1] && isset($route[3])) {
+            $middlewares = $route[3];
+        }
+
+        return [ $result[1], $result[2], $middlewares ];
+    }
+
+    /**
+     * Throws an exception if it matches to the following result.
+     *
+     * @param  integer $result
+     * @param  string  $uri
+     * @return void
+     */
+    protected function throwException($result, $uri)
+    {
+        switch ($result) {
             case FastRouteDispatcher::NOT_FOUND:
                 throw new UnexpectedValueException("Route \"$uri\" not found");
             case FastRouteDispatcher::METHOD_NOT_ALLOWED:
                 throw new UnexpectedValueException("Used method's not allowed");
         }
-
-        $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : [];
-
-        return [ $result[1], $result[2], $middlewares ];
     }
 }

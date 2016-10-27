@@ -27,18 +27,9 @@ class Collector
         $collection = new Collection;
 
         $callback = function ($component) use (&$collection, &$container) {
-            $component = new $component;
+            $instance = self::prepareComponent($collection, $component);
 
-            $type = $component->getType();
-
-            if (! empty($type)) {
-                $method     = 'set' . ucfirst($type);
-                $parameters = ($type == 'http') ? $component->get() : [ $component->get() ];
-
-                call_user_func_array([ $collection, $method ], $parameters);
-            }
-
-            $component->set($container);
+            $instance->set($container);
         };
 
         array_walk($components, $callback);
@@ -51,5 +42,32 @@ class Collector
         }
 
         return $collection;
+    }
+
+    /**
+     * Prepares the component and sets it to the collection.
+     *
+     * @param  \Rougin\Slytherin\Component\Collection &$collection
+     * @param  string                                 $component
+     * @return \Rougin\Slytherin\Component\ComponentInterface
+     */
+    protected static function prepareComponent(Collection &$collection, $component)
+    {
+        $instance = new $component;
+
+        $type = $instance->getType();
+
+        if (! empty($instance->getType())) {
+            $method     = 'set' . ucfirst($instance->getType());
+            $parameters = [ $instance->get() ];
+
+            if ($instance->getType() == 'http') {
+                $parameters = $instance->get();
+            }
+
+            call_user_func_array([ $collection, $method ], $parameters);
+        }
+
+        return $instance;
     }
 }
