@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Debug\Vanilla;
 
-use Rougin\Slytherin\Debug\DebuggerInterface;
-
 /**
  * Debugger
  *
@@ -12,7 +10,7 @@ use Rougin\Slytherin\Debug\DebuggerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Debugger implements DebuggerInterface
+class Debugger implements \Rougin\Slytherin\Debug\DebuggerInterface
 {
     /**
      * @var string

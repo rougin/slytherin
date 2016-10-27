@@ -57,15 +57,14 @@ class Collector
 
         $type = $instance->getType();
 
-        if (! empty($instance->getType())) {
-            $method     = 'set' . ucfirst($instance->getType());
+        if (! empty($type)) {
             $parameters = [ $instance->get() ];
 
-            if ($instance->getType() == 'http') {
+            if ($type == 'http') {
                 $parameters = $instance->get();
             }
 
-            call_user_func_array([ $collection, $method ], $parameters);
+            call_user_func_array([ $collection, 'set' . ucfirst($type) ], $parameters);
         }
 
         return $instance;

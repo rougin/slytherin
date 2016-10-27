@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Template;
 
-use Rougin\Slytherin\Template\Vanilla\Renderer as VanillaRenderer;
-
 /**
  * Renderer
  *
@@ -13,6 +11,6 @@ use Rougin\Slytherin\Template\Vanilla\Renderer as VanillaRenderer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Renderer extends VanillaRenderer
+class Renderer extends Vanilla\Renderer
 {
 }

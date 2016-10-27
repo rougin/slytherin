@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\IoC;
 
-use Rougin\Slytherin\IoC\Auryn\Container as BaseAurynContainer;
-
 /**
  * Auryn Container
  *
@@ -16,6 +14,6 @@ use Rougin\Slytherin\IoC\Auryn\Container as BaseAurynContainer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends BaseAurynContainer
+class AurynContainer extends Auryn\Container
 {
 }

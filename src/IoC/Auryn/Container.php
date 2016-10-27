@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\IoC\Auryn;
 
-use Auryn\Injector;
-
-use Rougin\Slytherin\IoC\BaseContainer;
-use Interop\Container\ContainerInterface;
-
 /**
  * Auryn Container
  *
@@ -18,7 +13,7 @@ use Interop\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends BaseContainer implements ContainerInterface
+class Container extends \Rougin\Slytherin\IoC\BaseContainer implements \Interop\Container\ContainerInterface
 {
     /**
      * @var \Auryn\Injector
@@ -28,7 +23,7 @@ class Container extends BaseContainer implements ContainerInterface
     /**
      * @param \Auryn\Injector $injector
      */
-    public function __construct(Injector $injector)
+    public function __construct(\Auryn\Injector $injector)
     {
         $this->injector = $injector;
     }

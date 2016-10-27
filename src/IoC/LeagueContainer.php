@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\IoC;
 
-use Rougin\Slytherin\IoC\League\Container as BaseLeagueContainer;
-
 /**
  * LeagueContainer
  *
@@ -15,6 +13,6 @@ use Rougin\Slytherin\IoC\League\Container as BaseLeagueContainer;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends BaseLeagueContainer
+class LeagueContainer extends League\Container
 {
 }

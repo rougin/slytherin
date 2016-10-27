@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin\Template\Twig;
 
-use Twig_Environment;
-
-use Rougin\Slytherin\Template\RendererInterface;
-
 /**
  * Renderer
  *
@@ -17,7 +13,7 @@ use Rougin\Slytherin\Template\RendererInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Renderer implements RendererInterface
+class Renderer implements \Rougin\Slytherin\Template\RendererInterface
 {
     /**
      * @var \Twig_Environment
@@ -28,7 +24,7 @@ class Renderer implements RendererInterface
      * @param Twig_Environment $twig
      * @param array            $globals
      */
-    public function __construct(Twig_Environment $twig, array $globals = [])
+    public function __construct(\Twig_Environment $twig, array $globals = [])
     {
         foreach ($globals as $key => $value) {
             $twig->addGlobal($key, $value);

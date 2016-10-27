@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
-use Phroute\Phroute\Dispatcher as PhrouteDispatcher;
-
-use Rougin\Slytherin\Dispatching\RouterInterface;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-
 /**
  * Phroute Dispatcher
  *
@@ -17,7 +12,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
 {
     /**
      * @var \Phroute\Phroute\Dispatcher
@@ -25,16 +20,16 @@ class Dispatcher implements DispatcherInterface
     protected $dispatcher;
 
     /**
-     * @var \Rougin\Slytherin\Dispatching\RouterInterface
+     * @var \Rougin\Slytherin\Dispatching\Phroute\Router
      */
     protected $router;
 
     /**
-     * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
+     * @param \Rougin\Slytherin\Dispatching\Phroute\Router $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(Router $router)
     {
-        $this->dispatcher = new PhrouteDispatcher($router->getRoutes());
+        $this->dispatcher = new \Phroute\Phroute\Dispatcher($router->getRoutes());
         $this->router     = $router;
     }
 

@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Rougin\Slytherin\Middleware\Stratigility\Middleware as BaseMiddleware;
-
 /**
  * Stratigility Middleware
  *
@@ -15,6 +13,6 @@ use Rougin\Slytherin\Middleware\Stratigility\Middleware as BaseMiddleware;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
-class StratigilityMiddleware extends BaseMiddleware
+class StratigilityMiddleware extends Stratigility\Middleware
 {
 }

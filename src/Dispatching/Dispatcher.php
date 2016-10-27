@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher as VanillaDispatcher;
-
 /**
  * Dispatcher
  *
@@ -14,6 +12,6 @@ use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher as VanillaDispatcher;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher extends VanillaDispatcher
+class Dispatcher extends \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher
 {
 }

@@ -6,8 +6,6 @@ use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
 use FastRoute\DataGenerator\GroupCountBased;
 
-use Rougin\Slytherin\Dispatching\BaseRouter;
-
 /**
  * FastRoute Router
  *
@@ -18,7 +16,7 @@ use Rougin\Slytherin\Dispatching\BaseRouter;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends BaseRouter
+class Router extends \Rougin\Slytherin\Dispatching\BaseRouter
 {
     /**
      * @var \FastRoute\RouteCollector

@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\Component\Collection;
-
 /**
  * Application
  *
@@ -29,7 +25,7 @@ class Application
     /**
      * @param \Rougin\Slytherin\Component\Collection $components
      */
-    public function __construct(Collection $components)
+    public function __construct(\Rougin\Slytherin\Component\Collection $components)
     {
         $this->components = $components;
     }
@@ -40,7 +36,7 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(ServerRequestInterface $request)
+    public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
         $container  = $this->components->getContainer();
         $dispatcher = $this->components->getDispatcher();

@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Application\Traits;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Preapre HTTP Response Trait
+ * Prepare HTTP Response Trait
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -21,10 +21,10 @@ trait PrepareHttpResponseTrait
      */
     protected function prepareHttpResponse($result, ResponseInterface $response)
     {
-        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
-            $response = $result;
-        } else {
+        if (! $result instanceof ResponseInterface) {
             $response->getBody()->write($result);
+        } else {
+            $response = $result;
         }
 
         // Sets the specified headers, if any.
