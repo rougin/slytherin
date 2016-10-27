@@ -2,11 +2,8 @@
 
 namespace Rougin\Slytherin\Test\Middleware\Auryn;
 
-use Zend\Stratigility\MiddlewarePipe;
-
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
-use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\Http\Uri;
 use Rougin\Slytherin\Test\Fixture\Http\Response;
 use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
@@ -17,7 +14,7 @@ use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MiddlewareTest extends PHPUnit_Framework_TestCase
+class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests __invoke() method
@@ -36,7 +33,7 @@ class MiddlewareTest extends PHPUnit_Framework_TestCase
             'Rougin\Slytherin\Test\Fixture\Middlewares\LastMiddleware',
         ];
 
-        $middleware = new Middleware(new MiddlewarePipe);
+        $middleware = new Middleware(new \Zend\Stratigility\MiddlewarePipe);
         $request    = new ServerRequest('1.1', [], null, '/', 'GET', new Uri);
         $response   = new Response;
 

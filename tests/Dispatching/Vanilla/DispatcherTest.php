@@ -2,10 +2,9 @@
 
 namespace Rougin\Slytherin\Test\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Dispatching\Router;
-use Rougin\Slytherin\Dispatching\Dispatcher;
+use Rougin\Slytherin\Dispatching\Vanilla\Router;
+use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 
-use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
 
 /**
@@ -14,7 +13,7 @@ use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface

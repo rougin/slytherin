@@ -2,13 +2,9 @@
 
 namespace Rougin\Slytherin\Test\IoC\Auryn;
 
-use Auryn\Injector;
-use Rougin\Slytherin\IoC\Auryn\Container;
 use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
 use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
-
-use PHPUnit_Framework_TestCase;
 
 /**
  * Auryn Container Test
@@ -16,7 +12,7 @@ use PHPUnit_Framework_TestCase;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -48,7 +44,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
-        $this->container = new Container(new Injector);
+        $this->container = new \Rougin\Slytherin\IoC\Auryn\Container(new \Auryn\Injector);
         $this->instance  = new WithParameter(new NewClass, new AnotherClass);
     }
 

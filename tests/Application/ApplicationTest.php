@@ -214,7 +214,6 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         list($request, $response) = $this->components->getHttp();
 
         $request = $request->withMethod($httpMethod)->withUri(new Uri($uri));
-        $request = BaseUriGuesser::guess($request);
 
         switch ($httpMethod) {
             case 'GET':

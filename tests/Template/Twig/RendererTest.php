@@ -2,14 +2,7 @@
 
 namespace Rougin\Slytherin\Test\Template\Twig;
 
-use Twig_Environment;
-use Twig_Loader_Filesystem;
-
-use Rougin\Slytherin\Template\TwigRenderer;
-
-use PHPUnit_Framework_TestCase;
-
-class RendererTest extends PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -33,10 +26,10 @@ class RendererTest extends PHPUnit_Framework_TestCase
         }
 
         $directory = __DIR__ . '/../../Fixture/Templates';
-        $loader    = new Twig_Loader_Filesystem($directory);
+        $loader    = new \Twig_Loader_Filesystem($directory);
 
-        $this->twig     = new Twig_Environment($loader);
-        $this->renderer = new TwigRenderer($this->twig);
+        $this->twig     = new \Twig_Environment($loader);
+        $this->renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig);
     }
 
     /**
@@ -75,7 +68,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
         $globals  = [ 'name' => 'template' ];
-        $renderer = new TwigRenderer($this->twig, $globals);
+        $renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig, $globals);
 
         $this->assertEquals($expected, $renderer->render('test-with-twig-data', [], 'php'));
     }

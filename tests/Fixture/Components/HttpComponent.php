@@ -2,19 +2,13 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
-use Interop\Container\ContainerInterface;
-
-use Rougin\Slytherin\Test\Fixture\Http\Response;
-use Rougin\Slytherin\Component\AbstractComponent;
-use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
-
 /**
  * HTTP Component
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HttpComponent extends AbstractComponent
+class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
 {
     /**
      * Type of the component:
@@ -52,8 +46,8 @@ class HttpComponent extends AbstractComponent
             'SCRIPT_NAME'     => '/slytherin/index.php'
         ];
 
-        $this->request  = new ServerRequest('1.1', [], null, '/', 'GET', null, $server);
-        $this->response = new Response;
+        $this->request  = new \Rougin\Slytherin\Test\Fixture\Http\ServerRequest('1.1', [], null, '/', 'GET', null, $server);
+        $this->response = new \Rougin\Slytherin\Test\Fixture\Http\Response;
 
         return [ $this->request, $this->response ];
     }
@@ -64,7 +58,7 @@ class HttpComponent extends AbstractComponent
      * @param  \Interop\Container\ContainerInterface $container
      * @return void
      */
-    public function set(ContainerInterface &$container)
+    public function set(\Interop\Container\ContainerInterface &$container)
     {
         $container->add('Psr\Http\Message\ServerRequestInterface', $this->request);
         $container->add('Psr\Http\Message\ResponseInterface', $this->response);

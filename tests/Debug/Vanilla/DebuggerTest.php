@@ -2,17 +2,13 @@
 
 namespace Rougin\Slytherin\Test\Debug\Vanilla;
 
-use Rougin\Slytherin\Debug\Debugger;
-
-use PHPUnit_Framework_TestCase;
-
 /**
  * Debugger Test
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends PHPUnit_Framework_TestCase
+class DebuggerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Debug\DebuggerInterface
@@ -31,7 +27,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->debugger = new Debugger;
+        $this->debugger = new \Rougin\Slytherin\Debug\Vanilla\Debugger;
     }
 
     /**

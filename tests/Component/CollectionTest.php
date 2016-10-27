@@ -2,13 +2,12 @@
 
 namespace Rougin\Slytherin\Test\Component;
 
-use Rougin\Slytherin\IoC\Container;
-use Rougin\Slytherin\Debug\Debugger;
-use Rougin\Slytherin\Dispatching\Router;
 use Rougin\Slytherin\Component\Collection;
-use Rougin\Slytherin\Dispatching\Dispatcher;
+use Rougin\Slytherin\IoC\Vanilla\Container;
+use Rougin\Slytherin\Debug\Vanilla\Debugger;
+use Rougin\Slytherin\Dispatching\Vanilla\Router;
+use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 
-use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\Http\Response;
 use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
@@ -18,7 +17,7 @@ use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class CollectionTest extends PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Sets up the component class.

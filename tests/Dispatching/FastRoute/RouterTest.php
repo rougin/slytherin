@@ -8,15 +8,13 @@ use FastRoute\DataGenerator\GroupCountBased;
 
 use Rougin\Slytherin\Dispatching\FastRoute\Router;
 
-use PHPUnit_Framework_TestCase;
-
 /**
  * Router Test
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\RouterInterface

@@ -2,11 +2,7 @@
 
 namespace Rougin\Slytherin\Test\Template\Vanilla;
 
-use Rougin\Slytherin\Template\Renderer;
-
-use PHPUnit_Framework_TestCase;
-
-class RendererTest extends PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -22,7 +18,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
     {
         $directories = [ __DIR__ . '/../../Fixture/Templates' ];
 
-        $this->renderer = new Renderer($directories);
+        $this->renderer = new \Rougin\Slytherin\Template\Vanilla\Renderer($directories);
     }
 
     /**
