@@ -62,14 +62,12 @@ class Application
     public function run()
     {
         $debugger = $this->components->getDebugger();
+        $request  = $this->components->getHttpRequest();
 
         if ($debugger && $debugger->getEnvironment() == 'development') {
             $debugger->display();
         }
 
-        $request  = $this->components->getHttpRequest();
-        $response = $this->handle($request);
-
-        echo $response->getBody();
+        echo $this->handle($request)->getBody();
     }
 }
