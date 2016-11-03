@@ -2,19 +2,13 @@
 
 namespace Rougin\Slytherin\Test\Debug\Whoops;
 
-use Whoops\Run;
-use Whoops\Handler\PrettyPageHandler;
-use Rougin\Slytherin\Debug\WhoopsDebugger;
-
-use PHPUnit_Framework_TestCase;
-
 /**
  * Whoops Debugger Test
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends PHPUnit_Framework_TestCase
+class DebuggerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Debug\DebuggerInterface
@@ -37,7 +31,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('Whoops is not installed.');
         }
 
-        $this->debugger = new WhoopsDebugger(new Run);
+        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger(new \Whoops\Run);
     }
 
     /**
@@ -59,7 +53,7 @@ class DebuggerTest extends PHPUnit_Framework_TestCase
      */
     public function testSetHandlerMethod()
     {
-        $this->debugger->setHandler(new PrettyPageHandler);
+        $this->debugger->setHandler(new \Whoops\Handler\PrettyPageHandler);
 
         $handler = $this->debugger->getHandlers()[0];
 

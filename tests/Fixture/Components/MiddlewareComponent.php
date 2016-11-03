@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
-use Zend\Stratigility\MiddlewarePipe;
-
-use Rougin\Slytherin\Component\AbstractComponent;
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
 /**
@@ -13,7 +10,7 @@ use Rougin\Slytherin\Middleware\Stratigility\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MiddlewareComponent extends AbstractComponent
+class MiddlewareComponent extends \Rougin\Slytherin\Component\AbstractComponent
 {
     /**
      * Type of the component:
@@ -31,6 +28,6 @@ class MiddlewareComponent extends AbstractComponent
      */
     public function get()
     {
-        return new Middleware(new MiddlewarePipe);
+        return new Middleware(new \Zend\Stratigility\MiddlewarePipe);
     }
 }

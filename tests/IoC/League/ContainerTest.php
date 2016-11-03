@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Test\IoC\League;
 
-use Rougin\Slytherin\IoC\League\Container;
-
-use PHPUnit_Framework_TestCase;
 use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
 use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
@@ -15,7 +12,7 @@ use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -43,7 +40,7 @@ class ContainerTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('League Container is not installed.');
         }
 
-        $this->container = new Container;
+        $this->container = new \Rougin\Slytherin\IoC\League\Container;
         $this->instance  = new WithParameter(new NewClass, new AnotherClass);
     }
 

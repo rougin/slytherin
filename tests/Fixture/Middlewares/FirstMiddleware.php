@@ -2,8 +2,8 @@
 
 namespace Rougin\Slytherin\Test\Fixture\Middlewares;
 
-use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * First Middleware
@@ -19,7 +19,7 @@ class FirstMiddleware
      * @param  callable|null $next
      * @return callable|null
      */
-    public function __invoke(Request $request, Response $response, callable $next = null)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
         $response->getBody()->write('First!');
 

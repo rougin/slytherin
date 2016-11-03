@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Test\Fixture\Components;
 
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
-use Rougin\Slytherin\Component\AbstractComponent;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 
 /**
@@ -12,7 +11,7 @@ use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DispatcherComponent extends AbstractComponent
+class DispatcherComponent extends \Rougin\Slytherin\Component\AbstractComponent
 {
     /**
      * Type of the component:
