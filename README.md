@@ -20,17 +20,13 @@ $ composer require rougin/slytherin
 ## Usage
 
 ``` php
-$components = new Rougin\Slytherin\Component\Collection;
-
-$components
+$components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Acme\IoC\Container)
     ->setDispatcher(new Acme\Dispatching\Dispatcher)
     ->setDebugger(new Acme\Debug\Debugger)
     ->setHttp(new Acme\Http\Request, new Acme\Http\Response);
 
-$application = new Rougin\Slytherin\Application($components);
-
-$application->run();
+(new Rougin\Slytherin\Application($components))->run();
 ```
 
 Regarding the example implementation above, you need to select a package of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
