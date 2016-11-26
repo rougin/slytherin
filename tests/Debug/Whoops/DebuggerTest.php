@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Debug\Whoops;
+namespace Rougin\Slytherin\Debug\Whoops;
 
 /**
  * Whoops Debugger Test

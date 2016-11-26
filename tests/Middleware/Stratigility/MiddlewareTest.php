@@ -1,12 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Middleware\Auryn;
+namespace Rougin\Slytherin\Middleware\Auryn;
 
+use Rougin\Slytherin\Http\Uri;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
-
-use Rougin\Slytherin\Test\Fixture\Http\Uri;
-use Rougin\Slytherin\Test\Fixture\Http\Response;
-use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
 /**
  * Stratigility Middleware Test
@@ -28,9 +27,9 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         }
 
         $queue = [
-            'Rougin\Slytherin\Test\Fixture\Middlewares\FirstMiddleware',
-            'Rougin\Slytherin\Test\Fixture\Middlewares\SecondMiddleware',
-            'Rougin\Slytherin\Test\Fixture\Middlewares\LastMiddleware',
+            'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware',
+            'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware',
+            'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware',
         ];
 
         $middleware = new Middleware(new \Zend\Stratigility\MiddlewarePipe);

@@ -1,11 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\IoC\Vanilla;
+namespace Rougin\Slytherin\IoC\Vanilla;
 
-use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
-use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
-use Rougin\Slytherin\Test\Fixture\Classes\WithInterface;
-use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\WithInterface;
+use Rougin\Slytherin\Fixture\Classes\WithParameter;
 
 /**
  * Container Test
@@ -23,10 +23,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithParameter';
+    protected $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\Classes\WithParameter
+     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
      */
     protected $instance;
 
@@ -64,7 +64,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMethodWithNoParameter()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         $this->container->add($class, new $class);
 
@@ -78,7 +78,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMethodWithOptionalParameter()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithOptionalParameter';
+        $class = 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter';
 
         $this->container->add($class, new $class);
 
@@ -104,8 +104,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAliasMethod()
     {
-        $class     = 'Rougin\Slytherin\Test\Fixture\Classes\WithInterface';
-        $interface = 'Rougin\Slytherin\Test\Fixture\Classes\NewInterface';
+        $class     = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
+        $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         $this->container->add($class, new $class)->alias($interface, $class);
 
@@ -131,7 +131,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithEmptyConstructor()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithEmptyConstructor';
+        $class = 'Rougin\Slytherin\Fixture\Classes\WithEmptyConstructor';
 
         $this->container->add($class, new $class);
 
@@ -157,9 +157,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithInterface()
     {
-        $class              = 'Rougin\Slytherin\Test\Fixture\Classes\WithInterface';
-        $classWithParameter = 'Rougin\Slytherin\Test\Fixture\Classes\WithInterfaceParameter';
-        $interface          = 'Rougin\Slytherin\Test\Fixture\Classes\NewInterface';
+        $class              = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
+        $classWithParameter = 'Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter';
+        $interface          = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         $this->container->add($interface, new WithInterface);
         $this->container->add($classWithParameter, $this->container->get($interface));
@@ -174,7 +174,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasMethod()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         $this->container->add($class, new $class);
 

@@ -9,9 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
+namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -20,7 +19,7 @@ use Psr\Http\Message\UriInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class ServerRequest extends Message implements ServerRequestInterface
+class ServerRequest extends Message implements \Psr\Http\Message\ServerRequestInterface
 {
     /**
      * @var string
@@ -395,6 +394,10 @@ class ServerRequest extends Message implements ServerRequestInterface
      */
     public function withoutAttribute($name)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $new = clone $this;
+
+        unset($new->attributes[$name]);
+
+        return $new;
     }
 }

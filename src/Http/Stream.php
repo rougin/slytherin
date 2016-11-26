@@ -9,14 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
-
-use Psr\Http\Message\StreamInterface;
+namespace Rougin\Slytherin\Http;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class Stream implements StreamInterface
+class Stream implements \Psr\Http\Message\StreamInterface
 {
     /**
      * @var string

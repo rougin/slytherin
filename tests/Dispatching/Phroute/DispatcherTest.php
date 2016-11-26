@@ -1,11 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching\Phroute;
+namespace Rougin\Slytherin\Dispatching\Phroute;
 
 use Rougin\Slytherin\Dispatching\Phroute\Router;
 use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
 
-use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
  * Dispatcher Test
@@ -32,7 +32,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         }
 
         $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ] ],
+            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
             [ 'GET', '/hi', function () {
                 return 'Hi';
             } ],

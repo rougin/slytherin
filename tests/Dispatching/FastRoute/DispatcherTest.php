@@ -1,11 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
+namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use Rougin\Slytherin\Dispatching\FastRoute\Router;
 use Rougin\Slytherin\Dispatching\FastRoute\Dispatcher;
 
-use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
  * Dispatcher Test
@@ -35,8 +35,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             [
                 'GET',
                 '/',
-                [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ],
-                'Rougin\Slytherin\Test\Fixture\Middlewares\LastMiddleware'
+                [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ],
+                'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'
             ],
             [ 'GET', '/hi', function () {
                 return 'Hi';

@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Classes;
+namespace Rougin\Slytherin\Fixture\Classes;
 
 /**
  * With Parameter
@@ -11,18 +11,18 @@ namespace Rougin\Slytherin\Test\Fixture\Classes;
 class WithParameter
 {
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\Classes\AnotherClass
+     * @var \Rougin\Slytherin\Fixture\Classes\AnotherClass
      */
     protected $another;
 
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\Classes\NewClass
+     * @var \Rougin\Slytherin\Fixture\Classes\NewClass
      */
     protected $class;
 
     /**
-     * @param \Rougin\Slytherin\Test\Fixture\Classes\NewClass     $class
-     * @param \Rougin\Slytherin\Test\Fixture\Classes\AnotherClass $another
+     * @param \Rougin\Slytherin\Fixture\Classes\NewClass     $class
+     * @param \Rougin\Slytherin\Fixture\Classes\AnotherClass $another
      */
     public function __construct(NewClass $class, AnotherClass $another)
     {
