@@ -46,6 +46,6 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             $middleware->pipe(new $class);
         }
 
-        return $middleware($request, $response);
+        return $middleware($request, $response, new \Zend\Stratigility\NoopFinalHandler);
     }
 }
