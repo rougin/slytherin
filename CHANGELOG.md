@@ -2,7 +2,10 @@
 
 All Notable changes to `Slytherin` will be documented in this file
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.7.0...HEAD) - [CURRENT_DATE]
+## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
+
+### Fixed
+- Compatibility issue for `Statigility\Middleware`
 
 ### Added
 - `BaseUriGuesser` for filtering the base URI
