@@ -21,10 +21,10 @@ trait PrepareHttpResponseTrait
      */
     protected function prepareHttpResponse($result, ResponseInterface $response)
     {
-        if (! $result instanceof ResponseInterface) {
-            $response->getBody()->write($result);
-        } else {
+        if ($result instanceof ResponseInterface) {
             $response = $result;
+        } else {
+            $response->getBody()->write($result);
         }
 
         // Sets the specified headers, if any.
