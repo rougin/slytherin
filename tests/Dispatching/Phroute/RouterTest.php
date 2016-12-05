@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching\Phroute;
+namespace Rougin\Slytherin\Dispatching\Phroute;
 
 use Phroute\Phroute\RouteCollector;
 use Rougin\Slytherin\Dispatching\Phroute\Router;
@@ -22,7 +22,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ], [] ],
+        [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ], [] ],
     ];
 
     /**

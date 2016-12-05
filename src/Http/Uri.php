@@ -9,16 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
-
-use Psr\Http\Message\UriInterface;
+namespace Rougin\Slytherin\Http;
 
 /**
  * URI.
  *
  * @author Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Uri implements UriInterface
+class Uri implements \Psr\Http\Message\UriInterface
 {
     /**
      * @var string
@@ -280,7 +278,9 @@ class Uri implements UriInterface
      */
     public function withScheme($scheme)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->scheme = $scheme;
+
+        return clone $this;
     }
 
     /**
@@ -299,7 +299,9 @@ class Uri implements UriInterface
      */
     public function withUserInfo($user, $password = null)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->userInfo = $user . '[:' . $password . ']';
+
+        return clone $this;
     }
 
     /**
@@ -316,7 +318,9 @@ class Uri implements UriInterface
      */
     public function withHost($host)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->host = $host;
+
+        return clone $this;
     }
 
     /**
@@ -338,7 +342,9 @@ class Uri implements UriInterface
      */
     public function withPort($port)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->port = $port;
+
+        return clone $this;
     }
 
     /**
@@ -387,7 +393,9 @@ class Uri implements UriInterface
      */
     public function withQuery($query)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->query = $query;
+
+        return clone $this;
     }
 
     /**
@@ -406,7 +414,9 @@ class Uri implements UriInterface
      */
     public function withFragment($fragment)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        $this->fragment = $fragment;
+
+        return clone $this;
     }
 
     /**

@@ -1,11 +1,11 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Components;
+namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
 
-use Rougin\Slytherin\Test\Fixture\TestClass;
-use Rougin\Slytherin\Test\Fixture\TestClassWithEmptyConstructor;
+use Rougin\Slytherin\Fixture\TestClass;
+use Rougin\Slytherin\Fixture\TestClassWithEmptyConstructor;
 
 /**
  * Collection Component

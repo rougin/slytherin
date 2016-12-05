@@ -9,9 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
+namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\MessageInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -19,7 +18,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class Message implements MessageInterface
+class Message implements \Psr\Http\Message\MessageInterface
 {
     /**
      * @var string
@@ -232,7 +231,15 @@ class Message implements MessageInterface
      */
     public function withoutHeader($name)
     {
-        throw new \BadMethodCallException('Not implemented.');
+        if (! $this->hasHeader($name)) {
+            return clone $this;
+        }
+
+        $new = clone $this;
+
+        unset($new->headers[$name]);
+
+        return $new;
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Application;
+namespace Rougin\Slytherin\Application;
 
 use Zend\Stratigility\MiddlewarePipe;
 
+use Rougin\Slytherin\Http\Uri;
 use Rougin\Slytherin\Component\Collector;
 use Rougin\Slytherin\Http\BaseUriGuesser;
 use Rougin\Slytherin\IoC\Vanilla\Container;
@@ -12,17 +13,13 @@ use Rougin\Slytherin\Dispatching\Phroute\Router;
 use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 
-use PHPUnit_Framework_TestCase;
-
-use Rougin\Slytherin\Test\Fixture\Http\Uri;
-
 /**
  * Application Test
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ApplicationTest extends PHPUnit_Framework_TestCase
+class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Components
@@ -45,12 +42,12 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
         }
 
         $components = [
-            'Rougin\Slytherin\Test\Fixture\Components\DebuggerComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\DispatcherComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\HttpComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\MiddlewareComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\SingleComponent',
-            'Rougin\Slytherin\Test\Fixture\Components\CollectionComponent',
+            'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
+            'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
+            'Rougin\Slytherin\Fixture\Components\HttpComponent',
+            'Rougin\Slytherin\Fixture\Components\MiddlewareComponent',
+            'Rougin\Slytherin\Fixture\Components\SingleComponent',
+            'Rougin\Slytherin\Fixture\Components\CollectionComponent',
         ];
 
         $this->components = Collector::get(new Container, $components, $GLOBALS);
@@ -191,7 +188,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $this->setRequest('GET', '/');
 
-        $class  = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
+        $class  = 'Rougin\Slytherin\Fixture\Classes\NewClass';
         $routes = [ [ 'GET', '/', [ $class, 'index' ] ] ];
 
         $this->components->setDispatcher(new Dispatcher(new Router($routes)));

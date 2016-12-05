@@ -1,15 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Component;
+namespace Rougin\Slytherin\Component;
 
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Debug\Vanilla\Debugger;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
-
-use Rougin\Slytherin\Test\Fixture\Http\Response;
-use Rougin\Slytherin\Test\Fixture\Http\ServerRequest;
 
 /**
  * Component Collection Test

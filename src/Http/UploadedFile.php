@@ -9,16 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
-
-use Psr\Http\Message\UploadedFileInterface;
+namespace Rougin\Slytherin\Http;
 
 /**
  * Uploaded File.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class UploadedFile implements UploadedFileInterface
+class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
 {
     /**
      * @var string

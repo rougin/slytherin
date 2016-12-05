@@ -9,9 +9,8 @@
  * file that was distributed with this source code.
  */
 
-namespace Rougin\Slytherin\Test\Fixture\Http;
+namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -19,7 +18,7 @@ use Psr\Http\Message\StreamInterface;
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class Response extends Message implements ResponseInterface
+class Response extends Message implements \Psr\Http\Message\ResponseInterface
 {
     /**
      * @var integer

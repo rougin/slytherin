@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Classes;
+namespace Rougin\Slytherin\Fixture\Classes;
 
 /**
  * With Interface Parameter
@@ -11,12 +11,12 @@ namespace Rougin\Slytherin\Test\Fixture\Classes;
 class WithInterfaceParameter
 {
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\Classes\NewInterface
+     * @var \Rougin\Slytherin\Fixture\Classes\NewInterface
      */
     protected $class;
 
     /**
-     * @param \Rougin\Slytherin\Test\Fixture\Classes\NewInterface $class
+     * @param \Rougin\Slytherin\Fixture\Classes\NewInterface $class
      */
     public function __construct(NewInterface $class)
     {
