@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Middlewares;
+namespace Rougin\Slytherin\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

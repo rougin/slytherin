@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Template\Twig;
+namespace Rougin\Slytherin\Template\Twig;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
 {

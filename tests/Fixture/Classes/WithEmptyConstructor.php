@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Classes;
+namespace Rougin\Slytherin\Fixture\Classes;
 
 /**
  * With Empty Constructor

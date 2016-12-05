@@ -1,10 +1,10 @@
 <?php
 
-namespace Rougin\Slytherin\Test\IoC\League;
+namespace Rougin\Slytherin\IoC\League;
 
-use Rougin\Slytherin\Test\Fixture\Classes\NewClass;
-use Rougin\Slytherin\Test\Fixture\Classes\AnotherClass;
-use Rougin\Slytherin\Test\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\WithParameter;
 
 /**
  * League Container Test
@@ -22,10 +22,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Test\Fixture\Classes\WithParameter';
+    protected $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
     /**
-     * @var \Rougin\Slytherin\Test\Fixture\Classes\WithParameter
+     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
      */
     protected $instance;
 
@@ -77,7 +77,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasMethod()
     {
-        $class = 'Rougin\Slytherin\Test\Fixture\Classes\NewClass';
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         $this->container->add($class);
 

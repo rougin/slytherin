@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Components;
+namespace Rougin\Slytherin\Fixture\Components;
 
 /**
  * HTTP Component
@@ -46,8 +46,8 @@ class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
             'SCRIPT_NAME'     => '/slytherin/index.php'
         ];
 
-        $this->request  = new \Rougin\Slytherin\Test\Fixture\Http\ServerRequest('1.1', [], null, '/', 'GET', null, $server);
-        $this->response = new \Rougin\Slytherin\Test\Fixture\Http\Response;
+        $this->request  = new \Rougin\Slytherin\Http\ServerRequest('1.1', [], null, '/', 'GET', null, $server);
+        $this->response = new \Rougin\Slytherin\Http\Response;
 
         return [ $this->request, $this->response ];
     }

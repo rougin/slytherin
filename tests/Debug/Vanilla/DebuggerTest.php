@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Debug\Vanilla;
+namespace Rougin\Slytherin\Debug\Vanilla;
 
 /**
  * Debugger Test

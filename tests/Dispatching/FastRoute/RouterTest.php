@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Dispatching\FastRoute;
+namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
@@ -25,7 +25,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = [
-        [ 'GET', '/', [ 'Rougin\Slytherin\Test\Fixture\Classes\NewClass', 'index' ], [] ],
+        [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ], [] ],
     ];
 
     /**

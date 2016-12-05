@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Test\Fixture\Components;
+namespace Rougin\Slytherin\Fixture\Components;
 
 /**
  * Debugger Component
