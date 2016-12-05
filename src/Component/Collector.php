@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Interop\Container\ContainerInterface;
-
 /**
  * Component Collector
  *
@@ -22,7 +20,7 @@ class Collector
      * @param  array|null                            $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(ContainerInterface $container, $components = [], &$globals = null)
+    public static function get(\Interop\Container\ContainerInterface $container, $components = [], &$globals = null)
     {
         $collection = new Collection;
 

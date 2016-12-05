@@ -57,7 +57,7 @@ class ServerRequest extends Message implements \Psr\Http\Message\ServerRequestIn
     private $uploadedFiles;
 
     /**
-     * @var array|null
+     * @var array|null|object
      */
     private $data;
 

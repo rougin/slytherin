@@ -114,17 +114,13 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function getAuthority()
     {
-        if (empty($this->host)) {
-            return '';
-        }
-
         $authority = $this->host;
 
-        if (!empty($this->userInfo)) {
-            $authority = $this->userInfo.'@'.$authority;
-        }
+        if (! empty($this->host) && ! empty($this->userInfo)) {
+            $authority = $this->userInfo . '@' . $authority;
 
-        $authority .= ':'.$this->port;
+            $authority .= ':'. $this->port;
+        }
 
         return $authority;
     }

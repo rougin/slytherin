@@ -77,7 +77,7 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function getStream()
     {
-        throw new \RuntimeException('No stream is available.');
+        return new Stream(file_get_contents($this->filePath));
     }
 
     /**
