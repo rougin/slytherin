@@ -13,17 +13,48 @@ namespace Rougin\Slytherin\Http;
 
 /**
  * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
  */
 class Stream implements \Psr\Http\Message\StreamInterface
 {
     /**
-     * @var string
+     * Underline stream.
+     *
+     * @var resource|null
      */
-    private $stringContent;
+    private $stream = null;
 
-    public function __construct($stringContent = '')
+    /**
+     * Size of file.
+     *
+     * @var int|null
+     */
+    private $size = null;
+
+    /**
+     * Metadata of file.
+     *
+     * @var array|null
+     */
+    private $meta = null;
+
+    /**
+     * Resource modes.
+     *
+     * @var  array
+     * @link http://php.net/manual/function.fopen.php
+     */
+    private $modes = [
+        'readable' => [ 'r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b' ],
+        'writable' => [ 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b' ],
+    ];
+
+    /**
+     * @param resource|null $stream
+     */
+    public function __construct($stream = null)
     {
-        $this->stringContent = $stringContent;
+        $this->stream = $stream;
     }
 
     /**
@@ -42,7 +73,13 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function __toString()
     {
-        return $this->stringContent;
+        try {
+            $this->rewind();
+
+            return $this->getContents();
+        } catch (\RuntimeException $e) {
+            return '';
+        }
     }
 
     /**
@@ -52,6 +89,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function close()
     {
+        if ($this->stream !== null) {
+            fclose($this->stream);
+        }
+
+        $this->detach();
     }
 
     /**
@@ -63,6 +105,13 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function detach()
     {
+        $oldStream = $this->stream;
+
+        $this->stream = null;
+        $this->size   = null;
+        $this->meta   = null;
+
+        return $oldStream;
     }
 
     /**
@@ -72,17 +121,28 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function getSize()
     {
+        if ($this->stream !== null && $this->size === null) {
+            $stats = fstat($this->stream);
+
+            $this->size = isset($stats['size']) ? $stats['size'] : null;
+        }
+
+        return $this->size;
     }
 
     /**
      * Returns the current position of the file read/write pointer
      *
      * @return int Position of the file pointer
-     * @throws \RuntimeException on error.
+     * @throws \\RuntimeException on error.
      */
     public function tell()
     {
-        return 0;
+        if ($this->stream === null || ($position = ftell($this->stream)) === false) {
+            throw new \RuntimeException('Could not get the position of the pointer in stream');
+        }
+
+        return $position;
     }
 
     /**
@@ -92,7 +152,7 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function eof()
     {
-        return true;
+        return $this->stream !== null ? feof($this->stream) : true;
     }
 
     /**
@@ -102,7 +162,7 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function isSeekable()
     {
-        return false;
+        return $this->getMetadata('seekable');
     }
 
     /**
@@ -119,6 +179,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
+        if (!$this->isSeekable() || fseek($this->stream, $offset, $whence) === -1) {
+            throw new \RuntimeException('Could not seek in stream');
+        }
     }
 
     /**
@@ -133,6 +196,7 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function rewind()
     {
+        $this->seek(0);
     }
 
     /**
@@ -142,7 +206,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function isWritable()
     {
-        return false;
+        $fileMode = $this->getMetadata('mode');
+
+        return (in_array($fileMode, $this->modes['writable']));
     }
 
     /**
@@ -154,9 +220,14 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function write($string)
     {
-        $this->stringContent = $string;
+        if (! $this->isWritable() || ($written = fwrite($this->stream, $string)) === false) {
+            throw new \RuntimeException('Could not write to stream');
+        }
 
-        return clone $this;
+        // clear size
+        $this->size = null;
+
+        return $written;
     }
 
     /**
@@ -166,7 +237,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function isReadable()
     {
-        return true;
+        $fileMode = $this->getMetadata('mode');
+
+        return (in_array($fileMode, $this->modes['readable']));
     }
 
     /**
@@ -181,7 +254,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function read($length)
     {
-        return $this->stringContent;
+        if (! $this->isReadable() || ($data = fread($this->stream, $length)) === false) {
+            throw new \RuntimeException('Could not read from stream');
+        }
+
+        return $data;
     }
 
     /**
@@ -193,7 +270,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function getContents()
     {
-        return $this->stringContent;
+        if (! $this->isReadable() || ($contents = stream_get_contents($this->stream)) === false) {
+            throw new \RuntimeException('Could not get contents of stream');
+        }
+
+        return $contents;
     }
 
     /**
@@ -210,5 +291,14 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function getMetadata($key = null)
     {
+        if (isset($this->stream)) {
+            $this->meta = stream_get_meta_data($this->stream);
+
+            if (is_null($key) === true) {
+                return $this->meta;
+            }
+        }
+
+        return isset($this->meta[$key]) ? $this->meta[$key] : null;
     }
 }

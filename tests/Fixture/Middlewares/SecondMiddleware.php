@@ -21,9 +21,7 @@ class SecondMiddleware
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
     {
-        $result = (string) $response->getBody();
-
-        $response->getBody()->write($result . ' Second!');
+        $response->getBody()->write(' Second!');
 
         return $next($request, $response);
     }

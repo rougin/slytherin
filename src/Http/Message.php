@@ -45,7 +45,7 @@ class Message implements \Psr\Http\Message\MessageInterface
         $this->version = $version;
         $this->headers = $headers;
 
-        $this->body = (null === $body) ? new Stream : $body;
+        $this->body = (null === $body) ? new Stream(fopen('php://temp', 'r+')) : $body;
     }
 
     /**

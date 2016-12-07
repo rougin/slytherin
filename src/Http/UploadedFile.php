@@ -77,7 +77,7 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function getStream()
     {
-        return new Stream(file_get_contents($this->filePath));
+        return new Stream(fopen($this->filePath, 'r'));
     }
 
     /**
