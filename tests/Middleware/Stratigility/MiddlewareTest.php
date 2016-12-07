@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Middleware\Auryn;
 
 use Rougin\Slytherin\Http\Uri;
+use Rougin\Slytherin\Http\Stream;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\Stratigility\Middleware;
@@ -33,11 +34,11 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         ];
 
         $middleware = new Middleware(new \Zend\Stratigility\MiddlewarePipe);
-        $request    = new ServerRequest('1.1', [], null, '/', 'GET', new Uri);
+        $request    = new ServerRequest('1.1', [], new Stream, '/', 'GET', new Uri);
         $response   = new Response;
 
         $response = $middleware($request, $response, $queue);
 
-        $this->assertEquals('First! Second! Last!', $response->getBody());
+        $this->assertEquals('First! Second! Last!', (string) $response->getBody());
     }
 }

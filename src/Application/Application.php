@@ -68,6 +68,6 @@ class Application
             $debugger->display();
         }
 
-        echo $this->handle($request)->getBody();
+        echo (string) $this->handle($request)->getBody();
     }
 }
