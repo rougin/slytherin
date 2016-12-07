@@ -43,7 +43,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests getContents() with exception.
-     * 
+     *
      * @return void
      */
     public function testGetContentsException()
@@ -58,7 +58,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests read().
-     * 
+     *
      * @return void
      */
     public function testRead()
@@ -68,7 +68,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests read() with exception.
-     * 
+     *
      * @return void
      */
     public function testReadException()
@@ -133,7 +133,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests seek() after detach().
-     * 
+     *
      * @return void
      */
     public function testSeekOnDetached()
@@ -149,7 +149,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests tell() after detach().
-     * 
+     *
      * @return void
      */
     public function testTellOnDetached()
@@ -165,7 +165,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests eof().
-     * 
+     *
      * @return void
      */
     public function testEof()
@@ -178,7 +178,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests write() and getContents() with exception.
-     * 
+     *
      * @return void
      */
     public function testWriteAndGetContentsException()
