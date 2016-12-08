@@ -45,7 +45,6 @@ $ composer require \
   phroute/phroute \
   rdlowrey/auryn \
   twig/twig \
-  zendframework/zend-diactoros \
   zendframework/zend-stratigility \
   --dev
 $ composer test
