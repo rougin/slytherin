@@ -8,6 +8,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - Compatibility issue for `Statigility\Middleware`
 
 ### Added
+- [PSR-7](http://www.php-fig.org/psr/psr-7) implementation of `Http` component
 - `BaseUriGuesser` for filtering the base URI
 - Unit test for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
