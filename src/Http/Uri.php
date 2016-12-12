@@ -34,9 +34,9 @@ class Uri implements \Psr\Http\Message\UriInterface
     private $host = '';
 
     /**
-     * @var integer
+     * @var integer|null
      */
-    private $port;
+    private $port = null;
 
     /**
      * @var string
@@ -56,7 +56,7 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * @var string
      */
-    private $uriString;
+    private $uriString = '';
 
     /**
      * @param string $uri
@@ -65,13 +65,14 @@ class Uri implements \Psr\Http\Message\UriInterface
     {
         $parts = parse_url($uri);
 
-        $this->scheme = isset($parts['scheme']) ? $parts['scheme'] : '';
-        $this->userInfo = isset($parts['user']) ? $parts['user'] : '';
-        $this->host = isset($parts['host']) ? $parts['host'] : '';
-        $this->port = isset($parts['port']) ? $parts['port'] : null;
-        $this->path = isset($parts['path']) ? $parts['path'] : '';
-        $this->query = isset($parts['query']) ? $parts['query'] : '';
-        $this->fragment = isset($parts['fragment']) ? $parts['fragment'] : '';
+        foreach ($parts as $key => $value) {
+            if ($key == 'user') {
+                $this->userInfo = $value;
+            }
+
+            $this->$key = $value;
+        }
+
         $this->uriString = $uri;
     }
 
@@ -433,6 +434,17 @@ class Uri implements \Psr\Http\Message\UriInterface
      *     - If the path is starting with more than one "/" and no authority is
      *       present, the starting slashes MUST be reduced to one.
      * - If a query is present, it MUST be prefixed by "?".
+     * - If a fragment is present, it MUST be prefixed by "#".
+     *
+     * @see http://tools.ietf.org/html/rfc3986#section-4.1
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->uriString;
+    }
+}
+    * - If a query is present, it MUST be prefixed by "?".
      * - If a fragment is present, it MUST be prefixed by "#".
      *
      * @see http://tools.ietf.org/html/rfc3986#section-4.1
