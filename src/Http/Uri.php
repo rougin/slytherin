@@ -34,9 +34,9 @@ class Uri implements \Psr\Http\Message\UriInterface
     private $host = '';
 
     /**
-     * @var integer|null
+     * @var integer
      */
-    private $port = null;
+    private $port;
 
     /**
      * @var string
@@ -56,7 +56,7 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * @var string
      */
-    private $uriString = '';
+    private $uriString;
 
     /**
      * @param string $uri
@@ -65,14 +65,13 @@ class Uri implements \Psr\Http\Message\UriInterface
     {
         $parts = parse_url($uri);
 
-        foreach ($parts as $key => $value) {
-            if ($key == 'user') {
-                $this->userInfo = $value;
-            }
-
-            $this->$key = $value;
-        }
-
+        $this->scheme = isset($parts['scheme']) ? $parts['scheme'] : '';
+        $this->userInfo = isset($parts['user']) ? $parts['user'] : '';
+        $this->host = isset($parts['host']) ? $parts['host'] : '';
+        $this->port = isset($parts['port']) ? $parts['port'] : null;
+        $this->path = isset($parts['path']) ? $parts['path'] : '';
+        $this->query = isset($parts['query']) ? $parts['query'] : '';
+        $this->fragment = isset($parts['fragment']) ? $parts['fragment'] : '';
         $this->uriString = $uri;
     }
 
