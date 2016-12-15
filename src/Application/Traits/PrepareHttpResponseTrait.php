@@ -15,8 +15,8 @@ trait PrepareHttpResponseTrait
     /**
      * Sets the response to the user.
      *
-     * @param  mixed                               $result
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  \Psr\Http\Message\ResponseInterface|string $result
+     * @param  \Psr\Http\Message\ResponseInterface        $response
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function prepareHttpResponse($result, ResponseInterface $response)

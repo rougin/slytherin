@@ -24,9 +24,7 @@ class LastMiddleware
         if ($response->getBody() == '') {
             $response->getBody()->write('Loaded with middleware');
         } else {
-            $result = (string) $response->getBody();
-
-            $response->getBody()->write($result . ' Last!');
+            $response->getBody()->write(' Last!');
         }
 
         return $response;
