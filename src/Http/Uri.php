@@ -65,12 +65,14 @@ class Uri implements \Psr\Http\Message\UriInterface
     {
         $parts = parse_url($uri);
 
-        foreach ($parts as $key => $value) {
-            if ($key == 'user') {
-                $this->userInfo = $value;
-            }
+        if (is_array($parts)) {
+            foreach ($parts as $key => $value) {
+                if ($key == 'user') {
+                    $this->userInfo = $value;
+                }
 
-            $this->$key = $value;
+                $this->$key = $value;
+            }
         }
 
         $this->uriString = $uri;
