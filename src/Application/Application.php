@@ -12,11 +12,6 @@ namespace Rougin\Slytherin\Application;
  */
 class Application
 {
-    use Traits\DispatchRouteTrait,
-        Traits\PrepareHttpResponseTrait,
-        Traits\PrepareMiddlewaresTrait,
-        Traits\ResolveClassTrait;
-
     /**
      * @var \Rougin\Slytherin\Component\Collection
      */
@@ -38,20 +33,25 @@ class Application
      */
     public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
+        $httpModifier = new HttpModifier($this->components->getHttpResponse());
+
         $container  = $this->components->getContainer();
         $dispatcher = $this->components->getDispatcher();
         $middleware = $this->components->getMiddleware();
-        $response   = $this->components->getHttpResponse();
 
-        list($function, $middlewares) = $this->dispatchRoute($dispatcher, $request);
+        $contents = (new RouteDispatcher)->dispatch($dispatcher, $request);
 
-        $result = $this->prepareMiddlewares($request, $response, $middleware, $middlewares);
+        list($function, $middlewares) = $contents;
+
+        $httpModifier->setMiddlewares($middlewares);
+
+        $result = $httpModifier->invokeMiddleware($request, $middleware);
 
         if (! $result || $result->getBody() == '') {
-            $result = $this->resolveClass($container, $function);
+            $result = (new ClassResolver)->resolveClass($container, $function);
         }
 
-        return $this->prepareHttpResponse($result, $response);
+        return $httpModifier->setHttpResponse($result);
     }
 
     /**

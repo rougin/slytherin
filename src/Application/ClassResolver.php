@@ -1,16 +1,18 @@
 <?php
 
-namespace Rougin\Slytherin\Application\Traits;
+namespace Rougin\Slytherin\Application;
 
 use Interop\Container\ContainerInterface;
 
 /**
- * Resolve Class Trait
+ * Class Resolver
+ *
+ * Resolves the included classes based from the defined container.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-trait ResolveClassTrait
+class ClassResolver
 {
     /**
      * Parses the specified arguments.
@@ -32,10 +34,6 @@ trait ResolveClassTrait
             return array_push($arguments, $container->get($class));
         }
 
-        // This is where 'the magic happens'. We resolve each of the
-        // dependencies, by recursively calling the resolve() method.
-        // At one point, we will reach the bottom of the nested
-        // dependencies we need in order to instantiate the class.
         array_push($arguments, $this->resolve($container, $class));
     }
 
@@ -46,7 +44,7 @@ trait ResolveClassTrait
      * @param  array|string                          $function
      * @return mixed
      */
-    private function resolveClass(ContainerInterface $container, $function)
+    public function resolveClass(ContainerInterface $container, $function)
     {
         if (is_string($function)) {
             return $function;
@@ -75,24 +73,15 @@ trait ResolveClassTrait
      */
     private function resolve(ContainerInterface $container, $className)
     {
-        // Reflect on the $className
         $reflectionClass = new \ReflectionClass($className);
 
-        // If there is no constructor, there is no dependencies, which means
-        // that our job is done.
         if (! $constructor = $reflectionClass->getConstructor()) {
             return new $className;
         }
 
-        // Fetch the parameters from the constructor
-        // (collection of ReflectionParameter instances)
         $parameters = $constructor->getParameters();
+        $arguments  = $this->setArguments($container, $parameters);
 
-        // This is were we store the dependencies
-        $arguments = $this->setArguments($container, $parameters);
-
-        // Return the reflected class, instantiated with all its dependencies
-        // (this happens once for all the nested dependencies).
         return $reflectionClass->newInstanceArgs($arguments);
     }
 
@@ -107,7 +96,6 @@ trait ResolveClassTrait
     {
         $arguments = [];
 
-        // Loop over the constructor parameters
         foreach ($parameters as $parameter) {
             $this->parseParameters($container, $parameter, $arguments);
         }

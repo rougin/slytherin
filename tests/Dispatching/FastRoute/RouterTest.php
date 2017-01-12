@@ -2,12 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
-use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
-use FastRoute\DataGenerator\GroupCountBased;
-
-use Rougin\Slytherin\Dispatching\FastRoute\Router;
-
 /**
  * Router Test
  *
@@ -39,9 +33,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
-        $collector = new RouteCollector(new Std, new GroupCountBased);
+        $based = new \FastRoute\DataGenerator\GroupCountBased;
+        $std   = new \FastRoute\RouteParser\Std;
 
-        $this->router = new Router;
+        $collector = new \FastRoute\RouteCollector($std, $based);
+
+        $this->router = new \Rougin\Slytherin\Dispatching\FastRoute\Router;
 
         $this->router->setCollector($collector);
     }
@@ -80,7 +77,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRoutesMethod()
     {
-        $this->router = new Router($this->routes);
+        $this->router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($this->routes);
 
         $this->assertInstanceOf('Closure', $this->router->getRoutes());
     }

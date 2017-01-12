@@ -31,7 +31,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Whoops is not installed.');
         }
 
-        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger(new \Whoops\Run);
+        $whoops = new \Whoops\Run;
+
+        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger($whoops);
     }
 
     /**

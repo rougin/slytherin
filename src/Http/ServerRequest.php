@@ -15,27 +15,49 @@ use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
- * Server Request.
+ * ServerRequest
+ *
+ * Representation of an incoming, server-side HTTP request.
+ *
+ * Per the HTTP specification, this interface includes properties for
+ * each of the following:
+ *
+ * - Protocol version
+ * - HTTP method
+ * - URI
+ * - Headers
+ * - Message body
+ *
+ * Additionally, it encapsulates all data as it has arrived to the
+ * application from the CGI and/or PHP environment, including:
+ *
+ * - The values represented in $_SERVER.
+ * - Any cookies provided (generally via $_COOKIE)
+ * - Query string arguments (generally via $_GET, or as parsed via parse_str())
+ * - Upload files, if any (as represented by $_FILES)
+ * - Deserialized body parameters (generally from $_POST)
+ *
+ * $_SERVER values MUST be treated as immutable, as they represent application
+ * state at the time of request; as such, no methods are provided to allow
+ * modification of those values. The other values provide such methods, as they
+ * can be restored from $_SERVER or the request body, and may need treatment
+ * during the application (e.g., body parameters may be deserialized based on
+ * content type).
+ *
+ * Additionally, this interface recognizes the utility of introspecting a
+ * request to derive and match additional parameters (e.g., via URI path
+ * matching, decrypting cookie values, deserializing non-form-encoded body
+ * content, matching authorization headers to users, etc). These parameters
+ * are stored in an "attributes" property.
+ *
+ * Requests are considered immutable; all methods that might change state MUST
+ * be implemented such that they retain the internal state of the current
+ * message and return an instance that contains the changed state.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
-class ServerRequest extends Message implements \Psr\Http\Message\ServerRequestInterface
+class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestInterface
 {
-    /**
-     * @var string
-     */
-    private $requestTarget;
-
-    /**
-     * @var string
-     */
-    private $method;
-
-    /**
-     * @var \Psr\Http\Message\UriInterface
-     */
-    private $uri;
-
     /**
      * @var array
      */
@@ -82,53 +104,14 @@ class ServerRequest extends Message implements \Psr\Http\Message\ServerRequestIn
      */
     public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null, array $server = [], array $cookies = [], array $query = [], array $uploadedFiles = [], $data = null, array $attributes = [])
     {
-        parent::__construct($version, $headers, $body);
+        parent::__construct($version, $headers, $body, $requestTarget, $method, $uri);
 
-        $this->requestTarget = $requestTarget;
-        $this->method = $method;
-        $this->uri = $uri;
         $this->server = $server;
         $this->cookies = $cookies;
         $this->query = $query;
         $this->uploadedFiles = $uploadedFiles;
         $this->data = $data;
         $this->attributes = $attributes;
-    }
-
-    public function getRequestTarget()
-    {
-        return $this->requestTarget;
-    }
-
-    public function withRequestTarget($requestTarget)
-    {
-        $this->requestTarget = $requestTarget;
-
-        return clone $this;
-    }
-
-    public function getMethod()
-    {
-        return $this->method;
-    }
-
-    public function withMethod($method)
-    {
-        $this->method = $method;
-
-        return clone $this;
-    }
-
-    public function getUri()
-    {
-        return $this->uri;
-    }
-
-    public function withUri(UriInterface $uri, $preserveHost = false)
-    {
-        $this->uri = $uri;
-
-        return clone $this;
     }
 
     /**

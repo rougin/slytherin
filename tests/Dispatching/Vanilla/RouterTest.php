@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Dispatching\Vanilla\Router;
-
 /**
  * Router Test
  *
@@ -31,7 +29,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->router = new Router;
+        $this->router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
     }
 
     /**
@@ -65,7 +63,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRoutesMethod()
     {
-        $this->router = new Router($this->routes);
+        $this->router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
 
         $this->assertCount(1, $this->router->getRoutes());
     }

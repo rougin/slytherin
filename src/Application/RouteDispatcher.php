@@ -1,18 +1,20 @@
 <?php
 
-namespace Rougin\Slytherin\Application\Traits;
+namespace Rougin\Slytherin\Application;
 
 use Psr\Http\Message\ServerRequestInterface;
 
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
 
 /**
- * Dispatch Route Trait
+ * Route Dispatcher
+ *
+ * Dispatches the route using DispatcherInterface and ServerRequestInterface.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-trait DispatchRouteTrait
+class RouteDispatcher
 {
     /**
      * Gets the result from the dispatcher.
@@ -20,7 +22,7 @@ trait DispatchRouteTrait
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return array
      */
-    private function dispatchRoute(DispatcherInterface $dispatcher, ServerRequestInterface $request)
+    public function dispatch(DispatcherInterface $dispatcher, ServerRequestInterface $request)
     {
         $method = $request->getMethod();
         $path   = $request->getUri()->getPath();
@@ -31,10 +33,8 @@ trait DispatchRouteTrait
             $method = strtoupper($post['_method']);
         }
 
-        // Gets the requested route from the dispatcher
         $route = $dispatcher->dispatch($method, $path);
 
-        // Extract the result into variables
         list($function, $parameters, $middlewares) = $route;
 
         $result = (is_null($parameters)) ? $function : [ $function, $parameters ];

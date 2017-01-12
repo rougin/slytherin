@@ -2,14 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Component\Collection;
-use Rougin\Slytherin\IoC\Vanilla\Container;
-use Rougin\Slytherin\Debug\Vanilla\Debugger;
-use Rougin\Slytherin\Dispatching\Vanilla\Router;
-use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
-
 /**
  * Component Collection Test
  *
@@ -25,7 +17,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->components = new Collection;
+        $this->components = new \Rougin\Slytherin\Component\Collection;
     }
 
     /**
@@ -39,7 +31,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
-        $container = new Container;
+        $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
 
         $this->components->setContainer($container);
 
@@ -53,7 +45,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDispatcherMethod()
     {
-        $dispatcher = new Dispatcher(new Router);
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router);
 
         $this->components->setDispatcher($dispatcher);
 
@@ -67,7 +61,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetDebuggerMethod()
     {
-        $debugger = new Debugger;
+        $debugger = new \Rougin\Slytherin\Debug\Vanilla\Debugger;
 
         $this->components->setDebugger($debugger);
 
@@ -85,8 +79,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
-        $response = new Response;
-        $request = new ServerRequest;
+        $response = new \Rougin\Slytherin\Http\Response;
+        $request  = new \Rougin\Slytherin\Http\ServerRequest;
 
         $this->components->setHttp($request, $response);
 

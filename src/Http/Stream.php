@@ -12,6 +12,14 @@
 namespace Rougin\Slytherin\Http;
 
 /**
+ * Stream
+ *
+ * Describes a data stream.
+ *
+ * Typically, an instance will wrap a PHP stream; this interface provides
+ * a wrapper around the most common operations, including serialization of
+ * the entire stream to a string.
+ *
  * @author Kévin Dunglas <dunglas@gmail.com>
  * @author Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
  */

@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Dispatching\BaseRouter;
-use Rougin\Slytherin\Dispatching\RouterInterface;
-
 /**
  * Dispatcher
  *
@@ -14,7 +11,7 @@ use Rougin\Slytherin\Dispatching\RouterInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends BaseRouter
+class Router extends \Rougin\Slytherin\Dispatching\BaseRouter
 {
     /**
      * @param array $routes

@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Dispatching\Vanilla\Router;
-use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
-
-use Rougin\Slytherin\Fixture\Classes\NewClass;
-
 /**
  * Dispatcher Test
  *
@@ -38,7 +33,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             } ],
         ];
 
-        $this->dispatcher = new Dispatcher(new Router($routes));
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router);
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -48,7 +47,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClass()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
@@ -66,7 +65,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClassAndPostMethod()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('POST', '/');
 
