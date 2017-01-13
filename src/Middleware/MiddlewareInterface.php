@@ -23,5 +23,5 @@ interface MiddlewareInterface
      * @param  array                               $queue
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = []);
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array());
 }

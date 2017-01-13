@@ -15,7 +15,7 @@ class Renderer implements \Rougin\Slytherin\Template\RendererInterface
     /**
      * @var array
      */
-    protected $directories = [];
+    protected $directories = array();
 
     /**
      * @param array $directories
@@ -32,7 +32,7 @@ class Renderer implements \Rougin\Slytherin\Template\RendererInterface
      * @param  array  $data
      * @return string
      */
-    public function render($template, array $data = [])
+    public function render($template, array $data = array())
     {
         $file = $this->getTemplate("$template.php");
 
