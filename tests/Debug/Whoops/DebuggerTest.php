@@ -57,9 +57,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
     {
         $this->debugger->setHandler(new \Whoops\Handler\PrettyPageHandler);
 
-        $handler = $this->debugger->getHandlers()[0];
+        $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handler);
+        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handlers[0]);
     }
 
     /**
