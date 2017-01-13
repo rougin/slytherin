@@ -73,9 +73,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             return 'Hello';
         });
 
-        $handler = $this->debugger->getHandlers()[0];
+        $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handler);
+        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handler[0]);
     }
 
     /**
