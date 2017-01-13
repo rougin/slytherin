@@ -37,8 +37,8 @@ class RouteDispatcher
 
         list($function, $parameters, $middlewares) = $route;
 
-        $result = (is_null($parameters)) ? $function : [ $function, $parameters ];
+        $result = (is_null($parameters)) ? $function : array($function, $parameters);
 
-        return [ $result, $middlewares ];
+        return array($result, $middlewares);
     }
 }

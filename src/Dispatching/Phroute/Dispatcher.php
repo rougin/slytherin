@@ -44,8 +44,8 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
     {
         $routeInfo   = $this->router->getRoute($httpMethod, $uri);
         $routeResult = $this->dispatcher->dispatch($httpMethod, $uri);
-        $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : [];
+        $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : array();
 
-        return [ $routeResult, null, $middlewares ];
+        return array($routeResult, null, $middlewares);
     }
 }

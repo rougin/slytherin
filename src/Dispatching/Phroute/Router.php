@@ -29,7 +29,7 @@ class Router extends \Rougin\Slytherin\Dispatching\BaseRouter
     /**
      * @param array $routes
      */
-    public function __construct(array $routes = [])
+    public function __construct(array $routes = array())
     {
         $this->collector = new RouteCollector;
         $this->routes    = $routes;

@@ -26,15 +26,15 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
-            [ 'GET', '/hi', function () {
+        $routes = array(
+            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
         $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
 
@@ -52,7 +52,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = [ $controller->index(), null, [] ];
+        $expected = array($controller->index(), null, array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/'));
     }
@@ -64,7 +64,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClosure()
     {
-        $expected = [ 'Hi', null, [] ];
+        $expected = array('Hi', null, array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/hi'));
     }

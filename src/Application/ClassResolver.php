@@ -60,7 +60,7 @@ class ClassResolver
 
         $result = $this->resolve($container, $className);
 
-        return call_user_func_array([ $result, $method ], $parameters);
+        return call_user_func_array(array($result, $method), $parameters);
     }
 
     /**
@@ -94,7 +94,7 @@ class ClassResolver
      */
     private function setArguments(ContainerInterface $container, array $parameters)
     {
-        $arguments = [];
+        $arguments = array();
 
         foreach ($parameters as $parameter) {
             $this->parseParameters($container, $parameter, $arguments);

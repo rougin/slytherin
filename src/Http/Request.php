@@ -62,7 +62,7 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      * @param string                                 $method
      * @param \Psr\Http\Message\UriInterface|null    $uri
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null)
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null)
     {
         parent::__construct($version, $headers, $body);
 

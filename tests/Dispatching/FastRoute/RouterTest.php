@@ -18,9 +18,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $routes = [
-        [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ], [] ],
-    ];
+    protected $routes = array(
+        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
+    );
 
     /**
      * Sets up the router.

@@ -52,10 +52,10 @@ class Stream implements \Psr\Http\Message\StreamInterface
      * @var  array
      * @link http://php.net/manual/function.fopen.php
      */
-    private $modes = [
-        'readable' => [ 'r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b' ],
-        'writable' => [ 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b' ],
-    ];
+    private $modes = array(
+        'readable' => array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b'),
+        'writable' => array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b'),
+    );
 
     /**
      * @param resource|null $stream

@@ -38,7 +38,7 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * @var array
      */
-    private $headers = [];
+    private $headers = array();
 
     /**
      * @var \Psr\Http\Message\StreamInterface
@@ -50,7 +50,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      * @param array                                  $headers
      * @param \Psr\Http\Message\StreamInterface|null $body
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null)
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null)
     {
         $this->version = $version;
         $this->headers = $headers;
@@ -155,7 +155,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function getHeader($name)
     {
-        return $this->hasHeader($name) ? $this->headers[$name] : [];
+        return $this->hasHeader($name) ? $this->headers[$name] : array();
     }
 
     /**

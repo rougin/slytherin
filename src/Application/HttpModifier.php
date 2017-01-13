@@ -20,7 +20,7 @@ class HttpModifier
     /**
      * @var array
      */
-    protected $middlewares = [];
+    protected $middlewares = array();
 
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -66,7 +66,7 @@ class HttpModifier
      * @param  array $middlewares
      * @return self
      */
-    public function setMiddlewares(array $middlewares = [])
+    public function setMiddlewares(array $middlewares = array())
     {
         $this->middlewares = $middlewares;
 

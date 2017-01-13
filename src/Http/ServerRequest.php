@@ -102,7 +102,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      * @param array|null                             $data
      * @param array                                  $attributes
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null, array $server = [], array $cookies = [], array $query = [], array $uploadedFiles = [], $data = null, array $attributes = [])
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null, array $server = array(), array $cookies = array(), array $query = array(), array $uploadedFiles = array(), $data = null, array $attributes = array())
     {
         parent::__construct($version, $headers, $body, $requestTarget, $method, $uri);
 

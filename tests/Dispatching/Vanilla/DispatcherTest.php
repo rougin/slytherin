@@ -22,16 +22,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
-            [ 'POST', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'store' ] ],
-            [ 'GET', '/hi', function () {
+        $routes = array(
+            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
+            array('POST', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'store')),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
         $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
 

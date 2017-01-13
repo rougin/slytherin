@@ -23,7 +23,7 @@ class Collection
     /**
      * @var array
      */
-    protected $components = [];
+    protected $components = array();
 
     /**
      * Gets an instance of the container.
@@ -95,7 +95,7 @@ class Collection
      */
     public function getHttp()
     {
-        return [ $this->getHttpRequest(), $this->getHttpResponse() ];
+        return array($this->getComponent('request'), $this->getComponent('response'));
     }
 
     /**

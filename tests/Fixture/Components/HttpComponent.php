@@ -49,7 +49,7 @@ class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
         $this->request  = new \Rougin\Slytherin\Http\ServerRequest('1.1', [], null, '/', 'GET', null, $server);
         $this->response = new \Rougin\Slytherin\Http\Response;
 
-        return [ $this->request, $this->response ];
+        return array($this->request, $this->response);
     }
 
     /**

@@ -30,14 +30,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
-        $components = [
+        $components = array(
             'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Fixture\Components\HttpComponent',
             'Rougin\Slytherin\Fixture\Components\MiddlewareComponent',
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
             'Rougin\Slytherin\Fixture\Components\CollectionComponent',
-        ];
+        );
 
         $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
 
@@ -141,7 +141,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
-        $this->runApplication('PUT', '/hello', [ '_method' => 'PUT' ]);
+        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'));
     }
 
     /**
@@ -154,7 +154,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->expectOutputString('Hello');
 
         $class  = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-        $routes = [ [ 'GET', '/', [ $class, 'index' ] ] ];
+        $routes = array(array('GET', '/', array($class, 'index')));
 
         $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
 
@@ -173,7 +173,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @param array  $data
      * @return void
      */
-    private function runApplication($httpMethod, $uriEndpoint, $data = [])
+    private function runApplication($httpMethod, $uriEndpoint, $data = array())
     {
         list($request, $response) = $this->components->getHttp();
 

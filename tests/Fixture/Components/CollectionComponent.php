@@ -23,6 +23,6 @@ class CollectionComponent extends AbstractComponent
      */
     public function get()
     {
-        return [ new TestClass, new TestClassWithEmptyConstructor ];
+        return array(new TestClass, new TestClassWithEmptyConstructor);
     }
 }

@@ -45,8 +45,8 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testHeaders()
     {
-        $expected = [ 'name' => [ 'John Doe' ], 'age' => [ 18, 21 ] ];
-        $headers  = [ 'name' => 'John Doe', 'age' => 18 ];
+        $expected = array('name' => array('John Doe'), 'age' => array(18, 21));
+        $headers  = array('name' => 'John Doe', 'age' => 18);
         $message  = $this->message;
 
         foreach ($headers as $key => $value) {

@@ -16,7 +16,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $directories = [ __DIR__ . '/../../Fixture/Templates' ];
+        $directories = array(__DIR__ . '/../../Fixture/Templates');
 
         $this->renderer = new \Rougin\Slytherin\Template\Vanilla\Renderer($directories);
     }
@@ -42,7 +42,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $data     = [ 'name' => 'template' ];
+        $data     = array('name' => 'template');
         $rendered = $this->renderer->render('test-with-data', $data);
 
         $this->assertEquals($expected, $rendered);

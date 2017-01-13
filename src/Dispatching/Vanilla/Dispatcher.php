@@ -21,7 +21,7 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
     /**
      * @var array
      */
-    protected $validHttpMethods = [ 'DELETE', 'GET', 'PATCH', 'POST', 'PUT' ];
+    protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
@@ -94,6 +94,6 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
 
         array_shift($parameters);
 
-        return [ $route[2], array_values($parameters), $route[3] ];
+        return array($route[2], array_values($parameters), $route[3]);
     }
 }

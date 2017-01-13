@@ -20,7 +20,7 @@ class Collector
      * @param  array|null                            $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(\Interop\Container\ContainerInterface $container, $components = [], &$globals = null)
+    public static function get(\Interop\Container\ContainerInterface $container, array $components = array(), &$globals = null)
     {
         $collection = new Collection;
 
@@ -56,13 +56,13 @@ class Collector
         $type = $instance->getType();
 
         if (! empty($type)) {
-            $parameters = [ $instance->get() ];
+            $parameters = array($instance->get());
 
             if ($type == 'http') {
                 $parameters = $instance->get();
             }
 
-            call_user_func_array([ $collection, 'set' . ucfirst($type) ], $parameters);
+            call_user_func_array(array($collection, 'set' . ucfirst($type)), $parameters);
         }
 
         return $instance;

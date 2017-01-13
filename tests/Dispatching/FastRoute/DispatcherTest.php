@@ -26,20 +26,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
-        $routes = [
-            [
+        $routes = array(
+            array(
                 'GET',
                 '/',
-                [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ],
+                array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'),
                 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'
-            ],
-            [ 'GET', '/hi', function () {
+            ),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
         $router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($routes);
 

@@ -50,7 +50,7 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
      * @param \Psr\Http\Mesasge\StreamInterface|null $body
      * @param integer                                $statusCode
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null, $statusCode = 200)
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $statusCode = 200)
     {
         parent::__construct($version, $headers, $body);
 
