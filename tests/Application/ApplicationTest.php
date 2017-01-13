@@ -197,6 +197,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->components->setHttp($request, $response);
 
-        (new \Rougin\Slytherin\Application($this->components))->run();
+        $application = new \Rougin\Slytherin\Application($this->components);
+
+        $application->run();
     }
 }
