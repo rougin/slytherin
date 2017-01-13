@@ -199,7 +199,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withHeader($name, $value)
     {
-        $this->headers[$name] = [ $value ];
+        $this->headers[$name] = array($value);
 
         return clone $this;
     }
