@@ -158,6 +158,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunMethodWithPhroute()
     {
+        if (! class_exists('Phroute\Phroute\RouteCollector')) {
+            $this->markTestSkipped('Phroute is not installed.');
+        }
+
         $this->expectOutputString('Hello');
 
         $class  = 'Rougin\Slytherin\Fixture\Classes\NewClass';
