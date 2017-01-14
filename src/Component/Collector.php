@@ -24,13 +24,11 @@ class Collector
     {
         $collection = new Collection;
 
-        $callback = function ($component) use (&$collection, &$container) {
+        foreach ($components as $component) {
             $instance = self::prepareComponent($collection, $component);
 
             $instance->set($container);
-        };
-
-        array_walk($components, $callback);
+        }
 
         $collection->setContainer($container);
 
