@@ -45,7 +45,7 @@ class HttpModifier
     {
         $response = $this->response;
 
-        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
+        if (is_a($result, 'Psr\Http\Message\ResponseInterface')) {
             $response = $result;
         } else {
             $response->getBody()->write($result);
@@ -78,7 +78,6 @@ class HttpModifier
      *
      * @param  \Psr\Http\Message\ServerRequestInterface         $request
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
-     * @param  array                                            $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function invokeMiddleware(ServerRequestInterface $request, MiddlewareInterface $middleware = null)
