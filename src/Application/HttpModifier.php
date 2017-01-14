@@ -51,11 +51,14 @@ class HttpModifier
             $response->getBody()->write($result);
         }
 
+        $protocol = 'HTTP/' . $response->getProtocolVersion();
+        $httpCode = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+
+        header($protocol . ' ' . $httpCode);
+
         foreach ($response->getHeaders() as $name => $value) {
             header($name . ': ' . implode(',', $value));
         }
-
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
 
         return $response;
     }

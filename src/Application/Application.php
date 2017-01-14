@@ -33,27 +33,25 @@ class Application
      */
     public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        $classResolver   = new ClassResolver;
-        $httpModifier    = new HttpModifier($this->components->getHttpResponse());
-        $routeDispatcher = new RouteDispatcher;
+        $helpers = array(new ClassResolver, new RouteDispatcher, new HttpModifier($this->components->getHttpResponse()));
 
         $container  = $this->components->getContainer();
         $dispatcher = $this->components->getDispatcher();
         $middleware = $this->components->getMiddleware();
 
-        $contents = $routeDispatcher->dispatch($dispatcher, $request);
+        $contents = $helpers[1]->dispatch($dispatcher, $request);
 
         list($function, $middlewares) = $contents;
 
-        $httpModifier->setMiddlewares($middlewares);
+        $helpers[2]->setMiddlewares($middlewares);
 
-        $result = $httpModifier->invokeMiddleware($request, $middleware);
+        $result = $helpers[2]->invokeMiddleware($request, $middleware);
 
         if (! $result || $result->getBody() == '') {
-            $result = $classResolver->resolveClass($container, $function);
+            $result = $helpers[0]->resolveClass($container, $function);
         }
 
-        return $httpModifier->setHttpResponse($result);
+        return $helpers[2]->setHttpResponse($result);
     }
 
     /**
