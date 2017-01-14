@@ -79,7 +79,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddMethodWithParameters()
     {
-        $this->container->add($this->class, [ ':class' => new NewClass ]);
+        $this->container->add($this->class, array(':class' => new NewClass));
 
         $this->assertTrue($this->container->has($this->class));
     }

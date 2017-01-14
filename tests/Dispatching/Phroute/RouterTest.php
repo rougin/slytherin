@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
-use Phroute\Phroute\RouteCollector;
-use Rougin\Slytherin\Dispatching\Phroute\Router;
-
 /**
  * Router Test
  *
@@ -21,9 +18,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $routes = [
-        [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ], [] ],
-    ];
+    protected $routes = array(
+        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
+    );
 
     /**
      * Sets up the router.
@@ -36,9 +33,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $this->router = new Router;
+        $this->router = new \Rougin\Slytherin\Dispatching\Phroute\Router;
 
-        $this->router->setCollector(new RouteCollector);
+        $this->router->setCollector(new \Phroute\Phroute\RouteCollector);
     }
 
     /**
@@ -72,7 +69,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRoutesMethod()
     {
-        $this->router = new Router($this->routes);
+        $this->router = new \Rougin\Slytherin\Dispatching\Phroute\Router($this->routes);
 
         $this->assertInstanceOf('Phroute\Phroute\RouteDataArray', $this->router->getRoutes());
     }

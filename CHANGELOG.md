@@ -13,6 +13,10 @@ All Notable changes to `Slytherin` will be documented in this file
 - Unit test for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 
+### Changed
+- Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`
+- Minimum required PHP version to `v5.3.0`
+
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
 ### Added

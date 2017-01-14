@@ -14,7 +14,21 @@ namespace Rougin\Slytherin\Http;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Response.
+ * Response
+ *
+ * Representation of an outgoing, server-side response.
+ *
+ * Per the HTTP specification, this interface includes properties for
+ * each of the following:
+ *
+ * - Protocol version
+ * - Status code and reason phrase
+ * - Headers
+ * - Message body
+ *
+ * Responses are considered immutable; all methods that might change state MUST
+ * be implemented such that they retain the internal state of the current
+ * message and return an instance that contains the changed state.
  *
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
@@ -36,7 +50,7 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
      * @param \Psr\Http\Mesasge\StreamInterface|null $body
      * @param integer                                $statusCode
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null, $statusCode = 200)
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $statusCode = 200)
     {
         parent::__construct($version, $headers, $body);
 

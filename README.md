@@ -22,7 +22,7 @@ $ composer require rougin/slytherin
 ``` php
 $components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Acme\IoC\Container)
-    ->setDispatcher(new Acme\Dispatching\Dispatcher)
+    ->setDispatcher(new Acme\Dispatching\Dispatcher(new Acme\Dispatching\Router))
     ->setDebugger(new Acme\Debug\Debugger)
     ->setHttp(new Acme\Http\Request, new Acme\Http\Response);
 

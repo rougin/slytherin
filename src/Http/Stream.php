@@ -12,6 +12,14 @@
 namespace Rougin\Slytherin\Http;
 
 /**
+ * Stream
+ *
+ * Describes a data stream.
+ *
+ * Typically, an instance will wrap a PHP stream; this interface provides
+ * a wrapper around the most common operations, including serialization of
+ * the entire stream to a string.
+ *
  * @author Kévin Dunglas <dunglas@gmail.com>
  * @author Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
  */
@@ -44,10 +52,10 @@ class Stream implements \Psr\Http\Message\StreamInterface
      * @var  array
      * @link http://php.net/manual/function.fopen.php
      */
-    private $modes = [
-        'readable' => [ 'r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b' ],
-        'writable' => [ 'r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b' ],
-    ];
+    private $modes = array(
+        'readable' => array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b'),
+        'writable' => array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b'),
+    );
 
     /**
      * @param resource|null $stream

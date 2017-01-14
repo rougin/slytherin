@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
-use Rougin\Slytherin\Dispatching\Phroute\Router;
-use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
-
-use Rougin\Slytherin\Fixture\Classes\NewClass;
-
 /**
  * Dispatcher Test
  *
@@ -31,17 +26,21 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
-            [ 'GET', '/hi', function () {
+        $routes = array(
+            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
-        $this->dispatcher = new Dispatcher(new Router($routes));
+        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -51,9 +50,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethod()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = [ $controller->index(), null, [] ];
+        $expected = array($controller->index(), null, array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/'));
     }
@@ -65,7 +64,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClosure()
     {
-        $expected = [ 'Hi', null, [] ];
+        $expected = array('Hi', null, array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/hi'));
     }

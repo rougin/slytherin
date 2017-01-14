@@ -19,17 +19,15 @@ class Collector
      * @param  array                                 $components
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(\Interop\Container\ContainerInterface $container, $components = [])
+    public static function get(\Interop\Container\ContainerInterface $container, $components = array())
     {
         $collection = new Collection;
 
-        $callback = function ($component) use (&$collection, &$container) {
+        foreach ($components as $component) {
             $instance = self::prepareComponent($collection, $component);
 
             $instance->set($container);
-        };
-
-        array_walk($components, $callback);
+        }
 
         $collection->setContainer($container);
 
@@ -50,13 +48,13 @@ class Collector
         $type = $instance->getType();
 
         if (! empty($type)) {
-            $parameters = [ $instance->get() ];
+            $parameters = array($instance->get());
 
             if ($type == 'http') {
                 $parameters = $instance->get();
             }
 
-            call_user_func_array([ $collection, 'set' . ucfirst($type) ], $parameters);
+            call_user_func_array(array($collection, 'set' . ucfirst($type)), $parameters);
         }
 
         return $instance;

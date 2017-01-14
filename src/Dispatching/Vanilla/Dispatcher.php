@@ -21,7 +21,7 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
     /**
      * @var array
      */
-    protected $validHttpMethods = [ 'DELETE', 'GET', 'PATCH', 'POST', 'PUT' ];
+    protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * @param \Rougin\Slytherin\Dispatching\RouterInterface $router
@@ -42,18 +42,20 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $callback = function ($route) use ($httpMethod, $uri) {
-            return $this->parseRoute($httpMethod, $uri, $route);
-        };
+        $existing  = $this->router->getRoutes();
+        $newRoutes = array();
 
-        $routes = $this->router->getRoutes();
-        $routes = array_values(array_filter(array_map($callback, $routes)));
+        foreach ($existing as $route) {
+            array_push($newRoutes, $this->parseRoute($httpMethod, $uri, $route));
+        }
 
-        if (empty($routes)) {
+        $newRoutes = array_values(array_filter($newRoutes));
+
+        if (empty($newRoutes)) {
             throw new \UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return $routes[0];
+        return $newRoutes[0];
     }
 
     /**
@@ -94,6 +96,6 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
 
         array_shift($parameters);
 
-        return [ $route[2], array_values($parameters), $route[3] ];
+        return array($route[2], array_values($parameters), $route[3]);
     }
 }

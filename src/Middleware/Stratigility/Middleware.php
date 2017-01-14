@@ -38,7 +38,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      * @param  array                                    $queue
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = [])
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
     {
         $middleware = $this->middleware;
 

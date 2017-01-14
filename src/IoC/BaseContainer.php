@@ -16,7 +16,7 @@ class BaseContainer implements \Interop\Container\ContainerInterface
     /**
      * @var array
      */
-    public $instances = [];
+    public $instances = array();
 
     /**
      * Finds an entry of the container by its identifier and returns it.

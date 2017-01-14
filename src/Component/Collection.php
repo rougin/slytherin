@@ -23,7 +23,7 @@ class Collection
     /**
      * @var array
      */
-    protected $components = [];
+    protected $components = array();
 
     /**
      * Gets an instance of the container.
@@ -38,7 +38,8 @@ class Collection
     /**
      * Sets the container.
      *
-     * @param \Interop\Container\ContainerInterface $container
+     * @param  \Interop\Container\ContainerInterface $container
+     * @return self
      */
     public function setContainer(ContainerInterface $container)
     {
@@ -58,7 +59,8 @@ class Collection
     /**
      * Sets the dispatcher.
      *
-     * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @return self
      */
     public function setDispatcher(DispatcherInterface $dispatcher)
     {
@@ -78,7 +80,8 @@ class Collection
     /**
      * Sets the debugger.
      *
-     * @param \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
+     * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
+     * @return self
      */
     public function setDebugger(DebuggerInterface $debugger)
     {
@@ -92,7 +95,7 @@ class Collection
      */
     public function getHttp()
     {
-        return [ $this->getHttpRequest(), $this->getHttpResponse() ];
+        return array($this->getComponent('request'), $this->getComponent('response'));
     }
 
     /**
@@ -100,7 +103,7 @@ class Collection
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @return array
+     * @return self
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
@@ -122,7 +125,8 @@ class Collection
     /**
      * Sets the middlware.
      *
-     * @param \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     * @return self
      */
     public function setMiddleware(MiddlewareInterface $middlware)
     {
@@ -167,8 +171,9 @@ class Collection
     /**
      * Sets the selected component.
      *
-     * @param string $type
-     * @param mixed  $component
+     * @param  string $type
+     * @param  mixed  $component
+     * @return self
      */
     private function setComponent($type, $component)
     {

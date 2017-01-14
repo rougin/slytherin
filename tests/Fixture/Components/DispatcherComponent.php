@@ -29,18 +29,18 @@ class DispatcherComponent extends \Rougin\Slytherin\Component\AbstractComponent
      */
     public function get()
     {
-        $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
-            [ 'GET', '/optional', [ 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter', 'index' ] ],
-            [ 'GET', '/parameter', [ 'Rougin\Slytherin\Fixture\Classes\WithParameter', 'index' ] ],
-            [ 'GET', '/hello', [ 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface', 'index' ] ],
-            [ 'GET', '/error', [ 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface', 'error' ] ],
-            [ 'GET', '/middleware', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ], 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware' ],
-            [ 'PUT', '/hello', [ 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod', 'index' ] ],
-            [ 'GET', '/callback', function () {
+        $routes = array(
+            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
+            array('GET', '/optional', array('Rougin\Slytherin\Fixture\Classes\WithOptionalParameter', 'index')),
+            array('GET', '/parameter', array('Rougin\Slytherin\Fixture\Classes\WithParameter', 'index')),
+            array('GET', '/hello', array('Rougin\Slytherin\Fixture\Classes\WithResponseInterface', 'index')),
+            array('GET', '/error', array('Rougin\Slytherin\Fixture\Classes\WithResponseInterface', 'error')),
+            array('GET', '/middleware', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'),
+            array('PUT', '/hello', array('Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod', 'index')),
+            array('GET', '/callback', function () {
                 return 'Hello';
-            } ],
-        ];
+            }),
+        );
 
         return new Dispatcher(new Router($routes));
     }

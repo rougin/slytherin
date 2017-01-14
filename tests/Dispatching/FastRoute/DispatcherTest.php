@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
-use Rougin\Slytherin\Dispatching\FastRoute\Router;
-use Rougin\Slytherin\Dispatching\FastRoute\Dispatcher;
-
-use Rougin\Slytherin\Fixture\Classes\NewClass;
-
 /**
  * Dispatcher Test
  *
@@ -31,22 +26,26 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
-        $routes = [
-            [
+        $routes = array(
+            array(
                 'GET',
                 '/',
-                [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ],
+                array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'),
                 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'
-            ],
-            [ 'GET', '/hi', function () {
+            ),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
-        $this->dispatcher = new Dispatcher(new Router($routes));
+        $router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -56,7 +55,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethod()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
