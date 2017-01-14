@@ -55,7 +55,8 @@ class HttpModifier
             header($name . ': ' . implode(',', $value));
         }
 
-        http_response_code($response->getStatusCode());
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $response->getStatusCode() . ' ' . $response->getReasonPhrase());
+        // http_response_code($response->getStatusCode());
 
         return $response;
     }

@@ -53,6 +53,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethod()
     {
@@ -104,6 +105,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a callback as result.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithCallback()
     {
@@ -116,6 +118,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Checks if the application runs in the VanillaMiddleware.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithMiddleware()
     {
@@ -151,6 +154,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with Phroute as dispatcher.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithPhroute()
     {
