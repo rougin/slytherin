@@ -10,7 +10,10 @@ namespace Rougin\Slytherin\Fixture\Classes;
  */
 class WithOptionalParameter
 {
-    protected $name;
+    /**
+     * @var string
+     */
+    protected $name = '';
 
     /**
      * @param string $name

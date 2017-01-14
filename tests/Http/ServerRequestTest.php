@@ -45,7 +45,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCookieParams()
     {
-        $expected = [ 'name' => 'John Doe', 'age' => 19 ];
+        $expected = array('name' => 'John Doe', 'age' => 19);
         $request  = $this->request->withCookieParams($expected);
 
         $this->assertEquals($expected, $request->getCookieParams());
@@ -58,7 +58,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testQueryParams()
     {
-        $expected = [ 'page' => 10, 'name' => 'users' ];
+        $expected = array('page' => 10, 'name' => 'users');
         $request  = $this->request->withQueryParams($expected);
 
         $this->assertEquals($expected, $request->getQueryParams());
@@ -71,7 +71,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadedFiles()
     {
-        $expected = [ new \Rougin\Slytherin\Http\UploadedFile('/tmp/test.txt') ];
+        $expected = array(new \Rougin\Slytherin\Http\UploadedFile('/tmp/test.txt'));
         $request  = $this->request->withUploadedFiles($expected);
 
         $this->assertEquals($expected, $request->getUploadedFiles());
@@ -84,7 +84,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testAttribute()
     {
-        $attributes = [ 'user' => 'John Doe', 'age' => 20 ];
+        $attributes = array('user' => 'John Doe', 'age' => 20);
         $request    = $this->request;
 
         foreach ($attributes as $key => $value) {

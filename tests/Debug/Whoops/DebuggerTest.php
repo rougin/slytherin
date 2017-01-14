@@ -31,7 +31,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Whoops is not installed.');
         }
 
-        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger(new \Whoops\Run);
+        $whoops = new \Whoops\Run;
+
+        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger($whoops);
     }
 
     /**
@@ -55,9 +57,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
     {
         $this->debugger->setHandler(new \Whoops\Handler\PrettyPageHandler);
 
-        $handler = $this->debugger->getHandlers()[0];
+        $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handler);
+        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handlers[0]);
     }
 
     /**
@@ -71,9 +73,9 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
             return 'Hello';
         });
 
-        $handler = $this->debugger->getHandlers()[0];
+        $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handler);
+        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handlers[0]);
     }
 
     /**

@@ -2,17 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Zend\Stratigility\MiddlewarePipe;
-
-use Rougin\Slytherin\Http\Uri;
-use Rougin\Slytherin\Component\Collector;
-use Rougin\Slytherin\Http\BaseUriGuesser;
-use Rougin\Slytherin\IoC\Vanilla\Container;
-use Rougin\Slytherin\Application\Application;
-use Rougin\Slytherin\Dispatching\Phroute\Router;
-use Rougin\Slytherin\Dispatching\Phroute\Dispatcher;
-use Rougin\Slytherin\Middleware\Stratigility\Middleware;
-
 /**
  * Application Test
  *
@@ -41,32 +30,36 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
-        $components = [
+        $components = array(
             'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Fixture\Components\HttpComponent',
-            'Rougin\Slytherin\Fixture\Components\MiddlewareComponent',
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
             'Rougin\Slytherin\Fixture\Components\CollectionComponent',
-        ];
+        );
 
-        $this->components = Collector::get(new Container, $components, $GLOBALS);
+        if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
+            array_push($components, 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent');
+        }
+
+        $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
+
+        $components = \Rougin\Slytherin\Component\Collector::get($container, $components, $GLOBALS);
+
+        $this->components = $components;
     }
 
     /**
      * Tests the run() method.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethod()
     {
         $this->expectOutputString('Hello');
 
-        $this->setRequest('GET', '/');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/');
     }
 
     /**
@@ -79,11 +72,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello with response');
 
-        $this->setRequest('GET', '/hello');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/hello');
     }
 
     /**
@@ -96,11 +85,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->setRequest('GET', '/parameter');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/parameter');
     }
 
     /**
@@ -113,33 +98,27 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->setRequest('GET', '/optional');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/optional');
     }
 
     /**
      * Tests the run() method with a callback as result.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithCallback()
     {
         $this->expectOutputString('Hello');
 
-        $this->setRequest('GET', '/callback');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/callback');
     }
 
     /**
      * Checks if the application runs in the VanillaMiddleware.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithMiddleware()
     {
@@ -147,17 +126,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
-        $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+        $pipe = new \Zend\Stratigility\MiddlewarePipe;
 
-        $this->components->setMiddleware(new Middleware(new MiddlewarePipe));
+        $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipe);
+
+        $this->components->setMiddleware($middleware);
 
         $this->expectOutputString('Loaded with middleware');
 
-        $this->setRequest('GET', '/middleware');
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('GET', '/middleware');
     }
 
     /**
@@ -170,48 +147,51 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
-        $this->setRequest('PUT', '/hello', [ '_method' => 'PUT' ]);
-
-        $application = new Application($this->components);
-
-        $application->run();
+        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'));
     }
 
     /**
      * Tests the run() method with Phroute as dispatcher.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithPhroute()
     {
+        if (! class_exists('Phroute\Phroute\RouteCollector')) {
+            $this->markTestSkipped('Phroute is not installed.');
+        }
+
         $this->expectOutputString('Hello');
 
-        $this->setRequest('GET', '/');
-
         $class  = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-        $routes = [ [ 'GET', '/', [ $class, 'index' ] ] ];
+        $routes = array(array('GET', '/', array($class, 'index')));
 
-        $this->components->setDispatcher(new Dispatcher(new Router($routes)));
+        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
 
-        $application = new Application($this->components);
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
 
-        $application->run();
+        $this->components->setDispatcher($dispatcher);
+
+        $this->runApplication('GET', '/');
     }
 
     /**
      * Changes the HTTP method and the uri of the request.
      *
      * @param string $httpMethod
-     * @param string $uri
+     * @param string $uriEndpoint
      * @param array  $data
      * @return void
      */
-    private function setRequest($httpMethod, $uri, $data = [])
+    private function runApplication($httpMethod, $uriEndpoint, $data = array())
     {
         list($request, $response) = $this->components->getHttp();
 
-        $request = $request->withMethod($httpMethod)->withUri(new Uri($uri));
-        $request = BaseUriGuesser::guess($request);
+        $uri = new \Rougin\Slytherin\Http\Uri($uriEndpoint);
+
+        $request = $request->withMethod($httpMethod)->withUri($uri);
+        $request = \Rougin\Slytherin\Http\BaseUriGuesser::guess($request);
 
         switch ($httpMethod) {
             case 'GET':
@@ -227,5 +207,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->components->setHttp($request, $response);
+
+        $application = new \Rougin\Slytherin\Application($this->components);
+
+        $application->run();
     }
 }

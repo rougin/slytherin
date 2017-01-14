@@ -14,8 +14,18 @@ namespace Rougin\Slytherin\Http;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Message.
+ * Message
  *
+ * HTTP messages consist of requests from a client to a server and responses
+ * from a server to a client. This interface defines the methods common to
+ * each.
+ *
+ * Messages are considered immutable; all methods that might change state MUST
+ * be implemented such that they retain the internal state of the current
+ * message and return an instance that contains the changed state.
+ *
+ * @link   http://www.ietf.org/rfc/rfc7230.txt
+ * @link   http://www.ietf.org/rfc/rfc7231.txt
  * @author Kévin Dunglas <dunglas@gmail.com>
  */
 class Message implements \Psr\Http\Message\MessageInterface
@@ -28,7 +38,7 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * @var array
      */
-    private $headers = [];
+    private $headers = array();
 
     /**
      * @var \Psr\Http\Message\StreamInterface
@@ -40,7 +50,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      * @param array                                  $headers
      * @param \Psr\Http\Message\StreamInterface|null $body
      */
-    public function __construct($version = '1.1', array $headers = [], StreamInterface $body = null)
+    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null)
     {
         $this->version = $version;
         $this->headers = $headers;
@@ -145,7 +155,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function getHeader($name)
     {
-        return $this->hasHeader($name) ? $this->headers[$name] : [];
+        return $this->hasHeader($name) ? $this->headers[$name] : array();
     }
 
     /**
@@ -189,7 +199,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withHeader($name, $value)
     {
-        $this->headers[$name] = [ $value ];
+        $this->headers[$name] = array($value);
 
         return clone $this;
     }

@@ -18,7 +18,7 @@ abstract class AbstractComponent implements ComponentInterface
      *
      * @var string
      */
-    protected $type;
+    protected $type = '';
 
     /**
      * Returns the type of the component.

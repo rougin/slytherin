@@ -41,7 +41,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $this->assertEquals($expected, $this->renderer->render('test', [], 'php'));
+        $this->assertEquals($expected, $this->renderer->render('test', array(), 'php'));
     }
 
     /**
@@ -53,7 +53,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $data     = [ 'name' => 'template' ];
+        $data     = array('name' => 'template');
         $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
 
         $this->assertEquals($expected, $rendered);
@@ -67,9 +67,9 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     public function testRenderMethodWithGlobals()
     {
         $expected = 'This is a text from a template.';
-        $globals  = [ 'name' => 'template' ];
+        $globals  = array('name' => 'template');
         $renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig, $globals);
 
-        $this->assertEquals($expected, $renderer->render('test-with-twig-data', [], 'php'));
+        $this->assertEquals($expected, $renderer->render('test-with-twig-data', array(), 'php'));
     }
 }

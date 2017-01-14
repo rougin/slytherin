@@ -2,11 +2,6 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Dispatching\Vanilla\Router;
-use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
-
-use Rougin\Slytherin\Fixture\Classes\NewClass;
-
 /**
  * Dispatcher Test
  *
@@ -27,18 +22,22 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $routes = [
-            [ 'GET', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'index' ] ],
-            [ 'POST', '/', [ 'Rougin\Slytherin\Fixture\Classes\NewClass', 'store' ] ],
-            [ 'GET', '/hi', function () {
+        $routes = array(
+            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
+            array('POST', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'store')),
+            array('GET', '/hi', function () {
                 return 'Hi';
-            } ],
-            [ 'TEST', '/hello', function () {
+            }),
+            array('TEST', '/hello', function () {
                 return 'It must not go through here';
-            } ],
-        ];
+            }),
+        );
 
-        $this->dispatcher = new Dispatcher(new Router($routes));
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router);
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -48,7 +47,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClass()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
 
@@ -66,7 +65,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClassAndPostMethod()
     {
-        $controller = new NewClass;
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
         list($callback, $parameters) = $this->dispatcher->dispatch('POST', '/');
 

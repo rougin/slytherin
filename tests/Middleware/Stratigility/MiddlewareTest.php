@@ -27,14 +27,14 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
-        $queue = [
+        $queue = array(
             'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware',
             'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware',
             'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware',
-        ];
+        );
 
         $middleware = new Middleware(new \Zend\Stratigility\MiddlewarePipe);
-        $request    = new ServerRequest('1.1', [], new Stream, '/', 'GET', new Uri);
+        $request    = new ServerRequest('1.1', array(), new Stream, '/', 'GET', new Uri);
         $response   = new Response;
 
         $response = $middleware($request, $response, $queue);

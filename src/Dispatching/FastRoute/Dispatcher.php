@@ -47,9 +47,9 @@ class Dispatcher implements \Rougin\Slytherin\Dispatching\DispatcherInterface
 
         $this->throwException($result[0], $uri);
 
-        $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : [];
+        $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : array();
 
-        return [ $result[1], $result[2], $middlewares ];
+        return array($result[1], $result[2], $middlewares);
     }
 
     /**

@@ -42,7 +42,7 @@ class Container extends \Rougin\Slytherin\IoC\BaseContainer implements \Interop\
             return $this;
         }
 
-        $arguments = [];
+        $arguments = array();
 
         if (is_array($concrete)) {
             $arguments = $concrete;
