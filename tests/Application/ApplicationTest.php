@@ -191,7 +191,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $uri = new \Rougin\Slytherin\Http\Uri($uriEndpoint);
 
         $request = $request->withMethod($httpMethod)->withUri($uri);
-        $request = \Rougin\Slytherin\Http\BaseUriGuesser::guess($request);
 
         switch ($httpMethod) {
             case 'GET':

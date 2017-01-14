@@ -17,10 +17,9 @@ class Collector
      *
      * @param  \Interop\Container\ContainerInterface $container
      * @param  array                                 $components
-     * @param  array|null                            $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(\Interop\Container\ContainerInterface $container, array $components = array(), &$globals = null)
+    public static function get(\Interop\Container\ContainerInterface $container, $components = array())
     {
         $collection = new Collection;
 
@@ -31,11 +30,6 @@ class Collector
         }
 
         $collection->setContainer($container);
-
-        // NOTE: To be removed in v1.0.0
-        if ($globals) {
-            $globals['container'] = $container;
-        }
 
         return $collection;
     }
