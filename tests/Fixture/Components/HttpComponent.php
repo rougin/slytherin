@@ -39,12 +39,12 @@ class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
         $slash = DIRECTORY_SEPARATOR;
         $root  = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
 
-        $server = [
+        $server = array(
             'DOCUMENT_ROOT'   => $root,
             'REMOTE_ADDR'     => '127.0.0.1',
             'SCRIPT_FILENAME' => '/var/www/html/slytherin/index.php',
             'SCRIPT_NAME'     => '/slytherin/index.php'
-        ];
+        );
 
         $this->request  = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), null, '/', 'GET', null, $server);
         $this->response = new \Rougin\Slytherin\Http\Response;
