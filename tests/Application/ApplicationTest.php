@@ -34,10 +34,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Fixture\Components\HttpComponent',
-            'Rougin\Slytherin\Fixture\Components\MiddlewareComponent',
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
             'Rougin\Slytherin\Fixture\Components\CollectionComponent',
         );
+
+        if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
+            array_push($components, 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent');
+        }
 
         $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
 
