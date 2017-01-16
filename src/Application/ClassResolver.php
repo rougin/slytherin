@@ -15,36 +15,25 @@ use Interop\Container\ContainerInterface;
 class ClassResolver
 {
     /**
-     * Parses the specified arguments.
-     *
-     * @param  \Interop\Container\ContainerInterface $container
-     * @param  \ReflectionParameter                  $parameter
-     * @param  array                                 &$arguments
-     * @return void
+     * @var \Interop\Container\ContainerInterface
      */
-    private function parseParameters(ContainerInterface $container, $parameter, array &$arguments)
+    protected $container;
+
+    /**
+     * @param \Interop\Container\ContainerInterface $container
+     */
+    public function __construct(ContainerInterface $container)
     {
-        if ($parameter->isOptional()) {
-            return array_push($arguments, $parameter->getDefaultValue());
-        }
-
-        $class = $parameter->getClass()->getName();
-
-        if ($container->has($class)) {
-            return array_push($arguments, $container->get($class));
-        }
-
-        array_push($arguments, $this->resolve($container, $class));
+        $this->container = $container;
     }
 
     /**
      * Resolves the result based from the dispatched route.
      *
-     * @param  \Interop\Container\ContainerInterface $container
-     * @param  array|string                          $function
+     * @param  array|string $function
      * @return mixed
      */
-    public function resolveClass(ContainerInterface $container, $function)
+    public function resolveClass($function)
     {
         if (is_string($function)) {
             return $function;
@@ -58,20 +47,41 @@ class ClassResolver
 
         list($className, $method) = $class;
 
-        $result = $this->resolve($container, $className);
+        $result = $this->resolve($className);
 
         return call_user_func_array(array($result, $method), $parameters);
+    }
+
+    /**
+     * Parses the specified arguments.
+     *
+     * @param  \ReflectionParameter $parameter
+     * @param  array                &$arguments
+     * @return void
+     */
+    private function parseParameters($parameter, array &$arguments)
+    {
+        if ($parameter->isOptional()) {
+            return array_push($arguments, $parameter->getDefaultValue());
+        }
+
+        $class = $parameter->getClass()->getName();
+
+        if ($this->container->has($class)) {
+            return array_push($arguments, $this->container->get($class));
+        }
+
+        array_push($arguments, $this->resolve($class));
     }
 
     /**
      * Resolves the dependencies on the specified class.
      *
      * @link   http://goo.gl/wN8Vaz
-     * @param  \Interop\Container\ContainerInterface $container
-     * @param  string                                $className
+     * @param  string $className
      * @return mixed
      */
-    private function resolve(ContainerInterface $container, $className)
+    private function resolve($className)
     {
         $reflectionClass = new \ReflectionClass($className);
 
@@ -80,7 +90,7 @@ class ClassResolver
         }
 
         $parameters = $constructor->getParameters();
-        $arguments  = $this->setArguments($container, $parameters);
+        $arguments  = $this->setArguments($parameters);
 
         return $reflectionClass->newInstanceArgs($arguments);
     }
@@ -88,16 +98,15 @@ class ClassResolver
     /**
      * Sets the arguments from the specified class.
      *
-     * @param  \Interop\Container\ContainerInterface $container
-     * @param  array                                 $parameters
+     * @param  array $parameters
      * @return array
      */
-    private function setArguments(ContainerInterface $container, array $parameters)
+    private function setArguments(array $parameters)
     {
         $arguments = array();
 
         foreach ($parameters as $parameter) {
-            $this->parseParameters($container, $parameter, $arguments);
+            $this->parseParameters($parameter, $arguments);
         }
 
         return $arguments;

@@ -17,12 +17,25 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
 class RouteDispatcher
 {
     /**
+     * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
+     * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     */
+    public function __construct(DispatcherInterface $dispatcher)
+    {
+        $this->dispatcher = $dispatcher;
+    }
+
+    /**
      * Gets the result from the dispatcher.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return array
      */
-    public function dispatch(DispatcherInterface $dispatcher, ServerRequestInterface $request)
+    public function dispatch(ServerRequestInterface $request)
     {
         $method = $request->getMethod();
         $path   = $request->getUri()->getPath();
@@ -33,7 +46,7 @@ class RouteDispatcher
             $method = strtoupper($post['_method']);
         }
 
-        $route = $dispatcher->dispatch($method, $path);
+        $route = $this->dispatcher->dispatch($method, $path);
 
         list($function, $parameters, $middlewares) = $route;
 
