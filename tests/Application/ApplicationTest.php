@@ -27,7 +27,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
 
         if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
+            $this->markTestSkipped('PSR-7 HTTP Message is not installed.');
         }
 
         $components = array(
@@ -59,7 +59,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/');
+        $this->runApplication('GET', '/')->run();
     }
 
     /**
@@ -72,7 +72,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello with response');
 
-        $this->runApplication('GET', '/hello');
+        $this->runApplication('GET', '/hello')->run();
     }
 
     /**
@@ -85,7 +85,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/parameter');
+        $this->runApplication('GET', '/parameter')->run();
     }
 
     /**
@@ -98,7 +98,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/optional');
+        $this->runApplication('GET', '/optional')->run();
     }
 
     /**
@@ -111,7 +111,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/callback');
+        $this->runApplication('GET', '/callback')->run();
     }
 
     /**
@@ -134,7 +134,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->expectOutputString('Loaded with middleware');
 
-        $this->runApplication('GET', '/middleware');
+        $this->runApplication('GET', '/middleware')->run();
     }
 
     /**
@@ -147,7 +147,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
-        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'));
+        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'))->run();
     }
 
     /**
@@ -173,16 +173,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->components->setDispatcher($dispatcher);
 
-        $this->runApplication('GET', '/');
+        $this->runApplication('GET', '/')->run();
     }
 
     /**
      * Changes the HTTP method and the uri of the request.
      *
-     * @param string $httpMethod
-     * @param string $uriEndpoint
-     * @param array  $data
-     * @return void
+     * @param  string $httpMethod
+     * @param  string $uriEndpoint
+     * @param  array  $data
+     * @return \Rougin\Slytherin\Application\Application
      */
     private function runApplication($httpMethod, $uriEndpoint, $data = array())
     {
@@ -208,8 +208,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->components->setHttp($request, $response);
 
-        $application = new \Rougin\Slytherin\Application($this->components);
-
-        $application->run();
+        return new \Rougin\Slytherin\Application($this->components);
     }
 }
