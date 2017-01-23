@@ -19,17 +19,25 @@ $ composer require rougin/slytherin
 
 ## Usage
 
+``` bash
+$ composer require container-interop/container-interop psr/http-message
+```
+
 ``` php
+$router = new Rougin\Slytherin\Dispatching\Vanilla\Router([
+  [ 'GET', '/', function () { return 'Hello, Muggle'; } ],
+  [ 'GET', '/test', function () { return '10 points for Gryffindor!'; } ],
+]);
+
 $components = (new Rougin\Slytherin\Component\Collection)
-    ->setContainer(new Acme\IoC\Container)
-    ->setDispatcher(new Acme\Dispatching\Dispatcher(new Acme\Dispatching\Router))
-    ->setDebugger(new Acme\Debug\Debugger)
-    ->setHttp(new Acme\Http\Request, new Acme\Http\Response);
+    ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)
+    ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router))
+    ->setHttp(new Rougin\Slytherin\Http\ServerRequest, new Rougin\Slytherin\Http\Response);
 
 (new Rougin\Slytherin\Application($components))->run();
 ```
 
-Regarding the example implementation above, you need to select a package of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
+In the example implementation above, you can a package of your choice for a specific component and implement it with a provided interface from Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
 ## Change log
 
