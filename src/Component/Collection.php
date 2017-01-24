@@ -166,11 +166,11 @@ class Collection
      */
     public function get($type)
     {
-        if (! in_array($type, $this->types)) {
-            throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
+        if (in_array($type, $this->types)) {
+            return isset($this->components[$type]) ? $this->components[$type] : null;
         }
 
-        return isset($this->components[$type]) ? $this->components[$type] : null;
+        throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
     }
 
     /**
@@ -182,12 +182,12 @@ class Collection
      */
     public function set($type, $component)
     {
-        if (! in_array($type, $this->types)) {
-            throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
+        if (in_array($type, $this->types)) {
+            $this->components[$type] = $component;
+
+            return $this;
         }
 
-        $this->components[$type] = $component;
-
-        return $this;
+        throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
     }
 }
