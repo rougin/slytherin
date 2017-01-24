@@ -2,14 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Psr\Http\Message\ResponseInterface;
-use Interop\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\Debug\DebuggerInterface;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-
 /**
  * Component Collection
  *
@@ -24,11 +16,6 @@ class Collection
      * @var array
      */
     protected $components = array();
-
-    /**
-     * @var array
-     */
-    protected $types = array('container', 'dispatcher', 'debugger', 'request', 'response', 'middleware');
 
     /**
      * Gets an instance of the container.
@@ -46,7 +33,7 @@ class Collection
      * @param  \Interop\Container\ContainerInterface $container
      * @return self
      */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(\Interop\Container\ContainerInterface $container)
     {
         return $this->set('container', $container);
     }
@@ -67,7 +54,7 @@ class Collection
      * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
      * @return self
      */
-    public function setDispatcher(DispatcherInterface $dispatcher)
+    public function setDispatcher(\Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher)
     {
         return $this->set('dispatcher', $dispatcher);
     }
@@ -88,7 +75,7 @@ class Collection
      * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
      * @return self
      */
-    public function setDebugger(DebuggerInterface $debugger)
+    public function setDebugger(\Rougin\Slytherin\Debug\DebuggerInterface $debugger)
     {
         return $this->set('debugger', $debugger);
     }
@@ -110,7 +97,7 @@ class Collection
      * @param  \Psr\Http\Message\ResponseInterface      $response
      * @return self
      */
-    public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
+    public function setHttp(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)
     {
         $this->set('request', $request);
 
@@ -133,7 +120,7 @@ class Collection
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
      * @return self
      */
-    public function setMiddleware(MiddlewareInterface $middleware)
+    public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
     {
         return $this->set('middleware', $middleware);
     }
@@ -164,13 +151,9 @@ class Collection
      * @param  string $type
      * @return mixed
      */
-    public function get($type)
+    protected function get($type)
     {
-        if (in_array($type, $this->types)) {
-            return isset($this->components[$type]) ? $this->components[$type] : null;
-        }
-
-        throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
+        return isset($this->components[$type]) ? $this->components[$type] : null;
     }
 
     /**
@@ -180,14 +163,10 @@ class Collection
      * @param  mixed  $component
      * @return self
      */
-    public function set($type, $component)
+    protected function set($type, $component)
     {
-        if (in_array($type, $this->types)) {
-            $this->components[$type] = $component;
+        $this->components[$type] = $component;
 
-            return $this;
-        }
-
-        throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
+        return $this;
     }
 }

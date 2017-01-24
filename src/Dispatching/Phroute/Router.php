@@ -24,7 +24,7 @@ class Router extends \Rougin\Slytherin\Dispatching\BaseRouter
     /**
      * @var array
      */
-    protected $routes;
+    protected $routes = array();
 
     /**
      * @param array $routes

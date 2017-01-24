@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
 use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
-use FastRoute\DataGenerator\GroupCountBased;
 
 /**
  * FastRoute Router
@@ -28,7 +26,10 @@ class Router extends \Rougin\Slytherin\Dispatching\BaseRouter
      */
     public function __construct(array $routes = array())
     {
-        $this->collector = new RouteCollector(new Std, new GroupCountBased);
+        $count = new \FastRoute\DataGenerator\GroupCountBased;
+        $std   = new \FastRoute\RouteParser\Std;
+
+        $this->collector = new RouteCollector($std, $count);
         $this->routes    = $routes;
     }
 

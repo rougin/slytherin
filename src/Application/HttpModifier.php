@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
@@ -30,7 +29,7 @@ class HttpModifier
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function __construct(ResponseInterface $response)
+    public function __construct(\Psr\Http\Message\ResponseInterface $response)
     {
         $this->response = $response;
     }

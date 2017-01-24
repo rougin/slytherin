@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-
 /**
  * Route Dispatcher
  *
@@ -24,7 +20,7 @@ class RouteDispatcher
     /**
      * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
      */
-    public function __construct(DispatcherInterface $dispatcher)
+    public function __construct(\Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }
@@ -35,7 +31,7 @@ class RouteDispatcher
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return array
      */
-    public function dispatch(ServerRequestInterface $request)
+    public function dispatch(\Psr\Http\Message\ServerRequestInterface $request)
     {
         $method = $request->getMethod();
         $path   = $request->getUri()->getPath();

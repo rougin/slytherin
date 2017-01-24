@@ -96,28 +96,4 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->components->getContainer());
     }
-
-    /**
-     * Tests if get('test') returns an UnexpectedValueException.
-     *
-     * @return void
-     */
-    public function testGetUnknownComponentType()
-    {
-        $this->setExpectedException('UnexpectedValueException');
-
-        $this->components->get('test');
-    }
-
-    /**
-     * Tests if set('test', null) returns an UnexpectedValueException.
-     *
-     * @return void
-     */
-    public function testSetUnknownComponentType()
-    {
-        $this->setExpectedException('UnexpectedValueException');
-
-        $this->components->set('test', null);
-    }
 }
