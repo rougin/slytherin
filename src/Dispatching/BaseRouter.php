@@ -82,7 +82,7 @@ abstract class BaseRouter implements RouterInterface
         if (in_array(strtoupper($method), $this->validHttpMethods)) {
             array_unshift($parameters, strtoupper($method));
 
-            return call_user_func_array([ $this, 'addRoute' ], $parameters);
+            return call_user_func_array(array($this, 'addRoute'), $parameters);
         }
 
         throw new \BadMethodCallException('"' . $method . '" is not a valid HTTP method.');
