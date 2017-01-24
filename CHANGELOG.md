@@ -12,6 +12,8 @@ All Notable changes to `Slytherin` will be documented in this file
 - `BaseUriGuesser` for filtering the base URI
 - Unit test for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
+- `get` and `set` methods for `Component\Collection`
+- `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

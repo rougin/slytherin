@@ -41,7 +41,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         list($httpMethod, $uri, $handler) = $this->routes[0];
 
-        $this->router->addRoute($httpMethod, $uri, $handler);
+        $this->router->get($uri, $handler);
 
         $this->assertEquals($this->routes[0], $this->router->getRoute($httpMethod, $uri));
     }
@@ -78,5 +78,19 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $interface = 'Rougin\Slytherin\Dispatching\RouterInterface';
 
         $this->assertInstanceOf($interface, $this->router);
+    }
+
+    /**
+     * Tests if $router->test() returns an BadMethodCallException.
+     *
+     * @return void
+     */
+    public function testBadMethodCallException()
+    {
+        $this->setExpectedException('BadMethodCallException');
+
+        list($httpMethod, $uri, $handler) = $this->routes[0];
+
+        $this->router->test($uri, $handler);
     }
 }

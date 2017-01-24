@@ -26,13 +26,18 @@ class Collection
     protected $components = array();
 
     /**
+     * @var array
+     */
+    protected $types = array('container', 'dispatcher', 'debugger', 'request', 'response', 'middleware');
+
+    /**
      * Gets an instance of the container.
      *
      * @return \Interop\Container\ContainerInterface
      */
     public function getContainer()
     {
-        return $this->getComponent('container');
+        return $this->get('container');
     }
 
     /**
@@ -43,7 +48,7 @@ class Collection
      */
     public function setContainer(ContainerInterface $container)
     {
-        return $this->setComponent('container', $container);
+        return $this->set('container', $container);
     }
 
     /**
@@ -53,7 +58,7 @@ class Collection
      */
     public function getDispatcher()
     {
-        return $this->getComponent('dispatcher');
+        return $this->get('dispatcher');
     }
 
     /**
@@ -64,7 +69,7 @@ class Collection
      */
     public function setDispatcher(DispatcherInterface $dispatcher)
     {
-        return $this->setComponent('dispatcher', $dispatcher);
+        return $this->set('dispatcher', $dispatcher);
     }
 
     /**
@@ -74,7 +79,7 @@ class Collection
      */
     public function getDebugger()
     {
-        return $this->getComponent('debugger');
+        return $this->get('debugger');
     }
 
     /**
@@ -85,7 +90,7 @@ class Collection
      */
     public function setDebugger(DebuggerInterface $debugger)
     {
-        return $this->setComponent('debugger', $debugger);
+        return $this->set('debugger', $debugger);
     }
 
     /**
@@ -95,7 +100,7 @@ class Collection
      */
     public function getHttp()
     {
-        return array($this->getComponent('request'), $this->getComponent('response'));
+        return array($this->get('request'), $this->get('response'));
     }
 
     /**
@@ -107,30 +112,30 @@ class Collection
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->setComponent('request', $request);
+        $this->set('request', $request);
 
-        return $this->setComponent('response', $response);
+        return $this->set('response', $response);
     }
 
     /**
-     * Gets the middlware.
+     * Gets the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function getMiddleware()
     {
-        return $this->getComponent('middlware');
+        return $this->get('middleware');
     }
 
     /**
-     * Sets the middlware.
+     * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
      * @return self
      */
-    public function setMiddleware(MiddlewareInterface $middlware)
+    public function setMiddleware(MiddlewareInterface $middleware)
     {
-        return $this->setComponent('middlware', $middlware);
+        return $this->set('middleware', $middleware);
     }
 
     /**
@@ -140,7 +145,7 @@ class Collection
      */
     public function getHttpRequest()
     {
-        return $this->getComponent('request');
+        return $this->get('request');
     }
 
     /**
@@ -150,7 +155,7 @@ class Collection
      */
     public function getHttpResponse()
     {
-        return $this->getComponent('response');
+        return $this->get('response');
     }
 
     /**
@@ -159,13 +164,13 @@ class Collection
      * @param  string $type
      * @return mixed
      */
-    private function getComponent($type)
+    public function get($type)
     {
-        if (! isset($this->components[$type])) {
-            return null;
+        if (! in_array($type, $this->types)) {
+            throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
         }
 
-        return $this->components[$type];
+        return isset($this->components[$type]) ? $this->components[$type] : null;
     }
 
     /**
@@ -175,8 +180,12 @@ class Collection
      * @param  mixed  $component
      * @return self
      */
-    private function setComponent($type, $component)
+    public function set($type, $component)
     {
+        if (! in_array($type, $this->types)) {
+            throw new \UnexpectedValueException('"' . $type . '" is not a valid component type.');
+        }
+
         $this->components[$type] = $component;
 
         return $this;

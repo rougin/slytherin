@@ -19,12 +19,18 @@ abstract class BaseRouter implements RouterInterface
     protected $routes = array();
 
     /**
+     * @var array
+     */
+    protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+
+    /**
      * Adds a new route.
      *
-     * @param string|string[] $httpMethod
-     * @param string          $route
-     * @param mixed           $handler
-     * @param array           $middlewares
+     * @param  string|string[] $httpMethod
+     * @param  string          $route
+     * @param  mixed           $handler
+     * @param  array           $middlewares
+     * @return self
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
     {
@@ -63,4 +69,22 @@ abstract class BaseRouter implements RouterInterface
      * @return array|callable
      */
     abstract public function getRoutes();
+
+    /**
+     * Calls methods from this class in HTTP method format.
+     *
+     * @param  string $method
+     * @param  mixed  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        if (in_array(strtoupper($method), $this->validHttpMethods)) {
+            array_unshift($parameters, strtoupper($method));
+
+            return call_user_func_array([ $this, 'addRoute' ], $parameters);
+        }
+
+        throw new \BadMethodCallException('"' . $method . '" is not a valid HTTP method.');
+    }
 }
