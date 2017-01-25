@@ -88,7 +88,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if getComponent() returns null.
+     * Tests if get() returns null.
      *
      * @return void
      */

@@ -2,14 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Psr\Http\Message\ResponseInterface;
-use Interop\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\Debug\DebuggerInterface;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
-use Rougin\Slytherin\Dispatching\DispatcherInterface;
-
 /**
  * Component Collection
  *
@@ -32,7 +24,7 @@ class Collection
      */
     public function getContainer()
     {
-        return $this->getComponent('container');
+        return $this->get('container');
     }
 
     /**
@@ -41,9 +33,9 @@ class Collection
      * @param  \Interop\Container\ContainerInterface $container
      * @return self
      */
-    public function setContainer(ContainerInterface $container)
+    public function setContainer(\Interop\Container\ContainerInterface $container)
     {
-        return $this->setComponent('container', $container);
+        return $this->set('container', $container);
     }
 
     /**
@@ -53,7 +45,7 @@ class Collection
      */
     public function getDispatcher()
     {
-        return $this->getComponent('dispatcher');
+        return $this->get('dispatcher');
     }
 
     /**
@@ -62,9 +54,9 @@ class Collection
      * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
      * @return self
      */
-    public function setDispatcher(DispatcherInterface $dispatcher)
+    public function setDispatcher(\Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher)
     {
-        return $this->setComponent('dispatcher', $dispatcher);
+        return $this->set('dispatcher', $dispatcher);
     }
 
     /**
@@ -74,7 +66,7 @@ class Collection
      */
     public function getDebugger()
     {
-        return $this->getComponent('debugger');
+        return $this->get('debugger');
     }
 
     /**
@@ -83,9 +75,9 @@ class Collection
      * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
      * @return self
      */
-    public function setDebugger(DebuggerInterface $debugger)
+    public function setDebugger(\Rougin\Slytherin\Debug\DebuggerInterface $debugger)
     {
-        return $this->setComponent('debugger', $debugger);
+        return $this->set('debugger', $debugger);
     }
 
     /**
@@ -95,7 +87,7 @@ class Collection
      */
     public function getHttp()
     {
-        return array($this->getComponent('request'), $this->getComponent('response'));
+        return array($this->get('request'), $this->get('response'));
     }
 
     /**
@@ -105,32 +97,32 @@ class Collection
      * @param  \Psr\Http\Message\ResponseInterface      $response
      * @return self
      */
-    public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
+    public function setHttp(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)
     {
-        $this->setComponent('request', $request);
+        $this->set('request', $request);
 
-        return $this->setComponent('response', $response);
+        return $this->set('response', $response);
     }
 
     /**
-     * Gets the middlware.
+     * Gets the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function getMiddleware()
     {
-        return $this->getComponent('middlware');
+        return $this->get('middleware');
     }
 
     /**
-     * Sets the middlware.
+     * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middlware
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
      * @return self
      */
-    public function setMiddleware(MiddlewareInterface $middlware)
+    public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
     {
-        return $this->setComponent('middlware', $middlware);
+        return $this->set('middleware', $middleware);
     }
 
     /**
@@ -140,7 +132,7 @@ class Collection
      */
     public function getHttpRequest()
     {
-        return $this->getComponent('request');
+        return $this->get('request');
     }
 
     /**
@@ -150,7 +142,7 @@ class Collection
      */
     public function getHttpResponse()
     {
-        return $this->getComponent('response');
+        return $this->get('response');
     }
 
     /**
@@ -159,13 +151,9 @@ class Collection
      * @param  string $type
      * @return mixed
      */
-    private function getComponent($type)
+    protected function get($type)
     {
-        if (! isset($this->components[$type])) {
-            return null;
-        }
-
-        return $this->components[$type];
+        return isset($this->components[$type]) ? $this->components[$type] : null;
     }
 
     /**
@@ -175,7 +163,7 @@ class Collection
      * @param  mixed  $component
      * @return self
      */
-    private function setComponent($type, $component)
+    protected function set($type, $component)
     {
         $this->components[$type] = $component;
 

@@ -19,15 +19,18 @@ $ composer require rougin/slytherin
 
 ## Usage
 
+### Install specified interfaces
+
 ``` bash
 $ composer require container-interop/container-interop psr/http-message
 ```
 
+### "Hello word" example
+
 ``` php
-$router = new Rougin\Slytherin\Dispatching\Vanilla\Router([
-  [ 'GET', '/', function () { return 'Hello, Muggle'; } ],
-  [ 'GET', '/test', function () { return '10 points for Gryffindor!'; } ],
-]);
+$router = (new Rougin\Slytherin\Dispatching\Vanilla\Router)
+    ->get('/', function () { return 'Hello, Muggle'; });
+    ->get('/test', function () { return '10 points for Gryffindor!'; });
 
 $components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)

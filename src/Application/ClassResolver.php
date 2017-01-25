@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Interop\Container\ContainerInterface;
-
 /**
  * Class Resolver
  *
@@ -22,7 +20,7 @@ class ClassResolver
     /**
      * @param \Interop\Container\ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container)
+    public function __construct(\Interop\Container\ContainerInterface $container)
     {
         $this->container = $container;
     }
