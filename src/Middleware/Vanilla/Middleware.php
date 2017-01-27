@@ -44,7 +44,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Rougin\Slytherin\Middleware\Vanilla\Delegate|null
      */
-    protected function resolve($index, ResponseInterface $response)
+    public function resolve($index, ResponseInterface $response)
     {
         if (! isset($this->queue[$index])) {
             return null;
