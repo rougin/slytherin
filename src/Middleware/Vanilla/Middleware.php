@@ -46,11 +46,11 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function resolve($index, ResponseInterface $response)
     {
+        $instance = $this;
+
         if (! isset($this->queue[$index])) {
             return null;
         }
-
-        $instance = $this;
 
         $callable = function ($request, $queue) use ($index, $response, $instance) {
             $current = $queue[$index];
