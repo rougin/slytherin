@@ -18,7 +18,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     /**
      * @var array
      */
-    protected $queue = [];
+    protected $queue = array();
 
     /**
      * Processes the specified middlewares in queue.
@@ -54,7 +54,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             $current = $this->queue[$index];
             $current = class_exists($current) ? new $current : $current;
 
-            $nextIndex = $this->resolve($index + 1);
+            $nextIndex = $this->resolve($index + 1, $response);
 
             return $current($request, $response, $nextIndex);
         };
