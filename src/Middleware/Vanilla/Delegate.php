@@ -19,10 +19,12 @@ class Delegate
 
     /**
      * @param callable $callback
+     * @param array    $queue
      */
-    public function __construct($callback)
+    public function __construct($callback, array $queue)
     {
         $this->callback = $callback;
+        $this->queue    = $queue;
     }
 
     /**
@@ -33,6 +35,6 @@ class Delegate
      */
     public function __invoke(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        return call_user_func($this->callback, $request);
+        return call_user_func_array($this->callback, [ $request, $this->queue ]);
     }
 }

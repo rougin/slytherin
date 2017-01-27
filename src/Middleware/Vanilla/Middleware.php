@@ -50,15 +50,17 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             return null;
         }
 
-        $callable = function (ServerRequestInterface $request) use ($index, $response) {
-            $current = $this->queue[$index];
+        $instance = $this;
+
+        $callable = function ($request, $queue) use ($index, $response, $instance) {
+            $current = $queue[$index];
             $current = class_exists($current) ? new $current : $current;
 
-            $nextIndex = $this->resolve($index + 1, $response);
+            $nextIndex = $instance->resolve($index + 1, $response);
 
             return $current($request, $response, $nextIndex);
         };
 
-        return new Delegate($callable);
+        return new Delegate($callable, $this->queue);
     }
 }
