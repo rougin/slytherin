@@ -35,6 +35,6 @@ class Delegate
      */
     public function __invoke(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        return call_user_func_array($this->callback, [ $request, $this->queue ]);
+        return call_user_func_array($this->callback, array($request, $this->queue));
     }
 }
