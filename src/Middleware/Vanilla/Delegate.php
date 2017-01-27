@@ -18,6 +18,11 @@ class Delegate
     protected $callback;
 
     /**
+     * @var array
+     */
+    protected $queue = array();
+
+    /**
      * @param callable $callback
      * @param array    $queue
      */

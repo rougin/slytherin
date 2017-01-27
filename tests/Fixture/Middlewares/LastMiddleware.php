@@ -19,7 +19,7 @@ class LastMiddleware
      * @param  callable|null $next
      * @return callable|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
         if ($response->getBody() == '') {
             $response->getBody()->write('Loaded with middleware');
