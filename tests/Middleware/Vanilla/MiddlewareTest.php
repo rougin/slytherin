@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Middleware\Stratigility;
+namespace Rougin\Slytherin\Middleware\Vanilla;
 
 /**
  * Stratigility Middleware Test
@@ -17,18 +17,13 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvokeMethod()
     {
-        if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            $this->markTestSkipped('Zend Stratigility is not installed.');
-        }
-
         $queue = array();
 
         array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
         array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
         array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
-        $pipeline   = new \Zend\Stratigility\MiddlewarePipe;
-        $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipeline);
+        $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
 
         $stream   = new \Rougin\Slytherin\Http\Stream;
         $uri      = new \Rougin\Slytherin\Http\Uri;

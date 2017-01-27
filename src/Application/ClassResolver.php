@@ -33,21 +33,22 @@ class ClassResolver
      */
     public function resolveClass($function)
     {
-        if (is_string($function)) {
-            return $function;
+        $result = $function;
+
+        if (is_array($function)) {
+            list($class, $parameters) = $function;
+
+            if (is_callable($class) && is_object($class)) {
+                return call_user_func($class, $parameters);
+            }
+
+            list($className, $method) = $class;
+
+            $result = $this->resolve($className);
+            $result = call_user_func_array(array($result, $method), $parameters);
         }
 
-        list($class, $parameters) = $function;
-
-        if (is_callable($class) && is_object($class)) {
-            return call_user_func($class, $parameters);
-        }
-
-        list($className, $method) = $class;
-
-        $result = $this->resolve($className);
-
-        return call_user_func_array(array($result, $method), $parameters);
+        return $result;
     }
 
     /**

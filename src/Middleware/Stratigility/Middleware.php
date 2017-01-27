@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Middleware\Stratigility;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
 
 /**
  * Stratigility Middleware
@@ -20,14 +21,14 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     /**
      * @var \Zend\Stratigility\MiddlewarePipe
      */
-    protected $middleware;
+    protected $pipeline;
 
     /**
-     * @param \Zend\Stratigility\MiddlewarePipe $middleware
+     * @param \Zend\Stratigility\MiddlewarePipe $pipeline
      */
-    public function __construct(\Zend\Stratigility\MiddlewarePipe $middleware)
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline)
     {
-        $this->middleware = $middleware;
+        $this->pipeline = $pipeline;
     }
 
     /**
@@ -40,18 +41,35 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
     {
-        $middleware = $this->middleware;
-
-        foreach ($queue as $class) {
-            $middleware->pipe(new $class);
-        }
-
-        $out = null;
+        $handler  = null;
+        $pipeline = $this->prepareStack($queue, $response);
 
         if (class_exists('Zend\Stratigility\NoopFinalHandler')) {
-            $out = new \Zend\Stratigility\NoopFinalHandler;
+            $handler = new \Zend\Stratigility\NoopFinalHandler;
         }
 
-        return $middleware($request, $response, $out);
+        return $pipeline($request, $response, $handler);
+    }
+
+    /**
+     * Prepares the queue to the middleware.
+     *
+     * @param  array                               $queue
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return \Zend\Stratigility\MiddlewarePipe
+     */
+    protected function prepareStack(array $queue, ResponseInterface $response)
+    {
+        foreach ($queue as $class) {
+            $callable = class_exists($class) ? new $class : $class;
+
+            if (class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper')) {
+                $callable = new CallableMiddlewareWrapper($callable, $response);
+            }
+
+            $this->pipeline->pipe($callable);
+        }
+
+        return $this->pipeline;
     }
 }
