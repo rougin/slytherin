@@ -19,7 +19,7 @@ class FirstMiddleware
      * @param  callable|null $next
      * @return callable|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, callable $next = null)
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
         $response->getBody()->write('First!');
 
