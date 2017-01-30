@@ -41,12 +41,10 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
     {
-        $handler  = null;
-        $pipeline = $this->prepareStack($queue, $response);
+        $hasHandler = class_exists('Zend\Stratigility\NoopFinalHandler');
 
-        if (class_exists('Zend\Stratigility\NoopFinalHandler')) {
-            $handler = new \Zend\Stratigility\NoopFinalHandler;
-        }
+        $handler  = ($hasHandler) ? new \Zend\Stratigility\NoopFinalHandler : null;
+        $pipeline = $this->prepareStack($queue, $response);
 
         return $pipeline($request, $response, $handler);
     }
@@ -60,12 +58,11 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     protected function prepareStack(array $queue, ResponseInterface $response)
     {
+        $hasWrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
+
         foreach ($queue as $class) {
             $callable = class_exists($class) ? new $class : $class;
-
-            if (class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper')) {
-                $callable = new CallableMiddlewareWrapper($callable, $response);
-            }
+            $callable = ($hasWrapper) ? new CallableMiddlewareWrapper($callable, $response) : $callable;
 
             $this->pipeline->pipe($callable);
         }
