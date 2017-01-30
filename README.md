@@ -40,7 +40,7 @@ $components = (new Rougin\Slytherin\Component\Collection)
 (new Rougin\Slytherin\Application($components))->run();
 ```
 
-In the example implementation above, you can a package of your choice for a specific component and implement it with a provided interface from Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
+In the example implementation above, you can use a package of your choice for a specific component and implement it with a provided interface from Slytherin. More information about this can be found in [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
 ## Change log
 
