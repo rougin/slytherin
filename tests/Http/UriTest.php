@@ -108,11 +108,23 @@ class UriTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getPath() and withPath().
+     *
+     * @return void
+     */
+    public function testPath()
+    {
+        $uri = $this->uri->withPath('/test');
+
+        $this->assertEquals('/test', $uri->getPath());
+    }
+
+    /**
      * Tests __toString().
      *
      * @return void
      */
-    public function testtoString()
+    public function testToString()
     {
         $this->assertEquals('https://me@rougin.github.io:400/about', (string) $this->uri);
     }

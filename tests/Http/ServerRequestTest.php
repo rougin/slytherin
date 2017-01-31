@@ -22,7 +22,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->request = new \Rougin\Slytherin\Http\ServerRequest;
+        $this->request = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), null, '/', 'GET', null, $_SERVER);
     }
 
     /**
@@ -62,6 +62,16 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $request  = $this->request->withQueryParams($expected);
 
         $this->assertEquals($expected, $request->getQueryParams());
+    }
+
+    /**
+     * Tests getServerParams().
+     *
+     * @return void
+     */
+    public function testServerParams()
+    {
+        $this->assertEquals($_SERVER, $this->request->getServerParams());
     }
 
     /**
