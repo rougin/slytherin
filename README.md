@@ -25,20 +25,41 @@ $ composer require rougin/slytherin
 $ composer require container-interop/container-interop psr/http-message
 ```
 
-### "Hello word" example
+### "Hello world" example
 
 ``` php
+$http   = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
+$stream = new Rougin\Slytherin\Http\Stream(fopen('php://temp', 'r+'));
+$uri    = $http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+
+$response = new Rougin\Slytherin\Http\Response('1.1', [], $stream, http_response_code());
+
+$request = new Rougin\Slytherin\Http\ServerRequest(
+    '1.1', [], $stream, $_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'],
+    new Rougin\Slytherin\Http\Uri($uri), $_SERVER, $_COOKIE, $_GET, $_FILES, $_POST
+);
+
 $router = (new Rougin\Slytherin\Dispatching\Vanilla\Router)
-    ->get('/', function () { return 'Hello, Muggle'; });
-    ->get('/test', function () { return '10 points for Gryffindor!'; });
+    ->get('/', function () { return 'Hello, Muggle.'; })
+    ->get('/hooray', function () { return '10 points for Gryffindor!'; });
+
+$pipe = new \Zend\Stratigility\MiddlewarePipe;
 
 $components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)
     ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router))
-    ->setHttp(new Rougin\Slytherin\Http\ServerRequest, new Rougin\Slytherin\Http\Response);
+    ->setHttp($request, $response);
 
 (new Rougin\Slytherin\Application($components))->run();
 ```
+
+#### Run the application using PHP's built-in web server:
+
+``` bash
+$ php -S localhost:8000
+```
+
+Open your web browser and go to [http://localhost:8000](http://localhost:8000).
 
 In the example implementation above, you can use a package of your choice for a specific component and implement it with a provided interface from Slytherin. More information about this can be found in [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
