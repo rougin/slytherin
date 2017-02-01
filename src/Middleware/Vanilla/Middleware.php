@@ -53,6 +53,30 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     }
 
     /**
+     * Prepares and checks the middleware for specified cases.
+     *
+     * @param  integer                                                    $index
+     * @param  Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Psr\Http\Message\ServerRequestInterface                   $request
+     * @return \Psr\Http\Message\ResponseInterface|null
+     */
+    public function prepare($index, $middleware, $request)
+    {
+        if ($middleware instanceof \Closure) {
+            $object = new \ReflectionFunction($middleware);
+        } else {
+            $object = new \ReflectionMethod(get_class($middleware), '__invoke');
+        }
+
+        // NOTE: To be removed in v1.0.0
+        if (count($object->getParameters()) == 3) {
+            return $middleware($request, $this->response, $this->resolve($index + 1));
+        }
+
+        return $middleware($request, $this->resolve($index + 1));
+    }
+
+    /**
      * Resolves the the queue by its index.
      *
      * @param  integer $index
@@ -61,7 +85,8 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     protected function resolve($index)
     {
         if (! isset($this->queue[$index])) {
-            return new Delegate(function () {});
+            return new Delegate(function () {
+            });
         }
 
         $instance   = $this;
@@ -78,29 +103,5 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
         };
 
         return new Delegate($callable);
-    }
-
-    /**
-     * Prepares and checks the middleware for specified cases.
-     *
-     * @param  integer                                                    $index
-     * @param  Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
-     * @param  \Psr\Http\Message\ServerRequestInterface                   $request
-     * @return \Psr\Http\Message\ResponseInterface|null
-     */
-    protected function prepare($index, $middleware, $request)
-    {
-        if ($middleware instanceof \Closure) {
-            $object = new \ReflectionFunction($middleware);
-        } else {
-            $object = new \ReflectionMethod(get_class($middleware), '__invoke');
-        }
-
-        // NOTE: To be removed in v1.0.0
-        if (count($object->getParameters()) == 3) {
-            return $middleware($request, $this->response, $this->resolve($index + 1));
-        }
-
-        return $middleware($request, $this->resolve($index + 1));
     }
 }
