@@ -16,7 +16,7 @@ use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
-class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
+class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 {
     /**
      * @var \Zend\Stratigility\MiddlewarePipe
@@ -25,10 +25,12 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 
     /**
      * @param \Zend\Stratigility\MiddlewarePipe $pipeline
+     * @param array                             $array
      */
-    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline)
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $queue = array())
     {
         $this->pipeline = $pipeline;
+        $this->queue    = $queue;
     }
 
     /**
@@ -61,7 +63,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
         $hasWrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
 
         foreach ($queue as $class) {
-            $callable = class_exists($class) ? new $class : $class;
+            $callable = is_callable($class) ? $class : new $class;
             $callable = ($hasWrapper) ? new CallableMiddlewareWrapper($callable, $response) : $callable;
 
             $this->pipeline->pipe($callable);

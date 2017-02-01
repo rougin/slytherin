@@ -22,7 +22,7 @@ $ composer require rougin/slytherin
 ### Install specified interfaces
 
 ``` bash
-$ composer require container-interop/container-interop psr/http-message
+$ composer require container-interop/container-interop psr/http-message http-interop/http-middleware
 ```
 
 ### "Hello world" example

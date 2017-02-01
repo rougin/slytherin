@@ -41,17 +41,14 @@ class Application
 
         list($function, $middlewares) = $contents;
 
-        $httpModifier->setMiddlewares($middlewares);
-
         $middleware = $this->components->getMiddleware();
 
-        $result = $httpModifier->invokeMiddleware($request, $middleware);
+        $httpModifier->setMiddlewares($middlewares, $middleware);
 
-        if (! $result || $result->getBody() == '') {
-            $result = $classResolver->resolveClass($function);
-        }
+        $first = $httpModifier->invokeMiddleware($request, $middleware);
+        $final = $classResolver->resolveClass($function);
 
-        return $httpModifier->setHttpResponse($result);
+        return $httpModifier->setHttpResponse($final, $first);
     }
 
     /**

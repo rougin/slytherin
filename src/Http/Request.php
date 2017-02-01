@@ -68,7 +68,7 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
 
         $this->requestTarget = $requestTarget;
         $this->method = $method;
-        $this->uri = $uri;
+        $this->uri = ($uri === null) ? new Uri : $uri;
     }
 
     /**

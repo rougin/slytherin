@@ -24,4 +24,11 @@ interface MiddlewareInterface
      * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array());
+
+    /**
+     * Returns the listing of middlewares included.
+     *
+     * @return array
+     */
+    public function getQueue();
 }

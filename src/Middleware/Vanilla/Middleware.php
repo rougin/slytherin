@@ -4,21 +4,24 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 /**
  * Vanilla Middleware
  *
- * A simple implementation of a middleware.
+ * A simple implementation of a middleware on PSR-15.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
+class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 {
     /**
-     * @var array
+     * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $queue = array();
+    protected $response;
 
     /**
      * Processes the specified middlewares in queue.
@@ -30,37 +33,74 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
     {
-        $this->queue = $queue;
+        $this->queue    = $queue;
+        $this->response = $response;
 
-        $result = $this->resolve(0, $response);
-
-        return $result($request, $response);
+        return $this->dispatch($request);
     }
 
     /**
-     * Resolves the queue per index.
+     * Dispatches the middleware queue and returns the resulting `ResponseInterface`.
      *
-     * @param  integer                             $index
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return \Rougin\Slytherin\Middleware\Vanilla\Delegate|null
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function resolve($index, ResponseInterface $response)
+    public function dispatch(ServerRequestInterface $request)
     {
-        $instance = $this;
+        $resolved = $this->resolve(0);
 
+        return $resolved($request);
+    }
+
+    /**
+     * Resolves the the queue by its index.
+     *
+     * @param  integer $index
+     * @return \Interop\Http\ServerMiddleware\DelegateInterface
+     */
+    protected function resolve($index)
+    {
         if (! isset($this->queue[$index])) {
-            return null;
+            return new Delegate(function () {});
         }
 
-        $callable = function ($request, $queue) use ($index, $response, $instance) {
-            $current = $queue[$index];
-            $current = class_exists($current) ? new $current : $current;
+        $instance   = $this;
+        $middleware = $this->queue[$index];
 
-            $nextIndex = $instance->resolve($index + 1, $response);
+        $callable = function ($request) use ($index, $middleware, $instance) {
+            $middleware = is_callable($middleware) ? $middleware : new $middleware;
 
-            return $current($request, $response, $nextIndex);
+            if ($middleware instanceof MiddlewareInterface) {
+                return $middleware->process($request, $this->resolve($index + 1));
+            }
+
+            return $instance->prepare($index, $middleware, $request);
         };
 
-        return new Delegate($callable, $this->queue);
+        return new Delegate($callable);
+    }
+
+    /**
+     * Prepares and checks the middleware for specified cases.
+     *
+     * @param  integer                                                    $index
+     * @param  Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Psr\Http\Message\ServerRequestInterface                   $request
+     * @return \Psr\Http\Message\ResponseInterface|null
+     */
+    protected function prepare($index, $middleware, $request)
+    {
+        if ($middleware instanceof \Closure) {
+            $object = new \ReflectionFunction($middleware);
+        } else {
+            $object = new \ReflectionMethod(get_class($middleware), '__invoke');
+        }
+
+        // NOTE: To be removed in v1.0.0
+        if (count($object->getParameters()) == 3) {
+            return $middleware($request, $this->response, $this->resolve($index + 1));
+        }
+
+        return $middleware($request, $this->resolve($index + 1));
     }
 }
