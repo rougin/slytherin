@@ -71,7 +71,9 @@ class HttpModifier
             $this->middlewares = array_merge($middleware->getQueue(), $this->middlewares);
         }
 
-        array_push($this->middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            array_push($this->middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
+        }
 
         return $this;
     }

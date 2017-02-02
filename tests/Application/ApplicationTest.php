@@ -120,22 +120,22 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @return void
      * @runInSeparateProcess
      */
-    // public function testRunMethodWithMiddleware()
-    // {
-    //     if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
-    //         $this->markTestSkipped('Zend Stratigility is not installed.');
-    //     }
+    public function testRunMethodWithMiddleware()
+    {
+        if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
+            $this->markTestSkipped('Zend Stratigility is not installed.');
+        }
 
-    //     $pipe = new \Zend\Stratigility\MiddlewarePipe;
+        $pipe = new \Zend\Stratigility\MiddlewarePipe;
 
-    //     $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipe);
+        $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipe);
 
-    //     $this->components->setMiddleware($middleware);
+        $this->components->setMiddleware($middleware);
 
-    //     $this->expectOutputString('Loaded with middleware');
+        $this->expectOutputString('Loaded with middleware');
 
-    //     $this->runApplication('GET', '/middleware')->run();
-    // }
+        $this->runApplication('GET', '/middleware')->run();
+    }
 
     /**
      * Tests the run() method with a PUT HTTP method.

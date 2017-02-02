@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Middleware;
 /**
  * Base Middleware
  *
- * Serves as a foundation for creating middlewares for Slytherin.
+ * Serves as a foundation for creating custom middlewares for Slytherin.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

@@ -29,7 +29,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
      * @param  array                                    $stack
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
@@ -58,7 +58,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      * @param  integer                                                    $index
      * @param  Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
      * @param  \Psr\Http\Message\ServerRequestInterface                   $request
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function prepare($index, $middleware, $request)
     {
@@ -84,15 +84,15 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      */
     public function resolve($index)
     {
-        $callable = function () {
+        $closure = function () {
         };
 
         if (isset($this->stack[$index])) {
-            $instance   = $this;
-            $middleware = $this->stack[$index];
+            $instance = $this;
+            $callable = $this->stack[$index];
 
-            $callable = function ($request) use ($index, $middleware, $instance) {
-                $middleware = is_callable($middleware) ? $middleware : new $middleware;
+            $closure = function ($request) use ($index, $callable, $instance) {
+                $middleware = is_callable($callable) ? $callable : new $callable;
 
                 if ($middleware instanceof MiddlewareInterface) {
                     return $middleware->process($request, $instance->resolve($index + 1));
@@ -102,6 +102,6 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
             };
         }
 
-        return new Delegate($callable);
+        return new Delegate($closure);
     }
 }
