@@ -55,19 +55,40 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     /**
      * Prepares and checks the middleware for specified cases.
      *
-     * @param  integer                                                    $index
-     * @param  Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
-     * @param  \Psr\Http\Message\ServerRequestInterface                   $request
+     * @param  integer                                                     $index
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Psr\Http\Message\ServerRequestInterface                    $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function prepare($index, $middleware, $request)
+    public function prepare($index, $middleware, ServerRequestInterface $request)
     {
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        if (is_object($middleware) && is_a($middleware, $interface)) {
+            return $middleware->process($request, $this->resolve($index + 1));
+        }
+
         if (is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
         }
 
+        return $this->getParameters($index, $middleware, $object, $request);
+    }
+
+    /**
+     * Calls the middleware based on its defined parameters.
+     * NOTE: To be removed in v1.0.0
+     *
+     * @param  integer                                                     $index
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \ReflectionFunction|\ReflectionMethod                       $object
+     * @param  \Psr\Http\Message\ServerRequestInterface                    $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function getParameters($index, $middleware, $object, $request)
+    {
         // NOTE: To be removed in v1.0.0
         if (count($object->getParameters()) == 3) {
             return $middleware($request, $this->response, $this->resolve($index + 1));
@@ -82,23 +103,17 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      * @param  integer $index
      * @return \Interop\Http\ServerMiddleware\DelegateInterface
      */
-    public function resolve($index)
+    protected function resolve($index)
     {
         if (! isset($this->stack[$index])) {
-            return new Delegate(function () {
-            });
+            return new Delegate(function () {});
         }
 
         $instance = $this;
         $callable = $this->stack[$index];
 
         return new Delegate(function ($request) use ($index, $callable, $instance) {
-            $interface  = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
             $middleware = is_callable($callable) ? $callable : new $callable;
-
-            if (is_object($middleware) && is_a($middleware, $interface)) {
-                return $middleware->process($request, $instance->resolve($index + 1));
-            }
 
             return $instance->prepare($index, $middleware, $request);
         });
