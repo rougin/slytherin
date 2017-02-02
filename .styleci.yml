@@ -1,4 +1,4 @@
 preset: psr2
 
 disabled:
-  - function_declaration
+  - native_function_casing
