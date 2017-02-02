@@ -82,7 +82,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      * @param  integer $index
      * @return \Interop\Http\ServerMiddleware\DelegateInterface
      */
-    protected function resolve($index)
+    public function resolve($index)
     {
         $callable = function () {
         };
