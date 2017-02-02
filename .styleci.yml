@@ -1,1 +1,4 @@
 preset: psr2
+
+disabled:
+  - function_declaration
