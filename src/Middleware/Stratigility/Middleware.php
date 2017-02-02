@@ -66,11 +66,6 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
             $callable = is_callable($class) ? $class : new $class;
             $callable = ($hasWrapper) ? new CallableMiddlewareWrapper($callable, $response) : $callable;
 
-            // echo '<pre>';
-            // print_r($callable);
-            // echo '</pre>';
-            // echo '<br><br>';
-
             $this->pipeline->pipe($callable);
         }
 

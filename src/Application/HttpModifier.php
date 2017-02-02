@@ -67,7 +67,7 @@ class HttpModifier
     {
         $this->middlewares = $middlewares;
 
-        if (is_a($middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
+        if (! is_null($middleware) && is_a($middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
             $this->middlewares = array_merge($middleware->getQueue(), $this->middlewares);
         }
 

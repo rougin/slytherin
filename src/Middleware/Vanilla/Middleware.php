@@ -62,7 +62,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      */
     public function prepare($index, $middleware, $request)
     {
-        if ($middleware instanceof \Closure) {
+        if (is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
@@ -94,7 +94,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
             $closure = function ($request) use ($index, $callable, $instance) {
                 $middleware = is_callable($callable) ? $callable : new $callable;
 
-                if ($middleware instanceof MiddlewareInterface) {
+                if (is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
                     return $middleware->process($request, $instance->resolve($index + 1));
                 }
 
