@@ -84,24 +84,23 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      */
     public function resolve($index)
     {
-        $closure = function () {
-        };
-
-        if (isset($this->stack[$index])) {
-            $instance = $this;
-            $callable = $this->stack[$index];
-
-            $closure = function ($request) use ($index, $callable, $instance) {
-                $middleware = is_callable($callable) ? $callable : new $callable;
-
-                if (is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-                    return $middleware->process($request, $instance->resolve($index + 1));
-                }
-
-                return $instance->prepare($index, $middleware, $request);
-            };
+        if (! isset($this->stack[$index])) {
+            return new Delegate(function () {
+            });
         }
 
-        return new Delegate($closure);
+        $instance = $this;
+        $callable = $this->stack[$index];
+
+        return new Delegate(function ($request) use ($index, $callable, $instance) {
+            $interface  = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+            $middleware = is_callable($callable) ? $callable : new $callable;
+
+            if (is_object($middleware) && is_a($middleware, $interface)) {
+                return $middleware->process($request, $instance->resolve($index + 1));
+            }
+
+            return $instance->prepare($index, $middleware, $request);
+        });
     }
 }
