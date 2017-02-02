@@ -30,6 +30,17 @@ class FinalResponse implements \Interop\Http\ServerMiddleware\MiddlewareInterfac
     }
 
     /**
+     * @param  \Psr\Http\Message\ResponseInterface      $request
+     * @param  \Psr\Http\Message\ServerRequestInterface $response
+     * @param  callable|null                            $next
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
+    {
+        return $response;
+    }
+
+    /**
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
