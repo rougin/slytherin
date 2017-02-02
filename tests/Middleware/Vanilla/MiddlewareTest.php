@@ -17,10 +17,13 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvokeMethod()
     {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI']    = '/';
+        $_SERVER['SERVER_NAME']    = 'localhost';
+        $_SERVER['SERVER_PORT']    = '8000';
+
         $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
-        $stream     = new \Rougin\Slytherin\Http\Stream;
-        $uri        = new \Rougin\Slytherin\Http\Uri;
-        $request    = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), $stream, '/', 'GET', $uri);
+        $request    = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
         $response   = new \Rougin\Slytherin\Http\Response;
 
         $middleware->push(function ($request, $next = null) {
@@ -43,10 +46,13 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethod()
     {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI']    = '/';
+        $_SERVER['SERVER_NAME']    = 'localhost';
+        $_SERVER['SERVER_PORT']    = '8000';
+
         $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
-        $stream     = new \Rougin\Slytherin\Http\Stream;
-        $uri        = new \Rougin\Slytherin\Http\Uri;
-        $request    = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), $stream, '/', 'GET', $uri);
+        $request    = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
 
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
         $middleware->push('Rougin\Slytherin\Middleware\FinalResponse');

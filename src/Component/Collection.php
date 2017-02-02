@@ -105,6 +105,48 @@ class Collection
     }
 
     /**
+     * Gets the HTTP request.
+     *
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    public function getHttpRequest()
+    {
+        return $this->get('request');
+    }
+
+    /**
+     * Sets the HTTP request.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return self
+     */
+    public function setHttpRequest(\Psr\Http\Message\ServerRequestInterface $request)
+    {
+        return $this->set('request', $request);
+    }
+
+    /**
+     * Gets the HTTP response.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getHttpResponse()
+    {
+        return $this->get('response');
+    }
+
+    /**
+     * Sets the HTTP response.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return self
+     */
+    public function setHttpResponse(\Psr\Http\Message\ResponseInterface $response)
+    {
+        return $this->set('response', $response);
+    }
+
+    /**
      * Gets the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
@@ -123,26 +165,6 @@ class Collection
     public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
     {
         return $this->set('middleware', $middleware);
-    }
-
-    /**
-     * Gets the request.
-     *
-     * @return \Psr\Http\Message\ServerRequestInterface
-     */
-    public function getHttpRequest()
-    {
-        return $this->get('request');
-    }
-
-    /**
-     * Gets the response.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function getHttpResponse()
-    {
-        return $this->get('response');
     }
 
     /**

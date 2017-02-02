@@ -22,7 +22,12 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->request = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), null, '/', 'GET', null, $_SERVER);
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI']    = '/';
+        $_SERVER['SERVER_NAME']    = 'localhost';
+        $_SERVER['SERVER_PORT']    = '8000';
+
+        $this->request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
     }
 
     /**

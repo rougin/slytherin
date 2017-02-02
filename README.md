@@ -28,27 +28,22 @@ $ composer require container-interop/container-interop psr/http-message http-int
 ### "Hello world" example
 
 ``` php
-$http   = (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') ? 'https' : 'http';
-$stream = new Rougin\Slytherin\Http\Stream(fopen('php://temp', 'r+'));
-$uri    = $http . '://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+$callable = function ($name = 'Muggle') {
+    $name = ucwords(strtolower($name));
 
-$response = new Rougin\Slytherin\Http\Response('1.1', [], $stream, http_response_code());
+    return 'Hello, ' . $name . '.';
+};
 
-$request = new Rougin\Slytherin\Http\ServerRequest(
-    '1.1', [], $stream, $_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD'],
-    new Rougin\Slytherin\Http\Uri($uri), $_SERVER, $_COOKIE, $_GET, $_FILES, $_POST
-);
+$router = new Rougin\Slytherin\Dispatching\Vanilla\Router;
 
-$router = (new Rougin\Slytherin\Dispatching\Vanilla\Router)
-    ->get('/', function () { return 'Hello, Muggle.'; })
-    ->get('/hooray', function () { return '10 points for Gryffindor!'; });
-
-$pipe = new \Zend\Stratigility\MiddlewarePipe;
+$router->get('/', $callable);
+$router->get('/hello/(\w+)', $callable);
 
 $components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)
     ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router))
-    ->setHttp($request, $response);
+    ->setHttpRequest(new Rougin\Slytherin\Http\ServerRequest($_SERVER))
+    ->setHttpResponse(new Rougin\Slytherin\Http\Response(http_response_code()));
 
 (new Rougin\Slytherin\Application($components))->run();
 ```

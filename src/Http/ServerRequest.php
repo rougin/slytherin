@@ -89,22 +89,23 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     private $attributes;
 
     /**
-     * @param string                                 $version
-     * @param array                                  $headers
-     * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param string                                 $requestTarget
-     * @param string                                 $method
-     * @param \Psr\Http\Message\UriInterface|null    $uri
      * @param array                                  $server
      * @param array                                  $cookies
      * @param array                                  $query
      * @param array                                  $uploadedFiles
      * @param array|null                             $data
      * @param array                                  $attributes
+     * @param \Psr\Http\Message\UriInterface|null    $uri
+     * @param \Psr\Http\Message\StreamInterface|null $body
+     * @param array                                  $headers
+     * @param string                                 $version
      */
-    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null, array $server = array(), array $cookies = array(), array $query = array(), array $uploadedFiles = array(), $data = null, array $attributes = array())
+    public function __construct(array $server = array(), array $cookies = array(), array $query = array(), array $uploadedFiles = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        parent::__construct($version, $headers, $body, $requestTarget, $method, $uri);
+        $http = (! empty($server['HTTPS']) && $server['HTTPS'] != 'off') ? 'https' : 'http';
+        $uri  = ($uri === null) ? new Uri($http . '://' . $server['SERVER_NAME'] . ':' . $server['SERVER_PORT'] . $server['REQUEST_URI']) : $uri;
+
+        parent::__construct($server['REQUEST_METHOD'], $server['REQUEST_URI'], $uri, $body, $headers, $version);
 
         $this->server = $server;
         $this->cookies = $cookies;

@@ -46,11 +46,11 @@ class Message implements \Psr\Http\Message\MessageInterface
     private $body;
 
     /**
-     * @param string                                 $version
-     * @param array                                  $headers
      * @param \Psr\Http\Message\StreamInterface|null $body
+     * @param array                                  $headers
+     * @param string                                 $version
      */
-    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null)
+    public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
         $this->version = $version;
         $this->headers = $headers;
