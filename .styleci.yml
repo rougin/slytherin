@@ -1,4 +1,1 @@
 preset: psr2
-
-disabled:
-  - native_function_casing

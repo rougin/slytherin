@@ -89,7 +89,6 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
      */
     protected function getParameters($index, $middleware, $object, $request)
     {
-        // NOTE: To be removed in v1.0.0
         if (count($object->getParameters()) == 3) {
             return $middleware($request, $this->response, $this->resolve($index + 1));
         }
@@ -106,7 +105,8 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     protected function resolve($index)
     {
         if (! isset($this->stack[$index])) {
-            return new Delegate(function () {});
+            return new Delegate(function () {
+            });
         }
 
         $instance = $this;
