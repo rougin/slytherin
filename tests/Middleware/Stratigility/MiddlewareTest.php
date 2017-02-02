@@ -21,11 +21,11 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
-        $queue = array();
+        $stack = array();
 
-        array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
-        array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
-        array_push($queue, 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
+        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
+        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
+        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
         $pipeline   = new \Zend\Stratigility\MiddlewarePipe;
         $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipeline);
@@ -35,7 +35,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         $request  = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), $stream, '/', 'GET', $uri);
         $response = new \Rougin\Slytherin\Http\Response;
 
-        $response = $middleware($request, $response, $queue);
+        $response = $middleware($request, $response, $stack);
 
         $this->assertEquals('First! Second! Last!', (string) $response->getBody());
     }

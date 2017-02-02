@@ -24,23 +24,23 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     protected $response;
 
     /**
-     * Processes the specified middlewares in queue.
+     * Processes the specified middlewares in stack.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $queue
+     * @param  array                                    $stack
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
-        $this->queue    = $queue;
+        $this->stack    = $stack;
         $this->response = $response;
 
         return $this->dispatch($request);
     }
 
     /**
-     * Dispatches the middleware queue and returns the resulting `ResponseInterface`.
+     * Dispatches the middleware stack and returns the resulting `ResponseInterface`.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
@@ -77,30 +77,30 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     }
 
     /**
-     * Resolves the the queue by its index.
+     * Resolves the the stack by its index.
      *
      * @param  integer $index
      * @return \Interop\Http\ServerMiddleware\DelegateInterface
      */
     protected function resolve($index)
     {
-        if (! isset($this->queue[$index])) {
-            return new Delegate(function () {
-            });
-        }
-
-        $instance   = $this;
-        $middleware = $this->queue[$index];
-
-        $callable = function ($request) use ($index, $middleware, $instance) {
-            $middleware = is_callable($middleware) ? $middleware : new $middleware;
-
-            if ($middleware instanceof MiddlewareInterface) {
-                return $middleware->process($request, $this->resolve($index + 1));
-            }
-
-            return $instance->prepare($index, $middleware, $request);
+        $callable = function () {
         };
+
+        if (isset($this->stack[$index])) {
+            $instance   = $this;
+            $middleware = $this->stack[$index];
+
+            $callable = function ($request) use ($index, $middleware, $instance) {
+                $middleware = is_callable($middleware) ? $middleware : new $middleware;
+
+                if ($middleware instanceof MiddlewareInterface) {
+                    return $middleware->process($request, $instance->resolve($index + 1));
+                }
+
+                return $instance->prepare($index, $middleware, $request);
+            };
+        }
 
         return new Delegate($callable);
     }

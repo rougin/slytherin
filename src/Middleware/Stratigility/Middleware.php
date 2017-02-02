@@ -25,44 +25,44 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
 
     /**
      * @param \Zend\Stratigility\MiddlewarePipe $pipeline
-     * @param array                             $array
+     * @param array                             $stack
      */
-    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $queue = array())
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array())
     {
         $this->pipeline = $pipeline;
-        $this->queue    = $queue;
+        $this->stack    = $stack;
     }
 
     /**
-     * Processes the specified middlewares in queue.
+     * Processes the specified middlewares in stack.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $queue
+     * @param  array                                    $stack
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
         $hasHandler = class_exists('Zend\Stratigility\NoopFinalHandler');
 
         $handler  = ($hasHandler) ? new \Zend\Stratigility\NoopFinalHandler : null;
-        $pipeline = $this->prepareStack($queue, $response);
+        $pipeline = $this->prepareStack($stack, $response);
 
         return $pipeline($request, $response, $handler);
     }
 
     /**
-     * Prepares the queue to the middleware.
+     * Prepares the stack to the middleware.
      *
-     * @param  array                               $queue
+     * @param  array                               $stack
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Zend\Stratigility\MiddlewarePipe
      */
-    protected function prepareStack(array $queue, ResponseInterface $response)
+    protected function prepareStack(array $stack, ResponseInterface $response)
     {
         $hasWrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
 
-        foreach ($queue as $class) {
+        foreach ($stack as $class) {
             $callable = is_callable($class) ? $class : new $class;
             $callable = ($hasWrapper) ? new CallableMiddlewareWrapper($callable, $response) : $callable;
 

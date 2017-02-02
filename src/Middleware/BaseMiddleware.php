@@ -15,17 +15,17 @@ class BaseMiddleware
     /**
      * @var array
      */
-    protected $queue = array();
+    protected $stack = array();
 
     /**
-     * Adds a new middleware in the queue.
+     * Adds a new middleware in the stack.
      *
      * @param  callable|object $middleware
      * @return self
      */
     public function push($middleware)
     {
-        array_push($this->queue, $middleware);
+        array_push($this->stack, $middleware);
 
         return $this;
     }
@@ -37,6 +37,6 @@ class BaseMiddleware
      */
     public function getQueue()
     {
-        return $this->queue;
+        return $this->stack;
     }
 }

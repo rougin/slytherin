@@ -9,7 +9,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 /**
  * Final Response
  *
- * Acts as the last in the queue in the list of defined middlewares.
+ * Acts as the last in the stack in the list of defined middlewares.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
