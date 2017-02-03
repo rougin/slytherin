@@ -45,14 +45,14 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     private $reasonPhrase;
 
     /**
+     * @param integer                                $statusCode
+     * @param \Psr\Http\Mesasge\StreamInterface|null $body
      * @param string                                 $version
      * @param array                                  $headers
-     * @param \Psr\Http\Mesasge\StreamInterface|null $body
-     * @param integer                                $statusCode
      */
-    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $statusCode = 200)
+    public function __construct($statusCode = 200, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        parent::__construct($version, $headers, $body);
+        parent::__construct($body, $headers, $version);
 
         $this->statusCode = $statusCode;
     }

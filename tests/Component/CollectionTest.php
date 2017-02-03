@@ -79,12 +79,62 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
+        $server = array(
+            'SERVER_NAME'    => 'localhost',
+            'SERVER_PORT'    => '8000',
+            'REQUEST_URI'    => '/',
+            'REQUEST_METHOD' => 'GET',
+        );
+
         $response = new \Rougin\Slytherin\Http\Response;
-        $request  = new \Rougin\Slytherin\Http\ServerRequest;
+        $request  = new \Rougin\Slytherin\Http\ServerRequest($server);
 
         $this->components->setHttp($request, $response);
 
         $this->assertEquals(array($request, $response), $this->components->getHttp());
+    }
+
+    /**
+     * Tests the setHttpRequest() method.
+     *
+     * @return void
+     */
+    public function testSetHttpRequestMethod()
+    {
+        if (! interface_exists('Psr\Http\Message\ServerRequestInterface')) {
+            $this->markTestSkipped('PSR HTTP Message is not installed.');
+        }
+
+        $server = array(
+            'SERVER_NAME'    => 'localhost',
+            'SERVER_PORT'    => '8000',
+            'REQUEST_URI'    => '/',
+            'REQUEST_METHOD' => 'GET',
+        );
+
+        $request  = new \Rougin\Slytherin\Http\ServerRequest($server);
+
+        $this->components->setHttpRequest($request);
+
+        $this->assertEquals($request, $this->components->getHttpRequest());
+    }
+
+    /**
+     * Tests the setHttpResponse() method.
+     *
+     * @return void
+     */
+    public function testSetHttpResponseMethod()
+    {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+            $this->markTestSkipped('PSR HTTP Message is not installed.');
+        }
+
+        $response = new \Rougin\Slytherin\Http\Response;
+
+        $this->components->setHttpResponse($response);
+
+        $this->assertEquals($response, $this->components->getHttpResponse());
     }
 
     /**

@@ -4,63 +4,118 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
 
 /**
  * Vanilla Middleware
  *
- * A simple implementation of a middleware.
+ * A simple implementation of a middleware on PSR-15.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
+class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 {
     /**
-     * @var array
+     * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $queue = array();
+    protected $response;
 
     /**
-     * Processes the specified middlewares in queue.
+     * Processes the specified middlewares in stack.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $queue
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @param  array                                    $stack
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $queue = array())
+    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
-        $this->queue = $queue;
+        $this->stack    = $stack;
+        $this->response = $response;
 
-        $result = $this->resolve(0, $response);
-
-        return $result($request, $response);
+        return $this->dispatch($request);
     }
 
     /**
-     * Resolves the queue per index.
+     * Dispatches the middleware stack and returns the resulting `ResponseInterface`.
      *
-     * @param  integer                             $index
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return \Rougin\Slytherin\Middleware\Vanilla\Delegate|null
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function resolve($index, ResponseInterface $response)
+    public function dispatch(ServerRequestInterface $request)
     {
-        $instance = $this;
+        $resolved = $this->resolve(0);
 
-        if (! isset($this->queue[$index])) {
-            return null;
+        return $resolved($request);
+    }
+
+    /**
+     * Prepares and checks the middleware for specified cases.
+     *
+     * @param  integer                                                     $index
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Psr\Http\Message\ServerRequestInterface                    $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function prepare($index, $middleware, ServerRequestInterface $request)
+    {
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        if (is_object($middleware) && is_a($middleware, $interface)) {
+            return $middleware->process($request, $this->resolve($index + 1));
         }
 
-        $callable = function ($request, $queue) use ($index, $response, $instance) {
-            $current = $queue[$index];
-            $current = class_exists($current) ? new $current : $current;
+        if (is_a($middleware, 'Closure')) {
+            $object = new \ReflectionFunction($middleware);
+        } else {
+            $object = new \ReflectionMethod(get_class($middleware), '__invoke');
+        }
 
-            $nextIndex = $instance->resolve($index + 1, $response);
+        return $this->getParameters($index, $middleware, $object, $request);
+    }
 
-            return $current($request, $response, $nextIndex);
-        };
+    /**
+     * Calls the middleware based on its defined parameters.
+     * NOTE: To be removed in v1.0.0
+     *
+     * @param  integer                                                     $index
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \ReflectionFunction|\ReflectionMethod                       $object
+     * @param  \Psr\Http\Message\ServerRequestInterface                    $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function getParameters($index, $middleware, $object, $request)
+    {
+        if (count($object->getParameters()) == 3) {
+            return $middleware($request, $this->response, $this->resolve($index + 1));
+        }
 
-        return new Delegate($callable, $this->queue);
+        return $middleware($request, $this->resolve($index + 1));
+    }
+
+    /**
+     * Resolves the the stack by its index.
+     *
+     * @param  integer $index
+     * @return \Interop\Http\ServerMiddleware\DelegateInterface
+     */
+    protected function resolve($index)
+    {
+        if (! isset($this->stack[$index])) {
+            return new Delegate(function () {
+            });
+        }
+
+        $instance = $this;
+        $callable = $this->stack[$index];
+
+        return new Delegate(function ($request) use ($index, $callable, $instance) {
+            $middleware = is_callable($callable) ? $callable : new $callable;
+
+            return $instance->prepare($index, $middleware, $request);
+        });
     }
 }

@@ -55,20 +55,21 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
     private $uri;
 
     /**
-     * @param string                                 $version
-     * @param array                                  $headers
      * @param \Psr\Http\Message\StreamInterface|null $body
+     * @param \Psr\Http\Message\UriInterface|null    $uri
      * @param string                                 $requestTarget
      * @param string                                 $method
-     * @param \Psr\Http\Message\UriInterface|null    $uri
+     * @param array                                  $headers
+     * @param string                                 $version
      */
-    public function __construct($version = '1.1', array $headers = array(), StreamInterface $body = null, $requestTarget = '/', $method = 'GET', UriInterface $uri = null)
+    public function __construct($method = 'GET', $requestTarget = '/', UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        parent::__construct($version, $headers, $body);
+        parent::__construct($body, $headers, $version);
 
         $this->requestTarget = $requestTarget;
         $this->method = $method;
-        $this->uri = $uri;
+
+        $this->uri = ($uri === null) ? new Uri : $uri;
     }
 
     /**

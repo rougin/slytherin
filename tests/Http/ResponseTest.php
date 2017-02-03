@@ -22,7 +22,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new \Rougin\Slytherin\Http\Response('1.1', array());
+        $this->response = new \Rougin\Slytherin\Http\Response;
     }
 
     /**

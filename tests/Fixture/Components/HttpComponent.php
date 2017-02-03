@@ -43,10 +43,14 @@ class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
             'DOCUMENT_ROOT'   => $root,
             'REMOTE_ADDR'     => '127.0.0.1',
             'SCRIPT_FILENAME' => '/var/www/html/slytherin/index.php',
-            'SCRIPT_NAME'     => '/slytherin/index.php'
+            'SCRIPT_NAME'     => '/slytherin/index.php',
+            'SERVER_NAME'     => 'localhost',
+            'SERVER_PORT'     => '8000',
+            'REQUEST_URI'     => '/',
+            'REQUEST_METHOD'  => 'GET',
         );
 
-        $this->request  = new \Rougin\Slytherin\Http\ServerRequest('1.1', array(), null, '/', 'GET', null, $server);
+        $this->request  = new \Rougin\Slytherin\Http\ServerRequest($server);
         $this->response = new \Rougin\Slytherin\Http\Response;
 
         return array($this->request, $this->response);

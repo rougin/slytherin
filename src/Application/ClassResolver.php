@@ -39,7 +39,7 @@ class ClassResolver
             list($class, $parameters) = $function;
 
             if (is_callable($class) && is_object($class)) {
-                return call_user_func($class, $parameters);
+                return call_user_func_array($class, $parameters);
             }
 
             list($className, $method) = $class;

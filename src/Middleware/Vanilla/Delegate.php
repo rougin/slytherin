@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Delegate
  *
@@ -9,8 +11,9 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Delegate
+class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
 {
     /**
      * @var callable
@@ -18,28 +21,31 @@ class Delegate
     protected $callback;
 
     /**
-     * @var array
-     */
-    protected $queue = array();
-
-    /**
      * @param callable $callback
-     * @param array    $queue
      */
-    public function __construct($callback, array $queue)
+    public function __construct($callback)
     {
         $this->callback = $callback;
-        $this->queue    = $queue;
     }
 
     /**
-     * Calls the specified callback with the HTTP request.
+     * Dispatch the next available middleware and return the response.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return mixed
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(\Psr\Http\Message\ServerRequestInterface $request)
+    public function process(ServerRequestInterface $request)
     {
-        return call_user_func_array($this->callback, array($request, $this->queue));
+        return call_user_func($this->callback, $request);
+    }
+    /**
+     * Dispatch the next available middleware and return the response.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->process($request);
     }
 }
