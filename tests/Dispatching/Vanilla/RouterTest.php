@@ -75,7 +75,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRouterInterface()
     {
-        $interface = 'Rougin\Slytherin\Dispatching\RouterInterface';
+        $interface = 'Rougin\Slytherin\Routing\RouterInterface';
 
         $this->assertInstanceOf($interface, $this->router);
     }

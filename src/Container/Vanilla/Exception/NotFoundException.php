@@ -1,16 +1,15 @@
 <?php
 
-namespace Rougin\Slytherin\IoC\Vanilla\Exception;
+namespace Rougin\Slytherin\Container\Vanilla\Exception;
 
 /**
  * Not Found Exception
  *
  * A specified exception in handling errors in containers.
- * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class NotFoundException extends \Rougin\Slytherin\Container\Vanilla\Exception\NotFoundException
+class NotFoundException extends \InvalidArgumentException implements \Interop\Container\Exception\NotFoundException
 {
 }

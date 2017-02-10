@@ -79,7 +79,7 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
 
     /**
      * Calls the middleware based on its defined parameters.
-     * NOTE: To be removed in v1.0.0
+     * NOTE: To be removed in v1.0.0. Use single pass instead.
      *
      * @param  integer                                                     $index
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware

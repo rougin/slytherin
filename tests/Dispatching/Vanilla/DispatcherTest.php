@@ -121,7 +121,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatcherInterface()
     {
-        $interface = 'Rougin\Slytherin\Dispatching\DispatcherInterface';
+        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
         $this->assertInstanceOf($interface, $this->dispatcher);
     }
