@@ -13,14 +13,14 @@ namespace Rougin\Slytherin\Application;
 class RouteDispatcher
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @var \Rougin\Slytherin\Routing\DispatcherInterface
      */
     protected $dispatcher;
 
     /**
-     * @param \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @param \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      */
-    public function __construct(\Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher)
+    public function __construct(\Rougin\Slytherin\Routing\DispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
     }

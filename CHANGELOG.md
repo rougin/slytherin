@@ -9,7 +9,7 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ### Added
 - [PSR-7](http://www.php-fig.org/psr/psr-7) implementation of `Http` component
-- [PSR-15](http://www.php-fig.org/psr/psr-7) implementation of `Middleware` component
+- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) implementation of `Middleware` component
 - Unit test for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 - `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
@@ -17,6 +17,8 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`
 - Minimum required PHP version to `v5.3.0`
+- `Dispatching` directory to `Routing`
+- `IoC` directory to `Container`
 
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
@@ -102,6 +104,7 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Removed
 - `ComponentCollection::setInjector`
 - `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
+- `DependencyInjectorInterface` (will now require implementations in [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`)
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 

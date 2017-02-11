@@ -41,14 +41,14 @@ $router->get('/hello/(\w+)', $callable);
 
 $components = (new Rougin\Slytherin\Component\Collection)
     ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)
-    ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router))
     ->setHttpRequest(new Rougin\Slytherin\Http\ServerRequest($_SERVER))
-    ->setHttpResponse(new Rougin\Slytherin\Http\Response(http_response_code()));
+    ->setHttpResponse(new Rougin\Slytherin\Http\Response(http_response_code()))
+    ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router));
 
 (new Rougin\Slytherin\Application($components))->run();
 ```
 
-#### Run the application using PHP's built-in web server:
+### Run the application using PHP's built-in web server:
 
 ``` bash
 $ php -S localhost:8000

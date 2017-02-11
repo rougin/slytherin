@@ -41,7 +41,7 @@ class Collection
     /**
      * Gets the dispatcher.
      *
-     * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @return \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function getDispatcher()
     {
@@ -51,10 +51,10 @@ class Collection
     /**
      * Sets the dispatcher.
      *
-     * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      * @return self
      */
-    public function setDispatcher(\Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher)
+    public function setDispatcher(\Rougin\Slytherin\Routing\DispatcherInterface $dispatcher)
     {
         return $this->set('dispatcher', $dispatcher);
     }
