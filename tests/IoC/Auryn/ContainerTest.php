@@ -103,7 +103,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithError()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Vanilla\Exception\NotFoundException');
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $this->container->get($this->class);
     }

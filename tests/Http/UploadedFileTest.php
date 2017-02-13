@@ -22,6 +22,10 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\UploadedFileInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $filePath = __DIR__ . '/../Fixture/Templates/new-test.php';
 
         file_put_contents($filePath, 'Hello world');

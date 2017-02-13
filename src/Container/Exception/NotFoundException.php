@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Container\Vanilla\Exception;
+namespace Rougin\Slytherin\Container\Exception;
 
 /**
  * Not Found Exception

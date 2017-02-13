@@ -22,6 +22,10 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\MessageInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $this->message = new \Rougin\Slytherin\Http\Message;
     }
 

@@ -22,6 +22,10 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\UriInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $this->uri = new \Rougin\Slytherin\Http\Uri('https://me@rougin.github.io:400/about');
     }
 

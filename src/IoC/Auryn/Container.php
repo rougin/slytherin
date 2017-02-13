@@ -14,6 +14,6 @@ namespace Rougin\Slytherin\IoC\Auryn;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends \Rougin\Slytherin\Container\Auryn\Container
+class Container extends \Rougin\Slytherin\Container\AurynContainer
 {
 }

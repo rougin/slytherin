@@ -1,9 +1,9 @@
 <?php
 
-namespace Rougin\Slytherin\Container\League;
+namespace Rougin\Slytherin\Container;
 
 /**
- * LeagueContainer
+ * League Container
  *
  * A simple implementation of a container that is based on League\Container.
  *
@@ -12,6 +12,6 @@ namespace Rougin\Slytherin\Container\League;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends \League\Container\Container
+class LeagueContainer extends \League\Container\Container
 {
 }

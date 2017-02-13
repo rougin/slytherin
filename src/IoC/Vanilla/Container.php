@@ -11,6 +11,6 @@ namespace Rougin\Slytherin\IoC\Vanilla;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends \Rougin\Slytherin\Container\Vanilla\Container
+class Container extends \Rougin\Slytherin\Container\VanillaContainer
 {
 }

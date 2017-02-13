@@ -11,6 +11,6 @@ namespace Rougin\Slytherin\IoC\Vanilla\Exception;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class NotFoundException extends \Rougin\Slytherin\Container\Vanilla\Exception\NotFoundException
+class NotFoundException extends \Rougin\Slytherin\Container\Exception\NotFoundException
 {
 }

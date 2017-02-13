@@ -22,6 +22,10 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $this->response = new \Rougin\Slytherin\Http\Response;
     }
 

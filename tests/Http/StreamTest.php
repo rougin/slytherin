@@ -27,6 +27,10 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\StreamInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $this->file   = fopen(__DIR__ . '/../Fixture/Templates/test.php', 'r');
         $this->stream = new \Rougin\Slytherin\Http\Stream($this->file);
     }

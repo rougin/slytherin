@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Container\Auryn;
+namespace Rougin\Slytherin\Container;
 
 /**
  * Auryn Container
@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Container\Auryn;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends \Rougin\Slytherin\Container\BaseContainer implements \Interop\Container\ContainerInterface
+class AurynContainer extends VanillaContainer
 {
     /**
      * @var \Auryn\Injector

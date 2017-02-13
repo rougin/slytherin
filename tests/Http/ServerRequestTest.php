@@ -22,6 +22,10 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        if (! interface_exists('Psr\Http\Message\ServerRequestInterface')) {
+            $this->markTestSkipped('PSR-7 is not installed.');
+        }
+
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI']    = '/';
         $_SERVER['SERVER_NAME']    = 'localhost';
