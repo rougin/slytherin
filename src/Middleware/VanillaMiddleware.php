@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Middleware\Vanilla;
+namespace Rougin\Slytherin\Middleware;
 
 /**
  * Vanilla Middleware
@@ -11,6 +11,6 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class VanillaMiddleware implements Vanilla\Middleware
+class VanillaMiddleware extends Vanilla\Middleware
 {
 }

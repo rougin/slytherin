@@ -16,12 +16,17 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
+class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
+
+    /**
+     * @var array
+     */
+    protected $stack = array();
 
     /**
      * Processes the specified middlewares in stack.
@@ -53,6 +58,16 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
     }
 
     /**
+     * Returns the listing of middlewares included.
+     *
+     * @return array
+     */
+    public function getQueue()
+    {
+        return $this->stack;
+    }
+
+    /**
      * Prepares and checks the middleware for specified cases.
      *
      * @param  integer                                                     $index
@@ -75,6 +90,19 @@ class Middleware extends \Rougin\Slytherin\Middleware\BaseMiddleware implements 
         }
 
         return $this->getParameters($index, $middleware, $object, $request);
+    }
+
+    /**
+     * Adds a new middleware in the stack.
+     *
+     * @param  callable|object $middleware
+     * @return self
+     */
+    public function push($middleware)
+    {
+        array_push($this->stack, $middleware);
+
+        return $this;
     }
 
     /**
