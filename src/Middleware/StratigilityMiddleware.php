@@ -19,7 +19,7 @@ use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
  */
 class StratigilityMiddleware extends VanillaMiddleware
 {
-	/**
+    /**
      * @var \Zend\Stratigility\MiddlewarePipe
      */
     protected $pipeline;

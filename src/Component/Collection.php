@@ -62,22 +62,43 @@ class Collection
     /**
      * Gets the debugger.
      *
-     * @return \Rougin\Slytherin\Debugger\DebuggerInterface
+     * @return \Rougin\Slytherin\Debug\DebuggerInterface
      */
     public function getDebugger()
     {
-        return $this->get('debugger');
+        return $this->getErrorHandler();
     }
 
     /**
      * Sets the debugger.
      *
-     * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
+     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
      * @return self
      */
-    public function setDebugger(\Rougin\Slytherin\Debug\DebuggerInterface $debugger)
+    public function setDebugger(\Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger)
     {
-        return $this->set('debugger', $debugger);
+        return $this->setErrorHandler($debugger);
+    }
+
+    /**
+     * Gets the error handler.
+     *
+     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
+     */
+    public function getErrorHandler()
+    {
+        return $this->get('error_handler');
+    }
+
+    /**
+     * Sets the error handler.
+     *
+     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler
+     * @return self
+     */
+    public function setErrorHandler(\Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler)
+    {
+        return $this->set('error_handler', $errorHandler);
     }
 
     /**
