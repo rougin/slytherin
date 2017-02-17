@@ -15,7 +15,7 @@ namespace Rougin\Slytherin\Debug;
  */
 class WhoopsErrorHandler implements ErrorHandlerInterface
 {
-	/**
+    /**
      * @var string
      */
     protected $environment = '';

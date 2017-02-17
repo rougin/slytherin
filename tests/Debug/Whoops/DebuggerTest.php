@@ -89,13 +89,13 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests if the debugger is implemented in DebuggerInterface.
+     * Tests if the debugger is implemented in ErrorHandlerInterface.
      *
      * @return void
      */
     public function testDebuggerInterface()
     {
-        $interface = 'Rougin\Slytherin\Debug\DebuggerInterface';
+        $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
         $this->assertInstanceOf($interface, $this->debugger);
     }
