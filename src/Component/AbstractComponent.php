@@ -13,8 +13,8 @@ namespace Rougin\Slytherin\Component;
 abstract class AbstractComponent implements ComponentInterface
 {
     /**
-     * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * The type of component can be the following:
+     * dispatcher, error_handler, http, middleware
      *
      * @var string
      */
@@ -31,7 +31,7 @@ abstract class AbstractComponent implements ComponentInterface
     }
 
     /**
-     * Sets the component. Can also add it to the container.
+     * Sets the component. Has also an option to add it to the container.
      *
      * @param  \Interop\Container\ContainerInterface $container
      * @return void

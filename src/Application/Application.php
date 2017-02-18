@@ -58,11 +58,11 @@ class Application
      */
     public function run()
     {
-        $debugger = $this->components->getDebugger();
-        $request  = $this->components->getHttpRequest();
+        $handler = $this->components->getDebugger();
+        $request = $this->components->getHttpRequest();
 
-        if ($debugger && $debugger->getEnvironment() == 'development') {
-            $debugger->display();
+        if ($handler && $handler->getEnvironment() == 'development') {
+            $handler->display();
         }
 
         echo (string) $this->handle($request)->getBody();
