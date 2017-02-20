@@ -27,6 +27,10 @@ abstract class AbstractComponent implements ComponentInterface
      */
     public function getType()
     {
+        if ($this->type == 'error_handler') {
+            return 'errorHandler';
+        }
+
         return $this->type;
     }
 
