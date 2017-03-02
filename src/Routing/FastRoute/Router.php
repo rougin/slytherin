@@ -14,7 +14,7 @@ use FastRoute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends \Rougin\Slytherin\Routing\BaseRouter
+class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
 {
     /**
      * @var \FastRoute\RouteCollector

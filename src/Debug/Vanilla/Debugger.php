@@ -6,6 +6,7 @@ namespace Rougin\Slytherin\Debug\Vanilla;
  * Vanilla Debugger
  *
  * A simple implementation of a debugger.
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Debug\Whoops;
  * Debugger
  *
  * A simple implementation of a debugger built on top of Filipe Dobreira's
- * Whoops! - php errors for cool kids.
+ * Whoops! - php errors for cool kids. NOTE: To be removed in v1.0.0
  *
  * http://filp.github.io/whoops
  *
