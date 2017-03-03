@@ -13,6 +13,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - Unit test for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 - `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
+- `Container\ContainerInterface` for defining instances to containers
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

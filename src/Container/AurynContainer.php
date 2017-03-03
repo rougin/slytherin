@@ -29,15 +29,15 @@ class AurynContainer extends VanillaContainer
     }
 
     /**
-     * Adds a new instance to the container.
+     * Sets a new instance to the container.
      *
-     * @param string $id
-     * @param mixed  $concrete
+     * @param string     $alias
+     * @param mixed|null $concrete
      */
-    public function add($id, $concrete = null)
+    public function set($alias, $concrete = null)
     {
         if ($concrete && ! is_array($concrete)) {
-            $this->instances[$id] = $concrete;
+            $this->instances[$alias] = $concrete;
 
             return $this;
         }
@@ -48,7 +48,7 @@ class AurynContainer extends VanillaContainer
             $arguments = $concrete;
         }
 
-        $this->instances[$id] = $this->injector->make($id, $arguments);
+        $this->instances[$alias] = $this->injector->make($alias, $arguments);
 
         return $this;
     }

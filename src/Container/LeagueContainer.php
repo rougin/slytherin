@@ -12,6 +12,18 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends \League\Container\Container
+class LeagueContainer extends \League\Container\Container implements ContainerInterface
 {
+    /**
+     * Sets a new instance to the container.
+     *
+     * @param  string     $alias
+     * @param  mixed|null $concrete
+     * @param  boolean    $share
+     * @return self
+     */
+    public function set($alias, $concrete = null, $share = false)
+    {
+        return $this->add($alias, $concrete, $share);
+    }
 }

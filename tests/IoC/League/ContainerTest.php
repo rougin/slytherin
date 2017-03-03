@@ -57,6 +57,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests if the defined instance exists.
+     *
+     * @return void
+     */
+    public function testSetMethod()
+    {
+        $this->container->set($this->class, $this->instance);
+
+        $this->assertTrue($this->container->has($this->class));
+    }
+
+    /**
      * Tests if the specified instance can be returned.
      *
      * @return void
