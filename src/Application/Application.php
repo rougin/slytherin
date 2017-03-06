@@ -57,6 +57,7 @@ class Application
             $this->middleware = $container->get('Rougin\Slytherin\Middleware\MiddlewareInterface');
         }
 
+        // NOTE: To be removed in v1.0.0
         if ($container->has('Rougin\Slytherin\Debug\ErrorHandlerInterface')) {
             $this->debugger = $container->get('Rougin\Slytherin\Debug\ErrorHandlerInterface');
         }
