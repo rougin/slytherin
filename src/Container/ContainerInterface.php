@@ -9,7 +9,7 @@ namespace Rougin\Slytherin\Container;
  *
  * PSR-11 includes how to get instances from containers using the "get" method.
  * But they don't have yet a unified implementation for defining objects. With
- * these problem, Slytherin will provide an interface that includes a "set"
+ * this problem, Slytherin will provide an interface that includes a "set"
  * method and this can be served as a "temporary" workaround until the said
  * package, "container-interop/container-interop", will be updated for this matter.
  *

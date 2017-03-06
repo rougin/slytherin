@@ -138,12 +138,30 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the setMiddleware() method.
+     *
+     * @return void
+     */
+    public function testSetMiddlewareMethod()
+    {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+            $this->markTestSkipped('PSR HTTP Message is not installed.');
+        }
+
+        $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
+
+        $this->components->setMiddleware($middleware);
+
+        $this->assertEquals($middleware, $this->components->getMiddleware());
+    }
+
+    /**
      * Tests if get() returns null.
      *
      * @return void
      */
     public function testGetNullComponent()
     {
-        $this->assertNull($this->components->getContainer());
+        $this->assertNull($this->components->getDebugger());
     }
 }

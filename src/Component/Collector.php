@@ -6,6 +6,7 @@ namespace Rougin\Slytherin\Component;
  * Component Collector
  *
  * Collects all components into Collection.
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -27,7 +28,7 @@ class Collector
         foreach ($components as $component) {
             $instance = self::prepareComponent($collection, $component);
 
-            $instance->set($container);
+            $container = $instance->define($container);
         }
 
         $collection->setContainer($container);
@@ -45,7 +46,7 @@ class Collector
      *
      * @param  \Rougin\Slytherin\Component\Collection &$collection
      * @param  string                                 $component
-     * @return \Rougin\Slytherin\Component\ComponentInterface
+     * @return \Rougin\Slytherin\Integration\IntegrationInterface
      */
     protected static function prepareComponent(Collection &$collection, $component)
     {

@@ -6,11 +6,12 @@ namespace Rougin\Slytherin\Component;
  * Component Interface
  *
  * An interface for handling components.
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ComponentInterface
+interface ComponentInterface extends \Rougin\Slytherin\Integration\IntegrationInterface
 {
     /**
      * Sets the component. Can also add it to the container.

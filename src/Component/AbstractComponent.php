@@ -6,6 +6,7 @@ namespace Rougin\Slytherin\Component;
  * Component Abstract
  *
  * Methods used for integrating a component to Slytherin.
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -27,11 +28,23 @@ abstract class AbstractComponent implements ComponentInterface
      */
     public function getType()
     {
-        if ($this->type == 'error_handler') {
-            return 'errorHandler';
-        }
+        // Converts the string from "snake_case" to "camelCase"
+        $words = ucwords(str_replace('_', ' ', $this->type));
 
-        return $this->type;
+        return lcfirst(str_replace(' ', '', $words));
+    }
+
+    /**
+     * Defines the specified integration.
+     *
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @return \Rougin\Slytherin\Container\ContainerInterface
+     */
+    public function define(\Rougin\Slytherin\Container\ContainerInterface $container)
+    {
+        $this->set($container);
+
+        return $container;
     }
 
     /**

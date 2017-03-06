@@ -6,16 +6,28 @@ namespace Rougin\Slytherin\Component;
  * Component Collection
  *
  * Contains all the required components for Slytherin.
+ * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Collection
+class Collection extends \Rougin\Slytherin\Container\VanillaContainer
 {
     /**
-     * @var array
+     * @var \Interop\Container\ContainerInterface
      */
-    protected $components = array();
+    protected $container;
+
+    /**
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param  string $alias
+     * @return mixed
+     */
+    public function get($alias)
+    {
+        return $this->has($alias) ? $this->instances[$alias] : null;
+    }
 
     /**
      * Gets an instance of the container.
@@ -24,7 +36,9 @@ class Collection
      */
     public function getContainer()
     {
-        return $this->get('container');
+        $interface = 'Interop\Container\ContainerInterface';
+
+        return (is_a($this->container, $interface)) ? $this->container : $this;
     }
 
     /**
@@ -35,7 +49,9 @@ class Collection
      */
     public function setContainer(\Interop\Container\ContainerInterface $container)
     {
-        return $this->set('container', $container);
+        $this->container = $container;
+
+        return $this;
     }
 
     /**
@@ -45,7 +61,7 @@ class Collection
      */
     public function getDispatcher()
     {
-        return $this->get('dispatcher');
+        return $this->get('Rougin\Slytherin\Routing\DispatcherInterface');
     }
 
     /**
@@ -56,7 +72,7 @@ class Collection
      */
     public function setDispatcher(\Rougin\Slytherin\Routing\DispatcherInterface $dispatcher)
     {
-        return $this->set('dispatcher', $dispatcher);
+        return $this->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
     }
 
     /**
@@ -83,11 +99,13 @@ class Collection
     /**
      * Gets the error handler.
      *
-     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
+     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface|null
      */
     public function getErrorHandler()
     {
-        return $this->get('error_handler');
+        $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
+
+        return ($this->getContainer()->has($interface)) ? $this->getContainer()->get($interface) : null;
     }
 
     /**
@@ -98,7 +116,7 @@ class Collection
      */
     public function setErrorHandler(\Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler)
     {
-        return $this->set('error_handler', $errorHandler);
+        return $this->set('Rougin\Slytherin\Debug\ErrorHandlerInterface', $errorHandler);
     }
 
     /**
@@ -108,7 +126,10 @@ class Collection
      */
     public function getHttp()
     {
-        return array($this->get('request'), $this->get('response'));
+        $request  = $this->get('Psr\Http\Message\ServerRequestInterface');
+        $response = $this->get('Psr\Http\Message\ResponseInterface');
+
+        return array($request, $response);
     }
 
     /**
@@ -120,9 +141,9 @@ class Collection
      */
     public function setHttp(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)
     {
-        $this->set('request', $request);
+        $this->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-        return $this->set('response', $response);
+        return $this->set('Psr\Http\Message\ResponseInterface', $response);
     }
 
     /**
@@ -132,7 +153,7 @@ class Collection
      */
     public function getHttpRequest()
     {
-        return $this->get('request');
+        return $this->get('Psr\Http\Message\ServerRequestInterface');
     }
 
     /**
@@ -143,7 +164,7 @@ class Collection
      */
     public function setHttpRequest(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        return $this->set('request', $request);
+        return $this->set('Psr\Http\Message\ServerRequestInterface', $request);
     }
 
     /**
@@ -153,7 +174,7 @@ class Collection
      */
     public function getHttpResponse()
     {
-        return $this->get('response');
+        return $this->get('Psr\Http\Message\ResponseInterface');
     }
 
     /**
@@ -164,17 +185,19 @@ class Collection
      */
     public function setHttpResponse(\Psr\Http\Message\ResponseInterface $response)
     {
-        return $this->set('response', $response);
+        return $this->set('Psr\Http\Message\ResponseInterface', $response);
     }
 
     /**
      * Gets the middleware.
      *
-     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
+     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface|null
      */
     public function getMiddleware()
     {
-        return $this->get('middleware');
+        $interface = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+
+        return ($this->getContainer()->has($interface)) ? $this->getContainer()->get($interface) : null;
     }
 
     /**
@@ -185,31 +208,6 @@ class Collection
      */
     public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
     {
-        return $this->set('middleware', $middleware);
-    }
-
-    /**
-     * Gets the selected component.
-     *
-     * @param  string $type
-     * @return mixed
-     */
-    protected function get($type)
-    {
-        return isset($this->components[$type]) ? $this->components[$type] : null;
-    }
-
-    /**
-     * Sets the selected component.
-     *
-     * @param  string $type
-     * @param  mixed  $component
-     * @return self
-     */
-    protected function set($type, $component)
-    {
-        $this->components[$type] = $component;
-
-        return $this;
+        return $this->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $middleware);
     }
 }

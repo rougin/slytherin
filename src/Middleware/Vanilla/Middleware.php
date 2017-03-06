@@ -83,6 +83,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             return $middleware->process($request, $this->resolve($index + 1));
         }
 
+        // NOTE: To be removed in v1.0.0. Use single pass instead.
         if (is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {

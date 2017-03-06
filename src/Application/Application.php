@@ -13,16 +13,53 @@ namespace Rougin\Slytherin\Application;
 class Application
 {
     /**
-     * @var \Rougin\Slytherin\Component\Collection
+     * @var \Interop\Container\ContainerInterface
      */
-    private $components;
+    protected $container;
 
     /**
-     * @param \Rougin\Slytherin\Component\Collection $components
+     * @var \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
-    public function __construct(\Rougin\Slytherin\Component\Collection $components)
+    protected $debugger = null;
+
+    /**
+     * @var \Rougin\Slytherin\Routing\DispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
+     * @var \Rougin\Slytherin\Middleware\MiddlewareInterface
+     */
+    protected $middleware = null;
+
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
+    protected $request;
+
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @param \Interop\Container\ContainerInterface $container
+     */
+    public function __construct(\Interop\Container\ContainerInterface $container)
     {
-        $this->components = $components;
+        $this->container = $container;
+
+        $this->dispatcher = $container->get('Rougin\Slytherin\Routing\DispatcherInterface');
+        $this->request    = $container->get('Psr\Http\Message\ServerRequestInterface');
+        $this->response   = $container->get('Psr\Http\Message\ResponseInterface');
+
+        if ($container->has('Rougin\Slytherin\Middleware\MiddlewareInterface')) {
+            $this->middleware = $container->get('Rougin\Slytherin\Middleware\MiddlewareInterface');
+        }
+
+        if ($container->has('Rougin\Slytherin\Debug\ErrorHandlerInterface')) {
+            $this->debugger = $container->get('Rougin\Slytherin\Debug\ErrorHandlerInterface');
+        }
     }
 
     /**
@@ -33,19 +70,17 @@ class Application
      */
     public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        $classResolver   = new ClassResolver($this->components->getContainer());
-        $httpModifier    = new HttpModifier($this->components->getHttpResponse());
-        $routeDispatcher = new RouteDispatcher($this->components->getDispatcher());
+        $classResolver   = new ClassResolver($this->container);
+        $httpModifier    = new HttpModifier($this->response);
+        $routeDispatcher = new RouteDispatcher($this->dispatcher);
 
         $contents = $routeDispatcher->dispatch($request);
 
         list($function, $middlewares) = $contents;
 
-        $middleware = $this->components->getMiddleware();
+        $httpModifier->setMiddlewares($middlewares, $this->middleware);
 
-        $httpModifier->setMiddlewares($middlewares, $middleware);
-
-        $first = $httpModifier->invokeMiddleware($request, $middleware);
+        $first = $httpModifier->invokeMiddleware($request, $this->middleware);
         $final = $classResolver->resolveClass($function);
 
         return $httpModifier->setHttpResponse($final, $first);
@@ -58,13 +93,10 @@ class Application
      */
     public function run()
     {
-        $handler = $this->components->getDebugger();
-        $request = $this->components->getHttpRequest();
-
-        if ($handler && $handler->getEnvironment() == 'development') {
-            $handler->display();
+        if ($this->debugger && $this->debugger->getEnvironment() == 'development') {
+            $this->debugger->display();
         }
 
-        echo (string) $this->handle($request)->getBody();
+        echo (string) $this->handle($this->request)->getBody();
     }
 }
