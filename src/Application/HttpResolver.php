@@ -6,14 +6,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
- * HTTP Modifier
+ * HTTP Resolver
  *
  * Modifies the HTTP by updating the HTTP response with middleware (if included).
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HttpModifier
+class HttpResolver
 {
     /**
      * @var array

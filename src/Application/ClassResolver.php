@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Application;
 /**
  * Class Resolver
  *
- * Resolves the included classes based from the defined container.
+ * Solves the included classes based from the defined container.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -26,29 +26,24 @@ class ClassResolver
     }
 
     /**
-     * Resolves the result based from the dispatched route.
+     * Resolves the dependencies on the specified class.
      *
-     * @param  array|string $function
+     * @link   http://goo.gl/wN8Vaz
+     * @param  string $class
      * @return mixed
      */
-    public function resolveClass($function)
+    public function resolve($class)
     {
-        $result = $function;
+        $reflection = new \ReflectionClass($class);
 
-        if (is_array($function)) {
-            list($class, $parameters) = $function;
+        if ($constructor = $reflection->getConstructor()) {
+            $parameters = $constructor->getParameters();
+            $arguments  = $this->setArguments($parameters);
 
-            if (is_callable($class) && is_object($class)) {
-                return call_user_func_array($class, $parameters);
-            }
-
-            list($className, $method) = $class;
-
-            $result = $this->resolve($className);
-            $result = call_user_func_array(array($result, $method), $parameters);
+            return $reflection->newInstanceArgs($arguments);
         }
 
-        return $result;
+        return new $class;
     }
 
     /**
@@ -58,7 +53,7 @@ class ClassResolver
      * @param  array                &$arguments
      * @return void
      */
-    private function parseParameters($parameter, array &$arguments)
+    protected function parseParameters($parameter, array &$arguments)
     {
         if ($parameter->isOptional()) {
             return array_push($arguments, $parameter->getDefaultValue());
@@ -74,33 +69,12 @@ class ClassResolver
     }
 
     /**
-     * Resolves the dependencies on the specified class.
-     *
-     * @link   http://goo.gl/wN8Vaz
-     * @param  string $className
-     * @return mixed
-     */
-    private function resolve($className)
-    {
-        $reflectionClass = new \ReflectionClass($className);
-
-        if (! $constructor = $reflectionClass->getConstructor()) {
-            return new $className;
-        }
-
-        $parameters = $constructor->getParameters();
-        $arguments  = $this->setArguments($parameters);
-
-        return $reflectionClass->newInstanceArgs($arguments);
-    }
-
-    /**
      * Sets the arguments from the specified class.
      *
      * @param  array $parameters
      * @return array
      */
-    private function setArguments(array $parameters)
+    protected function setArguments(array $parameters)
     {
         $arguments = array();
 
