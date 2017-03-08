@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Application
 {
     const DISPATCHER    = 'Rougin\Slytherin\Routing\DispatcherInterface';
-    const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
+    const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface'; // NOTE: To be removed in v1.0.0
     const MIDDLEWARE    = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
     const REQUEST       = 'Psr\Http\Message\ServerRequestInterface';
     const RESPONSE      = 'Psr\Http\Message\ResponseInterface';
@@ -26,20 +26,11 @@ class Application
     protected $container;
 
     /**
-     * @var \Rougin\Slytherin\Middleware\MiddlewareInterface|null
-     */
-    protected $middleware = null;
-
-    /**
      * @param \Interop\Container\ContainerInterface $container
      */
     public function __construct(\Interop\Container\ContainerInterface $container)
     {
         $this->container = $container;
-
-        if ($this->container->has(self::MIDDLEWARE)) {
-            $this->middleware = $this->container->get(self::MIDDLEWARE);
-        }
     }
 
     /**
@@ -50,15 +41,21 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        list($function, $middlewares) = $this->dispatch($request);
-
         $resolver = new HttpResolver($this->container->get(self::RESPONSE));
 
-        $resolver->setMiddlewares($middlewares, $this->middleware);
+        list($function, $middlewares) = $this->dispatch($request);
 
-        $result = $resolver->invokeMiddleware($request, $this->middleware);
+        $response = null;
 
-        return $resolver->setHttpResponse($this->resolve($function), $result);
+        if ($this->container->has(self::MIDDLEWARE)) {
+            $middleware = $this->container->get(self::MIDDLEWARE);
+
+            $resolver->setMiddlewares($middlewares, $middleware);
+
+            $response = $resolver->invokeMiddleware($request, $middleware);
+        }
+
+        return $resolver->setHttpResponse($this->resolve($function), $response);
     }
 
     /**
