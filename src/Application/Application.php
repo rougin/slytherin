@@ -41,21 +41,20 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $resolver = new HttpResolver($this->container->get(self::RESPONSE));
+        $modifier = new HttpModifier($this->container->get(self::RESPONSE));
 
         list($function, $middlewares) = $this->dispatch($request);
 
         $response = null;
 
         if ($this->container->has(self::MIDDLEWARE)) {
-            $middleware = $this->container->get(self::MIDDLEWARE);
+            $modifier->setMiddleware($this->container->get(self::MIDDLEWARE));
+            $modifier->setMiddlewareStack($middlewares);
 
-            $resolver->setMiddlewares($middlewares, $middleware);
-
-            $response = $resolver->invokeMiddleware($request, $middleware);
+            $response = $modifier->invokeMiddleware($request);
         }
 
-        return $resolver->setHttpResponse($this->resolve($function), $response);
+        return $modifier->getResponse($this->resolve($function), $response);
     }
 
     /**

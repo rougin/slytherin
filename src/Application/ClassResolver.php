@@ -47,25 +47,24 @@ class ClassResolver
     }
 
     /**
-     * Parses the specified arguments.
+     * Parses the specified parameters.
      *
      * @param  \ReflectionParameter $parameter
-     * @param  array                &$arguments
-     * @return void
+     * @return mixed
      */
-    protected function parseParameters($parameter, array &$arguments)
+    protected function parseParameter(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional()) {
-            return array_push($arguments, $parameter->getDefaultValue());
+            return $parameter->getDefaultValue();
         }
 
-        $class = $parameter->getClass()->getName();
+        $className = $parameter->getClass()->getName();
 
-        if ($this->container->has($class)) {
-            return array_push($arguments, $this->container->get($class));
+        if ($this->container->has($className)) {
+            return $this->container->get($className);
         }
 
-        array_push($arguments, $this->resolve($class));
+        return $this->resolve($className);
     }
 
     /**
@@ -78,8 +77,10 @@ class ClassResolver
     {
         $arguments = array();
 
-        foreach ($parameters as $parameter) {
-            $this->parseParameters($parameter, $arguments);
+        foreach ($parameters as $item) {
+            $parameter = $this->parseParameter($item);
+
+            array_push($arguments, $parameter);
         }
 
         return $arguments;
