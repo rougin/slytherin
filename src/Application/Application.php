@@ -49,9 +49,8 @@ class Application
 
         if ($this->container->has(self::MIDDLEWARE)) {
             $modifier->setMiddleware($this->container->get(self::MIDDLEWARE));
-            $modifier->setMiddlewareStack($middlewares);
 
-            $response = $modifier->invokeMiddleware($request);
+            $response = $modifier->invokeMiddleware($request, $middlewares);
         }
 
         return $modifier->getResponse($this->resolve($function), $response);

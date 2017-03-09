@@ -62,7 +62,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      *
      * @return array
      */
-    public function getQueue()
+    public function getStack()
     {
         return $this->stack;
     }

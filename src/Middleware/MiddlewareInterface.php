@@ -30,5 +30,5 @@ interface MiddlewareInterface
      *
      * @return array
      */
-    public function getQueue();
+    public function getStack();
 }

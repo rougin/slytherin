@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Application;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
-
 /**
  * HTTP Modifier
  *
@@ -17,17 +15,10 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  */
 class HttpModifier
 {
-    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-
     /**
      * @var \Rougin\Slytherin\Middleware\MiddlewareInterface|null
      */
     protected $middleware = null;
-
-    /**
-     * @var array
-     */
-    protected $middlewares = array();
 
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -54,16 +45,53 @@ class HttpModifier
         $response = $this->response;
 
         if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
-            $response = $first;
+            $response = $this->setHeaders($first);
         }
 
         if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
-            $response = $final;
+            $response = $this->setHeaders($final);
         } else {
             $response->getBody()->write($final);
         }
 
-        return $this->setHeaders($response);
+        return $response;
+    }
+
+    /**
+     * Sets the HTTP middleware.
+     *
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
+     * @return self
+     */
+    public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
+    {
+        $this->middleware = $middleware;
+
+        return $this;
+    }
+
+    /**
+     * Sets the defined middlewares to the HTTP response.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  array                                    $middlewares
+     * @return \Psr\Http\Message\ResponseInterface|null
+     */
+    public function invokeMiddleware(ServerRequestInterface $request, array $middlewares = array())
+    {
+        $middlewares = array();
+
+        if (is_a($this->middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
+            $middlewares = array_merge($this->middleware->getStack(), $middlewares);
+        }
+
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            array_push($middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
+        }
+
+        $middleware = $this->middleware;
+
+        return $middleware($request, $this->response, $middlewares);
     }
 
     /**
@@ -72,7 +100,7 @@ class HttpModifier
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function setHeaders(ResponseInterface $response)
+    protected function setHeaders(ResponseInterface $response)
     {
         $protocol = 'HTTP/' . $response->getProtocolVersion();
         $httpCode = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
@@ -84,52 +112,5 @@ class HttpModifier
         }
 
         return $response;
-    }
-
-    /**
-     * Sets the HTTP middleware.
-     *
-     * @param  Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
-     * @return self
-     */
-    public function setMiddleware(MiddlewareInterface $middleware)
-    {
-        $this->middleware = $middleware;
-
-        return $this;
-    }
-
-    /**
-     * Gets defined middlewares and put it to the stack.
-     *
-     * @param  array $middlewares
-     * @return self
-     */
-    public function setMiddlewareStack(array $middlewares = array())
-    {
-        $this->middlewares = $middlewares;
-
-        if (is_a($this->middleware, self::MIDDLEWARE)) {
-            $this->middlewares = array_merge($this->middleware->getQueue(), $this->middlewares);
-        }
-
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($this->middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Sets the defined middlewares to the HTTP response.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return \Psr\Http\Message\ResponseInterface|null
-     */
-    public function invokeMiddleware(ServerRequestInterface $request)
-    {
-        $middleware = $this->middleware;
-
-        return $middleware($request, $this->response, $this->middlewares);
     }
 }

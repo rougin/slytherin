@@ -34,7 +34,7 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
-        $response = $middleware($request, $response, $middleware->getQueue());
+        $response = $middleware($request, $response, $middleware->getStack());
 
         $this->assertEquals('First! Second! Last!', (string) $response->getBody());
     }
