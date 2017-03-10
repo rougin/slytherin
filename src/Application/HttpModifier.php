@@ -44,11 +44,11 @@ class HttpModifier
     {
         $response = $this->response;
 
-        if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
+        if ($first instanceof ResponseInterface) {
             $response = $this->setHeaders($first);
         }
 
-        if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
+        if ($final instanceof ResponseInterface) {
             $response = $this->setHeaders($final);
         } else {
             $response->getBody()->write($final);
@@ -79,8 +79,6 @@ class HttpModifier
      */
     public function invokeMiddleware(ServerRequestInterface $request, array $middlewares = array())
     {
-        $middlewares = array();
-
         if (is_a($this->middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
             $middlewares = array_merge($this->middleware->getStack(), $middlewares);
         }
