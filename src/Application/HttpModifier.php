@@ -44,11 +44,11 @@ class HttpModifier
     {
         $response = $this->response;
 
-        if ($first instanceof ResponseInterface) {
+        if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
             $response = $this->setHeaders($first);
         }
 
-        if ($final instanceof ResponseInterface) {
+        if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
             $response = $this->setHeaders($final);
         } else {
             $response->getBody()->write($final);
