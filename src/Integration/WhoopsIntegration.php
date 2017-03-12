@@ -16,9 +16,10 @@ class WhoopsIntegration implements IntegrationInterface
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  array                                          $configurations
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container)
+    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $configurations = array())
     {
         $container->set('Whoops\Run', new \Whoops\Run);
 

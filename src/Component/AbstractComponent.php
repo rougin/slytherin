@@ -38,9 +38,10 @@ abstract class AbstractComponent implements ComponentInterface
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  array                                          $configurations
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container)
+    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $configurations = array())
     {
         $this->set($container);
 

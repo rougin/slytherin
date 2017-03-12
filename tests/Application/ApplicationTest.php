@@ -177,6 +177,55 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the "integration" functionality.
+     *
+     * @return void
+     */
+    public function testIntegration()
+    {
+        $slash = DIRECTORY_SEPARATOR;
+        $root  = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
+
+        $_SERVER['DOCUMENT_ROOT']   = $root;
+        $_SERVER['REMOTE_ADDR']     = '127.0.0.1';
+        $_SERVER['REQUEST_METHOD']  = 'GET';
+        $_SERVER['REQUEST_URI']     = '/';
+        $_SERVER['SCRIPT_FILENAME'] = '/var/www/html/slytherin/index.php';
+        $_SERVER['SCRIPT_NAME']     = '/slytherin/index.php';
+        $_SERVER['SERVER_NAME']     = 'localhost';
+        $_SERVER['SERVER_PORT']     = '8000';
+
+        $callable = function ($name = 'Muggle') {
+            $name = ucwords(strtolower($name));
+
+            return 'Hello, ' . $name . '.';
+        };
+
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
+
+        $router->get('/', $callable);
+        $router->get('/hello/(\w+)', $callable);
+
+        $application = new \Rougin\Slytherin\Application(new \Rougin\Slytherin\Container\VanillaContainer);
+
+        $configurations = array();
+
+        $configurations['app']  = array('router' => $router);
+        $configurations['twig'] = array('path' => $root);
+
+        $integrations = array();
+
+        array_push($integrations, 'Rougin\Slytherin\Integration\HttpIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Integration\RoutingIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Integration\TwigIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Integration\WhoopsIntegration');
+
+        $this->expectOutputString('Hello, Muggle.');
+
+        $application->integrate($integrations, $configurations)->run();
+    }
+
+    /**
      * Changes the HTTP method and the uri of the request.
      *
      * @param  string $httpMethod

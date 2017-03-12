@@ -3,14 +3,14 @@
 namespace Rougin\Slytherin\Integration;
 
 /**
- * Twig Integration
+ * Routing Integration
  *
- * An integration for Twig to be included in Slytherin.
+ * An integration for Slytherin's simple Routing package.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class TwigIntegration implements IntegrationInterface
+class RoutingIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -21,9 +21,9 @@ class TwigIntegration implements IntegrationInterface
      */
     public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $configurations = array())
     {
-        $loader = new \Twig_Loader_Filesystem($configurations['twig']['path']);
+        $dispatcher = new \Rougin\Slytherin\Routing\Vanilla\Dispatcher($configurations['app']['router']);
 
-        $container->set('Twig_Environment', new \Twig_Environment($loader));
+        $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
 
         return $container;
     }

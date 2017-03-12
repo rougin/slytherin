@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Application;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * HTTP Modifier
@@ -36,8 +35,8 @@ class HttpModifier
     /**
      * Checks if previous response is available.
      *
-     * @param  \Psr\Http\Message\ResponseInterface|string      $final
-     * @param  \Psr\Http\Message\ResponseInterface|string|null $first
+     * @param  \Psr\Http\Message\ResponseInterface      $final
+     * @param  \Psr\Http\Message\ResponseInterface|null $first
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getResponse($final, $first = null)
@@ -77,7 +76,7 @@ class HttpModifier
      * @param  array                                    $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function invokeMiddleware(ServerRequestInterface $request, array $middlewares = array())
+    public function invokeMiddleware(\Psr\Http\Message\ServerRequestInterface $request, array $middlewares = array())
     {
         if (is_a($this->middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
             $middlewares = array_merge($this->middleware->getStack(), $middlewares);

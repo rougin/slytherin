@@ -57,6 +57,28 @@ class Application
     }
 
     /**
+     * Adds the specified integrations to the container.
+     *
+     * @param  array $integrations
+     * @param  array $configurations
+     * @return self
+     */
+    public function integrate(array $integrations, array $configurations = array())
+    {
+        $container = $this->container;
+
+        foreach ($integrations as $integration) {
+            $integration = new $integration;
+
+            $container = $integration->define($container, $configurations);
+        }
+
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
      * Runs the application
      *
      * @return void
