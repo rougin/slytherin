@@ -195,18 +195,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $_SERVER['SERVER_NAME']     = 'localhost';
         $_SERVER['SERVER_PORT']     = '8000';
 
-        $callable = function ($name = 'Muggle') {
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
+
+        $router->get('/', function ($name = 'Muggle') {
             $name = ucwords(strtolower($name));
 
             return 'Hello, ' . $name . '.';
-        };
+        });
 
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
-
-        $router->get('/', $callable);
-        $router->get('/hello/(\w+)', $callable);
-
-        $application = new \Rougin\Slytherin\Application(new \Rougin\Slytherin\Container\VanillaContainer);
+        $application = new \Rougin\Slytherin\Application;
 
         $configurations = array();
 

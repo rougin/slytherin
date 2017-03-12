@@ -26,10 +26,14 @@ class Application
     protected $container;
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
+     * @param \Interop\Container\ContainerInterface|null $container
      */
-    public function __construct(\Interop\Container\ContainerInterface $container)
+    public function __construct(\Interop\Container\ContainerInterface $container = null)
     {
+        if (is_null($container)) {
+            $container = new \Rougin\Slytherin\Container\VanillaContainer;
+        }
+
         $this->container = $container;
     }
 

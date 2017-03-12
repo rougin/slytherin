@@ -35,19 +35,19 @@ class HttpModifier
     /**
      * Checks if previous response is available.
      *
-     * @param  \Psr\Http\Message\ResponseInterface      $final
-     * @param  \Psr\Http\Message\ResponseInterface|null $first
+     * @param  \Psr\Http\Message\ResponseInterface|string $final
+     * @param  \Psr\Http\Message\ResponseInterface|null   $first
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getResponse($final, $first = null)
     {
         $response = $this->response;
 
-        if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
+        if (! is_null($first) && is_a($first, 'Psr\Http\Message\ResponseInterface')) {
             $response = $this->setHeaders($first);
         }
 
-        if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
+        if (! is_string($final) && is_a($final, 'Psr\Http\Message\ResponseInterface')) {
             $response = $this->setHeaders($final);
         } else {
             $response->getBody()->write($final);
@@ -99,14 +99,13 @@ class HttpModifier
      */
     protected function setHeaders(ResponseInterface $response)
     {
-        $protocol = 'HTTP/' . $response->getProtocolVersion();
-        $httpCode = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
-
-        header($protocol . ' ' . $httpCode);
+        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 
         foreach ($response->getHeaders() as $name => $value) {
             header($name . ': ' . implode(',', $value));
         }
+
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
 
         return $response;
     }
