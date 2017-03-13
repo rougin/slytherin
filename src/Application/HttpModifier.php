@@ -43,15 +43,15 @@ class HttpModifier
     {
         $response = $this->response;
 
-        if (! is_null($first) && is_a($first, 'Psr\Http\Message\ResponseInterface')) {
+        if (! is_null($first)) {
             $response = $this->setHeaders($first);
         }
 
-        if (! is_string($final) && is_a($final, 'Psr\Http\Message\ResponseInterface')) {
-            $response = $this->setHeaders($final);
-        } else {
-            $response->getBody()->write($final);
+        if (! is_string($final)) {
+            return $this->setHeaders($final);
         }
+
+        $response->getBody()->write($final);
 
         return $response;
     }
