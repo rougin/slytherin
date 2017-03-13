@@ -68,7 +68,7 @@ class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
     {
         $routes = $this->routes;
 
-        if ($parsed == true) {
+        if ($parsed === true) {
             $routes = $this->collector->getData();
         }
 

@@ -53,13 +53,11 @@ class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
      */
     public function getRoutes($parsed = false)
     {
-        $routes = array_merge($this->routes, $this->collector->getData());
+        $routes = array_filter(array_merge($this->routes, $this->collector->getData()));
 
-        if ($parsed == true) {
+        if ($parsed === true) {
             $routes = function (RouteCollector $collector) use ($routes) {
                 foreach ($routes as $route) {
-                    if (empty($route)) continue;
-
                     $collector->addRoute($route[0], $route[1], $route[2]);
                 }
             };

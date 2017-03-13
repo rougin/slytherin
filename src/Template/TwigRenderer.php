@@ -15,7 +15,7 @@ namespace Rougin\Slytherin\Template;
  */
 class TwigRenderer implements RendererInterface
 {
-	/**
+    /**
      * @var \Twig_Environment
      */
     protected $twig;

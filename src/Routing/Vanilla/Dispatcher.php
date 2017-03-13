@@ -28,9 +28,9 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function __construct(\Rougin\Slytherin\Routing\RouterInterface $router)
     {
-        foreach ($router->getRoutes() as $route) {
-            if (empty($route)) continue;
+        $routes = array_filter($router->getRoutes());
 
+        foreach ($router->getRoutes() as $route) {
             preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
             $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);

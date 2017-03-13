@@ -35,9 +35,9 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
             $routes = $router->getRoutes(true);
         } else {
             $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-                foreach ($router->getRoutes() as $route) {
-                    if (empty($route)) continue;
+                $routes = array_filter($router->getRoutes());
 
+                foreach ($routes as $route) {
                     $collector->addRoute($route[0], $route[1], $route[2]);
                 }
             };

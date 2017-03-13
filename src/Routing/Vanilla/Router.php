@@ -52,9 +52,7 @@ class Router implements \Rougin\Slytherin\Routing\RouterInterface
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
     {
-        $class = array($httpMethod, $route, $handler, $middlewares);
-
-        array_push($this->routes, $class);
+        array_push($this->routes, array($httpMethod, $route, $handler, $middlewares));
 
         return $this;
     }
@@ -91,7 +89,7 @@ class Router implements \Rougin\Slytherin\Routing\RouterInterface
     {
         $routes = $this->routes;
 
-        if ($parsed == true) {
+        if ($parsed === true) {
             $routes = array();
 
             foreach ($this->routes as $route) {
