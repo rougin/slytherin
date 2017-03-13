@@ -24,12 +24,13 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
         $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            $pipeline = new \Zend\Stratigility\MiddlewarePipe;
-
-            $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($pipeline);
+            $middleware = new \Zend\Stratigility\MiddlewarePipe;
+            $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($middleware);
         }
 
         foreach ($config['app']['middlewares'] as $item) {
+            $item = is_callable($item) ? $item : new $item;
+
             $middleware->push($item);
         }
 

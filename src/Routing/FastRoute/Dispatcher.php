@@ -40,7 +40,9 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
                 }
             };
 
-            return $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+            $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+
+            return;
         }
 
         $routes = $router->getRoutes(true);

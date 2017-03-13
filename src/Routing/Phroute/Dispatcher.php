@@ -34,7 +34,9 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
         if (is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
             $routes = $router->getRoutes(true);
 
-            return $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+            $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+
+            return;
         }
 
         $collector = new \Phroute\Phroute\RouteCollector;
