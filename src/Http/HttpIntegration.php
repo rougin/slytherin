@@ -21,7 +21,13 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      */
     public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $config = array())
     {
-        $request  = new \Rougin\Slytherin\Http\ServerRequest($_SERVER, $_COOKIE, $_GET, $_FILES, $_POST);
+        $cookies = $config['app']['http']['cookies'];
+        $files   = $config['app']['http']['files'];
+        $get     = $config['app']['http']['get'];
+        $post    = $config['app']['http']['post'];
+        $server  = $config['app']['http']['server'];
+
+        $request  = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
         $response = new \Rougin\Slytherin\Http\Response;
 
         $original = headers_list();

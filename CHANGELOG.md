@@ -14,6 +14,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 - `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
 - `Container\ContainerInterface` for defining instances to containers
+- `Integration` for integrating third-party packages to Slytherin
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

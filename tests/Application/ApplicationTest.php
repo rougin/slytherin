@@ -189,14 +189,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         header('X-SLYTHERIN-HEADER: foobar');
 
-        $_SERVER['DOCUMENT_ROOT']   = $root;
-        $_SERVER['REMOTE_ADDR']     = '127.0.0.1';
-        $_SERVER['REQUEST_METHOD']  = 'GET';
-        $_SERVER['REQUEST_URI']     = '/';
-        $_SERVER['SCRIPT_FILENAME'] = '/var/www/html/slytherin/index.php';
-        $_SERVER['SCRIPT_NAME']     = '/slytherin/index.php';
-        $_SERVER['SERVER_NAME']     = 'localhost';
-        $_SERVER['SERVER_PORT']     = '8000';
+        $server = array();
+
+        $server['DOCUMENT_ROOT']   = $root;
+        $server['REMOTE_ADDR']     = '127.0.0.1';
+        $server['REQUEST_METHOD']  = 'GET';
+        $server['REQUEST_URI']     = '/';
+        $server['SCRIPT_FILENAME'] = '/var/www/html/slytherin/index.php';
+        $server['SCRIPT_NAME']     = '/slytherin/index.php';
+        $server['SERVER_NAME']     = 'localhost';
+        $server['SERVER_PORT']     = '8000';
 
         $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
 
@@ -204,7 +206,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $application = new \Rougin\Slytherin\Application;
 
-        $config = array('app' => array());
+        $config = array('app' => array(), 'http' => array());
+
+        $config['app']['http']['cookies'] = array();
+        $config['app']['http']['files']   = array();
+        $config['app']['http']['get']     = array();
+        $config['app']['http']['post']    = array();
+        $config['app']['http']['server']  = $server;
 
         $config['app']['environment'] = 'development';
         $config['app']['middlewares'] = array('Rougin\Slytherin\Middleware\FinalResponse');
