@@ -87,22 +87,7 @@ class Router implements \Rougin\Slytherin\Routing\RouterInterface
      */
     public function getRoutes($parsed = false)
     {
-        $routes = $this->routes;
-
-        if ($parsed === true) {
-            $routes = array();
-
-            foreach ($this->routes as $route) {
-                preg_match_all('/:[a-z]*/', $route[1], $parameters);
-
-                $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
-                $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
-
-                array_push($routes, $route);
-            }
-        }
-
-        return $routes;
+        return $this->routes;
     }
 
     /**

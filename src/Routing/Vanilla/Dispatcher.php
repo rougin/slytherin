@@ -30,7 +30,7 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
     {
         $routes = array_filter($router->getRoutes());
 
-        foreach ($router->getRoutes() as $route) {
+        foreach ($routes as $route) {
             preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
             $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
