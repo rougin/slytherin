@@ -33,15 +33,17 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
 
         if (is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
             $routes = $router->getRoutes(true);
-        } else {
-            $collector = new \Phroute\Phroute\RouteCollector;
 
-            foreach ($router->getRoutes() as $route) {
-                $collector->addRoute($route[0], $route[1], $route[2]);
-            }
-
-            $routes = $collector->getData();
+            return $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
         }
+
+        $collector = new \Phroute\Phroute\RouteCollector;
+
+        foreach ($router->getRoutes() as $route) {
+            $collector->addRoute($route[0], $route[1], $route[2]);
+        }
+
+        $routes = $collector->getData();
 
         $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
     }
