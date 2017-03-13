@@ -16,6 +16,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     protected $dispatcher;
 
     /**
+     * @var array
+     */
+    protected $routes = array();
+
+    /**
      * Sets up the dispatcher.
      *
      * @return void
@@ -26,7 +31,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $routes = array(
+        $this->routes = array(
             array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
             array('GET', '/hi', function () {
                 return 'Hi';
@@ -36,7 +41,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             }),
         );
 
-        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
+        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($this->routes);
 
         $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
 
@@ -103,5 +108,23 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
         $this->assertInstanceOf($interface, $this->dispatcher);
+    }
+
+    /**
+     * Tests if dispatch() can return successfully with a different router.
+     *
+     * @return void
+     */
+    public function testDispatchMethodWithDifferentRouter()
+    {
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
+
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+
+        $expected = array($controller->index(), null, array());
+
+        $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
     }
 }

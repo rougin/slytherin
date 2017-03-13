@@ -16,8 +16,8 @@ interface IntegrationInterface
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  array                                          $configurations
+     * @param  array                                          $config
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $configurations = array());
+    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $config = array());
 }

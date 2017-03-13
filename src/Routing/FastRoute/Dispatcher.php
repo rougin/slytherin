@@ -20,17 +20,30 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
     protected $dispatcher;
 
     /**
-     * @var \Rougin\Slytherin\Routing\FastRoute\Router
+     * @var \Rougin\Slytherin\Routing\RouterInterface
      */
     protected $router;
 
     /**
-     * @param \Rougin\Slytherin\Routing\FastRoute\Router $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface $router
      */
-    public function __construct(Router $router)
+    public function __construct(\Rougin\Slytherin\Routing\RouterInterface $router)
     {
-        $this->dispatcher = \FastRoute\simpleDispatcher($router->getRoutes());
-        $this->router     = $router;
+        $this->router = $router;
+
+        if (is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
+            $routes = $router->getRoutes(true);
+        } else {
+            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
+                foreach ($router->getRoutes() as $route) {
+                    if (empty($route)) continue;
+
+                    $collector->addRoute($route[0], $route[1], $route[2]);
+                }
+            };
+        }
+
+        $this->dispatcher = \FastRoute\simpleDispatcher($routes);
     }
 
     /**
@@ -61,11 +74,12 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
      */
     protected function throwException($result, $uri)
     {
-        switch ($result) {
-            case \FastRoute\Dispatcher::NOT_FOUND:
-                throw new \UnexpectedValueException("Route \"$uri\" not found");
-            case \FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
-                throw new \UnexpectedValueException("Used method's not allowed");
+        if ($result == \FastRoute\Dispatcher::NOT_FOUND) {
+            throw new \UnexpectedValueException('Route "' . $uri . '" not found');
+        }
+
+        if ($result == \FastRoute\Dispatcher::METHOD_NOT_ALLOWED) {
+            throw new \UnexpectedValueException('Used method is not allowed');
         }
     }
 }

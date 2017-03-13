@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Integration;
+namespace Rougin\Slytherin\Http;
 
 /**
  * HTTP Integration
@@ -10,16 +10,16 @@ namespace Rougin\Slytherin\Integration;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HttpIntegration implements IntegrationInterface
+class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
 {
     /**
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  array                                          $configurations
+     * @param  array                                          $config
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $configurations = array())
+    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $config = array())
     {
         $request  = new \Rougin\Slytherin\Http\ServerRequest($_SERVER, $_COOKIE, $_GET, $_FILES, $_POST);
         $response = new \Rougin\Slytherin\Http\Response;

@@ -71,7 +71,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router = new \Rougin\Slytherin\Dispatching\Phroute\Router($this->routes);
 
-        $this->assertInstanceOf('Phroute\Phroute\RouteDataArray', $this->router->getRoutes());
+        $this->assertInstanceOf('Phroute\Phroute\RouteDataArray', $this->router->getRoutes(true));
     }
 
     /**

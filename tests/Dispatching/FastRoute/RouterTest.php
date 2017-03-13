@@ -79,7 +79,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($this->routes);
 
-        $this->assertInstanceOf('Closure', $this->router->getRoutes());
+        $this->assertInstanceOf('Closure', $this->router->getRoutes(true));
     }
 
     /**

@@ -48,18 +48,23 @@ class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
     /**
      * Returns a listing of routes available.
      *
+     * @param  boolean $parsed
      * @return callable
      */
-    public function getRoutes()
+    public function getRoutes($parsed = false)
     {
         $routes = array_merge($this->routes, $this->collector->getData());
 
-        return function (RouteCollector $collector) use ($routes) {
-            foreach ($routes as $route) {
-                if (! empty($route)) {
+        if ($parsed == true) {
+            $routes = function (RouteCollector $collector) use ($routes) {
+                foreach ($routes as $route) {
+                    if (empty($route)) continue;
+
                     $collector->addRoute($route[0], $route[1], $route[2]);
                 }
-            }
-        };
+            };
+        }
+
+        return $routes;
     }
 }

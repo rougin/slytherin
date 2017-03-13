@@ -60,7 +60,7 @@ class Router implements \Rougin\Slytherin\Routing\RouterInterface
     }
 
     /**
-     * Returns a route details based on the specified HTTP method and URI.
+     * Returns a specific route based on the specified HTTP method and URI.
      *
      * @param  string $httpMethod
      * @param  string $uri
@@ -82,21 +82,26 @@ class Router implements \Rougin\Slytherin\Routing\RouterInterface
     }
 
     /**
-     * Returns a listing of routes available.
+     * Returns a listing of available routes.
      *
+     * @param  boolean $parsed
      * @return array
      */
-    public function getRoutes()
+    public function getRoutes($parsed = false)
     {
-        $routes = array();
+        $routes = $this->routes;
 
-        foreach ($this->routes as $route) {
-            preg_match_all('/:[a-z]*/', $route[1], $parameters);
+        if ($parsed == true) {
+            $routes = array();
 
-            $pattern = str_replace($parameters[0], '(\w+)', $route[1]);
-            $pattern = '/^' . str_replace('/', '\/', $pattern) . '$/';
+            foreach ($this->routes as $route) {
+                preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
-            array_push($routes, array($route[0], $pattern, $route[2], $route[3]));
+                $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
+                $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
+
+                array_push($routes, $route);
+            }
         }
 
         return $routes;

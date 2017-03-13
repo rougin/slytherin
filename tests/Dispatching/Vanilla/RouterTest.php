@@ -65,7 +65,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
 
-        $this->assertCount(1, $this->router->getRoutes());
+        $this->assertCount(1, $this->router->getRoutes(true));
     }
 
     /**

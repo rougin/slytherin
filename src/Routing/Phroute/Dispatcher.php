@@ -20,17 +20,30 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
     protected $dispatcher;
 
     /**
-     * @var \Rougin\Slytherin\Routing\Phroute\Router
+     * @var \Rougin\Slytherin\Routing\RouterInterface
      */
     protected $router;
 
     /**
-     * @param \Rougin\Slytherin\Routing\Phroute\Router $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface $router
      */
-    public function __construct(Router $router)
+    public function __construct(\Rougin\Slytherin\Routing\RouterInterface $router)
     {
-        $this->dispatcher = new \Phroute\Phroute\Dispatcher($router->getRoutes());
-        $this->router     = $router;
+        $this->router = $router;
+
+        if (is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
+            $routes = $router->getRoutes(true);
+        } else {
+            $collector = new \Phroute\Phroute\RouteCollector;
+
+            foreach ($router->getRoutes() as $route) {
+                $collector->addRoute($route[0], $route[1], $route[2]);
+            }
+
+            $routes = $collector->getData();
+        }
+
+        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
     }
 
     /**

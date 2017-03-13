@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Psr\Http\Message\ResponseInterface;
-
 /**
  * HTTP Modifier
  *
@@ -27,7 +25,7 @@ class HttpModifier
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function __construct(ResponseInterface $response)
+    public function __construct(\Psr\Http\Message\ResponseInterface $response)
     {
         $this->response = $response;
     }
@@ -78,9 +76,7 @@ class HttpModifier
      */
     public function invokeMiddleware(\Psr\Http\Message\ServerRequestInterface $request, array $middlewares = array())
     {
-        if (is_a($this->middleware, 'Rougin\Slytherin\Middleware\MiddlewareInterface')) {
-            $middlewares = array_merge($this->middleware->getStack(), $middlewares);
-        }
+        $middlewares = array_merge($this->middleware->getStack(), $middlewares);
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             array_push($middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
@@ -97,7 +93,7 @@ class HttpModifier
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function setHeaders(ResponseInterface $response)
+    protected function setHeaders(\Psr\Http\Message\ResponseInterface $response)
     {
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 

@@ -180,11 +180,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the "integration" functionality.
      *
      * @return void
+     * @runInSeparateProcess
      */
-    public function testIntegration()
+    public function testRunMethodWithIntegrateMethod()
     {
         $slash = DIRECTORY_SEPARATOR;
         $root  = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
+
+        header('X-SLYTHERIN-HEADER: foobar');
 
         $_SERVER['DOCUMENT_ROOT']   = $root;
         $_SERVER['REMOTE_ADDR']     = '127.0.0.1';
@@ -197,29 +200,28 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
 
-        $router->get('/', function ($name = 'Muggle') {
-            $name = ucwords(strtolower($name));
-
-            return 'Hello, ' . $name . '.';
-        });
+        $router->get('/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
 
         $application = new \Rougin\Slytherin\Application;
 
-        $configurations = array();
+        $config = array('app' => array());
 
-        $configurations['app']  = array('router' => $router);
-        $configurations['twig'] = array('path' => $root);
+        $config['app']['environment'] = 'development';
+        $config['app']['middlewares'] = array('Rougin\Slytherin\Middleware\FinalResponse');
+        $config['app']['router']      = $router;
+        $config['app']['views']       = $root;
 
         $integrations = array();
 
-        array_push($integrations, 'Rougin\Slytherin\Integration\HttpIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Integration\RoutingIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Integration\TwigIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Integration\WhoopsIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Http\HttpIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
 
-        $this->expectOutputString('Hello, Muggle.');
+        $this->expectOutputString('Hello');
 
-        $application->integrate($integrations, $configurations)->run();
+        $application->integrate($integrations, $config)->run();
     }
 
     /**

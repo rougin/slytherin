@@ -22,9 +22,19 @@ interface RouterInterface
     public function addRoute($httpMethod, $route, $handler);
 
     /**
-     * Returns a listing of routes available.
+     * Returns a specific route based on the specified HTTP method and URI.
      *
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @return array|null
+     */
+    public function getRoute($httpMethod, $uri);
+
+    /**
+     * Returns a listing of available routes.
+     *
+     * @param  boolean $parsed
      * @return mixed
      */
-    public function getRoutes();
+    public function getRoutes($parsed = false);
 }

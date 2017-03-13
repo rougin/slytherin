@@ -64,17 +64,17 @@ class Application
      * Adds the specified integrations to the container.
      *
      * @param  array $integrations
-     * @param  array $configurations
+     * @param  array $config
      * @return self
      */
-    public function integrate(array $integrations, array $configurations = array())
+    public function integrate(array $integrations, array $config = array())
     {
         $container = $this->container;
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
 
-            $container = $integration->define($container, $configurations);
+            $container = $integration->define($container, $config);
         }
 
         $this->container = $container;

@@ -32,7 +32,47 @@ class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
     public function __construct(array $routes = array())
     {
         $this->collector = new RouteCollector;
-        $this->routes    = $routes;
+
+        foreach ($routes as $route) {
+            $this->collector->addRoute($route[0], $route[1], $route[2]);
+        }
+
+        $this->routes = $routes;
+    }
+
+    /**
+     * Adds a new route.
+     *
+     * @param  string|string[] $httpMethod
+     * @param  string          $route
+     * @param  mixed           $handler
+     * @param  array           $middlewares
+     * @return self
+     */
+    public function addRoute($httpMethod, $route, $handler, $middlewares = array())
+    {
+        $this->collector->addRoute($httpMethod, $route, $handler);
+
+        array_push($this->routes, array($httpMethod, $route, $handler, $middlewares));
+
+        return $this;
+    }
+
+    /**
+     * Returns a listing of available routes.
+     *
+     * @param  boolean $parsed
+     * @return \Phroute\Phroute\RouteDataArray
+     */
+    public function getRoutes($parsed = false)
+    {
+        $routes = $this->routes;
+
+        if ($parsed == true) {
+            $routes = $this->collector->getData();
+        }
+
+        return $routes;
     }
 
     /**
@@ -45,19 +85,5 @@ class Router extends \Rougin\Slytherin\Routing\Vanilla\Router
         $this->collector = $collector;
 
         return $this;
-    }
-
-    /**
-     * Returns a listing of routes available.
-     *
-     * @return callable
-     */
-    public function getRoutes()
-    {
-        foreach ($this->routes as $route) {
-            $this->collector->addRoute($route[0], $route[1], $route[2]);
-        }
-
-        return $this->collector->getData();
     }
 }

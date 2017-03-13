@@ -96,7 +96,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     /**
      * Adds a new middleware in the stack.
      *
-     * @param  callable|object $middleware
+     * @param  callable|object|string $middleware
      * @return self
      */
     public function push($middleware)

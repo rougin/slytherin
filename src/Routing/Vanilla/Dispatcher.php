@@ -14,9 +14,9 @@ namespace Rougin\Slytherin\Routing\Vanilla;
 class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
 {
     /**
-     * @var \Rougin\Slytherin\Routing\RouterInterface
+     * @var array
      */
-    protected $router;
+    protected $routes = array();
 
     /**
      * @var array
@@ -28,7 +28,16 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function __construct(\Rougin\Slytherin\Routing\RouterInterface $router)
     {
-        $this->router = $router;
+        foreach ($router->getRoutes() as $route) {
+            if (empty($route)) continue;
+
+            preg_match_all('/:[a-z]*/', $route[1], $parameters);
+
+            $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
+            $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
+
+            array_push($this->routes, $route);
+        }
     }
 
     /**
@@ -42,20 +51,21 @@ class Dispatcher implements \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $existing  = $this->router->getRoutes();
-        $newRoutes = array();
+        $routes = array();
 
-        foreach ($existing as $route) {
-            array_push($newRoutes, $this->parseRoute($httpMethod, $uri, $route));
+        foreach ($this->routes as $route) {
+            $parsed = $this->parseRoute($httpMethod, $uri, $route);
+
+            array_push($routes, $parsed);
         }
 
-        $newRoutes = array_values(array_filter($newRoutes));
+        $routes = array_values(array_filter($routes));
 
-        if (empty($newRoutes)) {
+        if (empty($routes)) {
             throw new \UnexpectedValueException("Route \"$uri\" not found");
         }
 
-        return $newRoutes[0];
+        return $routes[0];
     }
 
     /**
