@@ -62,7 +62,7 @@ class VanillaRenderer implements RendererInterface
      *
      * @throws \InvalidArgumentException
      */
-    private function getTemplate($template)
+    protected function getTemplate($template)
     {
         foreach ($this->directories as $directory) {
             if ($files = glob("$directory/$template")) {
