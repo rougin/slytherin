@@ -17,7 +17,7 @@ interface ErrorHandlerInterface
      * Sets up the environment to be used.
      *
      * @param  string $environment
-     * @return void
+     * @return self
      */
     public function setEnvironment($environment);
 

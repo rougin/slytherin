@@ -15,6 +15,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
 - `Container\ContainerInterface` for defining instances to containers
 - `Integration` for integrating third-party packages to Slytherin
+- `Configuration` for ease of access in getting configurations inside integrations
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

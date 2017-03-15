@@ -23,12 +23,14 @@ class Collector
      */
     public static function get(\Interop\Container\ContainerInterface $container, array $components = array(), &$globals = null)
     {
+        $configuration = new \Rougin\Slytherin\Integration\Configuration;
+
         $collection = new Collection;
 
         foreach ($components as $component) {
             $instance = self::prepareComponent($collection, $component);
 
-            $container = $instance->define($container);
+            $container = $instance->define($container, $configuration);
         }
 
         $collection->setContainer($container);

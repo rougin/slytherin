@@ -4,6 +4,8 @@ namespace Rougin\Slytherin\Application;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+use Rougin\Slytherin\Integration\Configuration;
+
 /**
  * Application
  *
@@ -45,9 +47,20 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $modifier = new HttpModifier($this->container->get(self::RESPONSE));
+        $dispatcher = $this->container->get(self::DISPATCHER);
 
-        list($function, $middlewares) = $this->dispatch($request);
+        $method = $request->getMethod();
+        $parsed = $request->getParsedBody();
+
+        // For PATCH and DELETE HTTP methods
+        $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
+        $route  = $dispatcher->dispatch($method, $request->getUri()->getPath());
+
+        list($function, $parameters, $middlewares) = $route;
+
+        $function = (is_null($parameters)) ? $function : array($function, $parameters);
+
+        $modifier = new HttpModifier($this->container->get(self::RESPONSE));
 
         $response = null;
 
@@ -63,12 +76,14 @@ class Application
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  array $integrations
-     * @param  array $config
+     * @param  array                                       $integrations
+     * @param  \Rougin\Slytherin\Integration\Configuration $config
      * @return self
      */
-    public function integrate(array $integrations, array $config = array())
+    public function integrate(array $integrations, Configuration $config = null)
     {
+        $config = ($config == null) ? new Configuration : $config;
+
         $container = $this->container;
 
         foreach ($integrations as $integration) {
@@ -107,23 +122,23 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return array
      */
-    protected function dispatch(ServerRequestInterface $request)
-    {
-        $dispatcher = $this->container->get(self::DISPATCHER);
+    // protected function dispatch(ServerRequestInterface $request)
+    // {
+    //     $dispatcher = $this->container->get(self::DISPATCHER);
 
-        $method = $request->getMethod();
-        $parsed = $request->getParsedBody();
+    //     $method = $request->getMethod();
+    //     $parsed = $request->getParsedBody();
 
-        // For PATCH and DELETE HTTP methods
-        $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
-        $route  = $dispatcher->dispatch($method, $request->getUri()->getPath());
+    //     // For PATCH and DELETE HTTP methods
+    //     $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
+    //     $route  = $dispatcher->dispatch($method, $request->getUri()->getPath());
 
-        list($function, $parameters, $middlewares) = $route;
+    //     list($function, $parameters, $middlewares) = $route;
 
-        $result = (is_null($parameters)) ? $function : array($function, $parameters);
+    //     $result = (is_null($parameters)) ? $function : array($function, $parameters);
 
-        return array($result, $middlewares);
-    }
+    //     return array($result, $middlewares);
+    // }
 
     /**
      * Resolves the result based from the dispatched route.

@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Container\ContainerInterface;
+
 /**
  * Middleware Integration
  *
@@ -16,10 +19,10 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  array                                          $config
+     * @param  \Rougin\Slytherin\Integration\Configuration    $config
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $config = array())
+    public function define(ContainerInterface $container, Configuration $config)
     {
         $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
 
@@ -28,7 +31,7 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
             $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($middleware);
         }
 
-        foreach ($config['app']['middlewares'] as $item) {
+        foreach ($config->get('app.middlewares', array()) as $item) {
             $item = is_callable($item) ? $item : new $item;
 
             $middleware->push($item);

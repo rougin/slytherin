@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Debug;
 
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Container\ContainerInterface;
+
 /**
  * Error Handler Integration
  *
@@ -16,10 +19,10 @@ class ErrorHandlerIntegration implements \Rougin\Slytherin\Integration\Integrati
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  array                                          $config
+     * @param  \Rougin\Slytherin\Integration\Configuration    $config
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    public function define(\Rougin\Slytherin\Container\ContainerInterface $container, array $config = array())
+    public function define(ContainerInterface $container, Configuration $config)
     {
         $handler = new VanillaErrorHandler;
 
@@ -27,9 +30,9 @@ class ErrorHandlerIntegration implements \Rougin\Slytherin\Integration\Integrati
             $handler = new WhoopsErrorHandler(new \Whoops\Run);
         }
 
-        $handler->setEnvironment($config['app']['environment']);
+        $environment = $config->get('app.environment', 'development');
 
-        $handler->display();
+        $handler->setEnvironment($environment)->display();
 
         return $container;
     }

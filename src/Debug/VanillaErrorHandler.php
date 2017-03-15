@@ -30,11 +30,13 @@ class VanillaErrorHandler implements ErrorHandlerInterface
      * Sets up the environment to be used.
      *
      * @param  string $environment
-     * @return void
+     * @return self
      */
     public function setEnvironment($environment)
     {
         $this->environment = $environment;
+
+        return $this;
     }
 
     /**
