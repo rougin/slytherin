@@ -195,7 +195,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $application = new \Rougin\Slytherin\Application;
 
-        $config = new \Rougin\Slytherin\Configuration;
+        $config = new \Rougin\Slytherin\Configuration(__DIR__ . '/../Fixture/Configurations');
 
         $config->set('app.environment', 'development');
         $config->set('app.middlewares', array('Rougin\Slytherin\Middleware\FinalResponse'));

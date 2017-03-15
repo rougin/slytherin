@@ -25,18 +25,26 @@ class Application
     /**
      * @var \Interop\Container\ContainerInterface
      */
-    protected $container;
+    protected static $container;
 
     /**
      * @param \Interop\Container\ContainerInterface|null $container
      */
     public function __construct(\Interop\Container\ContainerInterface $container = null)
     {
-        if (is_null($container)) {
-            $container = new \Rougin\Slytherin\Container\VanillaContainer;
-        }
+        $vanilla = new \Rougin\Slytherin\Container\VanillaContainer;
 
-        $this->container = $container;
+        static::$container = (is_null($container)) ? $vanilla : $container;
+    }
+
+    /**
+     * Returns the static instance of the specified container.
+     *
+     * @return \Interop\Container\ContainerInterface
+     */
+    public static function container()
+    {
+        return static::$container;
     }
 
     /**
@@ -55,12 +63,12 @@ class Application
 
         list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
 
-        $modifier = new HttpModifier($this->container->get(self::RESPONSE));
+        $modifier = new HttpModifier(static::$container->get(self::RESPONSE));
 
         $response = null;
 
-        if ($this->container->has(self::MIDDLEWARE)) {
-            $modifier->setMiddleware($this->container->get(self::MIDDLEWARE));
+        if (static::$container->has(self::MIDDLEWARE)) {
+            $modifier->setMiddleware(static::$container->get(self::MIDDLEWARE));
 
             $response = $modifier->invokeMiddleware($request, $middlewares);
         }
@@ -79,7 +87,7 @@ class Application
     {
         $config = ($config == null) ? new Configuration : $config;
 
-        $container = $this->container;
+        $container = static::container();
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
@@ -87,7 +95,7 @@ class Application
             $container = $integration->define($container, $config);
         }
 
-        $this->container = $container;
+        static::$container = $container;
 
         return $this;
     }
@@ -99,11 +107,11 @@ class Application
      */
     public function run()
     {
-        $request = $this->container->get(self::REQUEST);
+        $request = static::$container->get(self::REQUEST);
 
         // NOTE: To be removed in v1.0.0
-        if ($this->container->has(self::ERROR_HANDLER)) {
-            $debugger = $this->container->get(self::ERROR_HANDLER);
+        if (static::$container->has(self::ERROR_HANDLER)) {
+            $debugger = static::$container->get(self::ERROR_HANDLER);
 
             $debugger->display();
         }
@@ -120,7 +128,7 @@ class Application
      */
     protected function dispatch($method, $path)
     {
-        $dispatcher = $this->container->get(self::DISPATCHER);
+        $dispatcher = static::$container->get(self::DISPATCHER);
 
         $route = $dispatcher->dispatch($method, $path);
 
@@ -150,7 +158,7 @@ class Application
 
             list($className, $method) = $class;
 
-            $resolver = new ClassResolver($this->container);
+            $resolver = new ClassResolver(static::$container);
 
             $result = $resolver->resolve($className);
             $result = call_user_func_array(array($result, $method), $parameters);

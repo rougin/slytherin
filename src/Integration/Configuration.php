@@ -18,11 +18,12 @@ class Configuration
     protected $data = array();
 
     /**
-     * @param array $data
+     * @param array|string|null $data
      */
-    public function __construct(array $data = array())
+    public function __construct($data = null)
     {
-        $this->data = $data;
+        $this->data = (is_array($data)) ? $data : $this->data;
+        $this->data = (is_string($data)) ? $this->load($data) : $this->data;
     }
 
     /**
@@ -50,15 +51,37 @@ class Configuration
     }
 
     /**
+     * Loads the configuration from a specified directory.
+     *
+     * @param  string $directory
+     * @return self
+     */
+    public function load($directory)
+    {
+        $configurations = glob($directory . '/*.php');
+
+        foreach ($configurations as $configuration) {
+            $items = require $configuration;
+            $name  = basename($configuration, '.php');
+
+            $this->data = array_merge($this->data, array($name => $items));
+        }
+
+        return $this->data;
+    }
+
+    /**
      * Sets the value to the specified key.
      *
-     * @param string $key
-     * @param mixed  $value
+     * @param string  $key
+     * @param mixed   $value
+     * @param boolean $fromFile
      * @param mixed
      */
-    public function set($key, $value)
+    public function set($key, $value, $fromFile = false)
     {
-        $keys = array_filter(explode('.', $key));
+        $keys  = array_filter(explode('.', $key));
+        $value = ($fromFile) ? require $value : $value;
 
         return $this->save($keys, $this->data, $value);
     }
