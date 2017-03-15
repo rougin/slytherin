@@ -24,13 +24,13 @@ class RendererIntegration implements \Rougin\Slytherin\Integration\IntegrationIn
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $renderer = new VanillaRenderer($config->get('app.views', ''));
+
         if (class_exists('Twig_Environment')) {
             $loader = new \Twig_Loader_Filesystem($config->get('app.views', ''));
             $twig   = new \Twig_Environment($loader);
 
             $renderer = new TwigRenderer($twig);
-        } else {
-            $renderer = new VanillaRenderer($config->get('app.views', ''));
         }
 
         $container->set('Rougin\Slytherin\Template\RendererInterface', $renderer);

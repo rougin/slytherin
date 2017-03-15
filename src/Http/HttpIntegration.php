@@ -24,11 +24,7 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $cookies = $config->get('app.http.cookies', array());
-        $files   = $config->get('app.http.files', array());
-        $get     = $config->get('app.http.get', array());
-        $post    = $config->get('app.http.post', array());
-        $server  = $config->get('app.http.server', $this->getSampleServer());
+        list($server, $cookies, $get, $files, $post) = $this->getGlobalVariables($config);
 
         $request  = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
         $response = new \Rougin\Slytherin\Http\Response;
@@ -45,6 +41,23 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
         $container->set('Psr\Http\Message\ResponseInterface', $response);
 
         return $container;
+    }
+
+    /**
+     * Returns the PHP's global variables.
+     *
+     * @param  \Rougin\Slytherin\Integration\Configuration $config
+     * @return array
+     */
+    protected function getGlobalVariables(Configuration $config)
+    {
+        $cookies = $config->get('app.http.cookies', array());
+        $files   = $config->get('app.http.files', array());
+        $get     = $config->get('app.http.get', array());
+        $post    = $config->get('app.http.post', array());
+        $server  = $config->get('app.http.server', $this->getSampleServer());
+
+        return array($server, $cookies, $get, $files, $post);
     }
 
     /**
