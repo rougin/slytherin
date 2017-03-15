@@ -47,18 +47,13 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $dispatcher = $this->container->get(self::DISPATCHER);
-
         $method = $request->getMethod();
         $parsed = $request->getParsedBody();
 
         // For PATCH and DELETE HTTP methods
         $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
-        $route  = $dispatcher->dispatch($method, $request->getUri()->getPath());
 
-        list($function, $parameters, $middlewares) = $route;
-
-        $function = (is_null($parameters)) ? $function : array($function, $parameters);
+        list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
 
         $modifier = new HttpModifier($this->container->get(self::RESPONSE));
 
@@ -119,26 +114,22 @@ class Application
     /**
      * Gets the result from the dispatcher.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  string $method
+     * @param  string $path
      * @return array
      */
-    // protected function dispatch(ServerRequestInterface $request)
-    // {
-    //     $dispatcher = $this->container->get(self::DISPATCHER);
+    protected function dispatch($method, $path)
+    {
+        $dispatcher = $this->container->get(self::DISPATCHER);
 
-    //     $method = $request->getMethod();
-    //     $parsed = $request->getParsedBody();
+        $route = $dispatcher->dispatch($method, $path);
 
-    //     // For PATCH and DELETE HTTP methods
-    //     $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
-    //     $route  = $dispatcher->dispatch($method, $request->getUri()->getPath());
+        list($function, $parameters, $middlewares) = $route;
 
-    //     list($function, $parameters, $middlewares) = $route;
+        $result = (is_null($parameters)) ? $function : array($function, $parameters);
 
-    //     $result = (is_null($parameters)) ? $function : array($function, $parameters);
-
-    //     return array($result, $middlewares);
-    // }
+        return array($result, $middlewares);
+    }
 
     /**
      * Resolves the result based from the dispatched route.

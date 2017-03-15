@@ -82,7 +82,7 @@ class Configuration
         }
 
         if (! isset($data[$key])) {
-            $data[$key] = [];
+            $data[$key] = array();
         }
 
         return $this->save($keys, $data[$key], $value);

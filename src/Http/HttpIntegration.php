@@ -33,13 +33,9 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
         $request  = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
         $response = new \Rougin\Slytherin\Http\Response;
 
-        $original = headers_list();
+        $headers = function_exists('xdebug_get_headers') ? xdebug_get_headers() : headers_list();
 
-        if (function_exists('xdebug_get_headers')) {
-            $original = xdebug_get_headers();
-        }
-
-        foreach ($original as $header) {
+        foreach ($headers as $header) {
             list($key, $value) = explode(': ', $header);
 
             $request = $request->withHeader($key, $value);
