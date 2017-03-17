@@ -70,6 +70,8 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $globals  = array('name' => 'template');
         $renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig, $globals);
 
+        $renderer->addGlobal('test', 'wew');
+
         $this->assertEquals($expected, $renderer->render('test-with-twig-data', array(), 'php'));
     }
 }
