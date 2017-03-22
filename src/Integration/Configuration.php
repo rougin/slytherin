@@ -73,17 +73,20 @@ class Configuration
     /**
      * Sets the value to the specified key.
      *
-     * @param string  $key
-     * @param mixed   $value
-     * @param boolean $fromFile
-     * @param mixed
+     * @param  string  $key
+     * @param  mixed   $value
+     * @param  boolean $fromFile
+     * @param  mixed
+     * @return self
      */
     public function set($key, $value, $fromFile = false)
     {
         $keys  = array_filter(explode('.', $key));
         $value = ($fromFile) ? require $value : $value;
 
-        return $this->save($keys, $this->data, $value);
+        $this->save($keys, $this->data, $value);
+
+        return $this;
     }
 
     /**

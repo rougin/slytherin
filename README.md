@@ -22,30 +22,58 @@ $ composer require rougin/slytherin
 ### Install specified interfaces
 
 ``` bash
-$ composer require container-interop/container-interop psr/http-message http-interop/http-middleware
+$ composer require container-interop/container-interop psr/http-message
 ```
 
 ### "Hello world" example
 
+#### Using `Interop\Container\ContainerInterface`
+
 ``` php
-$callable = function ($name = 'Muggle') {
-    $name = ucwords(strtolower($name));
+// Define HTTP objects that is compliant to PSR-7 standards
+$request  = new Rougin\Slytherin\Http\ServerRequest($_SERVER);
+$response = new Rougin\Slytherin\Http\Response(http_response_code());
 
-    return 'Hello, ' . $name . '.';
-};
+// Create routes from Rougin\Slytherin\Routing\RouterInterface...
+$router = new Rougin\Slytherin\Routing\Vanilla\Router;
 
-$router = new Rougin\Slytherin\Dispatching\Vanilla\Router;
+$router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
 
-$router->get('/', $callable);
-$router->get('/hello/(\w+)', $callable);
+// ...then define it to Rougin\Slytherin\Routing\DispatcherInterface
+$dispatcher = new Rougin\Slytherin\Routing\Vanilla\Dispatcher($router);
 
-$components = (new Rougin\Slytherin\Component\Collection)
-    ->setContainer(new Rougin\Slytherin\IoC\Vanilla\Container)
-    ->setHttpRequest(new Rougin\Slytherin\Http\ServerRequest($_SERVER))
-    ->setHttpResponse(new Rougin\Slytherin\Http\Response(http_response_code()))
-    ->setDispatcher(new Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router));
+// Add the above objects through \Interop\Container\ContainerInterface
+$container = new Rougin\Slytherin\Container\VanillaContainer;
 
-(new Rougin\Slytherin\Application($components))->run();
+$container->set('Psr\Http\Message\ServerRequestInterface', $request);
+$container->set('Psr\Http\Message\ResponseInterface', $response);
+$container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+
+// Lastly, run the application using the definitions from the container
+(new Rougin\Slytherin\Application($container))->run();
+```
+
+#### Using `Rougin\Integration\IntegrationInterface`
+
+``` php
+// Specify the integrations to be included and defined
+$integrations = [];
+
+$integrations[] = 'Rougin\Slytherin\Http\HttpIntegration';
+$integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+
+// Create routes from Rougin\Slytherin\Routing\RouterInterface
+$router = new Rougin\Slytherin\Routing\Vanilla\Router;
+
+$router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
+
+// Supply values to integrations through Rougin\Slytherin\Configuration
+$config = (new Rougin\Slytherin\Integration\Configuration)
+    ->set('app.http.server', $_SERVER)
+    ->set('app.router', $router);
+
+// Run the application using the specified integrations and configuration
+(new Rougin\Slytherin\Application)->integrate($integrations, $config)->run();
 ```
 
 ### Run the application using PHP's built-in web server:
@@ -55,8 +83,6 @@ $ php -S localhost:8000
 ```
 
 Open your web browser and go to [http://localhost:8000](http://localhost:8000).
-
-In the example implementation above, you can use a package of your choice for a specific component and implement it with a provided interface from Slytherin. More information about this can be found in [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
 ## Change log
 

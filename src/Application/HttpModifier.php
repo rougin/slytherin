@@ -33,19 +33,19 @@ class HttpModifier
     /**
      * Checks if previous response is available.
      *
-     * @param  \Psr\Http\Message\ResponseInterface|string $final
-     * @param  \Psr\Http\Message\ResponseInterface|null   $first
+     * @param  \Psr\Http\Message\ResponseInterface|mixed $final
+     * @param  \Psr\Http\Message\ResponseInterface|mixed $first
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function getResponse($final, $first = null)
     {
         $response = $this->response;
 
-        if (! is_null($first)) {
+        if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
             $response = $this->setHeaders($first);
         }
 
-        if (! is_string($final)) {
+        if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
             return $this->setHeaders($final);
         }
 
