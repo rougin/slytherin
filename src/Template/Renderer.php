@@ -12,7 +12,7 @@ namespace Rougin\Slytherin\Template;
  */
 class Renderer implements RendererInterface
 {
-	/**
+    /**
      * @var array
      */
     protected $directories = array();
