@@ -16,7 +16,7 @@ use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
-class StratigilityMiddleware extends VanillaMiddleware
+class StratigilityMiddleware extends Middleware
 {
     /**
      * @var \Zend\Stratigility\MiddlewarePipe

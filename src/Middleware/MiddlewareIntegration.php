@@ -27,8 +27,9 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
         $middleware = new \Rougin\Slytherin\Middleware\Middleware;
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            $middleware = new \Zend\Stratigility\MiddlewarePipe;
-            $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($middleware);
+            $pipe = new \Zend\Stratigility\MiddlewarePipe;
+
+            $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($pipe);
         }
 
         foreach ($config->get('app.middlewares', array()) as $item) {

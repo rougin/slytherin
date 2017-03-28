@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends VanillaContainer
+class AurynContainer extends Container
 {
     /**
      * @var \Auryn\Injector
