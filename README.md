@@ -35,15 +35,15 @@ $request  = new Rougin\Slytherin\Http\ServerRequest($_SERVER);
 $response = new Rougin\Slytherin\Http\Response(http_response_code());
 
 // Create routes from Rougin\Slytherin\Routing\RouterInterface...
-$router = new Rougin\Slytherin\Routing\Vanilla\Router;
+$router = new Rougin\Slytherin\Routing\Router;
 
 $router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
 
 // ...then define it to Rougin\Slytherin\Routing\DispatcherInterface
-$dispatcher = new Rougin\Slytherin\Routing\Vanilla\Dispatcher($router);
+$dispatcher = new Rougin\Slytherin\Routing\Dispatcher($router);
 
 // Add the above objects through \Interop\Container\ContainerInterface
-$container = new Rougin\Slytherin\Container\VanillaContainer;
+$container = new Rougin\Slytherin\Container\Container;
 
 $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 $container->set('Psr\Http\Message\ResponseInterface', $response);
@@ -63,7 +63,7 @@ $integrations[] = 'Rougin\Slytherin\Http\HttpIntegration';
 $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
 
 // Create routes from Rougin\Slytherin\Routing\RouterInterface
-$router = new Rougin\Slytherin\Routing\Vanilla\Router;
+$router = new Rougin\Slytherin\Routing\Router;
 
 $router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
 

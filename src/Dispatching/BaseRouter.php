@@ -12,6 +12,6 @@ namespace Rougin\Slytherin\Dispatching;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-abstract class BaseRouter extends \Rougin\Slytherin\Routing\BaseRouter
+abstract class BaseRouter extends \Rougin\Slytherin\Routing\Router
 {
 }

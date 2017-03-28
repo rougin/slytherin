@@ -32,7 +32,7 @@ class Application
      */
     public function __construct(\Interop\Container\ContainerInterface $container = null)
     {
-        $vanilla = new \Rougin\Slytherin\Container\VanillaContainer;
+        $vanilla = new \Rougin\Slytherin\Container\Container;
 
         static::$container = (is_null($container)) ? $vanilla : $container;
     }
