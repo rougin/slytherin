@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\Debug\Vanilla;
 
 /**
- * Vanilla Debugger
+ * Debugger
  *
  * A simple implementation of a debugger.
  * NOTE: To be removed in v1.0.0

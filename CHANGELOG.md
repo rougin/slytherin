@@ -22,6 +22,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
+- `Debugger` to `ErrorHandler`
 
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 

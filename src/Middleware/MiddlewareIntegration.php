@@ -24,7 +24,7 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
+        $middleware = new \Rougin\Slytherin\Middleware\Middleware;
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
             $middleware = new \Zend\Stratigility\MiddlewarePipe;
