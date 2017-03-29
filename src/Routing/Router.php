@@ -14,6 +14,11 @@ namespace Rougin\Slytherin\Routing;
 class Router implements RouterInterface
 {
     /**
+     * @var string
+     */
+    protected $prefix = '';
+
+    /**
      * @var array
      */
     protected $routes = array();
@@ -52,7 +57,10 @@ class Router implements RouterInterface
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
     {
-        array_push($this->routes, array($httpMethod, $route, $handler, $middlewares));
+        $route = str_replace('//', '/', $this->prefix . $route);
+        $route = array($httpMethod, $route, $handler, $middlewares);
+
+        array_push($this->routes, $route);
 
         return $this;
     }
@@ -88,6 +96,19 @@ class Router implements RouterInterface
     public function getRoutes($parsed = false)
     {
         return $this->routes;
+    }
+
+    /**
+     * Sets a prefix for the succeeding route endpoints.
+     *
+     * @param  string $prefix
+     * @return self
+     */
+    public function setPrefix($prefix = '')
+    {
+        $this->prefix = $prefix;
+
+        return $this;
     }
 
     /**

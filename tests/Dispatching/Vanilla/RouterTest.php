@@ -93,4 +93,24 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->router->test($uri, $handler);
     }
+
+    /**
+     * Tests $router->setPrefix() to add additional prefix in new routes.
+     *
+     * @return void
+     */
+    public function testSetPrefixMethod()
+    {
+        $this->router->setPrefix('/v1/slytherin');
+
+        list($httpMethod, $uri, $handler) = $this->routes[0];
+
+        $this->router->get($uri, $handler);
+
+        $expected = '/v1/slytherin' . $uri;
+
+        $route = $this->router->getRoute($httpMethod, $expected);
+
+        $this->assertEquals($expected, $route[1]);
+    }
 }

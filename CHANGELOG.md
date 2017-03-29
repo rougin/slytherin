@@ -16,6 +16,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Container\ContainerInterface` for defining instances to containers
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
+- Add `setPrefix` in `Routing\Router` for adding prefix in succeeding route endpoints
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`
@@ -23,6 +24,9 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debugger` to `ErrorHandler`
+
+### Removed
+- `Vanilla` prefix in classes
 
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
