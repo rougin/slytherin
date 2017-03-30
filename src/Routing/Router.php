@@ -103,6 +103,27 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a listing of routes specified for RESTful approach.
+     *
+     * @param  string $route
+     * @param  string  $class
+     * @param  array  $middlewares
+     * @return self
+     */
+    public function restful($route, $class, $middlewares = array())
+    {
+        $this->get('/' . $route, $class . '@index', $middlewares);
+        $this->post('/' . $route, $class . '@store', $middlewares);
+
+        $this->delete('/' . $route . '/:id', $class . '@delete', $middlewares);
+        $this->get('/' . $route . '/:id', $class . '@show', $middlewares);
+        $this->patch('/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->put('/' . $route . '/:id', $class . '@update', $middlewares);
+
+        return $this;
+    }
+
+    /**
      * Sets a prefix for the succeeding route endpoints.
      *
      * @param  string $prefix
@@ -111,7 +132,7 @@ class Router implements RouterInterface
      */
     public function setPrefix($prefix = '', $namespace = '')
     {
-        $this->namespace = $namespace;
+        $this->namespace = ($namespace != '') ? $namespace . '\\' : '';
 
         $this->prefix = $prefix;
 

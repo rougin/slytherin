@@ -19,8 +19,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = array(
-        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()),
-        array('GET', '/at', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', array())
+        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
     );
 
     /**
@@ -66,7 +65,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
 
-        $this->assertCount(2, $this->router->getRoutes(true));
+        $this->assertCount(1, $this->router->getRoutes(true));
     }
 
     /**
@@ -113,5 +112,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $route = $this->router->getRoute($httpMethod, $expected);
 
         $this->assertEquals($expected, $route[1]);
+    }
+
+    /**
+     * Tests $router->restful() to add additional routes based on route.
+     *
+     * @return void
+     */
+    public function testRestfulMethod()
+    {
+        $this->router->restful('new', 'Rougin\Slytherin\Fixture\Classes\NewClass');
+
+        $this->assertCount(6, $this->router->getRoutes(true));
     }
 }
