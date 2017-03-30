@@ -16,6 +16,11 @@ class Router implements RouterInterface
     /**
      * @var string
      */
+    protected $namespace = '';
+
+    /**
+     * @var string
+     */
     protected $prefix = '';
 
     /**
@@ -57,10 +62,9 @@ class Router implements RouterInterface
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = str_replace('//', '/', $this->prefix . $route);
         $route = array($httpMethod, $route, $handler, $middlewares);
 
-        array_push($this->routes, $route);
+        array_push($this->routes, $this->parseRoute($route));
 
         return $this;
     }
@@ -102,13 +106,38 @@ class Router implements RouterInterface
      * Sets a prefix for the succeeding route endpoints.
      *
      * @param  string $prefix
+     * @param  string $namespace
      * @return self
      */
-    public function setPrefix($prefix = '')
+    public function setPrefix($prefix = '', $namespace = '')
     {
+        $this->namespace = $namespace;
+
         $this->prefix = $prefix;
 
         return $this;
+    }
+
+    /**
+     * Parses the route.
+     *
+     * @param  array $route
+     * @return array
+     */
+    protected function parseRoute($route)
+    {
+        $route[0] = strtoupper($route[0]);
+        $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
+
+        if (is_string($route[2]) && strpos($route[2], '@') !== false) {
+            $route[2] = explode('@', $route[2]);
+        }
+
+        if (is_array($route[2])) {
+            $route[2][0] = $this->namespace . $route[2][0];
+        }
+
+        return $route;
     }
 
     /**

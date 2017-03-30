@@ -51,8 +51,7 @@ class PhrouteRouter extends Router
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = str_replace('//', '/', $this->prefix . $route);
-        $route = array($httpMethod, $route, $handler, $middlewares);
+        $route = $this->parseRoute(array($httpMethod, $route, $handler, $middlewares));
 
         $this->collector->addRoute($httpMethod, $route[1], $handler);
 

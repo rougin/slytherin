@@ -19,7 +19,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      * @var array
      */
     protected $routes = array(
-        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
+        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()),
+        array('GET', '/at', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', array())
     );
 
     /**
@@ -65,7 +66,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
 
-        $this->assertCount(1, $this->router->getRoutes(true));
+        $this->assertCount(2, $this->router->getRoutes(true));
     }
 
     /**
@@ -107,7 +108,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->router->get($uri, $handler);
 
-        $expected = '/v1/slytherin' . $uri;
+        $expected = '/v1/slytherin/';
 
         $route = $this->router->getRoute($httpMethod, $expected);
 

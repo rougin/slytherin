@@ -10,7 +10,7 @@ All Notable changes to `Slytherin` will be documented in this file
 ### Added
 - [PSR-7](http://www.php-fig.org/psr/psr-7) implementation of `Http` component
 - [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) implementation of `Middleware` component
-- Unit test for `Phroute` in `Application\Application`
+- Unit tests for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
 - `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
 - `Container\ContainerInterface` for defining instances to containers
