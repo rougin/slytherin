@@ -13,14 +13,14 @@ namespace Rougin\Slytherin\Application;
 class ClassResolver
 {
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
-     * @param \Interop\Container\ContainerInterface $container
+     * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(\Interop\Container\ContainerInterface $container)
+    public function __construct(\Psr\Container\ContainerInterface $container)
     {
         $this->container = $container;
     }

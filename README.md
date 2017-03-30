@@ -27,7 +27,7 @@ $ composer require container-interop/container-interop psr/http-message
 
 ### "Hello world" example
 
-#### Using `Interop\Container\ContainerInterface`
+#### Using `\Rougin\Slytherin\Container\ContainerInterface`
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards
@@ -42,7 +42,7 @@ $router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
 // ...then define it to Rougin\Slytherin\Routing\DispatcherInterface
 $dispatcher = new Rougin\Slytherin\Routing\Dispatcher($router);
 
-// Add the above objects through \Interop\Container\ContainerInterface
+// Add the above objects through \Rougin\Slytherin\Container\ContainerInterface
 $container = new Rougin\Slytherin\Container\Container;
 
 $container->set('Psr\Http\Message\ServerRequestInterface', $request);

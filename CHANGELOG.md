@@ -25,6 +25,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debugger` to `ErrorHandler`
+- `Interop\Container\ContainerInterface` to `Psr\Container\ContainerInterface`
 
 ### Removed
 - `Vanilla` prefix in classes

@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Container;
 /**
  * Container
  *
- * A simple container that is implemented on \Interop\Container\ContainerInterface.
+ * A simple container that is implemented on \Psr\Container\ContainerInterface.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -16,6 +16,14 @@ class Container implements ContainerInterface
      * @var array
      */
     public $instances = array();
+
+    /**
+     * @param array $instances
+     */
+    public function __construct(array $instances = array())
+    {
+        $this->instances = $instances;
+    }
 
     /**
      * Adds a new instance to the container.

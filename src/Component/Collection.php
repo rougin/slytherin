@@ -14,7 +14,7 @@ namespace Rougin\Slytherin\Component;
 class Collection extends \Rougin\Slytherin\Container\VanillaContainer
 {
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
@@ -32,11 +32,11 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
     /**
      * Gets an instance of the container.
      *
-     * @return \Interop\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public function getContainer()
     {
-        $interface = 'Interop\Container\ContainerInterface';
+        $interface = 'Psr\Container\ContainerInterface';
 
         return (is_a($this->container, $interface)) ? $this->container : $this;
     }
@@ -44,10 +44,10 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
     /**
      * Sets the container.
      *
-     * @param  \Interop\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @return self
      */
-    public function setContainer(\Interop\Container\ContainerInterface $container)
+    public function setContainer(\Psr\Container\ContainerInterface $container)
     {
         $this->container = $container;
 

@@ -22,7 +22,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        if (! interface_exists('Interop\Container\ContainerInterface')) {
+        if (! interface_exists('Psr\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 

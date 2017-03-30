@@ -27,7 +27,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetContainerMethod()
     {
-        if (! interface_exists('Interop\Container\ContainerInterface')) {
+        if (! interface_exists('Psr\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 

@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\IoC;
  * Base Container
  *
  * A simple implementation of a container that is based on
- * Interop\Container\ContainerInterface.
+ * Psr\Container\ContainerInterface.
  * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin

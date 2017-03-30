@@ -16,12 +16,12 @@ class Collector
     /**
      * Collects the specified components.
      *
-     * @param  \Interop\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @param  array                                 $components
      * @param  array|null                            $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(\Interop\Container\ContainerInterface $container, array $components = array(), &$globals = null)
+    public static function get(\Psr\Container\ContainerInterface $container, array $components = array(), &$globals = null)
     {
         $configuration = new \Rougin\Slytherin\Integration\Configuration;
 

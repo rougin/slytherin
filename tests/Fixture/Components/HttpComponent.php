@@ -59,10 +59,10 @@ class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
     /**
      * Sets the component. Can also add it to the container.
      *
-     * @param  \Interop\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @return void
      */
-    public function set(\Interop\Container\ContainerInterface &$container)
+    public function set(\Psr\Container\ContainerInterface &$container)
     {
         $container->add('Psr\Http\Message\ServerRequestInterface', $this->request);
         $container->add('Psr\Http\Message\ResponseInterface', $this->response);

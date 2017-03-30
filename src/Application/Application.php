@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Application;
 
-use Psr\Http\Message\ServerRequestInterface;
-
 use Rougin\Slytherin\Integration\Configuration;
 
 /**
@@ -23,14 +21,14 @@ class Application
     const RESPONSE      = 'Psr\Http\Message\ResponseInterface';
 
     /**
-     * @var \Interop\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected static $container;
 
     /**
-     * @param \Interop\Container\ContainerInterface|null $container
+     * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(\Interop\Container\ContainerInterface $container = null)
+    public function __construct(\Psr\Container\ContainerInterface $container = null)
     {
         $vanilla = new \Rougin\Slytherin\Container\Container;
 
@@ -40,7 +38,7 @@ class Application
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Interop\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public static function container()
     {
@@ -53,7 +51,7 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(ServerRequestInterface $request)
+    public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
         $method = $request->getMethod();
         $parsed = $request->getParsedBody();
