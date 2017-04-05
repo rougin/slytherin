@@ -24,20 +24,11 @@ class Dispatcher implements DispatcherInterface
     protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
-     * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router = null)
     {
-        $routes = array_filter($router->getRoutes());
-
-        foreach ($routes as $route) {
-            preg_match_all('/:[a-z]*/', $route[1], $parameters);
-
-            $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
-            $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
-
-            array_push($this->routes, $route);
-        }
+        $router == null || $this->setRouter($router);
     }
 
     /**
@@ -66,6 +57,28 @@ class Dispatcher implements DispatcherInterface
         }
 
         return $routes[0];
+    }
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    public function setRouter(RouterInterface $router)
+    {
+        $routes = array_filter($router->getRoutes());
+
+        foreach ($routes as $route) {
+            preg_match_all('/:[a-z]*/', $route[1], $parameters);
+
+            $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
+            $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
+
+            array_push($this->routes, $route);
+        }
+
+        return $this;
     }
 
     /**

@@ -20,4 +20,12 @@ interface DispatcherInterface
      * @return array
      */
     public function dispatch($httpMethod, $uri);
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    public function setRouter(RouterInterface $router);
 }

@@ -18,6 +18,7 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Configuration` for ease of access in getting configurations inside integrations
 - Add `setPrefix` in `Routing\Router` for adding prefix in succeeding route endpoints
 - Add `restful` in `Routing\Router` for adding RESTful routes based on one base route
+- Add `setRouter` in `Routing\DispatcherInterface` for setting up routers manually
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

@@ -25,29 +25,11 @@ class FastRouteDispatcher implements DispatcherInterface
     protected $router;
 
     /**
-     * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router = null)
     {
-        $this->router = $router;
-
-        if (! is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
-            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-                $routes = array_filter($router->getRoutes());
-
-                foreach ($routes as $route) {
-                    $collector->addRoute($route[0], $route[1], $route[2]);
-                }
-            };
-
-            $this->dispatcher = \FastRoute\simpleDispatcher($routes);
-
-            return;
-        }
-
-        $routes = $router->getRoutes(true);
-
-        $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+        $router == null || $this->setRouter($router);
     }
 
     /**
@@ -67,6 +49,33 @@ class FastRouteDispatcher implements DispatcherInterface
         $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : array();
 
         return array($result[1], $result[2], $middlewares);
+    }
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    public function setRouter(RouterInterface $router)
+    {
+        $this->router = $router;
+
+        if (is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
+            $routes = $router->getRoutes(true);
+        } else {
+            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
+                $routes = array_filter($router->getRoutes());
+
+                foreach ($routes as $route) {
+                    $collector->addRoute($route[0], $route[1], $route[2]);
+                }
+            };
+        }
+
+        $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+
+        return $this;
     }
 
     /**

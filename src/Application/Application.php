@@ -19,6 +19,7 @@ class Application
     const MIDDLEWARE    = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
     const REQUEST       = 'Psr\Http\Message\ServerRequestInterface';
     const RESPONSE      = 'Psr\Http\Message\ResponseInterface';
+    const ROUTER        = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
      * @var \Psr\Container\ContainerInterface
@@ -127,6 +128,12 @@ class Application
     protected function dispatch($method, $path)
     {
         $dispatcher = static::$container->get(self::DISPATCHER);
+
+        if (static::$container->has(self::ROUTER)) {
+            $router = static::$container->get(self::ROUTER);
+
+            $dispatcher->setRouter($router);
+        }
 
         $route = $dispatcher->dispatch($method, $path);
 

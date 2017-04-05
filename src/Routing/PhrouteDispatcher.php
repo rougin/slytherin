@@ -25,29 +25,11 @@ class PhrouteDispatcher implements DispatcherInterface
     protected $router;
 
     /**
-     * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router = null)
     {
-        $this->router = $router;
-
-        if (is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
-            $routes = $router->getRoutes(true);
-
-            $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
-
-            return;
-        }
-
-        $collector = new \Phroute\Phroute\RouteCollector;
-
-        foreach ($router->getRoutes() as $route) {
-            $collector->addRoute($route[0], $route[1], $route[2]);
-        }
-
-        $routes = $collector->getData();
-
-        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+        $router == null || $this->setRouter($router);
     }
 
     /**
@@ -64,5 +46,36 @@ class PhrouteDispatcher implements DispatcherInterface
         $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : array();
 
         return array($routeResult, null, $middlewares);
+    }
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    public function setRouter(RouterInterface $router)
+    {
+        $this->router = $router;
+
+        if (is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
+            $routes = $router->getRoutes(true);
+
+            $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+
+            return $this;
+        }
+
+        $collector = new \Phroute\Phroute\RouteCollector;
+
+        foreach ($router->getRoutes() as $route) {
+            $collector->addRoute($route[0], $route[1], $route[2]);
+        }
+
+        $routes = $collector->getData();
+
+        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+
+        return $this;
     }
 }
