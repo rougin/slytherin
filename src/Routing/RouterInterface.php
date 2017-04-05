@@ -13,13 +13,21 @@ namespace Rougin\Slytherin\Routing;
 interface RouterInterface
 {
     /**
-     * Adds a new route.
+     * Adds a new raw route.
      *
      * @param string|string[] $httpMethod
      * @param string          $route
      * @param mixed           $handler
      */
     public function addRoute($httpMethod, $route, $handler);
+
+    /**
+     * Adds a listing of parsed routes.
+     *
+     * @param  array $routes
+     * @return self
+     */
+    public function addRoutes(array $routes);
 
     /**
      * Returns a specific route based on the specified HTTP method and URI.

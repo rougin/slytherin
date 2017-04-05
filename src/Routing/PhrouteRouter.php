@@ -41,7 +41,7 @@ class PhrouteRouter extends Router
     }
 
     /**
-     * Adds a new route.
+     * Adds a new raw route.
      *
      * @param  string|string[] $httpMethod
      * @param  string          $route

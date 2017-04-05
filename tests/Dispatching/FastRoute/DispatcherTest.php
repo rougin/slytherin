@@ -131,4 +131,24 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf($interface, $this->dispatcher);
     }
+
+    /**
+     * Tests if dispatch() can return successfully with a different router.
+     *
+     * @return void
+     */
+    public function testDispatchMethodWithDifferentRouter()
+    {
+        $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
+
+        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+
+        $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
+
+        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+
+        $expected = array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array(), array());
+
+        $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
+    }
 }

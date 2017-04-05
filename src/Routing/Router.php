@@ -52,7 +52,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Adds a new route.
+     * Adds a new raw route.
      *
      * @param  string|string[] $httpMethod
      * @param  string          $route
@@ -70,7 +70,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Adds a listing of routes.
+     * Adds a listing of parsed routes.
      *
      * @param  array $routes
      * @return self
