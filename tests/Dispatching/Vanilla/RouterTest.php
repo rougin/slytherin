@@ -125,4 +125,16 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertCount(6, $this->router->getRoutes(true));
     }
+
+    /**
+     * Tests $router->addRoutes() to add a listing of routes.
+     *
+     * @return void
+     */
+    public function testAddRoutesMethod()
+    {
+        $this->router->addRoutes($this->routes);
+
+        $this->assertEquals($this->routes, $this->router->getRoutes());
+    }
 }

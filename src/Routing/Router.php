@@ -70,6 +70,19 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a listing of routes.
+     *
+     * @param  array $routes
+     * @return self
+     */
+    public function addRoutes(array $routes)
+    {
+        $this->routes = array_merge($this->routes, $routes);
+
+        return $this;
+    }
+
+    /**
      * Returns a specific route based on the specified HTTP method and URI.
      *
      * @param  string $httpMethod
