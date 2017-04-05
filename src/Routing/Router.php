@@ -125,13 +125,13 @@ class Router implements RouterInterface
      */
     public function restful($route, $class, $middlewares = array())
     {
-        $this->get('/' . $route, $class . '@index', $middlewares);
-        $this->post('/' . $route, $class . '@store', $middlewares);
+        $this->addRoute('GET', '/' . $route, $class . '@index', $middlewares);
+        $this->addRoute('POST', '/' . $route, $class . '@store', $middlewares);
 
-        $this->delete('/' . $route . '/:id', $class . '@delete', $middlewares);
-        $this->get('/' . $route . '/:id', $class . '@show', $middlewares);
-        $this->patch('/' . $route . '/:id', $class . '@update', $middlewares);
-        $this->put('/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->addRoute('DELETE', '/' . $route . '/:id', $class . '@delete', $middlewares);
+        $this->addRoute('GET', '/' . $route . '/:id', $class . '@show', $middlewares);
+        $this->addRoute('PATCH', '/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->addRoute('PUT', '/' . $route . '/:id', $class . '@update', $middlewares);
 
         return $this;
     }
