@@ -139,15 +139,29 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests get() method with an error.
+     * Tests get() method with NotFoundException.
      *
      * @return void
      */
-    public function testGetMethodWithError()
+    public function testGetMethodWithNotFoundException()
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $this->container->get($this->class);
+    }
+
+    /**
+     * Tests get() method with ContainerException.
+     *
+     * @return void
+     */
+    public function testGetMethodWithContainerException()
+    {
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
+
+        $this->container->set('Foo', []);
+
+        $this->container->get('Foo');
     }
 
     /**

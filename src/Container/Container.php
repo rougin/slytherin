@@ -29,24 +29,24 @@ class Container implements ContainerInterface
      * Adds a new instance to the container.
      * NOTE: To be removed in v1.0.0. Use $this->set() instead.
      *
-     * @param  string     $alias
+     * @param  string     $id
      * @param  mixed|null $concrete
      * @return self
      */
-    public function add($alias, $concrete = null)
+    public function add($id, $concrete = null)
     {
-        return $this->set($alias, $concrete);
+        return $this->set($id, $concrete);
     }
 
     /**
      * Creates an alias for a specified class.
      *
-     * @param string $alias
+     * @param string $id
      * @param string $original
      */
-    public function alias($alias, $original)
+    public function alias($id, $original)
     {
-        $this->instances[$alias] = $this->get($original);
+        $this->instances[$id] = $this->get($original);
 
         return $this;
     }
@@ -54,41 +54,52 @@ class Container implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $alias
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     *
+     * @param  string $id
      * @return mixed
      */
-    public function get($alias)
+    public function get($id)
     {
-        if (! $this->has($alias)) {
+        if (! $this->has($id)) {
             $message = 'Alias (%s) is not being managed by the container';
 
-            throw new Exception\NotFoundException(sprintf($message, $alias));
+            throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        return $this->instances[$alias];
+        $entry = $this->instances[$id];
+
+        if (! is_callable($entry) && ! is_object($entry)) {
+            $message = 'Alias (%s) is not a callable or an object';
+
+            throw new Exception\ContainerException(sprintf($message, $id));
+        }
+
+        return $entry;
     }
 
     /**
      * Returns true if the container can return an entry for the given identifier.
      *
-     * @param  string $alias
+     * @param  string $id
      * @return boolean
      */
-    public function has($alias)
+    public function has($id)
     {
-        return isset($this->instances[$alias]);
+        return isset($this->instances[$id]);
     }
 
     /**
      * Sets a new instance to the container.
      *
-     * @param  string     $alias
+     * @param  string     $id
      * @param  mixed|null $concrete
      * @return self
      */
-    public function set($alias, $concrete = null)
+    public function set($id, $concrete = null)
     {
-        $this->instances[$alias] = $concrete;
+        $this->instances[$id] = $concrete;
 
         return $this;
     }

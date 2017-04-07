@@ -45,7 +45,8 @@ class StratigilityMiddleware extends Middleware
     {
         $hasHandler = class_exists('Zend\Stratigility\NoopFinalHandler');
 
-        $handler  = ($hasHandler) ? new \Zend\Stratigility\NoopFinalHandler : null;
+        $handler = ($hasHandler) ? new \Zend\Stratigility\NoopFinalHandler : null;
+
         $pipeline = $this->refine($stack, $response);
 
         return $pipeline($request, $response, $handler);

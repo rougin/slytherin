@@ -31,8 +31,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      */
     public function __construct(\Whoops\Run $whoops, $environment = 'development')
     {
-        $this->whoops = $whoops;
         $this->environment = $environment;
+
+        $this->whoops = $whoops;
     }
 
     /**

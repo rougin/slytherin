@@ -17,35 +17,38 @@ class LeagueContainer extends \League\Container\Container implements ContainerIn
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $alias
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
+     *
+     * @param  string $id
      * @return mixed
      */
-    public function get($alias)
+    public function get($id)
     {
-        return parent::get($alias);
+        return parent::get($id);
     }
 
     /**
      * Returns true if the container can return an entry for the given identifier.
      *
-     * @param  string $alias
+     * @param  string $id
      * @return boolean
      */
-    public function has($alias)
+    public function has($id)
     {
-        return parent::has($alias);
+        return parent::has($id);
     }
 
     /**
      * Sets a new instance to the container.
      *
-     * @param  string     $alias
+     * @param  string     $id
      * @param  mixed|null $concrete
      * @param  boolean    $share
      * @return self
      */
-    public function set($alias, $concrete = null, $share = false)
+    public function set($id, $concrete = null, $share = false)
     {
-        return $this->add($alias, $concrete, $share);
+        return parent::add($id, $concrete, $share);
     }
 }

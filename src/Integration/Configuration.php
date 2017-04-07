@@ -62,7 +62,8 @@ class Configuration
 
         foreach ($configurations as $configuration) {
             $items = require $configuration;
-            $name  = basename($configuration, '.php');
+
+            $name = basename($configuration, '.php');
 
             $this->data = array_merge($this->data, array($name => $items));
         }
@@ -81,7 +82,8 @@ class Configuration
      */
     public function set($key, $value, $fromFile = false)
     {
-        $keys  = array_filter(explode('.', $key));
+        $keys = array_filter(explode('.', $key));
+
         $value = ($fromFile) ? require $value : $value;
 
         $this->save($keys, $this->data, $value);

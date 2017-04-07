@@ -70,11 +70,7 @@ class PhrouteRouter extends Router
     {
         $routes = $this->routes;
 
-        if ($parsed === true) {
-            $routes = $this->collector->getData();
-        }
-
-        return $routes;
+        return ($parsed) ? $this->collector->getData() : $routes;
     }
 
     /**

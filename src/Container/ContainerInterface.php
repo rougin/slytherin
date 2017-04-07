@@ -15,9 +15,9 @@ interface ContainerInterface extends \Psr\Container\ContainerInterface
     /**
      * Sets a new instance to the container.
      *
-     * @param  string     $alias
+     * @param  string     $id
      * @param  mixed|null $concrete
      * @return self
      */
-    public function set($alias, $concrete = null);
+    public function set($id, $concrete = null);
 }

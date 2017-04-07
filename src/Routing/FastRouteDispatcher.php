@@ -42,7 +42,8 @@ class FastRouteDispatcher implements DispatcherInterface
     public function dispatch($httpMethod, $uri)
     {
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
-        $route  = $this->router->retrieve($httpMethod, $uri);
+
+        $route = $this->router->retrieve($httpMethod, $uri);
 
         $this->throwException($result[0], $uri);
 

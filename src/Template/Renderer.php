@@ -22,9 +22,7 @@ class Renderer implements RendererInterface
      */
     public function __construct($directories)
     {
-        if (is_string($directories)) {
-            $directories = array($directories);
-        }
+        $directories = (is_string($directories)) ? array($directories) : $directories;
 
         $this->directories = $directories;
     }

@@ -101,11 +101,11 @@ class HttpModifier
     {
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+
         foreach ($response->getHeaders() as $name => $value) {
             header($name . ': ' . implode(',', $value));
         }
-
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
 
         return $response;
     }

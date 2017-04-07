@@ -31,24 +31,20 @@ class AurynContainer extends Container
     /**
      * Sets a new instance to the container.
      *
-     * @param string     $alias
+     * @param string     $id
      * @param mixed|null $concrete
      */
-    public function set($alias, $concrete = null)
+    public function set($id, $concrete = null)
     {
         if ($concrete && ! is_array($concrete)) {
-            $this->instances[$alias] = $concrete;
+            $this->instances[$id] = $concrete;
 
             return $this;
         }
 
-        $arguments = array();
+        $arguments = (is_array($concrete)) ? $concrete : array();
 
-        if (is_array($concrete)) {
-            $arguments = $concrete;
-        }
-
-        $this->instances[$alias] = $this->injector->make($alias, $arguments);
+        $this->instances[$id] = $this->injector->make($id, $arguments);
 
         return $this;
     }

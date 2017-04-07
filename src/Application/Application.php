@@ -54,10 +54,9 @@ class Application
      */
     public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
-        $method = $request->getMethod();
-        $parsed = $request->getParsedBody();
+        list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
 
-        // For PATCH and DELETE HTTP methods
+        // For PATCH and DELETE HTTP methods in forms
         $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
 
         list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
@@ -79,19 +78,19 @@ class Application
      * Adds the specified integrations to the container.
      *
      * @param  array                                       $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration $config
+     * @param  \Rougin\Slytherin\Integration\Configuration $configuration
      * @return self
      */
-    public function integrate(array $integrations, Configuration $config = null)
+    public function integrate(array $integrations, Configuration $configuration = null)
     {
-        $config = ($config == null) ? new Configuration : $config;
+        $configuration = $configuration ?: new Configuration;
 
         $container = static::container();
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
 
-            $container = $integration->define($container, $config);
+            $container = $integration->define($container, $configuration);
         }
 
         static::$container = $container;
@@ -165,8 +164,9 @@ class Application
 
             $resolver = new ClassResolver(static::$container);
 
-            $result = $resolver->resolve($className);
-            $result = call_user_func_array(array($result, $method), $parameters);
+            $class = array($resolver->resolve($className), $method);
+
+            $result = call_user_func_array($class, $parameters);
         }
 
         return $result;
