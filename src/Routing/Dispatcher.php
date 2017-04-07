@@ -16,12 +16,12 @@ class Dispatcher implements DispatcherInterface
     /**
      * @var array
      */
-    protected $routes = array();
+    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * @var array
      */
-    protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+    protected $routes = array();
 
     /**
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
@@ -69,9 +69,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
-        $routes = array_filter($router->routes());
-
-        foreach ($routes as $route) {
+        foreach (array_filter($router->routes()) as $route) {
             preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
             $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
@@ -93,7 +91,7 @@ class Dispatcher implements DispatcherInterface
      */
     protected function checkHttpMethod($httpMethod)
     {
-        if (! in_array($httpMethod, $this->validHttpMethods)) {
+        if (! in_array($httpMethod, $this->allowed)) {
             throw new \UnexpectedValueException('Used method is not allowed');
         }
 

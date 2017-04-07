@@ -38,7 +38,7 @@ class Renderer implements RendererInterface
      */
     public function render($template, array $data = array())
     {
-        $file = $this->getTemplate("$template.php");
+        $file = $this->find("$template.php");
 
         // Extracts the specific parameters to the template.
         extract($data);
@@ -55,14 +55,14 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * Gets the specified template from the list of directories.
+     * Finds the specified template from the list of directories.
      *
      * @param  string $template
      * @return string
      *
      * @throws \InvalidArgumentException
      */
-    protected function getTemplate($template)
+    protected function find($template)
     {
         foreach ($this->directories as $directory) {
             if ($files = glob("$directory/$template")) {

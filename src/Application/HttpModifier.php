@@ -76,7 +76,7 @@ class HttpModifier
      */
     public function invokeMiddleware(\Psr\Http\Message\ServerRequestInterface $request, array $middlewares = array())
     {
-        $middlewares = array_merge($this->middleware->getStack(), $middlewares);
+        $middlewares = array_merge($this->middleware->stack(), $middlewares);
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             array_push($middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
