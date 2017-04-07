@@ -61,19 +61,17 @@ class FastRouteDispatcher implements DispatcherInterface
     {
         $this->router = $router;
 
-        if (is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
-            $routes = $router->routes(true);
+        $routes = $router->routes(true);
 
-            $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+        if (! is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
+            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
+                $routes = array_filter($router->routes());
 
-            return $this;
+                foreach ($routes as $route) {
+                    $collector->addRoute($route[0], $route[1], $route[2]);
+                }
+            };
         }
-
-        $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-            foreach (array_filter($router->routes()) as $route) {
-                $collector->addRoute($route[0], $route[1], $route[2]);
-            }
-        };
 
         $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
