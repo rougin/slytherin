@@ -8,10 +8,9 @@ All Notable changes to `Slytherin` will be documented in this file
 - Compatibility issue for `Statigility\Middleware`
 
 ### Added
-- [PSR-7](http://www.php-fig.org/psr/psr-7) implementation of `Http` component
-- [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) implementation of `Middleware` component
+- implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
 - Unit tests for `Phroute` in `Application\Application`
-- Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
+- Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
 - Add `prefix` in `Routing\Router` for adding prefix in succeeding route endpoints
@@ -24,7 +23,6 @@ All Notable changes to `Slytherin` will be documented in this file
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debugger` to `ErrorHandler`
-- `Interop\Container\ContainerInterface` to `Psr\Container\ContainerInterface`
 
 ### Removed
 - `Vanilla` prefix in classes

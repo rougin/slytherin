@@ -54,7 +54,7 @@ class Container implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $alias Identifier of the entry to look for.
+     * @param  string $alias
      * @return mixed
      */
     public function get($alias)
