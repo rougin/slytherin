@@ -137,4 +137,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($this->routes, $this->router->getRoutes());
     }
+
+    /**
+     * Tests if the newly added route exists in the router.
+     *
+     * @return void
+     */
+    public function testHasMethod()
+    {
+        list($httpMethod, $uri, $handler) = $this->routes[0];
+
+        $this->router->get($uri, $handler);
+
+        $this->assertTrue($this->router->has($httpMethod, $uri));
+    }
 }

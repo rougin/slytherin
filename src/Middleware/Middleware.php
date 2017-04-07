@@ -59,12 +59,13 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 
     /**
      * Returns the listing of middlewares included.
+     * NOTE: To be removed in v1.0.0. Use $this->stack() instead.
      *
      * @return array
      */
-    public function stack()
+    public function getStack()
     {
-        return $this->stack;
+        return $this->stack();
     }
 
     /**
@@ -90,7 +91,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
         }
 
-        return $this->getParameters($index, $middleware, $object, $request);
+        return $this->invoke($index, $middleware, $object, $request);
     }
 
     /**
@@ -107,6 +108,16 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     }
 
     /**
+     * Returns the listing of middlewares included.
+     *
+     * @return array
+     */
+    public function stack()
+    {
+        return $this->stack;
+    }
+
+    /**
      * Calls the middleware based on its defined parameters.
      * NOTE: To be removed in v1.0.0. Use single pass instead.
      *
@@ -116,7 +127,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      * @param  \Psr\Http\Message\ServerRequestInterface                    $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function getParameters($index, $middleware, $object, $request)
+    protected function invoke($index, $middleware, $object, $request)
     {
         if (count($object->getParameters()) == 3) {
             return $middleware($request, $this->response, $this->resolve($index + 1));

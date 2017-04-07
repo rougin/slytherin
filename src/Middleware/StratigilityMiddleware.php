@@ -46,7 +46,7 @@ class StratigilityMiddleware extends Middleware
         $hasHandler = class_exists('Zend\Stratigility\NoopFinalHandler');
 
         $handler  = ($hasHandler) ? new \Zend\Stratigility\NoopFinalHandler : null;
-        $pipeline = $this->prepareStack($stack, $response);
+        $pipeline = $this->refine($stack, $response);
 
         return $pipeline($request, $response, $handler);
     }
@@ -58,7 +58,7 @@ class StratigilityMiddleware extends Middleware
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Zend\Stratigility\MiddlewarePipe
      */
-    protected function prepareStack(array $stack, ResponseInterface $response)
+    protected function refine(array $stack, ResponseInterface $response)
     {
         $hasWrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
 

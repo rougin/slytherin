@@ -70,6 +70,58 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a new raw route.
+     * NOTE: To be removed in v1.0.0. Use $this->add() instead.
+     *
+     * @param  string|string[] $httpMethod
+     * @param  string          $route
+     * @param  mixed           $handler
+     * @param  array           $middlewares
+     * @return self
+     */
+    public function addRoute($httpMethod, $route, $handler, $middlewares = array())
+    {
+        return $this->add($httpMethod, $route, $handler, $middlewares);
+    }
+
+    /**
+     * Merges a listing of parsed routes to current one.
+     * NOTE: To be removed in v1.0.0. Use $this->merge() instead.
+     *
+     * @param  array $routes
+     * @return self
+     */
+    public function addRoutes(array $routes)
+    {
+        return $this->merge($routes);
+    }
+
+    /**
+     * Returns a specific route based on the specified HTTP method and URI.
+     * NOTE: To be removed in v1.0.0. Use $this->retrieve() instead.
+     *
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @return array|null
+     */
+    public function getRoute($httpMethod, $uri)
+    {
+        return $this->retrieve($httpMethod, $uri);
+    }
+
+    /**
+     * Returns a listing of available routes.
+     * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
+     *
+     * @param  boolean $parsed
+     * @return array
+     */
+    public function getRoutes($parsed = false)
+    {
+        return $this->routes($parsed);
+    }
+
+    /**
      * Checks if the specified route is available in the router.
      *
      * @param  string $httpMethod
@@ -162,6 +214,19 @@ class Router implements RouterInterface
         $this->prefix = $prefix;
 
         return $this;
+    }
+
+    /**
+     * Sets a prefix for the succeeding route endpoints.
+     * NOTE: To be removed in v1.0.0. Use $this->prefix() instead.
+     *
+     * @param  string $prefix
+     * @param  string $namespace
+     * @return self
+     */
+    public function setPrefix($prefix = '', $namespace = '')
+    {
+        return $this->prefix($prefix, $namespace);
     }
 
     /**
