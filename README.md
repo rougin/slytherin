@@ -22,12 +22,12 @@ $ composer require rougin/slytherin
 ### Install specified interfaces
 
 ``` bash
-$ composer require container-interop/container-interop psr/http-message
+$ composer require psr/container psr/http-message
 ```
 
 ### "Hello world" example
 
-#### Using `\Rougin\Slytherin\Container\ContainerInterface`
+#### Using `Rougin\Slytherin\Container\ContainerInterface`
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards

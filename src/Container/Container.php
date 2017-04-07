@@ -27,7 +27,7 @@ class Container implements ContainerInterface
 
     /**
      * Adds a new instance to the container.
-     * NOTE: To be removed in v1.0.0
+     * NOTE: To be removed in v1.0.0. Use $this->set() instead.
      *
      * @param  string     $alias
      * @param  mixed|null $concrete

@@ -26,7 +26,7 @@ class TwigRenderer implements RendererInterface
      */
     public function __construct(\Twig_Environment $twig, array $globals = array())
     {
-        // NOTE: To be removed in v1.0.0, use __call instead
+        // NOTE: To be removed in v1.0.0. Use __call instead
         foreach ($globals as $key => $value) {
             $twig->addGlobal($key, $value);
         }

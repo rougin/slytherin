@@ -67,12 +67,12 @@ class Application
         $response = null;
 
         if (static::$container->has(self::MIDDLEWARE)) {
-            $modifier->setMiddleware(static::$container->get(self::MIDDLEWARE));
+            $modifier->middleware(static::$container->get(self::MIDDLEWARE));
 
-            $response = $modifier->invokeMiddleware($request, $middlewares);
+            $response = $modifier->invoke($request, $middlewares);
         }
 
-        return $modifier->getResponse($this->resolve($function), $response);
+        return $modifier->response($this->resolve($function), $response);
     }
 
     /**

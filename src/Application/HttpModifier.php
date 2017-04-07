@@ -37,16 +37,16 @@ class HttpModifier
      * @param  \Psr\Http\Message\ResponseInterface|mixed $first
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function getResponse($final, $first = null)
+    public function response($final, $first = null)
     {
         $response = $this->response;
 
         if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
-            $response = $this->setHeaders($first);
+            $response = $this->headers($first);
         }
 
         if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
-            return $this->setHeaders($final);
+            return $this->headers($final);
         }
 
         $response->getBody()->write($final);
@@ -60,7 +60,7 @@ class HttpModifier
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
      * @return self
      */
-    public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
+    public function middleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
     {
         $this->middleware = $middleware;
 
@@ -74,12 +74,14 @@ class HttpModifier
      * @param  array                                    $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    public function invokeMiddleware(\Psr\Http\Message\ServerRequestInterface $request, array $middlewares = array())
+    public function invoke(\Psr\Http\Message\ServerRequestInterface $request, array $middlewares = array())
     {
         $middlewares = array_merge($this->middleware->stack(), $middlewares);
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($middlewares, new \Rougin\Slytherin\Middleware\FinalResponse($this->response));
+            $response = new \Rougin\Slytherin\Middleware\FinalResponse($this->response);
+
+            array_push($middlewares, $response);
         }
 
         $middleware = $this->middleware;
@@ -93,7 +95,7 @@ class HttpModifier
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function setHeaders(\Psr\Http\Message\ResponseInterface $response)
+    protected function headers(\Psr\Http\Message\ResponseInterface $response)
     {
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 

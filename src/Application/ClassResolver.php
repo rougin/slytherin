@@ -38,7 +38,8 @@ class ClassResolver
 
         if ($constructor = $reflection->getConstructor()) {
             $parameters = $constructor->getParameters();
-            $arguments  = $this->setArguments($parameters);
+
+            $arguments = $this->arguments($parameters);
 
             return $reflection->newInstanceArgs($arguments);
         }
@@ -47,12 +48,31 @@ class ClassResolver
     }
 
     /**
+     * Sets the arguments from the specified class.
+     *
+     * @param  array $parameters
+     * @return array
+     */
+    protected function arguments(array $parameters)
+    {
+        $arguments = array();
+
+        foreach ($parameters as $item) {
+            $parameter = $this->parameter($item);
+
+            array_push($arguments, $parameter);
+        }
+
+        return $arguments;
+    }
+
+    /**
      * Parses the specified parameters.
      *
      * @param  \ReflectionParameter $parameter
      * @return mixed
      */
-    protected function parseParameter(\ReflectionParameter $parameter)
+    protected function parameter(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional()) {
             return $parameter->getDefaultValue();
@@ -65,24 +85,5 @@ class ClassResolver
         }
 
         return $this->resolve($className);
-    }
-
-    /**
-     * Sets the arguments from the specified class.
-     *
-     * @param  array $parameters
-     * @return array
-     */
-    protected function setArguments(array $parameters)
-    {
-        $arguments = array();
-
-        foreach ($parameters as $item) {
-            $parameter = $this->parseParameter($item);
-
-            array_push($arguments, $parameter);
-        }
-
-        return $arguments;
     }
 }
