@@ -49,7 +49,7 @@ class PhrouteRouter extends Router
      * @param  array           $middlewares
      * @return self
      */
-    public function addRoute($httpMethod, $route, $handler, $middlewares = array())
+    public function add($httpMethod, $route, $handler, $middlewares = array())
     {
         $route = $this->parseRoute(array($httpMethod, $route, $handler, $middlewares));
 
@@ -66,7 +66,7 @@ class PhrouteRouter extends Router
      * @param  boolean $parsed
      * @return \Phroute\Phroute\RouteDataArray
      */
-    public function getRoutes($parsed = false)
+    public function routes($parsed = false)
     {
         $routes = $this->routes;
 

@@ -19,15 +19,24 @@ interface RouterInterface
      * @param string          $route
      * @param mixed           $handler
      */
-    public function addRoute($httpMethod, $route, $handler);
+    public function add($httpMethod, $route, $handler);
 
     /**
-     * Adds a listing of parsed routes.
+     * Checks if the specified route is available in the router.
+     *
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @return boolean
+     */
+    public function has($httpMethod, $uri);
+
+    /**
+     * Merges a listing of parsed routes to current one.
      *
      * @param  array $routes
      * @return self
      */
-    public function addRoutes(array $routes);
+    public function merge(array $routes);
 
     /**
      * Returns a specific route based on the specified HTTP method and URI.
@@ -36,7 +45,7 @@ interface RouterInterface
      * @param  string $uri
      * @return array|null
      */
-    public function getRoute($httpMethod, $uri);
+    public function retrieve($httpMethod, $uri);
 
     /**
      * Returns a listing of available routes.
@@ -44,5 +53,5 @@ interface RouterInterface
      * @param  boolean $parsed
      * @return mixed
      */
-    public function getRoutes($parsed = false);
+    public function routes($parsed = false);
 }

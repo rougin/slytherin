@@ -27,5 +27,5 @@ interface DispatcherInterface
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
      */
-    public function setRouter(RouterInterface $router);
+    public function router(RouterInterface $router);
 }

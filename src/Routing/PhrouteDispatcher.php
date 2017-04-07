@@ -29,7 +29,7 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        $router == null || $this->setRouter($router);
+        $router == null || $this->router($router);
     }
 
     /**
@@ -41,7 +41,7 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $routeInfo   = $this->router->getRoute($httpMethod, $uri);
+        $routeInfo   = $this->router->retrieve($httpMethod, $uri);
         $routeResult = $this->dispatcher->dispatch($httpMethod, $uri);
         $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : array();
 
@@ -54,20 +54,20 @@ class PhrouteDispatcher implements DispatcherInterface
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
      */
-    public function setRouter(RouterInterface $router)
+    public function router(RouterInterface $router)
     {
         $this->router = $router;
 
         if (! is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
             $collector = new \Phroute\Phroute\RouteCollector;
 
-            foreach ($router->getRoutes() as $route) {
+            foreach ($router->routes() as $route) {
                 $collector->addRoute($route[0], $route[1], $route[2]);
             }
 
             $routes = $collector->getData();
         } else {
-            $routes = $router->getRoutes(true);
+            $routes = $router->routes(true);
         }
 
         $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);

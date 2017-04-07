@@ -29,7 +29,7 @@ class FastRouteDispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        $router == null || $this->setRouter($router);
+        $router == null || $this->router($router);
     }
 
     /**
@@ -42,7 +42,7 @@ class FastRouteDispatcher implements DispatcherInterface
     public function dispatch($httpMethod, $uri)
     {
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
-        $route  = $this->router->getRoute($httpMethod, $uri);
+        $route  = $this->router->retrieve($httpMethod, $uri);
 
         $this->throwException($result[0], $uri);
 
@@ -57,12 +57,12 @@ class FastRouteDispatcher implements DispatcherInterface
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
      */
-    public function setRouter(RouterInterface $router)
+    public function router(RouterInterface $router)
     {
         $this->router = $router;
 
         if (is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
-            $routes = $router->getRoutes(true);
+            $routes = $router->routes(true);
 
             $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
@@ -70,7 +70,7 @@ class FastRouteDispatcher implements DispatcherInterface
         }
 
         $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-            foreach (array_filter($router->getRoutes()) as $route) {
+            foreach (array_filter($router->routes()) as $route) {
                 $collector->addRoute($route[0], $route[1], $route[2]);
             }
         };

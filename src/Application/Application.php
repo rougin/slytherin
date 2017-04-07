@@ -132,7 +132,7 @@ class Application
         if (static::$container->has(self::ROUTER)) {
             $router = static::$container->get(self::ROUTER);
 
-            $dispatcher->setRouter($router);
+            $dispatcher->router($router);
         }
 
         $route = $dispatcher->dispatch($method, $path);

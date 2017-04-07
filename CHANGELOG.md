@@ -12,13 +12,11 @@ All Notable changes to `Slytherin` will be documented in this file
 - [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) implementation of `Middleware` component
 - Unit tests for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and ``Phroute\Dispatcher`
-- `get`, `post`, `put`, `patch` and `delete` methods for `Dispatching\BaseRouter`
-- `Container\ContainerInterface` for defining instances to containers
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
-- Add `setPrefix` in `Routing\Router` for adding prefix in succeeding route endpoints
+- Add `prefix` in `Routing\Router` for adding prefix in succeeding route endpoints
 - Add `restful` in `Routing\Router` for adding RESTful routes based on one base route
-- Add `setRouter` in `Routing\DispatcherInterface` for setting up routers manually
+- Add `router` in `Routing\DispatcherInterface` for setting up routers manually
 
 ### Changed
 - Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`

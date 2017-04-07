@@ -47,7 +47,7 @@ class Router implements RouterInterface
                 $middlewares = array($middlewares);
             }
 
-            $this->addRoute($httpMethod, $uri, $handler, $middlewares);
+            $this->add($httpMethod, $uri, $handler, $middlewares);
         }
     }
 
@@ -60,7 +60,7 @@ class Router implements RouterInterface
      * @param  array           $middlewares
      * @return self
      */
-    public function addRoute($httpMethod, $route, $handler, $middlewares = array())
+    public function add($httpMethod, $route, $handler, $middlewares = array())
     {
         $route = array($httpMethod, $route, $handler, $middlewares);
 
@@ -70,12 +70,24 @@ class Router implements RouterInterface
     }
 
     /**
-     * Adds a listing of parsed routes.
+     * Checks if the specified route is available in the router.
+     *
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @return boolean
+     */
+    public function has($httpMethod, $uri)
+    {
+        return $this->retrieve($httpMethod, $uri) !== null;
+    }
+
+    /**
+     * Merges a listing of parsed routes to current one.
      *
      * @param  array $routes
      * @return self
      */
-    public function addRoutes(array $routes)
+    public function merge(array $routes)
     {
         $this->routes = array_merge($this->routes, $routes);
 
@@ -89,7 +101,7 @@ class Router implements RouterInterface
      * @param  string $uri
      * @return array|null
      */
-    public function getRoute($httpMethod, $uri)
+    public function retrieve($httpMethod, $uri)
     {
         $result = null;
 
@@ -110,7 +122,7 @@ class Router implements RouterInterface
      * @param  boolean $parsed
      * @return array
      */
-    public function getRoutes($parsed = false)
+    public function routes($parsed = false)
     {
         return $this->routes;
     }
@@ -125,13 +137,13 @@ class Router implements RouterInterface
      */
     public function restful($route, $class, $middlewares = array())
     {
-        $this->addRoute('GET', '/' . $route, $class . '@index', $middlewares);
-        $this->addRoute('POST', '/' . $route, $class . '@store', $middlewares);
+        $this->add('GET', '/' . $route, $class . '@index', $middlewares);
+        $this->add('POST', '/' . $route, $class . '@store', $middlewares);
 
-        $this->addRoute('DELETE', '/' . $route . '/:id', $class . '@delete', $middlewares);
-        $this->addRoute('GET', '/' . $route . '/:id', $class . '@show', $middlewares);
-        $this->addRoute('PATCH', '/' . $route . '/:id', $class . '@update', $middlewares);
-        $this->addRoute('PUT', '/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->add('DELETE', '/' . $route . '/:id', $class . '@delete', $middlewares);
+        $this->add('GET', '/' . $route . '/:id', $class . '@show', $middlewares);
+        $this->add('PATCH', '/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->add('PUT', '/' . $route . '/:id', $class . '@update', $middlewares);
 
         return $this;
     }
@@ -143,7 +155,7 @@ class Router implements RouterInterface
      * @param  string $namespace
      * @return self
      */
-    public function setPrefix($prefix = '', $namespace = '')
+    public function prefix($prefix = '', $namespace = '')
     {
         $this->namespace = ($namespace != '') ? $namespace . '\\' : '';
 
@@ -186,7 +198,7 @@ class Router implements RouterInterface
         if (in_array(strtoupper($method), $this->validHttpMethods)) {
             array_unshift($parameters, strtoupper($method));
 
-            return call_user_func_array(array($this, 'addRoute'), $parameters);
+            return call_user_func_array(array($this, 'add'), $parameters);
         }
 
         throw new \BadMethodCallException('"' . $method . '" is not a valid HTTP method.');
