@@ -31,11 +31,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
 
         $components = array(
+            'Rougin\Slytherin\Fixture\Components\CollectionComponent',
             'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
             'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
             'Rougin\Slytherin\Fixture\Components\HttpComponent',
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
-            'Rougin\Slytherin\Fixture\Components\CollectionComponent',
         );
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
@@ -52,8 +52,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method.
      *
-     * @return void
      * @runInSeparateProcess
+     *
+     * @return void
      */
     public function testRunMethod()
     {
@@ -66,6 +67,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a response as result.
      *
      * @runInSeparateProcess
+     *
      * @return void
      */
     public function testRunMethodWithResponse()
@@ -79,6 +81,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a parameter.
      *
      * @runInSeparateProcess
+     *
      * @return void
      */
     public function testRunMethodWithParameter()
@@ -92,6 +95,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with an optional parameter.
      *
      * @runInSeparateProcess
+     *
      * @return void
      */
     public function testRunMethodWithOptionalParameter()
@@ -104,8 +108,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method with a callback as result.
      *
-     * @return void
      * @runInSeparateProcess
+     *
+     * @return void
      */
     public function testRunMethodWithCallback()
     {
@@ -115,32 +120,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Checks if the application runs in the VanillaMiddleware.
-     *
-     * @return void
-     * @runInSeparateProcess
-     */
-    // public function testRunMethodWithMiddleware()
-    // {
-    //     if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
-    //         $this->markTestSkipped('Zend Stratigility is not installed.');
-    //     }
-
-    //     $pipe = new \Zend\Stratigility\MiddlewarePipe;
-
-    //     $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipe);
-
-    //     $this->components->setMiddleware($middleware);
-
-    //     $this->expectOutputString('Loaded with middleware');
-
-    //     $this->runApplication('GET', '/middleware')->run();
-    // }
-
-    /**
      * Tests the run() method with a PUT HTTP method.
      *
      * @runInSeparateProcess
+     *
      * @return void
      */
     public function testRunMethodWithPutHttpMethod()
@@ -153,8 +136,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method with Phroute as dispatcher.
      *
-     * @return void
      * @runInSeparateProcess
+     *
+     * @return void
      */
     public function testRunMethodWithPhroute()
     {
@@ -179,8 +163,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the "integration" functionality.
      *
-     * @return void
      * @runInSeparateProcess
+     *
+     * @return void
      */
     public function testRunMethodWithIntegrateMethod()
     {
