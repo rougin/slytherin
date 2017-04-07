@@ -49,6 +49,6 @@ class LeagueContainer extends \League\Container\Container implements ContainerIn
      */
     public function set($id, $concrete = null, $share = false)
     {
-        return parent::add($id, $concrete, $share);
+        return $this->add($id, $concrete, $share);
     }
 }

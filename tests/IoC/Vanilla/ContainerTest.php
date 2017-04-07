@@ -159,7 +159,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
 
-        $this->container->set('Foo', []);
+        $this->container->set('Foo', array());
 
         $this->container->get('Foo');
     }
