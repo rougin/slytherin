@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Rougin\Slytherin\Container\ContainerInterface;
+
 /**
  * Component Collector
  *
@@ -16,12 +18,12 @@ class Collector
     /**
      * Collects the specified components.
      *
-     * @param  \Psr\Container\ContainerInterface $container
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
      * @param  array                                 $components
      * @param  array|null                            $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(\Psr\Container\ContainerInterface $container, array $components = array(), &$globals = null)
+    public static function get(ContainerInterface $container, array $components = array(), &$globals = null)
     {
         $configuration = new \Rougin\Slytherin\Integration\Configuration;
 

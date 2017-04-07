@@ -19,15 +19,7 @@ $ composer require rougin/slytherin
 
 ## Usage
 
-### Install specified interfaces
-
-``` bash
-$ composer require psr/container psr/http-message
-```
-
-### "Hello world" example
-
-#### Using `Rougin\Slytherin\Container\ContainerInterface`
+### Using `Rougin\Slytherin\Container\ContainerInterface`
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards
@@ -53,7 +45,7 @@ $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
 (new Rougin\Slytherin\Application($container))->run();
 ```
 
-#### Using `Rougin\Integration\IntegrationInterface`
+### Using `Rougin\Integration\IntegrationInterface`
 
 ``` php
 // Specify the integrations to be included and defined

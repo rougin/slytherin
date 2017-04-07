@@ -63,7 +63,7 @@ class FastRouteDispatcher implements DispatcherInterface
 
         $routes = $router->routes(true);
 
-        if (! is_a($router, 'Rougin\Slytherin\Routing\FastRoute\Router')) {
+        if (! $router instanceof FastRouteRouter) {
             $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
                 foreach (array_filter($router->routes()) as $route) {
                     $collector->addRoute($route[0], $route[1], $route[2]);

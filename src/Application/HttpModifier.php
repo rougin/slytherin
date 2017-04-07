@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * HTTP Modifier
  *
@@ -25,7 +27,7 @@ class HttpModifier
     /**
      * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function __construct(\Psr\Http\Message\ResponseInterface $response)
+    public function __construct(ResponseInterface $response)
     {
         $this->response = $response;
     }
@@ -41,11 +43,11 @@ class HttpModifier
     {
         $response = $this->response;
 
-        if (is_a($first, 'Psr\Http\Message\ResponseInterface')) {
+        if ($first instanceof ResponseInterface) {
             $response = $this->headers($first);
         }
 
-        if (is_a($final, 'Psr\Http\Message\ResponseInterface')) {
+        if ($final instanceof ResponseInterface) {
             return $this->headers($final);
         }
 
@@ -95,7 +97,7 @@ class HttpModifier
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function headers(\Psr\Http\Message\ResponseInterface $response)
+    protected function headers(ResponseInterface $response)
     {
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 

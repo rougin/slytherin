@@ -58,7 +58,7 @@ class PhrouteDispatcher implements DispatcherInterface
     {
         $this->router = $router;
 
-        if (! is_a($router, 'Rougin\Slytherin\Routing\Phroute\Router')) {
+        if (! $router instanceof PhrouteRouter) {
             $collector = new \Phroute\Phroute\RouteCollector;
 
             foreach ($router->routes() as $route) {
