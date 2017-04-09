@@ -70,9 +70,7 @@ class Application
 
             $middlewares = array_merge($middleware->stack(), $middlewares);
 
-            $result = $middleware($request, $response, $middlewares);
-
-            $response = ($result instanceof ResponseInterface) ? $result : $response;
+            $response = $middleware($request, $response, $middlewares);
         }
 
         return $this->convert($response, $this->resolve($function));
