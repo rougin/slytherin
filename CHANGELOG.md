@@ -18,7 +18,6 @@ All Notable changes to `Slytherin` will be documented in this file
 - Add `router` in `Routing\DispatcherInterface` for setting up routers manually
 
 ### Changed
-- Traits to separate classes: `ClassResolver`, `HttpModifier`, `RouteDispatcher`
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
@@ -26,6 +25,7 @@ All Notable changes to `Slytherin` will be documented in this file
 
 ### Removed
 - `Vanilla` prefix in classes
+- Traits
 
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 
