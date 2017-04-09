@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+
 /**
  * Container
  *
@@ -91,6 +93,33 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Resolves the dependencies on the specified class.
+     *
+     * @link   http://goo.gl/wN8Vaz
+     * @param  string                                $class
+     * @param  \Psr\ContainerContainerInterface|null $container
+     * @return mixed
+     */
+    public function resolve($class, PsrContainerInterface $container = null)
+    {
+        $reflection = new \ReflectionClass($class);
+
+        if ($constructor = $reflection->getConstructor()) {
+            $arguments = array();
+
+            foreach ($constructor->getParameters() as $parameter) {
+                $argument = $this->argument($parameter, $container);
+
+                array_push($arguments, $argument);
+            }
+
+            return $reflection->newInstanceArgs($arguments);
+        }
+
+        return new $class;
+    }
+
+    /**
      * Sets a new instance to the container.
      *
      * @param  string     $id
@@ -102,5 +131,27 @@ class Container implements ContainerInterface
         $this->instances[$id] = $concrete;
 
         return $this;
+    }
+
+    /**
+     * Returns an argument based on the given parameter.
+     *
+     * @param  \ReflectionParameter                  $parameter
+     * @param  \Psr\ContainerContainerInterface|null $container
+     * @return mixed
+     */
+    protected function argument(\ReflectionParameter $parameter, PsrContainerInterface $container = null)
+    {
+        if ($parameter->isOptional()) {
+            return $parameter->getDefaultValue();
+        }
+
+        $name = $parameter->getClass()->getName();
+
+        if ($container && $container->has($name)) {
+            return $container->get($name);
+        }
+
+        return $this->resolve($name);
     }
 }

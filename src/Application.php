@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Http\Message\ResponseInterface;
-
-use Rougin\Slytherin\Integration\Configuration;
-
 /**
  * Application
  *
@@ -120,27 +116,6 @@ class Application
     }
 
     /**
-     * Returns an argument based on the given parameter.
-     *
-     * @param  \ReflectionParameter $parameter
-     * @return mixed
-     */
-    protected function argument(\ReflectionParameter $parameter)
-    {
-        if ($parameter->isOptional()) {
-            return $parameter->getDefaultValue();
-        }
-
-        $name = $parameter->getClass()->getName();
-
-        if (static::$container->has($name)) {
-            return static::$container->get($name);
-        }
-
-        return $this->resolve($name);
-    }
-
-    /**
      * Converts the result into \Psr\Http\Message\ResponseInterface.
      *
      * @param  \Psr\Http\Message\ResponseInterface       $response
@@ -149,9 +124,9 @@ class Application
      */
     protected function convert($response, $result)
     {
-        $response = ($result instanceof ResponseInterface) ? $result : $response;
-
-        if (! $result instanceof ResponseInterface) {
+        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
+            $response = $result;
+        } else {
             $response->getBody()->write($result);
         }
 
@@ -203,41 +178,19 @@ class Application
         if (is_array($function)) {
             list($class, $parameters) = $function;
 
-            if (is_callable($class) && is_object($class)) {
-                return call_user_func_array($class, $parameters);
+            if (is_array($class) && ! is_object($class)) {
+                list($name, $method) = $class;
+
+                $container = new \Rougin\Slytherin\Container\Container;
+
+                $object = $container->resolve($name, static::$container);
+
+                $class = array($object, $method);
             }
-
-            list($className, $method) = $class;
-
-            $class = array($this->resolve($className), $method);
 
             return call_user_func_array($class, $parameters);
         }
 
         return $function;
-    }
-
-    /**
-     * Resolves the dependencies on the specified class.
-     *
-     * @link   http://goo.gl/wN8Vaz
-     * @param  string $class
-     * @return mixed
-     */
-    protected function resolve($class)
-    {
-        $reflection = new \ReflectionClass($class);
-
-        if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
-            foreach ($constructor->getParameters() as $parameter) {
-                array_push($arguments, $this->argument($parameter));
-            }
-
-            return $reflection->newInstanceArgs($arguments);
-        }
-
-        return new $class;
     }
 }
