@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Http\Message\ResponseInterface;
+
 use Rougin\Slytherin\Integration\Configuration;
 
 /**
@@ -61,17 +63,19 @@ class Application
 
         list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
 
-        $modifier = new HttpModifier(static::$container->get(self::RESPONSE));
-
-        $response = null;
+        $response = static::$container->get(self::RESPONSE);
 
         if (static::$container->has(self::MIDDLEWARE)) {
-            $modifier->middleware(static::$container->get(self::MIDDLEWARE));
+            $middleware = static::$container->get(self::MIDDLEWARE);
 
-            $response = $modifier->invoke($request, $middlewares);
+            $middlewares = array_merge($middleware->stack(), $middlewares);
+
+            $result = $middleware($request, $response, $middlewares);
+
+            $response = ($result instanceof ResponseInterface) ? $result : $response;
         }
 
-        return $modifier->response($this->resolve($function), $response);
+        return $this->convert($response, $this->resolve($function));
     }
 
     /**
@@ -115,6 +119,32 @@ class Application
         }
 
         echo (string) $this->handle($request)->getBody();
+    }
+
+    /**
+     * Converts the result into \Psr\Http\Message\ResponseInterface.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface       $response
+     * @param  \Psr\Http\Message\ResponseInterface|mixed $result
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function convert($response, $result)
+    {
+        $response = ($result instanceof ResponseInterface) ? $result : $response;
+
+        if (! $result instanceof ResponseInterface) {
+            $response->getBody()->write($result);
+        }
+
+        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+
+        foreach ($response->getHeaders() as $name => $value) {
+            header($name . ': ' . implode(',', $value));
+        }
+
+        return $response;
     }
 
     /**

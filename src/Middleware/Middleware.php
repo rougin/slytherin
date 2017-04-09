@@ -70,6 +70,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
 
     /**
      * Prepares and checks the middleware for specified cases.
+     * NOTE: To be removed in v1.0.0. Use single pass instead.
      *
      * @param  integer                                                     $index
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
@@ -114,7 +115,17 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     public function stack()
     {
-        return $this->stack;
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        $middlewares = $this->stack;
+
+        if (interface_exists($interface)) {
+            $response = 'Rougin\Slytherin\Middleware\FinalResponse';
+
+            array_push($middlewares, $response);
+        }
+
+        return $middlewares;
     }
 
     /**
@@ -149,12 +160,14 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
             });
         }
 
-        $instance = $this;
         $callable = $this->stack[$index];
+
+        $instance = $this;
 
         return new Delegate(function ($request) use ($index, $callable, $instance) {
             $middleware = is_callable($callable) ? $callable : new $callable;
 
+            // NOTE: To be removed in v1.0.0. Use single pass instead.
             return $instance->prepare($index, $middleware, $request);
         });
     }
