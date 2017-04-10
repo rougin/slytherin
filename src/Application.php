@@ -182,11 +182,9 @@ class Application
                 list($name, $method) = $class;
 
                 // NOTE: To be removed in v1.0.0. It should me manually defined.
-                $reflection = new Container\ReflectionContainer;
+                $container = new Container\ReflectionContainer(static::$container);
 
-                static::$container->delegate($reflection);
-
-                $class = array(static::$container->get($name), $method);
+                $class = array($container->get($name), $method);
             }
 
             return call_user_func_array($class, $parameters);

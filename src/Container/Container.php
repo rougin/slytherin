@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container implements ContainerInterface, DelegateInterface
+class Container implements ContainerInterface
 {
     /**
      * NOTE: To be removed in v1.0.0. Use "protected" visibility instead.
@@ -20,11 +20,6 @@ class Container implements ContainerInterface, DelegateInterface
      * @var array
      */
     public $instances = array();
-
-    /**
-     * @var array
-     */
-    protected $delegates = array();
 
     /**
      * @param array $instances
@@ -61,23 +56,6 @@ class Container implements ContainerInterface, DelegateInterface
     }
 
     /**
-     * Delegate a container to be checked for services.
-     *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return self
-     */
-    public function delegate(PsrContainerInterface $container)
-    {
-        if ($container instanceof DelegateInterface) {
-            $container->delegate($this);
-        }
-
-        array_push($this->delegates, $container);
-
-        return $this;
-    }
-
-    /**
      * Finds an entry of the container by its identifier and returns it.
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -88,7 +66,13 @@ class Container implements ContainerInterface, DelegateInterface
      */
     public function get($id)
     {
-        $entry = ($this->has($id)) ? $this->instances[$id] : $this->resolve($id);
+        if (! $this->has($id)) {
+            $message = 'Alias (%s) is not being managed by the container';
+
+            throw new Exception\NotFoundException(sprintf($message, $id));
+        }
+
+        $entry = $this->instances[$id];
 
         if (! is_callable($entry) && ! is_object($entry)) {
             $message = 'Alias (%s) is not a callable or an object';
@@ -122,30 +106,5 @@ class Container implements ContainerInterface, DelegateInterface
         $this->instances[$id] = $concrete;
 
         return $this;
-    }
-
-    /**
-     * Resolves dependencies based on the defined delegates.
-     *
-     * @param  string $id
-     * @return mixed
-     */
-    protected function resolve($id)
-    {
-        $entry = null;
-
-        $callback = function ($item) use ($id, &$entry) {
-            ! $item->has($id) || $entry = $item->get($id);
-        };
-
-        array_walk($this->delegates, $callback);
-
-        if ($entry == null) {
-            $message = 'Alias (%s) is not being managed by the container';
-
-            throw new Exception\NotFoundException(sprintf($message, $id));
-        }
-
-        return $entry;
     }
 }

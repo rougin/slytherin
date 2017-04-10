@@ -202,7 +202,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testReflectionContainerGetMethodWithNotFoundException()
     {
-        $container = new \Rougin\Slytherin\Container\ReflectionContainer;
+        $container = new \Rougin\Slytherin\Container\ReflectionContainer($this->container);
 
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 

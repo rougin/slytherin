@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements DelegateInterface, PsrContainerInterface
+class ReflectionContainer implements PsrContainerInterface
 {
     /**
      * @var \Psr\Container\ContainerInterface
@@ -20,27 +20,16 @@ class ReflectionContainer implements DelegateInterface, PsrContainerInterface
     protected $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null $container
+     * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(PsrContainerInterface $container = null)
+    public function __construct(PsrContainerInterface $container)
     {
         $this->container = $container;
     }
 
     /**
-     * Delegate a container to be checked for services.
+     * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return self
-     */
-    public function delegate(PsrContainerInterface $container)
-    {
-        $this->container = $container;
-
-        return $this;
-    }
-
-    /**
      * Finds an entry of the container by its identifier and returns it.
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -57,7 +46,19 @@ class ReflectionContainer implements DelegateInterface, PsrContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        return $this->resolve($id);
+        $reflection = new \ReflectionClass($id);
+
+        if ($constructor = $reflection->getConstructor()) {
+            $arguments = array();
+
+            foreach ($constructor->getParameters() as $parameter) {
+                array_push($arguments, $this->argument($parameter));
+            }
+
+            return $reflection->newInstanceArgs($arguments);
+        }
+
+        return new $id;
     }
 
     /**
@@ -85,35 +86,10 @@ class ReflectionContainer implements DelegateInterface, PsrContainerInterface
 
         $name = $parameter->getClass()->getName();
 
-        if ($this->container && $this->container->has($name)) {
-            return $this->container->get($name);
-        }
+        $exists = $this->container->has($name);
 
-        return $this->get($name);
-    }
+        $container = ($exists) ? $this->container : $this;
 
-    /**
-     * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
-     *
-     * Resolves dependencies recursively using PHP's Reflection API.
-     *
-     * @param  string $id
-     * @return mixed
-     */
-    protected function resolve($id)
-    {
-        $reflection = new \ReflectionClass($id);
-
-        if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
-            foreach ($constructor->getParameters() as $parameter) {
-                array_push($arguments, $this->argument($parameter));
-            }
-
-            return $reflection->newInstanceArgs($arguments);
-        }
-
-        return new $id;
+        return $container->get($name);
     }
 }
