@@ -12,12 +12,19 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container implements ContainerInterface
+class Container implements ContainerInterface, DelegateInterface
 {
     /**
+     * NOTE: To be removed in v1.0.0. Use "protected" visibility instead.
+     *
      * @var array
      */
     public $instances = array();
+
+    /**
+     * @var array
+     */
+    protected $delegates = array();
 
     /**
      * @param array $instances
@@ -54,6 +61,23 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Delegate a container to be checked for services.
+     *
+     * @param  \Psr\Container\ContainerInterface $container
+     * @return self
+     */
+    public function delegate(PsrContainerInterface $container)
+    {
+        if ($container instanceof DelegateInterface) {
+            $container->delegate($this);
+        }
+
+        array_push($this->delegates, $container);
+
+        return $this;
+    }
+
+    /**
      * Finds an entry of the container by its identifier and returns it.
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -64,13 +88,7 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        if (! $this->has($id)) {
-            $message = 'Alias (%s) is not being managed by the container';
-
-            throw new Exception\NotFoundException(sprintf($message, $id));
-        }
-
-        $entry = $this->instances[$id];
+        $entry = ($this->has($id)) ? $this->instances[$id] : $this->resolve($id);
 
         if (! is_callable($entry) && ! is_object($entry)) {
             $message = 'Alias (%s) is not a callable or an object';
@@ -93,33 +111,6 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Resolves the dependencies on the specified class.
-     *
-     * @link   http://goo.gl/wN8Vaz
-     * @param  string                                $class
-     * @param  \Psr\ContainerContainerInterface|null $container
-     * @return mixed
-     */
-    public function resolve($class, PsrContainerInterface $container = null)
-    {
-        $reflection = new \ReflectionClass($class);
-
-        if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
-            foreach ($constructor->getParameters() as $parameter) {
-                $argument = $this->argument($parameter, $container);
-
-                array_push($arguments, $argument);
-            }
-
-            return $reflection->newInstanceArgs($arguments);
-        }
-
-        return new $class;
-    }
-
-    /**
      * Sets a new instance to the container.
      *
      * @param  string     $id
@@ -134,24 +125,27 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Returns an argument based on the given parameter.
+     * Resolves dependencies based on the defined delegates.
      *
-     * @param  \ReflectionParameter                  $parameter
-     * @param  \Psr\ContainerContainerInterface|null $container
+     * @param  string $id
      * @return mixed
      */
-    protected function argument(\ReflectionParameter $parameter, PsrContainerInterface $container = null)
+    protected function resolve($id)
     {
-        if ($parameter->isOptional()) {
-            return $parameter->getDefaultValue();
+        $entry = null;
+
+        $callback = function ($item) use ($id, &$entry) {
+            ! $item->has($id) || $entry = $item->get($id);
+        };
+
+        array_walk($this->delegates, $callback);
+
+        if ($entry == null) {
+            $message = 'Alias (%s) is not being managed by the container';
+
+            throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        $name = $parameter->getClass()->getName();
-
-        if ($container && $container->has($name)) {
-            return $container->get($name);
-        }
-
-        return $this->resolve($name);
+        return $entry;
     }
 }

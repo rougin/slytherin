@@ -29,7 +29,7 @@ class Application
      */
     public function __construct(\Psr\Container\ContainerInterface $container = null)
     {
-        $vanilla = new \Rougin\Slytherin\Container\Container;
+        $vanilla = new Container\Container;
 
         static::$container = (is_null($container)) ? $vanilla : $container;
     }
@@ -69,7 +69,7 @@ class Application
             $response = $middleware($request, $response, $middlewares);
         }
 
-        return $this->convert($response, $this->result($function));
+        return $this->convert($response, $this->resolve($function));
     }
 
     /**
@@ -173,7 +173,7 @@ class Application
      * @param  array|string $function
      * @return mixed
      */
-    protected function result($function)
+    protected function resolve($function)
     {
         if (is_array($function)) {
             list($class, $parameters) = $function;
@@ -181,11 +181,12 @@ class Application
             if (is_array($class) && ! is_object($class)) {
                 list($name, $method) = $class;
 
-                $container = new \Rougin\Slytherin\Container\Container;
+                // NOTE: To be removed in v1.0.0. It should me manually defined.
+                $reflection = new Container\ReflectionContainer;
 
-                $object = $container->resolve($name, static::$container);
+                static::$container->delegate($reflection);
 
-                $class = array($object, $method);
+                $class = array(static::$container->get($name), $method);
             }
 
             return call_user_func_array($class, $parameters);

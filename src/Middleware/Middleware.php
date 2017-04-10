@@ -39,6 +39,7 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     {
         $this->stack = $stack;
 
+        // NOTE: To be removed in v1.0.0. Use single pass instead.
         $this->response = $response;
 
         return $this->dispatch($request);

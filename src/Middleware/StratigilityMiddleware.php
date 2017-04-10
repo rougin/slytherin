@@ -30,7 +30,8 @@ class StratigilityMiddleware extends Middleware
     public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array())
     {
         $this->pipeline = $pipeline;
-        $this->stack    = $stack;
+
+        $this->stack = $stack;
     }
 
     /**

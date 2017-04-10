@@ -194,4 +194,18 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->container->has($class));
     }
+
+    /**
+     * Tests ReflectionContainer::get() method with NotFoundException.
+     *
+     * @return void
+     */
+    public function testReflectionContainerGetMethodWithNotFoundException()
+    {
+        $container = new \Rougin\Slytherin\Container\ReflectionContainer;
+
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+
+        $container->get('Test');
+    }
 }

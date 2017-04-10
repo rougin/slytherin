@@ -19,17 +19,6 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
     protected $container;
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param  string $alias
-     * @return mixed
-     */
-    public function get($alias)
-    {
-        return $this->has($alias) ? $this->instances[$alias] : null;
-    }
-
-    /**
      * Gets an instance of the container.
      *
      * @return \Psr\Container\ContainerInterface

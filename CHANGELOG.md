@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to `Slytherin` will be documented in this file
+All notable changes to `Slytherin` will be documented in this file
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
 
@@ -13,15 +13,16 @@ All Notable changes to `Slytherin` will be documented in this file
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
-- Add `prefix` in `Routing\Router` for adding prefix in succeeding route endpoints
-- Add `restful` in `Routing\Router` for adding RESTful routes based on one base route
-- Add `router` in `Routing\DispatcherInterface` for setting up routers manually
+- `Routing\Router::prefix` for adding prefix in succeeding route endpoints
+- `Routing\Router::restful` for adding RESTful routes based on one base route
+- `Routing\DispatcherInterface::router` for setting up routers manually
+- `Container\DelegateInterface` for adding delegate containers
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
-- `Debugger` to `ErrorHandler`
+- `Debug\Debugger` to `Debug\ErrorHandler`
 
 ### Removed
 - `Vanilla` prefix in classes
