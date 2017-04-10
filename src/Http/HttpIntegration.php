@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
 
@@ -24,7 +27,7 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        list($server, $cookies, $get, $files, $post) = $this->getGlobalVariables($config);
+        list($server, $cookies, $get, $files, $post) = $this->globals($config);
 
         $request  = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
         $response = new \Rougin\Slytherin\Http\Response;
@@ -37,10 +40,7 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
             $request = $request->withHeader($key, $value);
         }
 
-        $container->set('Psr\Http\Message\ServerRequestInterface', $request);
-        $container->set('Psr\Http\Message\ResponseInterface', $response);
-
-        return $container;
+        return $this->resolve($container, $request, $response);
     }
 
     /**
@@ -49,15 +49,37 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      * @param  \Rougin\Slytherin\Integration\Configuration $config
      * @return array
      */
-    protected function getGlobalVariables(Configuration $config)
+    protected function globals(Configuration $config)
     {
         $cookies = $config->get('app.http.cookies', array());
         $files   = $config->get('app.http.files', array());
         $get     = $config->get('app.http.get', array());
         $post    = $config->get('app.http.post', array());
-        $server  = $config->get('app.http.server', $this->getSampleServer());
+        $server  = $config->get('app.http.server', $this->server());
 
         return array($server, $cookies, $get, $files, $post);
+    }
+
+    /**
+     * Checks on what object will be defined to container.
+     *
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  \Psr\Http\Message\ServerRequestInterface       $request
+     * @param  \Psr\Http\Message\ResponseInterface            $response
+     * @return \Rougin\Slytherin\Container\ContainerInterface
+     */
+    protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
+    {
+        if (class_exists('Zend\Diactoros\ServerRequestFactory')) {
+            $request = \Zend\Diactoros\ServerRequestFactory::fromGlobals();
+
+            $response = new \Zend\Diactoros\Response;
+        }
+
+        $container->set('Psr\Http\Message\ServerRequestInterface', $request);
+        $container->set('Psr\Http\Message\ResponseInterface', $response);
+
+        return $container;
     }
 
     /**
@@ -65,7 +87,7 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      *
      * @return array
      */
-    protected function getSampleServer()
+    protected function server()
     {
         $server = array();
 
