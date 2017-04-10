@@ -29,7 +29,8 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     {
         list($server, $cookies, $get, $files, $post) = $this->globals($config);
 
-        $request  = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
+        $request = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
+
         $response = new \Rougin\Slytherin\Http\Response;
 
         $headers = function_exists('xdebug_get_headers') ? xdebug_get_headers() : headers_list();
@@ -52,10 +53,14 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     protected function globals(Configuration $config)
     {
         $cookies = $config->get('app.http.cookies', array());
-        $files   = $config->get('app.http.files', array());
-        $get     = $config->get('app.http.get', array());
-        $post    = $config->get('app.http.post', array());
-        $server  = $config->get('app.http.server', $this->server());
+
+        $files = $config->get('app.http.files', array());
+
+        $get = $config->get('app.http.get', array());
+
+        $post = $config->get('app.http.post', array());
+
+        $server = $config->get('app.http.server', $this->server());
 
         return array($server, $cookies, $get, $files, $post);
     }
@@ -92,9 +97,12 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
         $server = array();
 
         $server['REQUEST_METHOD']  = 'GET';
-        $server['REQUEST_URI']     = '/';
-        $server['SERVER_NAME']     = 'localhost';
-        $server['SERVER_PORT']     = '8000';
+
+        $server['REQUEST_URI'] = '/';
+
+        $server['SERVER_NAME'] = 'localhost';
+
+        $server['SERVER_PORT'] = '8000';
 
         return $server;
     }
