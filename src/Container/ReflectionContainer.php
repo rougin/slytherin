@@ -15,6 +15,11 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 class ReflectionContainer implements PsrContainerInterface
 {
     /**
+     * @var array
+     */
+    protected $arguments = array();
+
+    /**
      * @var \Psr\Container\ContainerInterface
      */
     protected $container;
@@ -49,13 +54,11 @@ class ReflectionContainer implements PsrContainerInterface
         $reflection = new \ReflectionClass($id);
 
         if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
             foreach ($constructor->getParameters() as $parameter) {
-                array_push($arguments, $this->argument($parameter));
+                array_push($this->arguments, $this->argument($parameter));
             }
 
-            return $reflection->newInstanceArgs($arguments);
+            return $reflection->newInstanceArgs($this->arguments);
         }
 
         return new $id;
