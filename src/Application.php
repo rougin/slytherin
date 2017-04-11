@@ -12,12 +12,18 @@ namespace Rougin\Slytherin;
  */
 class Application
 {
-    const DISPATCHER    = 'Rougin\Slytherin\Routing\DispatcherInterface';
-    const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface'; // NOTE: To be removed in v1.0.0
-    const MIDDLEWARE    = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-    const REQUEST       = 'Psr\Http\Message\ServerRequestInterface';
-    const RESPONSE      = 'Psr\Http\Message\ResponseInterface';
-    const ROUTER        = 'Rougin\Slytherin\Routing\RouterInterface';
+    const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
+
+    // NOTE: To be removed in v1.0.0
+    const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
+
+    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+
+    const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
+
+    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
+
+    const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
      * @var \Psr\Container\ContainerInterface
@@ -45,7 +51,34 @@ class Application
     }
 
     /**
-     * Handles a ServerRequestInterface to convert it to a ResponseInterface.
+     * Gets the result from the dispatcher.
+     *
+     * @param  string                                             $method
+     * @param  string                                             $path
+     * @param  \Rougin\Slytherin\Routing\DispatcherInterface|null $dispatcher
+     * @return array
+     */
+    public function dispatch($method, $path, Routing\DispatcherInterface $dispatcher = null)
+    {
+        $dispatcher = $dispatcher ?: static::$container->get(self::DISPATCHER);
+
+        if (static::$container->has(self::ROUTER)) {
+            $router = static::$container->get(self::ROUTER);
+
+            $dispatcher->router($router);
+        }
+
+        $route = $dispatcher->dispatch($method, $path);
+
+        list($function, $parameters, $middlewares) = $route;
+
+        $result = (is_null($parameters)) ? $function : array($function, $parameters);
+
+        return array($result, $middlewares);
+    }
+
+    /**
+     * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
@@ -139,32 +172,6 @@ class Application
         }
 
         return $response;
-    }
-
-    /**
-     * Gets the result from the dispatcher.
-     *
-     * @param  string $method
-     * @param  string $path
-     * @return array
-     */
-    protected function dispatch($method, $path)
-    {
-        $dispatcher = static::$container->get(self::DISPATCHER);
-
-        if (static::$container->has(self::ROUTER)) {
-            $router = static::$container->get(self::ROUTER);
-
-            $dispatcher->router($router);
-        }
-
-        $route = $dispatcher->dispatch($method, $path);
-
-        list($function, $parameters, $middlewares) = $route;
-
-        $result = (is_null($parameters)) ? $function : array($function, $parameters);
-
-        return array($result, $middlewares);
     }
 
     /**

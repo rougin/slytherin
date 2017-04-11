@@ -17,6 +17,7 @@ All notable changes to `Slytherin` will be documented in this file
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
 - `Container\DelegateInterface` for adding delegate containers
+- `Application::dispatch` for dispatching routes based on `Psr\Http\ServerRequestInterface`
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
