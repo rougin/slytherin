@@ -139,7 +139,7 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     {
         $this->code = $code;
 
-        $this->reason = ($reason == '') ? $this->codes[$reason] : $reason;
+        $this->reason = ($reason == '') ? $this->codes[$code] : $reason;
 
         return clone $this;
     }
