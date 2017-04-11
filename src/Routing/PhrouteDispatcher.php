@@ -47,7 +47,7 @@ class PhrouteDispatcher implements DispatcherInterface
 
         $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : array();
 
-        return array($routeResult, null, $middlewares);
+        return array($routeResult, $middlewares);
     }
 
     /**

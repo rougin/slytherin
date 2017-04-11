@@ -58,7 +58,7 @@ class Dispatcher implements DispatcherInterface
             throw new \UnexpectedValueException($message);
         }
 
-        return $routes[0];
+        return array(array($routes[0][0], $routes[0][1]), $routes[0][2]);
     }
 
     /**

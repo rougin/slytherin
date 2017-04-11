@@ -49,7 +49,7 @@ class FastRouteDispatcher implements DispatcherInterface
 
         $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : array();
 
-        return array($result[1], $result[2], $middlewares);
+        return array(array($result[1], $result[2]), $middlewares);
     }
 
     /**

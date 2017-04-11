@@ -57,15 +57,13 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/');
+        list($function) = $this->dispatcher->dispatch('GET', '/');
 
-        if (is_object($callback)) {
-            $result = call_user_func($callback, $parameters);
-        } else {
-            $callback[0] = new $callback[0];
+        list($callback, $parameters) = $function;
 
-            $result = call_user_func_array($callback, $parameters);
-        }
+        list($class, $method) = $callback;
+
+        $result = call_user_func_array(array(new $class, $method), $parameters);
 
         $this->assertEquals($controller->index(), $result);
     }
@@ -77,11 +75,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClosure()
     {
-        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/hi');
+        list($function) = $this->dispatcher->dispatch('GET', '/hi');
 
-        $result = call_user_func($callback, $parameters);
+        list($callback, $parameters) = $function;
 
-        $this->assertEquals('Hi', $result);
+        $this->assertEquals('Hi', call_user_func($callback, $parameters));
     }
 
     /**
@@ -93,7 +91,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('UnexpectedValueException');
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
+        $this->dispatcher->dispatch('GET', '/test');
     }
 
     /**
@@ -105,7 +103,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('UnexpectedValueException');
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
+        $this->dispatcher->dispatch('TEST', '/hi');
     }
 
     /**
@@ -117,7 +115,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('UnexpectedValueException');
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
+        $this->dispatcher->dispatch('TEST', '/hi');
     }
 
     /**
@@ -147,7 +145,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array(), array());
+        $expected = array(array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()), array());
 
         $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
     }

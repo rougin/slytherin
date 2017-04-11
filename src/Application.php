@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Application
  *
@@ -71,13 +68,9 @@ class Application
             $dispatcher->router($router);
         }
 
-        list($function, $parameters, $middlewares) = $dispatcher->dispatch($method, $path);
+        $result = $dispatcher->dispatch($method, $path);
 
-        $result = (is_null($parameters)) ? $function : array($function, $parameters);
-
-        $function = array($result, $middlewares);
-
-        return ($resolve && is_array($result)) ? $this->resolve($result) : $function;
+        return ($resolve && is_array($result[0])) ? $this->resolve($result[0]) : $result;
     }
 
     /**
@@ -86,7 +79,7 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(ServerRequestInterface $request)
+    public function handle(\Psr\Http\Message\ServerRequestInterface $request)
     {
         list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
 
@@ -154,20 +147,20 @@ class Application
     /**
      * Converts the result into \Psr\Http\Message\ResponseInterface.
      *
-     * @param  \Psr\Http\Message\ResponseInterface       $response
-     * @param  \Psr\Http\Message\ResponseInterface|mixed $result
+     * @param  \Psr\Http\Message\ResponseInterface        $response
+     * @param  \Psr\Http\Message\ResponseInterface|string $result
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function convert($response, $result)
     {
         $headers = $response->getHeaders();
 
-        if ($result instanceof ResponseInterface) {
+        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
             $headers = array_merge($headers, $result->getHeaders());
 
             $response = $response->withBody($result->getBody());
         } else {
-            $response->getBody()->write($result);
+            $response->getBody()->write((string) $result);
         }
 
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
@@ -182,24 +175,24 @@ class Application
     }
 
     /**
-     * Returns the result of the result by resolving it through a container.
+     * Returns the result of the function by resolving it through a container.
      *
-     * @param  array $result
+     * @param  array $function
      * @return mixed
      */
-    protected function resolve($result)
+    protected function resolve($function)
     {
-        list($class, $parameters) = $result;
+        list($callback, $parameters) = $function;
 
-        if (is_array($class) && ! is_object($class)) {
-            list($name, $method) = $class;
+        if (is_array($callback) && ! is_object($callback)) {
+            list($name, $method) = $callback;
 
             // NOTE: To be removed in v1.0.0. It should me manually defined.
             $container = new Container\ReflectionContainer(static::$container);
 
-            $class = array($container->get($name), $method);
+            $callback = array($container->get($name), $method);
         }
 
-        return call_user_func_array($class, $parameters);
+        return call_user_func_array($callback, $parameters);
     }
 }

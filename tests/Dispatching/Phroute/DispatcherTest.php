@@ -57,7 +57,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = array($controller->index(), null, array());
+        $expected = array($controller->index(), array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/'));
     }
@@ -69,7 +69,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithClosure()
     {
-        $expected = array('Hi', null, array());
+        $expected = array('Hi', array());
 
         $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/hi'));
     }
@@ -123,7 +123,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = array($controller->index(), null, array());
+        $expected = array($controller->index(), array());
 
         $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
     }
