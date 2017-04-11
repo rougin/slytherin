@@ -70,7 +70,11 @@ class Application
 
         $result = $dispatcher->dispatch($method, $path);
 
-        return ($resolve && is_array($result[0])) ? $this->resolve($result[0]) : $result;
+        list($function) = $result;
+
+        $solvable = $resolve && is_array($function);
+
+        return ($solvable) ? $this->resolve($function) : $result;
     }
 
     /**
