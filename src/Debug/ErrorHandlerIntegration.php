@@ -32,7 +32,8 @@ class ErrorHandlerIntegration implements \Rougin\Slytherin\Integration\Integrati
             $handler = new WhoopsErrorHandler(new \Whoops\Run, $environment);
         }
 
-        $handler->display();
+        // NOTE: To be removed in v1.0.0. Use $handler->display() instead.
+        $container->set('Rougin\Slytherin\Debug\ErrorHandlerInterface', $handler);
 
         return $container;
     }

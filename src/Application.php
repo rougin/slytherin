@@ -54,16 +54,16 @@ class Application
     }
 
     /**
-     * Gets the result from the dispatcher.
+     * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
-     * @param  string                                             $method
-     * @param  string                                             $path
-     * @param  \Rougin\Slytherin\Routing\DispatcherInterface|null $dispatcher
-     * @return array
+     * @param  string  $method
+     * @param  string  $path
+     * @param  boolean $resolve
+     * @return array|mixed
      */
-    public function dispatch($method, $path, Routing\DispatcherInterface $dispatcher = null)
+    public function dispatch($method, $path, $resolve = false)
     {
-        $dispatcher = $dispatcher ?: static::$container->get(self::DISPATCHER);
+        $dispatcher = static::$container->get(self::DISPATCHER);
 
         if (static::$container->has(self::ROUTER)) {
             $router = static::$container->get(self::ROUTER);
@@ -71,13 +71,13 @@ class Application
             $dispatcher->router($router);
         }
 
-        $route = $dispatcher->dispatch($method, $path);
-
-        list($function, $parameters, $middlewares) = $route;
+        list($function, $parameters, $middlewares) = $dispatcher->dispatch($method, $path);
 
         $result = (is_null($parameters)) ? $function : array($function, $parameters);
 
-        return array($result, $middlewares);
+        $function = array($result, $middlewares);
+
+        return ($resolve && is_array($result)) ? $this->resolve($result) : $function;
     }
 
     /**

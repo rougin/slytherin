@@ -202,6 +202,18 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the dispatch() method.
+     *
+     * @return void
+     */
+    public function testDispatchMethod()
+    {
+        $app = new \Rougin\Slytherin\Application($this->components);
+
+        $this->assertEquals('Hello', $app->dispatch('GET', '/', true));
+    }
+
+    /**
      * Changes the HTTP method and the uri of the request.
      *
      * @param  string $httpMethod
