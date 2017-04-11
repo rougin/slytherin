@@ -112,21 +112,22 @@ class Middleware implements \Rougin\Slytherin\Middleware\MiddlewareInterface
     /**
      * Returns the listing of middlewares included.
      *
+     * @param  array $middlewares
      * @return array
      */
-    public function stack()
+    public function stack(array $middlewares = array())
     {
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+        $current = $this->stack;
 
-        $middlewares = $this->stack;
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
         if (interface_exists($interface)) {
             $response = 'Rougin\Slytherin\Middleware\FinalResponse';
 
-            array_push($middlewares, $response);
+            array_push($current, $response);
         }
 
-        return $middlewares;
+        return array_merge($current, $middlewares);
     }
 
     /**

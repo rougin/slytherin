@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Application
  *
@@ -83,7 +86,7 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(\Psr\Http\Message\ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request)
     {
         list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
 
@@ -97,12 +100,12 @@ class Application
         if (static::$container->has(self::MIDDLEWARE)) {
             $middleware = static::$container->get(self::MIDDLEWARE);
 
-            $middlewares = array_merge($middleware->stack(), $middlewares);
-
-            $response = $middleware($request, $response, $middlewares);
+            $response = $middleware($request, $response, $middleware->stack($middlewares));
         }
 
-        return $this->convert($response, $this->resolve($function));
+        $result = (is_array($function)) ? $this->resolve($function) : $function;
+
+        return $this->convert($response, $result);
     }
 
     /**
@@ -157,8 +160,12 @@ class Application
      */
     protected function convert($response, $result)
     {
-        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
-            $response = $result;
+        $headers = $response->getHeaders();
+
+        if ($result instanceof ResponseInterface) {
+            $headers = array_merge($headers, $result->getHeaders());
+
+            $response = $response->withBody($result->getBody());
         } else {
             $response->getBody()->write($result);
         }
@@ -167,7 +174,7 @@ class Application
 
         header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
 
-        foreach ($response->getHeaders() as $name => $value) {
+        foreach (array_unique($headers, SORT_REGULAR) as $name => $value) {
             header($name . ': ' . implode(',', $value));
         }
 
@@ -175,28 +182,24 @@ class Application
     }
 
     /**
-     * Returns the result of the function by resolving it through a container.
+     * Returns the result of the result by resolving it through a container.
      *
-     * @param  array|string $function
+     * @param  array $result
      * @return mixed
      */
-    protected function resolve($function)
+    protected function resolve($result)
     {
-        if (is_array($function)) {
-            list($class, $parameters) = $function;
+        list($class, $parameters) = $result;
 
-            if (is_array($class) && ! is_object($class)) {
-                list($name, $method) = $class;
+        if (is_array($class) && ! is_object($class)) {
+            list($name, $method) = $class;
 
-                // NOTE: To be removed in v1.0.0. It should me manually defined.
-                $container = new Container\ReflectionContainer(static::$container);
+            // NOTE: To be removed in v1.0.0. It should me manually defined.
+            $container = new Container\ReflectionContainer(static::$container);
 
-                $class = array($container->get($name), $method);
-            }
-
-            return call_user_func_array($class, $parameters);
+            $class = array($container->get($name), $method);
         }
 
-        return $function;
+        return call_user_func_array($class, $parameters);
     }
 }

@@ -28,7 +28,8 @@ interface MiddlewareInterface
     /**
      * Returns the listing of middlewares included.
      *
+     * @param  array $middlewares
      * @return array
      */
-    public function stack();
+    public function stack(array $middlewares = array());
 }
