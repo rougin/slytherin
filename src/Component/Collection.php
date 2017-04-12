@@ -180,11 +180,11 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
     /**
      * Gets the middleware.
      *
-     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface|null
+     * @return \Rougin\Slytherin\Middleware\DispatcherInterface|null
      */
     public function getMiddleware()
     {
-        $interface = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+        $interface = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
         return ($this->getContainer()->has($interface)) ? $this->getContainer()->get($interface) : null;
     }
@@ -192,11 +192,11 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
     /**
      * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $middleware
+     * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
      * @return self
      */
-    public function setMiddleware(\Rougin\Slytherin\Middleware\MiddlewareInterface $middleware)
+    public function setMiddleware(\Rougin\Slytherin\Middleware\DispatcherInterface $middleware)
     {
-        return $this->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $middleware);
+        return $this->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
     }
 }

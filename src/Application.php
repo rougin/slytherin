@@ -12,16 +12,16 @@ namespace Rougin\Slytherin;
  */
 class Application
 {
-    const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
     // NOTE: To be removed in v1.0.0
     const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
-    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+    const MIDDLEWARE_DISPATCHER = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
     const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     const RESPONSE = 'Psr\Http\Message\ResponseInterface';
+
+    const ROUTE_DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
@@ -60,7 +60,7 @@ class Application
      */
     public function dispatch($method, $path, $resolve = false)
     {
-        $dispatcher = static::$container->get(self::DISPATCHER);
+        $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
 
         if (static::$container->has(self::ROUTER)) {
             $router = static::$container->get(self::ROUTER);
@@ -94,8 +94,8 @@ class Application
 
         $response = static::$container->get(self::RESPONSE);
 
-        if (static::$container->has(self::MIDDLEWARE)) {
-            $middleware = static::$container->get(self::MIDDLEWARE);
+        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
+            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $response = $middleware($request, $response, $middleware->stack($middlewares));
         }
@@ -114,7 +114,7 @@ class Application
      */
     public function integrate(array $integrations, Configuration $configuration = null)
     {
-        $configuration = $configuration ?: new Configuration;
+        $configuration = $configuration ?: new Integration\Configuration;
 
         $container = static::container();
 

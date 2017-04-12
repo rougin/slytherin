@@ -21,9 +21,9 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
     /**
      * @param callable $callback
      */
-    public function __construct($callback)
+    public function __construct($callback = null)
     {
-        $this->callback = $callback;
+        $this->callback = $callback ?: function () {};
     }
 
     /**

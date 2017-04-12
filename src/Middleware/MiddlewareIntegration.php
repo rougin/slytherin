@@ -24,21 +24,21 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $middleware = new \Rougin\Slytherin\Middleware\Middleware;
+        $dispatcher = new \Rougin\Slytherin\Middleware\Dispatcher;
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
             $pipe = new \Zend\Stratigility\MiddlewarePipe;
 
-            $middleware = new \Rougin\Slytherin\Middleware\StratigilityMiddleware($pipe);
+            $dispatcher = new \Rougin\Slytherin\Middleware\StratigilityDispatcher($pipe);
         }
 
         foreach ($config->get('app.middlewares', array()) as $item) {
-            $item = is_callable($item) ? $item : new $item;
+            $middleware = is_callable($item) ? $item : new $item;
 
-            $middleware->push($item);
+            $dispatcher->push($middleware);
         }
 
-        $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $middleware);
+        $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
 
         return $container;
     }

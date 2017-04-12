@@ -2,34 +2,15 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Middleware Interface
  *
  * An interface for handling third party middlewares.
+ * NOTE: To be removed in v1.0.0. Use DispatcherInterface instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface MiddlewareInterface
+interface MiddlewareInterface extends DispatcherInterface
 {
-    /**
-     * Processes the specified middlewares in stack.
-     *
-     * @param  \Psr\Http\Message\RequestInterface  $request
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  array                               $stack
-     * @return \Psr\Http\Message\ResponseInterface|null
-     */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array());
-
-    /**
-     * Returns the listing of middlewares included.
-     *
-     * @param  array $middlewares
-     * @return array
-     */
-    public function stack(array $middlewares = array());
 }

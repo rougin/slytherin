@@ -8,7 +8,7 @@ All notable changes to `Slytherin` will be documented in this file
 - Compatibility issue for `Statigility\Middleware`
 
 ### Added
-- implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
+- Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
 - Unit tests for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
@@ -16,14 +16,15 @@ All notable changes to `Slytherin` will be documented in this file
 - `Routing\Router::prefix` for adding prefix in succeeding route endpoints
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
-- `Container\DelegateInterface` for adding delegate containers
-- `Application::dispatch` for dispatching routes based on `Psr\Http\ServerRequestInterface`
+- `Application::container` for getting static instance of the defined [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
+- `Application::dispatch` for dispatching routes based on given HTTP method and URI endpoint
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
+- `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
 
 ### Removed
 - `Vanilla` prefix in classes
