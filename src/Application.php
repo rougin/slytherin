@@ -70,11 +70,9 @@ class Application
 
         $result = $dispatcher->dispatch($method, $path);
 
-        list($function) = $result;
+        $function = ($resolve && is_array($result[0])) ? $this->resolve($result[0]) : $result[0];
 
-        $solvable = $resolve && is_array($function);
-
-        return ($solvable) ? $this->resolve($function) : $result;
+        return ($resolve === true) ? $function : $result;
     }
 
     /**
@@ -112,7 +110,7 @@ class Application
      * @param  \Rougin\Slytherin\Integration\Configuration $configuration
      * @return self
      */
-    public function integrate(array $integrations, Configuration $configuration = null)
+    public function integrate(array $integrations, Integration\Configuration $configuration = null)
     {
         $configuration = $configuration ?: new Integration\Configuration;
 
