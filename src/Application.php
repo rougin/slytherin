@@ -180,21 +180,19 @@ class Application
      */
     protected function resolve($function)
     {
-        if (is_array($function)) {
-            list($callback, $parameters) = $function;
+        if (! is_array($function)) return $function;
 
-            if (is_array($callback) && ! is_object($callback)) {
-                list($name, $method) = $callback;
+        list($callback, $parameters) = $function;
 
-                // NOTE: To be removed in v1.0.0. It should me manually defined.
-                $container = new Container\ReflectionContainer(static::$container);
+        if (is_array($callback) && ! is_object($callback)) {
+            list($name, $method) = $callback;
 
-                $callback = array($container->get($name), $method);
-            }
+            // NOTE: To be removed in v1.0.0. It should me manually defined.
+            $container = new Container\ReflectionContainer(static::$container);
 
-            return call_user_func_array($callback, $parameters);
+            $callback = array($container->get($name), $method);
         }
 
-        return $function;
+        return call_user_func_array($callback, $parameters);
     }
 }
