@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Debug;
  * Error Handler Interface
  *
  * An interface for handling third party error handlers.
- * NOTE: To be removed in v1.0.0
+ * NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

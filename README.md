@@ -95,12 +95,19 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
 
+## Inspirations
+
+* [Codeigniter](https://codeigniter.com)
+* [Fucking Small](https://github.com/trq/fucking-small)
+* [Laravel](https://laravel.com)
+* [Symfony](http://symfony.com)
+
 ## References
 
-- [Jamie York's](https://github.com/ziadoz) [Awesome PHP!](https://github.com/ziadoz/awesome-php)
-- [Dominik Liebler's](https://github.com/domnikl) [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest/)
-- [Patrick Louys'](https://github.com/PatrickLouys/no-framework-tutorial) [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial)
-- [Tony R Quilkey's](https://github.com/trq) [Fucking Small Framework](https://github.com/trq/fucking-small)
+* [Jamie York's](https://github.com/ziadoz) [Awesome PHP!](https://github.com/ziadoz/awesome-php)
+* [Dominik Liebler's](https://github.com/domnikl) [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest)
+* [Patrick Louys'](https://github.com/PatrickLouys/no-framework-tutorial) [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial)
+* [PHP Standard Recommendations](http://www.php-fig.org/psr)
 
 ## Credits
 

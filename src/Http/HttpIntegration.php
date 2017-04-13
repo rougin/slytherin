@@ -82,6 +82,7 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
         }
 
         $container->set('Psr\Http\Message\ServerRequestInterface', $request);
+
         $container->set('Psr\Http\Message\ResponseInterface', $response);
 
         return $container;

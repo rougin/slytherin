@@ -10,8 +10,7 @@ use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
 /**
  * Stratigility Dispatcher
  *
- * A simple implementation of middleware dispatcher that
- * is built on top of Zend Framework's Stratigility.
+ * A simple implementation of middleware dispatcher that is built on top of Zend's Stratigility.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

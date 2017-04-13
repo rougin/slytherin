@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Middleware;
  * Stratigility Middleware
  *
  * A simple implementation of middleware that is built on top of Zend's Stratigility.
- * NOTE: To be removed in v1.0.0. Use StratigilityDispatcher instead.
+ * NOTE: To be removed in v1.0.0. Use "Middleware\StratigilityDispatcher" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

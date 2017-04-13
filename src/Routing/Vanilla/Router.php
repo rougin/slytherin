@@ -5,9 +5,8 @@ namespace Rougin\Slytherin\Routing\Vanilla;
 /**
  * Dispatcher
  *
- * A simple implementation of a router that is based on
- * Rougin\Slytherin\Routing\RouterInterface.
- * NOTE: To be removed in v1.0.0
+ * A simple implementation of a router that is based on RouterInterface.
+ * NOTE: To be removed in v1.0.0. Use "Routing\Router" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

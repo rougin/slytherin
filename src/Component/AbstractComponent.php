@@ -9,7 +9,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * Component Abstract
  *
  * Methods used for integrating a component to Slytherin.
- * NOTE: To be removed in v1.0.0
+ * NOTE: To be removed in v1.0.0. Use "Integration" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

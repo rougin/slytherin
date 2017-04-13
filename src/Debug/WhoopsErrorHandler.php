@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Debug;
  * Whoops Error Handler
  *
  * A simple implementation of an error handler built on top of Filipe Dobreira's
- * Whoops! - php errors for cool kids. NOTE: To be removed in v1.0.0
+ * Whoops. NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
  *
  * http://filp.github.io/whoops
  *

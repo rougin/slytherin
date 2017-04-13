@@ -5,8 +5,7 @@ namespace Rougin\Slytherin\Routing;
 /**
  * Dispatcher
  *
- * A simple implementation of a route dispatcher that is based on
- * Rougin\Slytherin\Routing\DispatcherInterface.
+ * A simple implementation of a route dispatcher that is based on DispatcherInterface.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

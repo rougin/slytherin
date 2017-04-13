@@ -25,6 +25,7 @@ class ConfigurationIntegration implements \Rougin\Slytherin\Integration\Integrat
     public function define(ContainerInterface $container, Configuration $config)
     {
         $container->set('Rougin\Slytherin\Configuration', $config);
+
         $container->set('Rougin\Slytherin\Integration\Configuration', $config);
 
         return $container;

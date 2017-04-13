@@ -8,7 +8,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * Component Collector
  *
  * Collects all components into Collection.
- * NOTE: To be removed in v1.0.0
+ * NOTE: To be removed in v1.0.0. Use "Integration" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -56,12 +56,12 @@ class Collector
     {
         $instance = new $component;
 
-        if (! empty($instance->type())) {
-            $parameters = ($instance->type() == 'http') ? $instance->get() : array($instance->get());
+        $type = $instance->type();
 
-            $callback = array($collection, 'set' . ucfirst($instance->type()));
+        if (! empty($type)) {
+            $parameters = ($type == 'http') ? $instance->get() : array($instance->get());
 
-            call_user_func_array($callback, $parameters);
+            call_user_func_array(array($collection, 'set' . ucfirst($type)), $parameters);
         }
 
         return $instance;
