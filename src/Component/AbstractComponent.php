@@ -29,7 +29,7 @@ abstract class AbstractComponent implements ComponentInterface
      *
      * @return string
      */
-    public function getType()
+    public function type()
     {
         // Converts the string from "snake_case" to "camelCase"
         $words = ucwords(str_replace('_', ' ', $this->type));

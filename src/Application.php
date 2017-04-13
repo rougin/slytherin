@@ -70,9 +70,7 @@ class Application
 
         $result = $dispatcher->dispatch($method, $path);
 
-        $function = ($resolve && is_array($result[0])) ? $this->resolve($result[0]) : $result[0];
-
-        return ($resolve === true) ? $function : $result;
+        return ($resolve === true) ? $this->resolve($result[0]) : $result;
     }
 
     /**
@@ -98,9 +96,7 @@ class Application
             $response = $middleware($request, $response, $middleware->stack($middlewares));
         }
 
-        $result = (is_array($function)) ? $this->resolve($function) : $function;
-
-        return $this->convert($response, $result);
+        return $this->convert($response, $this->resolve($function));
     }
 
     /**
@@ -179,22 +175,26 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  array $function
+     * @param  array|mixed $function
      * @return mixed
      */
     protected function resolve($function)
     {
-        list($callback, $parameters) = $function;
+        if (is_array($function)) {
+            list($callback, $parameters) = $function;
 
-        if (is_array($callback) && ! is_object($callback)) {
-            list($name, $method) = $callback;
+            if (is_array($callback) && ! is_object($callback)) {
+                list($name, $method) = $callback;
 
-            // NOTE: To be removed in v1.0.0. It should me manually defined.
-            $container = new Container\ReflectionContainer(static::$container);
+                // NOTE: To be removed in v1.0.0. It should me manually defined.
+                $container = new Container\ReflectionContainer(static::$container);
 
-            $callback = array($container->get($name), $method);
+                $callback = array($container->get($name), $method);
+            }
+
+            return call_user_func_array($callback, $parameters);
         }
 
-        return call_user_func_array($callback, $parameters);
+        return $function;
     }
 }

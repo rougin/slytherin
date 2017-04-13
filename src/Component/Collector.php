@@ -30,7 +30,7 @@ class Collector
         $collection = new Collection;
 
         foreach ($components as $component) {
-            $instance = self::prepareComponent($collection, $component);
+            $instance = self::prepare($collection, $component);
 
             $container = $instance->define($container, $configuration);
         }
@@ -52,20 +52,16 @@ class Collector
      * @param  string                                 $component
      * @return \Rougin\Slytherin\Integration\IntegrationInterface
      */
-    protected static function prepareComponent(Collection &$collection, $component)
+    protected static function prepare(Collection &$collection, $component)
     {
         $instance = new $component;
 
-        $type = $instance->getType();
+        if (! empty($instance->type())) {
+            $parameters = ($instance->type() == 'http') ? $instance->get() : array($instance->get());
 
-        if (! empty($type)) {
-            $parameters = array($instance->get());
+            $callback = array($collection, 'set' . ucfirst($instance->type()));
 
-            if ($type == 'http') {
-                $parameters = $instance->get();
-            }
-
-            call_user_func_array(array($collection, 'set' . ucfirst($type)), $parameters);
+            call_user_func_array($callback, $parameters);
         }
 
         return $instance;

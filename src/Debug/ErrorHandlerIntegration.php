@@ -9,6 +9,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * Error Handler Integration
  *
  * An integration for defined error handlers to be included in Slytherin.
+ * NOTE: To be removed in v1.0.0. Moved to "Integration" directory instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
