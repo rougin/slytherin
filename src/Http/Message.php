@@ -128,7 +128,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withHeader($name, $value)
     {
-        $this->headers[$name] = array($value);
+        $this->headers[$name] = is_string($value) ? array($value) : $value;
 
         return clone $this;
     }
@@ -157,15 +157,15 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withoutHeader($name)
     {
-        if (! $this->hasHeader($name)) {
-            return clone $this;
+        if ($this->hasHeader($name)) {
+            $new = clone $this;
+
+            unset($new->headers[$name]);
+
+            return $new;
         }
 
-        $new = clone $this;
-
-        unset($new->headers[$name]);
-
-        return $new;
+        return clone $this;
     }
 
     /**
