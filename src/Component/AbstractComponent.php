@@ -54,10 +54,10 @@ abstract class AbstractComponent implements ComponentInterface
     /**
      * Sets the component. Has also an option to add it to the container.
      *
-     * @param  \Psr\Container\ContainerInterface $container
+     * @param  \Interop\Container\ContainerInterface $container
      * @return void
      */
-    public function set(\Psr\Container\ContainerInterface &$container)
+    public function set(\Interop\Container\ContainerInterface &$container)
     {
     }
 }
