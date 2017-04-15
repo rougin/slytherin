@@ -42,12 +42,12 @@ class LeagueContainer extends \League\Container\Container implements ContainerIn
     /**
      * Sets a new instance to the container.
      *
-     * @param  string     $id
-     * @param  mixed|null $concrete
-     * @param  boolean    $share
+     * @param  string  $id
+     * @param  mixed   $concrete
+     * @param  boolean $share
      * @return self
      */
-    public function set($id, $concrete = null, $share = false)
+    public function set($id, $concrete, $share = false)
     {
         return $this->add($id, $concrete, $share);
     }

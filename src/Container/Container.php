@@ -97,11 +97,11 @@ class Container implements ContainerInterface
     /**
      * Sets a new instance to the container.
      *
-     * @param  string     $id
-     * @param  mixed|null $concrete
+     * @param  string $id
+     * @param  mixed  $concrete
      * @return self
      */
-    public function set($id, $concrete = null)
+    public function set($id, $concrete)
     {
         $this->instances[$id] = $concrete;
 
