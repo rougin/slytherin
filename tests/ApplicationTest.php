@@ -36,6 +36,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
         $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
+        $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
+        $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
+        $router->get('/callback', function () { return 'Hello'; });
+        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
         $config = new Integration\Configuration;
 
@@ -61,14 +65,133 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Application::dispatch.
+     * Tests Application::handle.
+     *
+     * @runInSeparateProcess
      *
      * @return void
      */
-    public function testDispatchMethod()
+    public function testHandleMethod()
     {
-        $result = $this->application->dispatch('GET', '/store', true);
+        $request = $this->setServerRequest('GET', '/store');
 
-        $this->assertEquals('Store', $result);
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Store', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with a response as result.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function testHandleMethodWithResponse()
+    {
+        $request = $this->setServerRequest('GET', '/response');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello with response', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with a parameter as result.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function testHandleMethodWithParameter()
+    {
+        $request = $this->setServerRequest('GET', '/parameter');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with an optional parameter as result.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function testHandleMethodWithOptionalParameter()
+    {
+        $request = $this->setServerRequest('GET', '/optional');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with a callback as result.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function testHandleMethodWithCallback()
+    {
+        $request = $this->setServerRequest('GET', '/callback');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with a callback as result.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    // public function testHandleMethodWithMiddleware()
+    // {
+    //     $request = $this->setServerRequest('GET', '/middleware');
+
+    //     $result = $this->application->handle($request);
+
+    //     $this->assertEquals('Loaded with middleware', (string) $result->getBody());
+    // }
+
+    /**
+     * Prepares the HTTP method and the URI of the request.
+     *
+     * @param  string $httpMethod
+     * @param  string $uriEndpoint
+     * @param  array  $data
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    protected function setServerRequest($httpMethod, $uriEndpoint, $data = array())
+    {
+        $server = array();
+
+        $server['REQUEST_METHOD'] = $httpMethod;
+        $server['REQUEST_URI'] = $uriEndpoint;
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
+
+        $request = new \Rougin\Slytherin\Http\ServerRequest($server);
+
+        switch ($httpMethod) {
+            case 'GET':
+                $request = $request->withQueryParams($data);
+
+                break;
+            case 'POST':
+            case 'PUT':
+            case 'DELETE':
+                $request = $request->withParsedBody($data);
+
+                break;
+        }
+
+        return $request;
     }
 }

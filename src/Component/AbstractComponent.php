@@ -46,6 +46,8 @@ abstract class AbstractComponent implements ComponentInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $this->set($container);
+
         return $container;
     }
 

@@ -31,13 +31,15 @@ class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInt
         }
 
         if (class_exists('Phroute\Phroute\Dispatcher')) {
-            $dispatcher = new \Rougin\Slytherin\Routing\PhrouteDispatcher;
-        }
+            $resolver = new \Rougin\Slytherin\Container\ReflectionContainer($container);
+            $resolver = new \Rougin\Slytherin\Routing\PhrouteResolver($resolver);
 
-        $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+            $dispatcher = new \Rougin\Slytherin\Routing\PhrouteDispatcher(null, $resolver);
+        }
 
         $router = $config->get('app.router', new \Rougin\Slytherin\Routing\Router);
 
+        $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
         $container->set('Rougin\Slytherin\Routing\RouterInterface', $router);
 
         return $container;

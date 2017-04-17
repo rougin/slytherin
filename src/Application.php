@@ -51,29 +51,6 @@ class Application
     }
 
     /**
-     * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
-     *
-     * @param  string  $method
-     * @param  string  $path
-     * @param  boolean $resolve
-     * @return array|mixed
-     */
-    public function dispatch($method, $path, $resolve = false)
-    {
-        $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
-
-        if (static::$container->has(self::ROUTER)) {
-            $router = static::$container->get(self::ROUTER);
-
-            $dispatcher->router($router);
-        }
-
-        $result = $dispatcher->dispatch($method, $path);
-
-        return ($resolve === true) ? $this->resolve($result[0]) : $result;
-    }
-
-    /**
      * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -170,6 +147,26 @@ class Application
         }
 
         return $response;
+    }
+
+    /**
+     * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
+     *
+     * @param  string  $method
+     * @param  string  $path
+     * @return array|mixed
+     */
+    protected function dispatch($method, $path)
+    {
+        $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
+
+        if (static::$container->has(self::ROUTER)) {
+            $router = static::$container->get(self::ROUTER);
+
+            $dispatcher->router($router);
+        }
+
+        return $dispatcher->dispatch($method, $path);
     }
 
     /**

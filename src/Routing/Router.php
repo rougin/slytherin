@@ -238,6 +238,7 @@ class Router implements RouterInterface
     {
         $route[0] = strtoupper($route[0]);
         $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
+        $route[3] = (! is_array($route[3])) ? array($route[3]) : $route[3];
 
         if (is_string($route[2]) && strpos($route[2], '@') !== false) {
             $route[2] = explode('@', $route[2]);

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Phroute\Phroute\HandlerResolverInterface;
+
 /**
  * Phroute Dispatcher
  *
@@ -20,16 +22,24 @@ class PhrouteDispatcher implements DispatcherInterface
     protected $dispatcher;
 
     /**
+     * @var \Phroute\Phroute\HandlerResolverInterface|null
+     */
+    protected $resolver;
+
+    /**
      * @var \Rougin\Slytherin\Routing\RouterInterface
      */
     protected $router;
 
     /**
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
+     * @param \Phroute\Phroute\HandlerResolverInterface|null $resolver
      */
-    public function __construct(RouterInterface $router = null)
+    public function __construct(RouterInterface $router = null, HandlerResolverInterface $resolver = null)
     {
-        $router == null || $this->router($router);
+        $resolver === null || $this->resolver = $resolver;
+
+        $router === null || $this->router($router);
     }
 
     /**
@@ -72,7 +82,7 @@ class PhrouteDispatcher implements DispatcherInterface
             $routes = $router->routes(true);
         }
 
-        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes);
+        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
 
         return $this;
     }

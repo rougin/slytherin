@@ -17,7 +17,6 @@ All notable changes to `Slytherin` will be documented in this file
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
 - `Application::container` for getting static instance of the defined [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
-- `Application::dispatch` for dispatching routes based on given HTTP method and URI endpoint
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
