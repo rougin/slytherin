@@ -24,6 +24,7 @@ All notable changes to `Slytherin` will be documented in this file
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
 - `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
+- Emit headers on `Application::run` only
 
 ### Removed
 - `Vanilla` prefix in classes

@@ -101,14 +101,13 @@ class Application
     }
 
     /**
-     * Runs the application
+     * Runs the application.
      *
+     * @param  boolean $emit -- NOTE: To be removed in v1.0.0. Emit headers on this method
      * @return void
      */
-    public function run()
+    public function run($emit = true)
     {
-        $request = static::$container->get(self::REQUEST);
-
         // NOTE: To be removed in v1.0.0
         if (static::$container->has(self::ERROR_HANDLER)) {
             $debugger = static::$container->get(self::ERROR_HANDLER);
@@ -116,7 +115,11 @@ class Application
             $debugger->display();
         }
 
-        echo (string) $this->handle($request)->getBody();
+        $response = $this->handle(static::$container->get(self::REQUEST));
+
+        $emit === false || $this->emit($response);
+
+        echo (string) $response->getBody();
     }
 
     /**
@@ -128,25 +131,21 @@ class Application
      */
     protected function convert($response, $result)
     {
-        $headers = $response->getHeaders();
-
-        if ($result instanceof \Psr\Http\Message\ResponseInterface) {
-            $headers = array_merge($headers, $result->getHeaders());
-
-            $response = $response->withBody($result->getBody());
-        } else {
+        if (! $result instanceof \Psr\Http\Message\ResponseInterface) {
             $response->getBody()->write((string) $result);
+
+            return $response;
         }
 
-        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+        $callback = function ($values, $name) use (&$response) {
+            $response = $response->withHeader($name, $values);
+        };
 
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+        $headers = $result->getHeaders();
 
-        foreach (array_unique($headers, SORT_REGULAR) as $name => $value) {
-            header($name . ': ' . implode(',', $value));
-        }
+        array_walk($headers, $callback);
 
-        return $response;
+        return $response->withBody($result->getBody());
     }
 
     /**
@@ -167,6 +166,29 @@ class Application
         }
 
         return $dispatcher->dispatch($method, $path);
+    }
+
+    /**
+     * Emits headers from \Psr\Http\Message\ResponseInterface.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return void
+     */
+    protected function emit(\Psr\Http\Message\ResponseInterface $response)
+    {
+        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+
+        $callback = function ($value, $name) {
+            $values = implode(',', $value);
+
+            header($name . ': ' . $values);
+        };
+
+        $headers = $response->getHeaders();
+
+        array_walk($headers, $callback);
     }
 
     /**

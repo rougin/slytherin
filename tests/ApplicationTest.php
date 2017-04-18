@@ -53,21 +53,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests Application::run.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethod()
     {
         $this->expectOutputString('Hello');
 
-        $this->application->run();
+        $this->application->run(false);
     }
 
     /**
      * Tests Application::handle.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */
@@ -83,8 +79,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the handle() method with a response as result.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testHandleMethodWithResponse()
@@ -98,8 +92,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the handle() method with a parameter as result.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */
@@ -115,8 +107,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the handle() method with an optional parameter as result.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testHandleMethodWithOptionalParameter()
@@ -131,8 +121,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the handle() method with a callback as result.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testHandleMethodWithCallback()
@@ -146,8 +134,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the handle() method with a callback as result.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */

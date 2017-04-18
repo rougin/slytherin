@@ -128,7 +128,7 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withHeader($name, $value)
     {
-        $this->headers[$name] = array($value);
+        $this->headers[$name] = (is_array($value)) ? $value : array($value);
 
         return clone $this;
     }
