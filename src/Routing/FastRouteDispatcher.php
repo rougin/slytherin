@@ -47,7 +47,7 @@ class FastRouteDispatcher implements DispatcherInterface
 
         $this->throwException($result[0], $uri);
 
-        $middlewares = ($route[2] == $route[1] && isset($route[3])) ? $route[3] : array();
+        $middlewares = ($route[2] == $result[1] && isset($route[3])) ? $route[3] : array();
 
         return array(array($result[1], $result[2]), $middlewares);
     }

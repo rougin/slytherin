@@ -44,11 +44,17 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
+        $this->stack = (empty($stack)) ? $this->stack : $stack;
+
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            array_push($this->stack, 'Rougin\Slytherin\Middleware\FinalResponse');
+        }
+
         $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
 
         $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
 
-        $pipeline = $this->refine($stack, $response);
+        $pipeline = $this->refine($this->stack, $response);
 
         return $pipeline($request, $response, $handler);
     }

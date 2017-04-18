@@ -137,14 +137,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    // public function testHandleMethodWithMiddleware()
-    // {
-    //     $request = $this->setServerRequest('GET', '/middleware');
+    public function testHandleMethodWithMiddleware()
+    {
+        $request = $this->setServerRequest('GET', '/middleware');
 
-    //     $result = $this->application->handle($request);
+        $result = $this->application->handle($request);
 
-    //     $this->assertEquals('Loaded with middleware', (string) $result->getBody());
-    // }
+        $this->assertEquals('Loaded with middleware', (string) $result->getBody());
+    }
 
     /**
      * Prepares the HTTP method and the URI of the request.

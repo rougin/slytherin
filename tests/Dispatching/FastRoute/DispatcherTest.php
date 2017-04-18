@@ -145,7 +145,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
 
         $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = array(array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()), array());
+        $expected = array(array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()), array('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
 
         $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
     }

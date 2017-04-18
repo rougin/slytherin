@@ -68,9 +68,9 @@ class Application
         $response = static::$container->get(self::RESPONSE);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
-            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
+            $dispatcher = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-            $response = $middleware($request, $response, $middleware->stack($middlewares));
+            $response = $dispatcher($request, $response, $dispatcher->stack($middlewares));
         }
 
         return $this->convert($response, $this->resolve($function));
@@ -132,7 +132,9 @@ class Application
     protected function convert($response, $result)
     {
         if (! $result instanceof \Psr\Http\Message\ResponseInterface) {
-            $response->getBody()->write((string) $result);
+            $result = (string) $result;
+
+            $response->getBody() != '' || $response->getBody()->write($result);
 
             return $response;
         }
