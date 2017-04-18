@@ -113,7 +113,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
 
         $resolved = $this->resolve(0);
 
-        return $resolved($request, $delegate); 
+        return $resolved($request, $delegate);
     }
 
     /**

@@ -66,7 +66,7 @@ class StratigilityDispatcher extends Dispatcher
 
         $pipeline = $this->refine($this->stack);
 
-        return $pipeline->process($request, $delegate);
+        return $pipeline($request, $this->response);
     }
 
     /**
