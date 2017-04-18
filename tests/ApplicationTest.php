@@ -41,6 +41,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $router->get('/callback', function () { return 'Hello'; });
         $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
+        $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
+
         $config = new Integration\Configuration;
 
         $config->set('app.router', $router);
@@ -53,13 +55,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests Application::run.
      *
+     * @runInSeparateProcess
+     *
      * @return void
      */
     public function testRunMethod()
     {
         $this->expectOutputString('Hello');
 
-        $this->application->run(false);
+        $this->application->run();
     }
 
     /**
@@ -144,6 +148,22 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $result = $this->application->handle($request);
 
         $this->assertEquals('Loaded with middleware', (string) $result->getBody());
+    }
+
+    /**
+     * Tests the handle() method with a PUT HTTP method.
+     *
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function testHandleMethodWithPutHttpMethod()
+    {
+        $request = $this->setServerRequest('PUT', '/hello');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello from PUT HTTP method', (string) $result->getBody());
     }
 
     /**

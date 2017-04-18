@@ -102,12 +102,11 @@ class Application
     }
 
     /**
-     * Runs the application.
+     * Emits the headers from response and runs the application.
      *
-     * @param  boolean $emit -- NOTE: To be removed in v1.0.0. Emit headers on this method
      * @return void
      */
-    public function run($emit = true)
+    public function run()
     {
         // NOTE: To be removed in v1.0.0
         if (static::$container->has(self::ERROR_HANDLER)) {
@@ -118,7 +117,13 @@ class Application
 
         $response = $this->handle(static::$container->get(self::REQUEST));
 
-        $emit === false || $this->emit($response);
+        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+
+        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+
+        foreach ($response->getHeaders() as $name => $values) {
+            header($name . ': ' . implode(',', $values));
+        }
 
         echo (string) $response->getBody();
     }
@@ -140,13 +145,11 @@ class Application
             return $response;
         }
 
-        $callback = function ($values, $name) use (&$response) {
-            $response = $response->withHeader($name, $values);
-        };
-
         $headers = $result->getHeaders();
 
-        array_walk($headers, $callback);
+        array_walk($headers, function ($values, $name) use (&$response) {
+            $response = $response->withHeader($name, $values);
+        });
 
         return $response->withBody($result->getBody());
     }
@@ -169,29 +172,6 @@ class Application
         }
 
         return $dispatcher->dispatch($method, $path);
-    }
-
-    /**
-     * Emits headers from \Psr\Http\Message\ResponseInterface.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return void
-     */
-    protected function emit(\Psr\Http\Message\ResponseInterface $response)
-    {
-        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
-
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
-
-        $callback = function ($value, $name) {
-            $values = implode(',', $value);
-
-            header($name . ': ' . $values);
-        };
-
-        $headers = $response->getHeaders();
-
-        array_walk($headers, $callback);
     }
 
     /**
