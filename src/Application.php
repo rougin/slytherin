@@ -70,7 +70,7 @@ class Application
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $dispatcher = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-            $response = $dispatcher($request, $response, $dispatcher->stack($middlewares));
+            $response = $dispatcher($request, $response, $middlewares);
         }
 
         return $this->convert($response, $this->resolve($function));

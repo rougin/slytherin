@@ -44,7 +44,7 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
-        $this->stack = (empty($stack)) ? $this->stack : $stack;
+        $this->stack = array_merge($this->stack, $stack);
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             array_push($this->stack, 'Rougin\Slytherin\Middleware\FinalResponse');
@@ -56,6 +56,7 @@ class StratigilityDispatcher extends Dispatcher
 
         $pipeline = $this->refine($this->stack, $response);
 
+        // NOTE: To be removed in v1.0.0. Use $pipeline->process($request, $delegate) instead.
         return $pipeline($request, $response, $handler);
     }
 

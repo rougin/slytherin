@@ -28,8 +28,7 @@ interface DispatcherInterface
     /**
      * Returns the listing of middlewares included.
      *
-     * @param  array $middlewares
      * @return array
      */
-    public function stack(array $middlewares = array());
+    public function stack();
 }

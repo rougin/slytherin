@@ -36,7 +36,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
-        $this->stack = (empty($stack)) ? $this->stack : $stack;
+        $this->stack = array_merge($this->stack, $stack);
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             array_push($this->stack, 'Rougin\Slytherin\Middleware\FinalResponse');
@@ -115,12 +115,11 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     /**
      * Returns the listing of middlewares included.
      *
-     * @param  array $middlewares
      * @return array
      */
-    public function stack(array $middlewares = array())
+    public function stack()
     {
-        return array_merge($this->stack, $middlewares);
+        return $this->stack;
     }
 
     /**
