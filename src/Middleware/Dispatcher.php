@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
+
 /**
  * Dispatcher
  *
@@ -27,38 +29,33 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     protected $stack = array();
 
     /**
+     * @param array                                    $stack
+     * @param \Psr\Http\Message\ResponseInterface|null $response -- NOTE: To be removed in v1.0.0. Use single pass instead.
+     */
+    public function __construct(array $stack = array(), ResponseInterface $response = null)
+    {
+        // NOTE: To be removed in v1.0.0. Use single pass instead.
+        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
+
+        $this->stack = $stack;
+    }
+
+    /**
      * Processes the specified middlewares in stack.
+     * NOTE. To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
      * @param  array                                    $stack
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
     {
         $this->stack = array_merge($this->stack, $stack);
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($this->stack, 'Rougin\Slytherin\Middleware\FinalResponse');
-        }
-
-        // NOTE: To be removed in v1.0.0. Use single pass instead.
         $this->response = $response;
 
-        return $this->dispatch($request);
-    }
-
-    /**
-     * Dispatches the middleware stack and returns the resulting `ResponseInterface`.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function dispatch(ServerRequestInterface $request)
-    {
-        $resolved = $this->resolve(0);
-
-        return $resolved($request);
+        return $this->process($request, new Delegate);
     }
 
     /**
@@ -100,14 +97,38 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     }
 
     /**
+     * Process an incoming server request and return a response.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $response = new FinalResponse($this->response);
+
+            array_push($this->stack, $response);
+        }
+
+        $resolved = $this->resolve(0);
+
+        return $resolved($request, $delegate); 
+    }
+
+    /**
      * Adds a new middleware in the stack.
      *
-     * @param  callable|object|string $middleware
+     * @param  callable|object|string|array $middleware
      * @return self
      */
     public function push($middleware)
     {
-        array_push($this->stack, $middleware);
+        if (is_array($middleware)) {
+            $this->stack = array_merge($this->stack, $middleware);
+        } else {
+            array_push($this->stack, $middleware);
+        }
 
         return $this;
     }
@@ -151,19 +172,17 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     protected function resolve($index)
     {
-        if (isset($this->stack[$index])) {
-            $callable = $this->stack[$index];
+        if (! isset($this->stack[$index])) return new Delegate;
 
-            $instance = $this;
+        $callable = $this->stack[$index];
 
-            return new Delegate(function ($request) use ($index, $callable, $instance) {
-                $middleware = is_callable($callable) ? $callable : new $callable;
+        $instance = $this;
 
-                // NOTE: To be removed in v1.0.0. Use single pass instead.
-                return $instance->prepare($index, $middleware, $request);
-            });
-        }
+        return new Delegate(function ($request) use ($index, $callable, $instance) {
+            $middleware = is_callable($callable) ? $callable : new $callable;
 
-        return new Delegate;
+            // NOTE: To be removed in v1.0.0. Use single pass instead.
+            return $instance->prepare($index, $middleware, $request);
+        });
     }
 }

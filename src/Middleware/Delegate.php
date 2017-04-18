@@ -36,8 +36,10 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
     {
         return call_user_func($this->callback, $request);
     }
+
     /**
      * Dispatch the next available middleware and return the response.
+     * NOTE: To be removed in v1.0.0. Use Delegate::process instead.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface

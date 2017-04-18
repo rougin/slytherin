@@ -13,10 +13,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface DispatcherInterface
+interface DispatcherInterface extends \Interop\Http\ServerMiddleware\MiddlewareInterface
 {
     /**
      * Processes the specified middlewares in stack.
+     * NOTE. To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
      * @param  \Psr\Http\Message\RequestInterface  $request
      * @param  \Psr\Http\Message\ResponseInterface $response
@@ -24,6 +25,14 @@ interface DispatcherInterface
      * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array());
+
+    /**
+     * Adds a new middleware or a list of middlewares in the stack.
+     *
+     * @param  callable|object|string|array $middleware
+     * @return self
+     */
+    public function push($middleware);
 
     /**
      * Returns the listing of middlewares included.

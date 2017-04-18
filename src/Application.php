@@ -60,7 +60,6 @@ class Application
     {
         list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
 
-        // For PATCH and DELETE HTTP methods in forms
         $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
 
         list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
@@ -68,9 +67,11 @@ class Application
         $response = static::$container->get(self::RESPONSE);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
-            $dispatcher = static::$container->get(self::MIDDLEWARE_DISPATCHER);
+            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-            $response = $dispatcher($request, $response, $middlewares);
+            $middleware->push($middlewares);
+
+            $response = $middleware->process($request, new Middleware\Delegate);
         }
 
         return $this->convert($response, $this->resolve($function));

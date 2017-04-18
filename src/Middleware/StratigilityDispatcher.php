@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,57 +26,63 @@ class StratigilityDispatcher extends Dispatcher
     protected $pipeline;
 
     /**
-     * @param \Zend\Stratigility\MiddlewarePipe $pipeline
-     * @param array                             $stack
+     * @var \Psr\Http\Message\ResponseInterface
      */
-    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array())
+    protected $response;
+
+    /**
+     * @param \Zend\Stratigility\MiddlewarePipe        $pipeline
+     * @param array                                    $stack
+     * @param \Psr\Http\Message\ResponseInterface|null $response -- NOTE: To be removed in v1.0.0. Use single pass instead.
+     */
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array(), ResponseInterface $response = null)
     {
         $this->pipeline = $pipeline;
+
+        // NOTE: To be removed in v1.0.0. Use single pass instead.
+        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
 
         $this->stack = $stack;
     }
 
     /**
-     * Processes the specified middlewares in stack.
+     * Process an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $stack
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $this->stack = array_merge($this->stack, $stack);
-
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($this->stack, 'Rougin\Slytherin\Middleware\FinalResponse');
-        }
-
         $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
 
         $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
 
-        $pipeline = $this->refine($this->stack, $response);
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $response = new FinalResponse($this->response);
 
-        // NOTE: To be removed in v1.0.0. Use $pipeline->process($request, $delegate) instead.
-        return $pipeline($request, $response, $handler);
+            array_push($this->stack, $response);
+        }
+
+        $pipeline = $this->refine($this->stack);
+
+        return $pipeline->process($request, $delegate);
     }
 
     /**
      * Prepares the stack to the pipeline.
      *
-     * @param  array                               $stack
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  array $stack
      * @return \Zend\Stratigility\MiddlewarePipe
      */
-    protected function refine(array $stack, ResponseInterface $response)
+    protected function refine(array $stack)
     {
         $exists = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
 
         foreach ($stack as $class) {
             $callable = is_callable($class) ? $class : new $class;
 
-            $callable = ($exists) ? new CallableMiddlewareWrapper($callable, $response) : $callable;
+            $callable = ($exists) ? new CallableMiddlewareWrapper($callable, $this->response) : $callable;
 
             $this->pipeline->pipe($callable);
         }

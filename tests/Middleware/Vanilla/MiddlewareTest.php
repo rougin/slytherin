@@ -52,11 +52,12 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
         $_SERVER['SERVER_PORT']    = '8000';
 
         $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
-        $request    = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
+        $request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
+        $response = new \Rougin\Slytherin\Http\Response;
 
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
         $middleware->push('Rougin\Slytherin\Middleware\FinalResponse');
 
-        $this->assertInstanceOf('Psr\Http\Message\ResponseInterface', $middleware->dispatch($request));
+        $this->assertInstanceOf('Psr\Http\Message\ResponseInterface', $middleware($request, $response));
     }
 }
