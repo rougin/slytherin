@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Application
  *
@@ -56,13 +58,9 @@ class Application
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(\Psr\Http\Message\ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request)
     {
-        list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
-
-        $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
-
-        list($function, $middlewares) = $this->dispatch($method, $request->getUri()->getPath());
+        list($function, $middlewares) = $this->dispatch($request);
 
         $response = static::$container->get(self::RESPONSE);
 
@@ -70,6 +68,7 @@ class Application
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $middleware->push($middlewares);
+            $middleware->push(new Middleware\FinalResponse);
 
             $response = $middleware->process($request, new Middleware\Delegate);
         }
@@ -145,11 +144,9 @@ class Application
             return $response;
         }
 
-        $headers = $result->getHeaders();
-
-        array_walk($headers, function ($values, $name) use (&$response) {
+        foreach ($result->getHeaders() as $name => $values) {
             $response = $response->withHeader($name, $values);
-        });
+        }
 
         return $response->withBody($result->getBody());
     }
@@ -157,12 +154,15 @@ class Application
     /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
-     * @param  string  $method
-     * @param  string  $path
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return array|mixed
      */
-    protected function dispatch($method, $path)
+    protected function dispatch(ServerRequestInterface $request)
     {
+        list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
+
+        $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
+
         $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
 
         if (static::$container->has(self::ROUTER)) {
@@ -171,7 +171,7 @@ class Application
             $dispatcher->router($router);
         }
 
-        return $dispatcher->dispatch($method, $path);
+        return $dispatcher->dispatch($method, $request->getUri()->getPath());
     }
 
     /**

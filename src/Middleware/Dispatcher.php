@@ -105,15 +105,9 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $response = new FinalResponse($this->response);
-
-            array_push($this->stack, $response);
-        }
-
         $resolved = $this->resolve(0);
 
-        return $resolved($request, $delegate);
+        return $resolved($request);
     }
 
     /**

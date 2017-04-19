@@ -58,12 +58,6 @@ class StratigilityDispatcher extends Dispatcher
 
         $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $response = new FinalResponse($this->response);
-
-            array_push($this->stack, $response);
-        }
-
         $pipeline = $this->refine($this->stack);
 
         return $pipeline($request, $this->response, $handler);
