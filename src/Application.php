@@ -67,8 +67,7 @@ class Application
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-            $middleware->push($middlewares);
-            $middleware->push(new Middleware\FinalResponse);
+            $middleware->push($middlewares)->push(new Middleware\FinalResponse);
 
             $response = $middleware->process($request, new Middleware\Delegate);
         }
