@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin;
+namespace Rougin\Slytherin\Updated;
 
 /**
  * Application Test Class
@@ -31,7 +31,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
         array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
 
-        $router = new Routing\Router;
+        $router = new \Rougin\Slytherin\Routing\Router;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
@@ -43,11 +43,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
 
-        $config = new Integration\Configuration;
+        $config = new \Rougin\Slytherin\Integration\Configuration;
 
         $config->set('app.router', $router);
 
-        $app = new Application;
+        $app = new \Rougin\Slytherin\Application;
 
         $this->application = $app->integrate($integrations, $config);
     }

@@ -31,11 +31,13 @@ class AurynContainer extends Container
     /**
      * Sets a new instance to the container.
      *
-     * @param  string $id
-     * @param  mixed  $concrete
+     * @throws \Psr\Container\ContainerExceptionInterface
+     *
+     * @param  string     $id
+     * @param  mixed|null $concrete
      * @return self
      */
-    public function set($id, $concrete)
+    public function set($id, $concrete = null)
     {
         if ($concrete && ! is_array($concrete)) {
             $this->instances[$id] = $concrete;
@@ -45,7 +47,13 @@ class AurynContainer extends Container
 
         $arguments = (is_array($concrete)) ? $concrete : array();
 
-        $this->instances[$id] = $this->injector->make($id, $arguments);
+        try {
+            $this->instances[$id] = $this->injector->make($id, $arguments);
+        } catch (\Exception $e) {
+            $message = 'Unable to get alias (%s)';
+
+            throw new Exception\ContainerException(sprintf($message, $id), 0, $e);
+        }
 
         return $this;
     }
