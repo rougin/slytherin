@@ -42,7 +42,8 @@ class RendererTest extends \PHPUnit_Framework_TestCase
     {
         $expected = 'This is a text from a template.';
 
-        $data     = array('name' => 'template');
+        $data = array('name' => 'template');
+
         $rendered = $this->renderer->render('test-with-data', $data);
 
         $this->assertEquals($expected, $rendered);
