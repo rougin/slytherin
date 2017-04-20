@@ -39,15 +39,9 @@ class AurynContainer extends Container
      */
     public function set($id, $concrete = null)
     {
-        if ($concrete && ! is_array($concrete)) {
-            $this->instances[$id] = $concrete;
-
-            return $this;
-        }
-
-        $arguments = (is_array($concrete)) ? $concrete : array();
-
         try {
+            $arguments = (is_array($concrete)) ? $concrete : array();
+
             $this->instances[$id] = $this->injector->make($id, $arguments);
         } catch (\Exception $e) {
             $message = 'Unable to get alias (%s)';
