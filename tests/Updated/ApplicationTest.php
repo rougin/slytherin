@@ -29,7 +29,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
         array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
         array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
+        // array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
 
         $router = new \Rougin\Slytherin\Routing\Router;
 
