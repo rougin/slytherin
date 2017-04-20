@@ -8,6 +8,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 
 /**
  * League Container Test
+ * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

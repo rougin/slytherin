@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Updated\Container;
+namespace Rougin\Slytherin\Container;
 
 /**
  * Reflection Container Test Class

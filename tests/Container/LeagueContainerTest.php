@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Updated\Container;
+namespace Rougin\Slytherin\Container;
 
 /**
- * Container Test Class
+ * League Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class LeagueContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -22,23 +22,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->container = new \Rougin\Slytherin\Container\Container;
-    }
+        class_exists('League\Container\Container') || $this->markTestSkipped('League Container is not installed.');
 
-    /**
-     * Tests ContainerInterface::alias.
-     *
-     * @return void
-     */
-    public function testAliasMethod()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->set($class, new $class);
-
-        $this->container->alias('test', $class);
-
-        $this->assertTrue($this->container->has('test'));
+        $this->container = new \Rougin\Slytherin\Container\LeagueContainer;
     }
 
     /**
@@ -53,20 +39,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->set($class, new $class);
 
         $this->assertInstanceOf($class, $this->container->get($class));
-    }
-
-    /**
-     * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
-     *
-     * @return void
-     */
-    public function testGetMethodWithContainerException()
-    {
-        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
-
-        $this->container->set('Test', array());
-
-        $this->container->get('Test');
     }
 
     /**

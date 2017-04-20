@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Updated\Container;
+namespace Rougin\Slytherin\Container;
 
 /**
- * League Container Test Class
+ * Auryn Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainerTest extends \PHPUnit_Framework_TestCase
+class AurynContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -22,9 +22,25 @@ class LeagueContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        class_exists('League\Container\Container') || $this->markTestSkipped('League Container is not installed.');
+        class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
 
-        $this->container = new \Rougin\Slytherin\Container\LeagueContainer;
+        $this->container = new \Rougin\Slytherin\Container\AurynContainer(new \Auryn\Injector);
+    }
+
+    /**
+     * Tests ContainerInterface::alias.
+     *
+     * @return void
+     */
+    public function testAliasMethod()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        $this->container->set($class, new $class);
+
+        $this->container->alias('test', $class);
+
+        $this->assertTrue($this->container->has('test'));
     }
 
     /**
@@ -39,6 +55,20 @@ class LeagueContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->set($class, new $class);
 
         $this->assertInstanceOf($class, $this->container->get($class));
+    }
+
+    /**
+     * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
+     *
+     * @return void
+     */
+    public function testGetMethodWithContainerException()
+    {
+        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
+
+        $this->container->set('Test', array());
+
+        $this->container->get('Test');
     }
 
     /**
@@ -64,7 +94,7 @@ class LeagueContainerTest extends \PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($class);
 
         $this->assertTrue($this->container->has($class));
     }

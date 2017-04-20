@@ -1,14 +1,14 @@
 <?php
 
-namespace Rougin\Slytherin\Updated\Container;
+namespace Rougin\Slytherin\Container;
 
 /**
- * Auryn Container Test Class
+ * Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class AurynContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -22,9 +22,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
-
-        $this->container = new \Rougin\Slytherin\Container\AurynContainer(new \Auryn\Injector);
+        $this->container = new \Rougin\Slytherin\Container\Container;
     }
 
     /**
@@ -94,7 +92,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class);
+        $this->container->set($class, new $class);
 
         $this->assertTrue($this->container->has($class));
     }

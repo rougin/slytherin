@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Updated;
+namespace Rougin\Slytherin;
 
 /**
  * Application Test Class
@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Updated;
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Rougin\Slytherin\Application
+     * @var Application
      */
     protected $application;
 
@@ -29,9 +29,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
         array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
         array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
-        // array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
+        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
 
-        $router = new \Rougin\Slytherin\Routing\Router;
+        $router = new Routing\Router;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
@@ -43,11 +43,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
 
-        $config = new \Rougin\Slytherin\Integration\Configuration;
+        $config = new Integration\Configuration;
 
         $config->set('app.router', $router);
 
-        $app = new \Rougin\Slytherin\Application;
+        $app = new Application;
 
         $this->application = $app->integrate($integrations, $config);
     }
@@ -183,7 +183,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $server['SERVER_NAME'] = 'localhost';
         $server['SERVER_PORT'] = '8000';
 
-        $request = new \Rougin\Slytherin\Http\ServerRequest($server);
+        $request = new Http\ServerRequest($server);
 
         switch ($httpMethod) {
             case 'GET':
