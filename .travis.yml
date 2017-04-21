@@ -22,8 +22,8 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - if [[ $TRAVIS_PHP_VERSION == '5.3' ]]; then composer require container-interop/container-interop filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware --dev; fi
-  - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require container-interop/container-interop filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware --dev; fi
+  - if [[ $TRAVIS_PHP_VERSION == '5.3' ]]; then composer require container-interop/container-interop:1.2 filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware --dev; fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require container-interop/container-interop:1.2 filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware --dev; fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
