@@ -11,16 +11,26 @@ namespace Rougin\Slytherin\Routing;
 class PhrouteDispatcherTest extends DispatcherTestCases
 {
     /**
+     * @param string $name
+     * @param array  $data
+     * @param string $dataName
+     */
+    public function __construct($name = null, array $data = array(), $dataName = '')
+    {
+        parent::__construct($name, $data, $dataName);
+
+        if (! interface_exists('FastRoute\Dispatcher')) {
+            $this->markTestSkipped('FastRoute is not installed.');
+        }
+    }
+
+    /**
      * Sets up the dispatcher.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! class_exists('Phroute\Phroute\Dispatcher')) {
-            $this->markTestSkipped('Phroute is not installed.');
-        }
-
         $router = new PhrouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
