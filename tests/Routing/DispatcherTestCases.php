@@ -34,7 +34,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Dispatcher::dispatch with class.
+     * Tests DispatcherInterface::dispatch with class.
      *
      * @return void
      */
@@ -50,7 +50,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Dispatcher::dispatch with class and POST HTTP method.
+     * Tests DispatcherInterface::dispatch with class and POST HTTP method.
      *
      * @return void
      */
@@ -66,7 +66,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Dispatcher::dispatch with closure.
+     * Tests DispatcherInterface::dispatch with closure.
      *
      * @return void
      */
@@ -80,7 +80,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Dispatcher::dispatch with error.
+     * Tests DispatcherInterface::dispatch with error.
      *
      * @return void
      */
@@ -94,7 +94,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Dispatcher::dispatch with invalid HTTP method.
+     * Tests DispatcherInterface::dispatch with invalid HTTP method.
      *
      * @return void
      */

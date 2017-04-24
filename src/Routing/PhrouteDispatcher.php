@@ -55,15 +55,15 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
             $this->allowed($httpMethod);
 
             $result = $this->dispatcher->dispatch($httpMethod, $uri);
+
+            $info = $this->router->retrieve($httpMethod, $uri);
+
+            $middlewares = ($result && isset($info[3])) ? $info[3] : array();
+
+            return array($result, $middlewares);
         } catch (\Exception $exception) {
             $this->exceptions($exception, $uri);
         }
-
-        $info = $this->router->retrieve($httpMethod, $uri);
-
-        $middlewares = ($result && isset($info[3])) ? $info[3] : array();
-
-        return array($result, $middlewares);
     }
 
     /**
