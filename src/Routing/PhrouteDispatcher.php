@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\HandlerResolverInterface;
-use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 /**
  * Phroute Dispatcher
@@ -52,25 +51,19 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $this->allowed($httpMethod);
-
         try {
-            $info = $this->router->retrieve($httpMethod, $uri);
+            $this->allowed($httpMethod);
 
             $result = $this->dispatcher->dispatch($httpMethod, $uri);
-
-            $middlewares = ($result && isset($info[3])) ? $info[3] : array();
-
-            return array($result, $middlewares);
-        } catch (\Exception $e) {
-            $message = '';
-
-            if ($e instanceof HttpRouteNotFoundException) {
-                $message = 'Route "' . $uri . '" not found';
-            }
-
-            throw new \UnexpectedValueException($message);
+        } catch (\Exception $exception) {
+            $this->exceptions($exception, $uri);
         }
+
+        $info = $this->router->retrieve($httpMethod, $uri);
+
+        $middlewares = ($result && isset($info[3])) ? $info[3] : array();
+
+        return array($result, $middlewares);
     }
 
     /**
@@ -98,5 +91,26 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
         $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
 
         return $this;
+    }
+
+    /**
+     * Returns exceptions based on catched error.
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @param \Exception $exception
+     * @param string     $uri
+     */
+    protected function exceptions(\Exception $exception, $uri)
+    {
+        $interface = 'Phroute\Phroute\Exception\HttpRouteNotFoundException';
+
+        $message = $exception->getMessage();
+
+        if (is_a($exception, $interface)) {
+            $message = 'Route "' . $uri . '" not found';
+        }
+
+        throw new \UnexpectedValueException($message);
     }
 }
