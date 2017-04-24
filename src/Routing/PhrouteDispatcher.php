@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\HandlerResolverInterface;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 
 /**
  * Phroute Dispatcher
@@ -14,7 +15,7 @@ use Phroute\Phroute\HandlerResolverInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class PhrouteDispatcher implements DispatcherInterface
+class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
 {
     /**
      * @var \Phroute\Phroute\Dispatcher
@@ -51,13 +52,25 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $routeInfo = $this->router->retrieve($httpMethod, $uri);
+        $this->allowed($httpMethod);
 
-        $routeResult = $this->dispatcher->dispatch($httpMethod, $uri);
+        try {
+            $info = $this->router->retrieve($httpMethod, $uri);
 
-        $middlewares = ($routeResult && isset($routeInfo[3])) ? $routeInfo[3] : array();
+            $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
-        return array($routeResult, $middlewares);
+            $middlewares = ($result && isset($info[3])) ? $info[3] : array();
+
+            return array($result, $middlewares);
+        } catch (\Exception $e) {
+            $message = '';
+
+            if ($e instanceof HttpRouteNotFoundException) {
+                $message = 'Route "' . $uri . '" not found';
+            }
+
+            throw new \UnexpectedValueException($message);
+        }
     }
 
     /**

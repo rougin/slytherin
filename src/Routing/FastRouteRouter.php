@@ -26,13 +26,13 @@ class FastRouteRouter extends Router
      */
     public function __construct(array $routes = array())
     {
+        parent::__construct($routes);
+
         $count = new \FastRoute\DataGenerator\GroupCountBased;
 
         $std = new \FastRoute\RouteParser\Std;
 
         $this->collector = new RouteCollector($std, $count);
-
-        $this->routes = $routes;
     }
 
     /**

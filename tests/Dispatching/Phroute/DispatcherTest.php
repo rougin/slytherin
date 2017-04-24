@@ -81,7 +81,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('Phroute\Phroute\Exception\HttpRouteNotFoundException');
+        $this->setExpectedException('UnexpectedValueException');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
     }
@@ -93,7 +93,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('Phroute\Phroute\Exception\HttpMethodNotAllowedException');
+        $this->setExpectedException('UnexpectedValueException');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
     }

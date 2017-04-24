@@ -63,7 +63,7 @@ class Router implements RouterInterface
     {
         $route = array($httpMethod, $route, $handler, $middlewares);
 
-        array_push($this->routes, $this->parseRoute($route));
+        array_push($this->routes, $this->parse($route));
 
         return $this;
     }
@@ -234,7 +234,7 @@ class Router implements RouterInterface
      * @param  array $route
      * @return array
      */
-    protected function parseRoute($route)
+    protected function parse($route)
     {
         $route[0] = strtoupper($route[0]);
         $route[1] = str_replace('//', '/', $this->prefix . $route[1]);

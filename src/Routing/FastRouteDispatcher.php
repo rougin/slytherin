@@ -12,7 +12,7 @@ namespace Rougin\Slytherin\Routing;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class FastRouteDispatcher implements DispatcherInterface
+class FastRouteDispatcher extends Dispatcher implements DispatcherInterface
 {
     /**
      * @var \FastRoute\Dispatcher
@@ -41,11 +41,17 @@ class FastRouteDispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
+        $this->allowed($httpMethod);
+
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
-        $route = $this->router->retrieve($httpMethod, $uri);
+        if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND) {
+            $message = 'Route "' . $uri . '" not found';
 
-        $this->throwException($result[0], $uri);
+            throw new \UnexpectedValueException($message);
+        }
+
+        $route = $this->router->retrieve($httpMethod, $uri);
 
         $middlewares = ($route[2] == $result[1] && isset($route[3])) ? $route[3] : array();
 
@@ -75,23 +81,5 @@ class FastRouteDispatcher implements DispatcherInterface
         $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
         return $this;
-    }
-
-    /**
-     * Throws an exception if it matches to the following result.
-     *
-     * @param  integer $result
-     * @param  string  $uri
-     * @return void
-     */
-    protected function throwException($result, $uri)
-    {
-        if ($result == \FastRoute\Dispatcher::NOT_FOUND) {
-            throw new \UnexpectedValueException('Route "' . $uri . '" not found');
-        }
-
-        if ($result == \FastRoute\Dispatcher::METHOD_NOT_ALLOWED) {
-            throw new \UnexpectedValueException('Used method is not allowed');
-        }
     }
 }

@@ -34,7 +34,9 @@ class PhrouteRouter extends Router
         $this->collector = new RouteCollector;
 
         foreach ($routes as $route) {
-            $this->collector->addRoute($route[0], $route[1], $route[2]);
+            $middlewares = (isset($route[3])) ? $route[3] : array();
+
+            $this->add($route[0], $route[1], $route[2], $middlewares);
         }
 
         $this->routes = $routes;
@@ -51,9 +53,9 @@ class PhrouteRouter extends Router
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = $this->parseRoute(array($httpMethod, $route, $handler, $middlewares));
+        $route = $this->parse(array($httpMethod, $route, $handler, $middlewares));
 
-        $this->collector->addRoute($httpMethod, $route[1], $handler);
+        $this->collector->addRoute($httpMethod, $route[1], $route[2]);
 
         array_push($this->routes, $route);
 

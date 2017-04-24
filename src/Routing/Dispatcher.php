@@ -52,7 +52,7 @@ class Dispatcher implements DispatcherInterface
         $routes = array_values(array_filter($routes));
 
         if (empty($routes)) {
-            $message = 'Route ' . $uri . ' not found';
+            $message = 'Route "' . $uri . '" not found';
 
             throw new \UnexpectedValueException($message);
         }
@@ -88,10 +88,12 @@ class Dispatcher implements DispatcherInterface
      *
      * @throws UnexpectedValueException
      */
-    protected function checkHttpMethod($httpMethod)
+    protected function allowed($httpMethod)
     {
         if (! in_array($httpMethod, $this->allowed)) {
-            throw new \UnexpectedValueException('Used method is not allowed');
+            $message = 'Used method is not allowed';
+
+            throw new \UnexpectedValueException($message);
         }
 
         return true;
@@ -112,7 +114,7 @@ class Dispatcher implements DispatcherInterface
         $sameHttpMethod = $httpMethod == $route[0];
 
         if ($hasRouteMatch && $sameHttpMethod && ! empty($route[2])) {
-            $this->checkHttpMethod($route[0]);
+            $this->allowed($route[0]);
 
             array_shift($parameters);
 
