@@ -11,26 +11,14 @@ namespace Rougin\Slytherin\Routing;
 class FastRouteDispatcherTest extends DispatcherTestCases
 {
     /**
-     * @param string $name
-     * @param array  $data
-     * @param string $dataName
-     */
-    public function __construct($name = null, array $data = array(), $dataName = '')
-    {
-        parent::__construct($name, $data, $dataName);
-
-        if (! interface_exists('FastRoute\Dispatcher')) {
-            $this->markTestSkipped('FastRoute is not installed.');
-        }
-    }
-
-    /**
      * Sets up the dispatcher.
      *
      * @return void
      */
     public function setUp()
     {
+        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+
         $router = new FastRouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
@@ -49,6 +37,8 @@ class FastRouteDispatcherTest extends DispatcherTestCases
      */
     public function testDispatchMethodWithClassAndSlytherinRouter()
     {
+        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+
         $router = new Router;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
@@ -69,6 +59,9 @@ class FastRouteDispatcherTest extends DispatcherTestCases
      */
     public function testDispatchMethodWithClassAndPhrouteRouter()
     {
+        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+        $this->exists('Rougin\Slytherin\Routing\PhrouteRouter');
+
         $router = new PhrouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');

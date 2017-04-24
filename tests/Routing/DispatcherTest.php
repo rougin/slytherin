@@ -17,6 +17,8 @@ class DispatcherTest extends DispatcherTestCases
      */
     public function testDispatchMethodWithClassAndFastRouteRouter()
     {
+        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+
         $router = new FastRouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
@@ -37,6 +39,8 @@ class DispatcherTest extends DispatcherTestCases
      */
     public function testDispatchMethodWithClassAndPhrouteRouter()
     {
+        $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
+
         $router = new PhrouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
