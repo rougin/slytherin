@@ -17,6 +17,10 @@ class FastRouteDispatcherTest extends DispatcherTestCases
      */
     public function setUp()
     {
+        if (! interface_exists('FastRoute\Dispatcher')) {
+            $this->markTestSkipped('FastRoute is not installed.');
+        }
+
         $router = new FastRouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');

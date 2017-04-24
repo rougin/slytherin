@@ -17,6 +17,10 @@ class PhrouteDispatcherTest extends DispatcherTestCases
      */
     public function setUp()
     {
+        if (! class_exists('Phroute\Phroute\Dispatcher')) {
+            $this->markTestSkipped('Phroute is not installed.');
+        }
+
         $router = new PhrouteRouter;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
