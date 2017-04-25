@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends MiddlewareTestCases
+class DispatcherTest extends DispatcherTestCases
 {
     /**
      * Sets up the middleware dispatcher.

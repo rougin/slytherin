@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class StratigilityDispatcherTest extends MiddlewareTestCases
+class StratigilityDispatcherTest extends DispatcherTestCases
 {
     /**
      * Sets up the middleware dispatcher.
@@ -17,6 +17,10 @@ class StratigilityDispatcherTest extends MiddlewareTestCases
      */
     public function setUp()
     {
+        if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
+            $this->markTestSkipped('Zend Stratigility is not installed.');
+        }
+
         $pipe = new \Zend\Stratigility\MiddlewarePipe;
 
         $this->dispatcher = new StratigilityDispatcher($pipe);

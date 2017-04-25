@@ -3,12 +3,12 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
- * Middleware Test Cases
+ * Dispatcher Test Cases
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
+class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Rougin\Slytherin\Middleware\DispatcherInterface
@@ -22,6 +22,8 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethodWithDoublePassCallback()
     {
+        $this->exists(get_class($this->dispatcher));
+
         $callback = function ($request, $response, $next) {
             $response = $next($request, $response)->withStatus(404);
 
@@ -40,6 +42,8 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethodWithSinglePassCallback()
     {
+        $this->exists(get_class($this->dispatcher));
+
         $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
         $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
@@ -70,6 +74,8 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethodWithDelagateInterface()
     {
+        $this->exists(get_class($this->dispatcher));
+
         $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
         $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
@@ -98,6 +104,8 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testPushMethodWithArray()
     {
+        $this->exists(get_class($this->dispatcher));
+
         $stack = array();
 
         array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
@@ -115,6 +123,8 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testStackMethod()
     {
+        $this->exists(get_class($this->dispatcher));
+
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
         $this->dispatcher->push('Rougin\Slytherin\Middleware\FinalResponse');
 
@@ -138,5 +148,23 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
         $request = new \Rougin\Slytherin\Http\ServerRequest($server);
 
         return $this->dispatcher->process($request, new Delegate);
+    }
+
+    /**
+     * Verifies the specified dispatcher if it exists.
+     *
+     * @param  string $dispatcher
+     * @return void
+     */
+    protected function exists($dispatcher)
+    {
+        switch ($dispatcher) {
+            case 'Rougin\Slytherin\Middleware\StratigilityDispatcher':
+                if (class_exists('Zend\Stratigility\MiddlewarePipe') === false) {
+                    $this->markTestSkipped('Zend Stratigility is not installed.');
+                }
+
+                break;
+        }
     }
 }
