@@ -1,4 +1,4 @@
 preset: psr2
 
-disabled:
-  - braces
+# disabled:
+#   - braces
