@@ -60,9 +60,7 @@ class StratigilityDispatcher extends Dispatcher
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         foreach ($this->stack as $class) {
-            $string = ! is_callable($class) && is_string($class);
-
-            $callable = ($string === true) ? new $class : $this->wrap($class);
+            $callable = $this->transform($class);
 
             $this->pipeline->pipe($callable);
         }
@@ -81,6 +79,23 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Checks middleware if it needs to be instantiate or wrap.
+     *
+     * @param  callable|object|string $middleware
+     * @return object|\Interop\Http\ServerMiddleware\MiddlewareInterface
+     */
+    protected function transform($middleware)
+    {
+        if (! is_callable($middleware) && is_string($middleware)) return new $middleware;
+
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        if (! is_callable($middleware) || is_a($middleware, $interface)) return $middleware;
+
+        return $this->wrap($middleware);
+    }
+
+    /**
      * Wraps the callable from the list of available wrappers.
      *
      * @param  callable|object $class
@@ -88,10 +103,6 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function wrap($class)
     {
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-        if (! is_callable($class) || is_a($class, $interface)) return $class;
-
         $wrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
 
         if ($wrapper === false) return $class;
