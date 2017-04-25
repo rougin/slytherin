@@ -86,11 +86,11 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function transform($middleware)
     {
-        if (! is_callable($middleware) && is_string($middleware)) return new $middleware;
+        if (is_string($middleware)) return new $middleware;
 
         $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
-        if (! is_callable($middleware) || is_a($middleware, $interface)) return $middleware;
+        if (is_a($middleware, $interface)) return $middleware;
 
         return $this->wrap($middleware);
     }

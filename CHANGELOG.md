@@ -4,19 +4,15 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
 
-### Fixed
-- Compatibility issue for `Statigility\Middleware`
-
 ### Added
 - Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
-- Unit tests for `Phroute` in `Application\Application`
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
 - `Routing\Router::prefix` for adding prefix in succeeding route endpoints
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
-- `Application::container` for getting static instance of the defined [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
+- `Application::container` for getting the static instance of [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`

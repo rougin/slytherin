@@ -68,11 +68,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests DispatcherInterface::process with \Interop\Http\ServerMiddleware\DelegateInterface.
+     * Tests DispatcherInterface::process with \Interop\Http\ServerMiddleware\DelegateInterface callback.
      *
      * @return void
      */
-    public function testProcessMethodWithDelagateInterface()
+    public function testProcessMethodWithDelagateInterfaceCallback()
     {
         $this->exists(get_class($this->dispatcher));
 
@@ -95,6 +95,30 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
         $this->dispatcher->push($callback);
 
         $this->assertEquals(array('application/json'), $this->response()->getHeader('Content-Type'));
+    }
+
+    /**
+     * Tests DispatcherInterface::process with string.
+     *
+     * @return void
+     */
+    public function testProcessMethodWithString()
+    {
+        $this->exists(get_class($this->dispatcher));
+
+        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
+
+        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
+            $message = 'Stratigility\'s current version does not PSR-15 middlewares.';
+
+            $this->markTestSkipped($message);
+        }
+
+        $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+
+        $this->assertEquals(500, $this->response()->getStatusCode());
     }
 
     /**

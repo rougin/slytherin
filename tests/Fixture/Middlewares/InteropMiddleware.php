@@ -24,10 +24,8 @@ class InteropMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInte
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $response = $delegate->process($request);
+        $response = $delegate->process($request)->withStatus(500);
 
-        $response = $response->withStatus(200);
-
-        return $response;
+        return $response->withHeader('X-Slytherin', time());
     }
 }
