@@ -8,6 +8,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
+use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
 
 /**
  * Stratigility Dispatcher
@@ -43,6 +44,10 @@ class StratigilityDispatcher extends Dispatcher
         $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
 
         $this->stack = $stack;
+
+        if (method_exists($this->pipeline, 'setResponsePrototype')) {
+            $this->pipeline->setResponsePrototype($this->response);
+        }
     }
 
     /**
@@ -54,33 +59,49 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
+        foreach ($this->stack as $class) {
+            $string = ! is_callable($class) && is_string($class);
 
-        $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
-
-        $pipeline = $this->refine($this->stack);
-
-        return $pipeline($request, $this->response, $handler);
-    }
-
-    /**
-     * Prepares the stack to the pipeline.
-     *
-     * @param  array $stack
-     * @return \Zend\Stratigility\MiddlewarePipe
-     */
-    protected function refine(array $stack)
-    {
-        $exists = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
-
-        foreach ($stack as $class) {
-            $callable = is_callable($class) ? $class : new $class;
-
-            $callable = ($exists) ? new CallableMiddlewareWrapper($callable, $this->response) : $callable;
+            $callable = ($string === true) ? new $class : $this->wrap($class);
 
             $this->pipeline->pipe($callable);
         }
 
-        return $this->pipeline;
+        $pipeline = $this->pipeline;
+
+        if (! method_exists($pipeline, 'process')) {
+            $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
+
+            $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
+
+            return $pipeline($request, $this->response, $handler);
+        }
+
+        return $pipeline($request, $this->response, $delegate);
+    }
+
+    /**
+     * Wraps the callable from the list of available wrappers.
+     *
+     * @param  callable|object $class
+     * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
+     */
+    protected function wrap($class)
+    {
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        if (! is_callable($class) || is_a($class, $interface)) return $class;
+
+        $wrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
+
+        if ($wrapper === false) return $class;
+
+        $function = new \ReflectionFunction($class);
+
+        if (count($function->getParameters()) == 3) {
+            return new CallableMiddlewareWrapper($class, $this->response);
+        }
+
+        return new CallableInteropMiddlewareWrapper($class);
     }
 }

@@ -17,7 +17,7 @@ interface DispatcherInterface extends \Interop\Http\ServerMiddleware\MiddlewareI
 {
     /**
      * Processes the specified middlewares in stack.
-     * NOTE. To be removed in v1.0.0. Use MiddlewareInterface::process instead.
+     * NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
      * @param  \Psr\Http\Message\RequestInterface  $request
      * @param  \Psr\Http\Message\ResponseInterface $response

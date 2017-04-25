@@ -42,7 +42,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
 
     /**
      * Processes the specified middlewares in stack.
-     * NOTE. To be removed in v1.0.0. Use MiddlewareInterface::process instead.
+     * NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
@@ -90,6 +90,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         if (is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {
+            // NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
         }
 
@@ -105,6 +106,8 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        // TODO: Where to use DelegateInterface...
+
         $resolved = $this->resolve(0);
 
         return $resolved($request);
@@ -120,9 +123,11 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     {
         if (is_array($middleware)) {
             $this->stack = array_merge($this->stack, $middleware);
-        } else {
-            array_push($this->stack, $middleware);
+
+            return $this;
         }
+
+        array_push($this->stack, $middleware);
 
         return $this;
     }
@@ -151,11 +156,11 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     {
         $delegate = $this->resolve($index + 1);
 
-        if (count($object->getParameters()) == 3) {
+        if (count($object->getParameters()) == 3) { // Double pass
             return $middleware($request, $this->response, $delegate);
         }
 
-        return $middleware($request, $delegate);
+        return $middleware($request, $delegate); // Single pass
     }
 
     /**

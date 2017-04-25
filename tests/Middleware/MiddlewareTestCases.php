@@ -16,31 +16,117 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
     protected $dispatcher;
 
     /**
-     * Tests DispatcherInterface::dispatch with a callback.
+     * Tests DispatcherInterface::process with a double pass callback.
      *
      * @return void
      */
-    public function testProcessMethodWithCallback()
+    public function testProcessMethodWithDoublePassCallback()
     {
-        $this->dispatcher->push(function ($request, $next) {
-            $response = $next($request)->withStatus(404);
+        $callback = function ($request, $response, $next) {
+            $response = $next($request, $response)->withStatus(404);
 
             return $response->withHeader('X-Slytherin', time());
-        });
+        };
 
-        list($request) = $this->http();
+        $this->dispatcher->push($callback);
 
-        $response = $this->dispatcher->process($request, new Delegate);
-
-        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals(404, $this->response()->getStatusCode());
     }
 
     /**
-     * Returns ServerRequestInterface and ResponseInterface objects.
+     * Tests DispatcherInterface::process with a single pass callback.
      *
-     * @return array
+     * @return void
      */
-    protected function http()
+    public function testProcessMethodWithSinglePassCallback()
+    {
+        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
+
+        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
+            $message = 'Stratigility\'s current version does not accept single pass middlewares.';
+
+            $this->markTestSkipped($message);
+        }
+
+        $time = time();
+
+        $callback = function ($request, $next) use ($time) {
+            $response = $next($request);
+
+            return $response->withHeader('X-Slytherin', $time);
+        };
+
+        $this->dispatcher->push($callback);
+
+        $this->assertEquals(array($time), $this->response()->getHeader('X-Slytherin'));
+    }
+
+    /**
+     * Tests DispatcherInterface::process with \Interop\Http\ServerMiddleware\DelegateInterface.
+     *
+     * @return void
+     */
+    public function testProcessMethodWithDelagateInterface()
+    {
+        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
+
+        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
+            $message = 'Stratigility\'s current version does not accept delegates.';
+
+            $this->markTestSkipped($message);
+        }
+
+        $callback = function ($request, $delegate) {
+            $response = $delegate->process($request);
+
+            return $response->withHeader('Content-Type', 'application/json');
+        };
+
+        $this->dispatcher->push($callback);
+
+        $this->assertEquals(array('application/json'), $this->response()->getHeader('Content-Type'));
+    }
+
+    /**
+     * Tests DispatcherInterface::push with array.
+     *
+     * @return void
+     */
+    public function testPushMethodWithArray()
+    {
+        $stack = array();
+
+        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\FinalResponse');
+
+        $this->dispatcher->push($stack);
+
+        $this->assertCount(2, $this->dispatcher->stack());
+    }
+
+    /**
+     * Tests DispatcherInterface::stack.
+     *
+     * @return void
+     */
+    public function testStackMethod()
+    {
+        $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        $this->dispatcher->push('Rougin\Slytherin\Middleware\FinalResponse');
+
+        $this->assertCount(2, $this->dispatcher->stack());
+    }
+
+    /**
+     * Processes the defined middleware dispatcher and return its response.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function response()
     {
         $server = array();
 
@@ -51,6 +137,6 @@ class MiddlewareTestCases extends \PHPUnit_Framework_TestCase
 
         $request = new \Rougin\Slytherin\Http\ServerRequest($server);
 
-        return array($request, new \Rougin\Slytherin\Http\Response);
+        return $this->dispatcher->process($request, new Delegate);
     }
 }
