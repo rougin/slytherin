@@ -28,7 +28,10 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->post('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
-        $router->get('/hi', function () { return 'Hi'; });
+
+        $router->get('/hi', function () {
+            return 'Hi and this is a callback';
+        });
 
         $this->dispatcher = new Dispatcher($router);
     }
@@ -66,17 +69,17 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with closure.
+     * Tests DispatcherInterface::dispatch with callback.
      *
      * @return void
      */
-    public function testDispatchMethodWithClosure()
+    public function testDispatchMethodWithCallback()
     {
         $this->exists(get_class($this->dispatcher));
 
         list($function) = $this->dispatcher->dispatch('GET', '/hi');
 
-        $this->assertEquals('Hi', $this->result($function));
+        $this->assertEquals('Hi and this is a callback', $this->result($function));
     }
 
     /**
@@ -115,17 +118,19 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function result($function)
     {
-        if (! is_array($function)) return $function;
+        if (is_array($function) === true) {
+            list($callback, $parameters) = $function;
 
-        list($callback, $parameters) = $function;
+            if (is_array($callback)) {
+                list($class, $method) = $callback;
 
-        if (is_array($callback)) {
-            list($class, $method) = $callback;
+                $callback = array(new $class, $method);
+            }
 
-            $callback = array(new $class, $method);
+            return call_user_func_array($callback, $parameters);
         }
 
-        return call_user_func_array($callback, $parameters);
+        return $function;
     }
 
     /**

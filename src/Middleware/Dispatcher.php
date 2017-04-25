@@ -171,17 +171,19 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     protected function resolve($index)
     {
-        if (! isset($this->stack[$index])) return new Delegate;
+        if (isset($this->stack[$index]) === true) {
+            $callable = $this->stack[$index];
 
-        $callable = $this->stack[$index];
+            $instance = $this;
 
-        $instance = $this;
+            return new Delegate(function ($request) use ($index, $callable, $instance) {
+                $middleware = is_callable($callable) ? $callable : new $callable;
 
-        return new Delegate(function ($request) use ($index, $callable, $instance) {
-            $middleware = is_callable($callable) ? $callable : new $callable;
+                // NOTE: To be removed in v1.0.0. Use single pass instead.
+                return $instance->prepare($index, $middleware, $request);
+            });
+        }
 
-            // NOTE: To be removed in v1.0.0. Use single pass instead.
-            return $instance->prepare($index, $middleware, $request);
-        });
+        return new Delegate;
     }
 }

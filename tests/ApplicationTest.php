@@ -38,10 +38,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
         $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
         $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
-        $router->get('/callback', function () { return 'Hello'; });
         $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
+
+        $router->get('/callback', function () {
+            return 'Hello, this is a callback';
+        });
 
         $config = new Integration\Configuration;
 
@@ -133,7 +136,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals('Hello', (string) $result->getBody());
+        $this->assertEquals('Hello, this is a callback', (string) $result->getBody());
     }
 
     /**

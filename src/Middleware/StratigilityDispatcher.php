@@ -86,33 +86,33 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function transform($middleware)
     {
-        if (is_string($middleware)) return new $middleware;
+        if (is_string($middleware) === false) {
+            $name = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+            return (is_a($middleware, $name)) ? $middleware : $this->wrap($middleware);
+        }
 
-        if (is_a($middleware, $interface)) return $middleware;
-
-        return $this->wrap($middleware);
+        return new $middleware;
     }
 
     /**
      * Wraps the callable from the list of available wrappers.
      *
-     * @param  callable|object $class
+     * @param  callable $class
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */
     protected function wrap($class)
     {
-        $wrapper = class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper');
+        if (class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper')) {
+            $function = new \ReflectionFunction($class);
 
-        if ($wrapper === false) return $class;
+            if (count($function->getParameters()) == 3) {
+                return new CallableMiddlewareWrapper($class, $this->response);
+            }
 
-        $function = new \ReflectionFunction($class);
-
-        if (count($function->getParameters()) == 3) {
-            return new CallableMiddlewareWrapper($class, $this->response);
+            return new CallableInteropMiddlewareWrapper($class);
         }
 
-        return new CallableInteropMiddlewareWrapper($class);
+        return $class;
     }
 }

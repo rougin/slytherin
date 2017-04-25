@@ -23,7 +23,10 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->post('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
-        $router->get('/hi', function () { return 'Hi'; });
+
+        $router->get('/hi', function () {
+            return 'Hi and this is a callback';
+        });
 
         $router->add('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
 

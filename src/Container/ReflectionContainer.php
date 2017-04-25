@@ -83,14 +83,16 @@ class ReflectionContainer implements PsrContainerInterface
      */
     protected function argument(\ReflectionParameter $parameter)
     {
-        if ($parameter->isOptional()) return $parameter->getDefaultValue();
+        if ($parameter->isOptional() === false) {
+            $name = $parameter->getClass()->getName();
 
-        $name = $parameter->getClass()->getName();
+            $exists = $this->container->has($name);
 
-        $exists = $this->container->has($name);
+            $container = ($exists) ? $this->container : $this;
 
-        $container = ($exists) ? $this->container : $this;
+            return $container->get($name);
+        }
 
-        return $container->get($name);
+        return $parameter->getDefaultValue();
     }
 }
