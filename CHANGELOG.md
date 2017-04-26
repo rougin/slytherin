@@ -70,12 +70,10 @@ All notable changes to `Slytherin` will be documented in this file
 
 ### Added
 - Parameter for adding default data and file extension in `Template\TwigRenderer`
-- `Vanilla` directories
+- `Vanilla` directories (e.g `Dispatching\Vanilla`, `IoC\Vanilla`)
 
 ### Changed
 - File and directory structure
-- `Router` to `IoC\Vanilla\Router`
-- `Container` to `IoC\Vanilla\Container`
 
 ## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) - 2016-04-14
 
@@ -113,10 +111,10 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) - 2016-01-13
 
-**NOTE**: This release will break your application from `v0.3.0` release.
+**NOTE**: This release will break your application if upgrading from `v0.3.0` release.
 
 ### Added
-- `ComponentCollection::setContainer` for adding packages implemented on [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
+- `ComponentCollection::setContainer` for adding packages implemented on `Interop\Container\ContainerInterface`
 
 ### Fixed
 - Getting value of an argument from a callback route
@@ -124,28 +122,28 @@ All notable changes to `Slytherin` will be documented in this file
 ### Changed
 - `ErrorHandler` to `Debug`
 - `ComponentCollection` to `Components`
-- Renamed sample library implementations
+- Renamed sample package implementations
 
 ### Removed
 - `ComponentCollection::setInjector` (use `ComponentCollection::setContainer` instead)
 - `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
-- `DependencyInjectorInterface` (will now require implementations in [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`)
+- `DependencyInjectorInterface` (will now require implementations in `Interop\Container\ContainerInterface`)
 - `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
 - Dependency of [nikic/fast-route](https://github.com/nikic/FastRoute) in `Dispatching` (use `Dispatching\FastRoute` instead)
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 
-**NOTE**: This release will break your application from `v0.2.0` release.
+**NOTE**: This release will break your application if upgrading from `v0.2.0` release.
 
 ### Added
-- Interface-based library implementations
+- Interface-based package implementations
 
 ### Changed
 - Code and directory structure to a library type
-- Implemented SOLID-based approach
+- Implemented [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based approach
 
 ### Removed
-- Almost everything, this release will be a library/framework instead of an application skeleton
+- Almost everything, this release will be no longer an application skeleton
 
 ## [0.2.1](https://github.com/rougin/slytherin/compare/v0.2.0...v0.2.1) - 2015-09-30
 
@@ -170,4 +168,4 @@ All notable changes to `Slytherin` will be documented in this file
 ## 0.1.0 - 2015-06-17
 
 ### Added
-- `Slytherin` library
+- `Slytherin` framework
