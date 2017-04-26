@@ -36,7 +36,7 @@ class Renderer implements RendererInterface
      */
     public function render($template, array $data = array())
     {
-        $file = $this->find("$template.php");
+        $file = $this->find($template . '.php');
 
         // Extracts the specific parameters to the template.
         extract($data);

@@ -23,7 +23,7 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
      */
     public function __construct($callback = null)
     {
-        $this->callback = $callback ?: function ($request) {
+        $this->callback = $callback ?: function () {
             return new \Rougin\Slytherin\Http\Response;
         };
     }

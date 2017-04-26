@@ -22,7 +22,7 @@ class TwigRenderer implements RendererInterface
 
     /**
      * @param \Twig_Environment $twig
-     * @param array             $globals
+     * @param array             $globals -- NOTE: To be removed in v1.0.0.
      */
     public function __construct(\Twig_Environment $twig, array $globals = array())
     {
@@ -39,12 +39,14 @@ class TwigRenderer implements RendererInterface
      *
      * @param  string $template
      * @param  array  $data
-     * @param  string $fileExtension
+     * @param  string $extension
      * @return string
      */
-    public function render($template, array $data = array(), $fileExtension = 'twig')
+    public function render($template, array $data = array(), $extension = 'twig')
     {
-        return $this->twig->render("$template.$fileExtension", $data);
+        $file = $template . '.' . $extension;
+
+        return $this->twig->render($file, $data);
     }
 
     /**

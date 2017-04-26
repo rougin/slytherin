@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Template;
 interface RendererInterface
 {
     /**
-     * Renders a template
+     * Renders a template.
      *
      * @param  string $template
      * @param  array  $data
