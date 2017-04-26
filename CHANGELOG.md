@@ -113,7 +113,7 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) - 2016-01-13
 
-#### **NOTE**: This release will break your application from `v0.3.0` release.
+**NOTE**: This release will break your application from `v0.3.0` release.
 
 ### Added
 - `ComponentCollection::setContainer` for adding packages implemented on [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
@@ -135,7 +135,7 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
 
-#### **NOTE**: This release will break your application from `v0.2.0` release.
+**NOTE**: This release will break your application from `v0.2.0` release.
 
 ### Added
 - Interface-based library implementations
