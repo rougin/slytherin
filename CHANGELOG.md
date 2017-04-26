@@ -4,23 +4,34 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
 
+### Fixed
+- Appending of middleware response from `DispatcherInterface`'s result in `Application::run`
+- `Array to string conversion` error when add callback routes with arguments
+- Compatibility issue for `Statigility\Middleware`
+
 ### Added
 - Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
+	- Packages `psr/container` and `psr/http-message` are already included in this release
+	- Install `http-interop/http-middleware` if you want to use middlewares in `Middleware` directory
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
+- Integrations for existing directories (e.g `Http\HttpIntegration`, `Debug\ErrorHandlerIntegration`)
 - `Routing\Router::prefix` for adding prefix in succeeding route endpoints
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
 - `Application::container` for getting the static instance of [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
+- `Container\ReflectionContainer` for using PHP's [Reflection API](http://php.net/manual/en/book.reflection.php) for solving class dependencies
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
+	- This directory is now deprecated will be removed in `v1.0.0`
 - `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
 - Emit headers on `Application::run` only
+- Allow anonymous functions and objects in adding middleware from a specified route in `Middleware\Stratigility`
 
 ### Removed
 - `Vanilla` prefix in classes
@@ -59,9 +70,12 @@ All notable changes to `Slytherin` will be documented in this file
 
 ### Added
 - Parameter for adding default data and file extension in `Template\TwigRenderer`
+- `Vanilla` directories
 
 ### Changed
 - File and directory structure
+- `Router` to `IoC\Vanilla\Router`
+- `Container` to `IoC\Vanilla\Container`
 
 ## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) 2016-04-14
 
@@ -99,8 +113,13 @@ All notable changes to `Slytherin` will be documented in this file
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) 2016-01-13
 
+**NOTE**: This release will break your application from `v0.3.0` release.
+
 ### Added
 - `ComponentCollection::setContainer` for adding packages implemented on [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`
+
+### Fixed
+- Getting value of an argument from a callback route
 
 ### Changed
 - `ErrorHandler` to `Debug`
@@ -108,18 +127,25 @@ All notable changes to `Slytherin` will be documented in this file
 - Renamed sample library implementations
 
 ### Removed
-- `ComponentCollection::setInjector`
+- `ComponentCollection::setInjector` (use `ComponentCollection::setContainer` instead)
 - `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
 - `DependencyInjectorInterface` (will now require implementations in [container-interop/container-interop](https://github.com/container-interop/container-interop)'s `ContainerInterface`)
+- `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
+- Dependency of [nikic/fast-route](https://github.com/nikic/FastRoute) in `Dispatching` (use `Dispatching\FastRoute` instead)
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
+
+**NOTE**: This release will break your application from `v0.2.0` release.
 
 ### Added
 - Interface-based library implementations
 
 ### Changed
-- Code and directory structure
+- Code and directory structure to a library type
 - Implemented SOLID-based approach
+
+### Removed
+- Almost everything, this release will be a library/framework instead of an application skeleton
 
 ## [0.2.1](https://github.com/rougin/slytherin/compare/v0.2.0...v0.2.1) - 2015-09-30
 
@@ -138,7 +164,7 @@ All notable changes to `Slytherin` will be documented in this file
 ## [0.2.0](https://github.com/rougin/slytherin/compare/v0.1.0...v0.2.0) - 2015-07-21
 
 ### Fixed
-- Installation process errors
+- Installation process errors (needs an existing `composer.lock` to trigger the installation)
 - Non-existing namespaces
 
 ## 0.1.0 - 2015-06-17
