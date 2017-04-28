@@ -19,7 +19,7 @@ $ composer require rougin/slytherin
 
 ## Usage
 
-### Using `Rougin\Slytherin\Container\ContainerInterface`
+### Using [ContainerInterface](https://github.com/rougin/slytherin/blob/master/src/Container/ContainerInterface.php)
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards
@@ -45,7 +45,7 @@ $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
 (new Rougin\Slytherin\Application($container))->run();
 ```
 
-### Using `Rougin\Integration\IntegrationInterface`
+### Using [IntegrationInterface](https://github.com/rougin/slytherin/blob/master/src/Integration/IntegrationInterface.php)
 
 ``` php
 // Specify the integrations to be included and defined
@@ -97,17 +97,14 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 
 ## Inspirations
 
-* [Codeigniter](https://codeigniter.com)
-* [Fucking Small](https://github.com/trq/fucking-small)
-* [Laravel](https://laravel.com)
-* [Symfony](http://symfony.com)
-
-## References
-
-* [Jamie York's](https://github.com/ziadoz) [Awesome PHP!](https://github.com/ziadoz/awesome-php)
-* [Dominik Liebler's](https://github.com/domnikl) [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest)
-* [Patrick Louys'](https://github.com/PatrickLouys/no-framework-tutorial) [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial)
-* [PHP Standard Recommendations](http://www.php-fig.org/psr)
+* [Awesome PHP!](https://github.com/ziadoz/awesome-php) by [Jamie York](https://github.com/ziadoz)
+* [Codeigniter](https://codeigniter.com) by [EllisLab](https://ellislab.com)/[British Columbia Institute of Technology](http://www.bcit.ca)
+* [Fucking Small](https://github.com/trq/fucking-small) by [Tony Quilkey](https://github.com/trq)
+* [Laravel](https://laravel.com) by [Taylor Otwell](https://github.com/taylorotwell)
+* [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial) by [Patrick Louys](https://github.com/PatrickLouys)
+* [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest) by [Dominik Liebler](https://github.com/domnikl)
+* [PHP Standard Recommendations](http://www.php-fig.org/psr) by [PHP-FIG](http://www.php-fig.org)
+* [Symfony](http://symfony.com) by [SensioLabs](https://sensiolabs.com)
 
 ## Credits
 
