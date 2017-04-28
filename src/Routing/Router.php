@@ -30,7 +30,7 @@ class Router implements RouterInterface
     /**
      * @var array
      */
-    protected $validHttpMethods = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * @param array $routes
@@ -41,10 +41,7 @@ class Router implements RouterInterface
             list($httpMethod, $uri, $handler) = $route;
 
             $middlewares = (isset($route[3])) ? $route[3] : array();
-
-            if (is_string($middlewares)) {
-                $middlewares = array($middlewares);
-            }
+            $middlewares = is_string($middlewares) ? array($middlewares) : $middlewares;
 
             $this->add($httpMethod, $uri, $handler, $middlewares);
         }
@@ -55,8 +52,8 @@ class Router implements RouterInterface
      *
      * @param  string|string[] $httpMethod
      * @param  string          $route
-     * @param  mixed           $handler
-     * @param  array           $middlewares
+     * @param  array|string    $handler
+     * @param  array|string    $middlewares
      * @return self
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
@@ -154,17 +151,15 @@ class Router implements RouterInterface
      */
     public function retrieve($httpMethod, $uri)
     {
-        $result = null;
+        $route = array($httpMethod, $uri);
 
-        foreach ($this->routes as $route) {
-            if ($route[0] == $httpMethod && $route[1] == $uri) {
-                $result = $route;
+        $routes = array_map(function ($route) {
+            return array($route[0], $route[1]);
+        }, $this->routes);
 
-                break;
-            }
-        }
+        $key = array_search($route, $routes);
 
-        return $result;
+        return $key !== false ? $this->routes[$key] : null;
     }
 
     /**
@@ -181,13 +176,15 @@ class Router implements RouterInterface
     /**
      * Adds a listing of routes specified for RESTful approach.
      *
-     * @param  string $route
-     * @param  string  $class
-     * @param  array  $middlewares
+     * @param  string       $route
+     * @param  string       $class
+     * @param  array|string $middlewares
      * @return self
      */
     public function restful($route, $class, $middlewares = array())
     {
+        $middlewares = (is_string($middlewares)) ? array($middlewares) : $middlewares;
+
         $this->add('GET', '/' . $route, $class . '@index', $middlewares);
         $this->add('POST', '/' . $route, $class . '@store', $middlewares);
 
@@ -255,12 +252,14 @@ class Router implements RouterInterface
      */
     public function __call($method, $parameters)
     {
-        if (in_array(strtoupper($method), $this->validHttpMethods)) {
+        if (in_array(strtoupper($method), $this->allowed)) {
             array_unshift($parameters, strtoupper($method));
 
             return call_user_func_array(array($this, 'add'), $parameters);
         }
 
-        throw new \BadMethodCallException('"' . $method . '" is not a valid HTTP method.');
+        $message = '"' . strtoupper($method) . '" is not a valid HTTP method';
+
+        throw new \BadMethodCallException($message);
     }
 }

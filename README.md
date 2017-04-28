@@ -23,7 +23,7 @@ $ composer require rougin/slytherin
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards
-$request  = new Rougin\Slytherin\Http\ServerRequest($_SERVER);
+$request = new Rougin\Slytherin\Http\ServerRequest($_SERVER);
 $response = new Rougin\Slytherin\Http\Response(http_response_code());
 
 // Create routes from Rougin\Slytherin\Routing\RouterInterface...

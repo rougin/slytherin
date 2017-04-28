@@ -15,11 +15,13 @@ interface RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param string|string[] $httpMethod
-     * @param string          $route
-     * @param mixed           $handler
+     * @param  string|string[] $httpMethod
+     * @param  string          $route
+     * @param  array|string    $handler
+     * @param  array           $middlewares
+     * @return self
      */
-    public function add($httpMethod, $route, $handler);
+    public function add($httpMethod, $route, $handler, $middlewares = array());
 
     /**
      * Checks if the specified route is available in the router.

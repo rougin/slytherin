@@ -1,17 +1,17 @@
 <?php
 
-namespace Rougin\Slytherin;
+namespace Rougin\Slytherin\Application;
 
 /**
- * Application Test Class
+ * Application Test Cases
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Application
+     * @var \Rougin\Slytherin\Application
      */
     protected $application;
 
@@ -22,37 +22,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $integrations = array();
-
-        array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Http\HttpIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
-
-        $router = new Routing\Router;
-
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
-        $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
-        $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
-        $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
-        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
-
-        $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
-
-        $router->get('/callback', function () {
-            return 'Hello, this is a callback';
-        });
-
-        $config = new Integration\Configuration;
-
-        $config->set('app.router', $router);
-
-        $app = new Application;
-
-        $this->application = $app->integrate($integrations, $config);
+        $this->markTestSkipped('No implementation style defined.');
     }
 
     /**
@@ -76,7 +46,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethod()
     {
-        $request = $this->setServerRequest('GET', '/store');
+        $request = $this->request('GET', '/store');
 
         $result = $this->application->handle($request);
 
@@ -90,7 +60,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithResponse()
     {
-        $request = $this->setServerRequest('GET', '/response');
+        $request = $this->request('GET', '/response');
 
         $result = $this->application->handle($request);
 
@@ -104,7 +74,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithParameter()
     {
-        $request = $this->setServerRequest('GET', '/parameter');
+        $request = $this->request('GET', '/parameter');
 
         $result = $this->application->handle($request);
 
@@ -118,7 +88,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithOptionalParameter()
     {
-        $request = $this->setServerRequest('GET', '/optional');
+        $request = $this->request('GET', '/optional');
 
         $result = $this->application->handle($request);
 
@@ -132,7 +102,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithCallback()
     {
-        $request = $this->setServerRequest('GET', '/callback');
+        $request = $this->request('GET', '/callback');
 
         $result = $this->application->handle($request);
 
@@ -146,7 +116,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithMiddleware()
     {
-        $request = $this->setServerRequest('GET', '/middleware');
+        $request = $this->request('GET', '/middleware');
 
         $result = $this->application->handle($request);
 
@@ -162,7 +132,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithPutHttpMethod()
     {
-        $request = $this->setServerRequest('PUT', '/hello');
+        $request = $this->request('PUT', '/hello');
 
         $result = $this->application->handle($request);
 
@@ -177,7 +147,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * @param  array  $data
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    protected function setServerRequest($httpMethod, $uriEndpoint, $data = array())
+    protected function request($httpMethod, $uriEndpoint, $data = array())
     {
         $server = array();
 
@@ -186,7 +156,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $server['SERVER_NAME'] = 'localhost';
         $server['SERVER_PORT'] = '8000';
 
-        $request = new Http\ServerRequest($server);
+        $request = new \Rougin\Slytherin\Http\ServerRequest($server);
 
         switch ($httpMethod) {
             case 'GET':
@@ -202,5 +172,30 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
 
         return $request;
+    }
+
+    /**
+     * Returns a listing of routes for testing.
+     *
+     * @return \Rougin\Slytherin\Routing\RoutingInterface
+     */
+    protected function router()
+    {
+        $router = new \Rougin\Slytherin\Routing\Router;
+
+        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
+        $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
+        $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
+        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
+
+        $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
+
+        $router->get('/callback', function () {
+            return 'Hello, this is a callback';
+        });
+
+        return $router;
     }
 }

@@ -38,8 +38,6 @@ class PhrouteRouter extends Router
 
             $this->add($route[0], $route[1], $route[2], $middlewares);
         }
-
-        $this->routes = $routes;
     }
 
     /**
@@ -47,7 +45,7 @@ class PhrouteRouter extends Router
      *
      * @param  string|string[] $httpMethod
      * @param  string          $route
-     * @param  mixed           $handler
+     * @param  array|string    $handler
      * @param  array           $middlewares
      * @return self
      */

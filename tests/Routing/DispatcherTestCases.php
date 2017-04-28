@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Routing;
 class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @var \Rougin\Slytherin\Routing\DispatcherInterface
      */
     protected $dispatcher;
 
