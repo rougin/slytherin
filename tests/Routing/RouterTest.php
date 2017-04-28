@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Routing;
  */
 class RouterTest extends RouterTestCases
 {
-	/**
+    /**
      * Sets up the router.
      *
      * @return void
