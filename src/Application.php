@@ -147,7 +147,9 @@ class Application
             $response = $response->withHeader($name, $values);
         }
 
-        return $response->withBody($result->getBody());
+        $response->getBody() != '' || $response->withBody($result->getBody());
+
+        return $response;
     }
 
     /**
