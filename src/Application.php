@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -62,17 +63,17 @@ class Application
 
         list($function, $middlewares) = $this->dispatch($request);
 
-        $response = static::$container->get(self::RESPONSE);
+        $response = $this->middleware($request, $middlewares);
 
-        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
-            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
+        $result = $this->resolve($function);
 
-            $middleware->push($middlewares)->push(new Middleware\FinalResponse($response));
+        if (! $result instanceof ResponseInterface) {
+            $response->getBody()->write($result);
 
-            $response = $middleware->process($request, new Middleware\Delegate);
+            $result = $response;
         }
 
-        return $this->convert($response, $this->resolve($function));
+        return $result;
     }
 
     /**
@@ -127,31 +128,6 @@ class Application
     }
 
     /**
-     * Converts the result into \Psr\Http\Message\ResponseInterface.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface        $response
-     * @param  \Psr\Http\Message\ResponseInterface|string $result
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function convert($response, $result)
-    {
-        if (! $result instanceof \Psr\Http\Message\ResponseInterface) {
-            $response->getBody() != '' || $response->getBody()->write((string) $result);
-
-            return $response;
-        }
-
-        foreach ($result->getHeaders() as $name => $values) {
-            $response = $response->withHeader($name, $values);
-        }
-
-        $status = ($response->getStatusCode() != 200) ? $response->getStatusCode() : $result->getStatusCode();
-        $stream = ($response->getBody() != '') ? $response->getBody() : $result->getBody();
-
-        return $response->withBody($stream)->withStatus($status);
-    }
-
-    /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -172,6 +148,28 @@ class Application
         }
 
         return $dispatcher->dispatch($method, $request->getUri()->getPath());
+    }
+
+    /**
+     * Returns a \Psr\Http\Message\ResponseInterface based on given middlewares.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  array                                    $middlewares
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function middleware(ServerRequestInterface $request, $middlewares)
+    {
+        $response = static::$container->get(self::RESPONSE);
+
+        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
+            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
+
+            $middleware->push($middlewares)->push(new Middleware\FinalResponse($response));
+
+            $response = $middleware->process($request, new Middleware\Delegate);
+        }
+
+        return $response;
     }
 
     /**

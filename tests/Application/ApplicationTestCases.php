@@ -54,6 +54,20 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the handle() method with a response as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithResponse()
+    {
+        $request = $this->request('GET', '/response');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello with response', (string) $result->getBody());
+    }
+
+    /**
      * Tests the handle() method with a HTTP 401 response as result.
      *
      * @return void
@@ -64,7 +78,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals(401, $result->getStatusCode());
+        $this->assertEquals('Hello with error response', (string) $result->getBody());
     }
 
     /**
@@ -134,7 +148,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals('Loaded with middleware', (string) $result->getBody());
+        $this->assertEquals('Loaded with middlewareHello', (string) $result->getBody());
     }
 
     /**
