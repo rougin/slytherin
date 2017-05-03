@@ -54,17 +54,17 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the handle() method with a response as result.
+     * Tests the handle() method with a HTTP 401 response as result.
      *
      * @return void
      */
-    public function testHandleMethodWithResponse()
+    public function testHandleMethodWithHttp401Response()
     {
-        $request = $this->request('GET', '/response');
+        $request = $this->request('GET', '/error');
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals('Hello with response', (string) $result->getBody());
+        $this->assertEquals(401, $result->getStatusCode());
     }
 
     /**
@@ -195,16 +195,18 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function router()
     {
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
+
         $router = new \Rougin\Slytherin\Routing\Router;
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
         $router->get('/request', 'Rougin\Slytherin\Fixture\Classes\WithServerRequestInterface@index');
         $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
+        $router->get('/error', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@error');
         $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
         $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
-        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
-
+        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $middleware);
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
 
         $router->get('/callback', function () {

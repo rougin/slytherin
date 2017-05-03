@@ -33,7 +33,7 @@ class WithResponseInterface
     public function index()
     {
         $response = $this->response
-            ->withStatus(200)
+            ->withStatus(500)
             ->withHeader('Content-Type', 'application/json')
             ->withHeader('Access-Control-Allow-Credentials', 'true');
 

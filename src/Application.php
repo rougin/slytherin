@@ -145,9 +145,10 @@ class Application
             $response = $response->withHeader($name, $values);
         }
 
+        $status = ($response->getStatusCode() != 200) ? $response->getStatusCode() : $result->getStatusCode();
         $stream = ($response->getBody() != '') ? $response->getBody() : $result->getBody();
 
-        return $response->withBody($stream);
+        return $response->withBody($stream)->withStatus($status);
     }
 
     /**
