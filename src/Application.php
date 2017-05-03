@@ -28,24 +28,22 @@ class Application
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected static $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null $container
+     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
      */
-    public function __construct(\Psr\Container\ContainerInterface $container = null)
+    public function __construct(Container\ContainerInterface $container = null)
     {
-        $vanilla = new Container\Container;
-
-        static::$container = (is_null($container)) ? $vanilla : $container;
+        static::$container = (is_null($container)) ? new Container\Container : $container;
     }
 
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public static function container()
     {
@@ -60,6 +58,8 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        static::$container->set(self::REQUEST, $request);
+
         list($function, $middlewares) = $this->dispatch($request);
 
         $response = static::$container->get(self::RESPONSE);
@@ -136,9 +136,7 @@ class Application
     protected function convert($response, $result)
     {
         if (! $result instanceof \Psr\Http\Message\ResponseInterface) {
-            $result = (string) $result;
-
-            $response->getBody() != '' || $response->getBody()->write($result);
+            $response->getBody() != '' || $response->getBody()->write((string) $result);
 
             return $response;
         }
@@ -147,9 +145,9 @@ class Application
             $response = $response->withHeader($name, $values);
         }
 
-        $response->getBody() != '' || $response->withBody($result->getBody());
+        $stream = ($response->getBody() != '') ? $response->getBody() : $result->getBody();
 
-        return $response;
+        return $response->withBody($stream);
     }
 
     /**

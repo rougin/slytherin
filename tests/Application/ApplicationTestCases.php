@@ -68,6 +68,20 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the handle() method with an updated server request.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithServerRequest()
+    {
+        $request = $this->request('GET', '/request', array('test' => 'Hello with request'));
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals('Hello with request', (string) $result->getBody());
+    }
+
+    /**
      * Tests the handle() method with a parameter as result.
      *
      * @return void
@@ -185,6 +199,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 
         $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
         $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $router->get('/request', 'Rougin\Slytherin\Fixture\Classes\WithServerRequestInterface@index');
         $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
         $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
         $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');

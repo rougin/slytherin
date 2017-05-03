@@ -8,6 +8,7 @@ All notable changes to `Slytherin` will be documented in this file
 - Appending of middleware response from `DispatcherInterface`'s result in `Application::run`
 - `Array to string conversion` error when add callback routes with arguments
 - Compatibility issue for `Statigility\Middleware`
+- Getting `$request` object in container after being defined in `Application::handle`
 
 ### Added
 - Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
