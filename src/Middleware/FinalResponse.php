@@ -38,7 +38,7 @@ class FinalResponse implements \Interop\Http\ServerMiddleware\MiddlewareInterfac
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
-        return $response;
+        return $this->response;
     }
 
     /**

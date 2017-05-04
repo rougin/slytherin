@@ -63,17 +63,17 @@ class Application
 
         list($function, $middlewares) = $this->dispatch($request);
 
-        $response = $this->middleware($request, $middlewares);
+        $response = $this->convert($this->resolve($function));
 
-        $result = $this->resolve($function);
+        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
+            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-        if (! $result instanceof ResponseInterface) {
-            $response->getBody()->write($result);
+            $middleware->push($middlewares)->push(new Middleware\FinalResponse($response));
 
-            $result = $response;
+            $response = $middleware->process($request, new Middleware\Delegate);
         }
 
-        return $result;
+        return $response;
     }
 
     /**
@@ -128,6 +128,23 @@ class Application
     }
 
     /**
+     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface|string $result
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function convert($result)
+    {
+        $response = static::$container->get(self::RESPONSE);
+
+        $response = ($result instanceof ResponseInterface) ? $result : $response;
+
+        $result instanceof ResponseInterface ?: $response->getBody()->write($result);
+
+        return $response;
+    }
+
+    /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -151,28 +168,6 @@ class Application
     }
 
     /**
-     * Returns a \Psr\Http\Message\ResponseInterface based on given middlewares.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  array                                    $middlewares
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function middleware(ServerRequestInterface $request, $middlewares)
-    {
-        $response = static::$container->get(self::RESPONSE);
-
-        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
-            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
-
-            $middleware->push($middlewares)->push(new Middleware\FinalResponse($response));
-
-            $response = $middleware->process($request, new Middleware\Delegate);
-        }
-
-        return $response;
-    }
-
-    /**
      * Returns the result of the function by resolving it through a container.
      *
      * @param  array|mixed $function
@@ -192,7 +187,7 @@ class Application
                 $callback = array($container->get($name), $method);
             }
 
-            return call_user_func_array($callback, $parameters);
+            $function = call_user_func_array($callback, $parameters);
         }
 
         return $function;

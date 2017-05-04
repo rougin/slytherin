@@ -28,8 +28,6 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     /**
      * Tests Application::run.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethod()
@@ -148,13 +146,11 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals('Loaded with middlewareHello', (string) $result->getBody());
+        $this->assertEquals('Loaded with middleware', (string) $result->getBody());
     }
 
     /**
      * Tests the handle() method with a PUT HTTP method.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */

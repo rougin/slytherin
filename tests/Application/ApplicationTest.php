@@ -52,8 +52,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethod()
@@ -65,8 +63,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with a response as result.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */
@@ -80,8 +76,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method with a parameter.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethodWithParameter()
@@ -93,8 +87,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with an optional parameter.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */
@@ -108,8 +100,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method with a callback as result.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethodWithCallback()
@@ -122,8 +112,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the run() method with a PUT HTTP method.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethodWithPutHttpMethod()
@@ -135,8 +123,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests the run() method with Phroute as dispatcher.
-     *
-     * @runInSeparateProcess
      *
      * @return void
      */
@@ -163,14 +149,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the "integration" functionality.
      *
-     * @runInSeparateProcess
-     *
      * @return void
      */
     public function testRunMethodWithIntegrateMethod()
     {
         $slash = DIRECTORY_SEPARATOR;
-        $root  = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
+
+        $root = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
 
         header('X-SLYTHERIN-HEADER: foobar');
 
@@ -183,7 +168,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $config = new \Rougin\Slytherin\Configuration(__DIR__ . '/../Fixture/Configurations');
 
         $config->set('app.environment', 'development');
-        $config->set('app.middlewares', array('Rougin\Slytherin\Middleware\FinalResponse'));
         $config->set('app.router', $router);
         $config->set('app.views', $root);
 
