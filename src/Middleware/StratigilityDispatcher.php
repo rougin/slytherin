@@ -110,7 +110,7 @@ class StratigilityDispatcher extends Dispatcher
                 return new CallableMiddlewareWrapper($class, $this->response);
             }
 
-            return new CallableInteropMiddlewareWrapper($class);
+            $class = new CallableInteropMiddlewareWrapper($class);
         }
 
         return $class;

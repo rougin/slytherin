@@ -68,9 +68,11 @@ class Application
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
-            $middleware->push($middlewares)->push(new Middleware\FinalResponse($response));
+            $middleware->push($middlewares);
 
-            $response = $middleware->process($request, new Middleware\Delegate);
+            $delegate = new Middleware\Delegate(null, $response);
+
+            $response = $middleware->process($request, $delegate);
         }
 
         return $response;
@@ -80,19 +82,19 @@ class Application
      * Adds the specified integrations to the container.
      *
      * @param  array                                       $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration $configuration
+     * @param  \Rougin\Slytherin\Integration\Configuration $config
      * @return self
      */
-    public function integrate(array $integrations, Integration\Configuration $configuration = null)
+    public function integrate(array $integrations, Integration\Configuration $config = null)
     {
-        $configuration = $configuration ?: new Integration\Configuration;
+        $config = $config ?: new Integration\Configuration;
 
         $container = static::container();
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
 
-            $container = $integration->define($container, $configuration);
+            $container = $integration->define($container, $config);
         }
 
         static::$container = $container;

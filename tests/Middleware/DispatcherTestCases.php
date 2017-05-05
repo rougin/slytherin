@@ -133,11 +133,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
         $stack = array();
 
         array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
-        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\FinalResponse');
+        array_push($stack, 'Rougin\Slytherin\Middleware\FinalResponse');
 
         $this->dispatcher->push($stack);
 
-        $this->assertCount(2, $this->dispatcher->stack());
+        $this->assertEquals($stack, $this->dispatcher->stack());
     }
 
     /**

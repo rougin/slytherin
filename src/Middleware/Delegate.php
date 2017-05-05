@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Psr\Http\Message\ResponseInterface;
+
 /**
  * Delegate
  *
@@ -19,12 +21,13 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
     protected $callback;
 
     /**
-     * @param callable $callback
+     * @param callable                                 $callback
+     * @param \Psr\Http\Message\ResponseInterface|null $response
      */
-    public function __construct($callback = null)
+    public function __construct($callback = null, ResponseInterface $response = null)
     {
-        $this->callback = $callback ?: function () {
-            return new \Rougin\Slytherin\Http\Response;
+        $this->callback = $callback ?: function () use ($response) {
+            return $response ?: new \Rougin\Slytherin\Http\Response;
         };
     }
 

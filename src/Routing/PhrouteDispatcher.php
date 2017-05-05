@@ -51,6 +51,8 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
+        $result = array();
+
         try {
             $this->allowed($httpMethod);
 
@@ -60,10 +62,12 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
 
             $middlewares = ($result && isset($info[3])) ? $info[3] : array();
 
-            return array($result, $middlewares);
+            $result = array($result, $middlewares);
         } catch (\Exception $exception) {
             $this->exceptions($exception, $uri);
         }
+
+        return $result;
     }
 
     /**
