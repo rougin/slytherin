@@ -26,10 +26,10 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
     {
         $dispatcher = $this->dispatcher();
 
-        foreach ($config->get('app.middlewares', array()) as $item) {
-            $middleware = is_callable($item) ? $item : new $item;
+        $middlewares = $config->get('app.middlewares', array());
 
-            $dispatcher->push($middleware);
+        foreach ($middlewares as $item) {
+            $dispatcher->push($item);
         }
 
         // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead.

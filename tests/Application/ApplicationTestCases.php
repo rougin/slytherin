@@ -146,7 +146,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 
         $result = $this->application->handle($request);
 
-        $this->assertEquals('Loaded with middleware', (string) $result->getBody());
+        $this->assertEquals('Hello Last!', (string) $result->getBody());
     }
 
     /**

@@ -32,22 +32,14 @@ class StratigilityDispatcher extends Dispatcher
     protected $response;
 
     /**
-     * @param \Zend\Stratigility\MiddlewarePipe        $pipeline
-     * @param array                                    $stack
-     * @param \Psr\Http\Message\ResponseInterface|null $response -- NOTE: To be removed in v1.0.0. Use single pass instead.
+     * @param \Zend\Stratigility\MiddlewarePipe $pipeline
+     * @param array                             $stack
      */
-    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array(), ResponseInterface $response = null)
+    public function __construct(\Zend\Stratigility\MiddlewarePipe $pipeline, array $stack = array())
     {
         $this->pipeline = $pipeline;
 
-        // NOTE: To be removed in v1.0.0. Use single pass instead.
-        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
-
         $this->stack = $stack;
-
-        if (method_exists($this->pipeline, 'setResponsePrototype')) {
-            $this->pipeline->setResponsePrototype($this->response);
-        }
     }
 
     /**
@@ -59,27 +51,47 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        $response = $this->convert($request, $delegate);
+
         foreach ($this->stack as $class) {
             $callable = $this->transform($class);
 
             $this->pipeline->pipe($callable);
         }
 
-        $pipeline = $this->pipeline;
-
-        if (! method_exists($pipeline, 'process')) {
+        if (! method_exists($this->pipeline, 'process')) {
             $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
 
-            $handler = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
+            $this->pipeline->pipe(new FinalResponse);
 
-            return $pipeline($request, $this->response, $handler);
+            $delegate = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
         }
 
-        return $pipeline($request, $this->response, $delegate);
+        return $this->pipeline->__invoke($request, $response, $delegate);
     }
 
     /**
-     * Checks middleware if it needs to be instantiate or wrap.
+     * Converts a DelegateInterface to ResponseInterface.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function convert(ServerRequestInterface $request, DelegateInterface $delegate)
+    {
+        $response = $delegate->process($request);
+
+        if (method_exists($this->pipeline, 'setResponsePrototype')) {
+            $this->pipeline->setResponsePrototype($response);
+        }
+
+        $this->response = $response;
+
+        return $response;
+    }
+
+    /**
+     * Checks middleware if it needs to be instantiate or be wrapped.
      *
      * @param  callable|object|string $middleware
      * @return object|\Interop\Http\ServerMiddleware\MiddlewareInterface

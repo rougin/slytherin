@@ -11,7 +11,6 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * Final Response
  *
  * Acts as the last in the stack in the list of defined middlewares.
- * NOTE: To be removed in v1.0.0. Use "Middleware\Delegate" instead from Application.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -39,7 +38,7 @@ class FinalResponse implements \Interop\Http\ServerMiddleware\MiddlewareInterfac
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
-        return $this->response;
+        return $response;
     }
 
     /**

@@ -30,6 +30,10 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         $config->set('app.router', $this->router());
 
+        $middlewares = array('Rougin\Slytherin\Fixture\Middlewares\EmptyMiddleware');
+
+        $config->set('app.middlewares', $middlewares);
+
         $app = new \Rougin\Slytherin\Application;
 
         $this->application = $app->integrate($integrations, $config);

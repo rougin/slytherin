@@ -29,14 +29,10 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     protected $stack = array();
 
     /**
-     * @param array                                    $stack
-     * @param \Psr\Http\Message\ResponseInterface|null $response -- NOTE: To be removed in v1.0.0. Use single pass instead.
+     * @param array $stack
      */
-    public function __construct(array $stack = array(), ResponseInterface $response = null)
+    public function __construct(array $stack = array())
     {
-        // NOTE: To be removed in v1.0.0. Use single pass instead.
-        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
-
         $this->stack = $stack;
     }
 
@@ -107,10 +103,10 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $last = function ($request) use ($delegate) {
-            $response = $delegate->process($request);
-
-            return $response;
+            return $delegate->process($request);
         };
+
+        $this->response = $last($request);
 
         array_push($this->stack, $last);
 
