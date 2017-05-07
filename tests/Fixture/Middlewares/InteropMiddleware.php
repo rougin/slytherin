@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 use Interop\Http\ServerMiddleware\DelegateInterface;
 
 /**

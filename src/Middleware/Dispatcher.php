@@ -49,9 +49,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     {
         $this->stack = array_merge($this->stack, $stack);
 
-        $this->response = $response;
-
-        return $this->process($request, new Delegate);
+        return $this->process($request, new Delegate(null, $response));
     }
 
     /**
@@ -102,17 +100,9 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $last = function ($request) use ($delegate) {
-            return $delegate->process($request);
-        };
-
-        $this->response = $last($request);
-
-        array_push($this->stack, $last);
+        $this->response = $delegate->process($request);
 
         $resolved = $this->resolve(0);
-
-        array_pop($this->stack);
 
         return $resolved($request);
     }
@@ -188,6 +178,6 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
             });
         }
 
-        return new Delegate;
+        return new Delegate(null, $this->response);
     }
 }
