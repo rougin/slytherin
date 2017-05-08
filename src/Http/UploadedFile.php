@@ -23,44 +23,44 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
     /**
      * @var string
      */
-    private $filePath;
+    protected $file;
 
     /**
      * @var integer|null
      */
-    private $size;
+    protected $size;
 
     /**
      * @var integer|UPLOAD_ERR_OK
      */
-    private $error;
+    protected $error;
 
     /**
      * @var string
      */
-    private $clientFileName;
+    protected $name;
 
     /**
      * @var string
      */
-    private $clientMediaType;
+    protected $media;
 
     /**
-     * @param string  $filePath
+     * @param string  $file
      * @param integer $size
      * @param integer $error
-     * @param string  $clientFileName
-     * @param string  $clientMediaType
+     * @param string  $name
+     * @param string  $media
      */
-    public function __construct($filePath, $size = null, $error = UPLOAD_ERR_OK, $clientFileName = null, $clientMediaType = null)
+    public function __construct($file, $size = null, $error = UPLOAD_ERR_OK, $name = null, $media = null)
     {
-        $this->clientFileName = $clientFileName;
-
-        $this->clientMediaType = $clientMediaType;
-
         $this->error = $error;
 
-        $this->filePath = $filePath;
+        $this->file = $file;
+
+        $this->media = $media;
+
+        $this->name = $name;
 
         $this->size = $size;
     }
@@ -74,7 +74,7 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function getStream()
     {
-        return new Stream(fopen($this->filePath, 'r'));
+        return new Stream(fopen($this->file, 'r'));
     }
 
     /**
@@ -87,7 +87,7 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function moveTo($targetPath)
     {
-        rename($this->filePath, $targetPath);
+        rename($this->file, $targetPath);
     }
 
     /**
@@ -117,7 +117,7 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function getClientFilename()
     {
-        return $this->clientFileName;
+        return $this->name;
     }
 
     /**
@@ -127,6 +127,6 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
      */
     public function getClientMediaType()
     {
-        return $this->clientMediaType;
+        return $this->media;
     }
 }

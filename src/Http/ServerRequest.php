@@ -26,38 +26,38 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     /**
      * @var array
      */
-    private $server;
+    protected $server = array();
 
     /**
      * @var array
      */
-    private $cookies;
+    protected $cookies = array();
 
     /**
      * @var array
      */
-    private $query;
+    protected $query = array();
 
     /**
      * @var array
      */
-    private $uploadedFiles;
+    protected $uploaded = array();
 
     /**
      * @var array|null|object
      */
-    private $data;
+    protected $data;
 
     /**
      * @var array
      */
-    private $attributes;
+    protected $attributes;
 
     /**
      * @param array                                  $server
      * @param array                                  $cookies
      * @param array                                  $query
-     * @param array                                  $uploadedFiles
+     * @param array                                  $uploaded
      * @param array|null                             $data
      * @param array                                  $attributes
      * @param \Psr\Http\Message\UriInterface|null    $uri
@@ -65,7 +65,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      * @param array                                  $headers
      * @param string                                 $version
      */
-    public function __construct(array $server = array(), array $cookies = array(), array $query = array(), array $uploadedFiles = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct(array $server = array(), array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
         $http = (! empty($server['HTTPS']) && $server['HTTPS'] != 'off') ? 'https' : 'http';
 
@@ -83,7 +83,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
 
         $this->server = $server;
 
-        $this->uploadedFiles = $uploadedFiles;
+        $this->uploaded = $uploaded;
     }
 
     /**
@@ -114,9 +114,11 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function withCookieParams(array $cookies)
     {
-        $this->cookies = $cookies;
+        $new = clone $this;
 
-        return clone $this;
+        $new->cookies = $cookies;
+
+        return $new;
     }
 
     /**
@@ -137,9 +139,11 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function withQueryParams(array $query)
     {
-        $this->query = $query;
+        $new = clone $this;
 
-        return clone $this;
+        $new->query = $query;
+
+        return $new;
     }
 
     /**
@@ -149,7 +153,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function getUploadedFiles()
     {
-        return $this->uploadedFiles;
+        return $this->uploaded;
     }
 
     /**
@@ -157,14 +161,16 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      *
      * @throws \InvalidArgumentException
      *
-     * @param  array $uploadedFiles
+     * @param  array $uploaded
      * @return static
      */
-    public function withUploadedFiles(array $uploadedFiles)
+    public function withUploadedFiles(array $uploaded)
     {
-        $this->uploadedFiles = $uploadedFiles;
+        $new = clone $this;
 
-        return clone $this;
+        $new->uploaded = $uploaded;
+
+        return $new;
     }
 
     /**
@@ -187,9 +193,11 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function withParsedBody($data)
     {
-        $this->data = $data;
+        $new = clone $this;
 
-        return clone $this;
+        $new->data = $data;
+
+        return $new;
     }
 
     /**
@@ -223,9 +231,11 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function withAttribute($name, $value)
     {
-        $this->attributes[$name] = $value;
+        $new = clone $this;
 
-        return clone $this;
+        $new->attributes[$name] = $value;
+
+        return $new;
     }
 
     /**

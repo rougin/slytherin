@@ -25,12 +25,12 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     /**
      * @var integer
      */
-    private $code;
+    protected $code = 200;
 
     /**
      * @var array
      */
-    private $codes = array(
+    protected $codes = array(
         100 => 'Continue',
         101 => 'Switching Protocols',
         200 => 'OK',
@@ -73,7 +73,7 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     /**
      * @var string
      */
-    private $reason;
+    protected $reason = 'OK';
 
     /**
      * @param integer                                $code
@@ -114,11 +114,13 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
      */
     public function withStatus($code, $reason = '')
     {
-        $this->code = $code;
+        $new = clone $this;
 
-        $this->reason = ($reason == '') ? $this->codes[$code] : $reason;
+        $new->code = $code;
 
-        return clone $this;
+        $new->reason = ($reason == '') ? $new->codes[$code] : $reason;
+
+        return $new;
     }
 
     /**

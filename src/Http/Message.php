@@ -44,11 +44,11 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
+        $this->body = ($body === null) ? new Stream(fopen('php://temp', 'r+')) : $body;
+
         $this->headers = $headers;
 
         $this->version = $version;
-
-        $this->body = ($body === null) ? new Stream(fopen('php://temp', 'r+')) : $body;
     }
 
     /**
@@ -69,9 +69,11 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withProtocolVersion($version)
     {
-        $this->version = $version;
+        $new = clone $this;
 
-        return clone $this;
+        $new->version = $version;
+
+        return $new;
     }
 
     /**
@@ -128,9 +130,11 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withHeader($name, $value)
     {
-        $this->headers[$name] = (is_array($value)) ? $value : array($value);
+        $new = clone $this;
 
-        return clone $this;
+        $new->headers[$name] = (is_array($value)) ? $value : array($value);
+
+        return $new;
     }
 
     /**
@@ -144,9 +148,11 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        $this->headers[$name][] = $value;
+        $new = clone $this;
 
-        return clone $this;
+        $new->headers[$name][] = $value;
+
+        return $new;
     }
 
     /**
@@ -188,8 +194,10 @@ class Message implements \Psr\Http\Message\MessageInterface
      */
     public function withBody(StreamInterface $body)
     {
-        $this->body = $body;
+        $new = clone $this;
 
-        return clone $this;
+        $new->body = $body;
+
+        return $new;
     }
 }

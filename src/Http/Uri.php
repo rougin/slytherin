@@ -23,42 +23,42 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * @var string
      */
-    private $scheme = '';
+    protected $scheme = '';
 
     /**
      * @var string
      */
-    private $userInfo = '';
+    protected $user = '';
 
     /**
      * @var string
      */
-    private $host = '';
+    protected $host = '';
 
     /**
      * @var integer|null
      */
-    private $port = null;
+    protected $port = null;
 
     /**
      * @var string
      */
-    private $path = '';
+    protected $path = '';
 
     /**
      * @var string
      */
-    private $query = '';
+    protected $query = '';
 
     /**
      * @var string
      */
-    private $fragment = '';
+    protected $fragment = '';
 
     /**
      * @var string
      */
-    private $uriString = '';
+    protected $uri = '';
 
     /**
      * @param string $uri
@@ -70,14 +70,14 @@ class Uri implements \Psr\Http\Message\UriInterface
         if (is_array($parts)) {
             foreach ($parts as $key => $value) {
                 if ($key == 'user') {
-                    $this->userInfo = $value;
+                    $this->user = $value;
                 }
 
                 $this->$key = $value;
             }
         }
 
-        $this->uriString = $uri;
+        $this->uri = $uri;
     }
 
     /**
@@ -99,8 +99,8 @@ class Uri implements \Psr\Http\Message\UriInterface
     {
         $authority = $this->host;
 
-        if (! empty($this->host) && ! empty($this->userInfo)) {
-            $authority = $this->userInfo . '@' . $authority;
+        if (! empty($this->host) && ! empty($this->user)) {
+            $authority = $this->user . '@' . $authority;
 
             $authority .= ':'. $this->port;
         }
@@ -115,7 +115,7 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function getUserInfo()
     {
-        return $this->userInfo;
+        return $this->user;
     }
 
     /**
@@ -178,9 +178,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withScheme($scheme)
     {
-        $this->scheme = $scheme;
+        $new = clone $this;
 
-        return clone $this;
+        $new->scheme = $scheme;
+
+        return $new;
     }
 
     /**
@@ -192,9 +194,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withUserInfo($user, $password = null)
     {
-        $this->userInfo = $user . '[:' . $password . ']';
+        $new = clone $this;
 
-        return clone $this;
+        $new->user = $user . '[:' . $password . ']';
+
+        return $new;
     }
 
     /**
@@ -207,9 +211,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withHost($host)
     {
-        $this->host = $host;
+        $new = clone $this;
 
-        return clone $this;
+        $new->host = $host;
+
+        return $new;
     }
 
     /**
@@ -222,9 +228,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withPort($port)
     {
-        $this->port = $port;
+        $new = clone $this;
 
-        return clone $this;
+        $new->port = $port;
+
+        return $new;
     }
 
     /**
@@ -237,9 +245,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withPath($path)
     {
-        $this->path = $path;
+        $new = clone $this;
 
-        return clone $this;
+        $new->path = $path;
+
+        return $new;
     }
 
     /**
@@ -252,9 +262,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withQuery($query)
     {
-        $this->query = $query;
+        $new = clone $this;
 
-        return clone $this;
+        $new->query = $query;
+
+        return $new;
     }
 
     /**
@@ -265,9 +277,11 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function withFragment($fragment)
     {
-        $this->fragment = $fragment;
+        $new = clone $this;
 
-        return clone $this;
+        $new->fragment = $fragment;
+
+        return $new;
     }
 
     /**
@@ -277,6 +291,6 @@ class Uri implements \Psr\Http\Message\UriInterface
      */
     public function __toString()
     {
-        return $this->uriString;
+        return $this->uri;
     }
 }

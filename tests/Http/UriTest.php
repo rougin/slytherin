@@ -38,7 +38,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
     {
         $uri = $this->uri->withScheme('http');
 
-        $this->assertEquals('http', $this->uri->getScheme());
+        $this->assertEquals('http', $uri->getScheme());
     }
 
     /**

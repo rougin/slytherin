@@ -11,8 +11,8 @@
 
 namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\StreamInterface;
 
 /**
  * Request
@@ -25,33 +25,33 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
     /**
      * @var string
      */
-    private $requestTarget;
+    protected $target = '/';
 
     /**
      * @var string
      */
-    private $method;
+    protected $method = 'GET';
 
     /**
      * @var \Psr\Http\Message\UriInterface
      */
-    private $uri;
+    protected $uri;
 
     /**
      * @param string                                 $method
-     * @param string                                 $requestTarget
+     * @param string                                 $target
      * @param \Psr\Http\Message\UriInterface|null    $uri
      * @param \Psr\Http\Message\StreamInterface|null $body
      * @param array                                  $headers
      * @param string                                 $version
      */
-    public function __construct($method = 'GET', $requestTarget = '/', UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct($method = 'GET', $target = '/', UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
         parent::__construct($body, $headers, $version);
 
         $this->method = $method;
 
-        $this->requestTarget = $requestTarget;
+        $this->target = $target;
 
         $this->uri = ($uri === null) ? new Uri : $uri;
     }
@@ -63,7 +63,7 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      */
     public function getRequestTarget()
     {
-        return $this->requestTarget;
+        return $this->target;
     }
 
     /**
@@ -74,9 +74,11 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      */
     public function withRequestTarget($requestTarget)
     {
-        $this->requestTarget = $requestTarget;
+        $new = clone $this;
 
-        return clone $this;
+        $new->target = $requestTarget;
+
+        return $new;
     }
 
     /**
@@ -99,9 +101,11 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      */
     public function withMethod($method)
     {
-        $this->method = $method;
+        $new = clone $this;
 
-        return clone $this;
+        $new->method = $method;
+
+        return $new;
     }
 
     /**
@@ -123,8 +127,12 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      */
     public function withUri(UriInterface $uri, $preserveHost = false)
     {
-        $this->uri = $uri;
+        $new = clone $this;
 
-        return clone $this;
+        // TODO: What to do in $preserveHost = true
+
+        $new->uri = $uri;
+
+        return $new;
     }
 }

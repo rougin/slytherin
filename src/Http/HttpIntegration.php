@@ -29,11 +29,11 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     {
         list($server, $cookies, $get, $files, $post) = $this->globals($config);
 
+        $headers = function_exists('xdebug_get_headers') ? xdebug_get_headers() : headers_list();
+
         $request = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
 
         $response = new \Rougin\Slytherin\Http\Response;
-
-        $headers = function_exists('xdebug_get_headers') ? xdebug_get_headers() : headers_list();
 
         foreach ($headers as $header) {
             list($key, $value) = explode(': ', $header);
