@@ -29,7 +29,7 @@ All notable changes to `Slytherin` will be documented in this file
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
-	- This directory is now deprecated will be removed in `v1.0.0`
+	- This directory is now deprecated and will be removed in `v1.0.0`
 - `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
 - Emit headers on `Application::run` only
 - Allow anonymous functions and objects in adding middleware from a specified route in `Middleware\Stratigility`
