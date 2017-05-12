@@ -173,6 +173,38 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests RouterInterface::prefix with multiple prefixes.
+     *
+     * @return void
+     */
+    public function testPrefixMethodWithMultiplePrefixes()
+    {
+        $this->exists(get_class($this->router));
+
+        $this->router->prefix('', 'Acme\Http\Controllers');
+
+        $this->router->get('/home', 'HomeController@index');
+
+        $this->router->prefix('/v1/auth');
+
+        $this->router->post('/login', 'AuthController@login');
+        $this->router->post('/logout', 'AuthController@logout');
+
+        $this->router->prefix('/v1/test');
+
+        $this->router->get('/hello', 'TestController@hello');
+        $this->router->get('/test', 'TestController@test');
+
+        $home = $this->router->retrieve('GET', '/home');
+        $login = $this->router->retrieve('POST', '/v1/auth/login');
+        $hello = $this->router->retrieve('GET', '/v1/test/hello');
+
+        $this->assertEquals('Acme\Http\Controllers\HomeController', $home[2][0]);
+        $this->assertEquals('Acme\Http\Controllers\AuthController', $login[2][0]);
+        $this->assertEquals('Acme\Http\Controllers\TestController', $hello[2][0]);
+    }
+
+    /**
      * Tests RouterInterface::merge.
      *
      * @return void
