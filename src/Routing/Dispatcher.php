@@ -41,23 +41,21 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
-        $routes = array();
+        $route = null;
 
-        foreach ($this->routes as $route) {
-            $parsed = $this->parse($httpMethod, $uri, $route);
+        foreach ($this->routes as $item) {
+            $parsed = $this->parse($httpMethod, $uri, $item);
 
-            array_push($routes, $parsed);
+            $parsed === null || $route = $parsed;
         }
 
-        $routes = array_values(array_filter($routes));
-
-        if (empty($routes)) {
+        if (is_null($route)) {
             $message = 'Route "' . $uri . '" not found';
 
             throw new \UnexpectedValueException($message);
         }
 
-        return array(array($routes[0][0], $routes[0][1]), $routes[0][2]);
+        return array(array($route[0], $route[1]), $route[2]);
     }
 
     /**
