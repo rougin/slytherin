@@ -36,28 +36,20 @@ class Dispatcher implements DispatcherInterface
      * @param  string $httpMethod
      * @param  string $uri
      * @return array
-     *
-     * @throws UnexpectedValueException
      */
     public function dispatch($httpMethod, $uri)
     {
         $routes = array();
 
         foreach ($this->routes as $route) {
-            array_push($routes, $this->parse($httpMethod, $uri, $route));
+            $parsed = $this->parse($httpMethod, $uri, $route);
+
+            array_push($routes, $parsed);
         }
 
-        $routes = array_values(array_filter($routes));
+        $route = $this->retrieve($routes, $uri);
 
-        if (empty($routes)) {
-            $message = 'Route "' . $uri . '" not found';
-
-            throw new \UnexpectedValueException($message);
-        }
-
-        count($routes[0][1]) <= 0 || $routes[0][1] = array_combine($routes[0][3], $routes[0][1]);
-
-        return array(array($routes[0][0], $routes[0][1]), $routes[0][2]);
+        return array(array($route[0], $route[1]), $route[2]);
     }
 
     /**
@@ -124,5 +116,31 @@ class Dispatcher implements DispatcherInterface
         }
 
         return null;
+    }
+
+    /**
+     * Retrieved the specified route from the result.
+     *
+     * @throws \UnexpectedValueException
+     *
+     * @param  array  $routes
+     * @param  string $uri
+     * @return array
+     */
+    protected function retrieve(array $routes, $uri)
+    {
+        $routes = array_values(array_filter($routes));
+
+        if (empty($routes)) {
+            $message = 'Route "' . $uri . '" not found';
+
+            throw new \UnexpectedValueException($message);
+        }
+
+        $route = current($routes);
+
+        $route[1] = (count($route[1]) > 0) ? array_combine($route[3], $route[1]) : $route[1];
+
+        return $route;
     }
 }
