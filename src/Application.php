@@ -82,19 +82,19 @@ class Application
      * Adds the specified integrations to the container.
      *
      * @param  array                                       $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration $config
+     * @param  \Rougin\Slytherin\Integration\Configuration $configuration
      * @return self
      */
-    public function integrate(array $integrations, Integration\Configuration $config = null)
+    public function integrate(array $integrations, Integration\Configuration $configuration = null)
     {
-        $config = $config ?: new Integration\Configuration;
+        $configuration = $configuration ?: new Integration\Configuration;
 
         $container = static::container();
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
 
-            $container = $integration->define($container, $config);
+            $container = $integration->define($container, $configuration);
         }
 
         static::$container = $container;
