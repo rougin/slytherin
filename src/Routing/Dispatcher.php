@@ -111,16 +111,14 @@ class Dispatcher implements DispatcherInterface
      */
     protected function parse($httpMethod, $uri, $route)
     {
-        $hasRouteMatch = preg_match($route[4], $uri, $parameters);
+        $matchedRoute = preg_match($route[4], $uri, $parameters);
 
-        $sameHttpMethod = $httpMethod == $route[0];
-
-        if ($hasRouteMatch && $sameHttpMethod && ! empty($route[2])) {
+        if ($matchedRoute && $httpMethod == $route[0] && ! empty($route[2])) {
             $this->allowed($route[0]);
 
             array_shift($parameters);
 
-            $parameters = count($parameters) > 0 ? array_combine($route[5], $parameters) : array();
+            count($parameters) < 0 || $parameters = array_combine($route[5], $parameters);
 
             return array($route[2], $parameters, $route[3]);
         }
