@@ -183,15 +183,7 @@ class Application
         if (is_array($function) === true) {
             list($callback, $parameters) = $function;
 
-            if (is_array($callback) && ! is_object($callback)) {
-                list($name, $method) = $callback;
-
-                $callback = array($container->get($name), $method);
-
-                $reflection = new \ReflectionMethod($callback[0], $method);
-            } else {
-                $reflection = new \ReflectionFunction($callback);
-            }
+            list($callback, $reflection) = $container->reflection($callback);
 
             $arguments = $container->arguments($reflection, $parameters);
 

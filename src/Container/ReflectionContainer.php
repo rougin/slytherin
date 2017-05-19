@@ -28,6 +28,29 @@ class ReflectionContainer implements PsrContainerInterface
     }
 
     /**
+     * Resolves the specified parameters from a container.
+     *
+     * @param  \ReflectionFunction|\ReflectionMethod $reflection
+     * @param  array                                 $parameters
+     * @return array
+     */
+    public function arguments($reflection, $parameters = array())
+    {
+        $arguments = array();
+
+        foreach ($reflection->getParameters() as $index => $parameter) {
+            $name = $parameter->getName();
+
+            $argument = $this->argument($parameter);
+            $argument = (is_null($argument)) ? $parameters[$name] : $argument;
+
+            $arguments[$index] = $argument;
+        }
+
+        return $arguments;
+    }
+
+    /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      *
      * Finds an entry of the container by its identifier and returns it.
@@ -68,20 +91,23 @@ class ReflectionContainer implements PsrContainerInterface
         return class_exists($id);
     }
 
-    public function arguments($reflection, $current = array())
+    /**
+     * Returns a Reflection instance based on the given callback.
+     *
+     * @param  array|mixed $callback
+     * @return array
+     */
+    public function reflection($callback)
     {
-        $arguments = array();
+        if (is_array($callback) && ! is_object($callback)) {
+            list($name, $method) = $callback;
 
-        foreach ($reflection->getParameters() as $index => $parameter) {
-            $name = $parameter->getName();
+            $callback = array($this->get($name), $method);
 
-            $argument = $this->argument($parameter);
-            $argument = (is_null($argument)) ? $current[$name] : $argument;
-
-            $arguments[$index] = $argument;
+            return array($callback, new \ReflectionMethod($callback[0], $method));
         }
 
-        return $arguments;
+        return array($callback, new \ReflectionFunction($callback));
     }
 
     /**

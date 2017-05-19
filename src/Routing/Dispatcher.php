@@ -43,8 +43,8 @@ class Dispatcher implements DispatcherInterface
     {
         $route = null;
 
-        foreach ($this->routes as $key => $value) {
-            $parsed = $this->parse($httpMethod, $uri, $key, $value);
+        foreach ($this->routes as $item) {
+            $parsed = $this->parse($httpMethod, $uri, $item);
 
             $parsed === null || $route = $parsed;
         }
@@ -104,13 +104,12 @@ class Dispatcher implements DispatcherInterface
     /**
      * Parses the specified route and make some checks.
      *
-     * @param  string  $httpMethod
-     * @param  string  $uri
-     * @param  integer $index
-     * @param  array   $route
+     * @param  string $httpMethod
+     * @param  string $uri
+     * @param  array  $route
      * @return array|null
      */
-    protected function parse($httpMethod, $uri, $index, $route)
+    protected function parse($httpMethod, $uri, $route)
     {
         $hasRouteMatch = preg_match($route[4], $uri, $parameters);
 
@@ -121,7 +120,9 @@ class Dispatcher implements DispatcherInterface
 
             array_shift($parameters);
 
-            return array($route[2], array_combine($route[5], $parameters), $route[3]);
+            $parameters = count($parameters) > 0 ? array_combine($route[5], $parameters) : array();
+
+            return array($route[2], $parameters, $route[3]);
         }
 
         return null;
