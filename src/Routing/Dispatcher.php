@@ -47,17 +47,17 @@ class Dispatcher implements DispatcherInterface
             array_push($routes, $this->parse($httpMethod, $uri, $route));
         }
 
-        if (empty(array_values(array_filter($routes)))) {
+        $routes = array_values(array_filter($routes));
+
+        if (empty($routes)) {
             $message = 'Route "' . $uri . '" not found';
 
             throw new \UnexpectedValueException($message);
         }
 
-        $route = current(array_values(array_filter($routes)));
+        count($routes[0][1]) <= 0 || $routes[0][1] = array_combine($routes[0][3], $routes[0][1]);
 
-        count($route[1]) <= 0 || $route[1] = array_combine($route[3], $route[1]);
-
-        return array(array($route[0], $route[1]), $route[2]);
+        return array(array($routes[0][0], $routes[0][1]), $routes[0][2]);
     }
 
     /**
