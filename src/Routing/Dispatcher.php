@@ -118,7 +118,7 @@ class Dispatcher implements DispatcherInterface
 
             array_shift($parameters);
 
-            count($parameters) < 0 || $parameters = array_combine($route[5], $parameters);
+            count($parameters) <= 0 || $parameters = array_combine($route[5], $parameters);
 
             return array($route[2], $parameters, $route[3]);
         }
