@@ -58,4 +58,16 @@ class WithResponseInterface
 
         return $response;
     }
+
+    /**
+     * Returns a type hinted response.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  integer                             $code
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function typehint(ResponseInterface $response, $code)
+    {
+        return $response->withStatus($code);
+    }
 }

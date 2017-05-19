@@ -177,19 +177,25 @@ class Application
      */
     protected function resolve($function)
     {
+        // NOTE: To be removed in v1.0.0. It should me manually defined.
+        $container = new Container\ReflectionContainer(static::$container);
+
         if (is_array($function) === true) {
             list($callback, $parameters) = $function;
 
             if (is_array($callback) && ! is_object($callback)) {
                 list($name, $method) = $callback;
 
-                // NOTE: To be removed in v1.0.0. It should me manually defined.
-                $container = new Container\ReflectionContainer(static::$container);
-
                 $callback = array($container->get($name), $method);
+
+                $reflection = new \ReflectionMethod($callback[0], $method);
+            } else {
+                $reflection = new \ReflectionFunction($callback);
             }
 
-            $function = call_user_func_array($callback, $parameters);
+            $arguments = $container->arguments($reflection, $parameters);
+
+            $function = call_user_func_array($callback, array_values($arguments));
         }
 
         return $function;

@@ -43,8 +43,8 @@ class Dispatcher implements DispatcherInterface
     {
         $route = null;
 
-        foreach ($this->routes as $item) {
-            $parsed = $this->parse($httpMethod, $uri, $item);
+        foreach ($this->routes as $key => $value) {
+            $parsed = $this->parse($httpMethod, $uri, $key, $value);
 
             $parsed === null || $route = $parsed;
         }
@@ -69,8 +69,12 @@ class Dispatcher implements DispatcherInterface
         foreach (array_filter($router->routes()) as $route) {
             preg_match_all('/:[a-z]*/', $route[1], $parameters);
 
-            $route[1] = str_replace($parameters[0], '(\w+)', $route[1]);
-            $route[1] = '/^' . str_replace('/', '\/', $route[1]) . '$/';
+            $route[4] = str_replace($parameters[0], '(\w+)', $route[1]);
+            $route[4] = '/^' . str_replace('/', '\/', $route[4]) . '$/';
+
+            $route[5] = array_map(function ($item) {
+                return str_replace(':', '', $item);
+            }, $parameters[0]);
 
             array_push($this->routes, $route);
         }
@@ -100,14 +104,15 @@ class Dispatcher implements DispatcherInterface
     /**
      * Parses the specified route and make some checks.
      *
-     * @param  string $httpMethod
-     * @param  string $uri
-     * @param  array  $route
+     * @param  string  $httpMethod
+     * @param  string  $uri
+     * @param  integer $index
+     * @param  array   $route
      * @return array|null
      */
-    protected function parse($httpMethod, $uri, $route)
+    protected function parse($httpMethod, $uri, $index, $route)
     {
-        $hasRouteMatch = preg_match($route[1], $uri, $parameters);
+        $hasRouteMatch = preg_match($route[4], $uri, $parameters);
 
         $sameHttpMethod = $httpMethod == $route[0];
 
@@ -116,7 +121,7 @@ class Dispatcher implements DispatcherInterface
 
             array_shift($parameters);
 
-            return array($route[2], array_values($parameters), $route[3]);
+            return array($route[2], array_combine($route[5], $parameters), $route[3]);
         }
 
         return null;

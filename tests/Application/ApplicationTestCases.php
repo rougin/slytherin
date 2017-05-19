@@ -122,6 +122,28 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the handle() method with a type hinted parameter as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithTypehintedParameter()
+    {
+        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
+
+        $dispatcher = \Rougin\Slytherin\Application::container()->get($interface);
+
+        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher')) {
+            $this->markTestSkipped('Resolving type hinted parameters are not yet implemented in Phroute.');
+        }
+
+        $request = $this->request('GET', '/typehint/202');
+
+        $result = $this->application->handle($request);
+
+        $this->assertEquals(202, $result->getStatusCode());
+    }
+
+    /**
      * Tests the handle() method with a callback as result.
      *
      * @return void
@@ -218,6 +240,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
         $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
         $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $middleware);
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
+        $router->get('/typehint/:code', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@typehint');
 
         $router->get('/callback', function () {
             return 'Hello, this is a callback';

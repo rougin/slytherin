@@ -15,11 +15,6 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 class ReflectionContainer implements PsrContainerInterface
 {
     /**
-     * @var array
-     */
-    protected $arguments = array();
-
-    /**
      * @var \Psr\Container\ContainerInterface
      */
     protected $container;
@@ -54,11 +49,9 @@ class ReflectionContainer implements PsrContainerInterface
         $reflection = new \ReflectionClass($id);
 
         if ($constructor = $reflection->getConstructor()) {
-            foreach ($constructor->getParameters() as $parameter) {
-                array_push($this->arguments, $this->argument($parameter));
-            }
+            $arguments = $this->arguments($constructor);
 
-            return $reflection->newInstanceArgs($this->arguments);
+            return $reflection->newInstanceArgs($arguments);
         }
 
         return new $id;
@@ -75,6 +68,22 @@ class ReflectionContainer implements PsrContainerInterface
         return class_exists($id);
     }
 
+    public function arguments($reflection, $current = array())
+    {
+        $arguments = array();
+
+        foreach ($reflection->getParameters() as $index => $parameter) {
+            $name = $parameter->getName();
+
+            $argument = $this->argument($parameter);
+            $argument = (is_null($argument)) ? $current[$name] : $argument;
+
+            $arguments[$index] = $argument;
+        }
+
+        return $arguments;
+    }
+
     /**
      * Returns an argument based on the given parameter.
      *
@@ -84,13 +93,17 @@ class ReflectionContainer implements PsrContainerInterface
     protected function argument(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional() === false) {
-            $name = $parameter->getClass()->getName();
+            if ($parameter->getClass()) {
+                $name = $parameter->getClass()->getName();
 
-            $exists = $this->container->has($name);
+                $exists = $this->container->has($name);
 
-            $container = ($exists) ? $this->container : $this;
+                $container = ($exists) ? $this->container : $this;
 
-            return $container->get($name);
+                return $container->get($name);
+            }
+
+            return null;
         }
 
         return $parameter->getDefaultValue();

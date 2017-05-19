@@ -26,6 +26,8 @@ class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInt
     {
         $dispatcher = new \Rougin\Slytherin\Routing\Dispatcher;
 
+        $router = $config->get('app.router', new \Rougin\Slytherin\Routing\Router);
+
         if (interface_exists('FastRoute\Dispatcher')) {
             $dispatcher = new \Rougin\Slytherin\Routing\FastRouteDispatcher;
         }
@@ -36,8 +38,6 @@ class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInt
 
             $dispatcher = new \Rougin\Slytherin\Routing\PhrouteDispatcher(null, $resolver);
         }
-
-        $router = $config->get('app.router', new \Rougin\Slytherin\Routing\Router);
 
         $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
         $container->set('Rougin\Slytherin\Routing\RouterInterface', $router);
