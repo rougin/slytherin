@@ -55,6 +55,8 @@ class Dispatcher implements DispatcherInterface
             throw new \UnexpectedValueException($message);
         }
 
+        count($route[1]) <= 0 || $route[1] = array_combine($route[3], $route[1]);
+
         return array(array($route[0], $route[1]), $route[2]);
     }
 
@@ -111,16 +113,14 @@ class Dispatcher implements DispatcherInterface
      */
     protected function parse($httpMethod, $uri, $route)
     {
-        $matchedRoute = preg_match($route[4], $uri, $parameters);
+        $matched = preg_match($route[4], $uri, $parameters);
 
-        if ($matchedRoute && $httpMethod == $route[0] && ! empty($route[2])) {
+        if ($matched && $httpMethod == $route[0]) {
             $this->allowed($route[0]);
 
             array_shift($parameters);
 
-            count($parameters) <= 0 || $parameters = array_combine($route[5], $parameters);
-
-            return array($route[2], $parameters, $route[3]);
+            return array($route[2], $parameters, $route[3], $route[5]);
         }
 
         return null;
