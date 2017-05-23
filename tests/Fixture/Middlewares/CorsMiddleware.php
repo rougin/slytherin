@@ -35,6 +35,7 @@ class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterfa
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
+        // TODO: This must be used instead in HttpIntegration:86 :(
         if (in_array($request->getMethod(), $this->complex)) {
             parse_str(file_get_contents('php://input'), $body);
 

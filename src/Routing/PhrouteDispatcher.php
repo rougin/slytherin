@@ -98,10 +98,6 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
 
         foreach ($this->router->routes() as $route) {
             $collector->addRoute($route[0], $route[1], $route[2]);
-
-            if ($route[0] == 'PUT' || $route[0] == 'DELETE') {
-                $collector->addRoute('OPTIONS', $route[1], $route[2]);
-            }
         }
 
         return $collector->getData();
