@@ -80,21 +80,31 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
     {
         $this->router = $router;
 
-        if (! $router instanceof PhrouteRouter) {
-            $collector = new \Phroute\Phroute\RouteCollector;
-
-            foreach ($router->routes() as $route) {
-                $collector->addRoute($route[0], $route[1], $route[2]);
-            }
-
-            $routes = $collector->getData();
-        } else {
-            $routes = $router->routes(true);
-        }
+        $routes = $router instanceof PhrouteRouter ? $router->routes(true) : $this->collect();
 
         $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
 
         return $this;
+    }
+
+    /**
+     * Collects the specified routes and generates a data for it.
+     *
+     * @return \Phroute\Phroute\RouteDataArray
+     */
+    protected function collect()
+    {
+        $collector = new \Phroute\Phroute\RouteCollector;
+
+        foreach ($this->router->routes() as $route) {
+            $collector->addRoute($route[0], $route[1], $route[2]);
+
+            if ($route[0] == 'PUT' || $route[0] == 'DELETE') {
+                $collector->addRoute('OPTIONS', $route[1], $route[2]);
+            }
+        }
+
+        return $collector->getData();
     }
 
     /**

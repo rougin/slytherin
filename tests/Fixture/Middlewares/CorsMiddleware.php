@@ -16,6 +16,16 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
 {
     /**
+     * @var array
+     */
+    protected $complex = array('DELETE', 'PUT');
+
+    /**
+     * @var array
+     */
+    protected $methods = array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
+
+    /**
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
@@ -25,14 +35,16 @@ class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterfa
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        if ($request->getMethod() === 'OPTIONS') {
-            $server = $request->getServerParams();
+        if (in_array($request->getMethod(), $this->complex)) {
+            parse_str(file_get_contents('php://input'), $body);
 
-            $method = $server['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
-
-            $request = $request->withMethod($method);
+            $request = $request->withParsedBody($body);
         }
 
-        return $delegate->process($request);
+        $response = $delegate->process($request);
+
+        $response = $response->withHeader('Access-Control-Allow-Origin', '*');
+
+        return $response->withHeader('Access-Control-Allow-Methods', $this->methods);
     }
 }
