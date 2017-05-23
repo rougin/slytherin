@@ -158,6 +158,15 @@ class Application
 
         $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
 
+        // TODO: Must be included in a middleware.
+        if ($request->getMethod() === 'OPTIONS') {
+            $server = $request->getServerParams();
+
+            $method = $server['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
+
+            $request = $request->withMethod($method);
+        }
+
         $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
 
         if (static::$container->has(self::ROUTER)) {
