@@ -15,7 +15,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * @var array
      */
-    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+    protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
     /**
      * @var array
@@ -107,7 +107,7 @@ class Dispatcher implements DispatcherInterface
     {
         $matched = preg_match($route[4], $uri, $parameters);
 
-        if ($matched && $httpMethod == $route[0]) {
+        if ($matched && ($httpMethod == $route[0] || $httpMethod == 'OPTIONS')) {
             $this->allowed($route[0]);
 
             array_shift($parameters);

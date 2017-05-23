@@ -56,9 +56,9 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
         try {
             $this->allowed($httpMethod);
 
-            $result = $this->dispatcher->dispatch($httpMethod, $uri);
-
             $info = $this->router->retrieve($httpMethod, $uri);
+
+            $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
             $middlewares = ($result && isset($info[3])) ? $info[3] : array();
 
