@@ -157,11 +157,11 @@ class Application
         list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
 
         // TODO: This should be added on a middleware, not here :(
-        if ($request->getMethod() === 'OPTIONS') {
-            $server = $request->getServerParams();
+        // if ($request->getMethod() === 'OPTIONS') {
+        //     $server = $request->getServerParams();
 
-            $method = $server['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
-        }
+        //     $method = $server['HTTP_ACCESS_CONTROL_REQUEST_METHOD'];
+        // }
 
         $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
 
