@@ -72,6 +72,7 @@ class Application
             $middleware->push($middlewares);
 
             $delegate = new Middleware\Delegate(function ($request) use ($instance, $function) {
+                // TODO: "convert" and "resolve" must be in "protected".
                 return $instance->convert($instance->resolve($function));
             });
 
@@ -140,7 +141,7 @@ class Application
      * @param  \Psr\Http\Message\ResponseInterface|string $result
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function convert($result)
+    public function convert($result)
     {
         $response = static::$container->get(self::RESPONSE);
 
@@ -180,7 +181,7 @@ class Application
      * @param  array|mixed $function
      * @return mixed
      */
-    protected function resolve($function)
+    public function resolve($function)
     {
         // NOTE: To be removed in v1.0.0. It should me manually defined.
         $container = new Container\ReflectionContainer(static::$container);
