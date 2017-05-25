@@ -59,20 +59,25 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        $instance = $this;
+
         static::$container->set(self::REQUEST, $request);
 
         list($function, $middlewares) = $this->dispatch($request);
 
-        $response = $this->convert($this->resolve($function));
-
+        // TODO: Should call the final response once. Try to remove $instance.
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $middleware->push($middlewares);
 
-            $delegate = new Middleware\Delegate(null, $response);
+            $delegate = new Middleware\Delegate(function ($request) use ($instance, $function) {
+                return $instance->convert($instance->resolve($function));
+            });
 
             $response = $middleware->process($request, $delegate);
+        } else {
+            $response = $this->convert($this->resolve($function));
         }
 
         return $response;
