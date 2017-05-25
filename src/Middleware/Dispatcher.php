@@ -19,6 +19,11 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
 {
     /**
+     * @var \Interop\Http\ServerMiddleware\DelegateInterface
+     */
+    protected $delegate;
+
+    /**
      * @var \Psr\Http\Message\ResponseInterface
      */
     protected $response;
@@ -100,7 +105,13 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $this->response = $delegate->process($request);
+        $this->delegate = $delegate;
+
+        $last = function ($request) use ($delegate) {
+            return $delegate->process($request);
+        };
+
+        array_push($this->stack, $last);
 
         $resolved = $this->resolve(0);
 
@@ -151,6 +162,10 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         $delegate = $this->resolve($index + 1);
 
         if (count($object->getParameters()) == 3) { // Double pass
+            // TODO: Clean this step. Where to get the response? The final response should be called last.
+            // Delegate should be remove here. It should ba a callable like $next($request, $response).
+            $this->response = $this->response ?: $this->delegate->process($request);
+
             return $middleware($request, $this->response, $delegate);
         }
 
@@ -178,6 +193,6 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
             });
         }
 
-        return new Delegate(null, $this->response);
+        return new Delegate(null);
     }
 }

@@ -59,20 +59,26 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        $instance = $this;
+
         static::$container->set(self::REQUEST, $request);
 
         list($function, $middlewares) = $this->dispatch($request);
 
-        $response = $this->convert($this->resolve($function));
-
+        // TODO: Should call the final response once. Try to remove $instance.
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $middleware->push($middlewares);
 
-            $delegate = new Middleware\Delegate(null, $response);
+            $delegate = new Middleware\Delegate(function ($request) use ($instance, $function) {
+                // TODO: "convert" and "resolve" must be in "protected".
+                return $instance->convert($instance->resolve($function));
+            });
 
             $response = $middleware->process($request, $delegate);
+        } else {
+            $response = $this->convert($this->resolve($function));
         }
 
         return $response;
@@ -135,7 +141,7 @@ class Application
      * @param  \Psr\Http\Message\ResponseInterface|string $result
      * @return \Psr\Http\Message\ResponseInterface
      */
-    protected function convert($result)
+    public function convert($result)
     {
         $response = static::$container->get(self::RESPONSE);
 
@@ -175,7 +181,7 @@ class Application
      * @param  array|mixed $function
      * @return mixed
      */
-    protected function resolve($function)
+    public function resolve($function)
     {
         // NOTE: To be removed in v1.0.0. It should me manually defined.
         $container = new Container\ReflectionContainer(static::$container);
