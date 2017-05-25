@@ -59,21 +59,21 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $instance = $this;
+        $self = $this;
 
         static::$container->set(self::REQUEST, $request);
 
         list($function, $middlewares) = $this->dispatch($request);
 
-        // TODO: Should call the final response once. Try to remove $instance.
+        // TODO: Should call the final response once. Try to remove $self.
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $middleware->push($middlewares);
 
-            $delegate = new Middleware\Delegate(function ($request) use ($instance, $function) {
+            $delegate = new Middleware\Delegate(function () use ($self, $function) {
                 // TODO: "convert" and "resolve" must be in "protected".
-                return $instance->convert($instance->resolve($function));
+                return $self->convert($self->resolve($function));
             });
 
             $response = $middleware->process($request, $delegate);

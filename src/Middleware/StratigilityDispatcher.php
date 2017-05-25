@@ -51,7 +51,11 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $response = $this->convert($request, $delegate);
+        $this->response = new \Rougin\Slytherin\Http\Response;
+
+        if (method_exists($this->pipeline, 'setResponsePrototype')) {
+            $this->pipeline->setResponsePrototype($this->response);
+        }
 
         foreach ($this->stack as $class) {
             $callable = $this->transform($class);
@@ -67,27 +71,7 @@ class StratigilityDispatcher extends Dispatcher
             $delegate = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
         }
 
-        return $this->pipeline->__invoke($request, $response, $delegate);
-    }
-
-    /**
-     * Converts a DelegateInterface to ResponseInterface.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function convert(ServerRequestInterface $request, DelegateInterface $delegate)
-    {
-        $response = $delegate->process($request);
-
-        if (method_exists($this->pipeline, 'setResponsePrototype')) {
-            $this->pipeline->setResponsePrototype($response);
-        }
-
-        $this->response = $response;
-
-        return $response;
+        return $this->pipeline->__invoke($request, $this->response, $delegate);
     }
 
     /**
