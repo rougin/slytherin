@@ -65,23 +65,20 @@ class Application
 
         list($function, $middlewares) = $this->dispatch($request);
 
+        $callback = $this->resolve(static::$container, $function);
+
         // TODO: Should call the final response once. Try to remove $self.
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $middleware->push($middlewares);
 
-            $delegate = new Middleware\Delegate(function () use ($self, $function) {
-                // TODO: "convert" and "resolve" must be in "protected".
-                return $self->convert($self->resolve($function));
-            });
+            $delegate = new Middleware\Delegate($callback);
 
-            $response = $middleware->process($request, $delegate);
-        } else {
-            $response = $this->convert($this->resolve($function));
+            $result = $middleware->process($request, $delegate);
         }
 
-        return $response;
+        return (isset($result)) ? $result : $callback($request);
     }
 
     /**
@@ -136,23 +133,6 @@ class Application
     }
 
     /**
-     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface|string $result
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function convert($result)
-    {
-        $response = static::$container->get(self::RESPONSE);
-
-        $response = ($result instanceof ResponseInterface) ? $result : $response;
-
-        $result instanceof ResponseInterface ?: $response->getBody()->write($result);
-
-        return $response;
-    }
-
-    /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -178,24 +158,33 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  array|mixed $function
-     * @return mixed
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  mixed                                          $result
+     * @return callable
      */
-    public function resolve($function)
+    protected function resolve(Container\ContainerInterface $container, $result)
     {
-        // NOTE: To be removed in v1.0.0. It should me manually defined.
-        $container = new Container\ReflectionContainer(static::$container);
+        $response = $container->get('Psr\Http\Message\ResponseInterface');
 
-        if (is_array($function) === true) {
-            list($callback, $parameters) = $function;
+        return function ($request) use ($container, $result, $response) {
+            $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-            list($callback, $reflection) = $container->reflection($callback);
+            // NOTE: To be removed in v1.0.0. It should me manually defined.
+            $container = new Container\ReflectionContainer($container);
 
-            $arguments = $container->arguments($reflection, $parameters);
+            if (is_array($result) === true) {
+                list($callback, $parameters) = $result;
+                list($callback, $reflection) = $container->reflection($callback);
 
-            $function = call_user_func_array($callback, array_values($arguments));
-        }
+                $arguments = $container->arguments($reflection, $parameters);
+                $result = call_user_func_array($callback, $arguments);
+            }
 
-        return $function;
+            $response = ($result instanceof ResponseInterface) ? $result : $response;
+
+            $result instanceof ResponseInterface ?: $response->getBody()->write($result);
+
+            return $response;
+        };
     }
 }

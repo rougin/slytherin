@@ -24,13 +24,11 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $dispatcher = $this->dispatcher();
+        $response = $container->get('Psr\Http\Message\ResponseInterface');
 
-        $middlewares = $config->get('app.middlewares', array());
+        $stack = $config->get('app.middlewares', array());
 
-        foreach ($middlewares as $item) {
-            $dispatcher->push($item);
-        }
+        $dispatcher = $this->dispatcher($response, $stack);
 
         // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead.
         $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
@@ -42,16 +40,18 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
     /**
      * Returns the middleware dispatcher to be used.
      *
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  array                               $stack
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
-    protected function dispatcher()
+    protected function dispatcher(\Psr\Http\Message\ResponseInterface $response, $stack)
     {
-        $dispatcher = new \Rougin\Slytherin\Middleware\Dispatcher;
+        $dispatcher = new Dispatcher($stack, $response);
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
             $pipe = new \Zend\Stratigility\MiddlewarePipe;
 
-            $dispatcher = new \Rougin\Slytherin\Middleware\StratigilityDispatcher($pipe);
+            $dispatcher = new StratigilityDispatcher($pipe, $stack, $response);
         }
 
         return $dispatcher;

@@ -134,7 +134,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $this->expectOutputString('Hello');
 
-        $class  = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
         $routes = array(array('GET', '/', array($class, 'index')));
 
         $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);

@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Delegate
@@ -37,7 +38,7 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(\Psr\Http\Message\ServerRequestInterface $request)
+    public function process(ServerRequestInterface $request)
     {
         return call_user_func($this->callback, $request);
     }
@@ -49,7 +50,7 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(\Psr\Http\Message\ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request)
     {
         return $this->process($request);
     }
