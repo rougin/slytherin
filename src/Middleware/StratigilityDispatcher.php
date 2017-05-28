@@ -8,8 +8,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 use Zend\Stratigility\MiddlewarePipe;
-use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
-use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
 
 /**
  * Stratigility Dispatcher
@@ -60,41 +58,14 @@ class StratigilityDispatcher extends Dispatcher
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        if (method_exists($this->pipeline, 'setResponsePrototype')) {
-            $this->pipeline->setResponsePrototype($this->response);
-        }
+        $wrap = class_exists('Zend\Stratigility\Middleware\ErrorHandler');
 
         foreach ($this->stack as $class) {
-            $item = $this->transform($class);
+            $item = $this->transform($class, $wrap);
 
             $this->pipeline->pipe($item);
         }
 
-        $pipeline = $this->pipeline;
-
-        return $pipeline($request, $this->response, $delegate);
-    }
-
-    /**
-     * Transforms the specified middleware into a PSR-15 middleware.
-     *
-     * @param  mixed $middleware
-     * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
-     */
-    protected function transform($middleware)
-    {
-        $middleware = is_string($middleware) ? new $middleware : $middleware;
-
-        if (class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper')) {
-            $function = new \ReflectionFunction($middleware);
-
-            $middleware = new CallableInteropMiddlewareWrapper($middleware);
-
-            if (count($function->getParameters()) == 3) {
-                $middleware = new CallableMiddlewareWrapper($middleware, $this->response);
-            }
-        }
-
-        return $middleware;
+        return $this->pipeline->__invoke($request, $this->response, $delegate);
     }
 }

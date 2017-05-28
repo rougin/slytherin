@@ -154,7 +154,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     }
 
     /**
-     * Returns the middleware as a double pass callable.
+     * Returns the middleware as a single pass callable.
      *
      * @param  mixed             $middleware
      * @param  ResponseInterface $response
@@ -205,17 +205,22 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  mixed $middleware
+     * @param  mixed   $middleware
+     * @param  boolean $wrap
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */
-    protected function transform($middleware)
+    protected function transform($middleware, $wrap = true)
     {
         $middleware = is_string($middleware) ? new $middleware : $middleware;
 
         if (! is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $response = ($this->approach($middleware) == self::SINGLE_PASS) ? $this->response : null;
+            $approach = $this->approach($middleware);
 
-            $middleware = new CallableMiddlewareWrapper($middleware, $response);
+            $response = ($approach == self::SINGLE_PASS) ? $this->response : null;
+
+            $wrapper = new CallableMiddlewareWrapper($middleware, $response);
+
+            $middleware = ($wrap) ? $wrapper : $middleware;
         }
 
         return $middleware;

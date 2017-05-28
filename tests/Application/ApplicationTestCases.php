@@ -241,6 +241,10 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
                 break;
         }
 
+        $container = Application::container()->set(Application::SERVER_REQUEST, $request);
+
+        $this->application = new Application($container);
+
         return $request;
     }
 

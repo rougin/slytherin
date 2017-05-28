@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -20,7 +21,7 @@ class Application
 
     const MIDDLEWARE_DISPATCHER = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
-    const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
+    const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     const RESPONSE = 'Psr\Http\Message\ResponseInterface';
 
@@ -29,14 +30,14 @@ class Application
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected static $container;
 
     /**
-     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
+     * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(Container\ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container = null)
     {
         static::$container = (is_null($container)) ? new Container\Container : $container;
     }
@@ -44,7 +45,7 @@ class Application
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Rougin\Slytherin\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public static function container()
     {
@@ -59,8 +60,6 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        self::$container->set(self::REQUEST, $request);
-
         list($function, $middlewares) = $this->dispatch($request);
 
         $callback = $this->resolve(static::$container, $function);
@@ -110,14 +109,14 @@ class Application
      */
     public function run()
     {
-        // NOTE: To be removed in v1.0.0
+        // NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
         if (static::$container->has(self::ERROR_HANDLER)) {
             $debugger = static::$container->get(self::ERROR_HANDLER);
 
             $debugger->display();
         }
 
-        $response = $this->handle(static::$container->get(self::REQUEST));
+        $response = $this->handle(static::$container->get(self::SERVER_REQUEST));
 
         $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
 
@@ -156,11 +155,11 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @param  mixed                                          $function
      * @return callable
      */
-    protected function resolve(Container\ContainerInterface $container, $function)
+    protected function resolve(ContainerInterface $container, $function)
     {
         return function ($request) use ($container, $function) {
             $result = $function;
