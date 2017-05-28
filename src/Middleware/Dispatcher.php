@@ -93,9 +93,9 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         });
 
         foreach ($this->stack as $index => $middleware) {
-            $item = $this->transform($middleware);
+            $middleware = (is_string($middleware)) ? new $middleware : $middleware;
 
-            $this->stack[$index] = $item;
+            $this->stack[$index] = $this->transform($middleware);
         }
 
         $resolved = $this->resolve(0);
@@ -156,13 +156,13 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     /**
      * Returns the middleware as a single pass callable.
      *
-     * @param  mixed             $middleware
-     * @param  ResponseInterface $response
+     * @param  callable|object|string              $middleware
+     * @param  \Psr\Http\Message\ResponseInterface $response
      * @return callable
      */
     protected function callback($middleware, ResponseInterface $response)
     {
-        $middleware = (is_string($middleware)) ? new $middleware : $middleware;
+        $middleware = is_string($middleware) ? new $middleware : $middleware;
 
         $callback = function ($request, $next = null) use ($middleware) {
             return $middleware($request, $next);
@@ -205,14 +205,12 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  mixed   $middleware
-     * @param  boolean $wrap
+     * @param  callable|object $middleware
+     * @param  boolean         $wrap
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */
     protected function transform($middleware, $wrap = true)
     {
-        $middleware = is_string($middleware) ? new $middleware : $middleware;
-
         if (! is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             $approach = $this->approach($middleware);
 

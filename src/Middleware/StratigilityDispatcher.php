@@ -60,10 +60,10 @@ class StratigilityDispatcher extends Dispatcher
     {
         $wrap = class_exists('Zend\Stratigility\Middleware\ErrorHandler');
 
-        foreach ($this->stack as $class) {
-            $item = $this->transform($class, $wrap);
+        foreach ($this->stack as $middleware) {
+            $middleware = (is_string($middleware)) ? new $middleware : $middleware;
 
-            $this->pipeline->pipe($item);
+            $this->pipeline->pipe($this->transform($middleware, $wrap));
         }
 
         return $this->pipeline->__invoke($request, $this->response, $delegate);

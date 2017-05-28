@@ -156,30 +156,27 @@ class Application
      * Returns the result of the function by resolving it through a container.
      *
      * @param  \Psr\Container\ContainerInterface $container
-     * @param  mixed                                          $function
+     * @param  mixed                             $function
      * @return callable
      */
     protected function resolve(ContainerInterface $container, $function)
     {
-        return function ($request) use ($container, $function) {
-            $result = $function;
-
+        return function () use ($container, $function) {
             $response = $container->get('Psr\Http\Message\ResponseInterface');
-
             // NOTE: To be removed in v1.0.0. It should me manually defined.
             $reflection = new Container\ReflectionContainer($container);
 
-            if (is_array($result) === true) {
-                list($callback, $parameters) = $result;
+            if (is_array($function) === true) {
+                list($callback, $parameters) = $function;
                 list($callback, $instance) = $reflection->reflection($callback);
 
                 $arguments = $reflection->arguments($instance, $parameters);
-                $result = call_user_func_array($callback, $arguments);
+                $function = call_user_func_array($callback, $arguments);
             }
 
-            $response = ($result instanceof ResponseInterface) ? $result : $response;
+            $response = ($function instanceof ResponseInterface) ? $function : $response;
 
-            $result instanceof ResponseInterface ?: $response->getBody()->write($result);
+            $function instanceof ResponseInterface ?: $response->getBody()->write($function);
 
             return $response;
         };

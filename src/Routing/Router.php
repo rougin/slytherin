@@ -205,7 +205,7 @@ class Router implements RouterInterface
      */
     public function prefix($prefix = '', $namespace = null)
     {
-        $this->namespace = ($namespace != null) ? $namespace . '\\' : $this->namespace;
+        $this->namespace = ($namespace !== null) ? $namespace . '\\' : $this->namespace;
 
         $this->prefix = $prefix;
 
