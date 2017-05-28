@@ -2,11 +2,12 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
+
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Zend\Stratigility\MiddlewarePipe;
 
+use Zend\Stratigility\MiddlewarePipe;
 use Zend\Stratigility\Middleware\CallableMiddlewareWrapper;
 use Zend\Stratigility\Middleware\CallableInteropMiddlewareWrapper;
 
@@ -69,14 +70,31 @@ class StratigilityDispatcher extends Dispatcher
             $this->pipeline->pipe($item);
         }
 
-        if (! method_exists($this->pipeline, 'process')) {
-            $exists = class_exists('Zend\Stratigility\NoopFinalHandler');
+        $pipeline = $this->pipeline;
 
-            $this->pipeline->pipe(new FinalResponse);
+        return $pipeline($request, $this->response, $delegate);
+    }
 
-            $delegate = ($exists) ? new \Zend\Stratigility\NoopFinalHandler : null;
+    /**
+     * Transforms the specified middleware into a PSR-15 middleware.
+     *
+     * @param  mixed $middleware
+     * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
+     */
+    protected function transform($middleware)
+    {
+        $middleware = is_string($middleware) ? new $middleware : $middleware;
+
+        if (class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapper')) {
+            $function = new \ReflectionFunction($middleware);
+
+            $middleware = new CallableInteropMiddlewareWrapper($middleware);
+
+            if (count($function->getParameters()) == 3) {
+                $middleware = new CallableMiddlewareWrapper($middleware, $this->response);
+            }
         }
 
-        return $this->pipeline->__invoke($request, $this->response, $delegate);
+        return $middleware;
     }
 }

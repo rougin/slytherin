@@ -19,6 +19,10 @@ use Rougin\Slytherin\Middleware\Delegate;
  */
 class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
 {
+    const SINGLE_PASS = 0;
+
+    const DOUBLE_PASS = 1;
+
     /**
      * @var \Psr\Http\Message\ResponseInterface
      */
@@ -89,7 +93,9 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         });
 
         foreach ($this->stack as $index => $middleware) {
-            $this->stack[$index] = $this->transform($middleware);
+            $item = $this->transform($middleware);
+
+            $this->stack[$index] = $item;
         }
 
         $resolved = $this->resolve(0);
@@ -130,21 +136,39 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         return $this->stack;
     }
 
-    protected function callback($middleware, ResponseInterface $response)
+    /**
+     * Checks if the approach of the specified middleware is either single or double pass.
+     *
+     * @param  callable|object $middleware
+     * @return boolean
+     */
+    protected function approach($middleware)
     {
-        $middleware = (is_string($middleware)) ? new $middleware : $middleware;
-
         if (is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
         }
 
+        return count($object->getParameters()) == 2;
+    }
+
+    /**
+     * Returns the middleware as a double pass callable.
+     *
+     * @param  mixed             $middleware
+     * @param  ResponseInterface $response
+     * @return callable
+     */
+    protected function callback($middleware, ResponseInterface $response)
+    {
+        $middleware = (is_string($middleware)) ? new $middleware : $middleware;
+
         $callback = function ($request, $next = null) use ($middleware) {
             return $middleware($request, $next);
         };
 
-        if (count($object->getParameters()) == 3) {
+        if ($this->approach($middleware) == self::SINGLE_PASS) {
             $callback = function ($request, $next = null) use ($middleware, $response) {
                 return $middleware($request, $response, $next);
             };
@@ -189,13 +213,7 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
         $middleware = is_string($middleware) ? new $middleware : $middleware;
 
         if (! is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            if (is_a($middleware, 'Closure')) {
-                $object = new \ReflectionFunction($middleware);
-            } else {
-                $object = new \ReflectionMethod(get_class($middleware), '__invoke');
-            }
-
-            $response = (count($object->getParameters()) == 3) ? $this->response : null;
+            $response = ($this->approach($middleware) == self::SINGLE_PASS) ? $this->response : null;
 
             $middleware = new CallableMiddlewareWrapper($middleware, $response);
         }

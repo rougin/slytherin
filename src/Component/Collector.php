@@ -38,9 +38,7 @@ class Collector
         $collection->setContainer($container);
 
         // NOTE: To be removed in v1.0.0. Use Application::container instead.
-        if ($globals) {
-            $globals['container'] = $container;
-        }
+        $globals === null || $globals['container'] = $container;
 
         return $collection;
     }

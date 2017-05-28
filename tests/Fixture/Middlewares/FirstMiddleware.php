@@ -17,7 +17,7 @@ class FirstMiddleware
      * @param  \Psr\Http\Message\ResponseInterface $request
      * @param  \Psr\Http\Message\ServerRequestInterface $response
      * @param  callable|null $next
-     * @return callable|null
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {

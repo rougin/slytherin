@@ -11,6 +11,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * Final Response
  *
  * Acts as the last in the stack in the list of defined middlewares.
+ * NOTE: To be removed in v1.0.0. The final middleware will be the core function.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

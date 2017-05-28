@@ -59,9 +59,7 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $self = $this;
-
-        static::$container->set(self::REQUEST, $request);
+        self::$container->set(self::REQUEST, $request);
 
         list($function, $middlewares) = $this->dispatch($request);
 
@@ -159,24 +157,24 @@ class Application
      * Returns the result of the function by resolving it through a container.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  mixed                                          $result
+     * @param  mixed                                          $function
      * @return callable
      */
-    protected function resolve(Container\ContainerInterface $container, $result)
+    protected function resolve(Container\ContainerInterface $container, $function)
     {
-        $response = $container->get('Psr\Http\Message\ResponseInterface');
+        return function ($request) use ($container, $function) {
+            $result = $function;
 
-        return function ($request) use ($container, $result, $response) {
-            $container->set('Psr\Http\Message\ServerRequestInterface', $request);
+            $response = $container->get('Psr\Http\Message\ResponseInterface');
 
             // NOTE: To be removed in v1.0.0. It should me manually defined.
-            $container = new Container\ReflectionContainer($container);
+            $reflection = new Container\ReflectionContainer($container);
 
             if (is_array($result) === true) {
                 list($callback, $parameters) = $result;
-                list($callback, $reflection) = $container->reflection($callback);
+                list($callback, $instance) = $reflection->reflection($callback);
 
-                $arguments = $container->arguments($reflection, $parameters);
+                $arguments = $reflection->arguments($instance, $parameters);
                 $result = call_user_func_array($callback, $arguments);
             }
 
