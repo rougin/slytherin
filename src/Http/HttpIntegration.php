@@ -82,11 +82,6 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
             $response = new \Zend\Diactoros\Response;
         }
 
-        // TODO: This should be added on a middleware, not here :(
-        parse_str(file_get_contents('php://input'), $body);
-
-        $request = ($body) ? $request->withParsedBody($body) : $request;
-
         $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
         $container->set('Psr\Http\Message\ResponseInterface', $response);

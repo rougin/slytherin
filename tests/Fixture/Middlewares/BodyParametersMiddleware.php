@@ -5,27 +5,21 @@ namespace Rougin\Slytherin\Fixture\Middlewares;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Rougin\Slytherin\Http\Response;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 
-use Rougin\Slytherin\Http\Response;
-
 /**
- * CORS Middleware
+ * Body Parameters Middleware
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
+class BodyParametersMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
 {
     /**
      * @var array
      */
-    protected $allowed = array('*');
-
-    /**
-     * @var array
-     */
-    protected $methods = array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
+    protected $complex = array('PUT', 'DELETE');
 
     /**
      * Process an incoming server request and return a response, optionally delegating
@@ -37,11 +31,12 @@ class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterfa
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
-        $response = $request->getMethod() === 'OPTIONS' ? new Response : $delegate->process($request);
+        if (in_array($request->getMethod(), $this->complex)) {
+            parse_str(file_get_contents('php://input'), $body);
 
-        $response = $response->withHeader('Access-Control-Allow-Origin', $this->allowed);
-        $response = $response->withHeader('Access-Control-Allow-Methods', $this->methods);
+            $request = $request->withParsedBody($body);
+        }
 
-        return $response;
+        return $delegate->process($request);
     }
 }

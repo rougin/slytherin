@@ -255,7 +255,11 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function router()
     {
-        $cors = 'Rougin\Slytherin\Fixture\Middlewares\CorsMiddleware';
+        $cors = array();
+
+        array($cors, 'Rougin\Slytherin\Fixture\Middlewares\CorsMiddleware');
+        array($cors, 'Rougin\Slytherin\Fixture\Middlewares\BodyParametersMiddleware');
+
         $last = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
         $router = new \Rougin\Slytherin\Routing\Router;

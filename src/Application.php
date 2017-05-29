@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -30,14 +29,14 @@ class Application
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected static $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null $container
+     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(Container\ContainerInterface $container = null)
     {
         static::$container = (is_null($container)) ? new Container\Container : $container;
     }
@@ -45,7 +44,7 @@ class Application
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public static function container()
     {
@@ -62,7 +61,7 @@ class Application
     {
         list($function, $middlewares) = $this->dispatch($request);
 
-        $callback = $this->resolve(static::$container, $function);
+        $callback = $this->resolve($function);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
@@ -158,10 +157,8 @@ class Application
      */
     protected function finalize()
     {
-        $container = self::$container;
-
-        return function ($result) use ($container) {
-            $response = $container->get('Psr\Http\Message\ResponseInterface');
+        return function ($result) {
+            $response = static::$container->get(self::RESPONSE);
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -174,17 +171,19 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @param  mixed                             $function
+     * @param  mixed $function
      * @return callable
      */
-    protected function resolve(ContainerInterface $container, $function)
+    protected function resolve($function)
     {
         $finalize = $this->finalize();
 
-        return function () use ($container, $finalize, &$function) {
+        return function ($request) use ($finalize, &$function) {
+            // TODO: It should not be defined here so it can use the PSR-11 interface. :(
+            static::$container->set(self::SERVER_REQUEST, $request);
+
             // NOTE: To be removed in v1.0.0. It should me manually defined.
-            $reflection = new Container\ReflectionContainer($container);
+            $reflection = new Container\ReflectionContainer(static::$container);
 
             if (is_array($function) === true) {
                 list($callback, $arguments) = $reflection->resolve($function);
