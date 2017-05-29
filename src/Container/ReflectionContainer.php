@@ -28,29 +28,6 @@ class ReflectionContainer implements PsrContainerInterface
     }
 
     /**
-     * Resolves the specified parameters from a container.
-     *
-     * @param  \ReflectionFunction|\ReflectionMethod $reflection
-     * @param  array                                 $parameters
-     * @return array
-     */
-    public function arguments($reflection, $parameters = array())
-    {
-        $arguments = array();
-
-        foreach ($reflection->getParameters() as $index => $parameter) {
-            $name = $parameter->getName();
-
-            $argument = $this->argument($parameter);
-            $argument = (is_null($argument)) ? $parameters[$name] : $argument;
-
-            $arguments[$index] = $argument;
-        }
-
-        return $arguments;
-    }
-
-    /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      *
      * Finds an entry of the container by its identifier and returns it.
@@ -94,23 +71,26 @@ class ReflectionContainer implements PsrContainerInterface
     /**
      * Returns a Reflection instance based on the given callback.
      *
-     * @param  array|mixed $callback
-     * @param  array       $parameters
+     * @param  array $function
      * @return array
      */
-    public function reflection($callback, $parameters)
+    public function resolve(array $function)
     {
+        list($callback, $parameters) = $function;
+
         if (is_array($callback) && ! is_object($callback)) {
             list($name, $method) = $callback;
 
             $callback = array($this->get($name), $method);
 
-            $reflection = new \ReflectionMethod($callback[0], $method);
+            $reflector = new \ReflectionMethod($callback[0], $method);
         } else {
-            $reflection = new \ReflectionFunction($callback);
+            $reflector = new \ReflectionFunction($callback);
         }
 
-        return array($callback, $this->arguments($reflection, $parameters));
+        $arguments = $this->arguments($reflector, $parameters);
+
+        return array($callback, $arguments);
     }
 
     /**
@@ -136,5 +116,27 @@ class ReflectionContainer implements PsrContainerInterface
         }
 
         return $parameter->getDefaultValue();
+    }
+
+    /**
+     * Resolves the specified parameters from a container.
+     *
+     * @param  \ReflectionFunction|\ReflectionMethod $reflection
+     * @param  array                                 $parameters
+     * @return array
+     */
+    protected function arguments($reflection, $parameters = array())
+    {
+        $arguments = array();
+
+        foreach ($reflection->getParameters() as $key => $parameter) {
+            $name = $parameter->getName();
+
+            $argument = $this->argument($parameter);
+
+            $arguments[$key] = $argument ?: $parameters[$name];
+        }
+
+        return $arguments;
     }
 }

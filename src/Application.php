@@ -64,7 +64,6 @@ class Application
 
         $callback = $this->resolve(static::$container, $function);
 
-        // TODO: Should call the final response once. Try to remove $self.
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
@@ -188,9 +187,7 @@ class Application
             $reflection = new Container\ReflectionContainer($container);
 
             if (is_array($function) === true) {
-                list($callback, $parameters) = $function;
-
-                list($callback, $arguments) = $reflection->reflection($callback, $parameters);
+                list($callback, $arguments) = $reflection->resolve($function);
 
                 $function = call_user_func_array($callback, $arguments);
             }

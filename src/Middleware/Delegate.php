@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -17,19 +16,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
 {
     /**
-     * @var callable
+     * @var callable|array
      */
     protected $callback;
 
     /**
-     * @param callable                                 $callback
-     * @param \Psr\Http\Message\ResponseInterface|null $response
+     * @param callable|null $callback
      */
-    public function __construct($callback = null, ResponseInterface $response = null)
+    public function __construct($callback = null)
     {
-        $this->callback = $callback ?: function () use ($response) {
-            return $response ?: new \Rougin\Slytherin\Http\Response;
-        };
+        $this->callback = $callback ?: array($this, 'response');
     }
 
     /**
@@ -45,7 +41,6 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
 
     /**
      * Dispatch the next available middleware and return the response.
-     * NOTE: To be removed in v1.0.0. Use Delegate::process instead.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
@@ -53,5 +48,15 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
     public function __invoke(ServerRequestInterface $request)
     {
         return $this->process($request);
+    }
+
+    /**
+     * Returns an empty \Psr\Http\Message\ResponseInterface
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function response()
+    {
+        return new \Rougin\Slytherin\Http\Response;
     }
 }
