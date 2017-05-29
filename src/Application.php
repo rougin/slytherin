@@ -61,7 +61,7 @@ class Application
     {
         list($function, $middlewares) = $this->dispatch($request);
 
-        $callback = $this->resolve($function);
+        $callback = $this->resolve(self::$container, $function);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
@@ -153,12 +153,13 @@ class Application
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
      * @return callable
      */
-    protected function finalize()
+    protected function finalize(Container\ContainerInterface $container)
     {
-        return function ($result) {
-            $response = static::$container->get(self::RESPONSE);
+        return function ($result) use ($container) {
+            $response = $container->get('Psr\Http\Message\ResponseInterface');
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -171,19 +172,20 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  mixed $function
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  mixed                                         $function
      * @return callable
      */
-    protected function resolve($function)
+    protected function resolve(Container\ContainerInterface $container, $function)
     {
-        $finalize = $this->finalize();
+        $finalize = $this->finalize($container);
 
-        return function ($request) use ($finalize, &$function) {
+        return function ($request) use ($container, $finalize, &$function) {
             // TODO: It should not be defined here so it can use the PSR-11 interface. :(
-            static::$container->set(self::SERVER_REQUEST, $request);
+            $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
             // NOTE: To be removed in v1.0.0. It should me manually defined.
-            $reflection = new Container\ReflectionContainer(static::$container);
+            $reflection = new Container\ReflectionContainer($container);
 
             if (is_array($function) === true) {
                 list($callback, $arguments) = $reflection->resolve($function);
