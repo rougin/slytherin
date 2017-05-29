@@ -95,19 +95,22 @@ class ReflectionContainer implements PsrContainerInterface
      * Returns a Reflection instance based on the given callback.
      *
      * @param  array|mixed $callback
+     * @param  array       $parameters
      * @return array
      */
-    public function reflection($callback)
+    public function reflection($callback, $parameters)
     {
         if (is_array($callback) && ! is_object($callback)) {
             list($name, $method) = $callback;
 
             $callback = array($this->get($name), $method);
 
-            return array($callback, new \ReflectionMethod($callback[0], $method));
+            $reflection = new \ReflectionMethod($callback[0], $method);
+        } else {
+            $reflection = new \ReflectionFunction($callback);
         }
 
-        return array($callback, new \ReflectionFunction($callback));
+        return array($callback, $this->arguments($reflection, $parameters));
     }
 
     /**

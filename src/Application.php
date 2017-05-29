@@ -53,6 +53,23 @@ class Application
     }
 
     /**
+     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface|string $result
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function finalize($result)
+    {
+        $response = static::$container->get(self::RESPONSE);
+
+        $response = ($result instanceof ResponseInterface) ? $result : $response;
+
+        $result instanceof ResponseInterface ?: $response->getBody()->write($result);
+
+        return $response;
+    }
+
+    /**
      * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -161,24 +178,23 @@ class Application
      */
     protected function resolve(ContainerInterface $container, $function)
     {
-        return function () use ($container, $function) {
-            $response = $container->get('Psr\Http\Message\ResponseInterface');
+        $self = $this;
+
+        return function () use ($container, $function, $self) {
+            $result = $function;
+
             // NOTE: To be removed in v1.0.0. It should me manually defined.
             $reflection = new Container\ReflectionContainer($container);
 
             if (is_array($function) === true) {
                 list($callback, $parameters) = $function;
-                list($callback, $instance) = $reflection->reflection($callback);
 
-                $arguments = $reflection->arguments($instance, $parameters);
-                $function = call_user_func_array($callback, $arguments);
+                list($callback, $arguments) = $reflection->reflection($callback, $parameters);
+
+                $result = call_user_func_array($callback, $arguments);
             }
 
-            $response = ($function instanceof ResponseInterface) ? $function : $response;
-
-            $function instanceof ResponseInterface ?: $response->getBody()->write($function);
-
-            return $response;
+            return $self->finalize($result);
         };
     }
 }
