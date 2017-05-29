@@ -99,6 +99,7 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 
 * [Awesome PHP!](https://github.com/ziadoz/awesome-php) by [Jamie York](https://github.com/ziadoz)
 * [Codeigniter](https://codeigniter.com) by [EllisLab](https://ellislab.com)/[British Columbia Institute of Technology](http://www.bcit.ca)
+* [Crux](https://github.com/yuloh/crux) by [Matt A](https://github.com/yuloh)
 * [Fucking Small](https://github.com/trq/fucking-small) by [Tony Quilkey](https://github.com/trq)
 * [Laravel](https://laravel.com) by [Taylor Otwell](https://github.com/taylorotwell)
 * [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial) by [Patrick Louys](https://github.com/PatrickLouys)
