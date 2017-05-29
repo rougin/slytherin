@@ -198,7 +198,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         list($request, $response) = $this->components->getHttp();
 
-        $uri = new \Rougin\Slytherin\Http\Uri($uriEndpoint);
+        $uri = new \Rougin\Slytherin\Http\Uri('http://localhost:8000' . $uriEndpoint);
 
         $request = $request->withMethod($httpMethod)->withUri($uri);
 

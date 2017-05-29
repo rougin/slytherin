@@ -129,9 +129,13 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
     {
         $new = clone $this;
 
-        // TODO: What to do in $preserveHost = true
-
         $new->uri = $uri;
+
+        if (! $preserveHost && $host = $uri->getHost()) {
+            $host = ($uri->getPort()) ? $host . ':' . $uri->getPort() : $host;
+
+            $new->headers['Host'] = array($host);
+        }
 
         return $new;
     }
