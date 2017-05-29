@@ -53,23 +53,6 @@ class Application
     }
 
     /**
-     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface|string $result
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function finalize($result)
-    {
-        $response = static::$container->get(self::RESPONSE);
-
-        $response = ($result instanceof ResponseInterface) ? $result : $response;
-
-        $result instanceof ResponseInterface ?: $response->getBody()->write($result);
-
-        return $response;
-    }
-
-    /**
      * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -170,6 +153,26 @@ class Application
     }
 
     /**
+     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
+     *
+     * @return callable
+     */
+    protected function finalize()
+    {
+        $container = self::$container;
+
+        return function ($result) use ($container) {
+            $response = $container->get('Psr\Http\Message\ResponseInterface');
+
+            $response = ($result instanceof ResponseInterface) ? $result : $response;
+
+            $result instanceof ResponseInterface ?: $response->getBody()->write($result);
+
+            return $response;
+        };
+    }
+
+    /**
      * Returns the result of the function by resolving it through a container.
      *
      * @param  \Psr\Container\ContainerInterface $container
@@ -178,11 +181,9 @@ class Application
      */
     protected function resolve(ContainerInterface $container, $function)
     {
-        $self = $this;
+        $finalize = $this->finalize();
 
-        return function () use ($container, $function, $self) {
-            $result = $function;
-
+        return function () use ($container, $finalize, &$function) {
             // NOTE: To be removed in v1.0.0. It should me manually defined.
             $reflection = new Container\ReflectionContainer($container);
 
@@ -191,10 +192,10 @@ class Application
 
                 list($callback, $arguments) = $reflection->reflection($callback, $parameters);
 
-                $result = call_user_func_array($callback, $arguments);
+                $function = call_user_func_array($callback, $arguments);
             }
 
-            return $self->finalize($result);
+            return $finalize($function);
         };
     }
 }
