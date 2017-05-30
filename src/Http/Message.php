@@ -25,17 +25,17 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * @var \Psr\Http\Message\StreamInterface
      */
-    private $body;
+    protected $body;
 
     /**
      * @var array
      */
-    private $headers = array();
+    protected $headers = array();
 
     /**
      * @var string
      */
-    private $version = '1.1';
+    protected $version = '1.1';
 
     /**
      * @param \Psr\Http\Message\StreamInterface|null $body
