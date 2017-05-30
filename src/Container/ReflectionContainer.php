@@ -69,10 +69,10 @@ class ReflectionContainer implements PsrContainerInterface
     }
 
     /**
-     * Returns a Reflection instance based on the given callback.
+     * Resolves the specified function based on its callback and parameters.
      *
      * @param  array $function
-     * @return array
+     * @return mixed
      */
     public function resolve(array $function)
     {
@@ -90,7 +90,7 @@ class ReflectionContainer implements PsrContainerInterface
 
         $arguments = $this->arguments($reflector, $parameters);
 
-        return array($callback, $arguments);
+        return call_user_func_array($callback, $arguments);
     }
 
     /**

@@ -184,14 +184,10 @@ class Application
             // TODO: It should not be defined here so it can use the PSR-11 interface. :(
             $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-            // NOTE: To be removed in v1.0.0. It should me manually defined.
+            // TODO: It should me manually defined outside the application.
             $reflection = new Container\ReflectionContainer($container);
 
-            if (is_array($function) === true) {
-                list($callback, $arguments) = $reflection->resolve($function);
-
-                $function = call_user_func_array($callback, $arguments);
-            }
+            ! is_array($function) || $function = $reflection->resolve($function);
 
             return $finalize($function);
         };
