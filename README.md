@@ -29,7 +29,7 @@ $response = new Rougin\Slytherin\Http\Response(http_response_code());
 // Create routes from Rougin\Slytherin\Routing\RouterInterface...
 $router = new Rougin\Slytherin\Routing\Router;
 
-$router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
+$router->get('/', 'App\Http\Controllers\WelcomeController@index');
 
 // ...then define it to Rougin\Slytherin\Routing\DispatcherInterface
 $dispatcher = new Rougin\Slytherin\Routing\Dispatcher($router);
