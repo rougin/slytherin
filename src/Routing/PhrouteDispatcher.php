@@ -47,7 +47,7 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array
+     * @return array|mixed
      */
     public function dispatch($httpMethod, $uri)
     {
