@@ -175,7 +175,7 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param \Psr\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @param  mixed                            $function
      * @return callable
      */

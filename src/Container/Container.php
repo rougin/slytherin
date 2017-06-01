@@ -82,8 +82,8 @@ class Container implements ContainerInterface
 
         $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
 
-        if (! is_callable($entry) && ! is_object($entry)) {
-            $message = 'Alias (%s) is not a callable or an object';
+        if (! is_object($entry)) {
+            $message = 'Alias (%s) is not an object';
 
             throw new Exception\ContainerException(sprintf($message, $id));
         }
@@ -109,7 +109,7 @@ class Container implements ContainerInterface
      *
      * @param  string                                        $id
      * @param  \Psr\Http\Message\ServerRequestInterface|null $request
-     * @return mixed|null
+     * @return mixed
      */
     public function resolve($id, ServerRequestInterface $request = null)
     {
@@ -121,13 +121,15 @@ class Container implements ContainerInterface
             foreach ($constructor->getParameters() as $parameter) {
                 $argument = $this->argument($parameter, $request);
 
+                ! $argument instanceof ServerRequestInterface || $argument = $request ?: $argument;
+
                 array_push($arguments, $argument);
             }
 
             return $reflection->newInstanceArgs($arguments);
         }
 
-        return $this->extra ? $this->extra->get($id) : null;
+        return $this->extra->get($id);
     }
 
     /**
@@ -147,22 +149,17 @@ class Container implements ContainerInterface
     /**
      * Returns an argument based on the given parameter.
      *
-     * @param  \ReflectionParameter                          $parameter
-     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
+     * @param  \ReflectionParameter $parameter
      * @return mixed
      */
-    protected function argument(\ReflectionParameter $parameter, ServerRequestInterface $request = null)
+    protected function argument(\ReflectionParameter $parameter)
     {
-        $interface = 'Psr\Http\Message\ServerRequestInterface';
-
         if ($parameter->isOptional() === false) {
             $class = $parameter->getClass();
 
             $name = $class ? $class->getName() : $parameter->getName();
 
-            $argument = $this->has($name) ? $this->get($name) : $this->extra->get($name);
-
-            return ($request && $name === $interface) ? $request : $argument;
+            return $this->has($name) ? $this->get($name) : $this->extra->get($name);
         }
 
         return $parameter->getDefaultValue();
