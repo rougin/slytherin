@@ -28,22 +28,6 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests ContainerInterface::alias.
-     *
-     * @return void
-     */
-    public function testAliasMethod()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->set($class, new $class);
-
-        $this->container->alias('test', $class);
-
-        $this->assertTrue($this->container->has('test'));
-    }
-
-    /**
      * Tests ContainerInterface::get.
      *
      * @return void
@@ -55,6 +39,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->set($class, new $class);
 
         $this->assertInstanceOf($class, $this->container->get($class));
+        $this->assertInstanceOf($class, $this->container->get($class));
     }
 
     /**
@@ -65,8 +50,6 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
     public function testGetMethodWithContainerException()
     {
         $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
-
-        $this->container->set('Test', array());
 
         $this->container->get('Test');
     }
@@ -80,7 +63,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
 
         $this->container->get($class);
     }
@@ -94,8 +77,8 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class);
+        $this->container->set($class, new $class);
 
-        $this->assertTrue($this->container->has($class));
+        $this->assertInstanceOf($class, $this->container->get($class));
     }
 }

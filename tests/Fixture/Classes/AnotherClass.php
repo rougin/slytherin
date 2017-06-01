@@ -11,13 +11,21 @@ namespace Rougin\Slytherin\Fixture\Classes;
 class AnotherClass
 {
     /**
+     * @param string $text
+     */
+    public function __construct($text = 'Hello')
+    {
+        $this->text = $text;
+    }
+
+    /**
      * Returns a string 'Hello'.
      *
      * @return string
      */
     public function index()
     {
-        return 'Hello';
+        return $this->text;
     }
 
     /**

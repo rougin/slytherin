@@ -148,7 +148,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
-        $this->container->get($this->class);
+        // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
+        // $this->container->get($this->class);
+
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
+
     }
 
     /**

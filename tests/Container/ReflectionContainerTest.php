@@ -40,6 +40,18 @@ class ReflectionContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests ContainerInterface::get with parameter.
+     *
+     * @return void
+     */
+    public function testGetMethodWithParameter()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
+
+        $this->assertInstanceOf($class, $this->container->get($class));
+    }
+
+    /**
      * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
      *
      * @return void

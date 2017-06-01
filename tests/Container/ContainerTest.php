@@ -78,7 +78,10 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
+        // $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
 
         $this->container->get($class);
     }

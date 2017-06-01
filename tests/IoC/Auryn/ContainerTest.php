@@ -92,7 +92,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
-        $this->container->add($this->class);
+        $this->container->add($this->class, $this->instance);
 
         $this->assertEquals($this->instance, $this->container->get($this->class));
     }
@@ -106,7 +106,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
-        $this->container->get($this->class);
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }
 
     /**

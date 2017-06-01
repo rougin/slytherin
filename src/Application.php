@@ -111,7 +111,7 @@ class Application
         if (static::$container->has(self::ERROR_HANDLER)) {
             $debugger = static::$container->get(self::ERROR_HANDLER);
 
-            $debugger->display();
+            // $debugger->display();
         }
 
         $response = $this->handle(static::$container->get(self::SERVER_REQUEST));
@@ -184,10 +184,13 @@ class Application
             // TODO: It should not be defined here so it can use the PSR-11 interface. :(
             $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-            // TODO: It should me manually defined outside the application.
-            $reflection = new Container\ReflectionContainer($container);
+            if (is_array($function) === true) {
+                if (is_array($function[0]) && is_string($function[0][0])) {
+                    $function[0][0] = $container->get($function[0][0]);
+                }
 
-            ! is_array($function) || $function = $reflection->resolve($function);
+                $function = call_user_func_array($function[0], $function[1]);
+            }
 
             return $finalize($function);
         };

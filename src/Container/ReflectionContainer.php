@@ -15,19 +15,6 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 class ReflectionContainer implements PsrContainerInterface
 {
     /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * @param \Psr\Container\ContainerInterface $container
-     */
-    public function __construct(PsrContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      *
      * Finds an entry of the container by its identifier and returns it.
@@ -69,31 +56,6 @@ class ReflectionContainer implements PsrContainerInterface
     }
 
     /**
-     * Resolves the specified function based on its callback and parameters.
-     *
-     * @param  array $function
-     * @return mixed
-     */
-    public function resolve(array $function)
-    {
-        list($callback, $parameters) = $function;
-
-        if (is_array($callback) && ! is_object($callback)) {
-            list($name, $method) = $callback;
-
-            $callback = array($this->get($name), $method);
-
-            $reflector = new \ReflectionMethod($callback[0], $method);
-        } else {
-            $reflector = new \ReflectionFunction($callback);
-        }
-
-        $arguments = $this->arguments($reflector, $parameters);
-
-        return call_user_func_array($callback, $arguments);
-    }
-
-    /**
      * Returns an argument based on the given parameter.
      *
      * @param  \ReflectionParameter $parameter
@@ -102,17 +64,9 @@ class ReflectionContainer implements PsrContainerInterface
     protected function argument(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional() === false) {
-            if ($parameter->getClass()) {
-                $name = $parameter->getClass()->getName();
+            $name = $parameter->getClass() ? $parameter->getClass()->getName() : $parameter->getName();
 
-                $exists = $this->container->has($name);
-
-                $container = ($exists) ? $this->container : $this;
-
-                return $container->get($name);
-            }
-
-            return null;
+            return $this->get($name);
         }
 
         return $parameter->getDefaultValue();

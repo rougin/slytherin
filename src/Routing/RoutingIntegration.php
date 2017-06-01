@@ -33,8 +33,7 @@ class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInt
         }
 
         if (class_exists('Phroute\Phroute\Dispatcher')) {
-            $resolver = new \Rougin\Slytherin\Container\ReflectionContainer($container);
-            $resolver = new \Rougin\Slytherin\Routing\PhrouteResolver($resolver);
+            $resolver = new \Rougin\Slytherin\Routing\PhrouteResolver($container);
 
             $dispatcher = new \Rougin\Slytherin\Routing\PhrouteDispatcher(null, $resolver);
         }
