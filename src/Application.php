@@ -62,7 +62,9 @@ class Application
     {
         list($function, $middlewares) = $this->dispatch($request);
 
-        $callback = $this->resolve(self::$container, $function);
+        $container = new Container\Container(array(), self::$container);
+
+        $callback = $this->resolve($container, $function, $this->finalize($container));
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
@@ -154,15 +156,13 @@ class Application
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
-     * @param  \Psr\Container\ContainerInterface $container
+     * @param  \Rougin\Container\Container\Container $container
      * @return callable
      */
-    protected function finalize(ContainerInterface $container)
+    protected function finalize(Container\Container $container)
     {
-        $interface = self::RESPONSE;
-
-        return function ($result) use ($container, $interface) {
-            $response = $container->get($interface);
+        return function ($result) use ($container) {
+            $response = $container->get('Psr\Http\Message\ResponseInterface');
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -175,21 +175,24 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @param  mixed                            $function
+     * @param  \Rougin\Container\Container\Container $container
+     * @param  mixed                                 $function
+     * @param  callable                              $finalize
      * @return callable
      */
-    protected function resolve(ContainerInterface $container, $function)
+    protected function resolve(Container\Container $container, $function, $finalize)
     {
-        $finalize = $this->finalize($container);
-
         return function ($request) use ($container, $finalize, &$function) {
-            $resolver = new Container\Container(array(), $container);
-
             if (is_array($function) === true) {
                 if (is_array($function[0]) && is_string($function[0][0])) {
-                    $function[0][0] = $resolver->resolve($function[0][0], $request);
+                    $function[0][0] = $container->resolve($function[0][0], $request);
+
+                    $reflector = new \ReflectionMethod($function[0][0], $function[0][1]);
+                } else {
+                    $reflector = new \ReflectionFunction($function[0]);
                 }
+
+                $function[1] = $container->arguments($reflector, $function[1]);
 
                 $function = call_user_func_array($function[0], $function[1]);
             }

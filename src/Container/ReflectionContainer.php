@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Psr\Container\ContainerInterface as PsrContainerInterface;
-
 /**
  * Reflection Container
  *
@@ -12,7 +10,7 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements PsrContainerInterface
+class ReflectionContainer extends BaseContainer
 {
     /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
@@ -72,27 +70,5 @@ class ReflectionContainer implements PsrContainerInterface
         }
 
         return $parameter->getDefaultValue();
-    }
-
-    /**
-     * Resolves the specified parameters from a container.
-     *
-     * @param  \ReflectionFunction|\ReflectionMethod $reflection
-     * @param  array                                 $parameters
-     * @return array
-     */
-    protected function arguments($reflection, $parameters = array())
-    {
-        $arguments = array();
-
-        foreach ($reflection->getParameters() as $key => $parameter) {
-            $argument = $this->argument($parameter);
-
-            $name = $parameter->getName();
-
-            $arguments[$key] = $argument ?: $parameters[$name];
-        }
-
-        return $arguments;
     }
 }

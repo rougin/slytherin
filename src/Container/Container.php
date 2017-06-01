@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container implements ContainerInterface
+class Container extends BaseContainer implements ContainerInterface
 {
     /**
      * @var \Psr\Container\ContainerInterface
@@ -119,7 +119,7 @@ class Container implements ContainerInterface
             $arguments = array();
 
             foreach ($constructor->getParameters() as $parameter) {
-                $argument = $this->argument($parameter, $request);
+                $argument = $this->argument($parameter);
 
                 ! $argument instanceof ServerRequestInterface || $argument = $request ?: $argument;
 
@@ -155,11 +155,13 @@ class Container implements ContainerInterface
     protected function argument(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional() === false) {
-            $class = $parameter->getClass();
+            if ($class = $parameter->getClass()) {
+                $name = $class->getName();
 
-            $name = $class ? $class->getName() : $parameter->getName();
+                return $this->has($name) ? $this->get($name) : $this->extra->get($name);
+            }
 
-            return $this->has($name) ? $this->get($name) : $this->extra->get($name);
+            return null;
         }
 
         return $parameter->getDefaultValue();

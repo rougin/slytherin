@@ -23,6 +23,7 @@ All notable changes to `Slytherin` will be documented in this file
 - `Routing\DispatcherInterface::router` for setting up routers manually
 - `Application::container` for getting the static instance of [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
 - `Container\ReflectionContainer` for using PHP's [Reflection API](http://php.net/manual/en/book.reflection.php) for solving class dependencies
+- Resolving of type hinted parameters in functions or class methods
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
