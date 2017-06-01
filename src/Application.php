@@ -111,7 +111,7 @@ class Application
         if (static::$container->has(self::ERROR_HANDLER)) {
             $debugger = static::$container->get(self::ERROR_HANDLER);
 
-            // $debugger->display();
+            $debugger->display();
         }
 
         $response = $this->handle(static::$container->get(self::SERVER_REQUEST));

@@ -64,9 +64,11 @@ class ReflectionContainer implements PsrContainerInterface
     protected function argument(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional() === false) {
-            $name = $parameter->getClass() ? $parameter->getClass()->getName() : $parameter->getName();
+            $class = $parameter->getClass();
 
-            return $this->get($name);
+            $name = $parameter->getName();
+
+            return $this->get($class ? $class->getName() : $name);
         }
 
         return $parameter->getDefaultValue();
@@ -84,9 +86,9 @@ class ReflectionContainer implements PsrContainerInterface
         $arguments = array();
 
         foreach ($reflection->getParameters() as $key => $parameter) {
-            $name = $parameter->getName();
-
             $argument = $this->argument($parameter);
+
+            $name = $parameter->getName();
 
             $arguments[$key] = $argument ?: $parameters[$name];
         }

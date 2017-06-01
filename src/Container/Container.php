@@ -32,7 +32,7 @@ class Container implements ContainerInterface
     public function __construct(array $instances = array(), PsrContainerInterface $container = null)
     {
         $this->instances = $instances;
-
+ 
         $this->extra = $container ?: new ReflectionContainer;
     }
 
@@ -79,9 +79,7 @@ class Container implements ContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        ! isset($this->instances[$id]) || $entry = $this->instances[$id];
-
-        isset($entry) || $entry = $this->resolve($id);
+        $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
 
         if (! is_callable($entry) && ! is_object($entry)) {
             $message = 'Alias (%s) is not a callable or an object';
@@ -126,7 +124,9 @@ class Container implements ContainerInterface
     protected function argument(\ReflectionParameter $parameter)
     {
         if ($parameter->isOptional() === false) {
-            $name = $parameter->getClass() ? $parameter->getClass()->getName() : $parameter->getName();
+            $class = $parameter->getClass();
+
+            $name = $class ? $class->getName() : $parameter->getName();
 
             return $this->has($name) ? $this->get($name) : $this->extra->get($name);
         }
@@ -140,7 +140,7 @@ class Container implements ContainerInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      *
      * @param  string $id
-     * @return mixed
+     * @return mixed|null
      */
     protected function resolve($id)
     {
@@ -149,12 +149,10 @@ class Container implements ContainerInterface
         if ($constructor = $reflection->getConstructor()) {
             $arguments = array();
 
-            foreach ($constructor->getParameters() as $key => $parameter) {
-                $name = $parameter->getName();
-
+            foreach ($constructor->getParameters() as $parameter) {
                 $argument = $this->argument($parameter);
 
-                $arguments[$key] = $argument ?: $parameters[$name];
+                array_push($arguments, $argument);
             }
 
             return $reflection->newInstanceArgs($arguments);
