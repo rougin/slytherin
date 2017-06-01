@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -29,22 +30,22 @@ class Application
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected static $container;
 
     /**
-     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
+     * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(Container\ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container = null)
     {
-        static::$container = (is_null($container)) ? new Container\Container : $container;
+        static::$container = $container ?: new Container\Container;
     }
 
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Rougin\Slytherin\Container\ContainerInterface
+     * @return \Psr\Container\ContainerInterface
      */
     public static function container()
     {
@@ -153,13 +154,15 @@ class Application
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  \Psr\Container\ContainerInterface $container
      * @return callable
      */
-    protected function finalize(Container\ContainerInterface $container)
+    protected function finalize(ContainerInterface $container)
     {
-        return function ($result) use ($container) {
-            $response = $container->get('Psr\Http\Message\ResponseInterface');
+        $interface = self::RESPONSE;
+
+        return function ($result) use ($container, $interface) {
+            $response = $container->get($interface);
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -172,21 +175,20 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
-     * @param \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  mixed                                         $function
+     * @param \Psr\Container\ContainerInterface $container
+     * @param  mixed                            $function
      * @return callable
      */
-    protected function resolve(Container\ContainerInterface $container, $function)
+    protected function resolve(ContainerInterface $container, $function)
     {
         $finalize = $this->finalize($container);
 
         return function ($request) use ($container, $finalize, &$function) {
-            // TODO: It should not be defined here so it can use the PSR-11 interface. :(
-            $container->set('Psr\Http\Message\ServerRequestInterface', $request);
+            $resolver = new Container\Container(array(), $container);
 
             if (is_array($function) === true) {
                 if (is_array($function[0]) && is_string($function[0][0])) {
-                    $function[0][0] = $container->get($function[0][0]);
+                    $function[0][0] = $resolver->resolve($function[0][0], $request);
                 }
 
                 $function = call_user_func_array($function[0], $function[1]);

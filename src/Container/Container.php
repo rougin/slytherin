@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Container;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Container
@@ -102,6 +103,34 @@ class Container implements ContainerInterface
     }
 
     /**
+     * Resolves the specified identifier to an instance.
+     *
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     *
+     * @param  string                                        $id
+     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
+     * @return mixed|null
+     */
+    public function resolve($id, ServerRequestInterface $request = null)
+    {
+        $reflection = new \ReflectionClass($id);
+
+        if ($constructor = $reflection->getConstructor()) {
+            $arguments = array();
+
+            foreach ($constructor->getParameters() as $parameter) {
+                $argument = $this->argument($parameter, $request);
+
+                array_push($arguments, $argument);
+            }
+
+            return $reflection->newInstanceArgs($arguments);
+        }
+
+        return $this->extra ? $this->extra->get($id) : null;
+    }
+
+    /**
      * Sets a new instance to the container.
      *
      * @param  string $id
@@ -118,46 +147,24 @@ class Container implements ContainerInterface
     /**
      * Returns an argument based on the given parameter.
      *
-     * @param  \ReflectionParameter $parameter
+     * @param  \ReflectionParameter                          $parameter
+     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
      * @return mixed
      */
-    protected function argument(\ReflectionParameter $parameter)
+    protected function argument(\ReflectionParameter $parameter, ServerRequestInterface $request = null)
     {
+        $interface = 'Psr\Http\Message\ServerRequestInterface';
+
         if ($parameter->isOptional() === false) {
             $class = $parameter->getClass();
 
             $name = $class ? $class->getName() : $parameter->getName();
 
-            return $this->has($name) ? $this->get($name) : $this->extra->get($name);
+            $argument = $this->has($name) ? $this->get($name) : $this->extra->get($name);
+
+            return ($request && $name === $interface) ? $request : $argument;
         }
 
         return $parameter->getDefaultValue();
-    }
-
-    /**
-     * Resolves the specified identifier to an instance.
-     *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     *
-     * @param  string $id
-     * @return mixed|null
-     */
-    protected function resolve($id)
-    {
-        $reflection = new \ReflectionClass($id);
-
-        if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
-            foreach ($constructor->getParameters() as $parameter) {
-                $argument = $this->argument($parameter);
-
-                array_push($arguments, $argument);
-            }
-
-            return $reflection->newInstanceArgs($arguments);
-        }
-
-        return $this->extra ? $this->extra->get($id) : null;
     }
 }
