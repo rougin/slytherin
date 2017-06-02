@@ -54,6 +54,26 @@ class ReflectionContainer implements \Psr\Container\ContainerInterface
     }
 
     /**
+     * Returns an argument based on the given parameter.
+     *
+     * @param  \ReflectionParameter $parameter
+     * @param  string               $name
+     * @return mixed|null
+     */
+    protected function argument(\ReflectionParameter $parameter, $name)
+    {
+        $argument = null;
+
+        try {
+            $argument = $parameter->getDefaultValue();
+        } catch (\ReflectionException $exception) {
+            $argument = $argument ?: $this->get($name);
+        }
+
+        return $argument;
+    }
+
+    /**
      * Resolves the specified parameters from a container.
      *
      * @param  \ReflectionFunction|\ReflectionMethod $reflector
@@ -65,15 +85,11 @@ class ReflectionContainer implements \Psr\Container\ContainerInterface
         $arguments = array();
 
         foreach ($reflector->getParameters() as $key => $parameter) {
-            $name = $parameter->getName();
+            $class = $parameter->getClass();
 
-            try {
-                $argument = $parameter->getDefaultValue();
-            } catch (\ReflectionException $e) {
-                $class = $parameter->getClass();
+            $name = $class ? $class->getName() : $parameter->getName();
 
-                $argument = $this->get($class ? $class->getName() : $name);
-            }
+            $argument = $this->argument($parameter, $name);
 
             $arguments[$key] = $argument ?: $parameters[$name];
         }

@@ -25,16 +25,25 @@ class AurynContainer extends Injector implements ContainerInterface
     protected $has = array();
 
     /**
+     * @var \Auryn\Injector
+     */
+    protected $injector;
+
+    /**
      * @var array
      */
     protected $instances = array();
 
     /**
+     * NOTE: To be removed in v1.0.0. It should use \Auryn\Injector::__construct.
+     *
      * @param \Auryn\Injector|\Auryn\Reflector|null $data
      */
     public function __construct($data = null)
     {
         is_a($data, 'Auryn\Injector') || parent::__construct($data);
+
+        $this->injector = is_a($data, 'Auryn\Injector') ? $data : $this;
     }
 
     /**
@@ -78,22 +87,12 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function has($id)
     {
-        $filter = Injector::I_BINDINGS | Injector::I_DELEGATES | Injector::I_PREPARES | Injector::I_ALIASES | Injector::I_SHARES;
-
         if (! isset($this->has[$id])) {
-            $definitions = array_filter($this->inspect($id, $filter));
+            $filter = Injector::I_BINDINGS | Injector::I_DELEGATES | Injector::I_PREPARES | Injector::I_ALIASES | Injector::I_SHARES;
 
-            if (! empty($definitions)) {
-                return $this->has[$id] = true;
-            }
+            $definitions = array_filter($this->injector->inspect($id, $filter));
 
-            if (! class_exists($id)) {
-                return $this->has[$id] = false;
-            }
-
-            $reflector = new \ReflectionClass($id);
-
-            return $this->has[$id] = $reflector->isInstantiable();
+            return ! empty($definitions) ?: class_exists($id);
         }
 
         return $this->has[$id];
@@ -125,7 +124,7 @@ class AurynContainer extends Injector implements ContainerInterface
 
         ! isset($this->instances[$id]) || $entry = $this->instances[$id];
 
-        isset($entry) || $entry = $this->make($id);
+        isset($entry) || $entry = $this->injector->make($id);
 
         return $entry;
     }

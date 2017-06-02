@@ -143,9 +143,7 @@ class Container implements ContainerInterface
             foreach ($constructor->getParameters() as $parameter) {
                 $argument = $this->argument($parameter);
 
-                ! $argument instanceof ServerRequestInterface || $argument = $request ?: $argument;
-
-                array_push($arguments, $argument);
+                array_push($arguments, $this->request($argument, $request));
             }
 
             return $reflection->newInstanceArgs($arguments);
@@ -172,7 +170,7 @@ class Container implements ContainerInterface
      * Returns an argument based on the given parameter.
      *
      * @param  \ReflectionParameter $parameter
-     * @return mixed
+     * @return mixed|null
      */
     protected function argument(\ReflectionParameter $parameter)
     {
@@ -180,18 +178,43 @@ class Container implements ContainerInterface
 
         try {
             $argument = $parameter->getDefaultValue();
-        } catch (\ReflectionException $e) {
-            $extra = $this->extra;
-
+        } catch (\ReflectionException $exception) {
             $class = $parameter->getClass();
 
             $name = $class ? $class->getName() : $parameter->getName();
 
-            $object = isset($this->instances[$name]) ? $this->get($name) : null;
-
-            $argument = ! $object && $this->extra->has($name) ? $this->extra->get($name) : $object;
+            $argument = $this->value($name);
         }
 
         return $argument;
+    }
+
+    /**
+     * Returns the manipulated ServerRequest (from middleware) to an argument.
+     *
+     * @param  mixed                                         $argument
+     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
+     * @return mixed
+     */
+    protected function request($argument, ServerRequestInterface $request = null)
+    {
+        ! $argument instanceof ServerRequestInterface || $argument = $request ?: $argument;
+
+        return $argument;
+    }
+
+    /**
+     * Returns the value of the specified argument.
+     *
+     * @param  string $name
+     * @return mixed|null
+     */
+    protected function value($name)
+    {
+        $extra = $this->extra;
+
+        $object = isset($this->instances[$name]) ? $this->get($name) : null;
+
+        return ! $object && $extra->has($name) ? $extra->get($name) : $object;
     }
 }

@@ -60,6 +60,7 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        // TODO: Move the logic of dispatching a request to $callback
         list($function, $middlewares) = $this->dispatch($request);
 
         $container = new Container\Container(array(), self::$container);
