@@ -176,16 +176,22 @@ class Container implements ContainerInterface
      */
     protected function argument(\ReflectionParameter $parameter)
     {
-        if ($parameter->isOptional() === false) {
-            if ($class = $parameter->getClass()) {
-                $name = $class->getName();
+        $argument = null;
 
-                return $this->has($name) ? $this->get($name) : $this->extra->get($name);
-            }
+        try {
+            $argument = $parameter->getDefaultValue();
+        } catch (\ReflectionException $e) {
+            $extra = $this->extra;
 
-            return null;
+            $class = $parameter->getClass();
+
+            $name = $class ? $class->getName() : $parameter->getName();
+
+            $object = $this->has($name) ? $this->get($name) : null;
+
+            $argument = ! $object && $extra->has($name) ? $extra->get($name) : $object;
         }
 
-        return $parameter->getDefaultValue();
+        return $argument;
     }
 }

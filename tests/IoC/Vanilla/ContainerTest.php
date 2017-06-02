@@ -152,7 +152,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         // $this->container->get($this->class);
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
-
     }
 
     /**

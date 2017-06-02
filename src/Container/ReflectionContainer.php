@@ -67,12 +67,12 @@ class ReflectionContainer implements \Psr\Container\ContainerInterface
         foreach ($reflector->getParameters() as $key => $parameter) {
             $name = $parameter->getName();
 
-            if ($parameter->isOptional() === false) {
+            try {
+                $argument = $parameter->getDefaultValue();
+            } catch (\ReflectionException $e) {
                 $class = $parameter->getClass();
 
                 $argument = $this->get($class ? $class->getName() : $name);
-            } else {
-                $argument = $parameter->getDefaultValue();
             }
 
             $arguments[$key] = $argument ?: $parameters[$name];

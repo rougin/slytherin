@@ -83,9 +83,13 @@ class AurynContainer extends Injector implements ContainerInterface
         if (! isset($this->has[$id])) {
             $definitions = array_filter($this->inspect($id, $filter));
 
-            if (! empty($definitions)) return $this->has[$id] = true;
+            if (! empty($definitions)) {
+                return $this->has[$id] = true;
+            }
 
-            if (! class_exists($id)) return $this->has[$id] = false;
+            if (! class_exists($id)) {
+                return $this->has[$id] = false;
+            }
 
             $reflector = new \ReflectionClass($id);
 
