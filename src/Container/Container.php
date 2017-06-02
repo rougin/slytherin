@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Container extends BaseContainer implements ContainerInterface
+class Container implements ContainerInterface
 {
     /**
      * @var \Psr\Container\ContainerInterface
@@ -61,6 +61,28 @@ class Container extends BaseContainer implements ContainerInterface
         $this->instances[$id] = $this->get($original);
 
         return $this;
+    }
+
+    /**
+     * Resolves the specified parameters from a container.
+     *
+     * @param  \ReflectionFunction|\ReflectionMethod $reflector
+     * @param  array                                 $parameters
+     * @return array
+     */
+    public function arguments($reflector, $parameters = array())
+    {
+        $arguments = array();
+
+        foreach ($reflector->getParameters() as $key => $parameter) {
+            $argument = $this->argument($parameter);
+
+            $name = $parameter->getName();
+
+            $arguments[$key] = $argument ?: $parameters[$name];
+        }
+
+        return $arguments;
     }
 
     /**
