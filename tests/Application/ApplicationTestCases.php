@@ -241,9 +241,12 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
                 break;
         }
 
-        $container = Application::container()->set(Application::SERVER_REQUEST, $request);
+        // TODO: Remove this one. This was added because of Phroute will resolve it automatically. :(
+        if (method_exists(Application::container(), 'set')) {
+            $container = Application::container()->set(Application::SERVER_REQUEST, $request);
 
-        $this->application = new Application($container);
+            $this->application = new Application($container);
+        }
 
         return $request;
     }
