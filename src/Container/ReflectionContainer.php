@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer extends BaseContainer
+class ReflectionContainer extends BaseContainer implements \Psr\Container\ContainerInterface
 {
     /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
