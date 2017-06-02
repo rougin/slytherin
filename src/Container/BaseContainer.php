@@ -13,11 +13,11 @@ class BaseContainer
     /**
      * Resolves the specified parameters from a container.
      *
-     * @param  \Reflector $reflector
-     * @param  array      $parameters
+     * @param  \ReflectionFunction|\ReflectionMethod $reflector
+     * @param  array                                 $parameters
      * @return array
      */
-    public function arguments(\Reflector $reflector, $parameters = array())
+    public function arguments($reflector, $parameters = array())
     {
         $arguments = array();
 
