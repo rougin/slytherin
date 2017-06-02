@@ -187,9 +187,9 @@ class Container implements ContainerInterface
 
             $name = $class ? $class->getName() : $parameter->getName();
 
-            $object = $this->has($name) ? $this->get($name) : null;
+            $object = isset($this->instances[$name]) ? $this->get($name) : null;
 
-            $argument = ! $object && $extra->has($name) ? $extra->get($name) : $object;
+            $argument = ! $object && $this->extra->has($name) ? $this->extra->get($name) : $object;
         }
 
         return $argument;
