@@ -57,7 +57,7 @@ $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
 // Create routes from Rougin\Slytherin\Routing\RouterInterface
 $router = new Rougin\Slytherin\Routing\Router;
 
-$router->get('/', [ 'App\Http\Controllers\WelcomeController', 'index' ]);
+$router->get('/', 'App\Http\Controllers\WelcomeController@index');
 
 // Supply values to integrations through Rougin\Slytherin\Configuration
 $config = (new Rougin\Slytherin\Integration\Configuration)
