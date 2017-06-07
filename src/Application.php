@@ -60,17 +60,13 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        // TODO: Move the logic of dispatching a request to $callback
-        list($function, $middlewares) = $this->dispatch($request);
+        // TODO: Improve code quality, try to lessen using of callables.
+        $callables = array($this->dispatch(), $this->finalize(), $this->middleware(), $this->resolve());
 
-        $container = new Container\Container(array(), self::$container);
-
-        $callback = $this->resolve($container, $function, $this->finalize($container));
+        $callback = call_user_func_array(array($this, 'callback'), $callables);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
-
-            $middleware->push($middlewares);
 
             $delegate = new Middleware\Delegate($callback);
 
@@ -132,38 +128,68 @@ class Application
     }
 
     /**
+     * Returns the result of the function by resolving it through a container.
+     *
+     * @param  callable $dispatch
+     * @param  callable $finalize
+     * @param  callable $middleware
+     * @param  callable $resolve
+     * @return callable
+     */
+    protected function callback($dispatch, $finalize, $middleware, $resolve)
+    {
+        return function ($request) use ($dispatch, $finalize, $middleware, $resolve) {
+            list($function, $middlewares) = $dispatch($request);
+
+            $callback = function ($request) use ($function, $finalize, $resolve) {
+                return $finalize($resolve($function, $request));
+            };
+
+            $result = $middleware($callback, $middlewares, $request);
+
+            return $result ?: $callback($request);
+        };
+    }
+
+    /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return array|mixed
+     * @return callable
      */
-    protected function dispatch(ServerRequestInterface $request)
+    protected function dispatch()
     {
-        list($method, $parsed) = array($request->getMethod(), $request->getParsedBody());
+        $container = self::$container;
 
-        $method = (isset($parsed['_method'])) ? strtoupper($parsed['_method']) : $method;
+        $interfaces = array('dispatcher' => self::ROUTE_DISPATCHER, 'router' => self::ROUTER);
 
-        $dispatcher = static::$container->get(self::ROUTE_DISPATCHER);
+        return function ($request) use ($container, $interfaces) {
+            $dispatcher = $container->get($interfaces['dispatcher']);
 
-        if (static::$container->has(self::ROUTER)) {
-            $router = static::$container->get(self::ROUTER);
+            if ($container->has($interfaces['router'])) {
+                $router = $container->get($interfaces['router']);
 
-            $dispatcher->router($router);
-        }
+                $dispatcher->router($router);
+            }
 
-        return $dispatcher->dispatch($method, $request->getUri()->getPath());
+            list($method, $uri) = array($request->getMethod(), $request->getUri());
+
+            return $dispatcher->dispatch($method, $uri->getPath());
+        };
     }
 
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
-     * @param  \Rougin\Container\Container\Container $container
      * @return callable
      */
-    protected function finalize(Container\Container $container)
+    protected function finalize()
     {
-        return function ($result) use ($container) {
-            $response = $container->get('Psr\Http\Message\ResponseInterface');
+        $container = self::$container;
+
+        $interfaces = array('response' => self::RESPONSE);
+
+        return function ($result) use ($container, $interfaces) {
+            $response = $container->get($interfaces['response']);
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -174,16 +200,41 @@ class Application
     }
 
     /**
-     * Returns the result of the function by resolving it through a container.
+     * Dispatches the middlewares of the specified request, if there are any.
      *
-     * @param  \Rougin\Container\Container\Container $container
-     * @param  mixed                                 $function
-     * @param  callable                              $finalize
      * @return callable
      */
-    protected function resolve(Container\Container $container, $function, $finalize)
+    protected function middleware()
     {
-        return function ($request) use ($container, $finalize, &$function) {
+        $container = self::$container;
+
+        $interfaces = array('response' => self::RESPONSE);
+
+        return function ($callback, $middlewares, $request) use ($container, $interfaces) {
+            $result = null;
+
+            if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+                $response = $container->get($interfaces['response']);
+
+                $middleware = new Middleware\Dispatcher($middlewares, $response);
+
+                $result = $middleware->process($request, new Middleware\Delegate($callback));
+            }
+
+            return $result;
+        };
+    }
+
+    /**
+     * Returns the result of the function by resolving it through a container.
+     *
+     * @return callable
+     */
+    protected function resolve()
+    {
+        $container = new Container\Container(array(), self::$container);
+
+        return function ($function, $request) use ($container) {
             if (is_array($function) === true) {
                 if (is_array($function[0]) && is_string($function[0][0])) {
                     $function[0][0] = $container->resolve($function[0][0], $request);
@@ -198,7 +249,7 @@ class Application
                 $function = call_user_func_array($function[0], $function[1]);
             }
 
-            return $finalize($function);
+            return $function;
         };
     }
 }

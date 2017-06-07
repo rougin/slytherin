@@ -87,15 +87,17 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function has($id)
     {
-        if (! isset($this->has[$id])) {
+        $has = isset($this->has[$id]) ? $this->has[$id] : false;
+
+        if (isset($this->has[$id]) === false) {
             $filter = Injector::I_BINDINGS | Injector::I_DELEGATES | Injector::I_PREPARES | Injector::I_ALIASES | Injector::I_SHARES;
 
             $definitions = array_filter($this->injector->inspect($id, $filter));
 
-            return ! empty($definitions) ?: class_exists($id);
+            $has = ! empty($definitions) ?: class_exists($id);
         }
 
-        return $this->has[$id];
+        return $has;
     }
 
     /**

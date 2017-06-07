@@ -1,8 +1,10 @@
 # Changelog
 
-All notable changes to `Slytherin` will be documented in this file
+All notable changes to `Slytherin` will be documented in this file.
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
+
+**NOTE**: This release will break your application if upgrading from `v0.8.0` release.
 
 ### Fixed
 - Appending of middleware response from `DispatcherInterface`'s result in `Application::run`

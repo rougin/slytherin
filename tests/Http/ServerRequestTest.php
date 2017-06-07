@@ -74,6 +74,16 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getParsedBody().
+     *
+     * @return void
+     */
+    public function testParsedBody()
+    {
+        $this->assertEmpty($this->request->getParsedBody());
+    }
+
+    /**
      * Tests getServerParams().
      *
      * @return void
