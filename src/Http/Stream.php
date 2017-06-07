@@ -217,9 +217,7 @@ class Stream implements \Psr\Http\Message\StreamInterface
     {
         $this->isWritable() || $this->exception('unwritable');
 
-        $written = fwrite($this->stream, $string);
-
-        $written !== false || $this->exception('unwritable');
+        ($written = fwrite($this->stream, $string)) !== false || $this->exception('unwritable');
 
         $this->size = null;
 
@@ -270,9 +268,7 @@ class Stream implements \Psr\Http\Message\StreamInterface
 
         $contents = stream_get_contents($this->stream);
 
-        $contents !== false || $this->exception('unreadable');
-
-        return $contents;
+        return ($contents !== false) ? $contents : $this->exception('unreadable');
     }
 
     /**
