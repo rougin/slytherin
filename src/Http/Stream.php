@@ -50,11 +50,12 @@ class Stream implements \Psr\Http\Message\StreamInterface
     protected $modes = array();
 
     /**
-     * @param resource|null $stream
+     * @param resource|string $stream
+     * @param string          $mode
      */
-    public function __construct($stream = null)
+    public function __construct($stream, $mode = 'r')
     {
-        $this->stream = $stream;
+        $this->stream = is_string($stream) ? fopen($stream, $mode) : $stream;
 
         $this->modes['readable'] = array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b');
 

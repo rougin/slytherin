@@ -54,10 +54,11 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
 
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
-        $stream->getContents();
+        echo $stream->getContents();
     }
 
     /**
@@ -79,7 +80,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
 
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $stream->detach();
@@ -127,7 +129,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testSeekAndTell()
     {
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $stream->seek(2);
@@ -144,7 +147,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
 
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $stream->detach();
@@ -160,7 +164,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
 
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $stream->detach();
@@ -174,7 +179,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testEof()
     {
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $this->assertEquals(false, $stream->eof());
@@ -189,7 +195,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('RuntimeException');
 
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $stream->write('Hello world');
@@ -204,7 +211,9 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyStream()
     {
-        $stream = new \Rougin\Slytherin\Http\Stream;
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+
+        $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $this->assertEmpty((string) $stream);
     }
@@ -216,7 +225,8 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMetadata()
     {
-        $file   = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
+        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
+
         $stream = new \Rougin\Slytherin\Http\Stream($file);
 
         $this->assertEquals(stream_get_meta_data($file), $stream->getMetadata());

@@ -76,8 +76,9 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithBody()
     {
-        $expected = new \Rougin\Slytherin\Http\Stream;
-        $message  = $this->message->withBody($expected);
+        $expected = new \Rougin\Slytherin\Http\Stream(fopen('php://temp', 'r+'));
+
+        $message = $this->message->withBody($expected);
 
         $this->assertEquals($expected, $message->getBody());
     }
