@@ -50,12 +50,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
     protected $modes = array();
 
     /**
-     * @param resource|string $stream
-     * @param string          $mode
+     * @param resource|null $stream
      */
-    public function __construct($stream, $mode = 'r')
+    public function __construct($stream = null)
     {
-        $this->stream = is_string($stream) ? fopen($stream, $mode) : $stream;
+        $this->stream = $stream;
 
         $this->modes['readable'] = array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b');
 
@@ -102,10 +101,8 @@ class Stream implements \Psr\Http\Message\StreamInterface
         $oldStream = $this->stream;
 
         $this->stream = null;
-
-        $this->size = null;
-
-        $this->meta = null;
+        $this->size   = null;
+        $this->meta   = null;
 
         return $oldStream;
     }
@@ -174,13 +171,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        $this->isSeekable() || $this->exception('unseekable');
+        if (! $this->isSeekable() || fseek($this->stream, $offset, $whence) === -1) {
+            $message = 'Could not seek in stream';
 
-        $seek = fseek($this->stream, $offset, $whence);
-
-        $seek !== -1 || $this->exception('unseekable');
-
-        return $seek;
+            throw new \RuntimeException($message);
+        }
     }
 
     /**
@@ -200,9 +195,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function isWritable()
     {
-        $mode = $this->getMetadata('mode');
+        $fileMode = $this->getMetadata('mode');
 
-        return (in_array($mode, $this->modes['writable']));
+        return (in_array($fileMode, $this->modes['writable']));
     }
 
     /**
@@ -215,9 +210,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function write($string)
     {
-        $this->isWritable() || $this->exception('unwritable');
+        if (! $this->isWritable() || ($written = fwrite($this->stream, $string)) === false) {
+            $message = 'Could not write to stream';
 
-        ($written = fwrite($this->stream, $string)) !== false || $this->exception('unwritable');
+            throw new \RuntimeException($message);
+        }
 
         $this->size = null;
 
@@ -231,9 +228,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function isReadable()
     {
-        $mode = $this->getMetadata('mode');
+        $fileMode = $this->getMetadata('mode');
 
-        return (in_array($mode, $this->modes['readable']));
+        return (in_array($fileMode, $this->modes['readable']));
     }
 
     /**
@@ -246,11 +243,11 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function read($length)
     {
-        $this->isReadable() || $this->exception('unreadable');
+        if (! $this->isReadable() || ($data = fread($this->stream, $length)) === false) {
+            $message = 'Could not read from stream';
 
-        $data = fread($this->stream, $length);
-
-        $data !== false || $this->exception('unreadable');
+            throw new \RuntimeException($message);
+        }
 
         return $data;
     }
@@ -264,11 +261,13 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function getContents()
     {
-        $this->isReadable() || $this->exception('unreadable');
+        if (! $this->isReadable() || ($contents = stream_get_contents($this->stream)) === false) {
+            $message = 'Could not get contents of stream';
 
-        $contents = stream_get_contents($this->stream);
+            throw new \RuntimeException($message);
+        }
 
-        return ($contents !== false) ? $contents : $this->exception('unreadable');
+        return $contents;
     }
 
     /**
@@ -279,35 +278,14 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function getMetadata($key = null)
     {
-        ! isset($this->stream) || $this->meta = stream_get_meta_data($this->stream);
+        if (isset($this->stream)) {
+            $this->meta = stream_get_meta_data($this->stream);
 
-        $value = isset($this->meta[$key]) ? $this->meta[$key] : null;
-
-        return $key === null ? $this->meta : $value;
-    }
-
-    /**
-     * Throws specific RuntimeException errors.
-     *
-     * @throws \RuntimeException
-     *
-     * @param  string $error
-     * @return void
-     */
-    protected function exception($error)
-    {
-        if ($error === 'unreadable') {
-            $message = 'Stream is not readable';
+            if (is_null($key) === true) {
+                return $this->meta;
+            }
         }
 
-        if ($error === 'unseekable') {
-            $message = 'Could not seek in stream';
-        }
-
-        if ($error === 'unwritable') {
-            $message = 'Stream is not writable';
-        }
-
-        throw new \RuntimeException($message);
+        return isset($this->meta[$key]) ? $this->meta[$key] : null;
     }
 }
