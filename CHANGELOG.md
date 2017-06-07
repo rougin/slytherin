@@ -4,7 +4,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
 
-**NOTE**: This release will break your application if upgrading from `v0.8.0` release.
+**NOTE**: This release may break your application if upgrading from `v0.8.0` release.
 
 ### Fixed
 - Appending of middleware response from `DispatcherInterface`'s result in `Application::run`
@@ -14,8 +14,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Added
 - Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
-	- Packages `psr/container` and `psr/http-message` are already included in this release
-	- Install `http-interop/http-middleware` if you want to use middlewares in `Middleware` directory
+    - Packages `psr/container` and `psr/http-message` are already included in this release
+    - Install `http-interop/http-middleware` if you want to use middlewares in `Middleware` directory
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
@@ -32,12 +32,13 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
-	- This directory is now deprecated and will be removed in `v1.0.0`
+    - This directory is now deprecated and will be removed in `v1.0.0`
 - `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
 - Emit headers on `Application::run` only
 - Allow anonymous functions and objects in adding middleware from a specified route in `Middleware\Stratigility`
 
 ### Removed
+- HTTP method spoofing (apply it on a middleware instead)
 - `Vanilla` prefix in classes
 - Traits
 

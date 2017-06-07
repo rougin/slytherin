@@ -60,8 +60,10 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        $resolve = $this->resolve(new Container\Container(array(), self::$container));
+
         // TODO: Improve code quality, try to lessen using of callables.
-        $callables = array($this->dispatch(), $this->finalize(), $this->middleware(), $this->resolve());
+        $callables = array($this->dispatch(), $this->finalize(), $this->middleware(), $resolve);
 
         $callback = call_user_func_array(array($this, 'callback'), $callables);
 
@@ -228,12 +230,11 @@ class Application
     /**
      * Returns the result of the function by resolving it through a container.
      *
+     * @param  \Rougin\Slytherin\Container\Container $container
      * @return callable
      */
-    protected function resolve()
+    protected function resolve(Container\Container $container)
     {
-        $container = new Container\Container(array(), self::$container);
-
         return function ($function, $request) use ($container) {
             if (is_array($function) === true) {
                 if (is_array($function[0]) && is_string($function[0][0])) {

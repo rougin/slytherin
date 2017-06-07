@@ -187,31 +187,6 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the handle() method with a OPTIONS HTTP method.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithOptionsHttpMethod()
-    {
-        $container = \Rougin\Slytherin\Application::container();
-
-        $dispatcher = $container->get('Rougin\Slytherin\Routing\DispatcherInterface');
-
-        // TODO: Implement conversion of OPTIONS HTTP method to PUT/PATCH/DELETE
-        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher')) {
-            $this->markTestSkipped('OPTIONS HTTP method to PUT/DELETE are not yet implemented in Phroute.');
-        }
-
-        $server = array('HTTP_ACCESS_CONTROL_REQUEST_METHOD' => 'PUT');
-
-        $request = $this->request('OPTIONS', '/cors', array(), $server);
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello from PUT HTTP method', (string) $result->getBody());
-    }
-
-    /**
      * Prepares the HTTP method and the URI of the request.
      *
      * @param  string $httpMethod
@@ -258,11 +233,6 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function router()
     {
-        $cors = array();
-
-        array($cors, 'Rougin\Slytherin\Fixture\Middlewares\CorsMiddleware');
-        array($cors, 'Rougin\Slytherin\Fixture\Middlewares\BodyParametersMiddleware');
-
         $last = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
         $router = new \Rougin\Slytherin\Routing\Router;
@@ -277,7 +247,6 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
         $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $last);
         $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
         $router->get('/typehint/:code', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@typehint');
-        $router->put('/cors', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index', $cors);
 
         $router->get('/callback', function () {
             return 'Hello, this is a callback';
