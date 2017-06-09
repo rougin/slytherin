@@ -67,13 +67,9 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function __construct(array $server = array(), array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        $http = (! empty($server['HTTPS']) && $server['HTTPS'] != 'off') ? 'https' : 'http';
+        parent::__construct($server['REQUEST_METHOD'], $server['REQUEST_URI'], $this->uri($server, $uri), $body, $headers, $version);
 
-        $uri = ($uri === null) ? new Uri($http . '://' . $server['SERVER_NAME'] . ':' . $server['SERVER_PORT'] . $server['REQUEST_URI']) : $uri;
-
-        parent::__construct($server['REQUEST_METHOD'], $server['REQUEST_URI'], $uri, $body, $headers, $version);
-
-        $this->attributes = array_merge($server, $cookies, $query, is_array($data) ? $data : array());
+        $this->attributes = array_merge($server, $cookies, $query, is_null($data) ? array() : $data);
 
         $this->cookies = $cookies;
 
@@ -264,19 +260,35 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
         $files = array();
 
         foreach ($uploaded as $file) {
-            for ($i = 0; $i < count($file['name']); $i++) {
+            $count = count($file['name']);
+
+            for ($i = 0; $i < $count; $i++) {
                 foreach (array_keys($file) as $key) {
                     $files[$i][$key] = $file[$key][$i];
                 }
+
+                $file = $files[$i];
+
+                $files[$i] = new UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']);
             }
         }
 
-        for ($i = 0; $i < count($files); $i++) {
-            $file = $files[$i];
-
-            $files[$i] = new UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']);
-        }
-
         return $files;
+    }
+
+    /**
+     * Generates a \Psr\Http\Message\UriInterface if it does not exists.
+     *
+     * @param  array                               $server
+     * @param  \Psr\Http\Message\UriInterface|null $uri
+     * @return \Psr\Http\Message\UriInterface
+     */
+    protected function uri(array $server, $uri = null)
+    {
+        $http = (! empty($server['HTTPS']) && $server['HTTPS'] != 'off') ? 'https' : 'http';
+
+        $url = $http . '://' . $server['SERVER_NAME'] . ':' . $server['SERVER_PORT'] . $server['REQUEST_URI'];
+
+        return ($uri === null) ? new Uri($url) : $uri;
     }
 }
