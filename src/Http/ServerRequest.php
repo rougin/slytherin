@@ -79,7 +79,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
 
         $this->server = $server;
 
-        $this->uploaded = $this->parse($uploaded);
+        $this->uploaded = $this->uploaded($uploaded);
     }
 
     /**
@@ -255,7 +255,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      * @param  array $uploaded
      * @return \Psr\Http\Message\UploadedFile[]
      */
-    protected function parse(array $uploaded)
+    protected function uploaded(array $uploaded)
     {
         $files = array();
 
@@ -267,9 +267,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
                     $files[$i][$key] = $file[$key][$i];
                 }
 
-                $file = $files[$i];
-
-                $files[$i] = new UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']);
+                $files[$i] = new UploadedFile($files[$i]['tmp_name'], $files[$i]['size'], $files[$i]['error'], $files[$i]['name'], $files[$i]['type']);
             }
         }
 
