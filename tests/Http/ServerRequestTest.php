@@ -31,7 +31,15 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER['SERVER_NAME']    = 'localhost';
         $_SERVER['SERVER_PORT']    = '8000';
 
-        $this->request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
+        $uploaded = array('file' => array());
+
+        $uploaded['file']['error'] = array(0);
+        $uploaded['file']['name'] = array('test.txt');
+        $uploaded['file']['size'] = array(617369);
+        $uploaded['file']['tmp_name'] = array('/tmp/test.txt');
+        $uploaded['file']['type'] = array('application/pdf');
+
+        $this->request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER, array(), array(), $uploaded);
     }
 
     /**
@@ -100,8 +108,19 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadedFiles()
     {
-        $expected = array(new \Rougin\Slytherin\Http\UploadedFile('/tmp/test.txt'));
-        $request  = $this->request->withUploadedFiles($expected);
+        $file = array();
+
+        $file['error'] = 0;
+        $file['name'] = 'test.txt';
+        $file['size'] = 617369;
+        $file['tmp_name'] = '/tmp/test.txt';
+        $file['type'] = 'application/pdf';
+
+        $expected = array(new \Rougin\Slytherin\Http\UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']));
+
+        $this->assertEquals($expected, $this->request->getUploadedFiles());
+
+        $request = $this->request->withUploadedFiles($expected);
 
         $this->assertEquals($expected, $request->getUploadedFiles());
     }
@@ -114,21 +133,19 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     public function testAttribute()
     {
         $attributes = array('user' => 'John Doe', 'age' => 20);
-        $request    = $this->request;
+
+        $request = $this->request;
 
         foreach ($attributes as $key => $value) {
             $request = $request->withAttribute($key, $value);
         }
 
-        $arrayEqual = $attributes == $request->getAttributes();
-        $itemEqual  = $request->getAttribute('user') == 'John Doe';
+        $this->assertEquals($attributes['user'], $request->getAttribute('user'));
 
         $request = $request->withoutAttribute('age');
 
         $newAttributes = $request->getAttributes();
 
-        $keyExists = isset($newAttributes['age']);
-
-        $this->assertTrue($itemEqual && $arrayEqual && ! $keyExists);
+        $this->assertFalse(isset($newAttributes['age']));
     }
 }

@@ -73,7 +73,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
 
         parent::__construct($server['REQUEST_METHOD'], $server['REQUEST_URI'], $uri, $body, $headers, $version);
 
-        $this->attributes = $attributes;
+        $this->attributes = array_merge($server, $cookies, $query, is_array($data) ? $data : array());
 
         $this->cookies = $cookies;
 
@@ -83,7 +83,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
 
         $this->server = $server;
 
-        $this->uploaded = $uploaded;
+        $this->uploaded = $this->parse($uploaded);
     }
 
     /**
@@ -149,7 +149,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     /**
      * Retrieve normalized file upload data.
      *
-     * @return array
+     * @return \Psr\Http\Message\UploadedFileInterface[]
      */
     public function getUploadedFiles()
     {
@@ -251,5 +251,32 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
         unset($new->attributes[$name]);
 
         return $new;
+    }
+
+    /**
+     * Parses the $_FILES into multiple \Psr\Http\Message\UploadedFile instances.
+     *
+     * @param  array $uploaded
+     * @return \Psr\Http\Message\UploadedFile[]
+     */
+    protected function parse(array $uploaded)
+    {
+        $files = array();
+
+        foreach ($uploaded as $file) {
+            for ($i = 0; $i < count($file['name']); $i++) {
+                foreach (array_keys($file) as $key) {
+                    $files[$i][$key] = $file[$key][$i];
+                }
+            }
+        }
+
+        for ($i = 0; $i < count($files); $i++) {
+            $file = $files[$i];
+
+            $files[$i] = new UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']);
+        }
+
+        return $files;
     }
 }
