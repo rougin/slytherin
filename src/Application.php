@@ -60,12 +60,7 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $resolve = $this->resolve(new Container\Container(array(), self::$container));
-
-        // TODO: Improve code quality, try to lessen using of callables.
-        $callables = array($this->dispatch(), $this->finalize(), $this->middleware(), $resolve);
-
-        $callback = call_user_func_array(array($this, 'callback'), $callables);
+        $callback = call_user_func_array(array($this, 'callback'), $this->callables());
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
@@ -130,6 +125,23 @@ class Application
     }
 
     /**
+     * Returns a listing of callables to be prepared.
+     *
+     * @return array
+     */
+    protected function callables()
+    {
+        $callables = array();
+
+        array_push($callables, $this->dispatch(self::$container));
+        array_push($callables, $this->finalize(self::$container));
+        array_push($callables, $this->middleware(self::$container));
+        array_push($callables, $this->resolve(new Container\Container(array(), self::$container)));
+
+        return $callables;
+    }
+
+    /**
      * Returns the result of the function by resolving it through a container.
      *
      * @param  callable $dispatch
@@ -156,19 +168,16 @@ class Application
     /**
      * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
      *
+     * @param  \Psr\Container\ContainerInterface $container
      * @return callable
      */
-    protected function dispatch()
+    protected function dispatch(ContainerInterface $container)
     {
-        $container = self::$container;
+        return function ($request) use ($container) {
+            $dispatcher = $container->get('Rougin\Slytherin\Routing\DispatcherInterface');
 
-        $interfaces = array('dispatcher' => self::ROUTE_DISPATCHER, 'router' => self::ROUTER);
-
-        return function ($request) use ($container, $interfaces) {
-            $dispatcher = $container->get($interfaces['dispatcher']);
-
-            if ($container->has($interfaces['router'])) {
-                $router = $container->get($interfaces['router']);
+            if ($container->has('Rougin\Slytherin\Routing\RouterInterface')) {
+                $router = $container->get('Rougin\Slytherin\Routing\RouterInterface');
 
                 $dispatcher->router($router);
             }
@@ -182,16 +191,13 @@ class Application
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
+     * @param  \Psr\Container\ContainerInterface $container
      * @return callable
      */
-    protected function finalize()
+    protected function finalize(ContainerInterface $container)
     {
-        $container = self::$container;
-
-        $interfaces = array('response' => self::RESPONSE);
-
-        return function ($result) use ($container, $interfaces) {
-            $response = $container->get($interfaces['response']);
+        return function ($result) use ($container) {
+            $response = $container->get('Psr\Http\Message\ResponseInterface');
 
             $response = ($result instanceof ResponseInterface) ? $result : $response;
 
@@ -204,19 +210,16 @@ class Application
     /**
      * Dispatches the middlewares of the specified request, if there are any.
      *
+     * @param  \Psr\Container\ContainerInterface $container
      * @return callable
      */
-    protected function middleware()
+    protected function middleware(ContainerInterface $container)
     {
-        $container = self::$container;
-
-        $interfaces = array('response' => self::RESPONSE);
-
-        return function ($callback, $middlewares, $request) use ($container, $interfaces) {
+        return function ($callback, $middlewares, $request) use ($container) {
             $result = null;
 
             if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-                $response = $container->get($interfaces['response']);
+                $response = $container->get('Psr\Http\Message\ResponseInterface');
 
                 $middleware = new Middleware\Dispatcher($middlewares, $response);
 

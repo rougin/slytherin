@@ -27,9 +27,9 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         }
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI']    = '/';
-        $_SERVER['SERVER_NAME']    = 'localhost';
-        $_SERVER['SERVER_PORT']    = '8000';
+        $_SERVER['REQUEST_URI'] = '/';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = '8000';
 
         $uploaded = array('file' => array());
 
@@ -39,7 +39,7 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $uploaded['file']['tmp_name'] = array('/tmp/test.txt');
         $uploaded['file']['type'] = array('application/pdf');
 
-        $this->request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER, array(), array(), $uploaded);
+        $this->request = new ServerRequest($_SERVER, array(), array(), $uploaded);
     }
 
     /**
@@ -108,15 +108,15 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testUploadedFiles()
     {
-        $file = array();
+        $files = array('file' => array());
 
-        $file['error'] = 0;
-        $file['name'] = 'test.txt';
-        $file['size'] = 617369;
-        $file['tmp_name'] = '/tmp/test.txt';
-        $file['type'] = 'application/pdf';
+        $error = $files['file']['error'] = 0;
+        $name = $files['file']['name'] = 'test.txt';
+        $size = $files['file']['size'] = 617369;
+        $file = $files['file']['tmp_name'] = '/tmp/test.txt';
+        $type = $files['file']['type'] = 'application/pdf';
 
-        $expected = array(new \Rougin\Slytherin\Http\UploadedFile($file['tmp_name'], $file['size'], $file['error'], $file['name'], $file['type']));
+        $expected = array('file' => array(new UploadedFile($file, $size, $error, $name, $type)));
 
         $this->assertEquals($expected, $this->request->getUploadedFiles());
 

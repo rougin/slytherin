@@ -250,6 +250,23 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     }
 
     /**
+     * Creates a new \Psr\Http\Message\UploadedFile instance.
+     *
+     * @param  array  $file
+     * @return \Psr\Http\Message\UploadedFile
+     */
+    protected function file(array $file)
+    {
+        $tmp = $file['tmp_name'];
+        $size = $file['size'];
+        $error = $file['error'];
+        $original = $file['name'];
+        $type = $file['type'];
+
+        return new UploadedFile($tmp, $size, $error, $original, $type);
+    }
+
+    /**
      * Parses the $_FILES into multiple \Psr\Http\Message\UploadedFile instances.
      *
      * @param  array $uploaded
@@ -259,15 +276,17 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     {
         $files = array();
 
-        foreach ($uploaded as $file) {
+        foreach ($uploaded as $name => $file) {
             $count = count($file['name']);
+
+            $files[$name] = array();
 
             for ($i = 0; $i < $count; $i++) {
                 foreach (array_keys($file) as $key) {
-                    $files[$i][$key] = $file[$key][$i];
+                    $files[$name][$i][$key] = $file[$key][$i];
                 }
 
-                $files[$i] = new UploadedFile($files[$i]['tmp_name'], $files[$i]['size'], $files[$i]['error'], $files[$i]['name'], $files[$i]['type']);
+                $files[$name][$i] = $this->file($files[$name][$i]);
             }
         }
 
