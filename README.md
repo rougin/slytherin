@@ -19,7 +19,7 @@ $ composer require rougin/slytherin
 
 ## Usage
 
-### Using [ContainerInterface](https://github.com/rougin/slytherin/blob/master/src/Container/ContainerInterface.php)
+### Using [ContainerInterface](src/Container/ContainerInterface.php)
 
 ``` php
 // Define HTTP objects that is compliant to PSR-7 standards
@@ -45,7 +45,7 @@ $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
 (new Rougin\Slytherin\Application($container))->run();
 ```
 
-### Using [IntegrationInterface](https://github.com/rougin/slytherin/blob/master/src/Integration/IntegrationInterface.php)
+### Using [IntegrationInterface](src/Integration/IntegrationInterface.php)
 
 ``` php
 // Specify the integrations to be included and defined
@@ -75,6 +75,14 @@ $ php -S localhost:8000
 ```
 
 Open your web browser and go to [http://localhost:8000](http://localhost:8000).
+
+### Required packages
+
+* A [PSR-7](http://www.php-fig.org/psr/psr-7) compliant HTTP package
+* A [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) compliant Container package
+* Any route dispatching package, must be implemented in [`DispatcherInterface`](src/Routing/DispatcherInterface.php)
+
+*NOTE*: Slytherin also provide implementations of the mentioned items above.
 
 ## Change log
 
