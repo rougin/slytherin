@@ -35,10 +35,17 @@ class Application
     protected static $container;
 
     /**
+     * @var \Rougin\Slytherin\Integration\Configuration
+     */
+    protected $configuration;
+
+    /**
      * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(ContainerInterface $container = null, Integration\Configuration $configuration = null)
     {
+        $this->configuration = $configuration ?: new Integration\Configuration;
+
         static::$container = $container ?: new Container\Container;
     }
 
@@ -76,15 +83,17 @@ class Application
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  array                                       $integrations
+     * @param  array|string                                $integrations
      * @param  \Rougin\Slytherin\Integration\Configuration $configuration
      * @return self
      */
-    public function integrate(array $integrations, Integration\Configuration $configuration = null)
+    public function integrate($integrations, Integration\Configuration $configuration = null)
     {
-        $configuration = $configuration ?: new Integration\Configuration;
+        $configuration = $configuration ?: $this->configuration;
 
         $container = static::container();
+
+        $integrations = (is_string($integrations)) ? array($integrations) : $integrations;
 
         foreach ($integrations as $integration) {
             $integration = new $integration;
@@ -93,6 +102,8 @@ class Application
         }
 
         static::$container = $container;
+
+        $this->configuration = $configuration;
 
         return $this;
     }
