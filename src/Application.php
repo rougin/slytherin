@@ -6,6 +6,8 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+use Rougin\Slytherin\Integration\Configuration;
+
 /**
  * Application
  *
@@ -23,11 +25,10 @@ class Application
 
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
-    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
-
-    const ROUTE_DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
-    const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
+    /**
+     * @var \Rougin\Slytherin\Integration\Configuration
+     */
+    protected $config;
 
     /**
      * @var \Psr\Container\ContainerInterface
@@ -35,16 +36,11 @@ class Application
     protected static $container;
 
     /**
-     * @var \Rougin\Slytherin\Integration\Configuration
-     */
-    protected $configuration;
-
-    /**
      * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null, Integration\Configuration $configuration = null)
+    public function __construct(ContainerInterface $container = null, Configuration $config = null)
     {
-        $this->configuration = $configuration ?: new Integration\Configuration;
+        $this->config = $config ?: new Integration\Configuration;
 
         static::$container = $container ?: new Container\Container;
     }
@@ -67,7 +63,7 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $callback = call_user_func_array(array($this, 'callback'), $this->callables());
+        $callback = new Application\CallbackHandler(self::$container);
 
         if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
@@ -84,26 +80,22 @@ class Application
      * Adds the specified integrations to the container.
      *
      * @param  array|string                                $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration $configuration
+     * @param  \Rougin\Slytherin\Integration\Configuration $config
      * @return self
      */
-    public function integrate($integrations, Integration\Configuration $configuration = null)
+    public function integrate($integrations, Configuration $config = null)
     {
-        $configuration = $configuration ?: $this->configuration;
+        $config = $config ?: $this->config;
 
-        $container = static::container();
-
-        $integrations = (is_string($integrations)) ? array($integrations) : $integrations;
+        is_array($integrations) || $integrations = array($integrations);
 
         foreach ($integrations as $integration) {
-            $integration = new $integration;
+            $class = array(new $integration, 'define');
 
-            $container = $integration->define($container, $configuration);
+            $data = array(static::$container, $config);
+
+            call_user_func_array($class, $data);
         }
-
-        static::$container = $container;
-
-        $this->configuration = $configuration;
 
         return $this;
     }
@@ -133,138 +125,5 @@ class Application
         }
 
         echo (string) $response->getBody();
-    }
-
-    /**
-     * Returns a listing of callables to be prepared.
-     *
-     * @return array
-     */
-    protected function callables()
-    {
-        $callables = array();
-
-        array_push($callables, $this->dispatch(self::$container));
-        array_push($callables, $this->finalize(self::$container));
-        array_push($callables, $this->middleware(self::$container));
-        array_push($callables, $this->resolve(new Container\Container(array(), self::$container)));
-
-        return $callables;
-    }
-
-    /**
-     * Returns the result of the function by resolving it through a container.
-     *
-     * @param  callable $dispatch
-     * @param  callable $finalize
-     * @param  callable $middleware
-     * @param  callable $resolve
-     * @return callable
-     */
-    protected function callback($dispatch, $finalize, $middleware, $resolve)
-    {
-        return function ($request) use ($dispatch, $finalize, $middleware, $resolve) {
-            list($function, $middlewares) = $dispatch($request);
-
-            $callback = function ($request) use ($function, $finalize, $resolve) {
-                return $finalize($resolve($function, $request));
-            };
-
-            $result = $middleware($callback, $middlewares, $request);
-
-            return $result ?: $callback($request);
-        };
-    }
-
-    /**
-     * Returns the result from \Rougin\Slytherin\Routing\DispatcherInterface.
-     *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return callable
-     */
-    protected function dispatch(ContainerInterface $container)
-    {
-        return function ($request) use ($container) {
-            $dispatcher = $container->get('Rougin\Slytherin\Routing\DispatcherInterface');
-
-            if ($container->has('Rougin\Slytherin\Routing\RouterInterface')) {
-                $router = $container->get('Rougin\Slytherin\Routing\RouterInterface');
-
-                $dispatcher->router($router);
-            }
-
-            list($method, $uri) = array($request->getMethod(), $request->getUri());
-
-            return $dispatcher->dispatch($method, $uri->getPath());
-        };
-    }
-
-    /**
-     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
-     *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return callable
-     */
-    protected function finalize(ContainerInterface $container)
-    {
-        return function ($result) use ($container) {
-            $response = $container->get('Psr\Http\Message\ResponseInterface');
-
-            $response = ($result instanceof ResponseInterface) ? $result : $response;
-
-            $result instanceof ResponseInterface ?: $response->getBody()->write($result);
-
-            return $response;
-        };
-    }
-
-    /**
-     * Dispatches the middlewares of the specified request, if there are any.
-     *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return callable
-     */
-    protected function middleware(ContainerInterface $container)
-    {
-        return function ($callback, $middlewares, $request) use ($container) {
-            $result = null;
-
-            if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-                $response = $container->get('Psr\Http\Message\ResponseInterface');
-
-                $middleware = new Middleware\Dispatcher($middlewares, $response);
-
-                $result = $middleware->process($request, new Middleware\Delegate($callback));
-            }
-
-            return $result;
-        };
-    }
-
-    /**
-     * Returns the result of the function by resolving it through a container.
-     *
-     * @param  \Rougin\Slytherin\Container\Container $container
-     * @return callable
-     */
-    protected function resolve(Container\Container $container)
-    {
-        return function ($function, $request) use ($container) {
-            if (is_array($function) === true) {
-                if (is_array($function[0]) && is_string($function[0][0])) {
-                    $function[0][0] = $container->resolve($function[0][0], $request);
-
-                    $reflector = new \ReflectionMethod($function[0][0], $function[0][1]);
-                } else {
-                    $reflector = new \ReflectionFunction($function[0]);
-                }
-
-                $function[1] = $container->arguments($reflector, $function[1]);
-
-                $function = call_user_func_array($function[0], $function[1]);
-            }
-
-            return $function;
-        };
     }
 }

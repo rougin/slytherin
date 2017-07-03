@@ -28,7 +28,8 @@ class Container implements ContainerInterface
     public $instances = array();
 
     /**
-     * @param array $instances
+     * @param array                                  $instances
+     * @param \Psr\Container\ContainerInterface|null $container
      */
     public function __construct(array $instances = array(), PsrContainerInterface $container = null)
     {

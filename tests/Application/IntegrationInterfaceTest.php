@@ -21,10 +21,8 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
         array_push($integrations, 'Rougin\Slytherin\Http\HttpIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
         array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
         array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
 
         $config = new \Rougin\Slytherin\Integration\Configuration;
 
@@ -36,6 +34,23 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         $app = new \Rougin\Slytherin\Application;
 
+        $app->integrate('Rougin\Slytherin\Template\RendererIntegration');
+        $app->integrate('Rougin\Slytherin\Integration\ConfigurationIntegration');
+
         $this->application = $app->integrate($integrations, $config);
+    }
+
+    /**
+     * Tests the instances of static::$container.
+     *
+     * @return
+     */
+    public function testStaticContainer()
+    {
+        $container = \Rougin\Slytherin\Application::container();
+
+        $interface = 'Rougin\Slytherin\Template\RendererInterface';
+
+        $this->assertTrue($container->has($interface));
     }
 }
