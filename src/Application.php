@@ -36,7 +36,7 @@ class Application
     /**
      * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null, Configuration $config = null)
+    public function __construct(ContainerInterface $container = null, Integration\Configuration $config = null)
     {
         $this->config = $config ?: new Integration\Configuration;
 
@@ -81,7 +81,7 @@ class Application
      * @param  \Rougin\Slytherin\Integration\Configuration $config
      * @return self
      */
-    public function integrate($integrations, Configuration $config = null)
+    public function integrate($integrations, Integration\Configuration $config = null)
     {
         $config = $config ?: $this->config;
 
