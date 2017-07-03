@@ -6,8 +6,6 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use Rougin\Slytherin\Integration\Configuration;
-
 /**
  * Application
  *
@@ -87,7 +85,7 @@ class Application
     {
         $config = $config ?: $this->config;
 
-        is_array($integrations) || $integrations = array($integrations);
+        $integrations = is_string($integrations) ? array($integrations) : $integrations;
 
         foreach ($integrations as $integration) {
             $class = array(new $integration, 'define');

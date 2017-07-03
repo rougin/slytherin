@@ -18,6 +18,8 @@ class CallbackHandler
 
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
+    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
+
     /**
      * @var \Rougin\Slytherin\Application\FinalCallback
      */
@@ -58,9 +60,11 @@ class CallbackHandler
 
         list($function, $middlewares) = $dispatcher->dispatch($method, $path);
 
-        $this->callback = new FinalCallback($this->container, $function);
+        $callback = new FinalCallback($this->container, $function);
 
-        return $this->middleware($request, $middlewares) ?: $this->callback($request);
+        $this->callback = $callback;
+
+        return $this->middleware($request, $middlewares) ?: $callback($request);
     }
 
     /**
@@ -72,14 +76,16 @@ class CallbackHandler
      */
     protected function middleware(ServerRequestInterface $request, array $middlewares = array())
     {
-        $response = $this->container->get('Psr\Http\Message\ResponseInterface');
+        list($result, $response) = array(null, $this->container->get(self::RESPONSE));
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             $middleware = new \Rougin\Slytherin\Middleware\Dispatcher($middlewares, $response);
 
             $delegate = new \Rougin\Slytherin\Middleware\Delegate($this->callback);
+
+            $result = $middleware->process($request, $delegate);
         }
 
-        return isset($delegate) ? $middleware->process($request, $delegate) : null;
+        return $result;
     }
 }
