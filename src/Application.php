@@ -83,17 +83,17 @@ class Application
      */
     public function integrate($integrations, Integration\Configuration $config = null)
     {
-        $config = $config ?: $this->config;
+        list($config, $container) = array($config ?: $this->config, static::$container);
 
         $integrations = is_string($integrations) ? array($integrations) : $integrations;
 
         foreach ($integrations as $integration) {
-            $class = array(new $integration, 'define');
+            $integration = new $integration;
 
-            $data = array(static::$container, $config);
-
-            call_user_func_array($class, $data);
+            $container = $integration->define($container, $config);
         }
+
+        static::$container = $container;
 
         return $this;
     }
