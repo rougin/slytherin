@@ -81,7 +81,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     {
         error_reporting(E_ALL);
 
-        $this->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+        $handler = new \Whoops\Handler\PrettyPageHandler;
+
+        $this->__call('pushHandler', array($handler));
 
         return $this->whoops->register();
     }
