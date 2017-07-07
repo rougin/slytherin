@@ -25,18 +25,4 @@ class StratigilityDispatcherTest extends DispatcherTestCases
 
         $this->dispatcher = new StratigilityDispatcher($pipe);
     }
-
-    /**
-     * Tests StratigilityDispatcher::raiseThrowables.
-     *
-     * @return void
-     */
-    public function testCallMagicMethod()
-    {
-        $middleware = new \Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware;
-
-        $this->dispatcher->__call('pipe', array($middleware));
-
-        $this->assertTrue(true);
-    }
 }
