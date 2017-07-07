@@ -6,7 +6,6 @@ namespace Rougin\Slytherin\Debug;
  * Error Handler Interface
  *
  * An interface for handling third party error handlers.
- * NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -14,22 +13,7 @@ namespace Rougin\Slytherin\Debug;
 interface ErrorHandlerInterface
 {
     /**
-     * Sets up the environment to be used.
-     *
-     * @param  string $environment
-     * @return self
-     */
-    public function setEnvironment($environment);
-
-    /**
-     * Gets the specified environment.
-     *
-     * @return string
-     */
-    public function getEnvironment();
-
-    /**
-     * Registers the instance as a debugger.
+     * Registers the instance as an error handler.
      *
      * @return object
      */

@@ -2,7 +2,7 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [Unreleased](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
+## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.0...HEAD) - [CURRENT_DATE]
 
 **NOTE**: This release may break your application if upgrading from `v0.8.0` release.
 
@@ -26,21 +26,34 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Application::container` for getting the static instance of [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
 - `Container\ReflectionContainer` for using PHP's [Reflection API](http://php.net/manual/en/book.reflection.php) for solving class dependencies
 - Resolving of type hinted parameters in functions or class methods
+- `Application\CallbackHandler` and `Application\FinalCallback` for building a callback for the application
 
 ### Changed
 - Minimum required PHP version to `v5.3.0`
 - `Dispatching` directory to `Routing`
 - `IoC` directory to `Container`
 - `Debug\Debugger` to `Debug\ErrorHandler`
-    - This directory is now deprecated and will be removed in `v1.0.0`
 - `Middleware\MiddlewareInterface` to `Middleware\DispatcherInterface`
 - Emit headers on `Application::run` only
 - Allow anonymous functions and objects in adding middleware from a specified route in `Middleware\Stratigility`
 
+### Deprecated
+- `Application\Application` class
+- `Component` directory
+- `Debug\Debugger` class
+- `Debugger` related classes
+- `Dispatching` directory
+- `ErrorHandler` directory
+- `IoC` directory
+- `Middleware\MiddlewareInterface` interface
+- `Middleware\Stratigility\Middleware` class
+- `Template\Twig\Renderer` class
+- `Vanilla` related classes
+
 ### Removed
-- HTTP method spoofing (apply it on a middleware instead)
-- `Vanilla` prefix in classes
-- Traits
+- HTTP method spoofing (apply it on a [middleware](https://github.com/rougin/weasley/blob/master/src/Http/Middleware/FormMethodSpoofing.php) instead)
+- Traits (in order to achieve PHP `v5.3.0` as the minimum required version)
+- `getEnvironment` and `setEnvironment` in `Debug\ErrorHandlerInterface`
 
 ## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
 

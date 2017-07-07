@@ -30,7 +30,9 @@ class ErrorHandlerIntegration implements \Rougin\Slytherin\Integration\Integrati
         $handler = new ErrorHandler($environment);
 
         if (class_exists('Whoops\Run')) {
-            $handler = new WhoopsErrorHandler(new \Whoops\Run, $environment);
+            $whoops = new \Whoops\Run;
+
+            $handler = new WhoopsErrorHandler($whoops, $environment);
         }
 
         if ($environment == 'development') {

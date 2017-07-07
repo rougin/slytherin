@@ -25,4 +25,16 @@ class StratigilityDispatcherTest extends DispatcherTestCases
 
         $this->dispatcher = new StratigilityDispatcher($pipe);
     }
+
+    /**
+     * Tests StratigilityDispatcher::raiseThrowables.
+     *
+     * @return void
+     */
+    public function testCallMagicMethod()
+    {
+        $this->dispatcher->raiseThrowables();
+
+        $this->assertTrue(true);
+    }
 }

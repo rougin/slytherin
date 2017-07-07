@@ -62,30 +62,29 @@ class CallbackHandler
 
         $callback = new FinalCallback($this->container, $function);
 
-        $this->callback = $callback;
-
-        return $this->middleware($request, $middlewares) ?: $callback($request);
+        return $this->middleware($callback, $request, $middlewares);
     }
 
     /**
      * Dispatches the middlewares of the specified request, if there are any.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  array                                    $middlewares
+     * @param  \Rougin\Slytherin\Application\FinalCallback $callback
+     * @param  \Psr\Http\Message\ServerRequestInterface    $request
+     * @param  array                                       $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    protected function middleware(ServerRequestInterface $request, array $middlewares = array())
+    protected function middleware(FinalCallback $callback, ServerRequestInterface $request, array $middlewares = array())
     {
         list($result, $response) = array(null, $this->container->get(self::RESPONSE));
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             $middleware = new \Rougin\Slytherin\Middleware\Dispatcher($middlewares, $response);
 
-            $delegate = new \Rougin\Slytherin\Middleware\Delegate($this->callback);
+            $delegate = new \Rougin\Slytherin\Middleware\Delegate($callback);
 
             $result = $middleware->process($request, $delegate);
         }
 
-        return $result;
+        return is_null($result) ? $callback($request) : $result;
     }
 }

@@ -38,6 +38,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Sets up the environment to be used.
+     * NOTE: To be removed in v1.0.0.
      *
      * @param  string $environment
      * @return self
@@ -51,6 +52,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Gets the specified environment.
+     * NOTE: To be removed in v1.0.0.
      *
      * @return string
      */
@@ -61,6 +63,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Returns a listing of handlers.
+     * NOTE: To be removed in v1.0.0. Use __call() instead.
      *
      * @return \Whoops\Handler\HandlerInterface[]
      */
@@ -70,28 +73,39 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Registers the instance as a debugger.
+     * Registers the instance as an error handler.
      *
-     * @return \Whoops\Run
+     * @return mixed
      */
     public function display()
     {
         error_reporting(E_ALL);
 
-        if ($this->environment === 'development') {
-            $this->setHandler(new \Whoops\Handler\PrettyPageHandler);
-        }
+        $this->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 
         return $this->whoops->register();
     }
 
     /**
      * Sets a handler.
+     * NOTE: To be removed in v1.0.0. Use __call() instead.
      *
      * @param \Whoops\Handler\HandlerInterface|callable $handler
      */
     public function setHandler($handler)
     {
         $this->whoops->pushHandler($handler);
+    }
+
+    /**
+     * Calls methods from the \Whoops\Run instance.
+     *
+     * @param  string $method
+     * @param  mixed  $parameters
+     * @return mixed
+     */
+    public function __call($method, $parameters)
+    {
+        return call_user_func_array(array($this->whoops, $method), $parameters);
     }
 }

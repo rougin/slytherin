@@ -277,9 +277,7 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
         $files = array();
 
         foreach ($uploaded as $name => $file) {
-            $count = count($file['name']);
-
-            $files[$name] = array();
+            list($count, $files[$name]) = array(count($file['name']), array());
 
             for ($i = 0; $i < $count; $i++) {
                 foreach (array_keys($file) as $key) {

@@ -50,10 +50,10 @@ class Router implements RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string|string[] $httpMethod
-     * @param  string          $route
-     * @param  array|string    $handler
-     * @param  array|string    $middlewares
+     * @param  string       $httpMethod
+     * @param  string       $route
+     * @param  array|string $handler
+     * @param  array|string $middlewares
      * @return self
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
@@ -69,10 +69,10 @@ class Router implements RouterInterface
      * Adds a new raw route.
      * NOTE: To be removed in v1.0.0. Use $this->add() instead.
      *
-     * @param  string|string[] $httpMethod
-     * @param  string          $route
-     * @param  mixed           $handler
-     * @param  array           $middlewares
+     * @param  string       $httpMethod
+     * @param  string       $route
+     * @param  array|string $handler
+     * @param  array|string $middlewares
      * @return self
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())

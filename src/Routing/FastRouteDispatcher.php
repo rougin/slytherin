@@ -70,7 +70,7 @@ class FastRouteDispatcher extends Dispatcher implements DispatcherInterface
 
         $routes = $router->routes(true);
 
-        if (! $router instanceof FastRouteRouter) {
+        if ($router instanceof FastRouteRouter === false) {
             $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
                 foreach (array_filter($router->routes()) as $route) {
                     $collector->addRoute($route[0], $route[1], $route[2]);

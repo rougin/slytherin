@@ -28,6 +28,7 @@ class ErrorHandler implements ErrorHandlerInterface
 
     /**
      * Sets up the environment to be used.
+     * NOTE: To be removed in v1.0.0.
      *
      * @param  string $environment
      * @return self
@@ -41,6 +42,7 @@ class ErrorHandler implements ErrorHandlerInterface
 
     /**
      * Gets the specified environment.
+     * NOTE: To be removed in v1.0.0.
      *
      * @return string
      */
@@ -50,14 +52,14 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Registers the instance as a debugger.
+     * Registers the instance as an error handler.
      *
-     * @return string
+     * @return mixed
      */
     public function display()
     {
         error_reporting(E_ALL);
 
-        return '';
+        ini_set('display_errors', 1);
     }
 }
