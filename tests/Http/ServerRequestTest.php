@@ -126,6 +126,39 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getUploadedFiles() and a single uploaded file.
+     *
+     * @return void
+     */
+    public function testGetUploadedFilesWithSingleUploadedFile()
+    {
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+        $_SERVER['REQUEST_URI'] = '/';
+        $_SERVER['SERVER_NAME'] = 'localhost';
+        $_SERVER['SERVER_PORT'] = '8000';
+
+        $uploaded = array('file' => array());
+
+        $uploaded['file']['error'] = 0;
+        $uploaded['file']['name'] = 'test.txt';
+        $uploaded['file']['size'] = 617369;
+        $uploaded['file']['tmp_name'] = '/tmp/test.txt';
+        $uploaded['file']['type'] = 'application/pdf';
+
+        $request = new ServerRequest($_SERVER, array(), array(), $uploaded);
+
+        $error = $uploaded['file']['error'];
+        $name = $uploaded['file']['name'];
+        $size = $uploaded['file']['size'];
+        $file = $uploaded['file']['tmp_name'];
+        $type = $uploaded['file']['type'];
+
+        $expected = array('file' => array(new UploadedFile($file, $size, $error, $name, $type)));
+
+        $this->assertEquals($expected, $request->getUploadedFiles());
+    }
+
+    /**
      * Tests getAttribute(), getAttributes(), withAttribute() and withoutAttribute().
      *
      * @return void

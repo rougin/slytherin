@@ -250,6 +250,25 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     }
 
     /**
+     * Updates the contents into array for single uploaded file.
+     *
+     * @param  array $file
+     * @return array
+     */
+    public function arrayify(array $file)
+    {
+        if (! is_array($file['name'])) {
+            $file['tmp_name'] = array($file['tmp_name']);
+            $file['size'] = array($file['size']);
+            $file['error'] = array($file['error']);
+            $file['name'] = array($file['name']);
+            $file['type'] = array($file['type']);
+        }
+
+        return $file;
+    }
+
+    /**
      * Creates a new \Psr\Http\Message\UploadedFile instance.
      *
      * @param  array  $file
@@ -277,6 +296,8 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
         $files = array();
 
         foreach ($uploaded as $name => $file) {
+            $file = $this->arrayify($file);
+
             list($count, $files[$name]) = array(count($file['name']), array());
 
             for ($i = 0; $i < $count; $i++) {
