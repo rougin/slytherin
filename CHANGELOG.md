@@ -2,6 +2,11 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.1](https://github.com/rougin/slytherin/compare/v0.9.0...v0.9.1) - 2017-07-21
+
+### Fixed
+- Retrieving a single uploaded file in `ServerRequest::getUploadedFiles`
+
 ## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.0...v0.9.0) - 2017-07-08
 
 **NOTE**: This release may break your application if upgrading from `v0.8.0` release.
