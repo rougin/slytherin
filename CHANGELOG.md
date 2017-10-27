@@ -2,6 +2,12 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.2](https://github.com/rougin/slytherin/compare/v0.9.1...v0.9.2) - 2017-10-27
+
+### Fixed
+- Getting default values of a class in `Container\ReflectionContainer`
+- Returning empty values in `Integration\Configuration`
+
 ## [0.9.1](https://github.com/rougin/slytherin/compare/v0.9.0...v0.9.1) - 2017-07-21
 
 ### Fixed

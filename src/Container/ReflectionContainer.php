@@ -91,7 +91,9 @@ class ReflectionContainer implements \Psr\Container\ContainerInterface
 
             $argument = $this->argument($parameter, $name);
 
-            $arguments[$key] = $argument ?: $parameters[$name];
+            $exists = array_key_exists($name, $parameters);
+
+            $arguments[$key] = $exists ? $parameters[$name] : $argument;
         }
 
         return $arguments;

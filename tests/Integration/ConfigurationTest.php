@@ -25,6 +25,32 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests Configuration::get with integer and default value.
+     *
+     * @return void
+     */
+    public function testGetMethodWithIntegerAndDefaultValue()
+    {
+        list($data, $default) = array(array('number' => 0), 1);
+
+        $config = new Configuration($data);
+
+        $this->assertEquals($data['number'], $config->get('number', $default));
+    }
+
+    /**
+     * Tests Conguration::get with default value.
+     *
+     * @return void
+     */
+    public function testGetMethodWithDefaultValue()
+    {
+        $config = new Configuration;
+
+        $this->assertNull($config->get('name'));
+    }
+
+    /**
      * Tests Configuration::get with array.
      *
      * @return void
