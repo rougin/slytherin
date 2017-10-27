@@ -52,6 +52,22 @@ class ReflectionContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests ContainerInterface::get with multiple parameters.
+     *
+     * @return void
+     */
+    public function testGetMethodWithMultipleParameters()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\ParameterClass';
+
+        $expected = 'With multiple parameters';
+
+        $object = $this->container->get($class);
+
+        $this->assertEquals($expected, $object->index());
+    }
+
+    /**
      * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
      *
      * @return void

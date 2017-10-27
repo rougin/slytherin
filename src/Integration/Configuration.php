@@ -47,7 +47,7 @@ class Configuration
             $data = &$data[$index];
         }
 
-        return (empty($data)) ? $default : $data;
+        return ($data !== null) ? $data : $default;
     }
 
     /**
