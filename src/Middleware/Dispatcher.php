@@ -116,12 +116,12 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     public function push($middleware)
     {
         if (is_array($middleware)) {
-            $stack = array_merge($this->stack, $middleware);
+            $this->stack = array_merge($this->stack, $middleware);
 
-            $this->stack = $stack;
-        } else {
-            array_push($this->stack, $middleware);
+            return $this;
         }
+
+        array_push($this->stack, $middleware);
 
         return $this;
     }

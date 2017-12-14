@@ -87,10 +87,8 @@ class Application
     {
         list($config, $container) = array($config ?: $this->config, static::$container);
 
-        $integrations = is_array($integrations) ? $integrations : array($integrations);
-
-        foreach ($integrations as $integration) {
-            $integration = is_string($integration) ? new $integration : $integration;
+        foreach ((array) $integrations as $item) {
+            $integration = is_string($item) ? new $item : $item;
 
             $container = $integration->define($container, $config);
         }
