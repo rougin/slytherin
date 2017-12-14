@@ -79,18 +79,18 @@ class Application
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  array|string                                $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration $config
+     * @param  \Rougin\Slytherin\Integration\IntegrationInterface|array|string $integrations
+     * @param  \Rougin\Slytherin\Integration\Configuration                     $config
      * @return self
      */
     public function integrate($integrations, Integration\Configuration $config = null)
     {
         list($config, $container) = array($config ?: $this->config, static::$container);
 
-        $integrations = is_string($integrations) ? array($integrations) : $integrations;
+        $integrations = is_array($integrations) ? $integrations : array($integrations);
 
         foreach ($integrations as $integration) {
-            $integration = new $integration;
+            $integration = is_string($integration) ? new $integration : $integration;
 
             $container = $integration->define($container, $config);
         }

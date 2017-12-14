@@ -196,7 +196,7 @@ class Uri implements \Psr\Http\Message\UriInterface
     {
         $new = clone $this;
 
-        $new->user = $user . '[:' . $password . ']';
+        $new->user = $user . ':' . $password . '';
 
         return $new;
     }
