@@ -1,13 +1,7 @@
 {
     "name": "rougin/slytherin",
-    "description": "Yet Another Extensible PHP Library/Framework",
-    "keywords": [
-        "barebones",
-        "php framework",
-        "php library",
-        "extensible framework",
-        "slytherin"
-    ],
+    "description": "Yet another extensible micro-framework for PHP.",
+    "keywords": ["php framework", "php library", "slytherin"],
     "homepage": "https://github.com/rougin/slytherin",
     "license": "MIT",
     "authors": [

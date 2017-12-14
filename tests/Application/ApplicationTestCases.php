@@ -165,6 +165,10 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithMiddleware()
     {
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
+        }
+
         $request = $this->request('GET', '/middleware');
 
         $result = $this->application->handle($request);

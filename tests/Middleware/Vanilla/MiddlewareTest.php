@@ -17,6 +17,10 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvokeMethod()
     {
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
+        }
+
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI']    = '/';
         $_SERVER['SERVER_NAME']    = 'localhost';
@@ -46,6 +50,10 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethod()
     {
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
+        }
+
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI']    = '/';
         $_SERVER['SERVER_NAME']    = 'localhost';

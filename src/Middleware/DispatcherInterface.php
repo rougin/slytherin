@@ -13,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface DispatcherInterface extends \Interop\Http\ServerMiddleware\MiddlewareInterface
+interface DispatcherInterface extends MiddlewareInterface
 {
     /**
      * Processes the specified middlewares from stack.

@@ -17,6 +17,10 @@ class DispatcherTest extends DispatcherTestCases
      */
     public function setUp()
     {
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
+        }
+
         $this->dispatcher = new Dispatcher;
     }
 }

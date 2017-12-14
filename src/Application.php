@@ -61,9 +61,11 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
+        $exists = interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface');
+
         $callback = new Application\CallbackHandler(self::$container);
 
-        if (static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
+        if ($exists && static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
             $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
 
             $delegate = new Middleware\Delegate($callback);

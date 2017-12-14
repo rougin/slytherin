@@ -2,6 +2,11 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.3](https://github.com/rougin/slytherin/compare/v0.9.2...v0.9.3) - Unreleased
+
+### Fixed
+- Running test cases without third-party packages
+
 ## [0.9.2](https://github.com/rougin/slytherin/compare/v0.9.1...v0.9.2) - 2017-10-27
 
 ### Fixed

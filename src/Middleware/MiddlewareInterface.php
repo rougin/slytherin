@@ -11,6 +11,6 @@ namespace Rougin\Slytherin\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface MiddlewareInterface extends DispatcherInterface
+interface MiddlewareInterface extends \Interop\Http\ServerMiddleware\MiddlewareInterface
 {
 }

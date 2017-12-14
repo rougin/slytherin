@@ -178,7 +178,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
         array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
         array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
+
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
+        }
+
         array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
 
         $this->expectOutputString('Hello');
