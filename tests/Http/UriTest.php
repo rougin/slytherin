@@ -60,7 +60,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
     {
         $uri = $this->uri->withUserInfo('username', 'password');
 
-        $this->assertEquals('username[:password]', $uri->getUserInfo());
+        $this->assertEquals('username:password', $uri->getUserInfo());
     }
 
     /**
