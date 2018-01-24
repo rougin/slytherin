@@ -1,6 +1,6 @@
 {
     "name": "rougin/slytherin",
-    "description": "Yet another extensible micro-framework for PHP.",
+    "description": "Yet another extensible PHP micro-framework.",
     "keywords": ["php framework", "php library", "slytherin"],
     "homepage": "https://github.com/rougin/slytherin",
     "license": "MIT",
