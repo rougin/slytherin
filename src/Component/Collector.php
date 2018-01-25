@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Component;
 
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
 
 /**
  * Component Collector
@@ -25,11 +26,11 @@ class Collector
      */
     public static function get(ContainerInterface $container, array $components = array(), &$globals = null)
     {
-        $configuration = new \Rougin\Slytherin\Integration\Configuration;
+        $configuration = new Configuration;
 
         $collection = new Collection;
 
-        foreach ($components as $component) {
+        foreach ((array) $components as $component) {
             $instance = self::prepare($collection, $component);
 
             $container = $instance->define($container, $configuration);
@@ -54,12 +55,14 @@ class Collector
     {
         $instance = new $component;
 
-        $type = $instance->type();
+        if (empty($type = $instance->type()) === false) {
+            $parameters = array($instance->get());
 
-        if (! empty($type)) {
-            $parameters = ($type == 'http') ? $instance->get() : array($instance->get());
+            $type === 'http' && $parameters = $instance->get();
 
-            call_user_func_array(array($collection, 'set' . ucfirst($type)), $parameters);
+            $class = array($collection, 'set' . ucfirst($type));
+
+            call_user_func_array($class, $parameters);
         }
 
         return $instance;

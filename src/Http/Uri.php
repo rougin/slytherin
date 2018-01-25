@@ -11,6 +11,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\UriInterface;
+
 /**
  * URI
  *
@@ -18,7 +20,7 @@ namespace Rougin\Slytherin\Http;
  * @author  Kévin Dunglas <dunglas@gmail.com>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Uri implements \Psr\Http\Message\UriInterface
+class Uri implements UriInterface
 {
     /**
      * @var string
@@ -61,6 +63,8 @@ class Uri implements \Psr\Http\Message\UriInterface
     protected $uri = '';
 
     /**
+     * Initializes the URI instance.
+     *
      * @param string $uri
      */
     public function __construct($uri = '')
@@ -171,13 +175,15 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * Return an instance with the specified scheme.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string $scheme
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withScheme($scheme)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->scheme = $scheme;
@@ -204,13 +210,15 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * Return an instance with the specified host.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string $host
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withHost($host)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->host = $host;
@@ -221,13 +229,15 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * Return an instance with the specified port.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  null|integer $port
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withPort($port)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->port = $port;
@@ -238,13 +248,15 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * Return an instance with the specified path.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string $path
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withPath($path)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->path = $path;
@@ -255,13 +267,15 @@ class Uri implements \Psr\Http\Message\UriInterface
     /**
      * Return an instance with the specified query string.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string $query
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withQuery($query)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->query = $query;

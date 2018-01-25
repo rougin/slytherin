@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Routing\FastRoute;
 
-use FastRoute\RouteCollector;
+use Rougin\Slytherin\Routing\FastRouteRouter;
 
 /**
  * FastRoute Router
@@ -15,6 +15,6 @@ use FastRoute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends \Rougin\Slytherin\Routing\FastRouteRouter
+class Router extends FastRouteRouter
 {
 }

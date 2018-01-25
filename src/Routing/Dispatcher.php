@@ -23,6 +23,8 @@ class Dispatcher implements DispatcherInterface
     protected $routes = array();
 
     /**
+     * Initializes the route dispatcher instance.
+     *
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      */
     public function __construct(RouterInterface $router = null)

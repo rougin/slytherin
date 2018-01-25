@@ -20,6 +20,8 @@ class PhrouteResolver implements \Phroute\Phroute\HandlerResolverInterface
     protected $container;
 
     /**
+     * Initializes the resolver instance.
+     *
      * @param \Psr\Container\ContainerInterface $container
      */
     public function __construct(\Psr\Container\ContainerInterface $container)

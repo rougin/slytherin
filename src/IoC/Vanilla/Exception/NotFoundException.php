@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\IoC\Vanilla\Exception;
 
+use Rougin\Slytherin\Container\Exception\NotFoundException as BaseNotFoundException;
+
 /**
  * Not Found Exception
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\IoC\Vanilla\Exception;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class NotFoundException extends \Rougin\Slytherin\Container\Exception\NotFoundException
+class NotFoundException extends BaseNotFoundException
 {
 }

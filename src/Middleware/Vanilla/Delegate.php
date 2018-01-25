@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
+use Rougin\Slytherin\Middleware\VanillaDelegate;
+
 /**
  * Delegate
  *
@@ -12,6 +14,6 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Delegate extends \Rougin\Slytherin\Middleware\VanillaDelegate
+class Delegate extends VanillaDelegate
 {
 }

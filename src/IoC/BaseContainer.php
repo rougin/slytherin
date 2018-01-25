@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\IoC;
 
+use Rougin\Slytherin\Container\BaseContainer as AbstractContainer;
+
 /**
  * Base Container
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\IoC;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class BaseContainer extends \Rougin\Slytherin\Container\BaseContainer
+class BaseContainer extends AbstractContainer
 {
 }

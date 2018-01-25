@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+
 /**
  * Reflection Container
  *
@@ -10,7 +12,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements \Psr\Container\ContainerInterface
+class ReflectionContainer implements PsrContainerInterface
 {
     /**
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
@@ -25,10 +27,10 @@ class ReflectionContainer implements \Psr\Container\ContainerInterface
      */
     public function get($id)
     {
-        if (! $this->has($id)) {
-            $message = 'Class (%s) does not exists';
+        if ($this->has($id) === false) {
+            $message = sprintf('Class (%s) does not exists', $id);
 
-            throw new Exception\NotFoundException(sprintf($message, $id));
+            throw new Exception\NotFoundException($message);
         }
 
         $reflection = new \ReflectionClass($id);

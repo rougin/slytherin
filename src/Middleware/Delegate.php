@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Http\Response;
 
 /**
  * Delegate
@@ -13,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
+class Delegate implements HandlerInterface
 {
     /**
      * @var callable|array
@@ -21,6 +22,8 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
     protected $callback;
 
     /**
+     * Initializes the delegate instance.
+     *
      * @param callable|null $callback
      */
     public function __construct($callback = null)
@@ -57,6 +60,6 @@ class Delegate implements \Interop\Http\ServerMiddleware\DelegateInterface
      */
     protected function response()
     {
-        return new \Rougin\Slytherin\Http\Response;
+        return new Response;
     }
 }

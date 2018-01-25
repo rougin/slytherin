@@ -5,6 +5,11 @@ namespace Rougin\Slytherin;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Application\CallbackHandler;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\ConfigurationInterface;
+use Rougin\Slytherin\Middleware\Delegate;
 
 /**
  * Application
@@ -19,12 +24,12 @@ class Application
     // NOTE: To be removed in v1.0.0
     const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
-    const MIDDLEWARE_DISPATCHER = 'Rougin\Slytherin\Middleware\DispatcherInterface';
+    const MIDDLEWARE = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     /**
-     * @var \Rougin\Slytherin\Integration\Configuration
+     * @var \Rougin\Slytherin\Integration\ConfigurationInterface
      */
     protected $config;
 
@@ -34,13 +39,16 @@ class Application
     protected static $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null $container
+     * Initializes the application instance.
+     *
+     * @param \Psr\Container\ContainerInterface|null                    $container
+     * @param \Rougin\Slytherin\Integration\ConfigurationInterface|null $config
      */
-    public function __construct(ContainerInterface $container = null, Integration\Configuration $config = null)
+    public function __construct(ContainerInterface $container = null, ConfigurationInterface $config = null)
     {
-        $this->config = $config ?: new Integration\Configuration;
+        $this->config = $config === null ? new Configuration : $config;
 
-        static::$container = $container ?: new Container\Container;
+        static::$container = $container === null ? new Container : $container;
     }
 
     /**
@@ -61,29 +69,27 @@ class Application
      */
     public function handle(ServerRequestInterface $request)
     {
-        $exists = interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface');
+        $callback = new CallbackHandler(self::$container);
 
-        $callback = new Application\CallbackHandler(self::$container);
+        if (static::$container->has(self::MIDDLEWARE)) {
+            $middleware = static::$container->get(self::MIDDLEWARE);
 
-        if ($exists && static::$container->has(self::MIDDLEWARE_DISPATCHER)) {
-            $middleware = static::$container->get(self::MIDDLEWARE_DISPATCHER);
-
-            $delegate = new Middleware\Delegate($callback);
+            $delegate = new Delegate($callback);
 
             $result = $middleware->process($request, $delegate);
         }
 
-        return (isset($result)) ? $result : $callback($request);
+        return isset($result) ? $result : $callback($request);
     }
 
     /**
      * Adds the specified integrations to the container.
      *
      * @param  \Rougin\Slytherin\Integration\IntegrationInterface|array|string $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration                     $config
+     * @param  \Rougin\Slytherin\Integration\ConfigurationInterface|null       $config
      * @return self
      */
-    public function integrate($integrations, Integration\Configuration $config = null)
+    public function integrate($integrations, ConfigurationInterface $config = null)
     {
         list($config, $container) = array($config ?: $this->config, static::$container);
 
@@ -112,16 +118,38 @@ class Application
             $debugger->display();
         }
 
-        $response = $this->handle(static::$container->get(self::SERVER_REQUEST));
+        $request = static::$container->get(self::SERVER_REQUEST);
 
-        $code = $response->getStatusCode() . ' ' . $response->getReasonPhrase();
+        echo (string) $this->emit($request)->getBody();
+    }
 
-        header('HTTP/' . $response->getProtocolVersion() . ' ' . $code);
+    /**
+     * Emits the headers based from the response.
+     * NOTE: To be removed in v1.0.0. Should be included in run().
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function emit(ServerRequestInterface $request)
+    {
+        $response = $this->handle($request);
 
-        foreach ($response->getHeaders() as $name => $values) {
-            header($name . ': ' . implode(',', $values));
+        $code = (string) $response->getStatusCode();
+
+        $code .= ' ' . $response->getReasonPhrase();
+
+        $headers = (array) $response->getHeaders();
+
+        $version = $response->getProtocolVersion();
+
+        header('HTTP/' . $version . ' ' . $code);
+
+        foreach ($headers as $name => $values) {
+            $value = (string) implode(',', $values);
+
+            header((string) $name . ': ' . $value);
         }
 
-        echo (string) $response->getBody();
+        return $response;
     }
 }

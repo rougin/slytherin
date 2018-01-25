@@ -2,7 +2,11 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Middleware\Delegate;
+use Rougin\Slytherin\Middleware\Dispatcher;
 
 /**
  * Callback Handler
@@ -14,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class CallbackHandler
 {
-    const ROUTE_DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
+    const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
@@ -31,38 +35,47 @@ class CallbackHandler
     protected $container;
 
     /**
-     * Sets up the container.
+     * @var array
+     */
+    protected $middlewares = array();
+
+    /**
+     * Initializes the handler instance.
      *
      * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(\Psr\Container\ContainerInterface $container)
+    public function __construct(ContainerInterface $container)
     {
-        $this->container = new \Rougin\Slytherin\Container\Container(array(), $container);
+        $this->container = new Container(array(), $container);
     }
 
     /**
-     * Returns a \Psr\Http\Message\ResponseInterface.
+     * Returns a response instance.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return callback
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        $dispatcher = $this->container->get(self::ROUTE_DISPATCHER);
+        $dispatcher = $this->container->get(self::DISPATCHER);
 
-        if ($this->container->has(self::ROUTER)) {
+        if ($this->container->has(self::ROUTER) === true) {
             $router = $this->container->get(self::ROUTER);
 
             $dispatcher = $dispatcher->router($router);
         }
 
-        list($method, $path) = array($request->getMethod(), $request->getUri()->getPath());
+        $path = $request->getUri()->getPath();
 
-        list($function, $middlewares) = $dispatcher->dispatch($method, $path);
+        $method = $request->getMethod();
 
-        $callback = new FinalCallback($this->container, $function);
+        $result = $dispatcher->dispatch($method, $path);
 
-        return $this->middleware($callback, $request, $middlewares);
+        $this->middlewares = $result[1];
+
+        $callback = new FinalCallback($this->container, $result[0]);
+
+        return $this->middleware($callback, $request);
     }
 
     /**
@@ -70,21 +83,20 @@ class CallbackHandler
      *
      * @param  \Rougin\Slytherin\Application\FinalCallback $callback
      * @param  \Psr\Http\Message\ServerRequestInterface    $request
-     * @param  array                                       $middlewares
      * @return \Psr\Http\Message\ResponseInterface|null
      */
-    protected function middleware(FinalCallback $callback, ServerRequestInterface $request, array $middlewares = array())
+    protected function middleware(FinalCallback $callback, ServerRequestInterface $request)
     {
-        list($result, $response) = array(null, $this->container->get(self::RESPONSE));
+        $response = $this->container->get(self::RESPONSE);
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $middleware = new \Rougin\Slytherin\Middleware\Dispatcher($middlewares, $response);
+        if (interface_exists(Application::MIDDLEWARE) === true) {
+            $middleware = new Dispatcher($this->middlewares, $response);
 
-            $delegate = new \Rougin\Slytherin\Middleware\Delegate($callback);
+            $delegate = new Delegate($callback);
 
             $result = $middleware->process($request, $delegate);
         }
 
-        return is_null($result) ? $callback($request) : $result;
+        return isset($result) ? $result : $callback($request);
     }
 }

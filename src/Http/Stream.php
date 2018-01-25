@@ -11,6 +11,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\StreamInterface;
+
 /**
  * Stream
  *
@@ -19,7 +21,7 @@ namespace Rougin\Slytherin\Http;
  * @author  Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Stream implements \Psr\Http\Message\StreamInterface
+class Stream implements StreamInterface
 {
     /**
      * Underline stream.
@@ -50,6 +52,8 @@ class Stream implements \Psr\Http\Message\StreamInterface
     protected $modes = array();
 
     /**
+     * Initializes the stream instance.
+     *
      * @param resource|null $stream
      */
     public function __construct($stream = null)
@@ -98,13 +102,15 @@ class Stream implements \Psr\Http\Message\StreamInterface
      */
     public function detach()
     {
-        $oldStream = $this->stream;
+        $stream = $this->stream;
 
         $this->stream = null;
-        $this->size   = null;
-        $this->meta   = null;
 
-        return $oldStream;
+        $this->size = null;
+
+        $this->meta = null;
+
+        return $stream;
     }
 
     /**
@@ -126,9 +132,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
     /**
      * Returns the current position of the file read/write pointer.
      *
-     * @throws \RuntimeException
-     *
      * @return integer
+     *
+     * @throws \RuntimeException
      */
     public function tell()
     {
@@ -164,10 +170,10 @@ class Stream implements \Psr\Http\Message\StreamInterface
     /**
      * Seek to a position in the stream.
      *
-     * @throws \RuntimeException
-     *
      * @param integer $offset
      * @param integer $whence
+     *
+     * @throws \RuntimeException
      */
     public function seek($offset, $whence = SEEK_SET)
     {
@@ -203,10 +209,10 @@ class Stream implements \Psr\Http\Message\StreamInterface
     /**
      * Write data to the stream.
      *
-     * @throws \RuntimeException
-     *
      * @param  string $string
      * @return integer
+     *
+     * @throws \RuntimeException
      */
     public function write($string)
     {
@@ -236,10 +242,10 @@ class Stream implements \Psr\Http\Message\StreamInterface
     /**
      * Read data from the stream.
      *
-     * @throws \RuntimeException
-     *
      * @param  integer $length
      * @return string
+     *
+     * @throws \RuntimeException
      */
     public function read($length)
     {
@@ -255,9 +261,9 @@ class Stream implements \Psr\Http\Message\StreamInterface
     /**
      * Returns the remaining contents in a string
      *
-     * @throws \RuntimeException
-     *
      * @return string
+     *
+     * @throws \RuntimeException
      */
     public function getContents()
     {

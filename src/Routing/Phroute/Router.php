@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Routing\Phroute;
 
-use Phroute\Phroute\RouteCollector;
+use Rougin\Slytherin\Routing\PhrouteRouter;
 
 /**
  * Phroute Router
@@ -15,6 +15,6 @@ use Phroute\Phroute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends \Rougin\Slytherin\Routing\PhrouteRouter
+class Router extends PhrouteRouter
 {
 }

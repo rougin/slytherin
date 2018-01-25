@@ -28,6 +28,8 @@ class Container implements ContainerInterface
     public $instances = array();
 
     /**
+     * Initializes the container instance.
+     *
      * @param array                                  $instances
      * @param \Psr\Container\ContainerInterface|null $container
      */
@@ -67,11 +69,11 @@ class Container implements ContainerInterface
     /**
      * Resolves the specified parameters from a container.
      *
-     * @param  \ReflectionFunction|\ReflectionMethod $reflector
-     * @param  array                                 $parameters
+     * @param  \ReflectionFunctionAbstract $reflector
+     * @param  array                       $parameters
      * @return array
      */
-    public function arguments($reflector, $parameters = array())
+    public function arguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
     {
         $arguments = array();
 
@@ -97,7 +99,7 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        if (! $this->has($id)) {
+        if ($this->has($id) === false) {
             $message = 'Alias (%s) is not being managed by the container';
 
             throw new Exception\NotFoundException(sprintf($message, $id));
@@ -105,7 +107,7 @@ class Container implements ContainerInterface
 
         $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
 
-        if (! is_object($entry)) {
+        if (is_object($entry) === false) {
             $message = 'Alias (%s) is not an object';
 
             throw new Exception\ContainerException(sprintf($message, $id));
@@ -199,7 +201,9 @@ class Container implements ContainerInterface
      */
     protected function request($argument, ServerRequestInterface $request = null)
     {
-        ! $argument instanceof ServerRequestInterface || $argument = $request ?: $argument;
+        $instanceof = $argument instanceof ServerRequestInterface;
+
+        $instanceof === true && $argument = $request ?: $argument;
 
         return $argument;
     }
@@ -212,10 +216,10 @@ class Container implements ContainerInterface
      */
     protected function value($name)
     {
-        $extra = $this->extra;
-
         $object = isset($this->instances[$name]) ? $this->get($name) : null;
 
-        return ! $object && $extra->has($name) ? $extra->get($name) : $object;
+        $exists = ! $object && $this->extra->has($name) === true;
+
+        return $exists === true ? $this->extra->get($name) : $object;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\ErrorHandler;
 
+use Rougin\Slytherin\Debug\DebuggerInterface;
+
 /**
  * Error Handler Interface
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\ErrorHandler;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ErrorHandlerInterface extends \Rougin\Slytherin\Debug\DebuggerInterface
+interface ErrorHandlerInterface extends DebuggerInterface
 {
 }

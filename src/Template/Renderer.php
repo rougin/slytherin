@@ -15,16 +15,18 @@ class Renderer implements RendererInterface
     /**
      * @var array
      */
-    protected $directories = array();
+    protected $paths = array();
 
     /**
-     * @param array|string $directories
+     * Initializes the directory instance.
+     *
+     * @param array|string $paths
      */
-    public function __construct($directories)
+    public function __construct($paths)
     {
-        $directories = (is_string($directories)) ? array($directories) : $directories;
+        $paths = (array) $paths;
 
-        $this->directories = $directories;
+        $this->paths = $paths;
     }
 
     /**
@@ -53,21 +55,28 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * Finds the specified template from the list of directories.
+     * Finds the specified template from the list of paths.
      *
-     * @param  string $template
+     * @param  string      $template
+     * @param  string|null $file
      * @return string
      *
      * @throws \InvalidArgumentException
      */
-    protected function find($template)
+    protected function find($template, $file = null)
     {
-        foreach ($this->directories as $directory) {
-            if ($files = glob("$directory/$template")) {
-                return $files[0];
-            }
+        foreach ((array) $this->paths as $path) {
+            $files = glob($path . '/' . $template);
+
+            empty($files) || $file = $files[0];
         }
 
-        throw new \InvalidArgumentException('Template file not found.');
+        if (is_null($file) === true) {
+            $message = 'Template file not found.';
+
+            throw new \InvalidArgumentException($message);
+        }
+
+        return $file;
     }
 }

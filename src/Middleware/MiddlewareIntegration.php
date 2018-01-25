@@ -2,8 +2,11 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Rougin\Slytherin\Integration\Configuration;
+use Psr\Http\Message\ResponseInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
+use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Middleware Integration
@@ -13,7 +16,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class MiddlewareIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class MiddlewareIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -33,6 +36,7 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
         // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead.
         $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
         $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
+        $container->set('Interop\Http\ServerMiddleware\MiddlewareInterface', $dispatcher);
 
         return $container;
     }
@@ -44,12 +48,12 @@ class MiddlewareIntegration implements \Rougin\Slytherin\Integration\Integration
      * @param  array                               $stack
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
-    protected function dispatcher(\Psr\Http\Message\ResponseInterface $response, $stack)
+    protected function dispatcher(ResponseInterface $response, $stack)
     {
         $dispatcher = new Dispatcher($stack, $response);
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            $pipe = new \Zend\Stratigility\MiddlewarePipe;
+            $pipe = new MiddlewarePipe;
 
             $dispatcher = new StratigilityDispatcher($pipe, $stack, $response);
         }

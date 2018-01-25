@@ -32,6 +32,8 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
     protected $router;
 
     /**
+     * Initializes the dispatcher instance.
+     *
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      * @param \Phroute\Phroute\HandlerResolverInterface|null $resolver
      */

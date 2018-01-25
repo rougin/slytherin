@@ -3,10 +3,9 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
+use Rougin\Slytherin\Http\Response;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -36,6 +35,8 @@ class StratigilityDispatcher extends Dispatcher
     protected $stack = array();
 
     /**
+     * Initializes the dispatcher instance.
+     *
      * @param \Zend\Stratigility\MiddlewarePipe        $pipeline
      * @param array                                    $stack
      * @param \Psr\Http\Message\ResponseInterface|null $response
@@ -44,7 +45,7 @@ class StratigilityDispatcher extends Dispatcher
     {
         $this->pipeline = $pipeline;
 
-        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
+        $this->response = $response ?: new Response;
 
         $this->stack = $stack;
     }

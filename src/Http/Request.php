@@ -11,8 +11,9 @@
 
 namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\UriInterface;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * Request
@@ -20,7 +21,7 @@ use Psr\Http\Message\StreamInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Request extends Message implements \Psr\Http\Message\RequestInterface
+class Request extends Message implements RequestInterface
 {
     /**
      * @var string
@@ -38,6 +39,8 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
     protected $uri;
 
     /**
+     * Initializes the request instance.
+     *
      * @param string                                 $method
      * @param string                                 $target
      * @param \Psr\Http\Message\UriInterface|null    $uri
@@ -101,6 +104,8 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      */
     public function withMethod($method)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->method = $method;
@@ -122,17 +127,17 @@ class Request extends Message implements \Psr\Http\Message\RequestInterface
      * Returns an instance with the provided URI.
      *
      * @param  \Psr\Http\Message\UriInterface $uri
-     * @param  bool $preserveHost
+     * @param  boolean                        $preserve
      * @return static
      */
-    public function withUri(UriInterface $uri, $preserveHost = false)
+    public function withUri(UriInterface $uri, $preserve = false)
     {
         $new = clone $this;
 
         $new->uri = $uri;
 
-        if (! $preserveHost && $host = $uri->getHost()) {
-            $host = ($uri->getPort()) ? $host . ':' . $uri->getPort() : $host;
+        if (! $preserve && $host = $uri->getHost()) {
+            $uri->getPort() && $host .= ':' . $uri->getPort();
 
             $new->headers['Host'] = array($host);
         }

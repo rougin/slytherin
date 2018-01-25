@@ -25,6 +25,8 @@ class FastRouteDispatcher extends Dispatcher implements DispatcherInterface
     protected $router;
 
     /**
+     * Initializes the dispatcher instance.
+     *
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      */
     public function __construct(RouterInterface $router = null)

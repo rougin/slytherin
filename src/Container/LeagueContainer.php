@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container;
 
+use League\Container\Container as BaseContainer;
+
 /**
  * League Container
  *
@@ -12,7 +14,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends \League\Container\Container implements ContainerInterface
+class LeagueContainer extends BaseContainer implements ContainerInterface
 {
     /**
      * Finds an entry of the container by its identifier and returns it.

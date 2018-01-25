@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Integration;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Configuration
+class Configuration implements ConfigurationInterface
 {
     /**
      * @var array
@@ -22,8 +22,9 @@ class Configuration
      */
     public function __construct($data = null)
     {
-        $this->data = (is_array($data)) ? $data : $this->data;
-        $this->data = (is_string($data)) ? $this->load($data) : $this->data;
+        $this->data = is_array($data) ? $data : $this->data;
+
+        $this->data = is_string($data) ? $this->load($data) : $this->data;
     }
 
     /**
@@ -47,7 +48,7 @@ class Configuration
             $data = &$data[$index];
         }
 
-        return ($data !== null) ? $data : $default;
+        return $data !== null ? $data : $default;
     }
 
     /**
@@ -109,9 +110,7 @@ class Configuration
             return $data[$key];
         }
 
-        if (! isset($data[$key])) {
-            $data[$key] = array();
-        }
+        isset($data[$key]) || $data[$key] = array();
 
         return $this->save($keys, $data[$key], $value);
     }

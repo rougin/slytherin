@@ -2,6 +2,10 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Container\Container;
+
 /**
  * Final Callback
  *
@@ -30,7 +34,7 @@ class FinalCallback
      * @param \Rougin\Slytherin\Container\Container     $container
      * @param \Psr\Http\Message\ResponseInterface|mixed $function
      */
-    public function __construct(\Rougin\Slytherin\Container\Container $container, $function)
+    public function __construct(Container $container, $function)
     {
         $this->container = $container;
 
@@ -43,7 +47,7 @@ class FinalCallback
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return callback
      */
-    public function __invoke(\Psr\Http\Message\ServerRequestInterface $request)
+    public function __invoke(ServerRequestInterface $request)
     {
         if (is_array($this->function) === true) {
             $function = $this->function;
@@ -72,12 +76,14 @@ class FinalCallback
      */
     protected function finalize($function)
     {
-        $original = $this->container->get(self::RESPONSE);
+        if (is_string($function) === true) {
+            $response = $this->container->get(self::RESPONSE);
 
-        $response = (! is_string($function)) ? $function : $original;
+            $response->getBody()->write((string) $function);
+        }
 
-        is_string($function) && $response->getBody()->write($function);
+        $instanceof = $function instanceof ResponseInterface;
 
-        return $response;
+        return $instanceof ? $function : $response;
     }
 }

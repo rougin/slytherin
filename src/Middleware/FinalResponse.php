@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Http\Response;
 
 /**
  * Final Response
@@ -17,12 +18,14 @@ use Psr\Http\Message\ServerRequestInterface;
 class FinalResponse
 {
     /**
-     * @param  \Psr\Http\Message\ResponseInterface $request
-     * @param  callable|null                       $next
+     * Initializes the response instance.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  callable|null                            $next
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, $next = null)
     {
-        return new \Rougin\Slytherin\Http\Response;
+        return new Response;
     }
 }

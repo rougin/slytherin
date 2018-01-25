@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
+use Rougin\Slytherin\Routing\DispatcherInterface as BaseDispatcher;
+
 /**
  * Dispatcher Interface
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\Dispatching;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface DispatcherInterface extends \Rougin\Slytherin\Routing\DispatcherInterface
+interface DispatcherInterface extends BaseDispatcher
 {
 }

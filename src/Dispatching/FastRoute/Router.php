@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
+use Rougin\Slytherin\Routing\FastRoute\Router as BaseRouter;
+
 /**
  * FastRoute Router
  *
@@ -13,6 +15,6 @@ namespace Rougin\Slytherin\Dispatching\FastRoute;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Router extends \Rougin\Slytherin\Routing\FastRoute\Router
+class Router extends BaseRouter
 {
 }

@@ -2,6 +2,14 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Container\VanillaContainer;
+use Rougin\Slytherin\Debug\ErrorHandlerInterface;
+use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareDispatcher;
+use Rougin\Slytherin\Routing\DispatcherInterface as RouteDispatcher;
+
 /**
  * Component Collection
  *
@@ -11,7 +19,7 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Collection extends \Rougin\Slytherin\Container\VanillaContainer
+class Collection extends VanillaContainer
 {
     /**
      * @var \Psr\Container\ContainerInterface
@@ -36,7 +44,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Psr\Container\ContainerInterface $container
      * @return self
      */
-    public function setContainer(\Psr\Container\ContainerInterface $container)
+    public function setContainer(ContainerInterface $container)
     {
         $this->container = $container;
 
@@ -59,7 +67,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      * @return self
      */
-    public function setDispatcher(\Rougin\Slytherin\Routing\DispatcherInterface $dispatcher)
+    public function setDispatcher(RouteDispatcher $dispatcher)
     {
         return $this->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
     }
@@ -80,7 +88,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
      * @return self
      */
-    public function setDebugger(\Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger)
+    public function setDebugger(ErrorHandlerInterface $debugger)
     {
         return $this->setErrorHandler($debugger);
     }
@@ -128,7 +136,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Psr\Http\Message\ResponseInterface      $response
      * @return self
      */
-    public function setHttp(\Psr\Http\Message\ServerRequestInterface $request, \Psr\Http\Message\ResponseInterface $response)
+    public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
         $this->set('Psr\Http\Message\ServerRequestInterface', $request);
 
@@ -151,7 +159,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return self
      */
-    public function setHttpRequest(\Psr\Http\Message\ServerRequestInterface $request)
+    public function setHttpRequest(ServerRequestInterface $request)
     {
         return $this->set('Psr\Http\Message\ServerRequestInterface', $request);
     }
@@ -172,7 +180,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return self
      */
-    public function setHttpResponse(\Psr\Http\Message\ResponseInterface $response)
+    public function setHttpResponse(ResponseInterface $response)
     {
         return $this->set('Psr\Http\Message\ResponseInterface', $response);
     }
@@ -195,7 +203,7 @@ class Collection extends \Rougin\Slytherin\Container\VanillaContainer
      * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
      * @return self
      */
-    public function setMiddleware(\Rougin\Slytherin\Middleware\DispatcherInterface $middleware)
+    public function setMiddleware(MiddlewareDispatcher $middleware)
     {
         return $this->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
     }

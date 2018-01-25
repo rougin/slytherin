@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing\Phroute;
 
+use Rougin\Slytherin\Routing\PhrouteDispatcher;
+
 /**
  * Phroute Dispatcher
  *
@@ -13,6 +15,6 @@ namespace Rougin\Slytherin\Routing\Phroute;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher extends \Rougin\Slytherin\Routing\PhrouteDispatcher
+class Dispatcher extends PhrouteDispatcher
 {
 }

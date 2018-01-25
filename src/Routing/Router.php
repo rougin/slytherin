@@ -33,6 +33,8 @@ class Router implements RouterInterface
     protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
+     * Initializes the router instance.
+     *
      * @param array $routes
      */
     public function __construct(array $routes = array())

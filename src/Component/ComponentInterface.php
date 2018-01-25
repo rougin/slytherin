@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Psr\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\IntegrationInterface;
+
 /**
  * Component Interface
  *
@@ -11,7 +14,7 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ComponentInterface extends \Rougin\Slytherin\Integration\IntegrationInterface
+interface ComponentInterface extends IntegrationInterface
 {
     /**
      * Sets the component. Can also add it to the container.
@@ -19,5 +22,5 @@ interface ComponentInterface extends \Rougin\Slytherin\Integration\IntegrationIn
      * @param  \Psr\Container\ContainerInterface &$container
      * @return void
      */
-    public function set(\Psr\Container\ContainerInterface &$container);
+    public function set(ContainerInterface &$container);
 }

@@ -4,9 +4,13 @@ namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
+use Zend\Diactoros\Response as ZendResponse;
+use Zend\Diactoros\ServerRequestFactory;
 
 /**
  * HTTP Integration
@@ -16,13 +20,8 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class HttpIntegration implements IntegrationInterface
 {
-    /**
-     * @var array
-     */
-    protected $methods = array('DELETE', 'PUT', 'PATCH');
-
     /**
      * Defines the specified integration.
      *
@@ -34,19 +33,15 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     {
         list($server, $cookies, $get, $files, $post) = $this->globals($config);
 
-        $headers = function_exists('xdebug_get_headers') ? xdebug_get_headers() : headers_list();
+        $headers = (array) $this->headers($server);
 
-        $request = new \Rougin\Slytherin\Http\ServerRequest($server, $cookies, $get, $files, $post);
+        $request = new ServerRequest($server, $cookies, $get, $files, $post);
 
-        $response = new \Rougin\Slytherin\Http\Response;
-
-        foreach ($headers as $header) {
-            list($key, $value) = explode(': ', $header);
-
+        foreach ($headers as $key => $value) {
             $request = $request->withHeader($key, $value);
         }
 
-        return $this->resolve($container, $request, $response);
+        return $this->resolve($container, $request, new Response);
     }
 
     /**
@@ -58,12 +53,43 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     protected function globals(Configuration $config)
     {
         $cookies = $config->get('app.http.cookies', array());
+
         $files = $config->get('app.http.files', array());
+
         $get = $config->get('app.http.get', array());
+
         $post = $config->get('app.http.post', array());
+
         $server = $config->get('app.http.server', $this->server());
 
         return array($server, $cookies, $get, $files, $post);
+    }
+
+    /**
+     * Converts $_SERVER parameters to message header values.
+     *
+     * @param  array $server
+     * @return array
+     */
+    protected function headers(array $server)
+    {
+        $headers = array();
+
+        foreach ((array) $server as $key => $value) {
+            $http = strpos($key, 'HTTP_') === 0;
+
+            $string = strtolower(substr($key, 5));
+
+            $string = str_replace('_', ' ', $string);
+
+            $string = ucwords(strtolower($string));
+
+            $key = str_replace(' ', '-', $string);
+
+            $http && $headers[$key] = $value;
+        }
+
+        return $headers;
     }
 
     /**
@@ -77,16 +103,14 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
     protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
     {
         if (class_exists('Zend\Diactoros\ServerRequestFactory')) {
-            $request = \Zend\Diactoros\ServerRequestFactory::fromGlobals();
+            $response = new ZendResponse;
 
-            $response = new \Zend\Diactoros\Response;
+            $request = ServerRequestFactory::fromGlobals();
         }
 
         $container->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-        $container->set('Psr\Http\Message\ResponseInterface', $response);
-
-        return $container;
+        return $container->set('Psr\Http\Message\ResponseInterface', $response);
     }
 
     /**
@@ -96,12 +120,15 @@ class HttpIntegration implements \Rougin\Slytherin\Integration\IntegrationInterf
      */
     protected function server()
     {
-        $server = array();
+        $server = array('SERVER_PORT' => 8000);
 
         $server['REQUEST_METHOD'] = 'GET';
+
         $server['REQUEST_URI'] = '/';
+
         $server['SERVER_NAME'] = 'localhost';
-        $server['SERVER_PORT'] = '8000';
+
+        $server['HTTP_CONTENT_TYPE'] = 'text/plain';
 
         return $server;
     }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Debug;
 
+use Rougin\Slytherin\Debug\Vanilla\Debugger as BaseDebugger;
+
 /**
  * Debugger
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\Debug;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Debugger extends \Rougin\Slytherin\Debug\Vanilla\Debugger
+class Debugger extends BaseDebugger
 {
 }

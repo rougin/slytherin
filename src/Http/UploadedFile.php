@@ -11,6 +11,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\UploadedFileInterface;
+
 /**
  * Uploaded File
  *
@@ -18,7 +20,7 @@ namespace Rougin\Slytherin\Http;
  * @author  Kévin Dunglas <dunglas@gmail.com>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
+class UploadedFile implements UploadedFileInterface
 {
     /**
      * @var string
@@ -46,6 +48,8 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
     protected $media;
 
     /**
+     * Initializes the uploaded file instance.
+     *
      * @param string  $file
      * @param integer $size
      * @param integer $error
@@ -68,25 +72,29 @@ class UploadedFile implements \Psr\Http\Message\UploadedFileInterface
     /**
      * Retrieve a stream representing the uploaded file.
      *
-     * @throws \RuntimeException
-     *
      * @return \Psr\Http\Message\StreamInterface
+     *
+     * @throws \RuntimeException
      */
     public function getStream()
     {
+        // TODO: Add RuntimeException
+
         return new Stream(fopen($this->file, 'r'));
     }
 
     /**
      * Move the uploaded file to a new location.
      *
+     * @param string $targetPath
+     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
-     *
-     * @param string $targetPath
      */
     public function moveTo($targetPath)
     {
+        // Add InvalidArgumentException and RuntimeException
+
         rename($this->file, $targetPath);
     }
 

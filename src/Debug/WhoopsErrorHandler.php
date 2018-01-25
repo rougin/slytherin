@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Debug;
 
+use Whoops\Handler\PrettyPageHandler;
+use Whoops\Run;
+
 /**
  * Whoops Error Handler
  *
@@ -29,7 +32,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      * @param \Whoops\Run $whoops
      * @param string      $environment
      */
-    public function __construct(\Whoops\Run $whoops, $environment = 'development')
+    public function __construct(Run $whoops, $environment = 'development')
     {
         $this->environment = $environment;
 
@@ -79,9 +82,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      */
     public function display()
     {
-        error_reporting(E_ALL);
+        $handler = new PrettyPageHandler;
 
-        $handler = new \Whoops\Handler\PrettyPageHandler;
+        error_reporting(E_ALL);
 
         $this->__call('pushHandler', array($handler));
 
@@ -108,6 +111,8 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      */
     public function __call($method, $parameters)
     {
-        return call_user_func_array(array($this->whoops, $method), $parameters);
+        $instance = array($this->whoops, $method);
+
+        return call_user_func_array($instance, $parameters);
     }
 }

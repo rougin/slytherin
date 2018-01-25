@@ -2,10 +2,9 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use Interop\Http\ServerMiddleware\DelegateInterface;
 
 /**
  * Callable Middleware Wrapper
@@ -16,7 +15,7 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class CallableMiddlewareWrapper implements \Interop\Http\ServerMiddleware\MiddlewareInterface
+class CallableMiddlewareWrapper implements MiddlewareInterface
 {
     /**
      * @var callable
@@ -29,6 +28,8 @@ class CallableMiddlewareWrapper implements \Interop\Http\ServerMiddleware\Middle
     protected $response;
 
     /**
+     * Initializes the middleware instance.
+     *
      * @param callable                                 $middleware
      * @param \Psr\Http\Message\ResponseInterface|null $response
      */

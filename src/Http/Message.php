@@ -12,6 +12,7 @@
 namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\StreamInterface;
+use Psr\Http\Message\MessageInterface;
 
 /**
  * Message
@@ -20,7 +21,7 @@ use Psr\Http\Message\StreamInterface;
  * @author  Kévin Dunglas <dunglas@gmail.com>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Message implements \Psr\Http\Message\MessageInterface
+class Message implements MessageInterface
 {
     /**
      * @var \Psr\Http\Message\StreamInterface
@@ -38,13 +39,15 @@ class Message implements \Psr\Http\Message\MessageInterface
     protected $version = '1.1';
 
     /**
+     * Initializes the message instance.
+     *
      * @param \Psr\Http\Message\StreamInterface|null $body
      * @param array                                  $headers
      * @param string                                 $version
      */
     public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        $this->body = ($body === null) ? new Stream(fopen('php://temp', 'r+')) : $body;
+        $this->body = $body === null ? new Stream(fopen('php://temp', 'r+')) : $body;
 
         $this->headers = $headers;
 
@@ -122,14 +125,16 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * Return an instance with the provided value replacing the specified header.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string          $name
      * @param  string|string[] $value
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withHeader($name, $value)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->headers[$name] = (is_array($value)) ? $value : array($value);
@@ -140,14 +145,16 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * Return an instance with the specified header appended with the given value.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  string          $name
      * @param  string|string[] $value
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withAddedHeader($name, $value)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->headers[$name][] = $value;
@@ -187,13 +194,15 @@ class Message implements \Psr\Http\Message\MessageInterface
     /**
      * Return an instance with the specified message body.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  \Psr\Http\Message\StreamInterface $body
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withBody(StreamInterface $body)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->body = $body;

@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
  * Routing Integration
@@ -13,7 +14,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class RoutingIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -24,21 +25,22 @@ class RoutingIntegration implements \Rougin\Slytherin\Integration\IntegrationInt
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $dispatcher = new \Rougin\Slytherin\Routing\Dispatcher;
+        $dispatcher = new Dispatcher;
 
-        $router = $config->get('app.router', new \Rougin\Slytherin\Routing\Router);
+        $router = $config->get('app.router', new Router);
 
         if (interface_exists('FastRoute\Dispatcher')) {
-            $dispatcher = new \Rougin\Slytherin\Routing\FastRouteDispatcher;
+            $dispatcher = new FastRouteDispatcher;
         }
 
         if (class_exists('Phroute\Phroute\Dispatcher')) {
-            $resolver = new \Rougin\Slytherin\Routing\PhrouteResolver($container);
+            $resolver = new PhrouteResolver($container);
 
-            $dispatcher = new \Rougin\Slytherin\Routing\PhrouteDispatcher(null, $resolver);
+            $dispatcher = new PhrouteDispatcher(null, $resolver);
         }
 
         $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+
         $container->set('Rougin\Slytherin\Routing\RouterInterface', $router);
 
         return $container;

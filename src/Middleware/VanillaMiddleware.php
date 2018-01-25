@@ -11,6 +11,6 @@ namespace Rougin\Slytherin\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class VanillaMiddleware extends Vanilla\Middleware
+class VanillaMiddleware extends Middleware
 {
 }

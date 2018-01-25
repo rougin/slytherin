@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin\Integration;
 
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
  * Configuration Integration
@@ -13,7 +14,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ConfigurationIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class ConfigurationIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.

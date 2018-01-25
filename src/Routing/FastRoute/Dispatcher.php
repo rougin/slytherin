@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing\FastRoute;
 
+use Rougin\Slytherin\Routing\FastRouteDispatcher;
+
 /**
  * FastRoute Dispatcher
  *
@@ -13,6 +15,6 @@ namespace Rougin\Slytherin\Routing\FastRoute;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher extends \Rougin\Slytherin\Routing\FastRouteDispatcher
+class Dispatcher extends FastRouteDispatcher
 {
 }

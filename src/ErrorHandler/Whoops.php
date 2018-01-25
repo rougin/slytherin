@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\ErrorHandler;
 
+use Rougin\Slytherin\Debug\Whoops\Debugger;
+
 /**
  * Debugger
  *
@@ -13,6 +15,6 @@ namespace Rougin\Slytherin\ErrorHandler;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Whoops extends \Rougin\Slytherin\Debug\Whoops\Debugger
+class Whoops extends Debugger
 {
 }

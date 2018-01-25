@@ -4,12 +4,18 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.3](https://github.com/rougin/slytherin/compare/v0.9.2...v0.9.3) - Unreleased
 
+### Added
+- `Middleware\HandlerInterface`
+
 ### Changed
 - Allowed `IntegrationInterface` instances to be added in `Application::integrate`
 - Returning data in `Http\Uri::withUserInfo`
 
 ### Fixed
 - Running test cases without third-party packages
+
+### Removed
+- `xdebug_get_headers` and `headers_list` in `HttpIntegration`
 
 ## [0.9.2](https://github.com/rougin/slytherin/compare/v0.9.1...v0.9.2) - 2017-10-27
 

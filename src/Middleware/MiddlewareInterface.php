@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\MiddlewareInterface as InteropMiddlewareInterface;
+
 /**
  * Middleware Interface
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\Middleware;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface MiddlewareInterface extends \Interop\Http\ServerMiddleware\MiddlewareInterface
+interface MiddlewareInterface extends InteropMiddlewareInterface
 {
 }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container\Exception;
 
+use Psr\Container\ContainerExceptionInterface;
+
 /**
  * Container Exception
  *
@@ -10,6 +12,6 @@ namespace Rougin\Slytherin\Container\Exception;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ContainerException extends \Exception implements \Psr\Container\ContainerExceptionInterface
+class ContainerException extends \Exception implements ContainerExceptionInterface
 {
 }

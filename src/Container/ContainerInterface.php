@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Psr\Container\ContainerInterface as PsrContainerInterface;
+
 /**
  * Container Interface
  *
@@ -10,7 +12,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface ContainerInterface extends \Psr\Container\ContainerInterface
+interface ContainerInterface extends PsrContainerInterface
 {
     /**
      * Sets a new instance to the container.

@@ -11,6 +11,7 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 
 /**
@@ -20,7 +21,7 @@ use Psr\Http\Message\StreamInterface;
  * @author  Kévin Dunglas <dunglas@gmail.com>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Response extends Message implements \Psr\Http\Message\ResponseInterface
+class Response extends Message implements ResponseInterface
 {
     /**
      * @var integer
@@ -76,6 +77,8 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     protected $reason = 'OK';
 
     /**
+     * Initializes the response instance.
+     *
      * @param integer                                $code
      * @param \Psr\Http\Mesasge\StreamInterface|null $body
      * @param string                                 $version
@@ -106,19 +109,21 @@ class Response extends Message implements \Psr\Http\Message\ResponseInterface
     /**
      * Return an instance with the specified status code and, optionally, reason phrase.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  int $code
      * @param  string $reason
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withStatus($code, $reason = '')
     {
+        // TODO: Add \InvalidArgumentException
+
         $new = clone $this;
 
         $new->code = $code;
 
-        $new->reason = ($reason == '') ? $new->codes[$code] : $reason;
+        $new->reason = $reason === '' ? $new->codes[$code] : $reason;
 
         return $new;
     }

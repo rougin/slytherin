@@ -91,13 +91,9 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Testing
 
 ``` bash
-$ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-stratigility --dev
+$ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility --dev
 $ composer test
 ```
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 

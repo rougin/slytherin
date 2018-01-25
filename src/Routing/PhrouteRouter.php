@@ -27,6 +27,8 @@ class PhrouteRouter extends Router
     protected $routes = array();
 
     /**
+     * Initializes the router instance.
+     *
      * @param array $routes
      */
     public function __construct(array $routes = array())

@@ -11,6 +11,7 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
@@ -21,7 +22,7 @@ use Psr\Http\Message\UriInterface;
  * @author  Kévin Dunglas <dunglas@gmail.com>
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestInterface
+class ServerRequest extends Request implements ServerRequestInterface
 {
     /**
      * @var array
@@ -54,6 +55,8 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     protected $attributes;
 
     /**
+     * Initializes the server request instance.
+     *
      * @param array                                  $server
      * @param array                                  $cookies
      * @param array                                  $query
@@ -155,13 +158,15 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     /**
      * Create a new instance with the specified uploaded files.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  array $uploaded
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withUploadedFiles(array $uploaded)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->uploaded = $uploaded;
@@ -182,13 +187,15 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     /**
      * Return an instance with the specified body parameters.
      *
-     * @throws \InvalidArgumentException
-     *
      * @param  null|array|object $data
      * @return static
+     *
+     * @throws \InvalidArgumentException
      */
     public function withParsedBody($data)
     {
+        // TODO: Add InvalidArgumentException
+
         $new = clone $this;
 
         $new->data = $data;
@@ -257,11 +264,15 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
      */
     public function arrayify(array $file)
     {
-        if (! is_array($file['name'])) {
+        if (is_array($file['name']) === false) {
             $file['tmp_name'] = array($file['tmp_name']);
+
             $file['size'] = array($file['size']);
+
             $file['error'] = array($file['error']);
+
             $file['name'] = array($file['name']);
+
             $file['type'] = array($file['type']);
         }
 
@@ -277,9 +288,13 @@ class ServerRequest extends Request implements \Psr\Http\Message\ServerRequestIn
     protected function file(array $file)
     {
         $tmp = $file['tmp_name'];
+
         $size = $file['size'];
+
         $error = $file['error'];
+
         $original = $file['name'];
+
         $type = $file['type'];
 
         return new UploadedFile($tmp, $size, $error, $original, $type);

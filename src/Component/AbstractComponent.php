@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Rougin\Slytherin\Integration\Configuration;
+use Psr\Container\ContainerInterface as PsrContainerInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
 
 /**
  * Component Abstract
@@ -57,7 +58,7 @@ abstract class AbstractComponent implements ComponentInterface
      * @param  \Psr\Container\ContainerInterface $container
      * @return void
      */
-    public function set(\Psr\Container\ContainerInterface &$container)
+    public function set(PsrContainerInterface &$container)
     {
     }
 }

@@ -35,6 +35,7 @@ class AurynContainer extends Injector implements ContainerInterface
     protected $instances = array();
 
     /**
+     * Initializes the container instance.
      * NOTE: To be removed in v1.0.0. It should use \Auryn\Injector::__construct.
      *
      * @param \Auryn\Injector|\Auryn\Reflector|null $data
@@ -43,7 +44,7 @@ class AurynContainer extends Injector implements ContainerInterface
     {
         is_a($data, 'Auryn\Injector') || parent::__construct($data);
 
-        $this->injector = get_class($data) == 'Auryn\Injector' ? $data : $this;
+        $this->injector = get_class($data) === 'Auryn\Injector' ? $data : $this;
     }
 
     /**
@@ -70,7 +71,7 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function get($id)
     {
-        if (! $this->has($id)) {
+        if ($this->has($id) === false) {
             $message = 'Alias (%s) is not being managed by the container';
 
             throw new Exception\NotFoundException(sprintf($message, $id));
@@ -87,17 +88,23 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function has($id)
     {
-        $has = isset($this->has[$id]) ? $this->has[$id] : false;
+        $exists = isset($this->has[$id]) ? $this->has[$id] : false;
 
         if (isset($this->has[$id]) === false) {
-            $filter = Injector::I_BINDINGS | Injector::I_DELEGATES | Injector::I_PREPARES | Injector::I_ALIASES | Injector::I_SHARES;
+            $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
 
-            $definitions = array_filter($this->injector->inspect($id, $filter));
+            $filter = $filter | Injector::I_PREPARES | Injector::I_ALIASES;
 
-            $has = ! empty($definitions) ?: class_exists($id);
+            $filter = $filter | Injector::I_SHARES;
+
+            $definitions = $this->injector->inspect($id, $filter);
+
+            $definitions = array_filter($definitions);
+
+            $exists = ! empty($definitions) ?: class_exists($id);
         }
 
-        return $has;
+        return $exists;
     }
 
     /**
@@ -124,9 +131,9 @@ class AurynContainer extends Injector implements ContainerInterface
     {
         $entry = null;
 
-        ! isset($this->instances[$id]) || $entry = $this->instances[$id];
+        isset($this->instances[$id]) && $entry = $this->instances[$id];
 
-        isset($entry) || $entry = $this->injector->make($id);
+        isset($entry) === false && $entry = $this->injector->make($id);
 
         return $entry;
     }

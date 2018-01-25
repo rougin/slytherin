@@ -2,8 +2,9 @@
 
 namespace Rougin\Slytherin\Template;
 
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
  * Renderer Integration
@@ -13,7 +14,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class RendererIntegration implements \Rougin\Slytherin\Integration\IntegrationInterface
+class RendererIntegration implements IntegrationInterface
 {
     /**
      * Defines the specified integration.
@@ -26,7 +27,7 @@ class RendererIntegration implements \Rougin\Slytherin\Integration\IntegrationIn
     {
         $renderer = new Renderer($config->get('app.views', ''));
 
-        if (class_exists('Twig_Environment')) {
+        if (class_exists('Twig_Environment') === true) {
             $loader = new \Twig_Loader_Filesystem($config->get('app.views', ''));
 
             $renderer = new TwigRenderer(new \Twig_Environment($loader));

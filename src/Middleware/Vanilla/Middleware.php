@@ -2,10 +2,7 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
+use Rougin\Slytherin\Middleware\VanillaMiddleware;
 
 /**
  * Middleware
@@ -17,6 +14,6 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Middleware extends \Rougin\Slytherin\Middleware\Middleware
+class Middleware extends VanillaMiddleware
 {
 }

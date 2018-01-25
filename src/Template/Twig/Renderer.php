@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Template\Twig;
 
+use Rougin\Slytherin\Template\TwigRenderer;
+
 /**
  * Renderer
  *
@@ -14,6 +16,6 @@ namespace Rougin\Slytherin\Template\Twig;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Renderer extends \Rougin\Slytherin\Template\TwigRenderer
+class Renderer extends TwigRenderer
 {
 }

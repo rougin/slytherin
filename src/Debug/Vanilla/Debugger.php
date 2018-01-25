@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Debug\Vanilla;
 
+use Rougin\Slytherin\Debug\VanillaErrorHandler;
+
 /**
  * Debugger
  *
@@ -11,6 +13,6 @@ namespace Rougin\Slytherin\Debug\Vanilla;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Debugger extends \Rougin\Slytherin\Debug\VanillaErrorHandler
+class Debugger extends VanillaErrorHandler
 {
 }

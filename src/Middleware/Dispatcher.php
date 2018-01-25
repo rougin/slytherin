@@ -2,10 +2,10 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Interop\Http\ServerMiddleware\DelegateInterface;
-
+use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\Delegate;
 
 /**
@@ -17,7 +17,7 @@ use Rougin\Slytherin\Middleware\Delegate;
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
+class Dispatcher implements DispatcherInterface
 {
     const SINGLE_PASS = 0;
 
@@ -34,12 +34,14 @@ class Dispatcher implements \Rougin\Slytherin\Middleware\DispatcherInterface
     protected $stack = array();
 
     /**
+     * Initializes the dispatcher instance.
+     *
      * @param array                                    $stack
      * @param \Psr\Http\Message\ResponseInterface|null $response
      */
     public function __construct(array $stack = array(), ResponseInterface $response = null)
     {
-        $this->response = $response ?: new \Rougin\Slytherin\Http\Response;
+        $this->response = $response ?: new Response;
 
         $this->stack = $stack;
     }
