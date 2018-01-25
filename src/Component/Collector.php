@@ -55,7 +55,9 @@ class Collector
     {
         $instance = new $component;
 
-        if (empty($type = $instance->type()) === false) {
+        $type = $instance->type();
+
+        if (empty($type) === false) {
             $parameters = array($instance->get());
 
             $type === 'http' && $parameters = $instance->get();
