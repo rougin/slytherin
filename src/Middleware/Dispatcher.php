@@ -20,9 +20,9 @@ use Rougin\Slytherin\Middleware\Delegate;
  */
 class Dispatcher implements DispatcherInterface
 {
-    const SINGLE_PASS = 0;
+    const SINGLE_PASS = false;
 
-    const DOUBLE_PASS = 1;
+    const DOUBLE_PASS = true;
 
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -147,13 +147,17 @@ class Dispatcher implements DispatcherInterface
      */
     protected function approach($middleware)
     {
-        if (is_callable($middleware) && is_a($middleware, 'Closure')) {
+        if (is_a($middleware, 'Closure') === true) {
             $object = new \ReflectionFunction($middleware);
-        } else {
-            $object = new \ReflectionMethod(get_class($middleware), '__invoke');
+
+            return count($object->getParameters()) === 2;
         }
 
-        return count($object->getParameters()) == 2;
+        $class = (string) get_class($middleware);
+
+        $object = new \ReflectionMethod($class, '__invoke');
+
+        return count($object->getParameters()) === 2;
     }
 
     /**
@@ -208,20 +212,20 @@ class Dispatcher implements DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  callable|object $middleware
-     * @param  boolean         $wrap
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  boolean                                                     $wrappable
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */
-    protected function transform($middleware, $wrap = true)
+    protected function transform($middleware, $wrappable = true)
     {
         if (is_a($middleware, Application::MIDDLEWARE) === false) {
-            $approach = $this->approach($middleware);
+            $approach = (boolean) $this->approach($middleware);
 
             $response = $approach === self::SINGLE_PASS ? $this->response : null;
 
             $wrapper = new CallableMiddlewareWrapper($middleware, $response);
 
-            $middleware = $wrap === true ? $wrapper : $middleware;
+            $middleware = $wrappable === true ? $wrapper : $middleware;
         }
 
         return $middleware;

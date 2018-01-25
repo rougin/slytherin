@@ -79,7 +79,9 @@ class FinalCallback
         $response = $this->container->get(self::RESPONSE);
 
         if (is_string($function) === true) {
-            $response->getBody()->write((string) $function);
+            $stream = $response->getBody();
+
+            $stream->write((string) $function);
         }
 
         $instanceof = $function instanceof ResponseInterface;
