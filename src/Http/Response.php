@@ -80,7 +80,7 @@ class Response extends Message implements ResponseInterface
      * Initializes the response instance.
      *
      * @param integer                                $code
-     * @param \Psr\Http\Mesasge\StreamInterface|null $body
+     * @param \Psr\Http\Message\StreamInterface|null $body
      * @param string                                 $version
      * @param array                                  $headers
      */

@@ -76,9 +76,9 @@ class FinalCallback
      */
     protected function finalize($function)
     {
-        if (is_string($function) === true) {
-            $response = $this->container->get(self::RESPONSE);
+        $response = $this->container->get(self::RESPONSE);
 
+        if (is_string($function) === true) {
             $response->getBody()->write((string) $function);
         }
 

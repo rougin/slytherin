@@ -64,12 +64,10 @@ class ReflectionContainer implements PsrContainerInterface
      */
     protected function argument(\ReflectionParameter $parameter, $name)
     {
-        $argument = null;
-
         try {
             $argument = $parameter->getDefaultValue();
         } catch (\ReflectionException $exception) {
-            $argument = $argument ?: $this->get($name);
+            $argument = $this->get($name);
         }
 
         return $argument;

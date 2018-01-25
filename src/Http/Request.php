@@ -137,7 +137,9 @@ class Request extends Message implements RequestInterface
         $new->uri = $uri;
 
         if (! $preserve && $host = $uri->getHost()) {
-            $uri->getPort() && $host .= ':' . $uri->getPort();
+            $exists = $uri->getPort() !== null;
+
+            $exists && $host .= ':' . $uri->getPort();
 
             $new->headers['Host'] = array($host);
         }

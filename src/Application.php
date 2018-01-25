@@ -7,7 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Application\CallbackHandler;
 use Rougin\Slytherin\Container\Container;
-use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\ConfigurationInterface;
 use Rougin\Slytherin\Middleware\Delegate;
 

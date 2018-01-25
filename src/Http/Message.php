@@ -47,7 +47,13 @@ class Message implements MessageInterface
      */
     public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        $this->body = $body === null ? new Stream(fopen('php://temp', 'r+')) : $body;
+        $stream = fopen('php://temp', 'r+');
+
+        $stream = $stream === false ? null : $stream;
+
+        $body = $body === null ? new Stream($stream) : $body;
+
+        $this->body = $body;
 
         $this->headers = $headers;
 

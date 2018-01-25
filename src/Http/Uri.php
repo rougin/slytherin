@@ -69,16 +69,12 @@ class Uri implements UriInterface
      */
     public function __construct($uri = '')
     {
-        $parts = parse_url($uri);
+        $parts = parse_url($uri) ?: array();
 
-        if (is_array($parts)) {
-            foreach ($parts as $key => $value) {
-                if ($key == 'user') {
-                    $this->user = $value;
-                }
+        foreach ($parts as $key => $value) {
+            $key === 'user' && $this->user = $value;
 
-                $this->$key = $value;
-            }
+            $this->$key = (string) $value;
         }
 
         $this->uri = $uri;

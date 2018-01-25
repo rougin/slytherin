@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Middleware;
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\Delegate;
 
@@ -146,7 +147,7 @@ class Dispatcher implements DispatcherInterface
      */
     protected function approach($middleware)
     {
-        if (is_a($middleware, 'Closure')) {
+        if (is_callable($middleware) && is_a($middleware, 'Closure')) {
             $object = new \ReflectionFunction($middleware);
         } else {
             $object = new \ReflectionMethod(get_class($middleware), '__invoke');
@@ -196,7 +197,7 @@ class Dispatcher implements DispatcherInterface
 
             $next = $this->resolve($index + 1);
 
-            $callback = function ($request) use ($index, $item, $next) {
+            $callback = function ($request) use ($item, $next) {
                 return $item->process($request, $next);
             };
         }
@@ -213,14 +214,14 @@ class Dispatcher implements DispatcherInterface
      */
     protected function transform($middleware, $wrap = true)
     {
-        if (! is_a($middleware, 'Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+        if (is_a($middleware, Application::MIDDLEWARE) === false) {
             $approach = $this->approach($middleware);
 
-            $response = ($approach == self::SINGLE_PASS) ? $this->response : null;
+            $response = $approach === self::SINGLE_PASS ? $this->response : null;
 
             $wrapper = new CallableMiddlewareWrapper($middleware, $response);
 
-            $middleware = ($wrap) ? $wrapper : $middleware;
+            $middleware = $wrap === true ? $wrapper : $middleware;
         }
 
         return $middleware;

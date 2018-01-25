@@ -51,7 +51,7 @@ class CallableMiddlewareWrapper implements MiddlewareInterface
     {
         $middleware = $this->middleware;
 
-        if ($this->response instanceof ResponseInterface) {
+        if ($this->response !== null) {
             $delegate = function ($request) use ($delegate) {
                 return $delegate->process($request);
             };

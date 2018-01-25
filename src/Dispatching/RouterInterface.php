@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Rougin\Slytherin\Routing\RouterInterface as BaseRouter;
+use Rougin\Slytherin\Routing\RouterInterface as AbstractRouter;
 
 /**
  * Router Interface
@@ -13,6 +13,6 @@ use Rougin\Slytherin\Routing\RouterInterface as BaseRouter;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-interface RouterInterface extends BaseRouter
+interface RouterInterface extends AbstractRouter
 {
 }

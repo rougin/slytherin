@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Application;
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Rougin\Slytherin\Components
+     * @var \Rougin\Slytherin\ComponentCollection
      */
     protected $components;
 
