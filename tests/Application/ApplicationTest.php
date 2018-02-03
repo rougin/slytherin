@@ -39,7 +39,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         );
 
         if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            array_push($components, 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent');
+            $components[] = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
         }
 
         $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
@@ -172,18 +172,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $config->set('app.router', $router);
         $config->set('app.views', $root);
 
-        $integrations = array();
+        $integrations = array('Rougin\Slytherin\Http\HttpIntegration');
 
-        array_push($integrations, 'Rougin\Slytherin\Http\HttpIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Template\RendererIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
+        $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+        $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
+        $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
+            $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
         }
 
-        array_push($integrations, 'Rougin\Slytherin\Integration\ConfigurationIntegration');
+        $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
 
         $this->expectOutputString('Hello');
 

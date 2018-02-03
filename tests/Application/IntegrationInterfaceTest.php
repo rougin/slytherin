@@ -19,16 +19,16 @@ class IntegrationInterfaceTest extends ApplicationTestCases
     {
         $integrations = array();
 
-        array_push($integrations, 'Rougin\Slytherin\Debug\ErrorHandlerIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Http\HttpIntegration');
-        array_push($integrations, 'Rougin\Slytherin\Routing\RoutingIntegration');
+        $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
+        $integrations[] = 'Rougin\Slytherin\Http\HttpIntegration';
+        $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
 
         $config = new \Rougin\Slytherin\Integration\Configuration;
 
         $config->set('app.router', $this->router());
 
         if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            array_push($integrations, 'Rougin\Slytherin\Middleware\MiddlewareIntegration');
+            $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
 
             $middlewares = array('Rougin\Slytherin\Fixture\Middlewares\EmptyMiddleware');
 

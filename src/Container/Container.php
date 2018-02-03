@@ -146,7 +146,7 @@ class Container implements ContainerInterface
             foreach ($constructor->getParameters() as $parameter) {
                 $argument = $this->argument($parameter);
 
-                array_push($arguments, $this->request($argument, $request));
+                $arguments[] = $this->request($argument, $request);
             }
 
             return $reflection->newInstanceArgs($arguments);

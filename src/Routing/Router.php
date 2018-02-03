@@ -62,7 +62,7 @@ class Router implements RouterInterface
     {
         $route = array($httpMethod, $route, $handler, $middlewares);
 
-        array_push($this->routes, $this->parse($route));
+        $this->routes[] = $this->parse($route);
 
         return $this;
     }

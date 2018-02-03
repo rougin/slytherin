@@ -46,7 +46,7 @@ class Dispatcher implements DispatcherInterface
         foreach ($this->routes as $route) {
             $parsed = $this->parse($httpMethod, $uri, $route);
 
-            array_push($routes, $parsed);
+            $routes[] = $parsed;
         }
 
         $route = $this->retrieve($routes, $uri);
@@ -72,7 +72,7 @@ class Dispatcher implements DispatcherInterface
                 return str_replace(':', '', $item);
             }, $parameters[0]);
 
-            array_push($this->routes, $route);
+            $this->routes[] = $route;
         }
 
         return $this;

@@ -13,6 +13,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Return headers based from `HTTP_*` values in `$_SERVER` global variable
 - Rewrite logic of `Http` package
 - Move `Container\Exception\NotFoundException` to `Container\NotFoundException` 
+- Change `array_push` to `$array[]`
 
 ### Fixed
 - Running test cases without third-party packages

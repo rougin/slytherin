@@ -28,9 +28,9 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
 
         $stack = array();
 
-        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
-        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
-        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
+        $stack[] = 'Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware';
+        $stack[] = 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware';
+        $stack[] = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
         $pipeline = new \Zend\Stratigility\MiddlewarePipe;
         $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipeline);

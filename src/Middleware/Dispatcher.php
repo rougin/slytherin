@@ -124,7 +124,7 @@ class Dispatcher implements DispatcherInterface
             return $this;
         }
 
-        array_push($this->stack, $middleware);
+        $this->stack[] = $middleware;
 
         return $this;
     }

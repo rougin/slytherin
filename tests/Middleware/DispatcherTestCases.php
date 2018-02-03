@@ -130,10 +130,9 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->dispatcher));
 
-        $stack = array();
+        $stack = array('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
-        array_push($stack, 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
-        array_push($stack, 'Rougin\Slytherin\Middleware\FinalResponse');
+        $stack[] = 'Rougin\Slytherin\Middleware\FinalResponse';
 
         $this->dispatcher->push($stack);
 

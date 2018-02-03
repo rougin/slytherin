@@ -127,7 +127,7 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $routes[0][2] = explode('@', $routes[0][2]);
 
-        array_push($routes[0], array());
+        $routes[0][] = array();
 
         $this->assertEquals($routes, $this->router->routes());
     }
@@ -143,13 +143,13 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $expected = array();
 
-        array_push($expected, array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()));
-        array_push($expected, array('GET', '/posts', array('PostsController', 'index'), array()));
-        array_push($expected, array('POST', '/posts', array('PostsController', 'store'), array()));
-        array_push($expected, array('DELETE', '/posts/:id', array('PostsController', 'delete'), array()));
-        array_push($expected, array('GET', '/posts/:id', array('PostsController', 'show'), array()));
-        array_push($expected, array('PATCH', '/posts/:id', array('PostsController', 'update'), array()));
-        array_push($expected, array('PUT', '/posts/:id', array('PostsController', 'update'), array()));
+        $expected[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array());
+        $expected[] = array('GET', '/posts', array('PostsController', 'index'), array());
+        $expected[] = array('POST', '/posts', array('PostsController', 'store'), array());
+        $expected[] = array('DELETE', '/posts/:id', array('PostsController', 'delete'), array());
+        $expected[] = array('GET', '/posts/:id', array('PostsController', 'show'), array());
+        $expected[] = array('PATCH', '/posts/:id', array('PostsController', 'update'), array());
+        $expected[] = array('PUT', '/posts/:id', array('PostsController', 'update'), array());
 
         $this->router->restful('posts', 'PostsController');
 

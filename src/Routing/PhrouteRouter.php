@@ -57,7 +57,7 @@ class PhrouteRouter extends Router
 
         $this->collector->addRoute($httpMethod, $route[1], $route[2]);
 
-        array_push($this->routes, $route);
+        $this->routes[] = $route;
 
         return $this;
     }
