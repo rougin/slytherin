@@ -56,32 +56,7 @@ class Request extends Message implements RequestInterface
 
         $this->target = $target;
 
-        $this->uri = ($uri === null) ? new Uri : $uri;
-    }
-
-    /**
-     * Retrieves the message's request target.
-     *
-     * @return string
-     */
-    public function getRequestTarget()
-    {
-        return $this->target;
-    }
-
-    /**
-     * Return an instance with the specific request-target.
-     *
-     * @param  mixed $requestTarget
-     * @return static
-     */
-    public function withRequestTarget($requestTarget)
-    {
-        $new = clone $this;
-
-        $new->target = $requestTarget;
-
-        return $new;
+        $this->uri = $uri === null ? new Uri : $uri;
     }
 
     /**
@@ -95,22 +70,13 @@ class Request extends Message implements RequestInterface
     }
 
     /**
-     * Return an instance with the provided HTTP method.
+     * Retrieves the message's request target.
      *
-     * @throws \InvalidArgumentException
-     *
-     * @param  string $method
-     * @return static
+     * @return string
      */
-    public function withMethod($method)
+    public function getRequestTarget()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->method = $method;
-
-        return $new;
+        return $this->target;
     }
 
     /**
@@ -124,6 +90,40 @@ class Request extends Message implements RequestInterface
     }
 
     /**
+     * Returns an instance with the provided HTTP method.
+     *
+     * @param  string $method
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withMethod($method)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $static = clone $this;
+
+        $static->method = $method;
+
+        return $static;
+    }
+
+    /**
+     * Returns an instance with the specific request-target.
+     *
+     * @param  mixed $target
+     * @return static
+     */
+    public function withRequestTarget($target)
+    {
+        $static = clone $this;
+
+        $static->target = $target;
+
+        return $static;
+    }
+
+    /**
      * Returns an instance with the provided URI.
      *
      * @param  \Psr\Http\Message\UriInterface $uri
@@ -132,18 +132,18 @@ class Request extends Message implements RequestInterface
      */
     public function withUri(UriInterface $uri, $preserve = false)
     {
-        $new = clone $this;
+        $static = clone $this;
 
-        $new->uri = $uri;
+        $static->uri = $uri;
 
         if (! $preserve && $host = $uri->getHost()) {
-            $exists = $uri->getPort() !== null;
+            $port = $host . ':' . $uri->getPort();
 
-            $exists && $host .= ':' . $uri->getPort();
+            $host = $uri->getPort() ? $port : $host;
 
-            $new->headers['Host'] = array($host);
+            $static->headers['Host'] = (array) $host;
         }
 
-        return $new;
+        return $static;
     }
 }

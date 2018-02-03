@@ -25,17 +25,17 @@ class Uri implements UriInterface
     /**
      * @var string
      */
-    protected $scheme = '';
-
-    /**
-     * @var string
-     */
-    protected $user = '';
+    protected $fragment = '';
 
     /**
      * @var string
      */
     protected $host = '';
+
+    /**
+     * @var string
+     */
+    protected $path = '';
 
     /**
      * @var integer|null
@@ -45,22 +45,22 @@ class Uri implements UriInterface
     /**
      * @var string
      */
-    protected $path = '';
-
-    /**
-     * @var string
-     */
     protected $query = '';
 
     /**
      * @var string
      */
-    protected $fragment = '';
+    protected $scheme = '';
 
     /**
      * @var string
      */
     protected $uri = '';
+
+    /**
+     * @var string
+     */
+    protected $user = '';
 
     /**
      * Initializes the URI instance.
@@ -74,24 +74,24 @@ class Uri implements UriInterface
         foreach ($parts as $key => $value) {
             $key === 'user' && $this->user = $value;
 
-            $this->$key = (string) $value;
+            $this->$key = $value;
         }
 
-        $this->uri = $uri;
+        $this->uri = (string) $uri;
     }
 
     /**
-     * Retrieve the scheme component of the URI.
+     * Return the string representation as a URI reference.
      *
      * @return string
      */
-    public function getScheme()
+    public function __toString()
     {
-        return $this->scheme;
+        return $this->uri;
     }
 
     /**
-     * Retrieve the authority component of the URI.
+     * Retrieves the authority component of the URI.
      *
      * @return string
      */
@@ -99,67 +99,17 @@ class Uri implements UriInterface
     {
         $authority = $this->host;
 
-        if (! empty($this->host) && ! empty($this->user)) {
+        if ($this->host !== '' && $this->user !== null) {
             $authority = $this->user . '@' . $authority;
 
-            $authority .= ':'. $this->port;
+            $authority = $authority . ':' . $this->port;
         }
 
         return $authority;
     }
 
     /**
-     * Retrieve the user information component of the URI.
-     *
-     * @return string
-     */
-    public function getUserInfo()
-    {
-        return $this->user;
-    }
-
-    /**
-     * Retrieve the host component of the URI.
-     *
-     * @return string
-     */
-    public function getHost()
-    {
-        return $this->host;
-    }
-
-    /**
-     * Retrieve the port component of the URI.
-     *
-     * @return null|integer
-     */
-    public function getPort()
-    {
-        return $this->port;
-    }
-
-    /**
-     * Retrieve the path component of the URI.
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        return $this->path;
-    }
-
-    /**
-     * Retrieve the query string of the URI.
-     *
-     * @return string
-     */
-    public function getQuery()
-    {
-        return $this->query;
-    }
-
-    /**
-     * Retrieve the fragment component of the URI.
+     * Retrieves the fragment component of the URI.
      *
      * @return string
      */
@@ -169,118 +119,67 @@ class Uri implements UriInterface
     }
 
     /**
-     * Return an instance with the specified scheme.
+     * Retrieves the host component of the URI.
      *
-     * @param  string $scheme
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function withScheme($scheme)
+    public function getHost()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->scheme = $scheme;
-
-        return $new;
+        return $this->host;
     }
 
     /**
-     * Return an instance with the specified user information.
+     * Retrieves the path component of the URI.
      *
-     * @param  string      $user
-     * @param  null|string $password
-     * @return static
+     * @return string
      */
-    public function withUserInfo($user, $password = null)
+    public function getPath()
     {
-        $new = clone $this;
-
-        $new->user = $user . ':' . $password . '';
-
-        return $new;
+        return $this->path;
     }
 
     /**
-     * Return an instance with the specified host.
+     * Retrieves the port component of the URI.
      *
-     * @param  string $host
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return null|integer
      */
-    public function withHost($host)
+    public function getPort()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->host = $host;
-
-        return $new;
+        return $this->port;
     }
 
     /**
-     * Return an instance with the specified port.
+     * Retrieves the query string of the URI.
      *
-     * @param  null|integer $port
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function withPort($port)
+    public function getQuery()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->port = $port;
-
-        return $new;
+        return $this->query;
     }
 
     /**
-     * Return an instance with the specified path.
+     * Retrieves the scheme component of the URI.
      *
-     * @param  string $path
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function withPath($path)
+    public function getScheme()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->path = $path;
-
-        return $new;
+        return $this->scheme;
     }
 
     /**
-     * Return an instance with the specified query string.
+     * Retrieves the user information component of the URI.
      *
-     * @param  string $query
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return string
      */
-    public function withQuery($query)
+    public function getUserInfo()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->query = $query;
-
-        return $new;
+        return $this->user;
     }
 
     /**
-     * Return an instance with the specified URI fragment.
+     * Returns an instance with the specified URI fragment.
      *
      * @param  string $fragment
      * @return static
@@ -295,12 +194,133 @@ class Uri implements UriInterface
     }
 
     /**
-     * Return the string representation as a URI reference.
+     * Returns an instance with the specified host.
      *
-     * @return string
+     * @param  string $host
+     * @return static
+     *
+     * @throws \InvalidArgumentException
      */
-    public function __toString()
+    public function withHost($host)
     {
-        return $this->uri;
+        // TODO: Add \InvalidArgumentException
+
+        $new = clone $this;
+
+        $new->host = $host;
+
+        return $new;
+    }
+
+    /**
+     * Returns an instance with the specified path.
+     *
+     * @param  string $path
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withPath($path)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $new = clone $this;
+
+        $new->path = $path;
+
+        return $new;
+    }
+
+    /**
+     * Returns an instance with the specified port.
+     *
+     * @param  null|integer $port
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withPort($port)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $new = clone $this;
+
+        $new->port = $port;
+
+        return $new;
+    }
+
+    /**
+     * Returns an instance with the specified query string.
+     *
+     * @param  string $query
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withQuery($query)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $new = clone $this;
+
+        $new->query = $query;
+
+        return $new;
+    }
+
+    /**
+     * Returns an instance with the specified scheme.
+     *
+     * @param  string $scheme
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withScheme($scheme)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $new = clone $this;
+
+        $new->scheme = $scheme;
+
+        return $new;
+    }
+
+    /**
+     * Returns an instance with the specified user information.
+     *
+     * @param  string      $user
+     * @param  null|string $password
+     * @return static
+     */
+    public function withUserInfo($user, $password = null)
+    {
+        $new = clone $this;
+
+        $new->user = $user . ':' . $password;
+
+        return $new;
+    }
+
+    /**
+     * Generates a \Psr\Http\Message\UriInterface from server variables.
+     *
+     * @param  array                               $server
+     * @param  \Psr\Http\Message\UriInterface|null $uri
+     * @return \Psr\Http\Message\UriInterface
+     */
+    public static function instance(array $server)
+    {
+        $secure = isset($server['HTTPS']) ? $server['HTTPS'] : 'off';
+
+        $http = $secure === 'off' ? 'http' : 'https';
+
+        $url = $http . '://' . $server['SERVER_NAME'];
+
+        $url .= (string) $server['SERVER_PORT'];
+
+        return new Uri($url . $server['REQUEST_URI']);
     }
 }

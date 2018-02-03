@@ -47,11 +47,13 @@ class Message implements MessageInterface
      */
     public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        $stream = fopen('php://temp', 'r+');
+        if ($body === null) {
+            $resource = fopen('php://temp', 'r+');
 
-        $stream = $stream === false ? null : $stream;
+            $resource = $resource === false ? null : $resource;
 
-        $body = $body === null ? new Stream($stream) : $body;
+            $body = new Stream($resource);
+        }
 
         $this->body = $body;
 
@@ -61,49 +63,13 @@ class Message implements MessageInterface
     }
 
     /**
-     * Retrieves the HTTP protocol version as a string.
+     * Returns the body of the message.
      *
-     * @return string
+     * @return \Psr\Http\Message\StreamInterface
      */
-    public function getProtocolVersion()
+    public function getBody()
     {
-        return $this->version;
-    }
-
-    /**
-     * Return an instance with the specified HTTP protocol version.
-     *
-     * @param  string $version
-     * @return static
-     */
-    public function withProtocolVersion($version)
-    {
-        $new = clone $this;
-
-        $new->version = $version;
-
-        return $new;
-    }
-
-    /**
-     * Retrieves all message header values.
-     *
-     * @return string[][]
-     */
-    public function getHeaders()
-    {
-        return $this->headers;
-    }
-
-    /**
-     * Retrieves a message header value by the given case-insensitive name.
-     *
-     * @param  string $name
-     * @return string[]
-     */
-    public function hasHeader($name)
-    {
-        return isset($this->headers[$name]);
+        return $this->body;
     }
 
     /**
@@ -129,27 +95,38 @@ class Message implements MessageInterface
     }
 
     /**
-     * Return an instance with the provided value replacing the specified header.
+     * Retrieves all message header values.
      *
-     * @param  string          $name
-     * @param  string|string[] $value
-     * @return static
-     *
-     * @throws \InvalidArgumentException
+     * @return string[][]
      */
-    public function withHeader($name, $value)
+    public function getHeaders()
     {
-        // TODO: Add InvalidArgumentException
-
-        $new = clone $this;
-
-        $new->headers[$name] = (is_array($value)) ? $value : array($value);
-
-        return $new;
+        return $this->headers;
     }
 
     /**
-     * Return an instance with the specified header appended with the given value.
+     * Retrieves the HTTP protocol version as a string.
+     *
+     * @return string
+     */
+    public function getProtocolVersion()
+    {
+        return $this->version;
+    }
+
+    /**
+     * Retrieves a message header value by the given case-insensitive name.
+     *
+     * @param  string $name
+     * @return string[]
+     */
+    public function hasHeader($name)
+    {
+        return isset($this->headers[$name]);
+    }
+
+    /**
+     * Returns an instance with the specified header appended with the given value.
      *
      * @param  string          $name
      * @param  string|string[] $value
@@ -159,46 +136,17 @@ class Message implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        // TODO: Add InvalidArgumentException
+        // TODO: Add \InvalidArgumentException
 
-        $new = clone $this;
+        $static = clone $this;
 
-        $new->headers[$name][] = $value;
+        $static->headers[$name][] = $value;
 
-        return $new;
+        return $static;
     }
 
     /**
-     * Return an instance without the specified header.
-     *
-     * @param  string $name
-     * @return static
-     */
-    public function withoutHeader($name)
-    {
-        if ($this->hasHeader($name)) {
-            $new = clone $this;
-
-            unset($new->headers[$name]);
-
-            return $new;
-        }
-
-        return clone $this;
-    }
-
-    /**
-     * Gets the body of the message.
-     *
-     * @return \Psr\Http\Message\StreamInterface
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
-     * Return an instance with the specified message body.
+     * Returns an instance with the specified message body.
      *
      * @param  \Psr\Http\Message\StreamInterface $body
      * @return static
@@ -207,12 +155,66 @@ class Message implements MessageInterface
      */
     public function withBody(StreamInterface $body)
     {
-        // TODO: Add InvalidArgumentException
+        $static = clone $this;
 
-        $new = clone $this;
+        $static->body = $body;
 
-        $new->body = $body;
+        return $static;
+    }
 
-        return $new;
+    /**
+     * Returns an instance with the provided value replacing the specified header.
+     *
+     * @param  string          $name
+     * @param  string|string[] $value
+     * @return static
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function withHeader($name, $value)
+    {
+        // TODO: Add \InvalidArgumentException
+
+        $static = clone $this;
+
+        $static->headers[$name] = (array) $value;
+
+        return $static;
+    }
+
+    /**
+     * Returns an instance with the specified HTTP protocol version.
+     *
+     * @param  string $version
+     * @return static
+     */
+    public function withProtocolVersion($version)
+    {
+        $static = clone $this;
+
+        $static->version = $version;
+
+        return $static;
+    }
+
+    /**
+     * Returns an instance without the specified header.
+     *
+     * @param  string $name
+     * @return static
+     */
+    public function withoutHeader($name)
+    {
+        $instance = clone $this;
+
+        if ($this->hasHeader($name)) {
+            $static = clone $this;
+
+            unset($static->headers[$name]);
+
+            $instance = $static;
+        }
+
+        return $instance;
     }
 }

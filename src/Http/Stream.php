@@ -24,32 +24,29 @@ use Psr\Http\Message\StreamInterface;
 class Stream implements StreamInterface
 {
     /**
-     * Underline stream.
-     *
-     * @var resource|null
-     */
-    protected $stream = null;
-
-    /**
-     * Size of file.
-     *
-     * @var int|null
-     */
-    protected $size = null;
-
-    /**
-     * Metadata of file.
-     *
      * @var array|null
      */
     protected $meta = null;
 
     /**
-     * Resource modes.
-     *
      * @var array
      */
-    protected $modes = array();
+    protected $readable = array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b');
+
+    /**
+     * @var integer|null
+     */
+    protected $size = null;
+
+    /**
+     * @var resource|null
+     */
+    protected $stream = null;
+
+    /**
+     * @var array
+     */
+    protected $writable = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b');
 
     /**
      * Initializes the stream instance.
@@ -59,10 +56,6 @@ class Stream implements StreamInterface
     public function __construct($stream = null)
     {
         $this->stream = $stream;
-
-        $this->modes['readable'] = array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b');
-
-        $this->modes['writable'] = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b');
     }
 
     /**
@@ -72,13 +65,9 @@ class Stream implements StreamInterface
      */
     public function __toString()
     {
-        try {
-            $this->rewind();
+        $this->rewind();
 
-            return $this->getContents();
-        } catch (\RuntimeException $e) {
-            return '';
-        }
+        return $this->getContents();
     }
 
     /**
@@ -88,9 +77,7 @@ class Stream implements StreamInterface
      */
     public function close()
     {
-        if ($this->stream !== null) {
-            fclose($this->stream);
-        }
+        is_null($this->stream) ?: fclose($this->stream);
 
         $this->detach();
     }
@@ -104,47 +91,13 @@ class Stream implements StreamInterface
     {
         $stream = $this->stream;
 
-        $this->stream = null;
+        $this->meta = null;
 
         $this->size = null;
 
-        $this->meta = null;
+        $this->stream = null;
 
         return $stream;
-    }
-
-    /**
-     * Get the size of the stream if known.
-     *
-     * @return integer|null
-     */
-    public function getSize()
-    {
-        if ($this->stream !== null && $this->size === null) {
-            $stats = fstat($this->stream);
-
-            $this->size = isset($stats['size']) ? $stats['size'] : null;
-        }
-
-        return $this->size;
-    }
-
-    /**
-     * Returns the current position of the file read/write pointer.
-     *
-     * @return integer
-     *
-     * @throws \RuntimeException
-     */
-    public function tell()
-    {
-        if ($this->stream === null || ($position = ftell($this->stream)) === false) {
-            $message = 'Could not get the position of the pointer in stream';
-
-            throw new \RuntimeException($message);
-        }
-
-        return $position;
     }
 
     /**
@@ -154,7 +107,68 @@ class Stream implements StreamInterface
      */
     public function eof()
     {
-        return $this->stream !== null ? feof($this->stream) : true;
+        return is_null($this->stream) ?: feof($this->stream);
+    }
+
+    /**
+     * Returns the remaining contents in a string
+     *
+     * @return string
+     *
+     * @throws \RuntimeException
+     */
+    public function getContents()
+    {
+        if (is_null($this->stream) || ! $this->isReadable()) {
+            $message = 'Could not get contents of stream';
+
+            throw new \RuntimeException($message);
+        }
+
+        return stream_get_contents($this->stream);
+    }
+
+    /**
+     * Returns stream metadata as an associative array or retrieve a specific key.
+     *
+     * @param  string $key
+     * @return array|mixed|null
+     */
+    public function getMetadata($key = null)
+    {
+        isset($this->stream) && $this->meta = stream_get_meta_data($this->stream);
+
+        $metadata = isset($this->meta[$key]) ? $this->meta[$key] : null;
+
+        return is_null($key) ? $this->meta : $metadata;
+    }
+
+    /**
+     * Returns the size of the stream if known.
+     *
+     * @return integer|null
+     */
+    public function getSize()
+    {
+        if (is_null($this->size) === true) {
+            $stats = fstat($this->stream);
+
+            $this->size = $stats['size'];
+        }
+
+        return $this->size;
+    }
+
+    /**
+     * Returns whether or not the stream is readable.
+     *
+     * @return boolean
+     */
+    public function isReadable()
+    {
+        $mode = $this->getMetadata('mode');
+
+        return in_array($mode, $this->readable);
     }
 
     /**
@@ -168,20 +182,36 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Seek to a position in the stream.
+     * Returns whether or not the stream is writable.
      *
-     * @param integer $offset
-     * @param integer $whence
+     * @return boolean
+     */
+    public function isWritable()
+    {
+        $mode = $this->getMetadata('mode');
+
+        return in_array($mode, $this->writable);
+    }
+
+    /**
+     * Read data from the stream.
+     *
+     * @param  integer $length
+     * @return string
      *
      * @throws \RuntimeException
      */
-    public function seek($offset, $whence = SEEK_SET)
+    public function read($length)
     {
-        if (! $this->isSeekable() || fseek($this->stream, $offset, $whence) === -1) {
-            $message = 'Could not seek in stream';
+        $data = fread($this->stream, $length);
+
+        if (! $this->isReadable() || $data === false) {
+            $message = 'Could not read from stream';
 
             throw new \RuntimeException($message);
         }
+
+        return $data;
     }
 
     /**
@@ -195,15 +225,46 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Returns whether or not the stream is writable.
+     * Seek to a position in the stream.
      *
-     * @return boolean
+     * @param integer $offset
+     * @param integer $whence
+     *
+     * @throws \RuntimeException
      */
-    public function isWritable()
+    public function seek($offset, $whence = SEEK_SET)
     {
-        $fileMode = $this->getMetadata('mode');
+        $seek = -1;
 
-        return (in_array($fileMode, $this->modes['writable']));
+        $this->stream && $seek = fseek($this->stream, $offset, $whence);
+
+        if (! $this->isSeekable() || $seek === -1) {
+            $message = 'Could not seek in stream';
+
+            throw new \RuntimeException($message);
+        }
+    }
+
+    /**
+     * Returns the current position of the file read/write pointer.
+     *
+     * @return integer
+     *
+     * @throws \RuntimeException
+     */
+    public function tell()
+    {
+        $position = false;
+
+        $this->stream && $position = ftell($this->stream);
+
+        if (is_null($this->stream) || $position === false) {
+            $message = 'Could not get position of pointer in stream';
+
+            throw new \RuntimeException($message);
+        }
+
+        return $position;
     }
 
     /**
@@ -216,82 +277,14 @@ class Stream implements StreamInterface
      */
     public function write($string)
     {
-        if (! $this->isWritable() || ($written = fwrite($this->stream, $string)) === false) {
-            $message = 'Could not write to stream';
+        if (! $this->isWritable()) {
+            $message = 'Stream is not writable';
 
             throw new \RuntimeException($message);
         }
 
         $this->size = null;
 
-        return $written;
-    }
-
-    /**
-     * Returns whether or not the stream is readable.
-     *
-     * @return boolean
-     */
-    public function isReadable()
-    {
-        $fileMode = $this->getMetadata('mode');
-
-        return (in_array($fileMode, $this->modes['readable']));
-    }
-
-    /**
-     * Read data from the stream.
-     *
-     * @param  integer $length
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function read($length)
-    {
-        if (! $this->isReadable() || ($data = fread($this->stream, $length)) === false) {
-            $message = 'Could not read from stream';
-
-            throw new \RuntimeException($message);
-        }
-
-        return $data;
-    }
-
-    /**
-     * Returns the remaining contents in a string
-     *
-     * @return string
-     *
-     * @throws \RuntimeException
-     */
-    public function getContents()
-    {
-        if (! $this->isReadable() || ($contents = stream_get_contents($this->stream)) === false) {
-            $message = 'Could not get contents of stream';
-
-            throw new \RuntimeException($message);
-        }
-
-        return $contents;
-    }
-
-    /**
-     * Get stream metadata as an associative array or retrieve a specific key.
-     *
-     * @param  string $key
-     * @return array|mixed|null
-     */
-    public function getMetadata($key = null)
-    {
-        if (isset($this->stream)) {
-            $this->meta = stream_get_meta_data($this->stream);
-
-            if (is_null($key) === true) {
-                return $this->meta;
-            }
-        }
-
-        return isset($this->meta[$key]) ? $this->meta[$key] : null;
+        return fwrite($this->stream, $string);
     }
 }
