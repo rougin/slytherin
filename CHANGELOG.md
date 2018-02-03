@@ -14,6 +14,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Rewrite logic of `Http` package
 - Move `Container\Exception\NotFoundException` to `Container\NotFoundException` 
 - Change `array_push` to `$array[]`
+- Rewrite logic of `Template\Renderer`
 
 ### Fixed
 - Running test cases without third-party packages
