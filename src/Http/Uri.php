@@ -307,8 +307,7 @@ class Uri implements UriInterface
     /**
      * Generates a \Psr\Http\Message\UriInterface from server variables.
      *
-     * @param  array                               $server
-     * @param  \Psr\Http\Message\UriInterface|null $uri
+     * @param  array $server
      * @return \Psr\Http\Message\UriInterface
      */
     public static function instance(array $server)
