@@ -12,6 +12,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Returning data in `Http\Uri::withUserInfo`
 - Return headers based from `HTTP_*` values in `$_SERVER` global variable
 - Rewrite logic of `Http` package
+- Move `Container\Exception\NotFoundException` to `Container\NotFoundException` 
 
 ### Fixed
 - Running test cases without third-party packages
