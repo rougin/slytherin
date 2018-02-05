@@ -49,11 +49,9 @@ class Renderer implements RendererInterface
         }
 
         if (is_null($file) === true) {
-            $message = 'Template file "%s" not found.';
+            $message = 'Template file "' . $name . '" not found.';
 
-            $message = sprintf($message, $name);
-
-            throw new \InvalidArgumentException($message);
+            throw new \InvalidArgumentException((string) $message);
         }
 
         return $this->extract($file, $data);
