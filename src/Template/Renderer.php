@@ -38,7 +38,7 @@ class Renderer implements RendererInterface
      */
     public function render($template, array $data = array())
     {
-        $name = (string) str_replace('.', '/', $template);
+        list($file, $name) = array(null, str_replace('.', '/', $template));
 
         foreach ((array) $this->paths as $key => $path) {
             $files = (array) $this->files($path);
@@ -48,7 +48,7 @@ class Renderer implements RendererInterface
             $item !== null && $file = $item;
         }
 
-        if (isset($file) === false) {
+        if (is_null($file) === true) {
             $message = 'Template file "%s" not found.';
 
             $message = sprintf($message, $name);
@@ -70,17 +70,19 @@ class Renderer implements RendererInterface
      */
     protected function check(array $files, $path, $source, $template)
     {
+        $file = null;
+
         foreach ((array) $files as $key => $value) {
-            $filepath = str_replace($path, $source, $value);
+            $filepath = (string) str_replace($path, $source, $value);
 
             $filepath = str_replace('\\', '/', (string) $filepath);
 
-            $filepath = preg_replace('/^\d\//i', '', $filepath);
+            $filepath = (string) preg_replace('/^\d\//i', '', $filepath);
 
             strtolower($filepath) === $template && $file = $value;
         }
 
-        return isset($file) === true ? $file : null;
+        return $file;
     }
 
     /**

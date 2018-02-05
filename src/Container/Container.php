@@ -99,21 +99,23 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        if ($this->has($id) === false) {
-            $message = 'Alias (%s) is not being managed by the container';
+        if ($this->has($id) === true) {
+            $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
 
-            throw new Exception\NotFoundException(sprintf($message, $id));
+            if (is_object($entry) === false) {
+                $message = (string) 'Alias (%s) is not an object';
+
+                $message = sprintf($message, $id);
+
+                throw new Exception\ContainerException($message);
+            }
+
+            return $entry;
         }
 
-        $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
+        $message = 'Alias (%s) is not being managed by the container';
 
-        if (is_object($entry) === false) {
-            $message = 'Alias (%s) is not an object';
-
-            throw new Exception\ContainerException(sprintf($message, $id));
-        }
-
-        return $entry;
+        throw new Exception\NotFoundException(sprintf($message, $id));
     }
 
     /**

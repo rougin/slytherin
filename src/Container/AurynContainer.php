@@ -71,13 +71,19 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function get($id)
     {
-        if ($this->has($id) === false) {
+        $entry = null;
+
+        $this->has($id) && $entry = $this->resolve($id);
+
+        if (is_null($entry) === true) {
             $message = 'Alias (%s) is not being managed by the container';
 
-            throw new Exception\NotFoundException(sprintf($message, $id));
+            $message = (string) sprintf($message, $id);
+
+            throw new Exception\NotFoundException($message);
         }
 
-        return $this->resolve($id);
+        return $entry;
     }
 
     /**
