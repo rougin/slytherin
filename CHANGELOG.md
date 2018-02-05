@@ -2,7 +2,7 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.3](https://github.com/rougin/slytherin/compare/v0.9.2...v0.9.3) - Unreleased
+## [0.9.3](https://github.com/rougin/slytherin/compare/v0.9.2...v0.9.3) - 2018-02-05
 
 ### Added
 - `Middleware\HandlerInterface`
