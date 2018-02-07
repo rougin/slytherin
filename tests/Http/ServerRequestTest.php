@@ -181,4 +181,18 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse(isset($newAttributes['age']));
     }
+
+    /**
+     * Tests ServerRequestInterface::getAttribute if it has $_SERVER values.
+     *
+     * @return void
+     */
+    public function testGetAttributeMethodHasServerParams()
+    {
+        $expected = (string) 'localhost';
+
+        $result = $this->request->getAttribute('SERVER_NAME');
+
+        $this->assertEquals($expected, $result);
+    }
 }

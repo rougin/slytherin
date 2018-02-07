@@ -87,6 +87,9 @@ class ServerRequest extends Request implements ServerRequestInterface
         $this->server = $server;
 
         $this->uploaded = UploadedFile::normalize($uploaded);
+
+        // NOTE: To be removed in v1.0.0. Attributes should be empty on default.
+        $this->attributes = array_merge($cookies, (array) $data, $query, $server);
     }
 
     /**
