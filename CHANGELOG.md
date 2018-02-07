@@ -2,7 +2,7 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.4](https://github.com/rougin/slytherin/compare/v0.9.3...v0.9.4) - Unreleased
+## [0.9.4](https://github.com/rougin/slytherin/compare/v0.9.3...v0.9.4) - 2017-02-07
 
 ### Fixed
 - Empty `attributes` when using `ServerRequest::getAttribute`
