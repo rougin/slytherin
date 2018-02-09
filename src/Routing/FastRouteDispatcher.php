@@ -12,7 +12,7 @@ namespace Rougin\Slytherin\Routing;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class FastRouteDispatcher extends Dispatcher implements DispatcherInterface
+class FastRouteDispatcher implements DispatcherInterface
 {
     /**
      * @var \FastRoute\Dispatcher
@@ -83,5 +83,26 @@ class FastRouteDispatcher extends Dispatcher implements DispatcherInterface
         $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
         return $this;
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     *
+     * @param  string $httpMethod
+     * @return boolean
+     *
+     * @throws UnexpectedValueException
+     */
+    protected function allowed($httpMethod)
+    {
+        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+
+        if (in_array($httpMethod, $allowed) === false) {
+            $message = 'Used method is not allowed';
+
+            throw new \UnexpectedValueException($message);
+        }
+
+        return true;
     }
 }

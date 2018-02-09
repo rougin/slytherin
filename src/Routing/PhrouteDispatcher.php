@@ -14,7 +14,7 @@ use Phroute\Phroute\HandlerResolverInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
+class PhrouteDispatcher implements DispatcherInterface
 {
     /**
      * @var \Phroute\Phroute\Dispatcher
@@ -124,5 +124,26 @@ class PhrouteDispatcher extends Dispatcher implements DispatcherInterface
         }
 
         throw new \UnexpectedValueException($message);
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     *
+     * @param  string $httpMethod
+     * @return boolean
+     *
+     * @throws UnexpectedValueException
+     */
+    protected function allowed($httpMethod)
+    {
+        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+
+        if (in_array($httpMethod, $allowed) === false) {
+            $message = 'Used method is not allowed';
+
+            throw new \UnexpectedValueException($message);
+        }
+
+        return true;
     }
 }
