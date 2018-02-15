@@ -11,15 +11,17 @@ namespace Rougin\Slytherin\Middleware;
 class DispatcherTest extends DispatcherTestCases
 {
     /**
-     * Sets up the middleware dispatcher.
+     * Sets up the middleware dispatcher instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $this->markTestSkipped('Interop Middleware is not installed.');
-        }
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        $message = 'http-interop/http-middleware (v0.4.0) is not installed.';
+
+        interface_exists($interface) || $this->markTestSkipped($message);
 
         $this->dispatcher = new Dispatcher;
     }

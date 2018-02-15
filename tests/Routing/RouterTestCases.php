@@ -39,7 +39,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->router));
 
-        $this->router->add('POST', '/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $this->router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $this->router->add('POST', '/store', 'NewClass@store');
 
         $this->assertTrue($this->router->has('POST', '/store'));
     }
@@ -65,9 +67,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testCallMagicMethodWithException()
     {
-        $this->exists(get_class($this->router));
+        $this->setExpectedException('BadMethodCallException');
 
-        $this->setExpectedException('BadMethodCallException', '"TEST" is not a valid HTTP method');
+        $this->exists(get_class($this->router));
 
         $this->router->test('/test', 'PostsController@test');
     }
@@ -81,7 +83,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->router));
 
-        $this->assertTrue($this->router->has('GET', '/'));
+        $result = $this->router->has('GET', '/');
+
+        $this->assertTrue((boolean) $result);
     }
 
     /**
@@ -97,7 +101,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $route = $this->router->retrieve('GET', '/');
 
-        $this->assertEquals($expected, implode('@', $route[2]));
+        $result = implode('@', $route[2]);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -111,7 +117,7 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $route = $this->router->retrieve('GET', '/test');
 
-        $this->assertEquals(null, $route);
+        $this->assertNull($route);
     }
 
     /**
@@ -123,13 +129,15 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->router));
 
-        $routes = $this->routes;
+        $expected = $this->routes;
 
-        $routes[0][2] = explode('@', $routes[0][2]);
+        $expected[0][2] = explode('@', $expected[0][2]);
 
-        $routes[0][] = array();
+        $expected[0][] = array();
 
-        $this->assertEquals($routes, $this->router->routes());
+        $result = $this->router->routes();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -153,7 +161,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $this->router->restful('posts', 'PostsController');
 
-        $this->assertEquals($expected, $this->router->routes());
+        $result = $this->router->routes();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -165,11 +175,13 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->router));
 
-        $this->router->prefix('/v1/slytherin');
+        $this->router->prefix((string) '/v1/slytherin');
 
-        $this->router->get('/hello', 'HelloController@hello');
+        $this->router->get('/hello', (string) 'HelloController@hello');
 
-        $this->assertTrue($this->router->has('GET', '/v1/slytherin/hello'));
+        $exists = $this->router->has('GET', '/v1/slytherin/hello');
+
+        $this->assertTrue($exists);
     }
 
     /**
@@ -188,20 +200,28 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
         $this->router->prefix('/v1/auth');
 
         $this->router->post('/login', 'AuthController@login');
+
         $this->router->post('/logout', 'AuthController@logout');
 
         $this->router->prefix('/v1/test');
 
         $this->router->get('/hello', 'TestController@hello');
+
         $this->router->get('/test', 'TestController@test');
 
         $home = $this->router->retrieve('GET', '/home');
+
+        $home = 'Acme\Http\Controllers\HomeController' === $home[2][0];
+
         $login = $this->router->retrieve('POST', '/v1/auth/login');
+
+        $login = 'Acme\Http\Controllers\AuthController' === $login[2][0];
+
         $hello = $this->router->retrieve('GET', '/v1/test/hello');
 
-        $this->assertEquals('Acme\Http\Controllers\HomeController', $home[2][0]);
-        $this->assertEquals('Acme\Http\Controllers\AuthController', $login[2][0]);
-        $this->assertEquals('Acme\Http\Controllers\TestController', $hello[2][0]);
+        $hello = 'Acme\Http\Controllers\TestController' === $hello[2][0];
+
+        $this->assertTrue($home && $login && $hello);
     }
 
     /**
@@ -219,7 +239,9 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
 
         $this->router->merge($router->routes());
 
-        $this->assertTrue($this->router->has('GET', '/test'));
+        $exists = $this->router->has('GET', '/test');
+
+        $this->assertTrue($exists);
     }
 
     /**
@@ -230,19 +252,20 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function exists($router)
     {
-        switch ($router) {
-            case 'Rougin\Slytherin\Routing\FastRouteRouter':
-                if (! class_exists('FastRoute\RouteCollector')) {
-                    $this->markTestSkipped('FastRoute is not installed.');
-                }
+        if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter') {
+            $exists = class_exists('FastRoute\RouteCollector');
 
-                break;
-            case 'Rougin\Slytherin\Routing\PhrouteRouter':
-                if (! class_exists('Phroute\Phroute\RouteCollector')) {
-                    $this->markTestSkipped('Phroute is not installed.');
-                }
+            $message = (string) 'FastRoute is not installed.';
 
-                break;
+            $exists || $this->markTestSkipped((string) $message);
+        }
+
+        if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter') {
+            $exists = class_exists('Phroute\Phroute\RouteCollector');
+
+            $message = (string) 'Phroute is not installed.';
+
+            $exists || $this->markTestSkipped((string) $message);
         }
     }
 }

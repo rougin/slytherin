@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+
 /**
  * Phroute Dispatcher Test
  *
@@ -21,14 +23,17 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $router = new PhrouteRouter;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $router->post('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+
+        $router->post('/', 'NewClass@store');
 
         $router->get('/hi', function () {
             return 'Hi and this is a callback';
         });
 
-        $router->add('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->add('TEST', '/', 'NewClass@index');
 
         $this->dispatcher = new PhrouteDispatcher($router);
     }
@@ -42,15 +47,21 @@ class PhrouteDispatcherTest extends DispatcherTestCases
     {
         $router = new Router;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
 
         $dispatcher = new PhrouteDispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $dispatcher->dispatch('GET', '/');
 
-        $this->assertEquals($controller->index(), $this->result($function));
+        $expected = (string) $controller->index();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -64,14 +75,20 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $router = new FastRouteRouter;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
 
         $dispatcher = new PhrouteDispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $dispatcher->dispatch('GET', '/');
 
-        $this->assertEquals($controller->index(), $this->result($function));
+        $expected = (string) $controller->index();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 }

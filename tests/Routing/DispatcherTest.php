@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+
 /**
  * Dispatcher Test
  *
@@ -21,8 +23,11 @@ class DispatcherTest extends DispatcherTestCases
 
         $router = new Router($routes);
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $router->post('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+
+        $router->post('/', 'NewClass@store');
 
         $router->get('/hi', function () {
             return 'Hi and this is a callback';
@@ -42,15 +47,21 @@ class DispatcherTest extends DispatcherTestCases
 
         $router = new FastRouteRouter;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
 
         $dispatcher = new Dispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $dispatcher->dispatch('GET', '/');
 
-        $this->assertEquals($controller->index(), $this->result($function));
+        $expected = (string) $controller->index();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -64,14 +75,20 @@ class DispatcherTest extends DispatcherTestCases
 
         $router = new PhrouteRouter;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
 
         $dispatcher = new Dispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $dispatcher->dispatch('GET', '/');
 
-        $this->assertEquals($controller->index(), $this->result($function));
+        $expected = (string) $controller->index();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+
 /**
  * Dispatcher Test Cases
  *
@@ -26,8 +28,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 
         $router = new Router($routes);
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $router->post('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+
+        $router->post('/', 'NewClass@store');
 
         $router->get('/hi', function () {
             return 'Hi and this is a callback';
@@ -45,11 +50,15 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->dispatcher));
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $this->dispatcher->dispatch('GET', '/');
 
-        $this->assertEquals($controller->index(), $this->result($function));
+        $expected = (string) $controller->index();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -61,11 +70,15 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
     {
         $this->exists(get_class($this->dispatcher));
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
         list($function) = $this->dispatcher->dispatch('POST', '/');
 
-        $this->assertEquals($controller->store(), $this->result($function));
+        $expected = (string) $controller->store();
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -79,7 +92,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 
         list($function) = $this->dispatcher->dispatch('GET', '/hi');
 
-        $this->assertEquals('Hi and this is a callback', $this->result($function));
+        $expected = 'Hi and this is a callback';
+
+        $result = $this->result($function);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -89,11 +106,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
+        $this->setExpectedException('UnexpectedValueException');
+
         $this->exists(get_class($this->dispatcher));
 
-        $this->setExpectedException('UnexpectedValueException', 'Route "/test" not found');
-
-        $this->dispatcher->dispatch('GET', '/test');
+        $this->dispatcher->dispatch('GET', (string) '/test');
     }
 
     /**
@@ -103,11 +120,11 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
+        $this->setExpectedException('UnexpectedValueException');
+
         $this->exists(get_class($this->dispatcher));
 
-        $this->setExpectedException('UnexpectedValueException', 'Used method is not allowed');
-
-        $this->dispatcher->dispatch('TEST', '/');
+        $this->dispatcher->dispatch('TEST', (string) '/');
     }
 
     /**
@@ -121,7 +138,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
         if (is_array($function) === true) {
             list($callback, $parameters) = $function;
 
-            if (is_array($callback)) {
+            if (is_array($callback) === true) {
                 list($class, $method) = $callback;
 
                 $callback = array(new $class, $method);
@@ -141,19 +158,20 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function exists($dispatcher)
     {
-        switch ($dispatcher) {
-            case 'Rougin\Slytherin\Routing\FastRouteDispatcher':
-                if (! interface_exists('FastRoute\Dispatcher')) {
-                    $this->markTestSkipped('FastRoute is not installed.');
-                }
+        if ($dispatcher === 'Rougin\Slytherin\Routing\FastRouteDispatcher') {
+            $exists = interface_exists('FastRoute\Dispatcher');
 
-                break;
-            case 'Rougin\Slytherin\Routing\PhrouteDispatcher':
-                if (! class_exists('Phroute\Phroute\Dispatcher')) {
-                    $this->markTestSkipped('Phroute is not installed.');
-                }
+            $message = (string) 'FastRoute is not installed.';
 
-                break;
+            $exists || $this->markTestSkipped((string) $message);
+        }
+
+        if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher') {
+            $exists = class_exists('Phroute\Phroute\Dispatcher');
+
+            $message = (string) 'Phroute is not installed.';
+
+            $exists || $this->markTestSkipped((string) $message);
         }
     }
 }
