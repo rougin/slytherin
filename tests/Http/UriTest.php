@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\Http;
 
 /**
- * Uri Test
+ * URI Test
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
@@ -16,120 +16,152 @@ class UriTest extends \PHPUnit_Framework_TestCase
     protected $uri;
 
     /**
-     * Sets up the uri.
+     * Sets up the URI instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\UriInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
-
-        $this->uri = new \Rougin\Slytherin\Http\Uri('https://me@rougin.github.io:400/about');
+        $this->uri = new Uri('https://me@rougin.github.io:400/about');
     }
 
     /**
-     * Tests getScheme() and withScheme().
+     * Tests UriInterface::getScheme.
      *
      * @return void
      */
-    public function testScheme()
+    public function testGetSchemeMethod()
     {
+        $expected = (string) 'http';
+
         $uri = $this->uri->withScheme('http');
 
-        $this->assertEquals('http', $uri->getScheme());
+        $result = $uri->getScheme();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getAuthority().
+     * Tests UriInterface::getAuthority.
      *
      * @return void
      */
-    public function testGetAuthority()
+    public function testGetAuthorityMethod()
     {
-        $this->assertEquals('me@rougin.github.io:400', $this->uri->getAuthority());
+        $expected = 'me@rougin.github.io:400';
+
+        $result = $this->uri->getAuthority();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getUserInfo() and withUserInfo().
+     * Tests UriInterface::getUserInfo.
      *
      * @return void
      */
-    public function testUserInfo()
+    public function testGetUserInfoMethod()
     {
+        $expected = (string) 'username:password';
+
         $uri = $this->uri->withUserInfo('username', 'password');
 
-        $this->assertEquals('username:password', $uri->getUserInfo());
+        $result = $uri->getUserInfo();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getHost() and withHost().
+     * Tests UriInterface::getHost.
      *
      * @return void
      */
-    public function testHost()
+    public function testGetHostMethod()
     {
+        $expected = (string) 'google.com';
+
         $uri = $this->uri->withHost('google.com');
 
-        $this->assertEquals('google.com', $uri->getHost());
+        $result = $uri->getHost();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getPort() and withPort().
+     * Tests UriInterface::getPort.
      *
      * @return void
      */
-    public function testPort()
+    public function testGetPortMethod()
     {
+        $expected = (integer) 500;
+
         $uri = $this->uri->withPort(500);
 
-        $this->assertEquals(500, $uri->getPort());
+        $result = $uri->getPort();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getQuery() and withQuery().
+     * Tests UriInterface::getQuery.
      *
      * @return void
      */
-    public function testQuery()
+    public function testGetQueryMethod()
     {
+        $expected = (string) 'type=user';
+
         $uri = $this->uri->withQuery('type=user');
 
-        $this->assertEquals('type=user', $uri->getQuery());
+        $result = $uri->getQuery();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getFragment() and withFragment().
+     * Tests UriInterface::getFragment.
      *
      * @return void
      */
-    public function testFragment()
+    public function testGetFragmentMethod()
     {
+        $expected = (string) 'test';
+
         $uri = $this->uri->withFragment('test');
 
-        $this->assertEquals('test', $uri->getFragment());
+        $result = $uri->getFragment();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getPath() and withPath().
+     * Tests UriInterface::getPath.
      *
      * @return void
      */
-    public function testPath()
+    public function testGetPathMethod()
     {
+        $expected = (string) '/test';
+
         $uri = $this->uri->withPath('/test');
 
-        $this->assertEquals('/test', $uri->getPath());
+        $result = (string) $uri->getPath();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests __toString().
+     * Tests UriInterface::__toString.
      *
      * @return void
      */
-    public function testToString()
+    public function testToStringMethod()
     {
-        $this->assertEquals('https://me@rougin.github.io:400/about', (string) $this->uri);
+        $expected = 'https://me@rougin.github.io:400/about';
+
+        $result = $this->uri->__toString();
+
+        $this->assertEquals($expected, $result);
     }
 }

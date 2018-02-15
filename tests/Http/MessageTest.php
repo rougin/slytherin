@@ -16,70 +16,124 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     protected $message;
 
     /**
-     * Sets up the message.
+     * Sets up the message instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\MessageInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
-
-        $this->message = new \Rougin\Slytherin\Http\Message;
+        $this->message = new Message;
     }
 
     /**
-     * Tests getProtocolVersion() and withProtocolVersion().
+     * Tests MessageInterface::getHeaderLine.
      *
      * @return void
      */
-    public function testProtocolVersion()
+    public function testGetHeaderLineMethod()
     {
-        $expected = '1.2';
-        $message  = $this->message->withProtocolVersion($expected);
+        $expected = (integer) 18;
 
-        $this->assertEquals($expected, $message->getProtocolVersion());
+        $message = $this->message->withHeader('age', 18);
+
+        $result = $message->getHeaderLine('age');
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests methods related in manipulating headers.
+     * Tests MessageInterface::getHeader.
      *
      * @return void
      */
-    public function testHeaders()
+    public function testGetHeaderMethod()
     {
-        $expected = array('name' => array('John Doe'), 'age' => array(18, 21));
-        $headers  = array('name' => 'John Doe', 'age' => 18);
-        $message  = $this->message;
+        $expected = array(18);
 
-        foreach ($headers as $key => $value) {
-            $message = $message->withHeader($key, $value);
-        }
+        $message = $this->message->withHeader('age', 18);
 
-        $message = $message->withAddedHeader('age', 21);
+        $result = $message->getHeader('age');
 
-        $hasHeader    = $message->hasHeader('age');
-        $headerEqual  = $message->getHeader('age') == $expected['age'];
-        $headersEqual = $message->getHeaders() == $expected;
-        $headerLine   = $message->getHeaderLine('age') == implode(',', $expected['age']);
-
-        $message = $message->withoutHeader('address')->withoutHeader('age');
-
-        $this->assertTrue($headersEqual && $hasHeader && $headerEqual && $headerLine);
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests withBody().
+     * Tests MessageInterface::getHeaders.
      *
      * @return void
      */
-    public function testWithBody()
+    public function testGetHeadersMethod()
     {
-        $expected = new \Rougin\Slytherin\Http\Stream(fopen('php://temp', 'r+'));
+        $expected = array('name' => array('John Doe'), 'age' => array(18));
+
+        $message = $this->message->withHeader('name', 'John Doe');
+
+        $message = $message->withHeader('age', 18);
+
+        $result = $message->getHeaders();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests MessageInterface::getProtocolVersion.
+     *
+     * @return void
+     */
+    public function testGetProtocolVersionMethod()
+    {
+        $expected = (string) '1.2';
+
+        $message = $this->message->withProtocolVersion($expected);
+
+        $result = $message->getProtocolVersion();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests MessageInterface::withAddedHeader.
+     *
+     * @return void
+     */
+    public function testWithAddedHeaderMethod()
+    {
+        $message = $this->message->withAddedHeader('age', 18);
+
+        $this->assertTrue($message->hasHeader('age'));
+    }
+
+    /**
+     * Tests MessageInterface::withBody.
+     *
+     * @return void
+     */
+    public function testWithBodyMethod()
+    {
+        $expected = new Stream(fopen('php://temp', 'r+'));
 
         $message = $this->message->withBody($expected);
 
         $this->assertEquals($expected, $message->getBody());
+    }
+
+    /**
+     * Tests MessageInterface::withoutAddedHeader.
+     *
+     * @return void
+     */
+    public function testWithoutAddedHeaderMethod()
+    {
+        $expected = array('name' => array('John Doe'));
+
+        $message = $this->message->withHeader('name', 'John Doe');
+
+        $message = $message->withHeader('age', 18);
+
+        $message = $message->withoutHeader('age');
+
+        $result = $message->getHeaders();
+
+        $this->assertEquals($expected, $result);
     }
 }

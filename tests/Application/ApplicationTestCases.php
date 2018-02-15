@@ -2,6 +2,9 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Routing\Router;
+
 /**
  * Application Test Cases
  *
@@ -16,13 +19,208 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     protected $application;
 
     /**
-     * Prepares the application instance.
+     * Sets up the application instance.
      *
      * @return void
      */
     public function setUp()
     {
         $this->markTestSkipped('No implementation style defined.');
+    }
+
+    /**
+     * Tests Application::handle.
+     *
+     * @return void
+     */
+    public function testHandleMethod()
+    {
+        $request = $this->request('GET', '/store');
+
+        $expected = (string) 'Store';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a callback as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithCallback()
+    {
+        $request = $this->request('GET', '/callback');
+
+        $expected = 'Hello, this is a callback';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a HTTP 401 response as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithHttp401Response()
+    {
+        $request = $this->request('GET', '/error');
+
+        $expected = 'Hello with error response';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a callback middleware as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithMiddleware()
+    {
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        interface_exists($interface) || $this->markTestSkipped('PSR-15 is not installed.');
+
+        $request = $this->request('GET', '/middleware');
+
+        $expected = (string) 'Loaded with middleware';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with an optional parameter as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithOptionalParameter()
+    {
+        $request = $this->request('GET', '/optional');
+
+        $expected = (string) 'Hello';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a parameter as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithParameter()
+    {
+        $request = $this->request('GET', '/parameter');
+
+        $expected = 'Hello';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a PUT HTTP method.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithPutHttpMethod()
+    {
+        $request = $this->request('PUT', '/hello');
+
+        $expected = 'Hello from PUT HTTP method';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with a response as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithResponse()
+    {
+        $request = $this->request('GET', '/response');
+
+        $expected = 'Hello with response';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests Application::handle with an updated server request.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithServerRequest()
+    {
+        $data = array('test' => 'Hello with request');
+
+        $request = $this->request('GET', '/request', $data);
+
+        $expected = 'Hello with request';
+
+        $response = $this->application->handle($request);
+
+        $result = (string) $response->getBody();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests the handle() method with a type hinted parameter as result.
+     *
+     * @return void
+     */
+    public function testHandleMethodWithTypehintedParameter()
+    {
+        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
+
+        $dispatcher = Application::container()->get($interface);
+
+        // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver
+        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher')) {
+            $this->markTestSkipped('Resolving type hinted parameters are not yet implemented in Phroute.');
+        }
+
+        $request = $this->request('GET', '/typehint/202');
+
+        $expected = (integer) 202;
+
+        $response = $this->application->handle($request);
+
+        $result = $response->getStatusCode();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
@@ -38,176 +236,23 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests Application::handle.
-     *
-     * @return void
-     */
-    public function testHandleMethod()
-    {
-        $request = $this->request('GET', '/store');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Store', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a response as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithResponse()
-    {
-        $request = $this->request('GET', '/response');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello with response', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a HTTP 401 response as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithHttp401Response()
-    {
-        $request = $this->request('GET', '/error');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello with error response', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with an updated server request.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithServerRequest()
-    {
-        $request = $this->request('GET', '/request', array('test' => 'Hello with request'));
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello with request', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a parameter as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithParameter()
-    {
-        $request = $this->request('GET', '/parameter');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with an optional parameter as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithOptionalParameter()
-    {
-        $request = $this->request('GET', '/optional');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a type hinted parameter as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithTypehintedParameter()
-    {
-        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
-        $dispatcher = \Rougin\Slytherin\Application::container()->get($interface);
-
-        // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver
-        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher')) {
-            $this->markTestSkipped('Resolving type hinted parameters are not yet implemented in Phroute.');
-        }
-
-        $request = $this->request('GET', '/typehint/202');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals(202, $result->getStatusCode());
-    }
-
-    /**
-     * Tests the handle() method with a callback as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithCallback()
-    {
-        $request = $this->request('GET', '/callback');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello, this is a callback', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a callback as result.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithMiddleware()
-    {
-        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $this->markTestSkipped('Interop Middleware is not installed.');
-        }
-
-        $request = $this->request('GET', '/middleware');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Loaded with middleware', (string) $result->getBody());
-    }
-
-    /**
-     * Tests the handle() method with a PUT HTTP method.
-     *
-     * @return void
-     */
-    public function testHandleMethodWithPutHttpMethod()
-    {
-        $request = $this->request('PUT', '/hello');
-
-        $result = $this->application->handle($request);
-
-        $this->assertEquals('Hello from PUT HTTP method', (string) $result->getBody());
-    }
-
-    /**
      * Prepares the HTTP method and the URI of the request.
      *
-     * @param  string $httpMethod
-     * @param  string $uriEndpoint
+     * @param  string $method
+     * @param  string $uri
      * @param  array  $data
      * @return \Psr\Http\Message\ServerRequestInterface
      */
-    protected function request($httpMethod, $uriEndpoint, $data = array(), $server = array())
+    protected function request($method, $uri, $data = array(), $server = array())
     {
-        $server['REQUEST_METHOD'] = $httpMethod;
-        $server['REQUEST_URI'] = $uriEndpoint;
+        $server['REQUEST_METHOD'] = $method;
+        $server['REQUEST_URI'] = $uri;
         $server['SERVER_NAME'] = 'localhost';
         $server['SERVER_PORT'] = '8000';
 
-        $request = new \Rougin\Slytherin\Http\ServerRequest($server);
+        $request = new ServerRequest($server);
 
-        switch ($httpMethod) {
+        switch ($method) {
             case 'GET':
                 $request = $request->withQueryParams($data);
 
@@ -237,20 +282,31 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     protected function router()
     {
-        $last = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
-        $router = new \Rougin\Slytherin\Routing\Router;
+        $router = new Router;
 
-        $router->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $router->get('/store', 'Rougin\Slytherin\Fixture\Classes\NewClass@store');
-        $router->get('/request', 'Rougin\Slytherin\Fixture\Classes\WithServerRequestInterface@index');
-        $router->get('/response', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@index');
-        $router->get('/error', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@error');
-        $router->get('/parameter', 'Rougin\Slytherin\Fixture\Classes\WithParameter@index');
-        $router->get('/optional', 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter@index');
-        $router->get('/middleware', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $last);
-        $router->put('/hello', 'Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod@index');
-        $router->get('/typehint/:code', 'Rougin\Slytherin\Fixture\Classes\WithResponseInterface@typehint');
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+
+        $router->get('/store', 'NewClass@store');
+
+        $router->get('/request', 'WithServerRequestInterface@index');
+
+        $router->get('/response', 'WithResponseInterface@index');
+
+        $router->get('/error', 'WithResponseInterface@error');
+
+        $router->get('/parameter', 'WithParameter@index');
+
+        $router->get('/optional', 'WithOptionalParameter@index');
+
+        $router->get('/middleware', 'NewClass@index', $middleware);
+
+        $router->put('/hello', 'WithPutHttpMethod@index');
+
+        $router->get('/typehint/:code', 'WithResponseInterface@typehint');
 
         $router->get('/callback', function () {
             return 'Hello, this is a callback';

@@ -16,29 +16,44 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     protected $response;
 
     /**
-     * Sets up the response.
+     * Sets up the response instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
-
-        $this->response = new \Rougin\Slytherin\Http\Response;
+        $this->response = new Response;
     }
 
     /**
-     * Tests getReasonPhrase().
+     * Tests ResponseInterface::getReasonPhrase.
      *
      * @return void
      */
-    public function testGetReasonPhrase()
+    public function testGetReasonPhraseMethod()
     {
         $expected = 'Lorem ipsum dolor';
+
         $response = $this->response->withStatus(200, $expected);
 
-        $this->assertEquals($expected, $response->getReasonPhrase());
+        $result = $response->getReasonPhrase();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests ResponseInterface::getStatusCode.
+     *
+     * @return void
+     */
+    public function testGetStatusCodeMethod()
+    {
+        $expected = (integer) 500;
+
+        $response = $this->response->withStatus($expected);
+
+        $result = $response->getStatusCode();
+
+        $this->assertEquals($expected, $result);
     }
 }

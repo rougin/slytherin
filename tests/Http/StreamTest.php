@@ -16,220 +16,238 @@ class StreamTest extends \PHPUnit_Framework_TestCase
     protected $file;
 
     /**
+     * @var string
+     */
+    protected $filepath;
+
+    /**
      * @var \Psr\Http\Message\StreamInterface
      */
     protected $stream;
 
     /**
-     * Sets up the stream.
+     * Sets up the stream instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\StreamInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
+        $root = (string) str_replace('Http', 'Fixture', __DIR__);
 
-        $this->file   = fopen(__DIR__ . '/../Fixture/Templates/test.php', 'r');
-        $this->stream = new \Rougin\Slytherin\Http\Stream($this->file);
+        $this->filepath = (string) $root . '/Templates/new-test.php';
+
+        $this->file = fopen($root . '/Templates/test.php', 'r');
+
+        $this->stream = new Stream($this->file);
     }
 
     /**
-     * Tests getContents().
+     * Tests StreamInterface::close.
      *
      * @return void
      */
-    public function testGetContents()
-    {
-        $this->assertEquals('This is a text from a template.', $this->stream->getContents());
-    }
-
-    /**
-     * Tests getContents() with exception.
-     *
-     * @return void
-     */
-    public function testGetContentsException()
+    public function testCloseMethod()
     {
         $this->setExpectedException('RuntimeException');
 
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $this->stream->close();
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        echo $stream->getContents();
+        $this->stream->getContents();
     }
 
     /**
-     * Tests read().
+     * Tests StreamInterface::detach.
      *
      * @return void
      */
-    public function testRead()
+    public function testDetachMethod()
     {
-        $this->assertEquals('This', $this->stream->read(4));
+        $expected = 'stream';
+
+        $resource = $this->stream->detach();
+
+        $result = get_resource_type($resource);
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests read() with exception.
+     * Tests StreamInterface::eof.
      *
      * @return void
      */
-    public function testReadException()
+    public function testEofMethod()
+    {
+        $stream = new Stream(fopen($this->filepath, 'w'));
+
+        $this->assertFalse($stream->eof());
+    }
+
+    /**
+     * Tests StreamInterface::getContents.
+     *
+     * @return void
+     */
+    public function testGetContentsMethod()
+    {
+        $expected = 'This is a text from a template.';
+
+        $resource = (string) $this->stream->__toString();
+
+        $this->assertEquals($expected, $resource);
+    }
+
+    /**
+     * Tests StreamInterface::getContents with an exception.
+     *
+     * @return void
+     */
+    public function testGetContentsMethodWithException()
     {
         $this->setExpectedException('RuntimeException');
 
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $stream = new Stream(fopen($this->filepath, 'w'));
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
+        $stream->getContents()->__toString();
+    }
 
-        // $stream->detach();
+    /**
+     * Tests StreamInterface::getMetadata.
+     *
+     * @return void
+     */
+    public function testGetMetadataMethod()
+    {
+        $file = fopen($this->filepath, 'r');
+
+        $expected = stream_get_meta_data($file);
+
+        $stream = new Stream($file);
+
+        $result = $stream->getMetadata();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests StreamInterface::getSize.
+     *
+     * @return void
+     */
+    public function testGetSizeMethod()
+    {
+        $expected = (integer) 31;
+
+        $result = $this->stream->getSize();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests StreamInterface::read.
+     *
+     * @return void
+     */
+    public function testReadMethod()
+    {
+        $expected = (string) 'This';
+
+        $result = (string) $this->stream->read(4);
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests StreamInterface::read with an exception.
+     *
+     * @return void
+     */
+    public function testReadMethodWithException()
+    {
+        $this->setExpectedException('RuntimeException');
+
+        $stream = new Stream(fopen($this->filepath, 'w'));
 
         $stream->read(55);
     }
 
     /**
-     * Tests detach().
+     * Tests StreamInterface::seek.
      *
      * @return void
      */
-    public function testDetach()
+    public function testSeekMethod()
     {
-        $resource = $this->stream->detach();
+        $expected = (integer) 2;
 
-        $this->assertEquals('stream', get_resource_type($resource));
+        $stream = new Stream(fopen($this->filepath, 'w'));
+
+        $stream->seek($expected);
+
+        $result = $stream->tell();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests close().
+     * Tests StreamInterface::seek with an exception.
      *
      * @return void
      */
-    public function testClose()
-    {
-        $this->stream->close();
-
-        $this->assertTrue(true);
-    }
-
-    /**
-     * Tests getSize().
-     *
-     * @return void
-     */
-    public function testGetSize()
-    {
-        $this->assertEquals(31, $this->stream->getSize());
-    }
-
-    /**
-     * Tests seek() and tell().
-     *
-     * @return void
-     */
-    public function testSeekAndTell()
-    {
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
-
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        $stream->seek(2);
-
-        $this->assertEquals(2, $stream->tell());
-    }
-
-    /**
-     * Tests seek() after detach().
-     *
-     * @return void
-     */
-    public function testSeekOnDetached()
+    public function testSeekMethodWithException()
     {
         $this->setExpectedException('RuntimeException');
 
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $stream = new Stream(fopen($this->filepath, 'w'));
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        $stream->detach();
-        $stream->seek(2);
+        $stream->detach() && $stream->seek(2);
     }
 
     /**
-     * Tests tell() after detach().
+     * Tests StreamInterface::tell with an exception.
      *
      * @return void
      */
-    public function testTellOnDetached()
+    public function testTellMethodWithException()
     {
         $this->setExpectedException('RuntimeException');
 
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $stream = new Stream(fopen($this->filepath, 'w'));
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        $stream->detach();
-        $stream->tell();
+        $stream->detach() && $stream->tell();
     }
 
     /**
-     * Tests eof().
+     * Tests StreamInterface::write.
      *
      * @return void
      */
-    public function testEof()
+    public function testWriteMethod()
     {
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
+        $expected = 'Lorem ipsum dolor sit amet elit.';
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
+        $stream = new Stream(fopen($this->filepath, 'w+'));
 
-        $this->assertEquals(false, $stream->eof());
+        $stream->write($expected);
+
+        $stream = new Stream(fopen($this->filepath, 'r'));
+
+        $result = $stream->getContents();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests write() and getContents() with exception.
+     * Tests StreamInterface::write with an exception.
      *
      * @return void
      */
-    public function testWriteAndGetContentsException()
+    public function testWriteMethodWithException()
     {
         $this->setExpectedException('RuntimeException');
 
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
+        $stream = new Stream(fopen($this->filepath, 'r'));
 
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        $stream->write('Hello world');
-
-        $stream->getContents();
-    }
-
-    /**
-     * Tests empty stream.
-     *
-     * @return void
-     */
-    // public function testEmptyStream()
-    // {
-    //     $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'w');
-
-    //     $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-    //     $this->assertEmpty((string) $stream);
-    // }
-
-    /**
-     * Tests getMetadata().
-     *
-     * @return void
-     */
-    public function testGetMetadata()
-    {
-        $file = fopen(__DIR__ . '/../Fixture/Templates/new-test.php', 'r');
-
-        $stream = new \Rougin\Slytherin\Http\Stream($file);
-
-        $this->assertEquals(stream_get_meta_data($file), $stream->getMetadata());
+        $stream->write('Hello') && $stream->getContents();
     }
 }

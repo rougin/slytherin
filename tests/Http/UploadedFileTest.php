@@ -13,89 +13,109 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Psr\Http\Message\UploadedFileInterface
      */
-    protected $uploadedFile;
+    protected $uploaded;
 
     /**
-     * Sets up the uploadedFile.
+     * Sets up the uploaded file instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\UploadedFileInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
+        $root = (string) str_replace('Http', 'Fixture', __DIR__);
 
-        $filePath = __DIR__ . '/../Fixture/Templates/new-test.php';
+        $filepath = (string) $root . '/Templates/new-test.php';
 
-        file_put_contents($filePath, 'Hello world');
+        file_put_contents($filepath, 'Hello world');
 
-        $this->uploadedFile = new \Rougin\Slytherin\Http\UploadedFile($filePath, 400, UPLOAD_ERR_OK, 'new-test.php', 'text/plain');
+        $this->uploaded = new UploadedFile($filepath, 400, 0, 'new-test.php', 'text/plain');
     }
 
     /**
-     * Tests getSize().
+     * Tests UploadedFileInterface::getSize.
      *
      * @return void
      */
-    public function testGetSize()
+    public function testGetSizeMethod()
     {
-        $this->assertEquals(400, $this->uploadedFile->getSize());
+        $expected = (integer) 400;
+
+        $result = (integer) $this->uploaded->getSize();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getError().
+     * Tests UploadedFileInterface::getError.
      *
      * @return void
      */
-    public function testGetError()
+    public function testGetErrorMethod()
     {
-        $this->assertEquals(UPLOAD_ERR_OK, $this->uploadedFile->getError());
+        $expected = (integer) UPLOAD_ERR_OK;
+
+        $result = $this->uploaded->getError();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getClientFilename().
+     * Tests UploadedFileInterface::getClientFilename.
      *
      * @return void
      */
-    public function testGetClientFilename()
+    public function testGetClientFilenameMethod()
     {
-        $this->assertEquals('new-test.php', $this->uploadedFile->getClientFilename());
+        $expected = (string) 'new-test.php';
+
+        $result = $this->uploaded->getClientFilename();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getClientMediaType().
+     * Tests UploadedFileInterface::getClientMediaType.
      *
      * @return void
      */
-    public function testGetClientMediaType()
+    public function testGetClientMediaTypeMethod()
     {
-        $this->assertEquals('text/plain', $this->uploadedFile->getClientMediaType());
+        $expected = (string) 'text/plain';
+
+        $result = $this->uploaded->getClientMediaType();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getStream().
+     * Tests UplaodedFileInterface::getStream.
      *
      * @return void
      */
-    public function testGetStream()
+    public function testGetStreamMethod()
     {
-        $this->assertInstanceOf('Rougin\Slytherin\Http\Stream', $this->uploadedFile->getStream());
+        $expected = 'Rougin\Slytherin\Http\Stream';
+
+        $result = $this->uploaded->getStream();
+
+        $this->assertInstanceOf($expected, $result);
     }
 
     /**
-     * Tests moveTo().
+     * Tests UploadedFileInterface::moveTo.
      *
      * @return void
      */
-    public function testMoveTo()
+    public function testMoveToMethod()
     {
-        $targetPath = __DIR__ . '/../Fixture/Templates/new.php';
+        $root = (string) str_replace('Http', 'Fixture', __DIR__);
 
-        $this->uploadedFile->moveTo($targetPath);
+        $target = (string) $root . '/Templates/new.php';
 
-        $this->assertFileExists($targetPath);
+        $this->uploaded->moveTo($target);
 
-        unlink($targetPath);
+        $this->assertFileExists($target);
+
+        file_exists($target) && unlink($target);
     }
 }

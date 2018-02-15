@@ -16,13 +16,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     protected $container;
 
     /**
-     * Sets up the container.
+     * Sets up the container instance.
      *
      * @return void
      */
     public function setUp()
     {
-        $this->container = new \Rougin\Slytherin\Container\Container;
+        $this->container = new Container;
     }
 
     /**
@@ -36,7 +36,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->container->set($class, new $class);
 
-        $this->container->alias('test', $class);
+        $this->container->alias('test', (string) $class);
 
         $this->assertTrue($this->container->has('test'));
     }
@@ -48,11 +48,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethod()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($expected, new $expected);
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $result = $this->container->get((string) $expected);
+
+        $this->assertInstanceOf($expected, $result);
     }
 
     /**
@@ -66,11 +68,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
 
         $this->container->set('Test', array());
 
-        $this->container->get('Test');
+        $this->container->get((string) 'Test');
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\NotFoundExceptionInterface.
+     * Tests ContainerInterface::get with NotFoundExceptionInterface.
      *
      * @return void
      */
@@ -78,12 +80,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
-        // $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
-
-        $this->container->get($class);
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }
 
     /**

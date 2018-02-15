@@ -16,16 +16,12 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     protected $request;
 
     /**
-     * Sets up the request.
+     * Sets up the request instance.
      *
      * @return void
      */
     public function setUp()
     {
-        if (! interface_exists('Psr\Http\Message\ServerRequestInterface')) {
-            $this->markTestSkipped('PSR-7 is not installed.');
-        }
-
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/';
         $_SERVER['SERVER_NAME'] = 'localhost';
@@ -43,94 +39,128 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getRequestTarget() and withRequestTarget().
+     * Tests ServerRequestInterface::getAttribute if it has $_SERVER values.
      *
      * @return void
      */
-    public function testRequestTarget()
+    public function testGetAttributeMethodWithServerParams()
     {
-        $expected = '/lorem-ipsum';
-        $request  = $this->request->withRequestTarget($expected);
+        $expected = (string) 'localhost';
 
-        $this->assertEquals($expected, $request->getRequestTarget());
+        $result = $this->request->getAttribute('SERVER_NAME');
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getCookieParams() and withCookieParams().
+     * Tests ServerRequestInterface::getAttributes.
      *
      * @return void
      */
-    public function testCookieParams()
+    public function testGetAttributesMethod()
+    {
+        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes.
+        $expected = array_merge($_SERVER, array('user' => 'John Doe'));
+
+        $request = $this->request->withAttribute('user', 'John Doe');
+
+        $result = $request->getAttributes();
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * Tests ServerRequestInterface::getCookieParams.
+     *
+     * @return void
+     */
+    public function testGetCookieParamsMethod()
     {
         $expected = array('name' => 'John Doe', 'age' => 19);
-        $request  = $this->request->withCookieParams($expected);
 
-        $this->assertEquals($expected, $request->getCookieParams());
+        $request = $this->request->withCookieParams($expected);
+
+        $result = $request->getCookieParams();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getQueryParams() and withQueryParams().
+     * Tests ServerRequestInterface::getParsedBody.
      *
      * @return void
      */
-    public function testQueryParams()
+    public function testGetParsedBodyMethod()
     {
         $expected = array('page' => 10, 'name' => 'users');
-        $request  = $this->request->withQueryParams($expected);
 
-        $this->assertEquals($expected, $request->getQueryParams());
+        $request = $this->request->withParsedBody($expected);
+
+        $result = $request->getParsedBody();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getParsedBody().
+     * Tests ServerRequestInterface::getQueryParams.
      *
      * @return void
      */
-    public function testParsedBody()
+    public function testGetQueryParamsMethod()
     {
-        $this->assertEmpty($this->request->getParsedBody());
+        $expected = array('page' => 10, 'name' => 'users');
+
+        $request = $this->request->withQueryParams($expected);
+
+        $result = $request->getQueryParams();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getServerParams().
+     * Tests ServerRequestInterface::getServerParams.
      *
      * @return void
      */
-    public function testServerParams()
+    public function testGetServerParamsMethod()
     {
-        $this->assertEquals($_SERVER, $this->request->getServerParams());
+        $expected = (array) $_SERVER;
+
+        $result = $this->request->getServerParams();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getUploadedFiles() and withUploadedFiles().
+     * Tests ServerRequestInterface::getUploadedFiles.
      *
      * @return void
      */
-    public function testUploadedFiles()
+    public function testGetUploadedFilesMethod()
     {
-        $files = array('file' => array());
+        $error = 0;
+        $name = 'test.txt';
+        $size = 617369;
+        $file = '/tmp/test.txt';
+        $type = 'application/pdf';
 
-        $error = $files['file']['error'] = 0;
-        $name = $files['file']['name'] = 'test.txt';
-        $size = $files['file']['size'] = 617369;
-        $file = $files['file']['tmp_name'] = '/tmp/test.txt';
-        $type = $files['file']['type'] = 'application/pdf';
+        $uploaded = new UploadedFile($file, $size, $error, $name, $type);
 
-        $expected = array('file' => array(new UploadedFile($file, $size, $error, $name, $type)));
-
-        $this->assertEquals($expected, $this->request->getUploadedFiles());
+        $expected = array('file' => array($uploaded));
 
         $request = $this->request->withUploadedFiles($expected);
 
-        $this->assertEquals($expected, $request->getUploadedFiles());
+        $result = (array) $this->request->getUploadedFiles();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getUploadedFiles() and a single uploaded file.
+     * Tests ServerRequestInterface::getUploadedFiles with a single uploaded file.
      *
      * @return void
      */
-    public function testGetUploadedFilesWithSingleUploadedFile()
+    public function testGetUploadedFilesMethodWithSingleUploadedFile()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/';
@@ -153,45 +183,32 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
         $file = $uploaded['file']['tmp_name'];
         $type = $uploaded['file']['type'];
 
-        $expected = array('file' => array(new UploadedFile($file, $size, $error, $name, $type)));
+        $uploaded = new UploadedFile($file, $size, $error, $name, $type);
 
-        $this->assertEquals($expected, $request->getUploadedFiles());
+        $expected = array('file' => array($uploaded));
+
+        $result = (array) $request->getUploadedFiles();
+
+        $this->assertEquals($expected, $result);
     }
 
     /**
-     * Tests getAttribute(), getAttributes(), withAttribute() and withoutAttribute().
+     * Tests ServerRequestInterface::withoutAttribute.
      *
      * @return void
      */
-    public function testAttribute()
+    public function testWithoutAttributeMethod()
     {
-        $attributes = array('user' => 'John Doe', 'age' => 20);
+        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes.
+        $expected = array_merge($_SERVER, array('user' => 'John Doe'));
 
-        $request = $this->request;
+        $request = $this->request->withAttribute('user', 'John Doe');
 
-        foreach ($attributes as $key => $value) {
-            $request = $request->withAttribute($key, $value);
-        }
-
-        $this->assertEquals($attributes['user'], $request->getAttribute('user'));
+        $request = $request->withAttribute('age', 20);
 
         $request = $request->withoutAttribute('age');
 
-        $newAttributes = $request->getAttributes();
-
-        $this->assertFalse(isset($newAttributes['age']));
-    }
-
-    /**
-     * Tests ServerRequestInterface::getAttribute if it has $_SERVER values.
-     *
-     * @return void
-     */
-    public function testGetAttributeMethodHasServerParams()
-    {
-        $expected = (string) 'localhost';
-
-        $result = $this->request->getAttribute('SERVER_NAME');
+        $result = $request->getAttributes();
 
         $this->assertEquals($expected, $result);
     }
