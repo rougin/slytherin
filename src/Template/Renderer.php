@@ -77,7 +77,11 @@ class Renderer implements RendererInterface
 
             $filepath = (string) preg_replace('/^\d\//i', '', $filepath);
 
-            strtolower($filepath) === $template && $file = $value;
+            $exists = (string) $filepath === $template;
+
+            $lowercase = strtolower($filepath) === $template;
+
+            ($exists || $lowercase) && $file = $value;
         }
 
         return $file;
