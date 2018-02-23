@@ -4,8 +4,15 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
+### Changed
+- Unit test cases
+- `LICENSE.md`
+
 ### Fixed
 - Returning templates from `Template\Renderer` with insensitive-case
+
+### Removed
+- Dependency of `Dispatcher` in `FastRouteDispatcher` and `PhrouteDispatcher`
 
 ## [0.9.4](https://github.com/rougin/slytherin/compare/v0.9.3...v0.9.4) - 2017-02-07
 
