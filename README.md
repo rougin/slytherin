@@ -7,7 +7,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-Slytherin is a simple and extensible PHP micro-framework that tries to achieve a [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based design for creating your next web application. It uses [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external packages.
+Slytherin is a simple and extensible PHP micro-framework that tries to achieve a [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based design for creating your next web application. It uses [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external packages. For more information regarding Slytherin, click the Wiki page [here](https://github.com/rougin/slytherin/wiki).
 
 ## Install
 
@@ -19,70 +19,87 @@ $ composer require rougin/slytherin
 
 ## Usage
 
-### Using [ContainerInterface](src/Container/ContainerInterface.php)
+### Using ContainerInterface
 
 ``` php
-// Define HTTP objects that is compliant to PSR-7 standards
-$request = new Rougin\Slytherin\Http\ServerRequest($_SERVER);
-$response = new Rougin\Slytherin\Http\Response(http_response_code());
+use App\Http\Controllers\WelcomeController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Application;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Routing\Dispatcher;
+use Rougin\Slytherin\Routing\DispatcherInterface;
+use Rougin\Slytherin\Routing\Router;
 
-// Create routes from Rougin\Slytherin\Routing\RouterInterface...
-$router = new Rougin\Slytherin\Routing\Router;
+// Define HTTP objects that is compliant to PSR-07 standards
+$request = new ServerRequest((array) $_SERVER);
 
-$router->get('/', 'App\Http\Controllers\WelcomeController@index');
+$response = new Response(http_response_code());
 
-// ...then define it to Rougin\Slytherin\Routing\DispatcherInterface
-$dispatcher = new Rougin\Slytherin\Routing\Dispatcher($router);
+$router = new Router;
 
-// Add the above objects through \Rougin\Slytherin\Container\ContainerInterface
-$container = new Rougin\Slytherin\Container\Container;
+// Create a new route from WelcomeController class...
+$router->get('/', WelcomeController::class . '@index');
 
-$container->set('Psr\Http\Message\ServerRequestInterface', $request);
-$container->set('Psr\Http\Message\ResponseInterface', $response);
-$container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+// ...then define it to a dispatcher
+$dispatcher = new Dispatcher($router);
 
-// Lastly, run the application using the definitions from the container
-(new Rougin\Slytherin\Application($container))->run();
+// Add the above objects through a container
+$container = new Container;
+
+// Set the request as the PSR-07 server request instance
+$container->set(ServerRequestInterface::class, $request);
+
+// Set the response as the PSR-07 response instance
+$container->set(ResponseInterface::class, $response);
+
+// Set the dispatcher in the Routing\DispatcherInterface
+$container->set(DispatcherInterface::class, $dispatcher);
+
+// Lastly, run the application
+(new Application($container))->run();
 ```
 
-### Using [IntegrationInterface](src/Integration/IntegrationInterface.php)
+### Using IntegrationInterface
 
 ``` php
+use App\Http\Controllers\WelcomeController;
+use Rougin\Slytherin\Application;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Http\HttpIntegration;
+use Rougin\Slytherin\Integration\Configuration;
+use Rougin\Slytherin\Routing\RoutingIntegration;
+
 // Specify the integrations to be included and defined
-$integrations = [];
+$integrations = array(HttpIntegration::class);
 
-$integrations[] = 'Rougin\Slytherin\Http\HttpIntegration';
-$integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+$integrations[] = RoutingIntegration::class;
 
-// Create routes from Rougin\Slytherin\Routing\RouterInterface
-$router = new Rougin\Slytherin\Routing\Router;
+$router = new Router;
 
-$router->get('/', 'App\Http\Controllers\WelcomeController@index');
+// Create a new route from the WelcomeController class
+$router->get('/', WelcomeController::class . '@index');
 
-// Supply values to integrations through Rougin\Slytherin\Configuration
-$config = (new Rougin\Slytherin\Integration\Configuration)
-    ->set('app.http.server', $_SERVER)
-    ->set('app.router', $router);
+// Supply values to integrations using a configuration file
+$config = (new Configuration)->set('app.router', $router);
 
-// Run the application using the specified integrations and configuration
-(new Rougin\Slytherin\Application)->integrate($integrations, $config)->run();
+$config->set('app.http.server', (array) $_SERVER);
+
+// Use the integrations and run the application
+$app = new Application(new Container, $config);
+
+$app->integrate((array) $integrations)->run();
 ```
 
-### Run the application using PHP's built-in web server:
+### Run the application using PHP's web server:
 
 ``` bash
 $ php -S localhost:8000
 ```
 
 Open your web browser and go to [http://localhost:8000](http://localhost:8000).
-
-### Required packages
-
-* A [PSR-7](http://www.php-fig.org/psr/psr-7) compliant HTTP package
-* A [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) compliant Container package
-* Any route dispatching package, must be implemented in [`DispatcherInterface`](src/Routing/DispatcherInterface.php)
-
-Slytherin also provide implementations of the mentioned items above.
 
 ## Change log
 
