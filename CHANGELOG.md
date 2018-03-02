@@ -2,6 +2,11 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - Unreleased
+
+### Changed
+- All routers is now aligned to one dispatcher only
+
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
 ### Changed

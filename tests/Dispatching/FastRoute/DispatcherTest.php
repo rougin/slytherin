@@ -135,18 +135,18 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function testDispatchMethodWithDifferentRouter()
-    {
-        $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
+    // public function testDispatchMethodWithDifferentRouter()
+    // {
+    //     $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
 
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+    //     $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
+    //     $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+    //     $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
 
-        $expected = array(array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()), array('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
+    //     $expected = array(array(array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array()), array('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
 
-        $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
-    }
+    //     $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
+    // }
 }

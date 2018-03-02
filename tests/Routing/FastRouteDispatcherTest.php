@@ -43,56 +43,56 @@ class FastRouteDispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function testDispatchMethodWithClassAndSlytherinRouter()
-    {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+    // public function testDispatchMethodWithClassAndSlytherinRouter()
+    // {
+    //     $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $router = new Router;
+    //     $router = new Router;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+    //     $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
-        $router->get('/', 'NewClass@index');
+    //     $router->get('/', 'NewClass@index');
 
-        $dispatcher = new FastRouteDispatcher($router);
+    //     $dispatcher = new FastRouteDispatcher($router);
 
-        $controller = new NewClass;
+    //     $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+    //     list($function) = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+    //     $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+    //     $result = $this->result($function);
 
-        $this->assertEquals($expected, $result);
-    }
+    //     $this->assertEquals($expected, $result);
+    // }
 
     /**
      * Tests FastRouteDispatcher::dispatch with PhrouteRouter.
      *
      * @return void
      */
-    public function testDispatchMethodWithClassAndPhrouteRouter()
-    {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+    // public function testDispatchMethodWithClassAndPhrouteRouter()
+    // {
+    //     $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $this->exists('Rougin\Slytherin\Routing\PhrouteRouter');
+    //     $this->exists('Rougin\Slytherin\Routing\PhrouteRouter');
 
-        $router = new PhrouteRouter;
+    //     $router = new PhrouteRouter;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+    //     $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
-        $router->get('/', 'NewClass@index');
+    //     $router->get('/', 'NewClass@index');
 
-        $dispatcher = new FastRouteDispatcher($router);
+    //     $dispatcher = new FastRouteDispatcher($router);
 
-        $controller = new NewClass;
+    //     $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+    //     list($function) = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+    //     $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+    //     $result = $this->result($function);
 
-        $this->assertEquals($expected, $result);
-    }
+    //     $this->assertEquals($expected, $result);
+    // }
 }

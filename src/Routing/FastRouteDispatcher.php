@@ -68,17 +68,9 @@ class FastRouteDispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
+        $routes = $router->routes();
+
         $this->router = $router;
-
-        $routes = $router->routes(true);
-
-        if ($router instanceof FastRouteRouter === false) {
-            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-                foreach (array_filter($router->routes()) as $route) {
-                    $collector->addRoute($route[0], $route[1], $route[2]);
-                }
-            };
-        }
 
         $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 

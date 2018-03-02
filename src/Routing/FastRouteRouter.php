@@ -57,16 +57,14 @@ class FastRouteRouter extends Router
      */
     public function routes($parsed = false)
     {
-        $routes = array_filter(array_merge($this->routes, $this->collector->getData()));
+        $routes = array_merge($this->routes, $this->collector->getData());
 
-        if ($parsed === true) {
-            $routes = function (RouteCollector $collector) use ($routes) {
-                foreach ($routes as $route) {
-                    $collector->addRoute($route[0], $route[1], $route[2]);
-                }
-            };
-        }
+        return function (RouteCollector $collector) use ($routes) {
+            foreach (array_filter($routes) as $route) {
+                list($method, $uri, $handler) = (array) $route;
 
-        return $routes;
+                $collector->addRoute($method, $uri, $handler);
+            }
+        };
     }
 }

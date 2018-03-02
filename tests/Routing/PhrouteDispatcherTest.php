@@ -43,52 +43,52 @@ class PhrouteDispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function testDispatchMethodWithClassAndSlytherinRouter()
-    {
-        $router = new Router;
+    // public function testDispatchMethodWithClassAndSlytherinRouter()
+    // {
+    //     $router = new Router;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+    //     $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
-        $router->get('/', 'NewClass@index');
+    //     $router->get('/', 'NewClass@index');
 
-        $dispatcher = new PhrouteDispatcher($router);
+    //     $dispatcher = new PhrouteDispatcher($router);
 
-        $controller = new NewClass;
+    //     $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+    //     list($function) = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+    //     $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+    //     $result = $this->result($function);
 
-        $this->assertEquals($expected, $result);
-    }
+    //     $this->assertEquals($expected, $result);
+    // }
 
     /**
      * Tests PhrouteDispatcher::dispatch with FastRouteRouter.
      *
      * @return void
      */
-    public function testDispatchMethodWithClassAndFastRouteRouter()
-    {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+    // public function testDispatchMethodWithClassAndFastRouteRouter()
+    // {
+    //     $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $router = new FastRouteRouter;
+    //     $router = new FastRouteRouter;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+    //     $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
-        $router->get('/', 'NewClass@index');
+    //     $router->get('/', 'NewClass@index');
 
-        $dispatcher = new PhrouteDispatcher($router);
+    //     $dispatcher = new PhrouteDispatcher($router);
 
-        $controller = new NewClass;
+    //     $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+    //     list($function) = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+    //     $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+    //     $result = $this->result($function);
 
-        $this->assertEquals($expected, $result);
-    }
+    //     $this->assertEquals($expected, $result);
+    // }
 }

@@ -65,14 +65,11 @@ class PhrouteRouter extends Router
     /**
      * Returns a listing of available routes.
      *
-     * @param  boolean $parsed
      * @return \Phroute\Phroute\RouteDataArray
      */
-    public function routes($parsed = false)
+    public function routes()
     {
-        $routes = $this->routes;
-
-        return ($parsed) ? $this->collector->getData() : $routes;
+        return $this->collector->getData();
     }
 
     /**
