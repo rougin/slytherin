@@ -111,12 +111,11 @@ class Router implements RouterInterface
      * Returns a listing of available routes.
      * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
      *
-     * @param  boolean $parsed
      * @return array
      */
-    public function getRoutes($parsed = false)
+    public function getRoutes()
     {
-        return $this->routes($parsed);
+        return $this->routes();
     }
 
     /**

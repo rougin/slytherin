@@ -2,7 +2,9 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Phroute\Phroute\Dispatcher as BaseDispatcher;
 use Phroute\Phroute\HandlerResolverInterface;
+use Phroute\Phroute\RouteCollector;
 
 /**
  * Phroute Dispatcher
@@ -80,11 +82,13 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
+        $instanceof = $router instanceof PhrouteRouter;
+
         $this->router = $router;
 
-        $routes = $router instanceof PhrouteRouter ? $router->routes(true) : $this->collect();
+        $routes = $instanceof ? $router->routes() : $this->collect();
 
-        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
+        $this->dispatcher = new BaseDispatcher($routes, $this->resolver);
 
         return $this;
     }
@@ -96,7 +100,7 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     protected function collect()
     {
-        $collector = new \Phroute\Phroute\RouteCollector;
+        $collector = new RouteCollector;
 
         foreach ($this->router->routes() as $route) {
             $collector->addRoute($route[0], $route[1], $route[2]);

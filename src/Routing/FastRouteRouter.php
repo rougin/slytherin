@@ -52,10 +52,9 @@ class FastRouteRouter extends Router
     /**
      * Returns a listing of routes available.
      *
-     * @param  boolean $parsed
      * @return callable
      */
-    public function routes($parsed = false)
+    public function routes()
     {
         $routes = array_merge($this->routes, $this->collector->getData());
 
