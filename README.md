@@ -116,8 +116,10 @@ $ composer test
 
 If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
 
-## Inspirations
+## Credits
 
+* [Rougin Royce Gutib][link-author]
+* [All Contributors][link-contributors]
 * [Awesome PHP!](https://github.com/ziadoz/awesome-php) by [Jamie York](https://github.com/ziadoz)
 * [Codeigniter](https://codeigniter.com) by [EllisLab](https://ellislab.com)/[British Columbia Institute of Technology](http://www.bcit.ca)
 * [Crux](https://github.com/yuloh/crux) by [Matt A](https://github.com/yuloh)
@@ -127,11 +129,6 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 * [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest) by [Dominik Liebler](https://github.com/domnikl)
 * [PHP Standard Recommendations](http://www.php-fig.org/psr) by [PHP-FIG](http://www.php-fig.org)
 * [Symfony](http://symfony.com) by [SensioLabs](https://sensiolabs.com)
-
-## Credits
-
-- [Rougin Royce Gutib][link-author]
-- [All Contributors][link-contributors]
 
 ## License
 
