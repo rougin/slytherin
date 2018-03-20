@@ -27,7 +27,7 @@ before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
   - composer require container-interop/container-interop filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware:^0.4.1
-  - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require league/container nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev; fi
+  - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require league/container nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility:~2.0 --dev; fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
