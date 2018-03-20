@@ -1,6 +1,6 @@
 {
     "name": "rougin/slytherin",
-    "description": "Yet another extensible PHP micro-framework.",
+    "description": "An extensible and SOLID-based PHP micro-framework.",
     "keywords": ["php framework", "php library", "slytherin"],
     "homepage": "https://github.com/rougin/slytherin",
     "license": "MIT",
@@ -19,7 +19,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.2|~5.7",
-        "scrutinizer/ocular": "~1.1",
+        "scrutinizer/ocular": "~1.5.0"
     },
     "autoload": {
         "psr-4": {
