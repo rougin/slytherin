@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Dispatcher
+ * Router
  *
  * A simple implementation of a router that is based on RouterInterface.
  *
@@ -39,13 +39,15 @@ class Router implements RouterInterface
      */
     public function __construct(array $routes = array())
     {
-        foreach ($routes as $route) {
-            list($httpMethod, $uri, $handler) = $route;
+        // NOTE: To be removed in v1.0.0. Don't add additional string.
+        $this->namespace !== '' && $this->namespace .= '\\';
 
-            $middlewares = (isset($route[3])) ? $route[3] : array();
-            $middlewares = is_string($middlewares) ? array($middlewares) : $middlewares;
+        foreach ((array) $routes as $route) {
+            list($method, $uri, $handler) = (array) $route;
 
-            $this->add($httpMethod, $uri, $handler, $middlewares);
+            $middlewares = isset($route[3]) ? $route[3] : array();
+
+            $this->add($method, $uri, $handler, $middlewares);
         }
     }
 
@@ -205,9 +207,13 @@ class Router implements RouterInterface
      */
     public function prefix($prefix = '', $namespace = null)
     {
-        $this->namespace = ($namespace !== null) ? $namespace . '\\' : $this->namespace;
+        $namespace === null && $namespace = $this->namespace;
+
+        substr($namespace, -1) !== '\\' && $namespace .= '\\';
 
         $this->prefix = $prefix;
+
+        $this->namespace = $namespace;
 
         return $this;
     }

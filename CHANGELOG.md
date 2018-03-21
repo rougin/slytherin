@@ -6,6 +6,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Changed
 - All routers is now aligned to one dispatcher only
+- Add `\` when `$namespace` property is defined in `Routing\Router`
 
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
