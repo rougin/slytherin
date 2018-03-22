@@ -39,8 +39,9 @@ class Router implements RouterInterface
      */
     public function __construct(array $routes = array())
     {
-        // NOTE: To be removed in v1.0.0. Don't add additional string.
-        $this->namespace !== '' && $this->namespace .= '\\';
+        $this->namespace === '' && $this->namespace = null;
+
+        $this->prefix($this->prefix, $this->namespace);
 
         foreach ((array) $routes as $route) {
             list($method, $uri, $handler) = (array) $route;
@@ -62,6 +63,8 @@ class Router implements RouterInterface
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
     {
+        $route = $route[0] !== '/' ? '/' . $route : (string) $route;
+
         $route = array($httpMethod, $route, $handler, $middlewares);
 
         $this->routes[] = $this->parse($route);
@@ -207,13 +210,15 @@ class Router implements RouterInterface
      */
     public function prefix($prefix = '', $namespace = null)
     {
-        $namespace === null && $namespace = $this->namespace;
+        $namespace === null && $namespace = (string) $this->namespace;
 
-        substr($namespace, -1) !== '\\' && $namespace .= '\\';
+        $prefix && $prefix[0] !== '/' && $prefix = '/' . $prefix;
 
-        $this->prefix = $prefix;
+        $namespace && substr($namespace, -1) !== '\\' && $namespace .= '\\';
 
-        $this->namespace = $namespace;
+        $this->prefix = (string) $prefix;
+
+        $this->namespace = (string) $namespace;
 
         return $this;
     }
@@ -240,11 +245,14 @@ class Router implements RouterInterface
     protected function parse($route)
     {
         $route[0] = strtoupper($route[0]);
-        $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
-        $route[2] = (is_string($route[2])) ? explode('@', $route[2]) : $route[2];
-        $route[3] = (! is_array($route[3])) ? array($route[3]) : $route[3];
 
-        ! is_array($route[2]) || $route[2][0] = $this->namespace . $route[2][0];
+        $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
+
+        is_string($route[2]) && $route[2] = explode('@', $route[2]);
+
+        is_array($route[2]) && $route[2][0] = $this->namespace . $route[2][0];
+
+        is_array($route[3]) || $route[3] = array($route[3]);
 
         return $route;
     }

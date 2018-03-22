@@ -8,6 +8,9 @@ All notable changes to `Slytherin` will be documented in this file.
 - All routers is now aligned to one dispatcher only
 - Add `\` when `$namespace` property is defined in `Routing\Router`
 
+### Fixed
+- Compatability of `LeagueContainer` in PHP v7.2.0
+
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
 ### Changed

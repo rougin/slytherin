@@ -23,11 +23,12 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      *
      * @param  string $id
+     * @param  array  $args
      * @return mixed
      */
-    public function get($id)
+    public function get($id, array $args = array())
     {
-        return parent::get($id);
+        return parent::get($id, $args);
     }
 
     /**
