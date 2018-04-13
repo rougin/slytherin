@@ -65,4 +65,23 @@ class RouterTest extends RouterTestCases
 
         $this->assertEquals($expected, $result);
     }
+
+    /**
+     * Tests Router::__construct.
+     *
+     * @return void
+     */
+    public function testConstructMagicMethod()
+    {
+        $expected = array();
+
+        $expected[] = array('GET', '/posts', array('PostsController', 'index'), array());
+        $expected[] = array('POST', '/posts', array('PostsController', 'store'), array());
+
+        $router = new Router($expected);
+
+        $result = $router->routes();
+
+        $this->assertEquals($expected, $result);
+    }
 }
