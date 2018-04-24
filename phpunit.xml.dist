@@ -3,6 +3,7 @@
     <testsuites>
         <testsuite name="Slytherin Test Suite">
             <directory>tests</directory>
+            <exclude>./src/Compatible.php</exclude>
         </testsuite>
     </testsuites>
     <filter>

@@ -2,16 +2,20 @@
 
 namespace Rougin\Slytherin;
 
-/**
- * Defines class aliases based on the current version.
- *
- * @param  array  $middlewares
- * @param  array  $handlers
- * @param  string $version
- * @return void
- */
-function autoload($middlewares, $handlers, $version)
-{
+// @codeCoverageIgnoreStart
+list($handlers, $middlewares) = array(array(), array());
+
+$middlewares['0.3.0'] = 'Interop\Http\Middleware\ServerMiddlewareInterface';
+$middlewares['0.4.1'] = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+$middlewares['0.5.0'] = 'Interop\Http\Server\MiddlewareInterface';
+$middlewares['1.0.0'] = 'Psr\Http\Server\MiddlewareInterface';
+
+$handlers['0.3.0'] = 'Interop\Http\Middleware\DelegateInterface';
+$handlers['0.4.1'] = 'Interop\Http\ServerMiddleware\DelegateInterface';
+$handlers['0.5.0'] = 'Interop\Http\Server\RequestHandlerInterface';
+$handlers['1.0.0'] = 'Psr\Http\Server\RequestHandlerInterface';
+
+foreach ((array) array_keys($middlewares) as $version) {
     $exists = interface_exists($middlewares[$version]);
 
     $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
@@ -34,20 +38,4 @@ function autoload($middlewares, $handlers, $version)
         define('HANDLER_METHOD', (string) $method);
     }
 }
-
-list($handlers, $middlewares) = array(array(), array());
-
-$middlewares['0.3.0'] = 'Interop\Http\Middleware\ServerMiddlewareInterface';
-$middlewares['0.4.1'] = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-$middlewares['0.5.0'] = 'Interop\Http\Server\MiddlewareInterface';
-$middlewares['1.0.0'] = 'Psr\Http\Server\MiddlewareInterface';
-
-$handlers['0.3.0'] = 'Interop\Http\Middleware\DelegateInterface';
-$handlers['0.4.1'] = 'Interop\Http\ServerMiddleware\DelegateInterface';
-$handlers['0.5.0'] = 'Interop\Http\Server\RequestHandlerInterface';
-$handlers['1.0.0'] = 'Psr\Http\Server\RequestHandlerInterface';
-
-autoload($middlewares, $handlers, '0.3.0');
-autoload($middlewares, $handlers, '0.4.1');
-autoload($middlewares, $handlers, '0.5.0');
-autoload($middlewares, $handlers, '1.0.0');
+// @codeCoverageIgnoreEnd

@@ -71,13 +71,11 @@ class Application
         $callback = new CallbackHandler(self::$container);
 
         if (static::$container->has(self::MIDDLEWARE)) {
-            $method = (string) HANDLER_METHOD;
-
             $middleware = static::$container->get(self::MIDDLEWARE);
 
             $delegate = new Delegate($callback);
 
-            $result = $middleware->{$method}($request, $delegate);
+            $result = $middleware->process($request, $delegate);
         }
 
         return isset($result) ? $result : $callback($request);
