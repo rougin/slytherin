@@ -23,7 +23,7 @@ class Application
     // NOTE: To be removed in v1.0.0
     const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
-    const MIDDLEWARE = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
 
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
@@ -71,11 +71,13 @@ class Application
         $callback = new CallbackHandler(self::$container);
 
         if (static::$container->has(self::MIDDLEWARE)) {
+            $method = (string) HANDLER_METHOD;
+
             $middleware = static::$container->get(self::MIDDLEWARE);
 
             $delegate = new Delegate($callback);
 
-            $result = $middleware->process($request, $delegate);
+            $result = $middleware->{$method}($request, $delegate);
         }
 
         return isset($result) ? $result : $callback($request);

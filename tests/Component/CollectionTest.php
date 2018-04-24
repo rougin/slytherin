@@ -144,14 +144,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetMiddlewareMethod()
     {
-        $response = 'Psr\Http\Message\ResponseInterface';
-
-        interface_exists($response) || $this->markTestSkipped('PSR HTTP Message is not installed.');
-
-        $middleware = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-        interface_exists($middleware) || $this->markTestSkipped('Interop Middleware is not installed.');
-
         $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
 
         $this->components->setMiddleware($middleware);

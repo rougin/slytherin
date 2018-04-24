@@ -4,10 +4,9 @@ namespace Rougin\Slytherin\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use Interop\Http\ServerMiddleware\DelegateInterface;
-
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * CORS Middleware
@@ -15,7 +14,7 @@ use Rougin\Slytherin\Http\Response;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
+class CorsMiddleware implements MiddlewareInterface
 {
     /**
      * @var array
@@ -31,13 +30,13 @@ class CorsMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterfa
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $response = $request->getMethod() === 'OPTIONS' ? new Response : $delegate->process($request);
+        $response = $request->getMethod() === 'OPTIONS' ? new Response : $handler->{HANDLER_METHOD}($request);
 
         $response = $response->withHeader('Access-Control-Allow-Origin', $this->allowed);
         $response = $response->withHeader('Access-Control-Allow-Methods', $this->methods);

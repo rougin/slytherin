@@ -2,10 +2,10 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -53,20 +53,20 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $wrap = class_exists('Zend\Stratigility\Middleware\ErrorHandler');
 
         foreach ($this->stack as $middleware) {
-            $middleware = (is_string($middleware)) ? new $middleware : $middleware;
+            $middleware = is_string($middleware) ? new $middleware : $middleware;
 
             $this->pipeline->pipe($this->transform($middleware, $wrap));
         }
 
-        return $this->pipeline->__invoke($request, $this->response, $delegate);
+        return $this->pipeline->__invoke($request, $this->response, $handler);
     }
 }

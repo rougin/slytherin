@@ -4,8 +4,8 @@ namespace Rougin\Slytherin\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * Interop Middleware
@@ -13,20 +13,20 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class InteropMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
+class InteropMiddleware implements MiddlewareInterface
 {
     /**
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $response = $delegate->process($request)->withStatus(500);
+        $response = $handler->{HANDLER_METHOD}($request)->withStatus(500);
 
-        return $response->withHeader('X-Slytherin', time());
+        return $response->withHeader('X-Slytherin', (integer) time());
     }
 }

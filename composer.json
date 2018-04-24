@@ -22,6 +22,9 @@
         "scrutinizer/ocular": "~1.1.0"
     },
     "autoload": {
+        "files": [
+            "src/Compatible.php"
+        ],
         "psr-4": {
             "Rougin\\Slytherin\\": "src"
         }

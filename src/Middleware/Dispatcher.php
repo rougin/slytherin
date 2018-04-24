@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\Delegate;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
  * Dispatcher
@@ -83,16 +83,16 @@ class Dispatcher implements DispatcherInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $original = $this->stack;
 
-        $this->push(function ($request) use ($delegate) {
-            return $delegate->process($request);
+        $this->push(function ($request) use ($handler) {
+            return $handler->{HANDLER_METHOD}($request);
         });
 
         foreach ($this->stack as $index => $middleware) {
@@ -188,7 +188,7 @@ class Dispatcher implements DispatcherInterface
      * Resolves the whole stack through its index.
      *
      * @param  integer $index
-     * @return \Interop\Http\ServerMiddleware\DelegateInterface
+     * @return \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected function resolve($index)
     {

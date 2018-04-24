@@ -17,12 +17,6 @@ class DispatcherTest extends DispatcherTestCases
      */
     public function setUp()
     {
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-        $message = 'http-interop/http-middleware (v0.4.0) is not installed.';
-
-        interface_exists($interface) || $this->markTestSkipped($message);
-
         $this->dispatcher = new Dispatcher;
     }
 }

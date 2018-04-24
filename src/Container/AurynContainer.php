@@ -44,7 +44,7 @@ class AurynContainer extends Injector implements ContainerInterface
     {
         is_a($data, 'Auryn\Injector') || parent::__construct($data);
 
-        $this->injector = get_class($data) === 'Auryn\Injector' ? $data : $this;
+        $this->injector = is_a($data, 'Auryn\Injector') ? $data : $this;
     }
 
     /**

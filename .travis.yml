@@ -26,7 +26,7 @@ matrix:
 before_script:
   - travis_retry composer self-update
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
-  - composer require container-interop/container-interop filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware:^0.4.1
+  - composer require container-interop/container-interop filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware
   - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require league/container nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev; fi
   - if [[ $TRAVIS_PHP_VERSION == '7.1' ]]; then composer require zendframework/zend-stratigility:~2.0 --dev; fi
   - if [[ $TRAVIS_PHP_VERSION == '7.2' ]]; then composer require zendframework/zend-stratigility:~2.0 --dev; fi

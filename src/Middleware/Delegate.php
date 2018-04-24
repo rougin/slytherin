@@ -48,6 +48,17 @@ class Delegate implements HandlerInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
+    public function handle(ServerRequestInterface $request)
+    {
+        return $this->process($request);
+    }
+
+    /**
+     * Dispatch the next available middleware and return the response.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function __invoke(ServerRequestInterface $request)
     {
         return $this->process($request);

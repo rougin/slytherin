@@ -4,6 +4,9 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - Unreleased
 
+### Added
+- Compatability for multiple `http-interop/http-middleware` versions
+
 ### Changed
 - All routers is now aligned to one dispatcher only
 - Add `\` when `$namespace` property is defined in `Routing\Router`
