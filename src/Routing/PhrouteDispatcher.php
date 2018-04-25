@@ -16,7 +16,7 @@ use Phroute\Phroute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class PhrouteDispatcher implements DispatcherInterface
+class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterface
 {
     /**
      * @var \Phroute\Phroute\Dispatcher
@@ -43,7 +43,7 @@ class PhrouteDispatcher implements DispatcherInterface
     {
         $resolver === null || $this->resolver = $resolver;
 
-        $router === null || $this->router($router);
+        $router instanceof RouterInterface && $this->router($router);
     }
 
     /**
@@ -112,42 +112,19 @@ class PhrouteDispatcher implements DispatcherInterface
     /**
      * Returns exceptions based on catched error.
      *
-     * @throws \UnexpectedValueException
-     *
      * @param \Exception $exception
      * @param string     $uri
+     *
+     * @throws \UnexpectedValueException
      */
     protected function exceptions(\Exception $exception, $uri)
     {
         $interface = 'Phroute\Phroute\Exception\HttpRouteNotFoundException';
 
-        $message = $exception->getMessage();
+        $message = (string) $exception->getMessage();
 
-        if (is_a($exception, $interface)) {
-            $message = 'Route "' . $uri . '" not found';
-        }
+        is_a($exception, $interface) && $message = 'Route "' . $uri . '" not found';
 
-        throw new \UnexpectedValueException($message);
-    }
-
-    /**
-     * Checks if the specified method is a valid HTTP method.
-     *
-     * @param  string $httpMethod
-     * @return boolean
-     *
-     * @throws UnexpectedValueException
-     */
-    protected function allowed($httpMethod)
-    {
-        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
-
-        if (in_array($httpMethod, $allowed) === false) {
-            $message = 'Used method is not allowed';
-
-            throw new \UnexpectedValueException($message);
-        }
-
-        return true;
+        throw new \UnexpectedValueException((string) $message);
     }
 }

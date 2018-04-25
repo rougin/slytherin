@@ -10,27 +10,12 @@ namespace Rougin\Slytherin\Routing;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-class Dispatcher implements DispatcherInterface
+class Dispatcher extends AbstractDispatcher implements DispatcherInterface
 {
     /**
      * @var array
      */
-    protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
-
-    /**
-     * @var array
-     */
     protected $routes = array();
-
-    /**
-     * Initializes the route dispatcher instance.
-     *
-     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
-     */
-    public function __construct(RouterInterface $router = null)
-    {
-        $router == null || $this->router($router);
-    }
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
@@ -76,25 +61,6 @@ class Dispatcher implements DispatcherInterface
         }
 
         return $this;
-    }
-
-    /**
-     * Checks if the specified method is a valid HTTP method.
-     *
-     * @param  string $httpMethod
-     * @return boolean
-     *
-     * @throws UnexpectedValueException
-     */
-    protected function allowed($httpMethod)
-    {
-        if (! in_array($httpMethod, $this->allowed)) {
-            $message = 'Used method is not allowed';
-
-            throw new \UnexpectedValueException($message);
-        }
-
-        return true;
     }
 
     /**

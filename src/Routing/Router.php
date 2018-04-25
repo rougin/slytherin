@@ -204,21 +204,21 @@ class Router implements RouterInterface
     /**
      * Sets a prefix for the succeeding route endpoints.
      *
-     * @param  string      $prefix
-     * @param  string|null $namespace
+     * @param  string $prefix
+     * @param  string $namespace
      * @return self
      */
-    public function prefix($prefix = '', $namespace = null)
+    public function prefix($prefix = '', $namespace = '')
     {
-        $namespace === null && $namespace = (string) $this->namespace;
+        $namespace === '' && $namespace = $this->namespace;
 
         $prefix && $prefix[0] !== '/' && $prefix = '/' . $prefix;
 
-        $namespace && substr($namespace, -1) !== '\\' && $namespace .= '\\';
+        substr($namespace, -1) !== '\\' && $namespace .= '\\';
 
         $this->prefix = (string) $prefix;
 
-        $this->namespace = (string) $namespace;
+        $this->namespace = ltrim($namespace, '\\');
 
         return $this;
     }

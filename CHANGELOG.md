@@ -5,11 +5,14 @@ All notable changes to `Slytherin` will be documented in this file.
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - Unreleased
 
 ### Added
+- `AbstractDispatcher` for identicals methods in route dispatchers
 - Compatability for multiple `http-interop/http-middleware` versions
 
 ### Changed
-- All routers is now aligned to one dispatcher only
 - Add `\` when `$namespace` property is defined in `Routing\Router`
+
+### Removed
+- Extension of other route dispatchers to `Routing\Dispatcher`
 
 ### Fixed
 - Compatability of `LeagueContainer` in PHP v7.2.0
