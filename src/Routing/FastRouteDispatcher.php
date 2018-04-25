@@ -19,7 +19,7 @@ use FastRoute\RouteParser\Std;
 class FastRouteDispatcher extends AbstractDispatcher implements DispatcherInterface
 {
     /**
-     * @var \FastRoute\Dispatcher
+     * @var \FastRoute\Dispatcher\GroupCountBased
      */
     protected $dispatcher;
 
@@ -66,9 +66,9 @@ class FastRouteDispatcher extends AbstractDispatcher implements DispatcherInterf
 
         $this->router = $router;
 
-        $dispatcher = new \FastRoute\DataGenerator\GroupCountBased;
+        $generator = new \FastRoute\DataGenerator\GroupCountBased;
 
-        $routes($router = new RouteCollector(new Std, $dispatcher));
+        $routes($router = new RouteCollector(new Std, $generator));
 
         $this->dispatcher = new GroupCountBased($router->getData());
 
