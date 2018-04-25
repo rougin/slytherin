@@ -3,7 +3,8 @@
     <testsuites>
         <testsuite name="Slytherin Test Suite">
             <directory>tests</directory>
-            <exclude>./src/Compatible.php</exclude>
+            <exclude>./src/Middleware/HandlerInterface.php</exclude>
+            <exclude>./src/Middleware/MiddlewareInterface.php</exclude>
         </testsuite>
     </testsuites>
     <filter>
