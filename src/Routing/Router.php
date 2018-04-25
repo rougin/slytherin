@@ -210,11 +210,11 @@ class Router implements RouterInterface
      */
     public function prefix($prefix = '', $namespace = '')
     {
-        $namespace === '' && $namespace = $this->namespace;
+        $namespace === '' && $namespace = (string) $this->namespace;
 
         $prefix && $prefix[0] !== '/' && $prefix = '/' . $prefix;
 
-        substr($namespace, -1) !== '\\' && $namespace .= '\\';
+        $namespace = str_replace('\\\\', '\\', $namespace . '\\');
 
         $this->prefix = (string) $prefix;
 
