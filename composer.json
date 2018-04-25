@@ -23,7 +23,8 @@
     },
     "autoload": {
         "files": [
-            "src/Compatible.php"
+            "src/Middleware/HandlerInterface.php",
+            "src/Middleware/MiddlewareInterface.php"
         ],
         "psr-4": {
             "Rougin\\Slytherin\\": "src"
