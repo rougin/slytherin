@@ -20,4 +20,3 @@ foreach ((array) array_keys($middlewares) as $version) {
     ! $defined && $exists && class_alias($current, $middleware);
 }
 // @codeCoverageIgnoreEnd
-// 

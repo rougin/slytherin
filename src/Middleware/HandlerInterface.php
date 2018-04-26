@@ -28,4 +28,3 @@ foreach ((array) array_keys($handlers) as $version) {
     }
 }
 // @codeCoverageIgnoreEnd
-// 
