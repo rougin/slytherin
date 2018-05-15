@@ -10,6 +10,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Changed
 - Add `\` when `$namespace` property is defined in `Routing\Router`
+- Single uploaded file will not return an array in `UploadedFile::normalize`
 
 ### Removed
 - Extension of other route dispatchers to `Routing\Dispatcher`

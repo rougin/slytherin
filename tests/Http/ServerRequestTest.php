@@ -185,7 +185,10 @@ class ServerRequestTest extends \PHPUnit_Framework_TestCase
 
         $uploaded = new UploadedFile($file, $size, $error, $name, $type);
 
-        $expected = array('file' => array($uploaded));
+        // $expected = array('file' => array($uploaded));
+
+        // NOTE: Single uploaded file will not return an array in v0.9.6
+        $expected = array('file' => $uploaded);
 
         $result = (array) $request->getUploadedFiles();
 
