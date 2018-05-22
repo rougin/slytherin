@@ -171,7 +171,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Returns an array of \UploadedFile instances from $_FILES.
      *
-     * @param  array $file
+     * @param  array $files
      * @return \Psr\Http\Message\UploadedFileInterface[]
      */
     public static function nested(array $files)
@@ -206,19 +206,13 @@ class UploadedFile implements UploadedFileInterface
         $normalized = array();
 
         foreach ((array) $files as $key => $value) {
-            $instanceof = $value instanceof UploadedFileInterface;
-
-            if (isset($value['tmp_name'])) {
-                $file = self::create($value);
-
-                $normalized[$key] = $file;
+            if ($value instanceof UploadedFileInterface) {
+                $normalized[$key] = $value;
+            } elseif (isset($value['tmp_name']) === true) {
+                $normalized[$key] = self::create($value);
             } elseif (is_array($value) === true) {
-                $items = self::normalize($value);
-
-                $normalized[$key] = (array) $items;
+                $normalized[$key] = self::normalize($value);
             }
-
-            $instanceof === true && $normalized[$key] = $value;
         }
 
         return $normalized;
