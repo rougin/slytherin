@@ -17,89 +17,9 @@ Via Composer
 $ composer require rougin/slytherin
 ```
 
-## Usage
+## Documentation
 
-### Using ContainerInterface
-
-``` php
-use App\Http\Controllers\WelcomeController;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Application;
-use Rougin\Slytherin\Container\Container;
-use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Routing\Dispatcher;
-use Rougin\Slytherin\Routing\DispatcherInterface;
-use Rougin\Slytherin\Routing\Router;
-
-// Define HTTP objects that is compliant to PSR-07 standards
-$request = new ServerRequest((array) $_SERVER);
-
-$response = new Response(http_response_code());
-
-$router = new Router;
-
-// Create a new route from WelcomeController class...
-$router->get('/', WelcomeController::class . '@index');
-
-// ...then define it to a dispatcher
-$dispatcher = new Dispatcher($router);
-
-// Add the above objects through a container
-$container = new Container;
-
-// Set the request as the PSR-07 server request instance
-$container->set(ServerRequestInterface::class, $request);
-
-// Set the response as the PSR-07 response instance
-$container->set(ResponseInterface::class, $response);
-
-// Set the dispatcher in the Routing\DispatcherInterface
-$container->set(DispatcherInterface::class, $dispatcher);
-
-// Lastly, run the application
-(new Application($container))->run();
-```
-
-### Using IntegrationInterface
-
-``` php
-use App\Http\Controllers\WelcomeController;
-use Rougin\Slytherin\Application;
-use Rougin\Slytherin\Container\Container;
-use Rougin\Slytherin\Http\HttpIntegration;
-use Rougin\Slytherin\Integration\Configuration;
-use Rougin\Slytherin\Routing\RoutingIntegration;
-
-// Specify the integrations to be included and defined
-$integrations = array(HttpIntegration::class);
-
-$integrations[] = RoutingIntegration::class;
-
-$router = new Router;
-
-// Create a new route from the WelcomeController class
-$router->get('/', WelcomeController::class . '@index');
-
-// Supply values to integrations using a configuration file
-$config = (new Configuration)->set('app.router', $router);
-
-$config->set('app.http.server', (array) $_SERVER);
-
-// Use the integrations and run the application
-$app = new Application(new Container, $config);
-
-$app->integrate((array) $integrations)->run();
-```
-
-### Run the application using PHP's web server:
-
-``` bash
-$ php -S localhost:8000
-```
-
-Open your web browser and go to [http://localhost:8000](http://localhost:8000).
+Read the documentation [here](https://rougin.github.io/slytherin/basic-usage/).
 
 ## Change log
 
