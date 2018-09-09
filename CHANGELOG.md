@@ -4,6 +4,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - Unreleased
 
+**NOTE**: This release may break your application if upgrading from `v0.9.5` release.
+
 ### Added
 - `AbstractDispatcher` for identicals methods in route dispatchers
 - Compatability for multiple `http-interop/http-middleware` versions
