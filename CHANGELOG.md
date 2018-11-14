@@ -18,7 +18,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Extension of other route dispatchers to `Routing\Dispatcher`
 
 ### Fixed
-- Compatability of `LeagueContainer` in PHP v7.2.0
+- Compatability of `LeagueContainer` in PHP v7.2.0 (it only supports `<=2.9` versions)
 
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
