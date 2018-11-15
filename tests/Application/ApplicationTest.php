@@ -176,7 +176,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
         $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
-        $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+
+        if (interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
+        {
+            $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+        }
+
         $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
         $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
 

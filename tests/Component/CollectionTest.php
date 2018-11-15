@@ -144,6 +144,11 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetMiddlewareMethod()
     {
+        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
+        {
+            $this->markTestSkipped('MiddlewareInterface is not yet defined');
+        }
+
         $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
 
         $this->components->setMiddleware($middleware);

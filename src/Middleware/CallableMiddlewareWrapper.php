@@ -51,12 +51,16 @@ class CallableMiddlewareWrapper implements MiddlewareInterface
     {
         $middleware = $this->middleware;
 
-        if ($this->response instanceof ResponseInterface) {
-            $handler = function ($request) use ($handler) {
+        if ($this->response !== null)
+        {
+            $handler = function ($request) use ($handler)
+            {
                 return $handler->{HANDLER_METHOD}($request);
             };
 
-            return $middleware($request, $this->response, $handler);
+            $response = $this->response;
+
+            return $middleware($request, $response, $handler);
         }
 
         return $middleware($request, $handler);

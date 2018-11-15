@@ -18,13 +18,21 @@ class Configuration implements ConfigurationInterface
     protected $data = array();
 
     /**
+     * Initializes the configuration instance.
+     *
      * @param array|string|null $data
      */
     public function __construct($data = null)
     {
-        $this->data = is_array($data) ? $data : $this->data;
+        if (is_array($data))
+        {
+            $this->data = $data;
+        }
 
-        $this->data = is_string($data) ? $this->load($data) : $this->data;
+        if (is_string($data))
+        {
+            $this->load($data);
+        }
     }
 
     /**

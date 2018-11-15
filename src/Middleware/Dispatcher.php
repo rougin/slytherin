@@ -113,7 +113,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  callable|object|string|array $middleware
+     * @param  \Closure|array|object|string $middleware
      * @return self
      */
     public function push($middleware)
@@ -142,12 +142,13 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the approach of the specified middleware is either single or double pass.
      *
-     * @param  callable|object $middleware
+     * @param  \Closure|object $middleware
      * @return boolean
      */
     protected function approach($middleware)
     {
-        if (is_a($middleware, 'Closure') === true) {
+        if ($middleware instanceof \Closure)
+        {
             $object = new \ReflectionFunction($middleware);
 
             return count($object->getParameters()) === 2;
@@ -163,9 +164,9 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the middleware as a single pass callable.
      *
-     * @param  callable|object|string              $middleware
+     * @param  \Closure|object|string              $middleware
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return callable
+     * @return \Closure
      */
     protected function callback($middleware, ResponseInterface $response)
     {
@@ -212,7 +213,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|\Closure $middleware
      * @param  boolean                                                     $wrappable
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */

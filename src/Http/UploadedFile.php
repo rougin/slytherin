@@ -152,7 +152,7 @@ class UploadedFile implements UploadedFileInterface
     public static function create(array $file)
     {
         if (is_array($file['tmp_name']) === false) {
-            $tmp = $file['tmp_name'];
+            $tmp = (string) $file['tmp_name'];
 
             $size = $file['size'];
 

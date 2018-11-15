@@ -24,7 +24,10 @@ abstract class AbstractDispatcher
      */
     public function __construct(RouterInterface $router = null)
     {
-        $router instanceof RouterInterface && $this->router($router);
+        if ($router instanceof RouterInterface)
+        {
+            $this->router($router);
+        }
     }
 
     /**
@@ -45,4 +48,12 @@ abstract class AbstractDispatcher
 
         return true;
     }
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    abstract public function router(RouterInterface $router);
 }

@@ -89,6 +89,11 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithMiddleware()
     {
+        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
+        {
+            $this->markTestSkipped('MiddlewareInterface is not yet defined');
+        }
+
         $request = $this->request('GET', '/middleware');
 
         $expected = (string) 'Loaded with middleware';

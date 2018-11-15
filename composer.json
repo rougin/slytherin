@@ -26,7 +26,8 @@
     },
     "autoload":
     {
-        "files": [
+        "files":
+        [
             "src/Middleware/HandlerInterface.php",
             "src/Middleware/MiddlewareInterface.php"
         ],
