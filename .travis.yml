@@ -26,6 +26,8 @@ before_script:
   - composer require container-interop/container-interop filp/whoops rdlowrey/auryn twig/twig http-interop/http-middleware
   - if [[ $TRAVIS_PHP_VERSION != '5.3' ]]; then composer require league/container:~2.4 nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev; fi
   - if [[ $TRAVIS_PHP_VERSION == '7.1' ]]; then composer require zendframework/zend-stratigility:~2.0 --dev; fi
+  - if [[ $TRAVIS_PHP_VERSION == '7.2' ]]; then composer require zendframework/zend-stratigility:~2.0 --dev; fi
+  - if [[ $TRAVIS_PHP_VERSION == 'hhvm' ]]; then composer require zendframework/zend-stratigility:~2.0 --dev; fi
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
