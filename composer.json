@@ -2,15 +2,15 @@
     "name": "rougin/slytherin",
     "description": "An extensible and SOLID-based PHP micro-framework.",
     "keywords": ["php framework", "php library", "slytherin", "solid"],
-    "homepage": "https://rougin.github.io/slytherin",
+    "homepage": "https://rougin.github.io/slytherin/",
     "license": "MIT",
     "authors":
     [
         {
-            "name": "Rougin Gutib",
             "email": "rougingutib@gmail.com",
-            "homepage": "https://rougin.github.io",
-            "role": "Developer"
+            "homepage": "https://rougin.github.io/",
+            "name": "Rougin Gutib",
+            "role": "Software Engineer"
         }
     ],
     "require":

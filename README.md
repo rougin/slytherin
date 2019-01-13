@@ -1,7 +1,7 @@
 # Slytherin
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
+[![Software License][ico-license]][link-license]
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
@@ -9,9 +9,9 @@
 
 Slytherin is a simple and extensible PHP micro-framework that tries to achieve a [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design))-based design for creating your next web application. It uses [Composer](https://getcomposer.org) as the dependency package manager to add, update or even remove external packages. For more information regarding Slytherin, click the Wiki page [here](https://github.com/rougin/slytherin/wiki).
 
-## Install
+## Installation
 
-Via Composer
+Install `Slytherin` via [Composer](https://getcomposer.org/):
 
 ``` bash
 $ composer require rougin/slytherin
@@ -19,9 +19,9 @@ $ composer require rougin/slytherin
 
 ## Documentation
 
-Read the documentation [here](https://rougin.github.io/slytherin/basic-usage/).
+Read the documentation [here](https://rougin.github.io/slytherin/).
 
-## Change log
+## Changelog
 
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
 
@@ -32,10 +32,6 @@ $ composer require filp/whoops league/container nikic/fast-route phroute/phroute
 $ composer test
 ```
 
-## Security
-
-If you discover any security related issues, please email rougingutib@gmail.com instead of using the issue tracker.
-
 ## Credits
 
 * [All contributors][link-contributors]
@@ -43,12 +39,10 @@ If you discover any security related issues, please email rougingutib@gmail.com 
 * [Codeigniter](https://codeigniter.com)
 * [Crux anti-framework](https://github.com/yuloh/crux)
 * [Fucking Small](https://github.com/trq/fucking-small)
-* [Laravel](https://laravel.com)
+* [Laravel framework](https://laravel.com)
 * [No Framework Tutorial](https://github.com/PatrickLouys/no-framework-tutorial)
 * [PHP Design Patterns](http://designpatternsphp.readthedocs.org/en/latest)
-* [PHP Standard Recommendations](http://www.php-fig.org/psr)
-* [Rougin Gutib][link-author]
-* [Symfony](http://symfony.com)
+* [Symfony framework](http://symfony.com)
 
 ## License
 
@@ -61,7 +55,6 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 [ico-travis]: https://img.shields.io/travis/rougin/slytherin/master.svg?style=flat-square
 [ico-version]: https://img.shields.io/packagist/v/rougin/slytherin.svg?style=flat-square
 
-[link-author]: https://rougin.github.io/
 [link-changelog]: https://github.com/rougin/slytherin/blob/master/CHANGELOG.md
 [link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
 [link-contributors]: https://github.com/rougin/slytherin/contributors
