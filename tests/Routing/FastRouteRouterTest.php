@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Routing;
  * FastRoute Router Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class FastRouteRouterTest extends RouterTestCases
 {

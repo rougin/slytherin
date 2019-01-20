@@ -11,7 +11,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * Interop Middleware
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class InteropMiddleware implements MiddlewareInterface
 {

@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Template;
  * A simple implementation of a template renderer.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Renderer implements RendererInterface
 {

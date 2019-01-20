@@ -13,7 +13,7 @@ use Rougin\Slytherin\Http\Response;
  * NOTE: To be removed in v1.0.0. The final middleware will be the core function.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class FinalResponse
 {

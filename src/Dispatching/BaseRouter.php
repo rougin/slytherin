@@ -11,7 +11,7 @@ use Rougin\Slytherin\Routing\Router as AbstractRouter;
  * NOTE: To be removed in v1.0.0
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 abstract class BaseRouter extends AbstractRouter
 {

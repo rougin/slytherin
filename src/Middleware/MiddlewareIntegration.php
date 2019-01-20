@@ -14,7 +14,7 @@ use Zend\Stratigility\MiddlewarePipe;
  * An integration for Slytherin's Middleware packages.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareIntegration implements IntegrationInterface
 {

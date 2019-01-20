@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Container;
  * Reflection Container Test Class
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ReflectionContainerTest extends \PHPUnit_Framework_TestCase
 {

@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Routing;
  * A simple implementation of a router that is based on RouterInterface.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Router implements RouterInterface
 {

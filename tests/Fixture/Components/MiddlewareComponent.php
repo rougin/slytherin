@@ -8,7 +8,7 @@ use Rougin\Slytherin\Middleware\Stratigility\Middleware;
  * Middleware Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareComponent extends \Rougin\Slytherin\Component\AbstractComponent
 {

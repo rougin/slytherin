@@ -9,7 +9,7 @@ use Rougin\Slytherin\Routing\Router;
  * Application Test Cases
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ApplicationTestCases extends \PHPUnit_Framework_TestCase
 {

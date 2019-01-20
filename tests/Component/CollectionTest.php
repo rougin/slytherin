@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Component;
  * Component Collection Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {

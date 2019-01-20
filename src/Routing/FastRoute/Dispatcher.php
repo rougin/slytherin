@@ -13,7 +13,7 @@ use Rougin\Slytherin\Routing\FastRouteDispatcher;
  * https://github.com/nikic/FastRoute
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Dispatcher extends FastRouteDispatcher
 {

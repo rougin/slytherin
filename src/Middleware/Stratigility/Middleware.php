@@ -11,7 +11,7 @@ use Rougin\Slytherin\Middleware\StratigilityMiddleware;
  * NOTE: To be removed in v1.0.0. Use "Middleware\StratigilityDispatcher" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
 class Middleware extends StratigilityMiddleware

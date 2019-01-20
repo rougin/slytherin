@@ -18,7 +18,7 @@ use Psr\Http\Message\UriInterface;
  *
  * @package Slytherin
  * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Uri implements UriInterface
 {

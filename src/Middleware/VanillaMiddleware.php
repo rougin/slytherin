@@ -9,7 +9,7 @@ namespace Rougin\Slytherin\Middleware;
  * NOTE: To be removed in v1.0.0. Use "Middleware\Dispatcher" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class VanillaMiddleware extends Middleware
 {

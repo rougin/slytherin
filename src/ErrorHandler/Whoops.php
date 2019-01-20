@@ -13,7 +13,7 @@ use Rougin\Slytherin\Debug\Whoops\Debugger;
  * http://filp.github.io/whoops
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Whoops extends Debugger
 {

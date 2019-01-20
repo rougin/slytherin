@@ -8,7 +8,7 @@ use Zend\Stratigility\MiddlewarePipe;
  * Stratigility Dispatcher Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class StratigilityDispatcherTest extends DispatcherTestCases
 {

@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Dispatching\Phroute;
  * Dispatcher Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {

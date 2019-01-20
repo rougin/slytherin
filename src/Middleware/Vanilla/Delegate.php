@@ -11,7 +11,7 @@ use Rougin\Slytherin\Middleware\VanillaDelegate;
  * NOTE: To be removed in v1.0.0. Use "Middleware\Delegate" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
 class Delegate extends VanillaDelegate

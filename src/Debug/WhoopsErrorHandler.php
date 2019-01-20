@@ -14,7 +14,7 @@ use Whoops\Run;
  * http://filp.github.io/whoops
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class WhoopsErrorHandler implements ErrorHandlerInterface
 {

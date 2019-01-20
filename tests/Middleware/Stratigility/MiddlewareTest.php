@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Middleware\Stratigility;
  * Stratigility Middleware Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareTest extends \PHPUnit_Framework_TestCase
 {

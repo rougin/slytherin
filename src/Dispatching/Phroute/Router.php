@@ -13,7 +13,7 @@ use Rougin\Slytherin\Routing\Phroute\Router as BaseRouter;
  * https://github.com/mrjgreen/phroute
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Router extends BaseRouter
 {

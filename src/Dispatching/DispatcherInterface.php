@@ -11,7 +11,7 @@ use Rougin\Slytherin\Routing\DispatcherInterface as BaseDispatcher;
  * NOTE: To be removed in v1.0.0. Use "Routing\DispatcherInterface" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface DispatcherInterface extends BaseDispatcher
 {

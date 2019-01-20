@@ -8,7 +8,7 @@ use Rougin\Slytherin\Http\ServerRequest;
  * Dispatcher Test Cases
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTestCases extends \PHPUnit_Framework_TestCase
 {

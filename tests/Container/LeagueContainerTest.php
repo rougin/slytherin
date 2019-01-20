@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Container;
  * League Container Test Class
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class LeagueContainerTest extends \PHPUnit_Framework_TestCase
 {

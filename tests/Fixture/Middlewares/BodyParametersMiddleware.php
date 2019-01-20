@@ -12,7 +12,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * Body Parameters Middleware
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class BodyParametersMiddleware implements MiddlewareInterface
 {

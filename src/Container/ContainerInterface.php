@@ -10,7 +10,7 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * An interface for handling PSR-11 containers.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface ContainerInterface extends PsrContainerInterface
 {

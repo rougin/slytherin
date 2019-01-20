@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * An interface for handling third party middleware dispatchers.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface DispatcherInterface extends MiddlewareInterface
 {

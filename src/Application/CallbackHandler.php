@@ -14,7 +14,7 @@ use Rougin\Slytherin\Middleware\Dispatcher;
  * Handles the final callback to be used in the application.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class CallbackHandler
 {

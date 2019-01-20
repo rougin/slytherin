@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Http;
  * Message Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class MessageTest extends \PHPUnit_Framework_TestCase
 {

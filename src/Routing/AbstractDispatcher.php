@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Routing;
  * An abstract class for common methods in route dispatchers.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 abstract class AbstractDispatcher
 {

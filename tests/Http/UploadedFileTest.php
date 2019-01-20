@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Http;
  * Uploaded File Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class UploadedFileTest extends \PHPUnit_Framework_TestCase
 {

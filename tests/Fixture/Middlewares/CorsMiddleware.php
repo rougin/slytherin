@@ -12,7 +12,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * CORS Middleware
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class CorsMiddleware implements MiddlewareInterface
 {

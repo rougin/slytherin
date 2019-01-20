@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\IoC;
  * http://container.thephpleague.com
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class LeagueContainer extends League\Container
 {

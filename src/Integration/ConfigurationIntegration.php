@@ -12,7 +12,7 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
  * Integrates Configuration inside the specified container.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ConfigurationIntegration implements IntegrationInterface
 {

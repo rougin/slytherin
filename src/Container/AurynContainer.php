@@ -15,7 +15,7 @@ use Auryn\Injector;
  *
  * @package Slytherin
  * @author  Matthew Turland <me@matthewturland.com>
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class AurynContainer extends Injector implements ContainerInterface
 {

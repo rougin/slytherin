@@ -11,7 +11,7 @@ use Rougin\Slytherin\Fixture\TestClassWithEmptyConstructor;
  * Collection Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class CollectionComponent extends AbstractComponent
 {

@@ -17,7 +17,7 @@ use Rougin\Slytherin\Routing\DispatcherInterface as RouteDispatcher;
  * NOTE: To be removed in v1.0.0. Use "Integration" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Collection extends VanillaContainer
 {

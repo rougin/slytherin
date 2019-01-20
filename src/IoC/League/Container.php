@@ -13,7 +13,7 @@ use Rougin\Slytherin\Container\LeagueContainer;
  * http://container.thephpleague.com
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Container extends LeagueContainer
 {

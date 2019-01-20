@@ -15,7 +15,7 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  * A simple implementation of a middleware dispatcher.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
 class Dispatcher implements DispatcherInterface

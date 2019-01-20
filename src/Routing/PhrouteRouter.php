@@ -12,7 +12,7 @@ use Phroute\Phroute\RouteCollector;
  * https://github.com/mrjgreen/phroute
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class PhrouteRouter extends Router
 {

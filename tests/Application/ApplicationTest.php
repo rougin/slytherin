@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Application;
  * Application Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {

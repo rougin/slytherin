@@ -11,7 +11,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * An interface for handling integrations to Slytherin.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface IntegrationInterface
 {

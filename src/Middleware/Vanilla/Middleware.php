@@ -11,7 +11,7 @@ use Rougin\Slytherin\Middleware\VanillaMiddleware;
  * NOTE: To be removed in v1.0.0. Use "Middleware\Dispatcher" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
 class Middleware extends VanillaMiddleware

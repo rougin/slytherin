@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Template;
  * Renderer Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class RendererTest extends \PHPUnit_Framework_TestCase
 {

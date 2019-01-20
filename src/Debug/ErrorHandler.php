@@ -9,7 +9,7 @@ namespace Rougin\Slytherin\Debug;
  * NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ErrorHandler implements ErrorHandlerInterface
 {

@@ -8,7 +8,7 @@ use Psr\Http\Message\ResponseInterface;
  * With Response Interface
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class WithResponseInterface
 {

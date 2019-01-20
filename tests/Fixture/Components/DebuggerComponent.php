@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Fixture\Components;
  * Debugger Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DebuggerComponent extends \Rougin\Slytherin\Component\AbstractComponent
 {

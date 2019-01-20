@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Routing;
  * https://github.com/mrjgreen/phroute
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class PhrouteResolver implements \Phroute\Phroute\HandlerResolverInterface
 {

@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Integration;
  * An interface for handling configurations.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface ConfigurationInterface
 {

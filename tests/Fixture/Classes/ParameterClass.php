@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Fixture\Classes;
  * Parameter Class
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ParameterClass
 {

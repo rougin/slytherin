@@ -14,7 +14,7 @@ use Zend\Stratigility\MiddlewarePipe;
  * A simple implementation of middleware dispatcher that is built on top of Zend's Stratigility.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @link    https://github.com/zendframework/zend-stratigility
  */
 class StratigilityDispatcher extends Dispatcher

@@ -12,7 +12,7 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  * Converts callables into PSR-15 middlewares.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
 class CallableMiddlewareWrapper implements MiddlewareInterface

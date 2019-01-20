@@ -12,7 +12,7 @@ use League\Container\Container as BaseContainer;
  * http://container.thephpleague.com
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class LeagueContainer extends BaseContainer implements ContainerInterface
 {

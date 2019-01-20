@@ -14,7 +14,7 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
  * NOTE: To be removed in v1.0.0. Move to "Integration" directory instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ErrorHandlerIntegration implements IntegrationInterface
 {

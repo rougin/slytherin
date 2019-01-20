@@ -12,7 +12,7 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
  * An integration for template renderers to be included in Slytherin.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class RendererIntegration implements IntegrationInterface
 {

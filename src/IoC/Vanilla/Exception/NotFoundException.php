@@ -11,7 +11,7 @@ use Rougin\Slytherin\Container\Exception\NotFoundException as BaseNotFoundExcept
  * NOTE: To be removed in v1.0.0. Use "Container\Exception\NotFoundException" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class NotFoundException extends BaseNotFoundException
 {

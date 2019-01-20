@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Debug\Vanilla;
  * Debugger Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DebuggerTest extends \PHPUnit_Framework_TestCase
 {

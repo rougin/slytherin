@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Integration;
  * Configuration Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {

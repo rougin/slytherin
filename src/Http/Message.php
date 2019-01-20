@@ -19,7 +19,7 @@ use Psr\Http\Message\MessageInterface;
  *
  * @package Slytherin
  * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Message implements MessageInterface
 {

@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Fixture\Classes;
  * Container
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Container implements \Psr\Container\ContainerInterface, \Rougin\Slytherin\Container\DelegateInterface
 {

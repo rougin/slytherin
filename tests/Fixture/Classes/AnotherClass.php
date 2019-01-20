@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Fixture\Classes;
  * Another Class
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class AnotherClass
 {

@@ -12,7 +12,7 @@ use Rougin\Slytherin\Container\Container;
  * Builds the final callback after handling from application.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class FinalCallback
 {

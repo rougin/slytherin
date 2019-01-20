@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Middleware;
  * Dispatcher Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTest extends DispatcherTestCases
 {

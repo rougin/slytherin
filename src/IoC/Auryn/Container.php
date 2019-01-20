@@ -14,7 +14,7 @@ use Rougin\Slytherin\Container\AurynContainer;
  * https://github.com/rdlowrey/auryn
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Container extends AurynContainer
 {

@@ -12,7 +12,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {

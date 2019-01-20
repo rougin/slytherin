@@ -11,7 +11,7 @@ use Rougin\Slytherin\Http\Response;
  * Calls the callback with a specified HTTP request.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
 class Delegate implements HandlerInterface

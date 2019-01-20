@@ -11,7 +11,7 @@ use Psr\Container\ContainerExceptionInterface;
  * NOTE: To be removed in v1.0.0. Use NotFoundException instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerException extends \Exception implements ContainerExceptionInterface
 {

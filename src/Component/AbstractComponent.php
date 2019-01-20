@@ -13,7 +13,7 @@ use Rougin\Slytherin\Integration\Configuration;
  * NOTE: To be removed in v1.0.0. Use "Integration" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 abstract class AbstractComponent implements ComponentInterface
 {

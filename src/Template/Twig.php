@@ -12,7 +12,7 @@ namespace Rougin\Slytherin\Template;
  * http://twig.sensiolabs.org
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Twig extends Twig\Renderer
 {

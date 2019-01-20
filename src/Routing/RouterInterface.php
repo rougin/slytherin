@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Routing;
  * An interface for handling third party routers.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface RouterInterface
 {

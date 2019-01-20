@@ -11,7 +11,7 @@ use Rougin\Slytherin\Routing\Vanilla\Dispatcher as BaseDispatcher;
  * NOTE: To be removed in v1.0.0. Use "Routing\Dispatcher" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Dispatcher extends BaseDispatcher
 {

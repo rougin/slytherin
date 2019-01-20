@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * A simple container that is implemented on \Psr\Container\ContainerInterface.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Container implements ContainerInterface
 {

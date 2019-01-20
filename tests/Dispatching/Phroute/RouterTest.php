@@ -6,7 +6,7 @@ namespace Rougin\Slytherin\Dispatching\Phroute;
  * Router Test
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class RouterTest extends \PHPUnit_Framework_TestCase
 {

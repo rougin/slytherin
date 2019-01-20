@@ -18,7 +18,7 @@ use Zend\Diactoros\ServerRequestFactory;
  * An integration for Slytherin's simple HTTP package.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class HttpIntegration implements IntegrationInterface
 {

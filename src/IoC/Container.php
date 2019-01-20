@@ -9,7 +9,7 @@ namespace Rougin\Slytherin\IoC;
  * NOTE: To be removed in v1.0.0. Use "Container\Container" instead.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Container extends Vanilla\Container
 {

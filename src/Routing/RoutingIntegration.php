@@ -12,7 +12,7 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
  * An integration for Slytherin's Routing packages.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class RoutingIntegration implements IntegrationInterface
 {
