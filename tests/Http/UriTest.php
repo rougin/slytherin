@@ -22,7 +22,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->uri = new Uri('https://me@rougin.github.io:400/about');
+        $this->uri = new Uri('https://me@roug.in:400/about');
     }
 
     /**
@@ -48,7 +48,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAuthorityMethod()
     {
-        $expected = 'me@rougin.github.io:400';
+        $expected = 'me@roug.in:400';
 
         $result = $this->uri->getAuthority();
 
@@ -158,7 +158,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      */
     public function testToStringMethod()
     {
-        $expected = 'https://me@rougin.github.io:400/about';
+        $expected = 'https://me@roug.in:400/about';
 
         $result = $this->uri->__toString();
 
