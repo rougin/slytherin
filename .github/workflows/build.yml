@@ -23,6 +23,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
+        fetch-depth: 10
 
     - name: Check the PHP version
       run: php -v
