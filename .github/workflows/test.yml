@@ -1,5 +1,14 @@
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
+
 jobs:
-  run:    
+  run:
     runs-on: ${{ matrix.operating-system }}
     strategy:
       matrix:
