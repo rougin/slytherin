@@ -17,11 +17,27 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        extensions: intl #optional
-        ini-values: "post_max_size=256M" #optional
+
     - name: Check PHP Version
       run: php -v
+
+    - name: Validate composer.json and composer.lock
+      run: composer validate --strict
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress
+
+    - name: Install packages based on PHP version
+      run: if [[ ${{ steps.setup-php.outputs.php-version }} != '5.3' ]]; then composer require league/container:~2.4 nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev; fi
+      run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.1' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+      run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.2' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+      run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.3' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+      run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.4' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+
+    - name: Run test suite
+      run: vendor/bin/phpunit
