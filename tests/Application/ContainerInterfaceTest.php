@@ -18,18 +18,19 @@ class ContainerInterfaceTest extends ApplicationTestCases
     public function setUp()
     {
         $container = new \Rougin\Slytherin\Container\Container;
+
         $dispatcher = new \Rougin\Slytherin\Routing\Dispatcher($this->router());
+
         $response = new \Rougin\Slytherin\Http\Response;
 
         $container->set('Psr\Http\Message\ServerRequestInterface', $this->request('GET', '/'));
         $container->set('Psr\Http\Message\ResponseInterface', $response);
         $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
 
-        if (interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             $middleware = new \Rougin\Slytherin\Middleware\Dispatcher;
 
-            $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $middleware);
+            $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
         }
 
         $this->application = new \Rougin\Slytherin\Application($container);

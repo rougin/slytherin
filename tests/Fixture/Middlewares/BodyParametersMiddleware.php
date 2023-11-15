@@ -4,9 +4,9 @@ namespace Rougin\Slytherin\Fixture\Middlewares;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+
 use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Middleware\HandlerInterface;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 
 /**
  * Body Parameters Middleware
@@ -14,7 +14,7 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class BodyParametersMiddleware implements MiddlewareInterface
+class BodyParametersMiddleware implements \Interop\Http\ServerMiddleware\MiddlewareInterface
 {
     /**
      * @var array
@@ -25,18 +25,18 @@ class BodyParametersMiddleware implements MiddlewareInterface
      * Process an incoming server request and return a response, optionally delegating
      * to the next middleware component to create the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $handler)
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         if (in_array($request->getMethod(), $this->complex)) {
             parse_str(file_get_contents('php://input'), $body);
 
-            $request = $request->withParsedBody((array) $body);
+            $request = $request->withParsedBody($body);
         }
 
-        return $handler->{HANDLER_METHOD}($request);
+        return $delegate->process($request);
     }
 }

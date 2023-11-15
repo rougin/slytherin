@@ -2,9 +2,7 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use Phroute\Phroute\Dispatcher as BaseDispatcher;
 use Phroute\Phroute\HandlerResolverInterface;
-use Phroute\Phroute\RouteCollector;
 
 /**
  * Phroute Dispatcher
@@ -16,7 +14,7 @@ use Phroute\Phroute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterface
+class PhrouteDispatcher implements DispatcherInterface
 {
     /**
      * @var \Phroute\Phroute\Dispatcher
@@ -43,7 +41,7 @@ class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterfac
     {
         $resolver === null || $this->resolver = $resolver;
 
-        $router instanceof RouterInterface && $this->router($router);
+        $router === null || $this->router($router);
     }
 
     /**
@@ -82,13 +80,11 @@ class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterfac
      */
     public function router(RouterInterface $router)
     {
-        $instanceof = $router instanceof PhrouteRouter;
-
         $this->router = $router;
 
-        $routes = $instanceof ? $router->routes() : $this->collect();
+        $routes = $router instanceof PhrouteRouter ? $router->routes(true) : $this->collect();
 
-        $this->dispatcher = new BaseDispatcher($routes, $this->resolver);
+        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
 
         return $this;
     }
@@ -100,7 +96,7 @@ class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterfac
      */
     protected function collect()
     {
-        $collector = new RouteCollector;
+        $collector = new \Phroute\Phroute\RouteCollector;
 
         foreach ($this->router->routes() as $route) {
             $collector->addRoute($route[0], $route[1], $route[2]);
@@ -112,19 +108,42 @@ class PhrouteDispatcher extends AbstractDispatcher implements DispatcherInterfac
     /**
      * Returns exceptions based on catched error.
      *
+     * @throws \UnexpectedValueException
+     *
      * @param \Exception $exception
      * @param string     $uri
-     *
-     * @throws \UnexpectedValueException
      */
     protected function exceptions(\Exception $exception, $uri)
     {
         $interface = 'Phroute\Phroute\Exception\HttpRouteNotFoundException';
 
-        $message = (string) $exception->getMessage();
+        $message = $exception->getMessage();
 
-        is_a($exception, $interface) && $message = 'Route "' . $uri . '" not found';
+        if (is_a($exception, $interface)) {
+            $message = 'Route "' . $uri . '" not found';
+        }
 
-        throw new \UnexpectedValueException((string) $message);
+        throw new \UnexpectedValueException($message);
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     *
+     * @param  string $httpMethod
+     * @return boolean
+     *
+     * @throws UnexpectedValueException
+     */
+    protected function allowed($httpMethod)
+    {
+        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+
+        if (in_array($httpMethod, $allowed) === false) {
+            $message = 'Used method is not allowed';
+
+            throw new \UnexpectedValueException($message);
+        }
+
+        return true;
     }
 }

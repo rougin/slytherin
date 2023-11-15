@@ -17,9 +17,8 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvokeMethod()
     {
-        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
-            $this->markTestSkipped('MiddlewareInterface is not yet defined');
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
         }
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
@@ -51,9 +50,8 @@ class MiddlewareTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessMethod()
     {
-        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
-            $this->markTestSkipped('MiddlewareInterface is not yet defined');
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+            $this->markTestSkipped('Interop Middleware is not installed.');
         }
 
         $_SERVER['REQUEST_METHOD'] = 'GET';

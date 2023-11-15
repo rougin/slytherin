@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use FastRoute\Dispatcher\GroupCountBased;
-use FastRoute\RouteCollector;
-use FastRoute\RouteParser\Std;
-
 /**
  * FastRoute Dispatcher
  *
@@ -16,10 +12,10 @@ use FastRoute\RouteParser\Std;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class FastRouteDispatcher extends AbstractDispatcher implements DispatcherInterface
+class FastRouteDispatcher implements DispatcherInterface
 {
     /**
-     * @var \FastRoute\Dispatcher\GroupCountBased
+     * @var \FastRoute\Dispatcher
      */
     protected $dispatcher;
 
@@ -27,6 +23,16 @@ class FastRouteDispatcher extends AbstractDispatcher implements DispatcherInterf
      * @var \Rougin\Slytherin\Routing\RouterInterface
      */
     protected $router;
+
+    /**
+     * Initializes the dispatcher instance.
+     *
+     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
+     */
+    public function __construct(RouterInterface $router = null)
+    {
+        $router == null || $this->router($router);
+    }
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
@@ -62,16 +68,41 @@ class FastRouteDispatcher extends AbstractDispatcher implements DispatcherInterf
      */
     public function router(RouterInterface $router)
     {
-        $routes = $router->routes();
-
         $this->router = $router;
 
-        $generator = new \FastRoute\DataGenerator\GroupCountBased;
+        $routes = $router->routes(true);
 
-        $routes($router = new RouteCollector(new Std, $generator));
+        if ($router instanceof FastRouteRouter === false) {
+            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
+                foreach (array_filter($router->routes()) as $route) {
+                    $collector->addRoute($route[0], $route[1], $route[2]);
+                }
+            };
+        }
 
-        $this->dispatcher = new GroupCountBased($router->getData());
+        $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
         return $this;
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     *
+     * @param  string $httpMethod
+     * @return boolean
+     *
+     * @throws UnexpectedValueException
+     */
+    protected function allowed($httpMethod)
+    {
+        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+
+        if (in_array($httpMethod, $allowed) === false) {
+            $message = 'Used method is not allowed';
+
+            throw new \UnexpectedValueException($message);
+        }
+
+        return true;
     }
 }

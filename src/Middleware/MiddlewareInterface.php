@@ -1,23 +1,18 @@
 <?php
-namespace Rougin\Slytherin;
 
-$middlewares = array();
+namespace Rougin\Slytherin\Middleware;
 
-$middlewares['0.3.0'] = 'Interop\Http\Middleware\ServerMiddlewareInterface';
+use Interop\Http\ServerMiddleware\MiddlewareInterface as InteropMiddlewareInterface;
 
-$middlewares['1.0.0'] = 'Psr\Http\Server\MiddlewareInterface';
-
-$middlewares['0.4.1'] = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-$middlewares['0.5.0'] = 'Interop\Http\Server\MiddlewareInterface';
-
-foreach ((array) array_keys($middlewares) as $version)
+/**
+ * Middleware Interface
+ *
+ * An interface for handling third party middlewares.
+ * NOTE: To be removed in v1.0.0. Use DispatcherInterface instead.
+ *
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
+interface MiddlewareInterface extends InteropMiddlewareInterface
 {
-    $exists = interface_exists($current = $middlewares[$version]);
-
-    $middleware = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
-
-    $defined = interface_exists((string) $middleware);
-
-    ! $defined && $exists && class_alias($current, $middleware);
 }

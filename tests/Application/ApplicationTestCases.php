@@ -89,10 +89,9 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testHandleMethodWithMiddleware()
     {
-        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
-            $this->markTestSkipped('MiddlewareInterface is not yet defined');
-        }
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        interface_exists($interface) || $this->markTestSkipped('PSR-15 is not installed.');
 
         $request = $this->request('GET', '/middleware');
 

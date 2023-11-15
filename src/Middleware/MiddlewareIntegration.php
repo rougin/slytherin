@@ -33,9 +33,12 @@ class MiddlewareIntegration implements IntegrationInterface
 
         $dispatcher = $this->dispatcher($response, $stack);
 
-        $interface = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+        // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead.
+        $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
+        $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
+        $container->set('Interop\Http\ServerMiddleware\MiddlewareInterface', $dispatcher);
 
-        return $container->set($interface, $dispatcher);
+        return $container;
     }
 
     /**

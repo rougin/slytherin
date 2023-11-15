@@ -144,77 +144,71 @@ class UploadedFile implements UploadedFileInterface
     }
 
     /**
-     * Returns a \UploadedFile instance from $_FILES.
+     * Parses the $_FILES into multiple \File instances.
      *
-     * @param  array $file
-     * @return \Psr\Http\Message\UploadedFileInterface
-     */
-    public static function create(array $file)
-    {
-        if (is_array($file['tmp_name']) === false) {
-            $tmp = (string) $file['tmp_name'];
-
-            $size = $file['size'];
-
-            $error = $file['error'];
-
-            $original = $file['name'];
-
-            $type = $file['type'];
-
-            return new UploadedFile($tmp, $size, $error, $original, $type);
-        }
-
-        return self::nested($file);
-    }
-
-    /**
-     * Returns an array of \UploadedFile instances from $_FILES.
-     *
+     * @param  array $uploaded
      * @param  array $files
-     * @return \Psr\Http\Message\UploadedFileInterface[]
+     * @return \Zapheus\Http\Message\FileInterface[]
      */
-    public static function nested(array $files)
+    public static function normalize(array $uploaded, $files = array())
     {
-        $normalized = array();
+        foreach (self::diverse($uploaded) as $name => $file) {
+            list($files[$name], $items) = array($file, array());
 
-        foreach (array_keys($files['tmp_name']) as $key) {
-            $file = array('tmp_name' => $files['tmp_name'][$key]);
+            if (isset($file['name']) === true) {
+                foreach ($file['name'] as $key => $value) {
+                    $instance = self::create($file, $key);
 
-            $file['size'] = $files['size'][$key];
+                    $items[] = $instance;
+                }
 
-            $file['error'] = $files['error'][$key];
-
-            $file['name'] = $files['name'][$key];
-
-            $file['type'] = $files['type'][$key];
-
-            $normalized[$key] = self::create($file);
-        }
-
-        return $normalized;
-    }
-
-    /**
-     * Parses the $_FILES into multiple \UploadedFile instances.
-     *
-     * @param  array $files
-     * @return \Psr\Http\Message\UploadedFileInterface[]
-     */
-    public static function normalize(array $files)
-    {
-        $normalized = array();
-
-        foreach ((array) $files as $key => $value) {
-            if ($value instanceof UploadedFileInterface) {
-                $normalized[$key] = $value;
-            } elseif (isset($value['tmp_name']) === true) {
-                $normalized[$key] = self::create($value);
-            } elseif (is_array($value) === true) {
-                $normalized[$key] = self::normalize($value);
+                $files[$name] = (array) $items;
             }
         }
 
-        return $normalized;
+        return $files;
+    }
+
+    /**
+     * Creates a new UploadedFile instance.
+     *
+     * @param  array   $file
+     * @param  integer $key
+     * @return \Psr\Http\Message\UploadedFile
+     */
+    protected static function create(array $file, $key)
+    {
+        $tmp = $file['tmp_name'][$key];
+
+        $size = $file['size'][$key];
+
+        $error = $file['error'][$key];
+
+        $original = $file['name'][$key];
+
+        $type = $file['type'][$key];
+
+        return new UploadedFile($tmp, $size, $error, $original, $type);
+    }
+
+    /**
+     * Diverse the $_FILES into a consistent result.
+     *
+     * @param  array $uploaded
+     * @return array
+     */
+    protected static function diverse(array $uploaded)
+    {
+        $result = array();
+
+        foreach ($uploaded as $file => $item) {
+            foreach ($item as $key => $value) {
+                $diversed = (array) $value;
+
+                $result[$file][$key] = $diversed;
+            }
+        }
+
+        return $result;
     }
 }

@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\Delegate;
-use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
  * Dispatcher
@@ -83,16 +83,16 @@ class Dispatcher implements DispatcherInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, HandlerInterface $handler)
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $original = $this->stack;
 
-        $this->push(function ($request) use ($handler) {
-            return $handler->{HANDLER_METHOD}($request);
+        $this->push(function ($request) use ($delegate) {
+            return $delegate->process($request);
         });
 
         foreach ($this->stack as $index => $middleware) {
@@ -113,7 +113,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  \Closure|array|object|string $middleware
+     * @param  callable|object|string|array $middleware
      * @return self
      */
     public function push($middleware)
@@ -142,13 +142,12 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the approach of the specified middleware is either single or double pass.
      *
-     * @param  \Closure|object $middleware
+     * @param  callable|object $middleware
      * @return boolean
      */
     protected function approach($middleware)
     {
-        if ($middleware instanceof \Closure)
-        {
+        if (is_a($middleware, 'Closure') === true) {
             $object = new \ReflectionFunction($middleware);
 
             return count($object->getParameters()) === 2;
@@ -164,9 +163,9 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the middleware as a single pass callable.
      *
-     * @param  \Closure|object|string              $middleware
+     * @param  callable|object|string              $middleware
      * @param  \Psr\Http\Message\ResponseInterface $response
-     * @return \Closure
+     * @return callable
      */
     protected function callback($middleware, ResponseInterface $response)
     {
@@ -189,7 +188,7 @@ class Dispatcher implements DispatcherInterface
      * Resolves the whole stack through its index.
      *
      * @param  integer $index
-     * @return \Rougin\Slytherin\Middleware\HandlerInterface
+     * @return \Interop\Http\ServerMiddleware\DelegateInterface
      */
     protected function resolve($index)
     {
@@ -213,7 +212,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|\Closure $middleware
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
      * @param  boolean                                                     $wrappable
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */

@@ -3,7 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Router
+ * Dispatcher
  *
  * A simple implementation of a router that is based on RouterInterface.
  *
@@ -39,16 +39,13 @@ class Router implements RouterInterface
      */
     public function __construct(array $routes = array())
     {
-        $this->namespace === '' && $this->namespace = null;
+        foreach ($routes as $route) {
+            list($httpMethod, $uri, $handler) = $route;
 
-        $this->prefix($this->prefix, $this->namespace);
+            $middlewares = (isset($route[3])) ? $route[3] : array();
+            $middlewares = is_string($middlewares) ? array($middlewares) : $middlewares;
 
-        foreach ((array) $routes as $route) {
-            list($method, $uri, $handler) = (array) $route;
-
-            $middlewares = isset($route[3]) ? $route[3] : array();
-
-            $this->add($method, $uri, $handler, $middlewares);
+            $this->add($httpMethod, $uri, $handler, $middlewares);
         }
     }
 
@@ -63,8 +60,6 @@ class Router implements RouterInterface
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = $route[0] !== '/' ? '/' . $route : (string) $route;
-
         $route = array($httpMethod, $route, $handler, $middlewares);
 
         $this->routes[] = $this->parse($route);
@@ -116,11 +111,12 @@ class Router implements RouterInterface
      * Returns a listing of available routes.
      * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
      *
+     * @param  boolean $parsed
      * @return array
      */
-    public function getRoutes()
+    public function getRoutes($parsed = false)
     {
-        return $this->routes();
+        return $this->routes($parsed);
     }
 
     /**
@@ -171,9 +167,10 @@ class Router implements RouterInterface
     /**
      * Returns a listing of available routes.
      *
+     * @param  boolean $parsed
      * @return array
      */
-    public function routes()
+    public function routes($parsed = false)
     {
         return $this->routes;
     }
@@ -204,21 +201,15 @@ class Router implements RouterInterface
     /**
      * Sets a prefix for the succeeding route endpoints.
      *
-     * @param  string $prefix
-     * @param  string $namespace
+     * @param  string      $prefix
+     * @param  string|null $namespace
      * @return self
      */
-    public function prefix($prefix = '', $namespace = '')
+    public function prefix($prefix = '', $namespace = null)
     {
-        $namespace === '' && $namespace = (string) $this->namespace;
+        $this->namespace = ($namespace !== null) ? $namespace . '\\' : $this->namespace;
 
-        $prefix && $prefix[0] !== '/' && $prefix = '/' . $prefix;
-
-        $namespace = str_replace('\\\\', '\\', $namespace . '\\');
-
-        $this->prefix = (string) $prefix;
-
-        $this->namespace = ltrim($namespace, '\\');
+        $this->prefix = $prefix;
 
         return $this;
     }
@@ -245,14 +236,11 @@ class Router implements RouterInterface
     protected function parse($route)
     {
         $route[0] = strtoupper($route[0]);
-
         $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
+        $route[2] = (is_string($route[2])) ? explode('@', $route[2]) : $route[2];
+        $route[3] = (! is_array($route[3])) ? array($route[3]) : $route[3];
 
-        is_string($route[2]) && $route[2] = explode('@', $route[2]);
-
-        is_array($route[2]) && $route[2][0] = $this->namespace . $route[2][0];
-
-        is_array($route[3]) || $route[3] = array($route[3]);
+        ! is_array($route[2]) || $route[2][0] = $this->namespace . $route[2][0];
 
         return $route;
     }

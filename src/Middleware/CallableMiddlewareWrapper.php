@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin\Middleware;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
  * Callable Middleware Wrapper
@@ -43,26 +43,22 @@ class CallableMiddlewareWrapper implements MiddlewareInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, HandlerInterface $handler)
+    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $middleware = $this->middleware;
 
-        if ($this->response !== null)
-        {
-            $handler = function ($request) use ($handler)
-            {
-                return $handler->{HANDLER_METHOD}($request);
+        if ($this->response instanceof ResponseInterface) {
+            $delegate = function ($request) use ($delegate) {
+                return $delegate->process($request);
             };
 
-            $response = $this->response;
-
-            return $middleware($request, $response, $handler);
+            return $middleware($request, $this->response, $delegate);
         }
 
-        return $middleware($request, $handler);
+        return $middleware($request, $delegate);
     }
 }

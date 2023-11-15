@@ -52,7 +52,8 @@ interface RouterInterface
     /**
      * Returns a listing of available routes.
      *
+     * @param  boolean $parsed
      * @return mixed
      */
-    public function routes();
+    public function routes($parsed = false);
 }

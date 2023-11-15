@@ -23,7 +23,7 @@ class Application
     // NOTE: To be removed in v1.0.0
     const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
-    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\MiddlewareInterface';
+    const MIDDLEWARE = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 

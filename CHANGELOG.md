@@ -2,24 +2,6 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - Unreleased
-
-**NOTE**: This release may break your application if upgrading from `v0.9.5` release.
-
-### Added
-- `AbstractDispatcher` for identicals methods in route dispatchers
-- Compatability for multiple `http-interop/http-middleware` versions
-
-### Changed
-- Add `\` when `$namespace` property is defined in `Routing\Router`
-- Single uploaded file will not return an array in `UploadedFile::normalize`
-
-### Removed
-- Extension of other route dispatchers to `Routing\Dispatcher`
-
-### Fixed
-- Compatability of `LeagueContainer` in PHP v7.2.0 (only supports versions until `2.9`)
-
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
 ### Changed

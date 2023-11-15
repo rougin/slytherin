@@ -17,10 +17,11 @@ class DispatcherTest extends DispatcherTestCases
      */
     public function setUp()
     {
-        if (! interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
-            $this->markTestSkipped('MiddlewareInterface is not yet defined');
-        }
+        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        $message = 'http-interop/http-middleware (v0.4.0) is not installed.';
+
+        interface_exists($interface) || $this->markTestSkipped($message);
 
         $this->dispatcher = new Dispatcher;
     }

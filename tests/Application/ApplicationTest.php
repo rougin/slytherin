@@ -174,16 +174,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $integrations = array('Rougin\Slytherin\Http\HttpIntegration');
 
+        $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+        $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
         $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
-        $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
 
-        if (interface_exists('Rougin\Slytherin\Middleware\MiddlewareInterface'))
-        {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
             $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
         }
 
-        $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
-        $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
+        $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
 
         $this->expectOutputString('Hello');
 
