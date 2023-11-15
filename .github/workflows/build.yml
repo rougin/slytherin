@@ -23,7 +23,7 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
 
-    - name: Check PHP Version
+    - name: Check the PHP version
       run: php -v
 
     - name: Validate composer.json and composer.lock
@@ -32,11 +32,19 @@ jobs:
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress
 
-    - name: Install packages based on PHP version
+    - name: Install packages not specified for PHP 5.3
       run: if [[ ${{ steps.setup-php.outputs.php-version }} != '5.3' ]]; then composer require league/container:~2.4 nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev; fi
+
+    - name: Install packages for PHP 7.1
       run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.1' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+
+    - name: Install packages for PHP 7.2
       run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.2' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+
+    - name: Install packages for PHP 7.3
       run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.3' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
+
+    - name: Install packages for PHP 7.4
       run: if [[ ${{ steps.setup-php.outputs.php-version }} == '7.4' ]]; then composer require zendframework/zend-stratigility:~2.0 && composer update --dev; fi
 
     - name: Run test suite
