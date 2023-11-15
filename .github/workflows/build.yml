@@ -43,7 +43,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Install third-party Composer packages
-      run: composer require league/container nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware
+      run: composer require league/container:~2.4 nikic/fast-route:~2.1 phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware
 
     # - name: Install Composer packages for PHP 7.1
     #   if: ${{ steps.setup-php.outputs.php-version == '7.1' }}
