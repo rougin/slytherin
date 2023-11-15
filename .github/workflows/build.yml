@@ -55,3 +55,7 @@ jobs:
 
     - name: Run test suite
       run: vendor/bin/phpunit
+
+    - name: Send results to Scrutinizer CI
+      if: ${{ matrix.php-versions != '7.0' }}
+      run: vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
