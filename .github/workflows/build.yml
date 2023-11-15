@@ -55,7 +55,7 @@ jobs:
       run: composer require zendframework/zend-stratigility:~2.0 --dev
 
     - name: Run test suite
-      run: vendor/bin/phpunit
+      run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
     - name: Send results to Scrutinizer CI
       run: vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
