@@ -44,7 +44,7 @@ jobs:
 
     - name: Install Composer packages not for PHP 5.3
       if: ${{ matrix.php-versions != '5.3' }}
-      run: composer require league/container:~2.4 nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware --dev
+      run: composer require league/container:~2.4 nikic/fast-route phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev
 
     - name: Install Composer packages for PHP 7.1
       if: ${{ matrix.php-versions == '7.1' }}
