@@ -11,6 +11,11 @@ namespace Rougin\Slytherin\Component;
 class CollectionTest extends \Rougin\Slytherin\Testcase
 {
     /**
+     * @var \Rougin\Slytherin\Component\Collection
+     */
+    protected $components;
+
+    /**
      * Sets up the component class.
      *
      * @return void
@@ -27,7 +32,8 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetContainerMethod()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface')) {
+        if (! interface_exists('Psr\Container\ContainerInterface'))
+        {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
@@ -75,7 +81,8 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
+        {
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
@@ -101,7 +108,8 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpRequestMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ServerRequestInterface')) {
+        if (! interface_exists('Psr\Http\Message\ServerRequestInterface'))
+        {
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 
@@ -126,7 +134,8 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpResponseMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
+        {
             $this->markTestSkipped('PSR HTTP Message is not installed.');
         }
 

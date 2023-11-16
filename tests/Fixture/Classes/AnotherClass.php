@@ -11,6 +11,11 @@ namespace Rougin\Slytherin\Fixture\Classes;
 class AnotherClass
 {
     /**
+     * @var string
+     */
+    protected $text;
+
+    /**
      * @param string $text
      */
     public function __construct($text = 'Hello')
