@@ -2,8 +2,8 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]][link-license]
-[![Build Status][ico-travis]][link-travis]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
+[![Build Status][ico-build]][link-build]
+[![Coverage Status][ico-coverage]][link-coverage]
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
@@ -338,18 +338,18 @@ $ composer test
 
 The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/rougin/slytherin.svg?style=flat-square
+[ico-build]: https://img.shields.io/github/actions/workflow/status/rougin/slytherin/build.yml?style=flat-square
+[ico-code-quality]: https://img.shields.io/codecov/c/github/rougin/slytherin?style=flat-square
+[ico-coverage]: https://img.shields.io/codecov/c/github/rougin/slytherin?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/rougin/slytherin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/rougin/slytherin.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/rougin/slytherin/master.svg?style=flat-square
 [ico-version]: https://img.shields.io/packagist/v/rougin/slytherin.svg?style=flat-square
 
+[link-build]: https://github.com/rougin/slytherin/actions
 [link-changelog]: https://github.com/rougin/slytherin/blob/master/CHANGELOG.md
 [link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
 [link-contributors]: https://github.com/rougin/slytherin/contributors
+[link-coverage]: https://app.codecov.io/gh/rougin/slytherin
 [link-downloads]: https://packagist.org/packages/rougin/slytherin
 [link-license]: https://github.com/rougin/slytherin/blob/master/LICENSE.md
 [link-packagist]: https://packagist.org/packages/rougin/slytherin
-[link-scrutinizer]: https://scrutinizer-ci.com/g/rougin/slytherin/code-structure
-[link-travis]: https://travis-ci.org/rougin/slytherin
