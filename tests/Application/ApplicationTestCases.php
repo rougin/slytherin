@@ -279,7 +279,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
     /**
      * Returns a listing of routes for testing.
      *
-     * @return \Rougin\Slytherin\Routing\RoutingInterface
+     * @return \Rougin\Slytherin\Routing\RouterInterface
      */
     protected function router()
     {
