@@ -10,7 +10,7 @@ use Rougin\Slytherin\Http\ServerRequest;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTestCases extends \PHPUnit_Framework_TestCase
+class DispatcherTestCases extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Middleware\DispatcherInterface

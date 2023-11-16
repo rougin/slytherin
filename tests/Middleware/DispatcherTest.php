@@ -15,7 +15,7 @@ class DispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 

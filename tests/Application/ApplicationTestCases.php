@@ -11,7 +11,7 @@ use Rougin\Slytherin\Routing\Router;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTestCases extends \PHPUnit_Framework_TestCase
+class ApplicationTestCases extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Application
@@ -23,7 +23,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->markTestSkipped('No implementation style defined.');
     }

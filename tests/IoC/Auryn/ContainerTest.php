@@ -13,7 +13,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -35,7 +35,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! class_exists('Auryn\Injector')) {
             $this->markTestSkipped('Auryn is not installed.');
@@ -104,7 +104,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithError()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }

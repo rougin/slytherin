@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Debug\Whoops;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends \PHPUnit_Framework_TestCase
+class DebuggerTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Debug\DebuggerInterface
@@ -25,7 +25,7 @@ class DebuggerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! class_exists('Whoops\Run')) {
             $this->markTestSkipped('Whoops is not installed.');

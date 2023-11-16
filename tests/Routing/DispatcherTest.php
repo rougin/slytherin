@@ -17,7 +17,7 @@ class DispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 

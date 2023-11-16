@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Psr\Http\Message\RequestInterface
@@ -20,7 +20,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->request = new Request;
     }

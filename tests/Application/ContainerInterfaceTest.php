@@ -15,7 +15,7 @@ class ContainerInterfaceTest extends ApplicationTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $container = new \Rougin\Slytherin\Container\Container;
 

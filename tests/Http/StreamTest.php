@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class StreamTest extends \PHPUnit_Framework_TestCase
+class StreamTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var resource
@@ -30,7 +30,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $root = (string) str_replace('Http', 'Fixture', __DIR__);
 
@@ -48,7 +48,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testCloseMethod()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $this->stream->close();
 
@@ -104,7 +104,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetContentsMethodWithException()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -164,7 +164,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadMethodWithException()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -196,7 +196,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testSeekMethodWithException()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -210,7 +210,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testTellMethodWithException()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -244,7 +244,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function testWriteMethodWithException()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->expectException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'r'));
 

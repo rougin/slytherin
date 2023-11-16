@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Routing;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTestCases extends \PHPUnit_Framework_TestCase
+class RouterTestCases extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Routing\RouterInterface
@@ -25,7 +25,7 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->markTestSkipped('No implementation style defined.');
     }
@@ -67,7 +67,7 @@ class RouterTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testCallMagicMethodWithException()
     {
-        $this->setExpectedException('BadMethodCallException');
+        $this->expectException('BadMethodCallException');
 
         $this->exists(get_class($this->router));
 

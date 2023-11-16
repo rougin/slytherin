@@ -17,7 +17,7 @@ class StratigilityDispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $class = (string) 'Zend\Stratigility\MiddlewarePipe';
 

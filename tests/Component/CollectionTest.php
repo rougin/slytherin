@@ -8,14 +8,14 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class CollectionTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * Sets up the component class.
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->components = new \Rougin\Slytherin\Component\Collection;
     }

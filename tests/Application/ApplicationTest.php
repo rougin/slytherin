@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Application;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\ComponentCollection
@@ -20,7 +20,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! interface_exists('Psr\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');

@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Dispatching\Phroute;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\RouterInterface
@@ -27,7 +27,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! class_exists('Phroute\Phroute\RouteCollector')) {
             $this->markTestSkipped('Phroute is not installed.');

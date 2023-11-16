@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Dispatching\Phroute;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -25,7 +25,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! class_exists('Phroute\Phroute\Dispatcher')) {
             $this->markTestSkipped('Phroute is not installed.');
@@ -81,7 +81,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->expectException('UnexpectedValueException');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
     }
@@ -93,7 +93,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->expectException('UnexpectedValueException');
 
         list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
     }

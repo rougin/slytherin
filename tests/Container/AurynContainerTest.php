@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainerTest extends \PHPUnit_Framework_TestCase
+class AurynContainerTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -20,7 +20,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
 
@@ -49,7 +49,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithContainerException()
     {
-        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
+        $this->expectException('Psr\Container\ContainerExceptionInterface');
 
         $this->container->get('Test');
     }
@@ -61,7 +61,7 @@ class AurynContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithNotFoundException()
     {
-        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $this->expectException('Psr\Container\NotFoundExceptionInterface');
 
         $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
 

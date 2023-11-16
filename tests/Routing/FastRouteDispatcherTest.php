@@ -17,7 +17,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 

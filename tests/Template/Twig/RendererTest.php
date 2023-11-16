@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template\Twig;
 
-class RendererTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -19,7 +19,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! class_exists('Twig_Environment')) {
             $this->markTestSkipped('Twig is not installed.');

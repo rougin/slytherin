@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
-class RendererTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -14,7 +14,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $directories = array(__DIR__ . '/../../Fixture/Templates');
 
@@ -56,7 +56,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testTemplateNotFound()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
 
         $this->renderer->render('hello');
     }

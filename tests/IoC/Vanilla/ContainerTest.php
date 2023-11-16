@@ -14,7 +14,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -36,7 +36,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         if (! interface_exists('Psr\Container\ContainerInterface')) {
             $this->markTestSkipped('Container Interop is not installed.');
@@ -146,7 +146,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithNotFoundException()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
         // $this->container->get($this->class);
@@ -161,7 +161,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetMethodWithContainerException()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
+        $this->expectException('Rougin\Slytherin\Container\Exception\ContainerException');
 
         $this->container->set('Foo', array());
 
@@ -208,7 +208,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $container = new \Rougin\Slytherin\Container\ReflectionContainer($this->container);
 
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $container->get('Test');
     }

@@ -10,7 +10,7 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTestCases extends \PHPUnit_Framework_TestCase
+class DispatcherTestCases extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Rougin\Slytherin\Routing\DispatcherInterface
@@ -22,7 +22,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 
@@ -106,7 +106,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->expectException('UnexpectedValueException');
 
         $this->exists(get_class($this->dispatcher));
 
@@ -120,7 +120,7 @@ class DispatcherTestCases extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->expectException('UnexpectedValueException');
 
         $this->exists(get_class($this->dispatcher));
 

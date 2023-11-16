@@ -15,7 +15,7 @@ class IntegrationInterfaceTest extends ApplicationTestCases
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $integrations = array();
 

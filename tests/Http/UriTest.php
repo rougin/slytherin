@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class UriTest extends \PHPUnit_Framework_TestCase
+class UriTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Psr\Http\Message\UriInterface
@@ -20,7 +20,7 @@ class UriTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->uri = new Uri('https://me@roug.in:400/about');
     }

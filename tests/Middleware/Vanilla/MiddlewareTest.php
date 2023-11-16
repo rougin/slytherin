@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MiddlewareTest extends \PHPUnit_Framework_TestCase
+class MiddlewareTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * Tests __invoke() method

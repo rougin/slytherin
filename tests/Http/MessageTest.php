@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MessageTest extends \PHPUnit_Framework_TestCase
+class MessageTest extends \LegacyPHPUnit\TestCase
 {
     /**
      * @var \Psr\Http\Message\MessageInterface
@@ -20,7 +20,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function doSetUp()
     {
         $this->message = new Message;
     }
