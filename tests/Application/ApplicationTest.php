@@ -53,6 +53,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethod()
     {
@@ -65,6 +66,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a response as result.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithResponse()
     {
@@ -77,6 +79,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a parameter.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithParameter()
     {
@@ -89,6 +92,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with an optional parameter.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithOptionalParameter()
     {
@@ -101,6 +105,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a callback as result.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithCallback()
     {
@@ -113,6 +118,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with a PUT HTTP method.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithPutHttpMethod()
     {
@@ -125,6 +131,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the run() method with Phroute as dispatcher.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithPhroute()
     {
@@ -151,6 +158,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Tests the "integration" functionality.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethodWithIntegrateMethod()
     {
