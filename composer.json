@@ -4,8 +4,6 @@
     "keywords": ["php framework", "php library", "slytherin", "solid"],
     "homepage": "https://roug.in/slytherin/",
     "license": "MIT",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "authors":
     [
         {
@@ -13,13 +11,6 @@
             "homepage": "https://roug.in/",
             "name": "Rougin Gutib",
             "role": "Software Engineer"
-        }
-    ],
-    "repositories":
-    [
-        {
-            "type": "git",
-            "url": "https://github.com/elyobo/php-code-coverage.git"
         }
     ],
     "require":
