@@ -27,15 +27,17 @@ class ReflectionContainer implements PsrContainerInterface
      */
     public function get($id)
     {
-        if ($this->has($id) === false) {
+        if ($this->has($id) === false)
+        {
             $message = sprintf('Class (%s) does not exists', $id);
 
             throw new Exception\NotFoundException($message);
         }
 
-        $reflection = new \ReflectionClass($id);
+        $reflection = new \ReflectionClass((string) $id);
 
-        if ($constructor = $reflection->getConstructor()) {
+        if ($constructor = $reflection->getConstructor())
+        {
             $arguments = $this->arguments($constructor);
 
             return $reflection->newInstanceArgs($arguments);
@@ -66,7 +68,8 @@ class ReflectionContainer implements PsrContainerInterface
     {
         try {
             $argument = $parameter->getDefaultValue();
-        } catch (\ReflectionException $exception) {
+        } catch (\ReflectionException $exception)
+        {
             $argument = $this->get($name);
         }
 
@@ -84,8 +87,11 @@ class ReflectionContainer implements PsrContainerInterface
     {
         $arguments = array();
 
-        foreach ($reflector->getParameters() as $key => $parameter) {
-            $class = $parameter->getClass();
+        foreach ($reflector->getParameters() as $key => $parameter)
+        {
+            $param = new Parameter($parameter);
+
+            $class = $param->getClass();
 
             $name = $class ? $class->getName() : $parameter->getName();
 

@@ -179,14 +179,21 @@ class Container implements ContainerInterface
      */
     protected function argument(\ReflectionParameter $parameter)
     {
-        try {
+        try
+        {
             $argument = $parameter->getDefaultValue();
-        } catch (\ReflectionException $exception) {
-            $class = $parameter->getClass();
+        }
+        catch (\ReflectionException $exception)
+        {
+            $param = new Parameter($parameter);
 
-            $exists = $parameter->getClass() !== null;
+            $class = $param->getClass();
 
-            $name = $exists ? $class->getName() : $parameter->getName();
+            $exists = $param->getClass() !== null;
+
+            $name = $parameter->getName();
+
+            if ($exists) $name = $class->getName();
 
             $argument = $this->value($name);
         }
