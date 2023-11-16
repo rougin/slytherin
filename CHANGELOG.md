@@ -6,14 +6,15 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Added
 - Support for PHP versions `v8.0`, `v8.1`, `v8.2`
+- `Parameter` in `Container` for backward compatibility to `v8.0` onwards
 
 ### Changed
 - Replaced `Scrutinizer CI` with `Codecov` for code coverage
 - Replaced `Travis CI` with `Github Actions` for workflow
 
 ### Fixed
-- Compatability of `LeagueContainer` in PHP v7.2.0 (only supports versions until `2.9`)
-- Initializing of `AurynContainer` in PHP versions above v7.0.0
+- Compatibility of `LeagueContainer` in PHP v7.2.0 (only supports versions until `2.9`)
+- Initializing of `AurynContainer` in PHP versions above `v7.0`
 - Errors during unit tests in migrating to `Github Actions`
 
 ### Removed

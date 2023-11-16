@@ -44,7 +44,9 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
 
         $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
 
-        $components = \Rougin\Slytherin\Component\Collector::get($container, $components, $GLOBALS);
+        $globals = $GLOBALS;
+
+        $components = \Rougin\Slytherin\Component\Collector::get($container, $components, $globals);
 
         $this->components = $components;
     }
