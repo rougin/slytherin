@@ -4,7 +4,6 @@
 [![Software License][ico-license]][link-license]
 [![Build Status][ico-build]][link-build]
 [![Coverage Status][ico-coverage]][link-coverage]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
 Slytherin is a simple and extensible PHP micro-framework that tries to achieve a SOLID-based design for creating your next web application. It uses [Composer](https://getcomposer.org/) as the dependency package manager to add, update or even remove external packages.
@@ -339,7 +338,6 @@ $ composer test
 The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
 [ico-build]: https://img.shields.io/github/actions/workflow/status/rougin/slytherin/build.yml?style=flat-square
-[ico-code-quality]: https://img.shields.io/codecov/c/github/rougin/slytherin?style=flat-square
 [ico-coverage]: https://img.shields.io/codecov/c/github/rougin/slytherin?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/rougin/slytherin.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
@@ -347,7 +345,6 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 
 [link-build]: https://github.com/rougin/slytherin/actions
 [link-changelog]: https://github.com/rougin/slytherin/blob/master/CHANGELOG.md
-[link-code-quality]: https://scrutinizer-ci.com/g/rougin/slytherin
 [link-contributors]: https://github.com/rougin/slytherin/contributors
 [link-coverage]: https://app.codecov.io/gh/rougin/slytherin
 [link-downloads]: https://packagist.org/packages/rougin/slytherin
