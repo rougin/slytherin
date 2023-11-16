@@ -17,13 +17,12 @@ jobs:
     name: Run Unit Test on PHP ${{ matrix.php-versions }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Install PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
-        fetch-depth: 10
 
     - name: Check the PHP version
       run: php -v
@@ -56,13 +55,6 @@ jobs:
 
     - name: Run test suite
       run: vendor/bin/phpunit --coverage-clover=coverage.clover
-      # uses: php-actions/phpunit@v3
-      # with:
-      #   configuration: phpunit.xml.dist
-      #   coverage_clover: coverage.clover
-      #   php_extensions: xdebug
-      #   php_version: ${{ matrix.php-versions }}
-      #   memory_limit: 256M
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4-beta
