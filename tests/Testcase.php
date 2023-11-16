@@ -14,7 +14,7 @@ class Testcase extends Legacy
 		}
 		else
 		{
-			$this->setExpectedException($exception);
+			parent::setExpectedException($exception);
 		}
 	}
 }
