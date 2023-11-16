@@ -42,11 +42,9 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function __construct($data = null)
     {
-        if ($data instanceof Injector)
-        {
-            $this->injector = $data;
-        }
-        else
+        $this->injector = $data;
+
+        if (! $data instanceof Injector)
         {
             parent::__construct($data);
 
@@ -82,7 +80,8 @@ class AurynContainer extends Injector implements ContainerInterface
 
         $this->has($id) && $entry = $this->resolve($id);
 
-        if (is_null($entry) === true) {
+        if (is_null($entry))
+        {
             $message = 'Alias (%s) is not being managed by the container';
 
             $message = (string) sprintf($message, $id);
@@ -103,19 +102,19 @@ class AurynContainer extends Injector implements ContainerInterface
     {
         $exists = isset($this->has[$id]) ? $this->has[$id] : false;
 
-        if (isset($this->has[$id]) === false) {
-            $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
+        if (isset($this->has[$id])) return $exists;
 
-            $filter = $filter | Injector::I_PREPARES | Injector::I_ALIASES;
+        $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
 
-            $filter = $filter | Injector::I_SHARES;
+        $filter = $filter | Injector::I_PREPARES | Injector::I_ALIASES;
 
-            $definitions = $this->injector->inspect($id, $filter);
+        $filter = $filter | Injector::I_SHARES;
 
-            $definitions = array_filter($definitions);
+        $definitions = $this->injector->inspect($id, $filter);
 
-            $exists = ! empty($definitions) ?: class_exists($id);
-        }
+        $definitions = array_filter($definitions);
+
+        $exists = ! empty($definitions) ?: class_exists($id);
 
         return $exists;
     }

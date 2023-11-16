@@ -203,9 +203,10 @@ class Stream implements StreamInterface
      */
     public function read($length)
     {
-        $data = fread($this->stream, $length);
+        $data = @fread($this->stream, $length);
 
-        if (! $this->isReadable() || $data === false) {
+        if (! $this->isReadable() || $data === false)
+        {
             $message = 'Could not read from stream';
 
             throw new \RuntimeException($message);
