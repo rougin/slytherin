@@ -5,8 +5,8 @@ All notable changes to `Slytherin` will be documented in this file.
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...master) - Unreleased
 
 ### Added
-- Support for PHP versions `v8.0`, `v8.1`, `v8.2`
-- `Parameter` in `Container` for backward compatibility to `v8.0` onwards
+- Support versions for PHP `v8.0`, `v8.1`, `v8.2`
+- `Parameter` in `Container` for compatibility to PHP `v8.0` and above
 
 ### Changed
 - Replaced `Scrutinizer CI` with `Codecov` for code coverage
@@ -14,11 +14,11 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Fixed
 - Compatibility of `LeagueContainer` in PHP v7.2.0 (only supports versions until `2.9`)
-- Initializing of `AurynContainer` in PHP versions above `v7.0`
+- Initializing of `AurynContainer` in PHP `v7.0` and above
 - Errors during unit tests in migrating to `Github Actions`
 
 ### Removed
-- Changes from the previous `v0.9.6` pre-release version
+- Changes from the initial `v0.9.6` pre-release version
 
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 

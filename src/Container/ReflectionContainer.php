@@ -66,9 +66,11 @@ class ReflectionContainer implements PsrContainerInterface
      */
     protected function argument(\ReflectionParameter $parameter, $name)
     {
-        try {
+        try
+        {
             $argument = $parameter->getDefaultValue();
-        } catch (\ReflectionException $exception)
+        }
+        catch (\ReflectionException $exception)
         {
             $argument = $this->get($name);
         }
