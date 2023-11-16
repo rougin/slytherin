@@ -54,13 +54,14 @@ jobs:
       run: composer require zendframework/zend-stratigility:~2.0 --dev
 
     - name: Run test suite
-      uses: php-actions/phpunit@v3
-      with:
-        php_version: ${{ matrix.php-versions }}
-        php_extensions: xdebug
-        coverage_clover: coverage.clover
-        memory_limit: 256M
-      # run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+      run: vendor/bin/phpunit --coverage-clover=coverage.clover
+      # uses: php-actions/phpunit@v3
+      # with:
+      #   configuration: phpunit.xml.dist
+      #   coverage_clover: coverage.clover
+      #   php_extensions: xdebug
+      #   php_version: ${{ matrix.php-versions }}
+      #   memory_limit: 256M
 
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v4-beta
