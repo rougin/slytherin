@@ -2,12 +2,19 @@
 
 namespace Rougin\Slytherin;
 
-use LegacyPHPUnit\TestCase as PHPUnit;
+use LegacyPHPUnit\TestCase as Legacy;
 
-class Testcase extends PHPUnit
+class Testcase extends Legacy
 {
 	public function setExpectedException($exception)
 	{
-		$this->expectException($exception);
+		if (method_exists($this, 'expectException'))
+		{
+			$this->expectException($exception);
+		}
+		else
+		{
+			$this->setExpectedException($exception);
+		}
 	}
 }
