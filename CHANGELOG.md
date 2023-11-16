@@ -11,7 +11,10 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Fixed
 - Compatability of `LeagueContainer` in PHP v7.2.0 (only supports versions until `2.9`)
 - Initializing of `AurynContainer` in PHP versions above v7.0.0
-- Unit tests errors during migration to `Github Actions`
+- Errors during unit tests in migrating to `Github Actions`
+
+### Removed
+- Changes from the previous `v0.9.6` pre-release version
 
 ## [0.9.5](https://github.com/rougin/slytherin/compare/v0.9.4...v0.9.5) - 2017-02-23
 
