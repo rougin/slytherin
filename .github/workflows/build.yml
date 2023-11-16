@@ -56,9 +56,10 @@ jobs:
     - name: Run test suite
       uses: php-actions/phpunit@v3
       with:
-        php-version: ${{ matrix.php-versions }}
+        php_version: ${{ matrix.php-versions }}
         php_extensions: xdebug
         coverage_clover: coverage.clover
+        memory_limit: 256M
       # run: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
 
     - name: Upload coverage to Codecov
