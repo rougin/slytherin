@@ -227,6 +227,7 @@ class ApplicationTestCases extends \PHPUnit_Framework_TestCase
      * Tests Application::run.
      *
      * @return void
+     * @runInSeparateProcess
      */
     public function testRunMethod()
     {
