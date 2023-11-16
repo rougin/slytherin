@@ -2,7 +2,7 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...master) - Unreleased
+## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
 ### Added
 - Support versions for PHP `v8.0`, `v8.1`, `v8.2`
