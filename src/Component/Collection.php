@@ -69,13 +69,15 @@ class Collection extends VanillaContainer
      */
     public function setDispatcher(RouteDispatcher $dispatcher)
     {
-        return $this->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+        $this->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+
+        return $this;
     }
 
     /**
      * Gets the debugger.
      *
-     * @return \Rougin\Slytherin\Debug\DebuggerInterface
+     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface|null
      */
     public function getDebugger()
     {
@@ -90,7 +92,9 @@ class Collection extends VanillaContainer
      */
     public function setDebugger(ErrorHandlerInterface $debugger)
     {
-        return $this->setErrorHandler($debugger);
+        $this->setErrorHandler($debugger);
+
+        return $this;
     }
 
     /**
@@ -113,7 +117,9 @@ class Collection extends VanillaContainer
      */
     public function setErrorHandler(\Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler)
     {
-        return $this->set('Rougin\Slytherin\Debug\ErrorHandlerInterface', $errorHandler);
+        $this->set('Rougin\Slytherin\Debug\ErrorHandlerInterface', $errorHandler);
+
+        return $this;
     }
 
     /**
@@ -140,7 +146,9 @@ class Collection extends VanillaContainer
     {
         $this->set('Psr\Http\Message\ServerRequestInterface', $request);
 
-        return $this->set('Psr\Http\Message\ResponseInterface', $response);
+        $this->set('Psr\Http\Message\ResponseInterface', $response);
+
+        return $this;
     }
 
     /**
@@ -161,7 +169,9 @@ class Collection extends VanillaContainer
      */
     public function setHttpRequest(ServerRequestInterface $request)
     {
-        return $this->set('Psr\Http\Message\ServerRequestInterface', $request);
+        $this->set('Psr\Http\Message\ServerRequestInterface', $request);
+
+        return $this;
     }
 
     /**
@@ -182,7 +192,9 @@ class Collection extends VanillaContainer
      */
     public function setHttpResponse(ResponseInterface $response)
     {
-        return $this->set('Psr\Http\Message\ResponseInterface', $response);
+        $this->set('Psr\Http\Message\ResponseInterface', $response);
+
+        return $this;
     }
 
     /**
@@ -205,6 +217,8 @@ class Collection extends VanillaContainer
      */
     public function setMiddleware(MiddlewareDispatcher $middleware)
     {
-        return $this->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
+        $this->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
+
+        return $this;
     }
 }

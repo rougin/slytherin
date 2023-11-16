@@ -55,7 +55,7 @@ class Configuration implements ConfigurationInterface
      * Loads the configuration from a specified directory.
      *
      * @param  string $directory
-     * @return self
+     * @return array
      */
     public function load($directory)
     {
@@ -78,7 +78,6 @@ class Configuration implements ConfigurationInterface
      * @param  string  $key
      * @param  mixed   $value
      * @param  boolean $fromFile
-     * @param  mixed
      * @return self
      */
     public function set($key, $value, $fromFile = false)

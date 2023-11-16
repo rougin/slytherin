@@ -53,7 +53,7 @@ class CallbackHandler
      * Returns a response instance.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return callback
+     * @return callable
      */
     public function __invoke(ServerRequestInterface $request)
     {

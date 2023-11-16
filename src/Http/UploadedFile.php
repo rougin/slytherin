@@ -148,7 +148,7 @@ class UploadedFile implements UploadedFileInterface
      *
      * @param  array $uploaded
      * @param  array $files
-     * @return \Zapheus\Http\Message\FileInterface[]
+     * @return \Psr\Http\Message\UploadedFileInterface[]
      */
     public static function normalize(array $uploaded, $files = array())
     {
@@ -174,7 +174,7 @@ class UploadedFile implements UploadedFileInterface
      *
      * @param  array   $file
      * @param  integer $key
-     * @return \Psr\Http\Message\UploadedFile
+     * @return \Psr\Http\Message\UploadedFileInterface
      */
     protected static function create(array $file, $key)
     {

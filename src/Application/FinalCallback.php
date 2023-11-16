@@ -45,25 +45,31 @@ class FinalCallback
      * Returns a callback for handling the application.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return callback
+     * @return callable
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        if (is_array($this->function) === true) {
-            $function = $this->function;
-
-            if (is_array($function[0]) && is_string($function[0][0])) {
-                $function[0][0] = $this->container->resolve($function[0][0], $request);
-
-                $reflector = new \ReflectionMethod($function[0][0], $function[0][1]);
-            } else {
-                $reflector = new \ReflectionFunction($function[0]);
-            }
-
-            $function[1] = $this->container->arguments($reflector, $function[1]);
-
-            $this->function = call_user_func_array($function[0], $function[1]);
+        if (! is_array($this->function))
+        {
+            return $this->finalize($this->function);
         }
+
+        $function = $this->function;
+
+        if (is_array($function[0]) && is_string($function[0][0]))
+        {
+            $function[0][0] = $this->container->resolve($function[0][0], $request);
+
+            $reflector = new \ReflectionMethod($function[0][0], $function[0][1]);
+        }
+        else
+        {
+            $reflector = new \ReflectionFunction($function[0]);
+        }
+
+        $function[1] = $this->container->arguments($reflector, $function[1]);
+
+        $this->function = call_user_func_array($function[0], $function[1]);
 
         return $this->finalize($this->function);
     }

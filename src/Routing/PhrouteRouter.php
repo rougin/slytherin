@@ -66,7 +66,7 @@ class PhrouteRouter extends Router
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return \Phroute\Phroute\RouteDataArray
+     * @return array
      */
     public function routes($parsed = false)
     {

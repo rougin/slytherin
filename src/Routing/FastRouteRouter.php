@@ -24,7 +24,7 @@ class FastRouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array
+     * @param array $routes
      */
     public function __construct(array $routes = array())
     {

@@ -35,6 +35,11 @@ class Uri implements UriInterface
     /**
      * @var string
      */
+    protected $pass = '';
+
+    /**
+     * @var string
+     */
     protected $path = '';
 
     /**

@@ -118,7 +118,7 @@ class Message implements MessageInterface
      * Retrieves a message header value by the given case-insensitive name.
      *
      * @param  string $name
-     * @return string[]
+     * @return boolean
      */
     public function hasHeader($name)
     {

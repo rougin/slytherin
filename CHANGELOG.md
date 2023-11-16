@@ -2,6 +2,11 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.7](https://github.com/rougin/slytherin/compare/v0.9.6...master) - Unreleased
+
+### Fixed
+- Type hinting of all classes using `PHPStan`
+
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
 ### Added

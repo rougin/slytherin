@@ -84,17 +84,17 @@ class Dispatcher implements DispatcherInterface
      * @param  string $httpMethod
      * @return boolean
      *
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function allowed($httpMethod)
     {
-        if (! in_array($httpMethod, $this->allowed)) {
-            $message = 'Used method is not allowed';
+        $exists = in_array($httpMethod, $this->allowed);
 
-            throw new \UnexpectedValueException($message);
-        }
+        if ($exists) return true;
 
-        return true;
+        $message = 'Used method is not allowed';
+
+        throw new \UnexpectedValueException($message);
     }
 
     /**

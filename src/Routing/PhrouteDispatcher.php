@@ -132,7 +132,7 @@ class PhrouteDispatcher implements DispatcherInterface
      * @param  string $httpMethod
      * @return boolean
      *
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
      */
     protected function allowed($httpMethod)
     {

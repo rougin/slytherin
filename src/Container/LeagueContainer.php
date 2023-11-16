@@ -52,6 +52,8 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
      */
     public function set($id, $concrete, $share = false)
     {
-        return $this->add($id, $concrete, $share);
+        $this->add($id, $concrete, $share);
+
+        return $this;
     }
 }
