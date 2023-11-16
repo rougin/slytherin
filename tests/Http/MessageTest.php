@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MessageTest extends \LegacyPHPUnit\TestCase
+class MessageTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Psr\Http\Message\MessageInterface

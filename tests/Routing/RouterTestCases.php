@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Routing;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTestCases extends \LegacyPHPUnit\TestCase
+class RouterTestCases extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Routing\RouterInterface
@@ -67,7 +67,7 @@ class RouterTestCases extends \LegacyPHPUnit\TestCase
      */
     public function testCallMagicMethodWithException()
     {
-        $this->expectException('BadMethodCallException');
+        $this->setExpectedException('BadMethodCallException');
 
         $this->exists(get_class($this->router));
 

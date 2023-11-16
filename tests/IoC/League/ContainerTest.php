@@ -13,7 +13,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \LegacyPHPUnit\TestCase
+class ContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface

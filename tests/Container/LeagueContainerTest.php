@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class LeagueContainerTest extends \LegacyPHPUnit\TestCase
+class LeagueContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -48,7 +48,7 @@ class LeagueContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithNotFoundException()
     {
-        $this->expectException('Psr\Container\NotFoundExceptionInterface');
+        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

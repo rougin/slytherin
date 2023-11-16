@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class UploadedFileTest extends \LegacyPHPUnit\TestCase
+class UploadedFileTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Psr\Http\Message\UploadedFileInterface

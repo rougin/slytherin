@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Http;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class StreamTest extends \LegacyPHPUnit\TestCase
+class StreamTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var resource
@@ -48,7 +48,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testCloseMethod()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $this->stream->close();
 
@@ -104,7 +104,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetContentsMethodWithException()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -164,7 +164,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testReadMethodWithException()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -196,7 +196,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testSeekMethodWithException()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -210,7 +210,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testTellMethodWithException()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'w'));
 
@@ -244,7 +244,7 @@ class StreamTest extends \LegacyPHPUnit\TestCase
      */
     public function testWriteMethodWithException()
     {
-        $this->expectException('RuntimeException');
+        $this->setExpectedException('RuntimeException');
 
         $stream = new Stream(fopen($this->filepath, 'r'));
 

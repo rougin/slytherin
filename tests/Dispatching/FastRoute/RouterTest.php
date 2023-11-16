@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Dispatching\FastRoute;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \LegacyPHPUnit\TestCase
+class RouterTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\RouterInterface

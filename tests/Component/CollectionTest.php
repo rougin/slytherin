@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class CollectionTest extends \LegacyPHPUnit\TestCase
+class CollectionTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * Sets up the component class.

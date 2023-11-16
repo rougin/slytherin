@@ -11,7 +11,7 @@ use Rougin\Slytherin\Routing\Router;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTestCases extends \LegacyPHPUnit\TestCase
+class ApplicationTestCases extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Application

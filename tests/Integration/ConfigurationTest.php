@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Integration;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ConfigurationTest extends \LegacyPHPUnit\TestCase
+class ConfigurationTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * Tests Configuration::get with array.

@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Dispatching\Vanilla;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends \LegacyPHPUnit\TestCase
+class DispatcherTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -101,7 +101,7 @@ class DispatcherTest extends \LegacyPHPUnit\TestCase
      */
     public function testDispatchMethodWithError()
     {
-        $this->expectException('UnexpectedValueException');
+        $this->setExpectedException('UnexpectedValueException');
 
         $this->dispatcher->dispatch('GET', '/test');
     }
@@ -113,7 +113,7 @@ class DispatcherTest extends \LegacyPHPUnit\TestCase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->expectException('UnexpectedValueException');
+        $this->setExpectedException('UnexpectedValueException');
 
         $this->dispatcher->dispatch('TEST', '/hello');
     }

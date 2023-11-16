@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
-class RendererTest extends \LegacyPHPUnit\TestCase
+class RendererTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -56,7 +56,7 @@ class RendererTest extends \LegacyPHPUnit\TestCase
      */
     public function testTemplateNotFound()
     {
-        $this->expectException('InvalidArgumentException');
+        $this->setExpectedException('InvalidArgumentException');
 
         $this->renderer->render('hello');
     }

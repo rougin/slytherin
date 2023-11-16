@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Container;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainerTest extends \LegacyPHPUnit\TestCase
+class AurynContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -49,7 +49,7 @@ class AurynContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithContainerException()
     {
-        $this->expectException('Psr\Container\ContainerExceptionInterface');
+        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
 
         $this->container->get('Test');
     }
@@ -61,7 +61,7 @@ class AurynContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithNotFoundException()
     {
-        $this->expectException('Psr\Container\NotFoundExceptionInterface');
+        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
         $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
 

@@ -13,7 +13,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \LegacyPHPUnit\TestCase
+class ContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -104,7 +104,7 @@ class ContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithError()
     {
-        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }

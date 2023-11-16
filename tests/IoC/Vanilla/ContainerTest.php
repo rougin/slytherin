@@ -14,7 +14,7 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \LegacyPHPUnit\TestCase
+class ContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\IoC\ContainerInterface
@@ -146,7 +146,7 @@ class ContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithNotFoundException()
     {
-        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
         // $this->container->get($this->class);
@@ -161,7 +161,7 @@ class ContainerTest extends \LegacyPHPUnit\TestCase
      */
     public function testGetMethodWithContainerException()
     {
-        $this->expectException('Rougin\Slytherin\Container\Exception\ContainerException');
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
 
         $this->container->set('Foo', array());
 
@@ -208,7 +208,7 @@ class ContainerTest extends \LegacyPHPUnit\TestCase
     {
         $container = new \Rougin\Slytherin\Container\ReflectionContainer($this->container);
 
-        $this->expectException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $container->get('Test');
     }

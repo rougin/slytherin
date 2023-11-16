@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Application;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTest extends \LegacyPHPUnit\TestCase
+class ApplicationTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\ComponentCollection

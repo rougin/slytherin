@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template\Twig;
 
-class RendererTest extends \LegacyPHPUnit\TestCase
+class RendererTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface

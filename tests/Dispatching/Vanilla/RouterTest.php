@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Dispatching\Vanilla;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \LegacyPHPUnit\TestCase
+class RouterTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\RouterInterface
@@ -87,7 +87,7 @@ class RouterTest extends \LegacyPHPUnit\TestCase
      */
     public function testBadMethodCallException()
     {
-        $this->expectException('BadMethodCallException');
+        $this->setExpectedException('BadMethodCallException');
 
         list($httpMethod, $uri, $handler) = $this->routes[0];
 

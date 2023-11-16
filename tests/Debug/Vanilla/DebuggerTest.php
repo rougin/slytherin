@@ -8,7 +8,7 @@ namespace Rougin\Slytherin\Debug\Vanilla;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends \LegacyPHPUnit\TestCase
+class DebuggerTest extends \Rougin\Slytherin\Testcase
 {
     /**
      * @var \Rougin\Slytherin\Debug\DebuggerInterface
