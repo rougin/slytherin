@@ -130,7 +130,8 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Move the uploaded file to a new location.
      *
-     * @param string $target
+     * @param  string $target
+     * @return void
      *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
@@ -146,34 +147,37 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Parses the $_FILES into multiple \File instances.
      *
-     * @param  array $uploaded
-     * @param  array $files
+     * @param  array<string, mixed> $uploaded
      * @return \Psr\Http\Message\UploadedFileInterface[]
      */
-    public static function normalize(array $uploaded, $files = array())
+    public static function normalize(array $uploaded)
     {
-        foreach (self::diverse($uploaded) as $name => $file) {
+        $files = array();
+
+        foreach (self::diverse($uploaded) as $name => $file)
+        {
             list($files[$name], $items) = array($file, array());
 
-            if (isset($file['name']) === true) {
-                foreach ($file['name'] as $key => $value) {
-                    $instance = self::create($file, $key);
+            if (! isset($file['name'])) continue;
 
-                    $items[] = $instance;
-                }
+            foreach ($file['name'] as $key => $value)
+            {
+                $instance = self::create($file, $key);
 
-                $files[$name] = (array) $items;
+                array_push($items, $instance);
             }
+
+            $files[$name] = (array) $items;
         }
 
-        return $files;
+        return (array) $files;
     }
 
     /**
      * Creates a new UploadedFile instance.
      *
-     * @param  array   $file
-     * @param  integer $key
+     * @param  array<string, mixed> $file
+     * @param  integer              $key
      * @return \Psr\Http\Message\UploadedFileInterface
      */
     protected static function create(array $file, $key)
@@ -194,18 +198,18 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Diverse the $_FILES into a consistent result.
      *
-     * @param  array $uploaded
-     * @return array
+     * @param  array<string, mixed> $uploaded
+     * @return array<string, mixed>
      */
     protected static function diverse(array $uploaded)
     {
         $result = array();
 
-        foreach ($uploaded as $file => $item) {
-            foreach ($item as $key => $value) {
-                $diversed = (array) $value;
-
-                $result[$file][$key] = $diversed;
+        foreach ($uploaded as $file => $item)
+        {
+            foreach ($item as $key => $value)
+            {
+                $result[$file][$key] = (array) $value;
             }
         }
 
