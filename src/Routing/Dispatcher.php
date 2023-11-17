@@ -13,12 +13,12 @@ namespace Rougin\Slytherin\Routing;
 class Dispatcher implements DispatcherInterface
 {
     /**
-     * @var array
+     * @var string[]
      */
     protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
     /**
-     * @var array
+     * @var array<int, mixed>
      */
     protected $routes = array();
 
@@ -29,7 +29,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        $router == null || $this->router($router);
+        if ($router) $this->router($router);
     }
 
     /**
@@ -43,10 +43,11 @@ class Dispatcher implements DispatcherInterface
     {
         $routes = array();
 
-        foreach ($this->routes as $route) {
+        foreach ($this->routes as $route)
+        {
             $parsed = $this->parse($httpMethod, $uri, $route);
 
-            $routes[] = $parsed;
+            array_push($routes, $parsed);
         }
 
         $route = $this->retrieve($routes, $uri);
@@ -100,16 +101,19 @@ class Dispatcher implements DispatcherInterface
     /**
      * Parses the specified route and make some checks.
      *
-     * @param  string $httpMethod
-     * @param  string $uri
-     * @param  array  $route
-     * @return array|null
+     * @param  string  $httpMethod
+     * @param  string  $uri
+     * @param  mixed[] $route
+     * @return mixed[]|null
      */
     protected function parse($httpMethod, $uri, $route)
     {
         $matched = preg_match($route[4], $uri, $parameters);
 
-        if ($matched && ($httpMethod == $route[0] || $httpMethod == 'OPTIONS')) {
+        if (! $matched) return null;
+
+        if ($httpMethod == $route[0] || $httpMethod == 'OPTIONS')
+        {
             $this->allowed($route[0]);
 
             array_shift($parameters);
@@ -125,15 +129,16 @@ class Dispatcher implements DispatcherInterface
      *
      * @throws \UnexpectedValueException
      *
-     * @param  array  $routes
+     * @param  array<int, mixed> $routes
      * @param  string $uri
-     * @return array
+     * @return array<int, mixed>
      */
     protected function retrieve(array $routes, $uri)
     {
         $routes = array_values(array_filter($routes));
 
-        if (empty($routes)) {
+        if (empty($routes))
+        {
             $message = 'Route "' . $uri . '" not found';
 
             throw new \UnexpectedValueException($message);
@@ -141,8 +146,11 @@ class Dispatcher implements DispatcherInterface
 
         $route = current($routes);
 
-        $route[1] = (count($route[1]) > 0) ? array_combine($route[3], $route[1]) : $route[1];
+        if (count($route[1]) > 0)
+        {
+            $route[1] = array_combine($route[3], $route[1]);
+        }
 
-        return $route;
+        return (array) $route;
     }
 }
