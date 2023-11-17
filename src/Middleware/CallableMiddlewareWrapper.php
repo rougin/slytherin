@@ -23,9 +23,9 @@ class CallableMiddlewareWrapper implements MiddlewareInterface
     protected $middleware;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface
+     * @var \Psr\Http\Message\ResponseInterface|null
      */
-    protected $response;
+    protected $response = null;
 
     /**
      * Initializes the middleware instance.
@@ -51,14 +51,16 @@ class CallableMiddlewareWrapper implements MiddlewareInterface
     {
         $middleware = $this->middleware;
 
-        if ($this->response instanceof ResponseInterface) {
-            $delegate = function ($request) use ($delegate) {
-                return $delegate->process($request);
-            };
-
-            return $middleware($request, $this->response, $delegate);
+        if (! $this->response instanceof ResponseInterface)
+        {
+            return $middleware($request, $delegate);
         }
 
-        return $middleware($request, $delegate);
+        $fn = function ($request) use ($delegate)
+        {
+            return $delegate->process($request);
+        };
+
+        return $middleware($request, $this->response, $fn);
     }
 }
