@@ -13,18 +13,21 @@ namespace Rougin\Slytherin\Integration;
 class Configuration implements ConfigurationInterface
 {
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $data = array();
 
     /**
-     * @param array|string|null $data
+     * @param array<string, mixed>|string|null $data
      */
     public function __construct($data = null)
     {
-        $this->data = is_array($data) ? $data : $this->data;
+        if (is_array($data)) $this->data = $data;
 
-        $this->data = is_string($data) ? $this->load($data) : $this->data;
+        if (is_string($data))
+        {
+            $this->data = $this->load($data);
+        }
     }
 
     /**
@@ -42,7 +45,8 @@ class Configuration implements ConfigurationInterface
 
         $data = $this->data;
 
-        for ($i = 0; $i < $length; $i++) {
+        for ($i = 0; $i < $length; $i++)
+        {
             $index = $keys[$i];
 
             $data = &$data[$index];
@@ -55,18 +59,21 @@ class Configuration implements ConfigurationInterface
      * Loads the configuration from a specified directory.
      *
      * @param  string $directory
-     * @return array
+     * @return array<string, mixed>
      */
     public function load($directory)
     {
         $configurations = glob($directory . '/*.php');
 
-        foreach ($configurations as $configuration) {
-            $items = require $configuration;
+        foreach ($configurations as $item)
+        {
+            $items = require $item;
 
-            $name = basename($configuration, '.php');
+            $name = basename($item, '.php');
 
-            $this->data = array_merge($this->data, array($name => $items));
+            $name = array($name => $items);
+
+            $this->data = array_merge($this->data, $name);
         }
 
         return $this->data;
@@ -84,7 +91,7 @@ class Configuration implements ConfigurationInterface
     {
         $keys = array_filter(explode('.', $key));
 
-        $value = ($fromFile) ? require $value : $value;
+        $value = $fromFile ? require $value : $value;
 
         $this->save($keys, $this->data, $value);
 
@@ -94,8 +101,8 @@ class Configuration implements ConfigurationInterface
     /**
      * Saves the specified key in the list of data.
      *
-     * @param  array  &$keys
-     * @param  array  &$data
+     * @param  array<string, mixed> &$keys
+     * @param  array<string, mixed> &$data
      * @param  mixed  $value
      * @return mixed
      */
@@ -103,13 +110,14 @@ class Configuration implements ConfigurationInterface
     {
         $key = array_shift($keys);
 
-        if (empty($keys)) {
+        if (empty($keys))
+        {
             $data[$key] = $value;
 
             return $data[$key];
         }
 
-        isset($data[$key]) || $data[$key] = array();
+        if (! isset($data[$key])) $data[$key] = array();
 
         return $this->save($keys, $data[$key], $value);
     }
