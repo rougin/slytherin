@@ -24,12 +24,12 @@ use Psr\Http\Message\StreamInterface;
 class Stream implements StreamInterface
 {
     /**
-     * @var array|null
+     * @var array<string, mixed>|null
      */
     protected $meta = null;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $readable = array('r', 'r+', 'w+', 'a+', 'x+', 'c+', 'w+b');
 
@@ -44,7 +44,7 @@ class Stream implements StreamInterface
     protected $stream = null;
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $writable = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b');
 
@@ -119,7 +119,10 @@ class Stream implements StreamInterface
      */
     public function getContents()
     {
-        if (is_null($this->stream) || ! $this->isReadable()) {
+        $unreadable = ! $this->isReadable();
+
+        if (is_null($this->stream) || $unreadable)
+        {
             $message = 'Could not get contents of stream';
 
             throw new \RuntimeException($message);
@@ -136,9 +139,17 @@ class Stream implements StreamInterface
      */
     public function getMetadata($key = null)
     {
-        isset($this->stream) && $this->meta = stream_get_meta_data($this->stream);
+        $metadata = null;
 
-        $metadata = isset($this->meta[$key]) ? $this->meta[$key] : null;
+        if (isset($this->stream))
+        {
+            $this->meta = stream_get_meta_data($this->stream);
+        }
+
+        if (isset($this->meta[$key]))
+        {
+            $metadata = $this->meta[$key];
+        }
 
         return is_null($key) ? $this->meta : $metadata;
     }
@@ -150,7 +161,8 @@ class Stream implements StreamInterface
      */
     public function getSize()
     {
-        if (is_null($this->size) === true) {
+        if (is_null($this->size))
+        {
             $stats = fstat($this->stream);
 
             $this->size = $stats['size'];
@@ -166,9 +178,7 @@ class Stream implements StreamInterface
      */
     public function isReadable()
     {
-        $mode = $this->getMetadata('mode');
-
-        return in_array($mode, $this->readable);
+        return in_array($this->getMetadata('mode'), $this->readable);
     }
 
     /**
@@ -188,9 +198,7 @@ class Stream implements StreamInterface
      */
     public function isWritable()
     {
-        $mode = $this->getMetadata('mode');
-
-        return in_array($mode, $this->writable);
+        return in_array($this->getMetadata('mode'), $this->writable);
     }
 
     /**
@@ -205,7 +213,9 @@ class Stream implements StreamInterface
     {
         $data = @fread($this->stream, $length);
 
-        if (! $this->isReadable() || $data === false)
+        $unreadable = ! $this->isReadable();
+
+        if ($unreadable || $data === false)
         {
             $message = 'Could not read from stream';
 
@@ -218,6 +228,8 @@ class Stream implements StreamInterface
     /**
      * Seek to the beginning of the stream.
      *
+     * @return void
+     *
      * @throws \RuntimeException
      */
     public function rewind()
@@ -228,8 +240,9 @@ class Stream implements StreamInterface
     /**
      * Seek to a position in the stream.
      *
-     * @param integer $offset
-     * @param integer $whence
+     * @param  integer $offset
+     * @param  integer $whence
+     * @return void
      *
      * @throws \RuntimeException
      */
@@ -239,7 +252,8 @@ class Stream implements StreamInterface
 
         $this->stream && $seek = fseek($this->stream, $offset, $whence);
 
-        if (! $this->isSeekable() || $seek === -1) {
+        if (! $this->isSeekable() || $seek === -1)
+        {
             $message = 'Could not seek in stream';
 
             throw new \RuntimeException($message);
@@ -259,10 +273,11 @@ class Stream implements StreamInterface
 
         $this->stream && $position = ftell($this->stream);
 
-        if (is_null($this->stream) || $position === false) {
+        if (is_null($this->stream) || $position === false)
+        {
             $message = 'Could not get position of pointer in stream';
 
-            throw new \RuntimeException($message);
+            throw new \RuntimeException((string) $message);
         }
 
         return $position;
@@ -278,7 +293,8 @@ class Stream implements StreamInterface
      */
     public function write($string)
     {
-        if (! $this->isWritable()) {
+        if (! $this->isWritable())
+        {
             $message = 'Stream is not writable';
 
             throw new \RuntimeException($message);
