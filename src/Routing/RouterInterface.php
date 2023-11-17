@@ -15,10 +15,10 @@ interface RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string       $httpMethod
-     * @param  string       $route
-     * @param  array|string $handler
-     * @param  array|string $middlewares
+     * @param  string                                                        $httpMethod
+     * @param  string                                                        $route
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($httpMethod, $route, $handler, $middlewares = array());
@@ -35,7 +35,7 @@ interface RouterInterface
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  array $routes
+     * @param  mixed[] $routes
      * @return self
      */
     public function merge(array $routes);
@@ -45,7 +45,7 @@ interface RouterInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|null
+     * @return mixed[]|null
      */
     public function retrieve($httpMethod, $uri);
 
@@ -53,7 +53,7 @@ interface RouterInterface
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return mixed
+     * @return mixed[]
      */
     public function routes($parsed = false);
 }

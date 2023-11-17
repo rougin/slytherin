@@ -24,7 +24,7 @@ class FastRouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array $routes
+     * @param array<int, mixed> $routes
      */
     public function __construct(array $routes = array())
     {
@@ -40,7 +40,8 @@ class FastRouteRouter extends Router
     /**
      * Sets the collector of routes.
      *
-     * @param \FastRoute\RouteCollector $collector
+     * @param  \FastRoute\RouteCollector $collector
+     * @return self
      */
     public function setCollector(RouteCollector $collector)
     {
@@ -50,23 +51,25 @@ class FastRouteRouter extends Router
     }
 
     /**
-     * Returns a listing of routes available.
+     * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return callable
+     * @return mixed[]|callable
      */
     public function routes($parsed = false)
     {
-        $routes = array_filter(array_merge($this->routes, $this->collector->getData()));
+        $data = $this->collector->getData();
 
-        if ($parsed === true) {
-            $routes = function (RouteCollector $collector) use ($routes) {
-                foreach ($routes as $route) {
-                    $collector->addRoute($route[0], $route[1], $route[2]);
-                }
-            };
-        }
+        $routes = array_filter(array_merge($this->routes, $data));
 
-        return $routes;
+        if (! $parsed) return $routes;
+
+        return function (RouteCollector $collector) use ($routes)
+        {
+            foreach ($routes as $route)
+            {
+                $collector->addRoute($route[0], $route[1], $route[2]);
+            }
+        };
     }
 }

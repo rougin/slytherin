@@ -23,23 +23,24 @@ class Router implements RouterInterface
     protected $prefix = '';
 
     /**
-     * @var array
+     * @var array<int, mixed>
      */
     protected $routes = array();
 
     /**
-     * @var array
+     * @var string[]
      */
     protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * Initializes the router instance.
      *
-     * @param array $routes
+     * @param array<int, mixed> $routes
      */
     public function __construct(array $routes = array())
     {
-        foreach ($routes as $route) {
+        foreach ($routes as $route)
+        {
             list($httpMethod, $uri, $handler) = $route;
 
             $middlewares = (isset($route[3])) ? $route[3] : array();
@@ -52,10 +53,10 @@ class Router implements RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string       $httpMethod
-     * @param  string       $route
-     * @param  array|string $handler
-     * @param  array|string $middlewares
+     * @param  string                                                        $httpMethod
+     * @param  string                                                        $route
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
@@ -71,10 +72,10 @@ class Router implements RouterInterface
      * Adds a new raw route.
      * NOTE: To be removed in v1.0.0. Use $this->add() instead.
      *
-     * @param  string       $httpMethod
-     * @param  string       $route
-     * @param  array|string $handler
-     * @param  array|string $middlewares
+     * @param  string                                                        $httpMethod
+     * @param  string                                                        $route
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function addRoute($httpMethod, $route, $handler, $middlewares = array())
@@ -86,7 +87,7 @@ class Router implements RouterInterface
      * Merges a listing of parsed routes to current one.
      * NOTE: To be removed in v1.0.0. Use $this->merge() instead.
      *
-     * @param  array $routes
+     * @param  mixed[] $routes
      * @return self
      */
     public function addRoutes(array $routes)
@@ -100,7 +101,7 @@ class Router implements RouterInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|null
+     * @return mixed[]|null
      */
     public function getRoute($httpMethod, $uri)
     {
@@ -112,7 +113,7 @@ class Router implements RouterInterface
      * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
      *
      * @param  boolean $parsed
-     * @return array
+     * @return mixed[]
      */
     public function getRoutes($parsed = false)
     {
@@ -134,7 +135,7 @@ class Router implements RouterInterface
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  array $routes
+     * @param  mixed[] $routes
      * @return self
      */
     public function merge(array $routes)
@@ -149,7 +150,7 @@ class Router implements RouterInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|null
+     * @return mixed[]|null
      */
     public function retrieve($httpMethod, $uri)
     {
@@ -168,7 +169,7 @@ class Router implements RouterInterface
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return array
+     * @return mixed[]
      */
     public function routes($parsed = false)
     {
@@ -178,9 +179,9 @@ class Router implements RouterInterface
     /**
      * Adds a listing of routes specified for RESTful approach.
      *
-     * @param  string       $route
-     * @param  string       $class
-     * @param  array|string $middlewares
+     * @param  string          $route
+     * @param  string          $class
+     * @param  string|string[] $middlewares
      * @return self
      */
     public function restful($route, $class, $middlewares = array())
@@ -230,8 +231,8 @@ class Router implements RouterInterface
     /**
      * Parses the route.
      *
-     * @param  array $route
-     * @return array
+     * @param  mixed[] $route
+     * @return mixed[]
      */
     protected function parse($route)
     {
@@ -248,20 +249,23 @@ class Router implements RouterInterface
     /**
      * Calls methods from this class in HTTP method format.
      *
-     * @param  string $method
-     * @param  mixed  $parameters
+     * @param  string  $method
+     * @param  mixed[] $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        if (in_array(strtoupper($method), $this->allowed)) {
-            array_unshift($parameters, strtoupper($method));
+        $method = (string) strtoupper($method);
 
-            return call_user_func_array(array($this, 'add'), $parameters);
+        if (! in_array($method, $this->allowed))
+        {
+            $text = "\"$method\" is not a valid HTTP method";
+
+            throw new \BadMethodCallException($text);
         }
 
-        $message = '"' . strtoupper($method) . '" is not a valid HTTP method';
+        array_unshift($parameters, $method);
 
-        throw new \BadMethodCallException($message);
+        return call_user_func_array(array($this, 'add'), $parameters);
     }
 }

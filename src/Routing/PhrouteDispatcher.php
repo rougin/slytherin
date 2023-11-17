@@ -39,9 +39,9 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null, HandlerResolverInterface $resolver = null)
     {
-        $resolver === null || $this->resolver = $resolver;
+        if ($resolver) $this->resolver = $resolver;
 
-        $router === null || $this->router($router);
+        if ($router) $this->router($router);
     }
 
     /**
@@ -55,17 +55,22 @@ class PhrouteDispatcher implements DispatcherInterface
     {
         $result = array();
 
-        try {
-            $this->allowed($httpMethod);
+        try
+        {
+            $this->allowed((string) $httpMethod);
 
-            $info = $this->router->retrieve($httpMethod, $uri);
+            $info = $this->router->retrieve((string) $httpMethod, $uri);
 
             $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
-            $middlewares = ($result && isset($info[3])) ? $info[3] : array();
+            $middlewares = array();
+
+            if ($result && isset($info[3])) $middlewares = $info[3];
 
             $result = array($result, $middlewares);
-        } catch (\Exception $exception) {
+        }
+        catch (\Exception $exception)
+        {
             $this->exceptions($exception, $uri);
         }
 
@@ -98,7 +103,8 @@ class PhrouteDispatcher implements DispatcherInterface
     {
         $collector = new \Phroute\Phroute\RouteCollector;
 
-        foreach ($this->router->routes() as $route) {
+        foreach ($this->router->routes() as $route)
+        {
             $collector->addRoute($route[0], $route[1], $route[2]);
         }
 
@@ -110,8 +116,9 @@ class PhrouteDispatcher implements DispatcherInterface
      *
      * @throws \UnexpectedValueException
      *
-     * @param \Exception $exception
-     * @param string     $uri
+     * @param  \Exception $exception
+     * @param  string     $uri
+     * @return void
      */
     protected function exceptions(\Exception $exception, $uri)
     {
@@ -119,7 +126,8 @@ class PhrouteDispatcher implements DispatcherInterface
 
         $message = $exception->getMessage();
 
-        if (is_a($exception, $interface)) {
+        if (is_a($exception, $interface))
+        {
             $message = 'Route "' . $uri . '" not found';
         }
 
@@ -138,7 +146,8 @@ class PhrouteDispatcher implements DispatcherInterface
     {
         $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
-        if (in_array($httpMethod, $allowed) === false) {
+        if (! in_array($httpMethod, $allowed))
+        {
             $message = 'Used method is not allowed';
 
             throw new \UnexpectedValueException($message);

@@ -22,14 +22,14 @@ class PhrouteRouter extends Router
     protected $collector;
 
     /**
-     * @var array
+     * @var array<int, mixed>
      */
     protected $routes = array();
 
     /**
      * Initializes the router instance.
      *
-     * @param array $routes
+     * @param array<int, mixed> $routes
      */
     public function __construct(array $routes = array())
     {
@@ -45,19 +45,21 @@ class PhrouteRouter extends Router
     /**
      * Adds a new raw route.
      *
-     * @param  string|string[] $httpMethod
-     * @param  string          $route
-     * @param  array|string    $handler
-     * @param  array           $middlewares
+     * @param  string                                                        $httpMethod
+     * @param  string                                                        $route
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = $this->parse(array($httpMethod, $route, $handler, $middlewares));
+        $item = array($httpMethod, $route, $handler, $middlewares);
+
+        $route = $this->parse($item);
 
         $this->collector->addRoute($httpMethod, $route[1], $route[2]);
 
-        $this->routes[] = $route;
+        array_push($this->routes, $route);
 
         return $this;
     }
@@ -66,7 +68,7 @@ class PhrouteRouter extends Router
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return array
+     * @return mixed[]
      */
     public function routes($parsed = false)
     {
@@ -78,7 +80,8 @@ class PhrouteRouter extends Router
     /**
      * Sets the collector of routes.
      *
-     * @param \Phroute\Phroute\RouteCollector $collector
+     * @param  \Phroute\Phroute\RouteCollector $collector
+     * @return self
      */
     public function setCollector(RouteCollector $collector)
     {
