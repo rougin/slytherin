@@ -31,17 +31,22 @@ class ErrorHandlerIntegration implements IntegrationInterface
 
         $handler = new ErrorHandler($environment);
 
-        if (interface_exists('Whoops\RunInterface') === true) {
+        if (interface_exists('Whoops\RunInterface'))
+        {
             $whoops = new \Whoops\Run;
 
             $handler = new WhoopsErrorHandler($whoops, $environment);
         }
 
-        if ($environment === 'development') {
-            error_reporting(E_ALL) && ini_set('display_errors', 1);
+        if ($environment === 'development')
+        {
+            ini_set('display_errors', '1');
 
-            // NOTE: To be removed in v1.0.0. Use $handler->display() instead.
+            error_reporting(E_ALL);
+
+            // NOTE: To be removed in v1.0.0. Use $handler->display() instead. ---
             $container->set(Application::ERROR_HANDLER, $handler);
+            // -------------------------------------------------------------------
         }
 
         return $container;
