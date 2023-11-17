@@ -33,8 +33,9 @@ class MiddlewareIntegration implements IntegrationInterface
 
         $dispatcher = $this->dispatcher($response, $stack);
 
-        // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead.
+        // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead. ---
         $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
+        // ------------------------------------------------------------------------------
         $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
         $container->set('Interop\Http\ServerMiddleware\MiddlewareInterface', $dispatcher);
 
@@ -44,20 +45,20 @@ class MiddlewareIntegration implements IntegrationInterface
     /**
      * Returns the middleware dispatcher to be used.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  array                               $stack
+     * @param  \Psr\Http\Message\ResponseInterface                                            $response
+     * @param  array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     protected function dispatcher(ResponseInterface $response, $stack)
     {
         $dispatcher = new Dispatcher($stack, $response);
 
-        if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
-            $pipe = new MiddlewarePipe;
+        $exists = class_exists('Zend\Stratigility\MiddlewarePipe');
 
-            $dispatcher = new StratigilityDispatcher($pipe, $stack, $response);
-        }
+        if (! $exists) return $dispatcher;
 
-        return $dispatcher;
+        $pipe = new MiddlewarePipe;
+
+        return new StratigilityDispatcher($pipe, $stack, $response);
     }
 }

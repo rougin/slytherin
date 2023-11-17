@@ -19,9 +19,9 @@ interface DispatcherInterface extends MiddlewareInterface
      * Processes the specified middlewares from stack.
      * NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $stack
+     * @param  \Psr\Http\Message\ServerRequestInterface                                       $request
+     * @param  \Psr\Http\Message\ResponseInterface                                            $response
+     * @param  array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array());
@@ -29,7 +29,7 @@ interface DispatcherInterface extends MiddlewareInterface
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  callable|object|string|array $middleware
+     * @param  array<int, mixed>|callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
      * @return self
      */
     public function push($middleware);
@@ -37,7 +37,7 @@ interface DispatcherInterface extends MiddlewareInterface
     /**
      * Returns the listing of middlewares included.
      *
-     * @return array
+     * @return array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     public function stack();
 }

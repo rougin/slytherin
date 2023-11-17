@@ -30,14 +30,14 @@ class Dispatcher implements DispatcherInterface
     protected $response;
 
     /**
-     * @var array
+     * @var array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     protected $stack = array();
 
     /**
      * Initializes the dispatcher instance.
      *
-     * @param array                                    $stack
+     * @param array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @param \Psr\Http\Message\ResponseInterface|null $response
      */
     public function __construct(array $stack = array(), ResponseInterface $response = null)
@@ -53,7 +53,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array                                    $stack
+     * @param  array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
@@ -73,7 +73,7 @@ class Dispatcher implements DispatcherInterface
      * Returns the listing of middlewares included.
      * NOTE: To be removed in v1.0.0. Use $this->stack() instead.
      *
-     * @return array
+     * @return array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     public function getStack()
     {
@@ -91,12 +91,16 @@ class Dispatcher implements DispatcherInterface
     {
         $original = $this->stack;
 
-        $this->push(function ($request) use ($delegate) {
+        $fn = function ($request) use ($delegate)
+        {
             return $delegate->process($request);
-        });
+        };
 
-        foreach ($this->stack as $index => $middleware) {
-            $middleware = (is_string($middleware)) ? new $middleware : $middleware;
+        $this->push($fn);
+
+        foreach ($this->stack as $index => $middleware)
+        {
+            if (is_string($middleware)) $middleware = new $middleware;
 
             $this->stack[$index] = $this->transform($middleware);
         }
@@ -113,12 +117,13 @@ class Dispatcher implements DispatcherInterface
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  callable|object|string|array $middleware
+     * @param  array<int, mixed>|callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
      * @return self
      */
     public function push($middleware)
     {
-        if (is_array($middleware)) {
+        if (is_array($middleware))
+        {
             $this->stack = array_merge($this->stack, $middleware);
 
             return $this;
@@ -132,7 +137,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the listing of middlewares included.
      *
-     * @return array
+     * @return array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     public function stack()
     {
@@ -142,12 +147,13 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the approach of the specified middleware is either single or double pass.
      *
-     * @param  callable|object $middleware
+     * @param  callable|\Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware
      * @return boolean
      */
     protected function approach($middleware)
     {
-        if (is_a($middleware, 'Closure') === true) {
+        if (is_a($middleware, 'Closure'))
+        {
             $object = new \ReflectionFunction($middleware);
 
             return count($object->getParameters()) === 2;
@@ -163,25 +169,28 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the middleware as a single pass callable.
      *
-     * @param  callable|object|string              $middleware
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param  callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
+     * @param  \Psr\Http\Message\ResponseInterface                                $response
      * @return callable
      */
     protected function callback($middleware, ResponseInterface $response)
     {
-        $middleware = is_string($middleware) ? new $middleware : $middleware;
+        if (is_string($middleware)) $middleware = new $middleware;
 
-        $callback = function ($request, $next = null) use ($middleware) {
+        $fn = function ($request, $next = null) use ($middleware)
+        {
             return $middleware($request, $next);
         };
 
-        if ($this->approach($middleware) == self::SINGLE_PASS) {
-            $callback = function ($request, $next = null) use ($middleware, $response) {
+        if ($this->approach($middleware) === self::SINGLE_PASS)
+        {
+            $fn = function ($request, $next = null) use ($middleware, $response)
+            {
                 return $middleware($request, $response, $next);
             };
         }
 
-        return $callback;
+        return $fn;
     }
 
     /**
@@ -192,21 +201,23 @@ class Dispatcher implements DispatcherInterface
      */
     protected function resolve($index)
     {
-        $callback = null;
-
         $stack = $this->stack;
 
-        if (isset($this->stack[$index])) {
-            $item = $stack[$index];
-
-            $next = $this->resolve($index + 1);
-
-            $callback = function ($request) use ($item, $next) {
-                return $item->process($request, $next);
-            };
+        if (! isset($this->stack[$index]))
+        {
+            return new Delegate(null);
         }
 
-        return new Delegate($callback);
+        $item = $stack[(integer) $index];
+
+        $next = $this->resolve($index + 1);
+
+        $fn = function ($request) use ($item, $next)
+        {
+            return $item->process($request, $next);
+        };
+
+        return new Delegate($fn);
     }
 
     /**
@@ -218,16 +229,19 @@ class Dispatcher implements DispatcherInterface
      */
     protected function transform($middleware, $wrappable = true)
     {
-        if (is_a($middleware, Application::MIDDLEWARE) === false) {
-            $approach = (boolean) $this->approach($middleware);
-
-            $response = $approach === self::SINGLE_PASS ? $this->response : null;
-
-            $wrapper = new CallableMiddlewareWrapper($middleware, $response);
-
-            $middleware = $wrappable === true ? $wrapper : $middleware;
+        if (is_a($middleware, Application::MIDDLEWARE))
+        {
+            return $middleware;
         }
 
-        return $middleware;
+        $approach = (boolean) $this->approach($middleware);
+
+        $response = null;
+
+        if ($approach === self::SINGLE_PASS) $response = $this->response;
+
+        $wrapper = new CallableMiddlewareWrapper($middleware, $response);
+
+        return $wrappable ? $wrapper : $middleware;
     }
 }
