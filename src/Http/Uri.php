@@ -76,7 +76,8 @@ class Uri implements UriInterface
     {
         $parts = parse_url($uri) ?: array();
 
-        foreach ($parts as $key => $value) {
+        foreach ($parts as $key => $value)
+        {
             $key === 'user' && $this->user = $value;
 
             $this->$key = $value;
@@ -104,7 +105,8 @@ class Uri implements UriInterface
     {
         $authority = $this->host;
 
-        if ($this->host !== '' && $this->user !== null) {
+        if ($this->host !== '' && $this->user !== null)
+        {
             $authority = $this->user . '@' . $authority;
 
             $authority = $authority . ':' . $this->port;
@@ -312,12 +314,14 @@ class Uri implements UriInterface
     /**
      * Generates a \Psr\Http\Message\UriInterface from server variables.
      *
-     * @param  array $server
+     * @param  array<string, string> $server
      * @return \Psr\Http\Message\UriInterface
      */
     public static function instance(array $server)
     {
-        $secure = isset($server['HTTPS']) ? $server['HTTPS'] : 'off';
+        $secure = 'off';
+
+        if (isset($server['HTTPS'])) $secure = $server['HTTPS'];
 
         $http = $secure === 'off' ? 'http' : 'https';
 
