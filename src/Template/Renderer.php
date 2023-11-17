@@ -20,7 +20,7 @@ class Renderer implements RendererInterface
     /**
      * Initializes the renderer instance.
      *
-     * @param array|string $paths
+     * @param string|string[] $paths
      */
     public function __construct($paths)
     {
@@ -30,8 +30,8 @@ class Renderer implements RendererInterface
     /**
      * Renders a file from a specified template.
      *
-     * @param  string $template
-     * @param  array  $data
+     * @param  string               $template
+     * @param  array<string, mixed> $data
      * @return string
      *
      * @throws \InvalidArgumentException
@@ -40,48 +40,48 @@ class Renderer implements RendererInterface
     {
         list($file, $name) = array(null, str_replace('.', '/', $template));
 
-        foreach ((array) $this->paths as $key => $path) {
+        foreach ((array) $this->paths as $key => $path)
+        {
             $files = (array) $this->files($path);
 
-            $item = $this->check($files, $path, $key, $name . '.php');
+            $item = $this->check($files, $path, $key, "$name.php");
 
-            $item !== null && $file = $item;
+            if ($item !== null) $file = $item;
         }
 
-        if (is_null($file) === true) {
-            $message = 'Template file "' . $name . '" not found.';
+        if (! is_null($file)) return $this->extract($file, $data);
 
-            throw new \InvalidArgumentException((string) $message);
-        }
+        $message = 'Template file "' . $name . '" not found.';
 
-        return $this->extract($file, $data);
+        throw new \InvalidArgumentException((string) $message);
     }
 
     /**
      * Checks if the specified file exists.
      *
-     * @param  array          $files
-     * @param  string         $path
-     * @param  string|integer $source
-     * @param  string         $template
+     * @param  array<string, string> $files
+     * @param  string                $path
+     * @param  string|integer        $source
+     * @param  string                $template
      * @return string|null
      */
     protected function check(array $files, $path, $source, $template)
     {
         $file = null;
 
-        foreach ((array) $files as $key => $value) {
-            $filepath = (string) str_replace($path, $source, $value);
+        foreach ((array) $files as $key => $value)
+        {
+            $filepath = str_replace($path, $source, $value);
 
             $filepath = str_replace('\\', '/', (string) $filepath);
 
-            $filepath = (string) preg_replace('/^\d\//i', '', $filepath);
+            $filepath = preg_replace('/^\d\//i', '', $filepath);
 
             $exists = (string) $filepath === $template;
 
             $lowercase = strtolower($filepath) === $template;
 
-            ($exists || $lowercase) && $file = $value;
+            if ($exists || $lowercase) $file = $value;
         }
 
         return $file;
@@ -90,8 +90,8 @@ class Renderer implements RendererInterface
     /**
      * Extracts the contents of the specified file.
      *
-     * @param  string $filepath
-     * @param  array  $data
+     * @param  string               $filepath
+     * @param  array<string, mixed> $data
      * @return string
      */
     protected function extract($filepath, array $data)

@@ -15,8 +15,8 @@ interface RendererInterface
     /**
      * Renders a template.
      *
-     * @param  string $template
-     * @param  array  $data
+     * @param  string               $template
+     * @param  array<string, mixed> $data
      * @return string
      */
     public function render($template, array $data = array());

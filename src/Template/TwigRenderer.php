@@ -21,15 +21,17 @@ class TwigRenderer implements RendererInterface
     protected $twig;
 
     /**
-     * @param \Twig_Environment $twig
-     * @param array             $globals -- NOTE: To be removed in v1.0.0.
+     * @param \Twig_Environment     $twig
+     * @param array<string, string> $globals -- NOTE: To be removed in v1.0.0.
      */
     public function __construct(\Twig_Environment $twig, array $globals = array())
     {
-        // NOTE: To be removed in v1.0.0. Use __call instead
-        foreach ($globals as $key => $value) {
+        // NOTE: To be removed in v1.0.0. Use __call instead ---
+        foreach ($globals as $key => $value)
+        {
             $twig->addGlobal($key, $value);
         }
+        // -----------------------------------------------------
 
         $this->twig = $twig;
     }
@@ -37,9 +39,9 @@ class TwigRenderer implements RendererInterface
     /**
      * Renders a template.
      *
-     * @param  string $template
-     * @param  array  $data
-     * @param  string $extension
+     * @param  string               $template
+     * @param  array<string, mixed> $data
+     * @param  string               $extension
      * @return string
      */
     public function render($template, array $data = array(), $extension = 'twig')
@@ -52,8 +54,8 @@ class TwigRenderer implements RendererInterface
     /**
      * Calls methods from the Twig instance.
      *
-     * @param  string $method
-     * @param  mixed  $parameters
+     * @param  string  $method
+     * @param  mixed[] $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
