@@ -58,23 +58,31 @@ class Collector
      */
     protected static function prepare(Collection &$collection, $component)
     {
+        /** @var class-string $component */
         $instance = new $component;
 
-        $type = $instance->type();
+        /** @var callable */
+        $class = array($instance, 'type');
+        $type = call_user_func($class);
 
-        if (empty($type)) return $instance;
-
-        $arguments = array($instance->get());
-
-        if ($type === 'http')
+        if (empty($type))
         {
-            $arguments = $instance->get();
+            /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
+            return $instance;
         }
 
+        /** @var callable */
+        $class = array($instance, 'get');
+        $args = call_user_func($class);
+
+        if ($type !== 'http') $args = array($args);
+
+        /** @var callable */
         $class = array($collection, 'set' . ucfirst($type));
 
-        call_user_func_array($class, $arguments);
+        call_user_func_array($class, $args);
 
+        /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
         return $instance;
     }
 }

@@ -60,12 +60,8 @@ class TwigRenderer implements RendererInterface
      */
     public function __call($method, $parameters)
     {
-        $class = array($this->twig, (string) $method);
-
-        if (! is_callable($class))
-        {
-            throw new \Exception('Method not found from Twig.');
-        }
+        /** @var callable */
+        $class = array($this->twig, $method);
 
         return call_user_func_array($class, $parameters);
     }

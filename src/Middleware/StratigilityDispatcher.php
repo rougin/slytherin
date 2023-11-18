@@ -30,7 +30,7 @@ class StratigilityDispatcher extends Dispatcher
     protected $response;
 
     /**
-     * @var array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
+     * @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     protected $stack = array();
 
@@ -38,7 +38,7 @@ class StratigilityDispatcher extends Dispatcher
      * Initializes the dispatcher instance.
      *
      * @param \Zend\Stratigility\MiddlewarePipe                                              $pipeline
-     * @param array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
+     * @param array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @param \Psr\Http\Message\ResponseInterface|null                                       $response
      */
     public function __construct(MiddlewarePipe $pipeline, array $stack = array(), ResponseInterface $response = null)
@@ -65,7 +65,7 @@ class StratigilityDispatcher extends Dispatcher
         {
             if (is_string($middleware)) $middleware = new $middleware;
 
-            /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware */
+            /** @var \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware */
             $this->pipeline->pipe($this->transform($middleware, $wrap));
         }
 

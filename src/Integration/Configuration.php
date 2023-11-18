@@ -63,6 +63,7 @@ class Configuration implements ConfigurationInterface
      */
     public function load($directory)
     {
+        /** @var array<int, string> */
         $configurations = glob($directory . '/*.php');
 
         foreach ($configurations as $item)

@@ -101,6 +101,12 @@ class MessageTest extends \Rougin\Slytherin\Testcase
         $message = $this->message->withAddedHeader('age', 18);
 
         $this->assertTrue($message->hasHeader('age'));
+
+        $expected = array('Rougin', 'Royce', 'Gutib');
+
+        $message = $this->message->withAddedHeader('names', $expected);
+
+        $this->assertEquals($expected, $message->getHeader('names'));
     }
 
     /**

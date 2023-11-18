@@ -34,6 +34,7 @@ class ReflectionContainer implements PsrContainerInterface
             throw new Exception\NotFoundException($message);
         }
 
+        /** @var class-string $id */
         $reflection = new \ReflectionClass((string) $id);
 
         if ($constructor = $reflection->getConstructor())

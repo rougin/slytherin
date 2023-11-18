@@ -46,7 +46,7 @@ class MiddlewareIntegration implements IntegrationInterface
      * Returns the middleware dispatcher to be used.
      *
      * @param  \Psr\Http\Message\ResponseInterface                                            $response
-     * @param  array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
+     * @param  array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     protected function dispatcher(ResponseInterface $response, $stack)

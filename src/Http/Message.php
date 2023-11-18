@@ -141,7 +141,18 @@ class Message implements MessageInterface
 
         $static = clone $this;
 
-        $static->headers[$name][] = $value;
+        if (! is_array($value))
+        {
+            $static->headers[$name][] = $value;
+
+            return $static;
+        }
+
+        $items = $this->getHeader($name);
+
+        $value = array_merge($items, $value);
+
+        $static->headers[$name] = $value;
 
         return $static;
     }
@@ -206,16 +217,12 @@ class Message implements MessageInterface
      */
     public function withoutHeader($name)
     {
-        $instance = clone $this;
-
-        if (! $this->hasHeader($name))
-        {
-            return $instance;
-        }
-
         $static = clone $this;
 
-        unset($static->headers[$name]);
+        if ($this->hasHeader($name))
+        {
+            unset($static->headers[$name]);
+        }
 
         return $static;
     }

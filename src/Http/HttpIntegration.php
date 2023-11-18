@@ -123,7 +123,7 @@ class HttpIntegration implements IntegrationInterface
      */
     protected function server()
     {
-        $server = array('SERVER_PORT' => 8000);
+        $server = array('SERVER_PORT' => '8000');
 
         $server['REQUEST_METHOD'] = 'GET';
 

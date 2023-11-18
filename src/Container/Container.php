@@ -146,6 +146,7 @@ class Container implements ContainerInterface
      */
     public function resolve($id, ServerRequestInterface $request = null)
     {
+        /** @var class-string $id */
         $reflection = new \ReflectionClass($id);
 
         if (! $constructor = $reflection->getConstructor())

@@ -30,14 +30,14 @@ class Dispatcher implements DispatcherInterface
     protected $response;
 
     /**
-     * @var array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
+     * @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     protected $stack = array();
 
     /**
      * Initializes the dispatcher instance.
      *
-     * @param array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
+     * @param array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @param \Psr\Http\Message\ResponseInterface|null $response
      */
     public function __construct(array $stack = array(), ResponseInterface $response = null)
@@ -51,9 +51,9 @@ class Dispatcher implements DispatcherInterface
      * Processes the specified middlewares from stack.
      * NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface      $response
-     * @param  array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
+     * @param  \Psr\Http\Message\ServerRequestInterface                                       $request
+     * @param  \Psr\Http\Message\ResponseInterface                                            $response
+     * @param  array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array())
@@ -62,7 +62,10 @@ class Dispatcher implements DispatcherInterface
 
         $this->stack = (empty($this->stack)) ? $stack : $this->stack;
 
-        $last = $this->callback(end($this->stack), $response);
+        /** @var \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string */
+        $last = end($this->stack);
+
+        $last = $this->callback($last, $response);
 
         array_pop($this->stack);
 
@@ -73,7 +76,7 @@ class Dispatcher implements DispatcherInterface
      * Returns the listing of middlewares included.
      * NOTE: To be removed in v1.0.0. Use $this->stack() instead.
      *
-     * @return array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
+     * @return array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     public function getStack()
     {
@@ -102,6 +105,7 @@ class Dispatcher implements DispatcherInterface
         {
             if (is_string($middleware)) $middleware = new $middleware;
 
+            /** @var \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware */
             $this->stack[$index] = $this->transform($middleware);
         }
 
@@ -111,13 +115,13 @@ class Dispatcher implements DispatcherInterface
 
         $this->stack = $original;
 
-        return $resolved($request);
+        return $resolved->process($request);
     }
 
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  array<int, mixed>|callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
+     * @param  array<int, mixed>|\Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
      * @return self
      */
     public function push($middleware)
@@ -129,7 +133,7 @@ class Dispatcher implements DispatcherInterface
             return $this;
         }
 
-        $this->stack[] = $middleware;
+        array_push($this->stack, $middleware);
 
         return $this;
     }
@@ -137,7 +141,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the listing of middlewares included.
      *
-     * @return array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
+     * @return array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     public function stack()
     {
@@ -147,7 +151,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the approach of the specified middleware is either single or double pass.
      *
-     * @param  callable|\Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware
+     * @param  \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware
      * @return boolean
      */
     protected function approach($middleware)
@@ -169,16 +173,21 @@ class Dispatcher implements DispatcherInterface
     /**
      * Returns the middleware as a single pass callable.
      *
-     * @param  callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
+     * @param  \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
      * @param  \Psr\Http\Message\ResponseInterface                                $response
      * @return callable
      */
     protected function callback($middleware, ResponseInterface $response)
     {
-        if (is_string($middleware)) $middleware = new $middleware;
+        if (is_string($middleware))
+        {
+            /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface */
+            $middleware = new $middleware;
+        }
 
         $fn = function ($request, $next = null) use ($middleware)
         {
+            /** @var callable $middleware */
             return $middleware($request, $next);
         };
 
@@ -186,6 +195,7 @@ class Dispatcher implements DispatcherInterface
         {
             $fn = function ($request, $next = null) use ($middleware, $response)
             {
+                /** @var callable $middleware */
                 return $middleware($request, $response, $next);
             };
         }
@@ -208,6 +218,7 @@ class Dispatcher implements DispatcherInterface
             return new Delegate(null);
         }
 
+        /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface */
         $item = $stack[(integer) $index];
 
         $next = $this->resolve($index + 1);
@@ -223,25 +234,25 @@ class Dispatcher implements DispatcherInterface
     /**
      * Transforms the specified middleware into a PSR-15 middleware.
      *
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware
+     * @param  \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware
      * @param  boolean                                                     $wrappable
      * @return \Interop\Http\ServerMiddleware\MiddlewareInterface
      */
     protected function transform($middleware, $wrappable = true)
     {
-        if (is_a($middleware, Application::MIDDLEWARE))
-        {
-            return $middleware;
-        }
-
-        $approach = (boolean) $this->approach($middleware);
-
         $response = null;
 
-        if ($approach === self::SINGLE_PASS) $response = $this->response;
+        if (is_a($middleware, Application::MIDDLEWARE)) return $middleware;
+
+        $approach = $this->approach($middleware);
+
+        $singlePass = $approach === self::SINGLE_PASS;
+
+        if ($singlePass) $response = $this->response;
 
         $wrapper = new CallableMiddlewareWrapper($middleware, $response);
 
+        /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface */
         return $wrappable ? $wrapper : $middleware;
     }
 }

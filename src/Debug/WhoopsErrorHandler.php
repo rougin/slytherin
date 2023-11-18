@@ -112,8 +112,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      */
     public function __call($method, $parameters)
     {
-        $instance = array($this->whoops, $method);
+        /** @var callable */
+        $class = array($this->whoops, $method);
 
-        return call_user_func_array($instance, $parameters);
+        return call_user_func_array($class, $parameters);
     }
 }

@@ -35,7 +35,7 @@ class CallbackHandler
     protected $container;
 
     /**
-     * @var array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
+     * @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     protected $middlewares = array();
 
@@ -53,7 +53,7 @@ class CallbackHandler
      * Returns a response instance.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return callable
+     * @return \Psr\Http\Message\ResponseInterface|null
      */
     public function __invoke(ServerRequestInterface $request)
     {
@@ -90,15 +90,12 @@ class CallbackHandler
     {
         $response = $this->container->get(self::RESPONSE);
 
-        if (! interface_exists(Application::MIDDLEWARE))
-        {
-            return $callback($request);
-        }
+        $middleware = (string) Application::MIDDLEWARE;
+
+        if (! interface_exists($middleware)) return $callback($request);
 
         $middleware = new Dispatcher($this->middlewares, $response);
 
-        $delegate = new Delegate($callback);
-
-        return $middleware->process($request, $delegate);
+        return $middleware->process($request, new Delegate($callback));
     }
 }

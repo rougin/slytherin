@@ -17,7 +17,7 @@ use Rougin\Slytherin\Http\Response;
 class Delegate implements HandlerInterface
 {
     /**
-     * @var callable|array<int, mixed>
+     * @var callable
      */
     protected $callback;
 

@@ -45,7 +45,7 @@ class FinalCallback
      * Returns a callback for handling the application.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return callable
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
     {
@@ -84,10 +84,11 @@ class FinalCallback
     {
         $response = $this->container->get(self::RESPONSE);
 
-        if (is_string($function) === true) {
+        if (is_string($function))
+        {
             $stream = $response->getBody();
 
-            $stream->write((string) $function);
+            $stream->write($function);
         }
 
         $instanceof = $function instanceof ResponseInterface;

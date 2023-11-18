@@ -59,7 +59,10 @@ class Parameter
 
         if ($builtIn) return null;
 
-        $class = call_user_func(array($type, 'getName'));
+        /** @var callable */
+        $class = array($type, 'getName');
+
+        $class = call_user_func($class);
 
         return new \ReflectionClass($class);
     }
