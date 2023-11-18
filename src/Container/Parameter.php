@@ -31,7 +31,7 @@ class Parameter
     /**
      * Gets a \ReflectionClass object for the parameter being reflected or "null".
      *
-     * @return \ReflectionClass|null
+     * @return \ReflectionClass<object>|null
      */
     public function getClass()
     {

@@ -37,7 +37,8 @@ class HttpIntegration implements IntegrationInterface
 
         $request = new ServerRequest($server, $cookies, $get, $files, $post);
 
-        foreach ($headers as $key => $value) {
+        foreach ($headers as $key => $value)
+        {
             $request = $request->withHeader($key, $value);
         }
 
@@ -48,7 +49,7 @@ class HttpIntegration implements IntegrationInterface
      * Returns the PHP's global variables.
      *
      * @param  \Rougin\Slytherin\Integration\Configuration $config
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
     protected function globals(Configuration $config)
     {
@@ -68,14 +69,15 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Converts $_SERVER parameters to message header values.
      *
-     * @param  array $server
-     * @return array
+     * @param  array<string, string> $server
+     * @return array<string, string>
      */
     protected function headers(array $server)
     {
         $headers = array();
 
-        foreach ((array) $server as $key => $value) {
+        foreach ((array) $server as $key => $value)
+        {
             $http = strpos($key, 'HTTP_') === 0;
 
             $string = strtolower(substr($key, 5));
@@ -102,7 +104,8 @@ class HttpIntegration implements IntegrationInterface
      */
     protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
     {
-        if (class_exists('Zend\Diactoros\ServerRequestFactory')) {
+        if (class_exists('Zend\Diactoros\ServerRequestFactory'))
+        {
             $response = new ZendResponse;
 
             $request = ServerRequestFactory::fromGlobals();
@@ -116,7 +119,7 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Returns a sample $_SERVER values.
      *
-     * @return array
+     * @return array<string, string>
      */
     protected function server()
     {

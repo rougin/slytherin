@@ -29,7 +29,7 @@ class Response extends Message implements ResponseInterface
     protected $code = 200;
 
     /**
-     * @var array
+     * @var array<int, string>
      */
     protected $codes = array(
         100 => 'Continue',
@@ -105,8 +105,8 @@ class Response extends Message implements ResponseInterface
      *
      * @param integer                                $code
      * @param \Psr\Http\Message\StreamInterface|null $body
+     * @param array<string, string[]>                $headers
      * @param string                                 $version
-     * @param array                                  $headers
      */
     public function __construct($code = 200, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {

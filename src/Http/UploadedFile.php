@@ -148,7 +148,7 @@ class UploadedFile implements UploadedFileInterface
      * Parses the $_FILES into multiple \File instances.
      *
      * @param  array<string, mixed> $uploaded
-     * @return \Psr\Http\Message\UploadedFileInterface[]
+     * @return array<string, \Psr\Http\Message\UploadedFileInterface[]>
      */
     public static function normalize(array $uploaded)
     {

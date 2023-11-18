@@ -29,7 +29,7 @@ class Message implements MessageInterface
     protected $body;
 
     /**
-     * @var array
+     * @var array<string, string[]>
      */
     protected $headers = array();
 
@@ -42,22 +42,23 @@ class Message implements MessageInterface
      * Initializes the message instance.
      *
      * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array                                  $headers
+     * @param array<string, string[]>                $headers
      * @param string                                 $version
      */
     public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {
-        if ($body === null) {
+        if ($body === null)
+        {
             $resource = fopen('php://temp', 'r+');
 
-            $resource = $resource === false ? null : $resource;
+            $resource = ! $resource ? null : $resource;
 
             $body = new Stream($resource);
         }
 
-        $this->body = $body;
-
         $this->headers = $headers;
+
+        $this->body = $body;
 
         $this->version = $version;
     }
@@ -207,14 +208,15 @@ class Message implements MessageInterface
     {
         $instance = clone $this;
 
-        if ($this->hasHeader($name)) {
-            $static = clone $this;
-
-            unset($static->headers[$name]);
-
-            $instance = $static;
+        if (! $this->hasHeader($name))
+        {
+            return $instance;
         }
 
-        return $instance;
+        $static = clone $this;
+
+        unset($static->headers[$name]);
+
+        return $static;
     }
 }

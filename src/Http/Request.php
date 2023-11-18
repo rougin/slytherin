@@ -45,7 +45,7 @@ class Request extends Message implements RequestInterface
      * @param string                                 $target
      * @param \Psr\Http\Message\UriInterface|null    $uri
      * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array                                  $headers
+     * @param array<string, string[]>                $headers
      * @param string                                 $version
      */
     public function __construct($method = 'GET', $target = '/', UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
@@ -136,7 +136,8 @@ class Request extends Message implements RequestInterface
 
         $static->uri = $uri;
 
-        if (! $preserve && $host = $uri->getHost()) {
+        if (! $preserve && $host = $uri->getHost())
+        {
             $port = $host . ':' . $uri->getPort();
 
             $host = $uri->getPort() ? $port : $host;

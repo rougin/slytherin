@@ -25,47 +25,47 @@ use Psr\Http\Message\UriInterface;
 class ServerRequest extends Request implements ServerRequestInterface
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $attributes = array();
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $cookies = array();
 
     /**
-     * @var array|null|object
+     * @var array<string, mixed>|null|object
      */
     protected $data;
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $query = array();
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $server = array();
 
     /**
-     * @var array
+     * @var array<string, \Psr\Http\Message\UploadedFileInterface[]>
      */
     protected $uploaded = array();
 
     /**
      * Initializes the server request instance.
      *
-     * @param array                                  $server
-     * @param array                                  $cookies
-     * @param array                                  $query
-     * @param array                                  $uploaded
-     * @param array|null|object                      $data
-     * @param array                                  $attributes
+     * @param array<string, string>                  $server
+     * @param array<string, string>                  $cookies
+     * @param array<string, string>                  $query
+     * @param array<string, array<string, string>>   $uploaded
+     * @param array<string, mixed>|null|object       $data
+     * @param array<string, string>                  $attributes
      * @param \Psr\Http\Message\UriInterface|null    $uri
      * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array                                  $headers
+     * @param array<string, string[]>                $headers
      * @param string                                 $version
      */
     public function __construct(array $server, array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
@@ -113,7 +113,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve attributes derived from the request.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getAttributes()
     {
@@ -123,7 +123,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve cookies.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getCookieParams()
     {
@@ -133,7 +133,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve any parameters provided in the request body.
      *
-     * @return array|null|object
+     * @return array<string, mixed>|null|object
      */
     public function getParsedBody()
     {
@@ -143,7 +143,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve query string arguments.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getQueryParams()
     {
@@ -153,7 +153,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve server parameters.
      *
-     * @return array
+     * @return array<string, string>
      */
     public function getServerParams()
     {
@@ -163,7 +163,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve normalized file upload data.
      *
-     * @return \Psr\Http\Message\UploadedFileInterface[]
+     * @return array<string, \Psr\Http\Message\UploadedFileInterface[]>
      */
     public function getUploadedFiles()
     {
@@ -189,7 +189,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified cookies.
      *
-     * @param  array $cookies
+     * @param  array<string, string> $cookies
      * @return static
      */
     public function withCookieParams(array $cookies)
@@ -204,7 +204,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified body parameters.
      *
-     * @param  null|array|object $data
+     * @param  array<string, mixed>|null|object $data
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -223,7 +223,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified query string arguments.
      *
-     * @param  array $query
+     * @param  array<string, string> $query
      * @return static
      */
     public function withQueryParams(array $query)
@@ -238,7 +238,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Create a new instance with the specified uploaded files.
      *
-     * @param  \Psr\Http\Message\UploadedFileInterface[] $uploaded
+     * @param  array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
      * @return static
      *
      * @throws \InvalidArgumentException
