@@ -20,8 +20,8 @@ class Collector
      * Collects the specified components.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  array                                          $components
-     * @param  array|null                                     $globals
+     * @param  string[]                                       $components
+     * @param  array<string, mixed>|null                      $globals
      * @return \Rougin\Slytherin\Component\Collection
      */
     public static function get(ContainerInterface $container, array $components = array(), &$globals = null)
@@ -30,7 +30,8 @@ class Collector
 
         $collection = new Collection;
 
-        foreach ((array) $components as $component) {
+        foreach ($components as $component)
+        {
             $instance = self::prepare($collection, $component);
 
             $container = $instance->define($container, $configuration);
@@ -38,8 +39,12 @@ class Collector
 
         $collection->setContainer($container);
 
-        // NOTE: To be removed in v1.0.0. Use Application::container instead.
-        $globals === null || $globals['container'] = $container;
+        // NOTE: To be removed in v1.0.0. Use Application::container instead. ---
+        if ($globals)
+        {
+            $globals['container'] = $container;
+        }
+        // ----------------------------------------------------------------------
 
         return $collection;
     }
@@ -57,15 +62,18 @@ class Collector
 
         $type = $instance->type();
 
-        if (empty($type) === false) {
-            $parameters = array($instance->get());
+        if (empty($type)) return $instance;
 
-            $type === 'http' && $parameters = $instance->get();
+        $arguments = array($instance->get());
 
-            $class = array($collection, 'set' . ucfirst($type));
-
-            call_user_func_array($class, $parameters);
+        if ($type === 'http')
+        {
+            $arguments = $instance->get();
         }
+
+        $class = array($collection, 'set' . ucfirst($type));
+
+        call_user_func_array($class, $arguments);
 
         return $instance;
     }

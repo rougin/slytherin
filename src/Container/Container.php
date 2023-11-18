@@ -23,14 +23,14 @@ class Container implements ContainerInterface
     /**
      * NOTE: To be removed in v1.0.0. Use "protected" visibility instead.
      *
-     * @var array
+     * @var array<string, object>
      */
     public $instances = array();
 
     /**
      * Initializes the container instance.
      *
-     * @param array                                  $instances
+     * @param array<string, object>                  $instances
      * @param \Psr\Container\ContainerInterface|null $container
      */
     public function __construct(array $instances = array(), PsrContainerInterface $container = null)
@@ -56,8 +56,9 @@ class Container implements ContainerInterface
     /**
      * Creates an alias for a specified class.
      *
-     * @param string $id
-     * @param string $original
+     * @param  string $id
+     * @param  string $original
+     * @return self
      */
     public function alias($id, $original)
     {
@@ -70,14 +71,15 @@ class Container implements ContainerInterface
      * Resolves the specified parameters from a container.
      *
      * @param  \ReflectionFunctionAbstract $reflector
-     * @param  array                       $parameters
-     * @return array
+     * @param  array<string, mixed>        $parameters
+     * @return array<int, mixed>
      */
     public function arguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
     {
         $arguments = array();
 
-        foreach ($reflector->getParameters() as $key => $parameter) {
+        foreach ($reflector->getParameters() as $key => $parameter)
+        {
             $argument = $this->argument($parameter);
 
             $name = $parameter->getName();
@@ -99,23 +101,27 @@ class Container implements ContainerInterface
      */
     public function get($id)
     {
-        if ($this->has($id) === true) {
-            $entry = isset($this->instances[$id]) ? $this->instances[$id] : $this->resolve($id);
+        if (! $this->has($id))
+        {
+            $message = 'Alias (%s) is not being managed by the container';
 
-            if (is_object($entry) === false) {
-                $message = (string) 'Alias (%s) is not an object';
-
-                $message = sprintf($message, $id);
-
-                throw new Exception\ContainerException($message);
-            }
-
-            return $entry;
+            throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        $message = 'Alias (%s) is not being managed by the container';
+        if (isset($this->instances[$id]))
+        {
+            $entry = $this->instances[$id];
+        }
+        else
+        {
+            $entry = $this->resolve($id);
+        }
 
-        throw new Exception\NotFoundException(sprintf($message, $id));
+        if (is_object($entry)) return $entry;
+
+        $message = sprintf('Alias (%s) is not an object', $id);
+
+        throw new Exception\ContainerException($message);
     }
 
     /**
@@ -142,19 +148,21 @@ class Container implements ContainerInterface
     {
         $reflection = new \ReflectionClass($id);
 
-        if ($constructor = $reflection->getConstructor()) {
-            $arguments = array();
-
-            foreach ($constructor->getParameters() as $parameter) {
-                $argument = $this->argument($parameter);
-
-                $arguments[] = $this->request($argument, $request);
-            }
-
-            return $reflection->newInstanceArgs($arguments);
+        if (! $constructor = $reflection->getConstructor())
+        {
+            return $this->extra->get($id);
         }
 
-        return $this->extra->get($id);
+        $arguments = array();
+
+        foreach ($constructor->getParameters() as $parameter)
+        {
+            $argument = $this->argument($parameter);
+
+            $arguments[] = $this->request($argument, $request);
+        }
+
+        return $reflection->newInstanceArgs($arguments);
     }
 
     /**

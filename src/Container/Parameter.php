@@ -13,13 +13,26 @@ namespace Rougin\Slytherin\Container;
  */
 class Parameter
 {
+    /**
+     * @var \ReflectionParameter
+     */
     protected $param;
 
+    /**
+     * Initializes the parameter instance.
+     *
+     * @param \ReflectionParameter $param
+     */
     public function __construct(\ReflectionParameter $param)
     {
         $this->param = $param;
     }
 
+    /**
+     * Gets a \ReflectionClass object for the parameter being reflected or "null".
+     *
+     * @return \ReflectionClass|null
+     */
     public function getClass()
     {
         $php8 = version_compare(PHP_VERSION, '8.0.0', '>=');

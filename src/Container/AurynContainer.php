@@ -20,7 +20,7 @@ use Auryn\Injector;
 class AurynContainer extends Injector implements ContainerInterface
 {
     /**
-     * @var array
+     * @var array<string, boolean>
      */
     protected $has = array();
 
@@ -30,7 +30,7 @@ class AurynContainer extends Injector implements ContainerInterface
     protected $injector;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
     protected $instances = array();
 
@@ -80,16 +80,13 @@ class AurynContainer extends Injector implements ContainerInterface
 
         $this->has($id) && $entry = $this->resolve($id);
 
-        if (is_null($entry))
-        {
-            $message = 'Alias (%s) is not being managed by the container';
+        if (! is_null($entry)) return $entry;
 
-            $message = (string) sprintf($message, $id);
+        $message = 'Alias (%s) is not being managed by the container';
 
-            throw new Exception\NotFoundException($message);
-        }
+        $message = (string) sprintf($message, $id);
 
-        return $entry;
+        throw new Exception\NotFoundException($message);
     }
 
     /**

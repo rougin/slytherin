@@ -82,8 +82,8 @@ class ReflectionContainer implements PsrContainerInterface
      * Resolves the specified parameters from a container.
      *
      * @param  \ReflectionFunction|\ReflectionMethod $reflector
-     * @param  array                                 $parameters
-     * @return array
+     * @param  array<string, mixed>                  $parameters
+     * @return array<int, mixed>
      */
     protected function arguments($reflector, $parameters = array())
     {

@@ -22,8 +22,8 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      *
-     * @param  string $id
-     * @param  array  $arguments
+     * @param  string               $id
+     * @param  array<string, mixed> $arguments
      * @return mixed
      */
     public function get($id, array $arguments = array())

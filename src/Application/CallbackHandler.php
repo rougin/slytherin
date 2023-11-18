@@ -35,7 +35,7 @@ class CallbackHandler
     protected $container;
 
     /**
-     * @var array
+     * @var array<int, callable|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
      */
     protected $middlewares = array();
 
@@ -59,7 +59,8 @@ class CallbackHandler
     {
         $dispatcher = $this->container->get(self::DISPATCHER);
 
-        if ($this->container->has(self::ROUTER) === true) {
+        if ($this->container->has(self::ROUTER))
+        {
             $router = $this->container->get(self::ROUTER);
 
             $dispatcher = $dispatcher->router($router);
@@ -89,14 +90,15 @@ class CallbackHandler
     {
         $response = $this->container->get(self::RESPONSE);
 
-        if (interface_exists(Application::MIDDLEWARE) === true) {
-            $middleware = new Dispatcher($this->middlewares, $response);
-
-            $delegate = new Delegate($callback);
-
-            $result = $middleware->process($request, $delegate);
+        if (! interface_exists(Application::MIDDLEWARE))
+        {
+            return $callback($request);
         }
 
-        return isset($result) ? $result : $callback($request);
+        $middleware = new Dispatcher($this->middlewares, $response);
+
+        $delegate = new Delegate($callback);
+
+        return $middleware->process($request, $delegate);
     }
 }

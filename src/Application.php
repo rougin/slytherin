@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Application\CallbackHandler;
 use Rougin\Slytherin\Container\Container;
@@ -20,40 +19,45 @@ use Rougin\Slytherin\Middleware\Delegate;
  */
 class Application
 {
-    // NOTE: To be removed in v1.0.0
+    // NOTE: To be removed in v1.0.0 ------------------------------------
     const ERROR_HANDLER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
+    // ------------------------------------------------------------------
 
     const MIDDLEWARE = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     /**
-     * @var \Rougin\Slytherin\Integration\ConfigurationInterface
+     * @var \Rougin\Slytherin\Integration\Configuration
      */
     protected $config;
 
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected static $container;
 
     /**
      * Initializes the application instance.
      *
-     * @param \Psr\Container\ContainerInterface|null                    $container
-     * @param \Rougin\Slytherin\Integration\ConfigurationInterface|null $config
+     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
+     * @param \Rougin\Slytherin\Integration\Configuration|null    $config
      */
     public function __construct(ContainerInterface $container = null, ConfigurationInterface $config = null)
     {
-        $this->config = $config === null ? new Configuration : $config;
+        if (! $config) $config = new Configuration;
 
-        static::$container = $container === null ? new Container : $container;
+        $this->config = $config;
+
+        if (! $container) $container = new Container;
+
+        static::$container = $container;
     }
 
     /**
      * Returns the static instance of the specified container.
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public static function container()
     {
@@ -70,13 +74,15 @@ class Application
     {
         $callback = new CallbackHandler(self::$container);
 
-        if (static::$container->has(self::MIDDLEWARE)) {
-            $middleware = static::$container->get(self::MIDDLEWARE);
+        $hasMiddleware = static::$container->has(self::MIDDLEWARE);
 
-            $delegate = new Delegate($callback);
+        if (! $hasMiddleware) return $callback($request);
 
-            $result = $middleware->process($request, $delegate);
-        }
+        $middleware = static::$container->get(self::MIDDLEWARE);
+
+        $delegate = new Delegate($callback);
+
+        $result = $middleware->process($request, $delegate);
 
         return isset($result) ? $result : $callback($request);
     }
@@ -84,15 +90,19 @@ class Application
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  \Rougin\Slytherin\Integration\IntegrationInterface|array|string $integrations
-     * @param  \Rougin\Slytherin\Integration\ConfigurationInterface|null       $config
+     * @param  \Rougin\Slytherin\Integration\IntegrationInterface[]|string[]|string $integrations
+     * @param  \Rougin\Slytherin\Integration\Configuration|null                     $config
      * @return self
      */
     public function integrate($integrations, ConfigurationInterface $config = null)
     {
-        list($config, $container) = array($config ?: $this->config, static::$container);
+        if (! $config) $config = $this->config;
 
-        foreach ((array) $integrations as $item) {
+        $container = static::$container;
+
+        foreach ((array) $integrations as $item)
+        {
+            /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
             $integration = is_string($item) ? new $item : $item;
 
             $container = $integration->define($container, $config);
@@ -111,7 +121,8 @@ class Application
     public function run()
     {
         // NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
-        if (static::$container->has(self::ERROR_HANDLER)) {
+        if (static::$container->has(self::ERROR_HANDLER))
+        {
             $debugger = static::$container->get(self::ERROR_HANDLER);
 
             $debugger->display();
@@ -143,7 +154,8 @@ class Application
 
         header('HTTP/' . $version . ' ' . $code);
 
-        foreach ($headers as $name => $values) {
+        foreach ($headers as $name => $values)
+        {
             $value = (string) implode(',', $values);
 
             header((string) $name . ': ' . $value);
