@@ -113,7 +113,7 @@ class Router implements RouterInterface
      * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
      *
      * @param  boolean $parsed
-     * @return mixed[]
+     * @return array<int, array<int, mixed>>|mixed
      */
     public function getRoutes($parsed = false)
     {
@@ -169,7 +169,7 @@ class Router implements RouterInterface
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return mixed[]
+     * @return array<int, array<int, mixed>>|mixed
      */
     public function routes($parsed = false)
     {

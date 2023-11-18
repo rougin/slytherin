@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use FastRoute\RouteCollector;
+
 /**
  * FastRoute Dispatcher
  *
@@ -31,7 +33,7 @@ class FastRouteDispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        $router == null || $this->router($router);
+        if ($router) $this->router($router);
     }
 
     /**
@@ -47,7 +49,8 @@ class FastRouteDispatcher implements DispatcherInterface
 
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
-        if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND) {
+        if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND)
+        {
             $message = 'Route "' . $uri . '" not found';
 
             throw new \UnexpectedValueException($message);
@@ -70,15 +73,26 @@ class FastRouteDispatcher implements DispatcherInterface
     {
         $this->router = $router;
 
-        $routes = $router->routes(true);
+        if ($router instanceof FastRouteRouter)
+        {
+            /** @var callable */
+            $routes = $router->routes(true);
 
-        if ($router instanceof FastRouteRouter === false) {
-            $routes = function (\FastRoute\RouteCollector $collector) use ($router) {
-                foreach (array_filter($router->routes()) as $route) {
-                    $collector->addRoute($route[0], $route[1], $route[2]);
-                }
-            };
+            $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+
+            return $this;
         }
+
+        $routes = function (RouteCollector $collector) use ($router)
+        {
+            /** @var array<int, array<int, mixed>> */
+            $routes = $router->routes();
+
+            foreach (array_filter($routes) as $route)
+            {
+                $collector->addRoute($route[0], $route[1], $route[2]);
+            }
+        };
 
         $this->dispatcher = \FastRoute\simpleDispatcher($routes);
 
@@ -97,7 +111,8 @@ class FastRouteDispatcher implements DispatcherInterface
     {
         $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
-        if (in_array($httpMethod, $allowed) === false) {
+        if (in_array($httpMethod, $allowed) === false)
+        {
             $message = 'Used method is not allowed';
 
             throw new \UnexpectedValueException($message);

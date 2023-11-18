@@ -61,7 +61,7 @@ class Renderer implements RendererInterface
      *
      * @param  array<string, string> $files
      * @param  string                $path
-     * @param  string|integer        $source
+     * @param  string                $source
      * @param  string                $template
      * @return string|null
      */
@@ -106,7 +106,7 @@ class Renderer implements RendererInterface
 
         ob_end_clean();
 
-        return $contents;
+        return $contents ?: '';
     }
 
     /**

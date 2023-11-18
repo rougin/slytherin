@@ -65,6 +65,7 @@ class StratigilityDispatcher extends Dispatcher
         {
             if (is_string($middleware)) $middleware = new $middleware;
 
+            /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface|callable $middleware */
             $this->pipeline->pipe($this->transform($middleware, $wrap));
         }
 

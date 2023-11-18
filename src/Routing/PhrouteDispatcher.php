@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Phroute\Phroute\Dispatcher;
 use Phroute\Phroute\HandlerResolverInterface;
 
 /**
@@ -85,11 +86,19 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
+        $routes = $this->collect($router);
+
         $this->router = $router;
 
-        $routes = $router instanceof PhrouteRouter ? $router->routes(true) : $this->collect();
+        $isPhroute = $router instanceof PhrouteRouter;
 
-        $this->dispatcher = new \Phroute\Phroute\Dispatcher($routes, $this->resolver);
+        if ($isPhroute)
+        {
+            /** @var \Phroute\Phroute\RouteDataArray */
+            $routes = $router->routes(true);
+        }
+
+        $this->dispatcher = new Dispatcher($routes, $this->resolver);
 
         return $this;
     }
@@ -97,13 +106,17 @@ class PhrouteDispatcher implements DispatcherInterface
     /**
      * Collects the specified routes and generates a data for it.
      *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return \Phroute\Phroute\RouteDataArray
      */
-    protected function collect()
+    protected function collect(RouterInterface $router)
     {
+        /** @var array<int, array<int, mixed>> */
+        $routes = $router->routes();
+
         $collector = new \Phroute\Phroute\RouteCollector;
 
-        foreach ($this->router->routes() as $route)
+        foreach ($routes as $route)
         {
             $collector->addRoute($route[0], $route[1], $route[2]);
         }

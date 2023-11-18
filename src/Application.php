@@ -78,13 +78,12 @@ class Application
 
         if (! $hasMiddleware) return $callback($request);
 
+        /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface */
         $middleware = static::$container->get(self::MIDDLEWARE);
 
         $delegate = new Delegate($callback);
 
-        $result = $middleware->process($request, $delegate);
-
-        return isset($result) ? $result : $callback($request);
+        return $middleware->process($request, $delegate);
     }
 
     /**

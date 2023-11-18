@@ -63,17 +63,24 @@ class Dispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
-        foreach (array_filter($router->routes()) as $route) {
-            preg_match_all('/:[a-z]*/', $route[1], $parameters);
+        /** @var array<int, array<int, mixed>> */
+        $routes = $router->routes();
 
-            $route[4] = str_replace($parameters[0], '(\w+)', $route[1]);
+        $fn = function ($item)
+        {
+            return str_replace(':', '', $item);
+        };
+
+        /** @var array<int, string> $route */
+        foreach (array_filter($routes) as $route)
+        {
+            preg_match_all('/:[a-z]*/', $route[1], $result);
+
+            $route[4] = str_replace($result[0], '(\w+)', $route[1]);
             $route[4] = '/^' . str_replace('/', '\/', $route[4]) . '$/';
+            $route[5] = array_map($fn, $result[0]);
 
-            $route[5] = array_map(function ($item) {
-                return str_replace(':', '', $item);
-            }, $parameters[0]);
-
-            $this->routes[] = $route;
+            array_push($this->routes, (array) $route);
         }
 
         return $this;
@@ -112,16 +119,16 @@ class Dispatcher implements DispatcherInterface
 
         if (! $matched) return null;
 
-        if ($httpMethod == $route[0] || $httpMethod == 'OPTIONS')
+        if ($httpMethod != $route[0] && $httpMethod != 'OPTIONS')
         {
-            $this->allowed($route[0]);
-
-            array_shift($parameters);
-
-            return array($route[2], $parameters, $route[3], $route[5]);
+            return null;
         }
 
-        return null;
+        $this->allowed($route[0]);
+
+        array_shift($parameters);
+
+        return array($route[2], $parameters, $route[3], $route[5]);
     }
 
     /**

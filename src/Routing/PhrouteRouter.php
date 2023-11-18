@@ -35,7 +35,8 @@ class PhrouteRouter extends Router
     {
         $this->collector = new RouteCollector;
 
-        foreach ($routes as $route) {
+        foreach ($routes as $route)
+        {
             $middlewares = (isset($route[3])) ? $route[3] : array();
 
             $this->add($route[0], $route[1], $route[2], $middlewares);
@@ -68,7 +69,7 @@ class PhrouteRouter extends Router
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return mixed[]
+     * @return array<int, array<int, mixed>>|mixed
      */
     public function routes($parsed = false)
     {

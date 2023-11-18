@@ -54,7 +54,7 @@ class FastRouteRouter extends Router
      * Returns a listing of available routes.
      *
      * @param  boolean $parsed
-     * @return mixed[]|callable
+     * @return array<int, mixed>|callable
      */
     public function routes($parsed = false)
     {
