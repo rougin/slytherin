@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use Phroute\Phroute\Dispatcher;
+use Phroute\Phroute\Dispatcher as Phroute;
 use Phroute\Phroute\HandlerResolverInterface;
 
 /**
@@ -98,7 +98,7 @@ class PhrouteDispatcher implements DispatcherInterface
             $routes = $router->routes(true);
         }
 
-        $this->dispatcher = new Dispatcher($routes, $this->resolver);
+        $this->dispatcher = new Phroute($routes, $this->resolver);
 
         return $this;
     }
