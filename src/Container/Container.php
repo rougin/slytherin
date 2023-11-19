@@ -198,11 +198,9 @@ class Container implements ContainerInterface
 
             $class = $param->getClass();
 
-            $exists = $param->getClass() !== null;
-
             $name = $parameter->getName();
 
-            if ($exists) $name = $class->getName();
+            if (! is_null($class)) $name = $class->getName();
 
             $argument = $this->value($name);
         }

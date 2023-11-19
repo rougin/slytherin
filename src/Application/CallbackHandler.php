@@ -53,7 +53,7 @@ class CallbackHandler
      * Returns a response instance.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
     {
@@ -84,7 +84,7 @@ class CallbackHandler
      *
      * @param  \Rougin\Slytherin\Application\FinalCallback $callback
      * @param  \Psr\Http\Message\ServerRequestInterface    $request
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return \Psr\Http\Message\ResponseInterface
      */
     protected function middleware(FinalCallback $callback, ServerRequestInterface $request)
     {

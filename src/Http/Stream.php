@@ -161,6 +161,11 @@ class Stream implements StreamInterface
      */
     public function getSize()
     {
+        if ($this->stream === null)
+        {
+            return $this->size;
+        }
+
         if (is_null($this->size))
         {
             /** @var array<string, int> */
@@ -219,9 +224,7 @@ class Stream implements StreamInterface
             $data = @fread($this->stream, $length);
         }
 
-        $unreadable = ! $this->isReadable();
-
-        if ($unreadable || $data === false)
+        if (! $this->isReadable() || ! $data)
         {
             $message = 'Could not read from stream';
 
@@ -304,8 +307,11 @@ class Stream implements StreamInterface
             throw new \RuntimeException('Stream is not writable');
         }
 
+        /** @var resource */
+        $stream = $this->stream;
+
         $this->size = null;
 
-        return fwrite($this->stream, $string) ?: 0;
+        return fwrite($stream, $string) ?: 0;
     }
 }
