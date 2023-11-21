@@ -12,6 +12,14 @@ namespace Rougin\Slytherin\Routing;
  */
 interface RouterInterface
 {
+    const ROUTE_METHOD = 0;
+
+    const ROUTE_NAME = 1;
+
+    const ROUTE_HANDLE = 2;
+
+    const ROUTE_MIDDLWARE = 3;
+
     /**
      * Adds a new raw route.
      *

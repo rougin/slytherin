@@ -38,14 +38,14 @@ class UploadedFile implements UploadedFileInterface
     protected $error;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $name;
+    protected $name = null;
 
     /**
-     * @var string
+     * @var string|null
      */
-    protected $media;
+    protected $media = null;
 
     /**
      * Initializes the uploaded file instance.

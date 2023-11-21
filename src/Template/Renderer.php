@@ -75,6 +75,7 @@ class Renderer implements RendererInterface
 
             $filepath = str_replace('\\', '/', (string) $filepath);
 
+            /** @var string */
             $filepath = preg_replace('/^\d\//i', '', $filepath);
 
             $exists = (string) $filepath === $template;

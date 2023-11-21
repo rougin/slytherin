@@ -47,6 +47,7 @@ class FastRouteDispatcher implements DispatcherInterface
     {
         $this->allowed($httpMethod);
 
+        /** @var array<int, string> */
         $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
         if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND)
@@ -56,9 +57,13 @@ class FastRouteDispatcher implements DispatcherInterface
             throw new \UnexpectedValueException($message);
         }
 
-        $route = $this->router->retrieve($httpMethod, $uri);
+        $route = $this->router->retrieve($httpMethod, (string) $uri);
 
-        $middlewares = ($route[2] == $result[1] && isset($route[3])) ? $route[3] : array();
+        $sameRoute = isset($route[2]) && $route[2] === $result[1];
+
+        $hasMiddleware = isset($route[3]);
+
+        $middlewares = $sameRoute && $hasMiddleware ? $route[3] : array();
 
         return array(array($result[1], $result[2]), $middlewares);
     }
