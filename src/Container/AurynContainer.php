@@ -42,16 +42,18 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function __construct($data = null)
     {
-        if ($data instanceof Injector)
-        {
-            $this->injector = $data;
-        }
-        else
+        $injector = $data instanceof Injector;
+
+        $instance = $this;
+
+        if ($injector) $instance = $data;
+
+        if (! $injector)
         {
             parent::__construct($data);
-
-            $this->injector = $this;
         }
+
+        $this->injector = $instance;
     }
 
     /**
