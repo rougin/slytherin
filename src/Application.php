@@ -25,6 +25,8 @@ class Application
 
     const MIDDLEWARE = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
 
+    const RENDERER = 'Rougin\Slytherin\Template\RendererInterface';
+
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     /**
@@ -122,11 +124,13 @@ class Application
         // NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
         if (static::$container->has(self::ERROR_HANDLER))
         {
+            /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
             $debugger = static::$container->get(self::ERROR_HANDLER);
 
             $debugger->display();
         }
 
+        /** @var \Psr\Http\Message\ServerRequestInterface */
         $request = static::$container->get(self::SERVER_REQUEST);
 
         echo (string) $this->emit($request)->getBody();

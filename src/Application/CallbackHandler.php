@@ -57,10 +57,12 @@ class CallbackHandler
      */
     public function __invoke(ServerRequestInterface $request)
     {
+        /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
         $dispatcher = $this->container->get(self::DISPATCHER);
 
         if ($this->container->has(self::ROUTER))
         {
+            /** @var \Rougin\Slytherin\Routing\RouterInterface */
             $router = $this->container->get(self::ROUTER);
 
             $dispatcher = $dispatcher->router($router);
@@ -88,6 +90,7 @@ class CallbackHandler
      */
     protected function middleware(FinalCallback $callback, ServerRequestInterface $request)
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $this->container->get(self::RESPONSE);
 
         $middleware = (string) Application::MIDDLEWARE;
