@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Interop\Http\ServerMiddleware\MiddlewareInterface;
+
 /**
  * Dispatcher
  *
@@ -23,7 +25,7 @@ class Router implements RouterInterface
     protected $prefix = '';
 
     /**
-     * @var array<int, mixed>
+     * @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array();
 
@@ -35,16 +37,25 @@ class Router implements RouterInterface
     /**
      * Initializes the router instance.
      *
-     * @param array<int, mixed> $routes
+     * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
      */
     public function __construct(array $routes = array())
     {
         foreach ($routes as $route)
         {
-            list($httpMethod, $uri, $handler) = $route;
+            /** @var string */
+            $httpMethod = $route[0];
 
-            $middlewares = (isset($route[3])) ? $route[3] : array();
-            $middlewares = is_string($middlewares) ? array($middlewares) : $middlewares;
+            /** @var string */
+            $uri = $route[1];
+
+            /** @var string[]|string */
+            $handler = $route[2];
+
+            /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string */
+            $middlewares = isset($route[3]) ? $route[3] : array();
+
+            if (is_string($middlewares)) $middlewares = array($middlewares);
 
             $this->add($httpMethod, $uri, $handler, $middlewares);
         }
@@ -87,7 +98,7 @@ class Router implements RouterInterface
      * Merges a listing of parsed routes to current one.
      * NOTE: To be removed in v1.0.0. Use $this->merge() instead.
      *
-     * @param  mixed[] $routes
+     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
      * @return self
      */
     public function addRoutes(array $routes)
@@ -101,7 +112,7 @@ class Router implements RouterInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return mixed[]|null
+     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
      */
     public function getRoute($httpMethod, $uri)
     {
@@ -135,7 +146,7 @@ class Router implements RouterInterface
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  mixed[] $routes
+     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
      * @return self
      */
     public function merge(array $routes)
@@ -150,7 +161,7 @@ class Router implements RouterInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return mixed[]|null
+     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
      */
     public function retrieve($httpMethod, $uri)
     {
@@ -236,17 +247,29 @@ class Router implements RouterInterface
     /**
      * Parses the route.
      *
-     * @param  mixed[] $route
-     * @return mixed[]
+     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
+     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
      */
     protected function parse($route)
     {
-        $route[0] = strtoupper($route[0]);
-        $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
-        $route[2] = (is_string($route[2])) ? explode('@', $route[2]) : $route[2];
-        $route[3] = (! is_array($route[3])) ? array($route[3]) : $route[3];
+        if (is_string($route[0])) $route[0] = strtoupper($route[0]);
 
-        ! is_array($route[2]) || $route[2][0] = $this->namespace . $route[2][0];
+        if (is_string($route[1]))
+        {
+            $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
+        }
+
+        if (is_string($route[2])) $route[2] = explode('@', $route[2]);
+
+        if (! is_array($route[3])) $route[3] = array($route[3]);
+
+        if (is_array($route[2]))
+        {
+            /** @var string */
+            $method = $route[2][0];
+
+            $route[2][0] = $this->namespace . $method;
+        }
 
         return $route;
     }
