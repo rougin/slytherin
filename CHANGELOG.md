@@ -4,9 +4,6 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.7](https://github.com/rougin/slytherin/compare/v0.9.6...master) - Unreleased
 
-### Added
-- Constants in `RouterInterface`
-
 ### Fixed
 - Type hinting of all classes using `PHPStan`
 

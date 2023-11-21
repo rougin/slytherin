@@ -158,14 +158,16 @@ class Router implements RouterInterface
 
         $fn = function ($route)
         {
-            return array($route[self::ROUTE_METHOD], $route[self::ROUTE_NAME]);
+            return array($route[0], $route[1]);
         };
 
         $routes = array_map($fn, $this->routes);
 
         $key = array_search($route, $routes);
 
-        return $key !== false ? $this->routes[$key] : null;
+        if ($key === false) return null;
+
+        return $this->routes[(integer) $key];
     }
 
     /**
