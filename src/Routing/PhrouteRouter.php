@@ -22,25 +22,15 @@ class PhrouteRouter extends Router
     protected $collector;
 
     /**
-     * @var array<int, mixed>
-     */
-    protected $routes = array();
-
-    /**
      * Initializes the router instance.
      *
-     * @param array<int, mixed> $routes
+     * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
      */
     public function __construct(array $routes = array())
     {
         $this->collector = new RouteCollector;
 
-        foreach ($routes as $route)
-        {
-            $middlewares = (isset($route[3])) ? $route[3] : array();
-
-            $this->add($route[0], $route[1], $route[2], $middlewares);
-        }
+        parent::__construct($routes);
     }
 
     /**

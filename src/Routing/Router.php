@@ -44,7 +44,7 @@ class Router implements RouterInterface
         foreach ($routes as $route)
         {
             /** @var string */
-            $httpMethod = $route[0];
+            $method = $route[0];
 
             /** @var string */
             $uri = $route[1];
@@ -57,7 +57,7 @@ class Router implements RouterInterface
 
             if (is_string($middlewares)) $middlewares = array($middlewares);
 
-            $this->add($httpMethod, $uri, $handler, $middlewares);
+            $this->add($method, $uri, $handler, $middlewares);
         }
     }
 

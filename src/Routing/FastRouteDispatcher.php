@@ -88,18 +88,27 @@ class FastRouteDispatcher implements DispatcherInterface
             return $this;
         }
 
-        $routes = function (RouteCollector $collector) use ($router)
+        $fn = function (RouteCollector $collector) use ($router)
         {
-            /** @var array<int, array<int, mixed>> */
+            /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> */
             $routes = $router->routes();
 
             foreach (array_filter($routes) as $route)
             {
-                $collector->addRoute($route[0], $route[1], $route[2]);
+                /** @var string */
+                $method = $route[0];
+
+                /** @var string */
+                $uri = $route[1];
+
+                /** @var string[]|string */
+                $handler = $route[2];
+
+                $collector->addRoute($method, $uri, $handler);
             }
         };
 
-        $this->dispatcher = \FastRoute\simpleDispatcher($routes);
+        $this->dispatcher = \FastRoute\simpleDispatcher($fn);
 
         return $this;
     }
