@@ -18,7 +18,7 @@ class Dispatcher implements DispatcherInterface
     protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
     /**
-     * @var array<int, mixed>
+     * @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array();
 
@@ -41,6 +41,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($httpMethod, $uri)
     {
+        /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> */
         $routes = array();
 
         foreach ($this->routes as $route)
@@ -96,25 +97,27 @@ class Dispatcher implements DispatcherInterface
      */
     protected function allowed($httpMethod)
     {
-        $exists = in_array($httpMethod, $this->allowed);
+        if (! in_array($httpMethod, $this->allowed))
+        {
+            $message = 'Used method is not allowed';
 
-        if ($exists) return true;
+            throw new \UnexpectedValueException($message);
+        }
 
-        $message = 'Used method is not allowed';
-
-        throw new \UnexpectedValueException($message);
+        return true;
     }
 
     /**
      * Parses the specified route and make some checks.
      *
-     * @param  string  $httpMethod
-     * @param  string  $uri
-     * @param  mixed[] $route
-     * @return mixed[]|null
+     * @param  string                                                                           $httpMethod
+     * @param  string                                                                           $uri
+     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
+     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
      */
     protected function parse($httpMethod, $uri, $route)
     {
+        /** @var string $route[4] */
         $matched = preg_match($route[4], $uri, $parameters);
 
         if (! $matched) return null;
@@ -133,12 +136,12 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Retrieved the specified route from the result.
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @param  array<int, mixed> $routes
+     * 
+     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> $routes
      * @param  string $uri
-     * @return array<int, mixed>
+     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
+     * 
+     * @throws \UnexpectedValueException
      */
     protected function retrieve(array $routes, $uri)
     {
@@ -151,11 +154,19 @@ class Dispatcher implements DispatcherInterface
             throw new \UnexpectedValueException($message);
         }
 
+        /** @var array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> */
         $route = current($routes);
 
-        if (count($route[1]) > 0)
+        /** @var string[] */
+        $params = $route[1];
+
+        if (count($params) > 0)
         {
-            $route[1] = array_combine($route[3], $route[1]);
+            /** @var string[] */
+            $regex = $route[3];
+
+            /** @var string[] $route[1] */
+            $route[1] = array_combine($regex, $params);
         }
 
         return (array) $route;
