@@ -147,24 +147,25 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Parses the $_FILES into multiple \File instances.
      *
-     * @param  array<string, mixed> $uploaded
+     * @param  array<string, array<string, string[]>> $uploaded
      * @return array<string, \Psr\Http\Message\UploadedFileInterface[]>
      */
     public static function normalize(array $uploaded)
     {
+        $diversed = self::diverse($uploaded);
+
+        /** @var array<string, \Psr\Http\Message\UploadedFileInterface[]> */
         $files = array();
 
-        foreach (self::diverse($uploaded) as $name => $file)
+        foreach ($diversed as $name => $file)
         {
-            list($files[$name], $items) = array($file, array());
+            $items = array();
 
             if (! isset($file['name'])) continue;
 
             foreach ($file['name'] as $key => $value)
             {
-                $instance = self::create($file, $key);
-
-                array_push($items, $instance);
+                $items[] = self::create($file, $key);
             }
 
             $files[$name] = (array) $items;
@@ -176,20 +177,25 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Creates a new UploadedFile instance.
      *
-     * @param  array<string, mixed> $file
-     * @param  integer              $key
+     * @param  array<string, array<int, string|integer>> $file
+     * @param  integer                                   $key
      * @return \Psr\Http\Message\UploadedFileInterface
      */
     protected static function create(array $file, $key)
     {
+        /** @var string */
         $tmp = $file['tmp_name'][$key];
 
+        /** @var integer */
         $size = $file['size'][$key];
 
+        /** @var integer */
         $error = $file['error'][$key];
 
+        /** @var string */
         $original = $file['name'][$key];
 
+        /** @var string */
         $type = $file['type'][$key];
 
         return new UploadedFile($tmp, $size, $error, $original, $type);
@@ -198,8 +204,8 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Diverse the $_FILES into a consistent result.
      *
-     * @param  array<string, mixed> $uploaded
-     * @return array<string, mixed>
+     * @param  array<string, array<string, string[]>> $uploaded
+     * @return array<string, array<string, string[]>>
      */
     protected static function diverse(array $uploaded)
     {

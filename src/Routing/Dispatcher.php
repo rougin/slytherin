@@ -136,11 +136,11 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Retrieved the specified route from the result.
-     * 
+     *
      * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> $routes
      * @param  string $uri
      * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
-     * 
+     *
      * @throws \UnexpectedValueException
      */
     protected function retrieve(array $routes, $uri)

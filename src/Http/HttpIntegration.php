@@ -42,7 +42,7 @@ class HttpIntegration implements IntegrationInterface
         /** @var array<string, string> */
         $query = $globals[2];
 
-        /** @var array<string, array<string, string>> */
+        /** @var array<string, array<string, string[]>> */
         $files = $globals[3];
 
         /** @var array<string, mixed>|null|object */

@@ -60,7 +60,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array<string, string>                  $server
      * @param array<string, string>                  $cookies
      * @param array<string, string>                  $query
-     * @param array<string, array<string, string>>   $uploaded
+     * @param array<string, array<string, string[]>> $uploaded
      * @param array<string, mixed>|null|object       $data
      * @param array<string, string>                  $attributes
      * @param \Psr\Http\Message\UriInterface|null    $uri

@@ -77,9 +77,15 @@ class FinalCallback
             $reflector = new \ReflectionFunction($closure);
         }
 
-        $function[1] = $this->container->arguments($reflector, $function[1]);
+        /** @var callable */
+        $callable = $function[0];
 
-        $this->function = call_user_func_array($function[0], $function[1]);
+        /** @var array<string, mixed> */
+        $parameters = $function[1];
+
+        $parameters = $this->container->arguments($reflector, $parameters);
+
+        $this->function = call_user_func_array($callable, $parameters);
 
         return $this->finalize($this->function);
     }
