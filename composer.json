@@ -40,7 +40,6 @@
     },
     "scripts":
     {
-        "stan": "phpstan",
         "test": "phpunit"
     }
 }
