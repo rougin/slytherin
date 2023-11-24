@@ -48,7 +48,10 @@ class Configuration implements ConfigurationInterface
             /** @var string */
             $index = $keys[(int) $i];
 
+            // TODO: Need to refactor ------
+            /** @phpstan-ignore-next-line */
             $data = &$data[$index];
+            // -----------------------------
         }
 
         return $data !== null ? $data : $default;
