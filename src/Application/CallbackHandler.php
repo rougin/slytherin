@@ -74,7 +74,10 @@ class CallbackHandler
 
         $result = $dispatcher->dispatch($method, $path);
 
-        $this->middlewares = $result[1];
+        /** @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> */
+        $items = $result[1];
+
+        $this->middlewares = (array) $items;
 
         $callback = new FinalCallback($this->container, $result[0]);
 

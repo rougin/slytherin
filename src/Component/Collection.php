@@ -58,6 +58,7 @@ class Collection extends VanillaContainer
      */
     public function getDispatcher()
     {
+        /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
         return $this->get('Rougin\Slytherin\Routing\DispatcherInterface');
     }
 
@@ -106,7 +107,10 @@ class Collection extends VanillaContainer
     {
         $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
 
-        return ($this->getContainer()->has($interface)) ? $this->getContainer()->get($interface) : null;
+        if (! $this->getContainer()->has($interface)) return null;
+
+        /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
+        return $this->getContainer()->get((string) $interface);
     }
 
     /**
@@ -158,6 +162,7 @@ class Collection extends VanillaContainer
      */
     public function getHttpRequest()
     {
+        /** @var \Psr\Http\Message\ServerRequestInterface */
         return $this->get('Psr\Http\Message\ServerRequestInterface');
     }
 
@@ -181,6 +186,7 @@ class Collection extends VanillaContainer
      */
     public function getHttpResponse()
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         return $this->get('Psr\Http\Message\ResponseInterface');
     }
 
@@ -206,7 +212,10 @@ class Collection extends VanillaContainer
     {
         $interface = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
-        return ($this->getContainer()->has($interface)) ? $this->getContainer()->get($interface) : null;
+        if (! $this->getContainer()->has($interface)) return null;
+
+        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
+        return $this->getContainer()->get((string) $interface);
     }
 
     /**

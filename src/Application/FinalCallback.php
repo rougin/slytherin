@@ -54,17 +54,27 @@ class FinalCallback
             return $this->finalize($this->function);
         }
 
+        /** @var array<int, \Closure|string|array<int, string>> */
         $function = $this->function;
 
         if (is_array($function[0]) && is_string($function[0][0]))
         {
             $function[0][0] = $this->container->resolve($function[0][0], $request);
 
-            $reflector = new \ReflectionMethod($function[0][0], $function[0][1]);
+            /** @var object|string */
+            $objectOrMethod = $function[0][0];
+
+            /** @var string */
+            $method = $function[0][1];
+
+            $reflector = new \ReflectionMethod($objectOrMethod, $method);
         }
         else
         {
-            $reflector = new \ReflectionFunction($function[0]);
+            /** @var \Closure|string */
+            $closure = $function[0];
+
+            $reflector = new \ReflectionFunction($closure);
         }
 
         $function[1] = $this->container->arguments($reflector, $function[1]);
@@ -82,6 +92,7 @@ class FinalCallback
      */
     protected function finalize($function)
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $this->container->get(self::RESPONSE);
 
         if (is_string($function))

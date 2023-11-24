@@ -106,8 +106,8 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     /**
      * Calls methods from the \Whoops\Run instance.
      *
-     * @param  string $method
-     * @param  mixed  $parameters
+     * @param  string  $method
+     * @param  mixed[] $parameters
      * @return mixed
      */
     public function __call($method, $parameters)

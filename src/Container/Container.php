@@ -44,11 +44,11 @@ class Container implements ContainerInterface
      * Adds a new instance to the container.
      * NOTE: To be removed in v1.0.0. Use $this->set() instead.
      *
-     * @param  string     $id
-     * @param  mixed|null $concrete
+     * @param  string $id
+     * @param  object $concrete
      * @return self
      */
-    public function add($id, $concrete = null)
+    public function add($id, $concrete)
     {
         return $this->set($id, $concrete);
     }
@@ -97,7 +97,7 @@ class Container implements ContainerInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      *
      * @param  string $id
-     * @return mixed
+     * @return object
      */
     public function get($id)
     {
@@ -170,7 +170,7 @@ class Container implements ContainerInterface
      * Sets a new instance to the container.
      *
      * @param  string $id
-     * @param  mixed  $concrete
+     * @param  object $concrete
      * @return self
      */
     public function set($id, $concrete)

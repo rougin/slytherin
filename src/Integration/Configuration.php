@@ -41,13 +41,12 @@ class Configuration implements ConfigurationInterface
     {
         $keys = array_filter(explode('.', $key));
 
-        $length = count($keys);
-
         $data = $this->data;
 
-        for ($i = 0; $i < $length; $i++)
+        for ($i = 0; $i < count($keys); $i++)
         {
-            $index = $keys[$i];
+            /** @var string */
+            $index = $keys[(int) $i];
 
             $data = &$data[$index];
         }

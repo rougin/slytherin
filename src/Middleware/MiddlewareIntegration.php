@@ -27,8 +27,10 @@ class MiddlewareIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $container->get('Psr\Http\Message\ResponseInterface');
 
+        /** @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> */
         $stack = $config->get('app.middlewares', array());
 
         $dispatcher = $this->dispatcher($response, $stack);
@@ -36,6 +38,7 @@ class MiddlewareIntegration implements IntegrationInterface
         // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead. ---
         $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
         // ------------------------------------------------------------------------------
+
         $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
         $container->set('Interop\Http\ServerMiddleware\MiddlewareInterface', $dispatcher);
 

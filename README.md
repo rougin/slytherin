@@ -317,7 +317,7 @@ Please see [CHANGELOG][link-changelog] for more information what has changed rec
 ## Testing
 
 ``` bash
-$ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility --dev
+$ composer require filp/whoops nikic/fast-route phroute/phroute rdlowrey/auryn zendframework/zend-diactoros http-interop/http-middleware:^0.4.1 league/container:~2.4 twig/twig:~1.4 zendframework/zend-stratigility:~2.0 --dev
 $ composer test
 ```
 

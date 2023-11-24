@@ -17,7 +17,7 @@ interface DispatcherInterface
      *
      * @param  string $httpMethod
      * @param  string $uri
-     * @return array|mixed
+     * @return array<int, mixed>
      */
     public function dispatch($httpMethod, $uri);
 

@@ -121,7 +121,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * Adds a new middleware or a list of middlewares in the stack.
      *
-     * @param  array<int, mixed>|\Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
+     * @param  array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>|\Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string $middleware
      * @return self
      */
     public function push($middleware)

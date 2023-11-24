@@ -27,6 +27,7 @@ class ErrorHandlerIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        /** @var string */
         $environment = $config->get('app.environment', 'development');
 
         $handler = new ErrorHandler($environment);

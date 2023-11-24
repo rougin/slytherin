@@ -37,5 +37,10 @@
         {
             "Rougin\\Slytherin\\": "tests"
         }
+    },
+    "scripts":
+    {
+        "stan": "phpstan",
+        "test": "phpunit"
     }
 }

@@ -191,7 +191,7 @@ class Stream implements StreamInterface
      */
     public function isSeekable()
     {
-        return $this->getMetadata('seekable');
+        return $this->getMetadata('seekable') === true;
     }
 
     /**

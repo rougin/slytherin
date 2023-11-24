@@ -174,7 +174,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * Returns an instance with the specified derived request attribute.
      *
      * @param  string $name
-     * @param  mixed  $value
+     * @param  string $value
      * @return static
      */
     public function withAttribute($name, $value)

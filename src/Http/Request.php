@@ -111,7 +111,7 @@ class Request extends Message implements RequestInterface
     /**
      * Returns an instance with the specific request-target.
      *
-     * @param  mixed $target
+     * @param  string $target
      * @return static
      */
     public function withRequestTarget($target)

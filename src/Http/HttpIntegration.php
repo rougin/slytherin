@@ -31,11 +31,26 @@ class HttpIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        list($server, $cookies, $get, $files, $post) = $this->globals($config);
+        $globals = $this->globals($config);
 
-        $headers = (array) $this->headers($server);
+        /** @var array<string, string> */
+        $server = $globals[0];
 
-        $request = new ServerRequest($server, $cookies, $get, $files, $post);
+        /** @var array<string, string> */
+        $cookies = $globals[1];
+
+        /** @var array<string, string> */
+        $query = $globals[2];
+
+        /** @var array<string, array<string, string>> */
+        $files = $globals[3];
+
+        /** @var array<string, mixed>|null|object */
+        $parsed = $globals[4];
+
+        $headers = $this->headers($server);
+
+        $request = new ServerRequest($server, $cookies, $query, $files, $parsed);
 
         foreach ($headers as $key => $value)
         {
@@ -49,7 +64,7 @@ class HttpIntegration implements IntegrationInterface
      * Returns the PHP's global variables.
      *
      * @param  \Rougin\Slytherin\Integration\Configuration $config
-     * @return array<int, array<string, mixed>>
+     * @return array<int, mixed>
      */
     protected function globals(Configuration $config)
     {
