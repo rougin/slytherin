@@ -72,10 +72,13 @@ class MiddlewareIntegration implements IntegrationInterface
 
         $wantZend = $this->preferred === 'stratigility';
 
-        if (($empty || (! $wantZend)) || ! $hasZend) return $dispatcher;
+        if (($empty || $wantZend) && $hasZend)
+        {
+            $pipe = new MiddlewarePipe;
 
-        $pipe = new MiddlewarePipe;
+            $dispatcher = new StratigilityDispatcher($pipe, $stack, $response);
+        }
 
-        return new StratigilityDispatcher($pipe, $stack, $response);
+        return $dispatcher;
     }
 }
