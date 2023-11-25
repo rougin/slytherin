@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Container;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -232,10 +233,28 @@ class Container implements ContainerInterface
      */
     protected function value($name)
     {
-        $object = isset($this->instances[$name]) ? $this->get($name) : null;
+        $object = null;
 
-        $exists = ! $object && $this->extra->has($name) === true;
+        if (isset($this->instances[$name]))
+        {
+            $object = $this->get($name);
+        }
 
-        return $exists === true ? $this->extra->get($name) : $object;
+        if (! $object && $this->extra->has($name))
+        {
+            // If the identifier does not exists from extra, ---
+            // Try to get again from the parent container
+            try
+            {
+                return $this->extra->get($name);
+            }
+            catch (NotFoundExceptionInterface $error)
+            {
+                return $this->get($name);
+            }
+            // -------------------------------------------------
+        }
+
+        return $object;
     }
 }

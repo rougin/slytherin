@@ -28,13 +28,11 @@ class ApplicationTest extends Testcase
      */
     public function test_run_with_sample_text()
     {
-        $builder = new Builder;
-
-        $builder->setUrl('GET', '/hello');
+        $this->builder->setUrl('GET', '/hello');
 
         $this->expectOutputString('Hello world!');
 
-        $builder->make()->run();
+        $this->builder->make()->run();
     }
 
     /**
@@ -44,12 +42,24 @@ class ApplicationTest extends Testcase
      */
     public function test_run_with_arguments_in_uri()
     {
-        $builder = new Builder;
-
-        $builder->setUrl('GET', '/hi/Rougin');
+        $this->builder->setUrl('GET', '/hi/Rougin');
 
         $this->expectOutputString('Hello, Rougin!');
 
-        $builder->make()->run();
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_run_with_sest_depot_as_the_constructor()
+    {
+        $this->builder->setUrl('GET', '/');
+
+        $this->expectOutputString('Welcome home!');
+
+        $this->builder->make()->run();
     }
 }
