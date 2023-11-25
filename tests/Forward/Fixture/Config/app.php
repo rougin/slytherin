@@ -2,43 +2,35 @@
 
 use Rougin\Slytherin\Forward\Fixture\Router;
 
-return
-[
-    'name' => 'Slytherin',
+$config = array('name' => 'Slytherin');
+$config['base_url'] = 'http://localhost:8000';
+$config['environment'] = 'development';
+$config['timezone'] = 'Asia/Manila';
 
-    'base_url' => 'http://localhost:8000',
+$http = array();
+$http['cookies'] = array();
+$http['files'] = array();
+$http['get'] = array();
+$http['post'] = array();
+$http['server'] = array();
+$config['http'] = $http;
 
-    'environment' => 'development',
+$packages = array();
 
-    'timezone' => 'Asia/Manila',
+// Testing Packages -----------------------------------------------------
+$packages[] = 'Rougin\Slytherin\Forward\Fixture\Packages\HttpPackage';
+$packages[] = 'Rougin\Slytherin\Forward\Fixture\Packages\RoutingPackage';
+// ----------------------------------------------------------------------
 
-    'http' =>
-    [
-        'cookies' => array(),
+// Slytherin Integrations --------------------------------------------
+$packages[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
+$packages[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+// -------------------------------------------------------------------
 
-        'files' => array(),
+$config['router'] = new Router;
 
-        'get' => array(),
+$config['middlewares'] = array();
 
-        'post' => array(),
+$config['packages'] = $packages;
 
-        'server' => array(),
-    ],
-
-    'router' => new Router,
-
-    'middlewares' => [],
-
-    'packages' =>
-    [
-        // Testing Packages ---------------------------------------
-        'Rougin\Slytherin\Forward\Fixture\Packages\HttpPackage',
-        'Rougin\Slytherin\Forward\Fixture\Packages\RoutingPackage',
-        // --------------------------------------------------------
-
-        // Slytherin Integrations ------------------------------
-        'Rougin\Slytherin\Integration\ConfigurationIntegration',
-        'Rougin\Slytherin\Middleware\MiddlewareIntegration',
-        // -----------------------------------------------------
-    ],
-];
+return $config;
