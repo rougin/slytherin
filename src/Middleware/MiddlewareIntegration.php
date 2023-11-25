@@ -27,6 +27,11 @@ class MiddlewareIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
+        {
+            return $container;
+        }
+
         /** @var \Psr\Http\Message\ResponseInterface */
         $response = $container->get('Psr\Http\Message\ResponseInterface');
 
