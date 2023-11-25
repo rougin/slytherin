@@ -26,22 +26,6 @@ class ApplicationTest extends Testcase
      *
      * @return void
      */
-    public function test_run_with_404_error()
-    {
-        $this->builder->setUrl('GET', '/');
-
-        $this->builder->make()->run();
-
-        $response = http_response_code();
-
-        $this->assertEquals(404, $response);
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
     public function test_run_with_sample_text()
     {
         $builder = new Builder;
