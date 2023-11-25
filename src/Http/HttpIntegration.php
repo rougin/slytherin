@@ -23,6 +23,11 @@ use Zend\Diactoros\ServerRequestFactory;
 class HttpIntegration implements IntegrationInterface
 {
     /**
+     * @var string|null
+     */
+    protected $preferred = null;
+
+    /**
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
@@ -119,7 +124,13 @@ class HttpIntegration implements IntegrationInterface
      */
     protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
     {
-        if (class_exists('Zend\Diactoros\ServerRequestFactory'))
+        $empty = $this->preferred === null;
+
+        $hasDiactoros = class_exists('Zend\Diactoros\ServerRequestFactory');
+
+        $wantDiactoros = $this->preferred === 'diactoros';
+
+        if (($empty || $wantDiactoros) && $hasDiactoros)
         {
             $response = new ZendResponse;
 

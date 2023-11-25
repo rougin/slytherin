@@ -17,6 +17,11 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
 class RoutingIntegration implements IntegrationInterface
 {
     /**
+     * @var string|null
+     */
+    protected $preferred = null;
+
+    /**
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
@@ -25,15 +30,27 @@ class RoutingIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
+        $hasFastroute = interface_exists('FastRoute\Dispatcher');
+
+        $wantFastroute = $this->preferred === 'fastroute';
+
+        $hasPhroute = class_exists('Phroute\Phroute\Dispatcher');
+
+        $wantPhroute = $this->preferred === 'phroute';
+
         $dispatcher = new Dispatcher;
 
         $router = $config->get('app.router', new Router);
 
-        if (interface_exists('FastRoute\Dispatcher')) {
+        $empty = $this->preferred === null;
+
+        if (($empty || $wantFastroute) && $hasFastroute)
+        {
             $dispatcher = new FastRouteDispatcher;
         }
 
-        if (class_exists('Phroute\Phroute\Dispatcher')) {
+        if (($empty || $wantPhroute) && $hasPhroute)
+        {
             $resolver = new PhrouteResolver($container);
 
             $dispatcher = new PhrouteDispatcher(null, $resolver);
