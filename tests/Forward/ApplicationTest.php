@@ -30,9 +30,25 @@ class ApplicationTest extends Testcase
     {
         $builder = new Builder;
 
-        $builder->setUrl('GET', '/v1/hello');
+        $builder->setUrl('GET', '/hello');
 
         $this->expectOutputString('Hello world!');
+
+        $builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_run_with_arguments_in_uri()
+    {
+        $builder = new Builder;
+
+        $builder->setUrl('GET', '/hi/Rougin');
+
+        $this->expectOutputString('Hello, Rougin!');
 
         $builder->make()->run();
     }

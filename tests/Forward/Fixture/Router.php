@@ -16,10 +16,11 @@ class Router extends Slytherin
 
     public function routes($parsed = false)
     {
-        // Default routes ------------------
-        $this->get('/v1/hello', 'Hello@index');
+        // Default routes --------------------
+        $this->get('/hello', 'Hello@index');
+        $this->get('/hi/:name', 'Hello@name');
         $this->get('/', 'Home@index');
-        // ---------------------------------
+        // -----------------------------------
 
         return parent::routes($parsed);
     }

@@ -19,6 +19,11 @@ use Zend\Stratigility\MiddlewarePipe;
 class MiddlewareIntegration implements IntegrationInterface
 {
     /**
+     * @var string|null
+     */
+    protected $preferred = null;
+
+    /**
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
@@ -61,9 +66,13 @@ class MiddlewareIntegration implements IntegrationInterface
     {
         $dispatcher = new Dispatcher($stack, $response);
 
-        $exists = class_exists('Zend\Stratigility\MiddlewarePipe');
+        $empty = $this->preferred === null;
 
-        if (! $exists) return $dispatcher;
+        $hasZend = class_exists('Zend\Stratigility\MiddlewarePipe');
+
+        $wantZend = $this->preferred === 'stratigility';
+
+        if (($empty || (! $wantZend)) || ! $hasZend) return $dispatcher;
 
         $pipe = new MiddlewarePipe;
 

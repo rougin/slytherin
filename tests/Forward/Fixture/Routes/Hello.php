@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Forward\Fixture\Routes;
 
+use Rougin\Slytherin\Forward\Fixture\Depots\TestDepot;
+
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -11,10 +13,16 @@ class Hello extends Route
     /**
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function index()
+    public function index(TestDepot $test)
     {
-        $this->response->getBody()->write('Hello world!');
+        return $test->text('Hello world!');
+    }
 
-        return $this->response;
+    /**
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function name($name, TestDepot $test)
+    {
+        return $test->text("Hello, $name!");
     }
 }

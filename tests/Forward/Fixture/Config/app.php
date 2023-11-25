@@ -17,14 +17,14 @@ $config['http'] = $http;
 
 $packages = array();
 
-// Testing Packages -----------------------------------------------------
+// Testing Packages --------------------------------------------------------
 $packages[] = 'Rougin\Slytherin\Forward\Fixture\Packages\HttpPackage';
+$packages[] = 'Rougin\Slytherin\Forward\Fixture\Packages\MiddlewarePackage';
 $packages[] = 'Rougin\Slytherin\Forward\Fixture\Packages\RoutingPackage';
-// ----------------------------------------------------------------------
+// -------------------------------------------------------------------------
 
 // Slytherin Integrations --------------------------------------------
 $packages[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
-$packages[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
 // -------------------------------------------------------------------
 
 $config['router'] = new Router;
