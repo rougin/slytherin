@@ -29,7 +29,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_sample_package_added()
+    public function test_sample_package_added()
     {
         $this->builder->addPackage(new SamplePackage);
 
@@ -51,7 +51,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_sample_text()
+    public function test_sample_text()
     {
         $this->builder->setUrl('GET', '/hello');
 
@@ -65,7 +65,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_arguments_in_uri()
+    public function test_arguments_in_uri()
     {
         $this->builder->setUrl('GET', '/hi/Rougin');
 
@@ -79,7 +79,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_sest_depot_as_the_constructor()
+    public function test_sest_depot_as_the_constructor()
     {
         $this->builder->setUrl('GET', '/');
 
@@ -93,7 +93,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_sest_depot_as_the_argument()
+    public function test_sest_depot_as_the_argument()
     {
         $this->builder->setUrl('GET', '/param');
 
@@ -107,7 +107,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_only_string_as_the_output()
+    public function test_only_string_as_the_output()
     {
         $this->builder->setUrl('GET', '/string');
 
@@ -121,7 +121,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_no_slash_in_the_route()
+    public function test_no_slash_in_the_route()
     {
         $this->builder->setUrl('GET', '/without-slash');
 
@@ -135,7 +135,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_callable_as_the_route_and_only_as_the_output()
+    public function test_callable_as_the_route_and_only_as_the_output()
     {
         $this->builder->setUrl('GET', '/callable');
 
@@ -149,7 +149,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_middleware_changing_the_request_constructor()
+    public function test_middleware_changing_the_request_constructor()
     {
         $this->builder->addHandler(new Request);
 
@@ -165,7 +165,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_middleware_changing_the_request_parameter()
+    public function test_middleware_changing_the_request_parameter()
     {
         $this->builder->addHandler(new Request);
 
@@ -181,7 +181,7 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_with_middleware_changing_the_response_parameter()
+    public function test_middleware_changing_the_response_parameter()
     {
         $this->builder->addHandler(new Response);
 
@@ -204,6 +204,26 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/world');
 
         $this->expectOutputString('Hello string world!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_uploaded_file_from_request()
+    {
+        $file = realpath(__DIR__ . '/EMDAER.txt');
+
+        $this->builder->addFile('files', $file);
+
+        $this->builder->addPackage(new SamplePackage);
+
+        $this->builder->setUrl('POST', '/upload');
+
+        $this->expectOutputString('The file is EMDAER.txt!');
 
         $this->builder->make()->run();
     }

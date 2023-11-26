@@ -26,6 +26,32 @@ class Builder
 
     protected $server = array();
 
+    public function addFile($name, $file)
+    {
+        if (! isset($this->files[$name]))
+        {
+            $item = array('error' => array());
+            $item['name'] = array();
+            $item['size'] = array();
+            $item['tmp_name'] = array();
+            $item['type'] = array();
+
+            $this->files[$name] = $item;
+        }
+
+        $item = $this->files[$name];
+
+        $item['error'][] = 0;
+        $item['name'][] = basename($file);
+        $item['size'][] = filesize($file);
+        $item['tmp_name'][] = $file;
+        $item['type'][] = mime_content_type($file);
+
+        $this->files[$name] = $item;
+
+        return $this;
+    }
+
     public function addHandler($handler)
     {
         $this->handlers[] = $handler;

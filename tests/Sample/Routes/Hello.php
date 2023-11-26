@@ -58,6 +58,18 @@ class Hello extends Route
         return 'This is a simple string.';
     }
 
+    public function upload(ServerRequestInterface $request)
+    {
+        $files = $request->getUploadedFiles();
+
+        /** @var \Psr\Http\Message\UploadedFileInterface */
+        $selected = $files['files'][0];
+
+        $name = $selected->getClientFilename();
+
+        return 'The file is ' . $name . '!';
+    }
+
     public function world()
     {
         return 'Hello string world!';

@@ -16,6 +16,8 @@ class Retuor extends Slytherin
     {
         $this->get('/world', 'Hello@world');
 
+        $this->post('/upload', 'Hello@upload');
+
         return parent::routes($parsed);
     }
 }
