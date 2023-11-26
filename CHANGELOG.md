@@ -8,7 +8,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `preferred` property in integrations
 
 ### Fixed
-- Type hinting of all classes using `PHPStan`
+- Type hinting of all classes using `PHPStan` (up to `level 9`)
 - Forward slash (`\\`) not required if setting `$namespace` in `Router`
 - Checking of available instances in `Container::value`
 - If `ServerRequestInterface` is an argument with a middleware
