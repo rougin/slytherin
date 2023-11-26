@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Sample;
 
-use Rougin\Slytherin\Routing\Router;
+use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Retuor extends Router
+class Retuor extends Slytherin
 {
     protected $namespace = 'Rougin\Slytherin\Sample\Routes';
 
