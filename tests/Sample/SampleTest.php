@@ -129,7 +129,7 @@ class SampleTest extends Testcase
     {
         $this->builder->addHandler(new Parsed);
 
-        $this->builder->setUrl('GET', '/handler/const');
+        $this->builder->setUrl('GET', '/handler/conts');
 
         $this->expectOutputString('Hello, Slytherin!');
 

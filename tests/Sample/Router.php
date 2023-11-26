@@ -33,7 +33,7 @@ class Router extends Slytherin
 
         $this->get('/param', 'Home@param');
 
-        $this->get('/handler/const', 'Hello@const');
+        $this->get('/handler/conts', 'Hello@conts');
 
         $this->get('/handler/param', 'Hello@param');
 

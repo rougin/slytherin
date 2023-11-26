@@ -11,7 +11,7 @@ use Rougin\Slytherin\Sample\Depots\TestDepot;
  */
 class Hello extends Route
 {
-    public function const()
+    public function conts()
     {
         $data = $this->request->getParsedBody();
 
