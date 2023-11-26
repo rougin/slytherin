@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Forward\Fixture\Depots;
+namespace Rougin\Slytherin\Sample\Depots;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

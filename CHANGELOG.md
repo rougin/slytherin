@@ -10,6 +10,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Fixed
 - Type hinting of all classes using `PHPStan`
 - Checking of available instances in `Container::value`
+- Changed `ServerRequestInterface` in middleware does not reflect if the said interface is defined as an argument
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

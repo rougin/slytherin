@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Forward\Fixture\Routes;
+namespace Rougin\Slytherin\Sample\Routes;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +34,7 @@ class Route
         $this->response = $response;
     }
 
-    public function json($data, $code = 200, $options = 0)
+    public function json($data, $code = 200)
     {
         $response = $this->response->withStatus($code);
 

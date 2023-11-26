@@ -1,8 +1,8 @@
 <?php
 
-namespace Rougin\Slytherin\Forward\Fixture\Routes;
+namespace Rougin\Slytherin\Sample\Routes;
 
-use Rougin\Slytherin\Forward\Fixture\Depots\SestDepot;
+use Rougin\Slytherin\Sample\Depots\SestDepot;
 
 /**
  * @package Slytherin
@@ -23,5 +23,10 @@ class Home extends Route
     public function index()
     {
         return $this->sest->text('Welcome home!');
+    }
+
+    public function param(SestDepot $sest)
+    {
+        return $sest->text('Welcome param!');
     }
 }

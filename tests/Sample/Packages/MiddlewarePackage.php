@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Forward\Fixture\Packages;
+namespace Rougin\Slytherin\Sample\Packages;
 
 use Rougin\Slytherin\Middleware\MiddlewareIntegration;
 

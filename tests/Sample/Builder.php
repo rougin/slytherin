@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Forward\Fixture;
+namespace Rougin\Slytherin\Sample;
 
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Configuration;
@@ -16,11 +16,20 @@ class Builder
 
     protected $files = array();
 
+    protected $handlers = array();
+
     protected $query = array();
 
     protected $parsed = array();
 
     protected $server = array();
+
+    public function addHandler($handler)
+    {
+        $this->handlers[] = $handler;
+
+        return $this;
+    }
 
     public function make()
     {
@@ -28,11 +37,25 @@ class Builder
 
         $config->load(__DIR__ . '/Config');
 
+        // Set the server request globals -----------------
         $config->set('app.http.cookies', $this->cookies);
+
         $config->set('app.http.files', $this->files);
-        $config->set('app.http.get', $this->query);
+
+        $config->set('app.http.get', (array) $this->query);
+
         $config->set('app.http.post', $this->parsed);
+
         $config->set('app.http.server', $this->server);
+        // ------------------------------------------------
+
+        // Set the custom middlewares ----------------
+        $items = $config->get('app.middlewares');
+
+        $items = array_merge($items, $this->handlers);
+
+        $config->set('app.middlewares', $items);
+        // -------------------------------------------
 
         $container = new Container;
 

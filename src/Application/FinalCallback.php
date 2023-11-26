@@ -16,6 +16,8 @@ use Rougin\Slytherin\Container\Container;
  */
 class FinalCallback
 {
+    const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
+
     const RESPONSE = 'Psr\Http\Message\ResponseInterface';
 
     /**
@@ -53,6 +55,10 @@ class FinalCallback
         {
             return $this->finalize($this->function);
         }
+
+        // Attach the request again in the container to reflect from stack ---
+        $this->container->set(self::REQUEST, $request);
+        // -------------------------------------------------------------------
 
         /** @var array<int, \Closure|string|array<int, string>> */
         $function = $this->function;
