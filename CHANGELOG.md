@@ -9,8 +9,9 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Fixed
 - Type hinting of all classes using `PHPStan`
+- Forward slash (`\\`) not required if setting `$namespace` in `Router`
 - Checking of available instances in `Container::value`
-- Changed `ServerRequestInterface` in middleware does not reflect if the said interface is defined as an argument
+- If `ServerRequestInterface` is an argument with a middleware
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

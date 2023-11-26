@@ -41,6 +41,10 @@ class Router implements RouterInterface
      */
     public function __construct(array $routes = array())
     {
+        // Set prefix conditions if above is defined ---
+        $this->prefix($this->prefix, $this->namespace);
+        // ---------------------------------------------
+
         foreach ($routes as $route)
         {
             /** @var string */
@@ -224,9 +228,16 @@ class Router implements RouterInterface
      */
     public function prefix($prefix = '', $namespace = null)
     {
-        $this->namespace = ($namespace !== null) ? $namespace . '\\' : $this->namespace;
-
         $this->prefix = $prefix;
+
+        if ($namespace)
+        {
+            $namespace = $namespace . '\\';
+
+            $namespace = str_replace('\\\\', '\\', $namespace);
+
+            $this->namespace = $namespace;
+        }
 
         return $this;
     }

@@ -3,7 +3,9 @@
 namespace Rougin\Slytherin\Forward;
 
 use Rougin\Slytherin\Sample\Builder;
-use Rougin\Slytherin\Sample\Handlers\Parsed;
+use Rougin\Slytherin\Sample\Handlers\Parsed\Request;
+use Rougin\Slytherin\Sample\Handlers\Parsed\Response;
+use Rougin\Slytherin\Sample\Packages\SamplePackage;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -20,6 +22,28 @@ class SampleTest extends Testcase
     protected function doSetUp()
     {
         $this->builder = new Builder;
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_with_sample_package_added()
+    {
+        $this->builder->addPackage(new SamplePackage);
+
+        $this->builder->setUrl('GET', '/');
+
+        $this->expectOutputString('Welcome home!');
+
+        $this->builder->make()->run();
+
+        $timezone = date_default_timezone_get();
+
+        $expected = 'Asia/Manila';
+
+        $this->assertEquals($expected, $timezone);
     }
 
     /**
@@ -127,7 +151,7 @@ class SampleTest extends Testcase
      */
     public function test_with_middleware_changing_the_request_constructor()
     {
-        $this->builder->addHandler(new Parsed);
+        $this->builder->addHandler(new Request);
 
         $this->builder->setUrl('GET', '/handler/conts');
 
@@ -143,11 +167,43 @@ class SampleTest extends Testcase
      */
     public function test_with_middleware_changing_the_request_parameter()
     {
-        $this->builder->addHandler(new Parsed);
+        $this->builder->addHandler(new Request);
 
         $this->builder->setUrl('GET', '/handler/param');
 
         $this->expectOutputString('Hello, Slytherin!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_with_middleware_changing_the_response_parameter()
+    {
+        $this->builder->addHandler(new Response);
+
+        $this->builder->setUrl('GET', '/response');
+
+        $this->expectOutputString('From middleware!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_without_forward_slash_in_the_router_namespace()
+    {
+        $this->builder->addPackage(new SamplePackage);
+
+        $this->builder->setUrl('GET', '/world');
+
+        $this->expectOutputString('Hello string world!');
 
         $this->builder->make()->run();
     }

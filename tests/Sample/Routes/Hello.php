@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Sample\Routes;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Sample\Depots\TestDepot;
 
@@ -42,10 +43,23 @@ class Hello extends Route
     }
 
     /**
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function response(ResponseInterface $response)
+    {
+        return $response;
+    }
+
+    /**
      * @return string
      */
     public function string()
     {
         return 'This is a simple string.';
+    }
+
+    public function world()
+    {
+        return 'Hello string world!';
     }
 }

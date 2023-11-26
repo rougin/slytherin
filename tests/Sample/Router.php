@@ -20,6 +20,8 @@ class Router extends Slytherin
 
         $this->get('/hello', 'Hello@index');
 
+        $this->get('/response', 'Hello@response');
+
         $this->get('/hi/:name', 'Hello@name');
 
         $this->get('without-slash', 'Hello@string');

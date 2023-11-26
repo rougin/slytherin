@@ -27,6 +27,8 @@ class Application
 
     const RENDERER = 'Rougin\Slytherin\Template\RendererInterface';
 
+    const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
+
     const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
 
     /**

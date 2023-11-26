@@ -20,6 +20,8 @@ class Builder
 
     protected $query = array();
 
+    protected $packages = array();
+
     protected $parsed = array();
 
     protected $server = array();
@@ -27,6 +29,13 @@ class Builder
     public function addHandler($handler)
     {
         $this->handlers[] = $handler;
+
+        return $this;
+    }
+
+    public function addPackage($package)
+    {
+        $this->packages[] = $package;
 
         return $this;
     }
@@ -61,7 +70,11 @@ class Builder
 
         $app = new Application($container, $config);
 
+        // Set the custom packages -------------------
         $items = $config->get('app.packages');
+
+        $items = array_merge($items, $this->packages);
+        // -------------------------------------------
 
         return $app->integrate($items);
     }
