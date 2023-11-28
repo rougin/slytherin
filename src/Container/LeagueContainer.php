@@ -17,31 +17,32 @@ use League\Container\Container as BaseContainer;
 class LeagueContainer extends BaseContainer implements ContainerInterface
 {
     /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     *
-     * @param  string               $id
-     * @param  array<string, mixed> $arguments
-     * @return mixed
-     */
-    public function get($id, array $arguments = array())
-    {
-        return parent::get($id, $arguments);
-    }
-
-    /**
      * Sets a new instance to the container.
      *
      * @param  string  $id
      * @param  mixed   $concrete
-     * @param  boolean $share
+     * @param  boolean $shared
      * @return self
      */
-    public function set($id, $concrete, $share = false)
+    public function set($id, $concrete, $shared = false)
     {
-        $this->add($id, $concrete, $share);
+        // Backward compatibility on versions >=2.0 ---
+        $exists = method_exists($this, 'addShared');
+
+        if ($shared && $exists)
+        {
+            /** @var callable */
+            $class = array($this, 'addShared');
+
+            $params = array($id, $concrete);
+
+            call_user_func_array($class, $params);
+
+            return $this;
+        }
+        // --------------------------------------------
+
+        $this->add($id, $concrete, $shared);
 
         return $this;
     }

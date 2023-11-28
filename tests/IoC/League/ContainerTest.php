@@ -76,9 +76,13 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetMethod()
     {
-        $this->container->add($this->class)
-            ->withArgument(new NewClass)
-            ->withArgument(new AnotherClass);
+        // Should only used methods found in ContainerInterface ---
+        // $this->container->add($this->class)
+        //     ->withArgument(new NewClass)
+        //     ->withArgument(new AnotherClass);
+        // --------------------------------------------------------
+
+        $this->container->set($this->class, $this->instance);
 
         $this->assertEquals($this->instance, $this->container->get($this->class));
     }

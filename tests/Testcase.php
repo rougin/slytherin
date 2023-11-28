@@ -8,13 +8,15 @@ class Testcase extends Legacy
 {
     public function setExpectedException($exception)
     {
+        /** @var callable */
+        $class = array($this, 'setExpectedException');
+
         if (method_exists($this, 'expectException'))
         {
-            $this->expectException($exception);
+            /** @var callable */
+            $class = array($this, 'expectException');
         }
-        else
-        {
-            parent::setExpectedException($exception);
-        }
+
+        call_user_func($class, $exception);
     }
 }

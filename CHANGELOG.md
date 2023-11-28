@@ -13,6 +13,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Forward slash (`\\`) not required if setting `$namespace` in `Router`
 - Checking of available instances in `Container::value`
 - If `ServerRequestInterface` is an argument with a middleware
+- Backward compatibility for `LeagueContainer::set`
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
