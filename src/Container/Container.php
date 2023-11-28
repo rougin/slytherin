@@ -37,8 +37,13 @@ class Container implements ContainerInterface
     public function __construct(array $instances = array(), PsrContainerInterface $container = null)
     {
         $this->instances = $instances;
+
+        if (! $container)
+        {
+            $container = new ReflectionContainer;
+        }
  
-        $this->extra = $container ?: new ReflectionContainer;
+        $this->extra = $container;
     }
 
     /**
@@ -77,18 +82,25 @@ class Container implements ContainerInterface
      */
     public function arguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
     {
-        $arguments = array();
+        $items = $reflector->getParameters();
 
-        foreach ($reflector->getParameters() as $key => $parameter)
+        $result = array();
+
+        foreach ($items as $key => $item)
         {
-            $argument = $this->argument($parameter);
+            $argument = $this->argument($item);
 
-            $name = $parameter->getName();
+            $name = (string) $item->getName();
 
-            $arguments[$key] = $argument ?: $parameters[$name];
+            if (array_key_exists($name, $parameters))
+            {
+                $result[$key] = $parameters[$name];
+            }
+
+            if ($argument) $result[$key] = $argument;
         }
 
-        return $arguments;
+        return $result;
     }
 
     /**
@@ -155,16 +167,16 @@ class Container implements ContainerInterface
             return $this->extra->get($id);
         }
 
-        $arguments = array();
+        $result = array();
 
         foreach ($constructor->getParameters() as $parameter)
         {
             $argument = $this->argument($parameter);
 
-            $arguments[] = $this->request($argument, $request);
+            $result[] = $this->handle($argument, $request);
         }
 
-        return $reflection->newInstanceArgs($arguments);
+        return $reflection->newInstanceArgs($result);
     }
 
     /**
@@ -210,19 +222,15 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Returns the manipulated ServerRequest (from middleware) to an argument.
+     * Handles the manipulated ServerRequest (from middleware) to an argument.
      *
      * @param  mixed                                         $argument
      * @param  \Psr\Http\Message\ServerRequestInterface|null $request
      * @return mixed
      */
-    protected function request($argument, ServerRequestInterface $request = null)
+    protected function handle($argument, ServerRequestInterface $request = null)
     {
-        $instanceof = $argument instanceof ServerRequestInterface;
-
-        $instanceof === true && $argument = $request ?: $argument;
-
-        return $argument;
+        return $argument instanceof ServerRequestInterface && $request ? $request : $argument;
     }
 
     /**
@@ -240,21 +248,21 @@ class Container implements ContainerInterface
             $object = $this->get($name);
         }
 
-        if (! $object && $this->extra->has($name))
+        if ($object || ! $this->extra->has($name))
         {
-            // If the identifier does not exists from extra, ---
-            // Try to get again from the parent container
-            try
-            {
-                return $this->extra->get($name);
-            }
-            catch (NotFoundExceptionInterface $error)
-            {
-                return $this->get($name);
-            }
-            // -------------------------------------------------
+            return $object;
         }
 
-        return $object;
+        // If the identifier does not exists from extra, ---
+        // Try to get again from the parent container
+        try
+        {
+            return $this->extra->get($name);
+        }
+        catch (NotFoundExceptionInterface $error)
+        {
+            return $this->get($name);
+        }
+        // -------------------------------------------------
     }
 }

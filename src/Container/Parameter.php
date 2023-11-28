@@ -39,22 +39,16 @@ class Parameter
 
         if (! $php8)
         {
-            $method = array($this->param, 'getClass');
-
-            return call_user_func((array) $method);
+            return call_user_func(array($this->param, 'getClass'));
         }
 
-        $method = array($this->param, 'getType');
-
-        $type = call_user_func((array) $method);
+        $type = call_user_func(array($this->param, 'getType'));
 
         $builtIn = true;
 
         if ($type)
         {
-            $method = array($type, 'isBuiltin');
-
-            $builtIn = call_user_func((array) $method);
+            $builtIn = call_user_func(array($type, 'isBuiltin'));
         }
 
         if ($builtIn) return null;
@@ -62,8 +56,6 @@ class Parameter
         /** @var callable */
         $class = array($type, 'getName');
 
-        $class = call_user_func($class);
-
-        return new \ReflectionClass($class);
+        return new \ReflectionClass(call_user_func($class));
     }
 }

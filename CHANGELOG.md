@@ -6,6 +6,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Added
 - `preferred` property in integrations
+- `ContainerException` in `Container`
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)

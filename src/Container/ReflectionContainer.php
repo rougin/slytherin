@@ -27,11 +27,11 @@ class ReflectionContainer implements PsrContainerInterface
      */
     public function get($id)
     {
-        if ($this->has($id) === false)
+        if (! $this->has($id))
         {
-            $message = sprintf('Class (%s) does not exists', $id);
+            $message = 'Alias (%s) is not being managed by the container';
 
-            throw new Exception\NotFoundException($message);
+            throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
         /** @var class-string $id */
@@ -39,7 +39,7 @@ class ReflectionContainer implements PsrContainerInterface
 
         if ($constructor = $reflection->getConstructor())
         {
-            $arguments = $this->arguments($constructor);
+            $arguments = $this->resolve($constructor);
 
             return $reflection->newInstanceArgs($arguments);
         }
@@ -69,42 +69,48 @@ class ReflectionContainer implements PsrContainerInterface
     {
         try
         {
-            $argument = $parameter->getDefaultValue();
+            return $parameter->getDefaultValue();
         }
         catch (\ReflectionException $exception)
         {
-            $argument = $this->get($name);
+            return $this->get((string) $name);
         }
-
-        return $argument;
     }
 
     /**
      * Resolves the specified parameters from a container.
      *
-     * @param  \ReflectionFunction|\ReflectionMethod $reflector
+     * @param  \ReflectionFunction|\ReflectionMethod $reflection
      * @param  array<string, mixed>                  $parameters
      * @return array<int, mixed>
      */
-    protected function arguments($reflector, $parameters = array())
+    protected function resolve($reflection, $parameters = array())
     {
-        $arguments = array();
+        $items = $reflection->getParameters();
 
-        foreach ($reflector->getParameters() as $key => $parameter)
+        $result = array();
+
+        foreach ($items as $key => $item)
         {
-            $param = new Parameter($parameter);
+            $name = (string) $item->getName();
 
-            $class = $param->getClass();
+            // Backward compatibility for ReflectionParameter ---
+            $param = new Parameter($item);
 
-            $name = $class ? $class->getName() : $parameter->getName();
+            if ($param->getClass())
+            {
+                $name = $param->getClass()->getName();
+            }
+            // --------------------------------------------------
 
-            $argument = $this->argument($parameter, $name);
+            $result[$key] = $this->argument($item, $name);
 
-            $exists = array_key_exists($name, $parameters);
-
-            $arguments[$key] = $exists ? $parameters[$name] : $argument;
+            if (array_key_exists($name, $parameters))
+            {
+                $result[$key] = $parameters[(string) $name];
+            }
         }
 
-        return $arguments;
+        return $result;
     }
 }

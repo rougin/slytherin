@@ -32,17 +32,6 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
     }
 
     /**
-     * Returns true if the container can return an entry for the given identifier.
-     *
-     * @param  string $id
-     * @return boolean
-     */
-    public function has($id)
-    {
-        return parent::has($id);
-    }
-
-    /**
      * Sets a new instance to the container.
      *
      * @param  string  $id

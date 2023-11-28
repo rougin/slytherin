@@ -32,7 +32,7 @@ class AurynContainer extends Injector implements ContainerInterface
     /**
      * @var array<string, mixed>
      */
-    protected $instances = array();
+    protected $items = array();
 
     /**
      * Initializes the container instance.
@@ -80,17 +80,19 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function get($id)
     {
-        $entry = null;
+        if (! $this->has($id))
+        {
+            $message = 'Alias (%s) is not being managed by the container';
 
-        $this->has($id) && $entry = $this->resolve($id);
+            throw new Exception\NotFoundException(sprintf($message, $id));
+        }
 
-        if (! is_null($entry)) return $entry;
+        if (array_key_exists($id, $this->items))
+        {
+            return $this->items[$id];
+        }
 
-        $message = 'Alias (%s) is not being managed by the container';
-
-        $message = (string) sprintf($message, $id);
-
-        throw new Exception\NotFoundException($message);
+        return $this->injector->make($id);
     }
 
     /**
@@ -101,9 +103,7 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function has($id)
     {
-        $exists = isset($this->has[$id]) ? $this->has[$id] : false;
-
-        if (isset($this->has[$id])) return $exists;
+        if (array_key_exists($id, $this->has)) return $this->has[$id];
 
         $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
 
@@ -115,9 +115,7 @@ class AurynContainer extends Injector implements ContainerInterface
 
         $definitions = array_filter($definitions);
 
-        $exists = ! empty($definitions) ?: class_exists($id);
-
-        return $exists;
+        return ! empty($definitions) ?: class_exists($id);
     }
 
     /**
@@ -129,25 +127,8 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function set($id, $concrete)
     {
-        $this->instances[$id] = $concrete;
+        $this->items[$id] = $concrete;
 
         return $this;
-    }
-
-    /**
-     * Resolves the specified identifier to an instance.
-     *
-     * @param  string $id
-     * @return mixed
-     */
-    protected function resolve($id)
-    {
-        $entry = null;
-
-        isset($this->instances[$id]) && $entry = $this->instances[$id];
-
-        isset($entry) === false && $entry = $this->injector->make($id);
-
-        return $entry;
     }
 }

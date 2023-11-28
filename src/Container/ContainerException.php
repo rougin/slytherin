@@ -2,16 +2,16 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Psr\Container\NotFoundExceptionInterface;
+use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Not Found Exception
+ * Container Exception
  *
  * A specified exception in handling errors in containers.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class NotFoundException extends \InvalidArgumentException implements NotFoundExceptionInterface
+class ContainerException extends \Exception implements ContainerExceptionInterface
 {
 }
