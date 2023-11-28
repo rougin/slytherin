@@ -26,7 +26,7 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
      */
     public function set($id, $concrete, $shared = false)
     {
-        // Backward compatibility on versions >=2.0 ---
+        // Backward compatibility on versions >=3.0 ---
         $exists = method_exists($this, 'addShared');
 
         if ($shared && $exists)

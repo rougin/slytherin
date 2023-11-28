@@ -2,15 +2,19 @@
 
 namespace Rougin\Slytherin\Template\Twig;
 
-class RendererTest extends \Rougin\Slytherin\Testcase
+use Rougin\Slytherin\Template\TwigLoader;
+use Rougin\Slytherin\Template\TwigRenderer;
+use Rougin\Slytherin\Testcase;
+
+class RendererTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Template\RendererInterface
+     * @var \Rougin\Slytherin\Template\TwigRenderer
      */
     protected $renderer;
 
     /**
-     * @var \Twig_Environment
+     * @var \Twig\Environment
      */
     protected $twig;
 
@@ -21,15 +25,18 @@ class RendererTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('Twig_Environment')) {
+        $twig = new TwigLoader;
+
+        if (! $twig->exists())
+        {
             $this->markTestSkipped('Twig is not installed.');
         }
 
-        $directory = __DIR__ . '/../../Fixture/Templates';
-        $loader    = new \Twig_Loader_Filesystem($directory);
+        $path = __DIR__ . '/../../Fixture/Templates';
 
-        $this->twig     = new \Twig_Environment($loader);
-        $this->renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig);
+        $this->twig = $twig->load((string) $path);
+
+        $this->renderer = new TwigRenderer($this->twig);
     }
 
     /**
@@ -41,7 +48,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $this->assertEquals($expected, $this->renderer->render('test', array(), 'php'));
+        $rendered = $this->renderer->render('test.php');
+
+        $this->assertEquals($expected, $rendered);
     }
 
     /**
@@ -53,8 +62,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $data     = array('name' => 'template');
-        $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
+        $data = array('name' => 'template');
+
+        $rendered = $this->renderer->render('test-with-twig-data.php', $data);
 
         $this->assertEquals($expected, $rendered);
     }
@@ -67,11 +77,15 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     public function testRenderMethodWithGlobals()
     {
         $expected = 'This is a text from a template.';
+
         $globals  = array('name' => 'template');
-        $renderer = new \Rougin\Slytherin\Template\Twig\Renderer($this->twig, $globals);
+
+        $renderer = new Renderer($this->twig, $globals);
 
         $renderer->addGlobal('test', 'wew');
 
-        $this->assertEquals($expected, $renderer->render('test-with-twig-data', array(), 'php'));
+        $rendered = $renderer->render('test-with-twig-data.php');
+
+        $this->assertEquals($expected, $rendered);
     }
 }

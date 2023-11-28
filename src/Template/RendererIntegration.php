@@ -18,6 +18,11 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
 class RendererIntegration implements IntegrationInterface
 {
     /**
+     * @var string|null
+     */
+    protected $preferred = null;
+
+    /**
      * Defines the specified integration.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
@@ -31,13 +36,17 @@ class RendererIntegration implements IntegrationInterface
 
         $renderer = new Renderer($path);
 
-        if (class_exists('Twig_Environment'))
+        $empty = $this->preferred === null;
+
+        if (is_string($path)) $path = array($path);
+
+        $twig = new TwigLoader;
+
+        $wantTwig = $this->preferred === 'twig';
+
+        if (($empty || $wantTwig) && $twig->exists())
         {
-            $loader = new \Twig_Loader_Filesystem($path);
-
-            $environment = new \Twig_Environment($loader);
-
-            $renderer = new TwigRenderer($environment);
+            $renderer = $twig->load($path);
         }
 
         $container->set(Application::RENDERER, $renderer);
