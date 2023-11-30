@@ -76,9 +76,29 @@ class Router implements RouterInterface
      */
     public function add($httpMethod, $route, $handler, $middlewares = array())
     {
-        $route = array($httpMethod, $route, $handler, $middlewares);
+        $method = strtoupper($httpMethod);
 
-        $this->routes[] = $this->parse($route);
+        $uri = str_replace('//', '/', $this->prefix . $route);
+
+        if (is_string($handler))
+        {
+            /** @var string[] */
+            $handler = explode('@', $handler);
+        }
+
+        if (is_array($handler))
+        {
+            $handler[0] = $this->namespace . $handler[0];
+        }
+
+        if (! is_array($middlewares))
+        {
+            $middlewares = array($middlewares);
+        }
+
+        $item = array($method, $uri, $handler, $middlewares);
+
+        array_push($this->routes, $item);
 
         return $this;
     }
@@ -253,36 +273,6 @@ class Router implements RouterInterface
     public function setPrefix($prefix = '', $namespace = '')
     {
         return $this->prefix($prefix, $namespace);
-    }
-
-    /**
-     * Parses the route.
-     *
-     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
-     */
-    protected function parse($route)
-    {
-        if (is_string($route[0])) $route[0] = strtoupper($route[0]);
-
-        if (is_string($route[1]))
-        {
-            $route[1] = str_replace('//', '/', $this->prefix . $route[1]);
-        }
-
-        if (is_string($route[2])) $route[2] = explode('@', $route[2]);
-
-        if (! is_array($route[3])) $route[3] = array($route[3]);
-
-        if (is_array($route[2]))
-        {
-            /** @var string */
-            $method = $route[2][0];
-
-            $route[2][0] = $this->namespace . $method;
-        }
-
-        return $route;
     }
 
     /**
