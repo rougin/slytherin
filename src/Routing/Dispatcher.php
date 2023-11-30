@@ -29,7 +29,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        if ($router) $this->router($router);
+        $this->router($router);
     }
 
     /**
@@ -59,27 +59,31 @@ class Dispatcher implements DispatcherInterface
     /**
      * Sets the router and parse its available routes if needed.
      *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param  \Rougin\Slytherin\Routing\RouterInterface|null $router
      * @return self
      */
-    public function router(RouterInterface $router)
+    public function router(RouterInterface $router = null)
     {
-        /** @var array<int, array<int, mixed>> */
-        $routes = $router->routes();
+        if (! $router) return $this;
 
         $fn = function ($item)
         {
             return str_replace(':', '', $item);
         };
 
-        /** @var array<int, string> $route */
-        foreach (array_filter($routes) as $route)
+        foreach ($router->routes() as $route)
         {
-            preg_match_all('/:[a-z]*/', $route[1], $result);
+            preg_match_all('/:[a-z]*/', $route->getUri(), $result);
 
+            // TODO: Move this all to RouteInterface -------------------
+            $route[0] = $route->getMethod();
+            $route[1] = $route->getUri();
+            $route[2] = $route->getHandler();
+            $route[3] = $route->getMiddlewares();
             $route[4] = str_replace($result[0], '(\w+)', $route[1]);
             $route[4] = '/^' . str_replace('/', '\/', $route[4]) . '$/';
             $route[5] = array_map($fn, $result[0]);
+            // ---------------------------------------------------------
 
             array_push($this->routes, (array) $route);
         }

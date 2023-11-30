@@ -15,27 +15,27 @@ interface RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $httpMethod
-     * @param  string                                                        $route
+     * @param  string                                                        $method
+     * @param  string                                                        $uri
      * @param  string|string[]                                               $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function add($httpMethod, $route, $handler, $middlewares = array());
+    public function add($method, $uri, $handler, $middlewares = array());
 
     /**
      * Checks if the specified route is available in the router.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
      * @return boolean
      */
-    public function has($httpMethod, $uri);
+    public function has($method, $uri);
 
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  mixed[] $routes
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
      */
     public function merge(array $routes);
@@ -43,17 +43,16 @@ interface RouterInterface
     /**
      * Returns a specific route based on the specified HTTP method and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return mixed[]|null
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
-    public function retrieve($httpMethod, $uri);
+    public function retrieve($method, $uri);
 
     /**
      * Returns a listing of available routes.
      *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
      */
-    public function routes($parsed = false);
+    public function routes();
 }

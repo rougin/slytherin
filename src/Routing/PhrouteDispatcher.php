@@ -60,13 +60,16 @@ class PhrouteDispatcher implements DispatcherInterface
         {
             $this->allowed((string) $httpMethod);
 
-            $info = $this->router->retrieve((string) $httpMethod, $uri);
-
             $result = $this->dispatcher->dispatch($httpMethod, $uri);
 
             $middlewares = array();
 
-            if ($result && isset($info[3])) $middlewares = $info[3];
+            if ($result)
+            {
+                $route = $this->router->retrieve($httpMethod, $uri);
+
+                $middlewares = $route->getMiddlewares();
+            }
 
             $result = array($result, $middlewares);
         }
@@ -86,42 +89,17 @@ class PhrouteDispatcher implements DispatcherInterface
      */
     public function router(RouterInterface $router)
     {
-        $routes = $this->collect($router);
+        $phroute = new PhrouteRouter;
+
+        $phroute->parseRoutes($router->routes());
+
+        $routes = $phroute->getParsed();
 
         $this->router = $router;
-
-        $isPhroute = $router instanceof PhrouteRouter;
-
-        if ($isPhroute)
-        {
-            /** @var \Phroute\Phroute\RouteDataArray */
-            $routes = $router->routes(true);
-        }
 
         $this->dispatcher = new Phroute($routes, $this->resolver);
 
         return $this;
-    }
-
-    /**
-     * Collects the specified routes and generates a data for it.
-     *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
-     * @return \Phroute\Phroute\RouteDataArray
-     */
-    protected function collect(RouterInterface $router)
-    {
-        /** @var array<int, array<int, mixed>> */
-        $routes = $router->routes();
-
-        $collector = new \Phroute\Phroute\RouteCollector;
-
-        foreach ($routes as $route)
-        {
-            $collector->addRoute($route[0], $route[1], $route[2]);
-        }
-
-        return $collector->getData();
     }
 
     /**

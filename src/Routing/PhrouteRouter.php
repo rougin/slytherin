@@ -47,26 +47,34 @@ class PhrouteRouter extends Router
         parent::add($httpMethod, $route, $handler, $middlewares);
 
         // Returns the recently added route from parent ---
-        /** @var array<int, string|string[]> */
         $route = $this->routes[count($this->routes) - 1];
         // ------------------------------------------------
 
-        $this->collector->addRoute($httpMethod, $route[1], $route[2]);
+        $this->collector->addRoute($route->getMethod(), $route->getUri(), $route->getHandler());
 
         return $this;
     }
 
     /**
-     * Returns a listing of available routes.
-     *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return self
      */
-    public function routes($parsed = false)
+    public function parseRoutes($routes)
     {
-        $routes = $this->routes;
+        foreach ($routes as $route)
+        {
+            $this->add($route->getMethod(), $route->getUri(), $route->getHandler(), $route->getMiddlewares());
+        }
 
-        return ($parsed) ? $this->collector->getData() : $routes;
+        return $this;
+    }
+
+    /**
+     * @return \Phroute\Phroute\RouteDataInterface
+     */
+    public function getParsed()
+    {
+        return $this->collector->getData();
     }
 
     /**
