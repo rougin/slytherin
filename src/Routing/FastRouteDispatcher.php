@@ -39,16 +39,16 @@ class FastRouteDispatcher implements DispatcherInterface
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
      * @return array|mixed
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($method, $uri)
     {
-        $this->allowed($httpMethod);
+        $this->allowed($method);
 
         /** @var array<int, string> */
-        $result = $this->dispatcher->dispatch($httpMethod, $uri);
+        $result = $this->dispatcher->dispatch($method, $uri);
 
         if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND)
         {
@@ -57,7 +57,7 @@ class FastRouteDispatcher implements DispatcherInterface
             throw new \UnexpectedValueException($message);
         }
 
-        $route = $this->router->retrieve($httpMethod, (string) $uri);
+        $route = $this->router->retrieve($method, (string) $uri);
 
         $sameRoute = isset($route[2]) && $route[2] === $result[1];
 
@@ -116,16 +116,16 @@ class FastRouteDispatcher implements DispatcherInterface
     /**
      * Checks if the specified method is a valid HTTP method.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @return boolean
      *
      * @throws \UnexpectedValueException
      */
-    protected function allowed($httpMethod)
+    protected function allowed($method)
     {
         $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
-        if (in_array($httpMethod, $allowed) === false)
+        if (in_array($method, $allowed) === false)
         {
             $message = 'Used method is not allowed';
 

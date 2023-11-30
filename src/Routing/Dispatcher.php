@@ -35,18 +35,18 @@ class Dispatcher implements DispatcherInterface
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
      * @return array<int, mixed>
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($method, $uri)
     {
         /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> */
         $routes = array();
 
         foreach ($this->routes as $route)
         {
-            $parsed = $this->parse($httpMethod, $uri, $route);
+            $parsed = $this->parse($method, $uri, $route);
 
             array_push($routes, $parsed);
         }
@@ -94,14 +94,14 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the specified method is a valid HTTP method.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @return boolean
      *
      * @throws \UnexpectedValueException
      */
-    protected function allowed($httpMethod)
+    protected function allowed($method)
     {
-        if (! in_array($httpMethod, $this->allowed))
+        if (! in_array($method, $this->allowed))
         {
             $message = 'Used method is not allowed';
 
@@ -114,19 +114,19 @@ class Dispatcher implements DispatcherInterface
     /**
      * Parses the specified route and make some checks.
      *
-     * @param  string                                                                           $httpMethod
+     * @param  string                                                                           $method
      * @param  string                                                                           $uri
      * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
      * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
      */
-    protected function parse($httpMethod, $uri, $route)
+    protected function parse($method, $uri, $route)
     {
         /** @var string $route[4] */
         $matched = preg_match($route[4], $uri, $parameters);
 
         if (! $matched) return null;
 
-        if ($httpMethod != $route[0] && $httpMethod != 'OPTIONS')
+        if ($method != $route[0] && $method != 'OPTIONS')
         {
             return null;
         }
