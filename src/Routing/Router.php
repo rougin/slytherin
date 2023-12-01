@@ -145,20 +145,18 @@ class Router implements RouterInterface
      */
     public function find($method, $uri)
     {
-        $route = array($method, $uri);
-
-        $fn = function ($route)
+        foreach ($this->routes as $route)
         {
-            return array($route[0], $route[1]);
-        };
+            $sameMethod = $route->getMethod() === $method;
 
-        $routes = array_map($fn, $this->routes);
+            $sameUri = $route->getUri() === $uri;
 
-        $key = array_search($route, $routes);
+            if (! $sameMethod || ! $sameUri) continue;
 
-        if ($key === false) return null;
+            return $route;
+        }
 
-        return $this->routes[(integer) $key];
+        return null;
     }
 
     /**

@@ -24,7 +24,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        if ($router) $this->router($router);
+        if ($router) $this->setRouter($router);
     }
 
     /**

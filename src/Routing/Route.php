@@ -94,17 +94,21 @@ class Route implements RouteInterface
      */
     public function getRegex()
     {
-        // Turn "(/)" into "/?"
-        $uri = preg_replace('#\(/\)#', '/?', $this->uri);
+        // Turn "(/)" into "/?" ------------------------------
+        $uri = preg_replace('#\(/\)#', '/?', $this->getUri());
+        // ---------------------------------------------------
 
-        // Create capture group for ":parameter", replaces ":parameter"
+        // Create capture group for ":parameter", replaces ":parameter" ---
         $uri = $this->capture($uri, '/:(' . self::ALLOWED_REGEX . ')/');
+        // ----------------------------------------------------------------
 
-        // Create capture group for '{parameter}', replaces "{parameter}"
+        // Create capture group for '{parameter}', replaces "{parameter}" ---
         $uri = $this->capture($uri, '/{(' . self::ALLOWED_REGEX . ')}/');
+        // ------------------------------------------------------------------
 
-        // Add start and end matching
+        // Add start and end matching ------
         return (string) '@^' . $uri . '$@D';
+        // ---------------------------------
     }
 
     /**
