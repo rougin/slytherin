@@ -63,7 +63,7 @@ class Router implements RouterInterface
      *
      * @param  string                                                        $method
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -102,7 +102,7 @@ class Router implements RouterInterface
      *
      * @param  string                                                        $method
      * @param  string                                                        $route
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -127,7 +127,7 @@ class Router implements RouterInterface
      * Adds a DELETE route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -165,7 +165,7 @@ class Router implements RouterInterface
      * Adds a GET route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -227,7 +227,7 @@ class Router implements RouterInterface
      * Adds a PATCH route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -240,7 +240,7 @@ class Router implements RouterInterface
      * Adds a POST route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -253,7 +253,7 @@ class Router implements RouterInterface
      * Adds a PUT route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */

@@ -17,7 +17,7 @@ interface RouterInterface
      *
      * @param  string                                                        $method
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -27,7 +27,7 @@ interface RouterInterface
      * Adds a DELETE route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -47,7 +47,7 @@ interface RouterInterface
      * Adds a GET route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -74,7 +74,7 @@ interface RouterInterface
      * Adds a PATCH route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -84,7 +84,7 @@ interface RouterInterface
      * Adds a POST route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
@@ -94,7 +94,7 @@ interface RouterInterface
      * Adds a PUT route.
      *
      * @param  string                                                        $uri
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */

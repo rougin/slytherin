@@ -54,11 +54,6 @@ class FinalCallback
     {
         $handler = $this->route->getHandler();
 
-        if (! is_array($handler))
-        {
-            return $this->finalize($handler);
-        }
-
         // Attach the request again in the container to reflect from stack ---
         $this->container->set(self::REQUEST, $request);
         // -------------------------------------------------------------------
