@@ -26,6 +26,11 @@ interface RouteInterface
     public function getMiddlewares();
 
     /**
+     * @return string[]
+     */
+    public function getParams();
+
+    /**
      * Returns a regular expression from URI.
      *
      * @return string
@@ -36,4 +41,10 @@ interface RouteInterface
      * @return string
      */
     public function getUri();
+
+    /**
+     * @param  string[] $params
+     * @return self
+     */
+    public function setParams($params);
 }

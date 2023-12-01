@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Application;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Routing\RouteInterface;
 
 /**
  * Final Callback
@@ -26,21 +27,21 @@ class FinalCallback
     protected $container;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface|mixed
+     * @var \Rougin\Slytherin\Routing\RouteInterface
      */
-    protected $function;
+    protected $route;
 
     /**
      * Sets up the callback handler.
      *
-     * @param \Rougin\Slytherin\Container\Container     $container
-     * @param \Psr\Http\Message\ResponseInterface|mixed $function
+     * @param \Rougin\Slytherin\Routing\RouteInterface $route
+     * @param \Rougin\Slytherin\Container\Container    $container
      */
-    public function __construct(Container $container, $function)
+    public function __construct(RouteInterface $route, Container $container)
     {
         $this->container = $container;
 
-        $this->function = $function;
+        $this->route = $route;
     }
 
     /**
@@ -51,49 +52,47 @@ class FinalCallback
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        if (! is_array($this->function))
+        $handler = $this->route->getHandler();
+
+        if (! is_array($handler))
         {
-            return $this->finalize($this->function);
+            return $this->finalize($handler);
         }
 
         // Attach the request again in the container to reflect from stack ---
         $this->container->set(self::REQUEST, $request);
         // -------------------------------------------------------------------
 
-        /** @var array<int, \Closure|string|array<int, string>> */
-        $function = $this->function;
-
-        if (is_array($function[0]) && is_string($function[0][0]))
+        if (is_array($handler) && is_string($handler[0]))
         {
-            $function[0][0] = $this->container->resolve($function[0][0], $request);
+            $handler[0] = $this->container->resolve($handler[0], $request);
 
             /** @var object|string */
-            $objectOrMethod = $function[0][0];
+            $objectOrMethod = $handler[0];
 
             /** @var string */
-            $method = $function[0][1];
+            $method = $handler[1];
 
             $reflector = new \ReflectionMethod($objectOrMethod, $method);
         }
         else
         {
             /** @var \Closure|string */
-            $closure = $function[0];
+            $closure = $handler;
 
             $reflector = new \ReflectionFunction($closure);
         }
 
         /** @var callable */
-        $callable = $function[0];
+        $callable = $handler;
 
-        /** @var array<string, mixed> */
-        $parameters = $function[1];
+        $parameters = $this->route->getParams();
 
         $parameters = $this->container->arguments($reflector, $parameters);
 
-        $this->function = call_user_func_array($callable, $parameters);
+        $handler = call_user_func_array($callable, $parameters);
 
-        return $this->finalize($this->function);
+        return $this->finalize($handler);
     }
 
     /**

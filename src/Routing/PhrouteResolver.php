@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Phroute\Phroute\HandlerResolverInterface;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -14,7 +15,7 @@ use Psr\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class PhrouteResolver implements \Phroute\Phroute\HandlerResolverInterface
+class PhrouteResolver implements HandlerResolverInterface
 {
     /**
      * @var \Psr\Container\ContainerInterface

@@ -17,7 +17,9 @@ interface DispatcherInterface
      *
      * @param  string $method
      * @param  string $uri
-     * @return array<int, mixed>
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \UnexpectedValueException
      */
     public function dispatch($method, $uri);
 
@@ -27,5 +29,6 @@ interface DispatcherInterface
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
      */
-    public function router(RouterInterface $router);
+    public function setRouter(RouterInterface $router);
+    // public function router(RouterInterface $router);
 }

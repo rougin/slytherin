@@ -13,14 +13,9 @@ namespace Rougin\Slytherin\Routing;
 class Dispatcher implements DispatcherInterface
 {
     /**
-     * @var string[]
+     * @var \Rougin\Slytherin\Routing\RouterInterface
      */
-    protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
-
-    /**
-     * @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>>
-     */
-    protected $routes = array();
+    protected $router;
 
     /**
      * Initializes the route dispatcher instance.
@@ -29,7 +24,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        $this->router($router);
+        if ($router) $this->router($router);
     }
 
     /**
@@ -37,142 +32,91 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  string $method
      * @param  string $uri
-     * @return array<int, mixed>
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \UnexpectedValueException
      */
     public function dispatch($method, $uri)
     {
-        /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> */
-        $routes = array();
+        $uri = $uri[0] !== '/' ? '/' . $uri : $uri;
 
-        foreach ($this->routes as $route)
+        $route = $this->match($method, $uri);
+
+        if (! $route)
         {
-            $parsed = $this->parse($method, $uri, $route);
+            $text = (string) 'Route "%s %s" not found';
 
-            array_push($routes, $parsed);
+            $error = sprintf($text, $method, $uri);
+
+            throw new \UnexpectedValueException($error);
         }
 
-        $route = $this->retrieve($routes, $uri);
+        // Parses the matched parameters back to the route --------
+        $params = $route->getParams();
 
-        return array(array($route[0], $route[1]), $route[2]);
+        /** @var string[] */
+        $filtered = array_filter(array_keys($params), 'is_string');
+
+        /** @var string[] */
+        $flipped = (array) array_flip($filtered);
+
+        /** @var string[] */
+        $values = array_intersect_key($params, $flipped);
+        // --------------------------------------------------------
+
+        return $route->setParams($values);
+    }
+
+    /**
+     * Sets the router and parse its available routes if needed.
+     * NOTE: To be removed in v1.0.0. Use $this->setRouter() instead.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @return self
+     */
+    public function router(RouterInterface $router)
+    {
+        return $this->setRouter($router);
     }
 
     /**
      * Sets the router and parse its available routes if needed.
      *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface|null $router
+     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
      */
-    public function router(RouterInterface $router = null)
+    public function setRouter(RouterInterface $router)
     {
-        if (! $router) return $this;
-
-        $fn = function ($item)
-        {
-            return str_replace(':', '', $item);
-        };
-
-        foreach ($router->routes() as $route)
-        {
-            preg_match_all('/:[a-z]*/', $route->getUri(), $result);
-
-            // TODO: Move this all to RouteInterface -------------------
-            $route[0] = $route->getMethod();
-            $route[1] = $route->getUri();
-            $route[2] = $route->getHandler();
-            $route[3] = $route->getMiddlewares();
-            $route[4] = str_replace($result[0], '(\w+)', $route[1]);
-            $route[4] = '/^' . str_replace('/', '\/', $route[4]) . '$/';
-            $route[5] = array_map($fn, $result[0]);
-            // ---------------------------------------------------------
-
-            array_push($this->routes, (array) $route);
-        }
+        $this->router = $router;
 
         return $this;
     }
 
     /**
-     * Checks if the specified method is a valid HTTP method.
+     * Matches the route from the parsed URI.
      *
      * @param  string $method
-     * @return boolean
-     *
-     * @throws \UnexpectedValueException
-     */
-    protected function allowed($method)
-    {
-        if (! in_array($method, $this->allowed))
-        {
-            $message = 'Used method is not allowed';
-
-            throw new \UnexpectedValueException($message);
-        }
-
-        return true;
-    }
-
-    /**
-     * Parses the specified route and make some checks.
-     *
-     * @param  string                                                                           $method
-     * @param  string                                                                           $uri
-     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
-     */
-    protected function parse($method, $uri, $route)
-    {
-        /** @var string $route[4] */
-        $matched = preg_match($route[4], $uri, $parameters);
-
-        if (! $matched) return null;
-
-        if ($method != $route[0] && $method != 'OPTIONS')
-        {
-            return null;
-        }
-
-        $this->allowed($route[0]);
-
-        array_shift($parameters);
-
-        return array($route[2], $parameters, $route[3], $route[5]);
-    }
-
-    /**
-     * Retrieved the specified route from the result.
-     *
-     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> $routes
      * @param  string $uri
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
-     *
-     * @throws \UnexpectedValueException
+     * @return \Rougin\Slytherin\Routing\RouteInterface
      */
-    protected function retrieve(array $routes, $uri)
+    protected function match($method, $uri)
     {
-        $routes = array_values(array_filter($routes));
+        $routes = $this->router->routes();
 
-        if (empty($routes))
+        foreach ($routes as $route)
         {
-            $message = 'Route "' . $uri . '" not found';
+            $regex = $route->getRegex();
 
-            throw new \UnexpectedValueException($message);
+            $matched = preg_match($regex, $uri, $matches);
+
+            $sameMethod = $route->getMethod() === $method;
+
+            if ($matched && $sameMethod)
+            {
+                return $route->setParams($matches);
+            }
         }
 
-        /** @var array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> */
-        $route = current($routes);
-
-        /** @var string[] */
-        $params = $route[1];
-
-        if (count($params) > 0)
-        {
-            /** @var string[] */
-            $regex = $route[3];
-
-            /** @var string[] $route[1] */
-            $route[1] = array_combine($regex, $params);
-        }
-
-        return (array) $route;
+        return null;
     }
 }

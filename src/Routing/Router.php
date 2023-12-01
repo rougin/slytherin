@@ -28,11 +28,6 @@ class Router implements RouterInterface
     protected $routes = array();
 
     /**
-     * @var string[]
-     */
-    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
-
-    /**
      * Initializes the router instance.
      *
      * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
@@ -129,6 +124,57 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a DELETE route.
+     *
+     * @param  string                                                        $uri
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function delete($uri, $handler, $middlewares = array())
+    {
+        return $this->add('DELETE', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Finds a specific route based on the specified HTTP method and URI.
+     *
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
+     */
+    public function find($method, $uri)
+    {
+        $route = array($method, $uri);
+
+        $fn = function ($route)
+        {
+            return array($route[0], $route[1]);
+        };
+
+        $routes = array_map($fn, $this->routes);
+
+        $key = array_search($route, $routes);
+
+        if ($key === false) return null;
+
+        return $this->routes[(integer) $key];
+    }
+
+    /**
+     * Adds a GET route.
+     *
+     * @param  string                                                        $uri
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function get($uri, $handler, $middlewares = array())
+    {
+        return $this->add('GET', $uri, $handler, $middlewares);
+    }
+
+    /**
      * Returns a specific route based on the specified HTTP method and URI.
      * NOTE: To be removed in v1.0.0. Use $this->retrieve() instead.
      *
@@ -178,7 +224,47 @@ class Router implements RouterInterface
     }
 
     /**
-     * Returns a specific route based on the specified HTTP method and URI.
+     * Adds a PATCH route.
+     *
+     * @param  string                                                        $uri
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function patch($uri, $handler, $middlewares = array())
+    {
+        return $this->add('PATCH', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Adds a POST route.
+     *
+     * @param  string                                                        $uri
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function post($uri, $handler, $middlewares = array())
+    {
+        return $this->add('POST', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Adds a PUT route.
+     *
+     * @param  string                                                        $uri
+     * @param  string|string[]                                               $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function put($uri, $handler, $middlewares = array())
+    {
+        return $this->add('PUT', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Finds a specific route based on the specified HTTP method and URI.
+     * NOTE: To be removed in v1.0.0. Use $this->find() instead.
      *
      * @param  string $method
      * @param  string $uri
@@ -186,20 +272,7 @@ class Router implements RouterInterface
      */
     public function retrieve($method, $uri)
     {
-        $route = array($method, $uri);
-
-        $fn = function ($route)
-        {
-            return array($route[0], $route[1]);
-        };
-
-        $routes = array_map($fn, $this->routes);
-
-        $key = array_search($route, $routes);
-
-        if ($key === false) return null;
-
-        return $this->routes[(integer) $key];
+        return $this->find($method, $uri);
     }
 
     /**
@@ -215,22 +288,22 @@ class Router implements RouterInterface
     /**
      * Adds a listing of routes specified for RESTful approach.
      *
-     * @param  string          $route
-     * @param  string          $class
+     * @param  string          $uri
+     * @param  class-string    $class
      * @param  string|string[] $middlewares
      * @return self
      */
-    public function restful($route, $class, $middlewares = array())
+    public function restful($uri, $class, $middlewares = array())
     {
         $middlewares = (is_string($middlewares)) ? array($middlewares) : $middlewares;
 
-        $this->add('GET', '/' . $route, $class . '@index', $middlewares);
-        $this->add('POST', '/' . $route, $class . '@store', $middlewares);
+        $this->add('GET', '/' . $uri, $class . '@index', $middlewares);
+        $this->add('POST', '/' . $uri, $class . '@store', $middlewares);
 
-        $this->add('DELETE', '/' . $route . '/:id', $class . '@delete', $middlewares);
-        $this->add('GET', '/' . $route . '/:id', $class . '@show', $middlewares);
-        $this->add('PATCH', '/' . $route . '/:id', $class . '@update', $middlewares);
-        $this->add('PUT', '/' . $route . '/:id', $class . '@update', $middlewares);
+        $this->add('DELETE', '/' . $uri . '/:id', $class . '@delete', $middlewares);
+        $this->add('GET', '/' . $uri . '/:id', $class . '@show', $middlewares);
+        $this->add('PATCH', '/' . $uri . '/:id', $class . '@update', $middlewares);
+        $this->add('PUT', '/' . $uri . '/:id', $class . '@update', $middlewares);
 
         return $this;
     }
@@ -269,28 +342,5 @@ class Router implements RouterInterface
     public function setPrefix($prefix = '', $namespace = '')
     {
         return $this->prefix($prefix, $namespace);
-    }
-
-    /**
-     * Calls methods from this class in HTTP method format.
-     *
-     * @param  string  $method
-     * @param  mixed[] $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        $method = (string) strtoupper($method);
-
-        if (! in_array($method, $this->allowed))
-        {
-            $text = "\"$method\" is not a valid HTTP method";
-
-            throw new \BadMethodCallException($text);
-        }
-
-        array_unshift($parameters, $method);
-
-        return call_user_func_array(array($this, 'add'), $parameters);
     }
 }

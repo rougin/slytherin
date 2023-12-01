@@ -24,6 +24,11 @@ class Route implements RouteInterface
     protected $middlewares;
 
     /**
+     * @var string[]
+     */
+    protected $params;
+
+    /**
      * @var string
      */
     protected $uri;
@@ -33,8 +38,9 @@ class Route implements RouteInterface
      * @param string                                                        $uri
      * @param callable|string[]|string                                      $handler
      * @param \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param string[]                                                      $params
      */
-    public function __construct($method, $uri, $handler, $middlewares = array())
+    public function __construct($method, $uri, $handler, $middlewares = array(), $params = array())
     {
         $this->handler = $handler;
 
@@ -43,6 +49,8 @@ class Route implements RouteInterface
         $this->middlewares = $middlewares;
 
         $this->uri = (string) $uri;
+
+        $this->params = $params;
     }
 
     /**
@@ -67,6 +75,14 @@ class Route implements RouteInterface
     public function getMiddlewares()
     {
         return $this->middlewares;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getParams()
+    {
+        return $this->params;
     }
 
     /**
@@ -111,5 +127,16 @@ class Route implements RouteInterface
         $replace = '(?<$1>' . self::ALLOWED_REGEX . ')';
 
         return preg_replace($search, $replace, $pattern);
+    }
+
+    /**
+     * @param  string[] $params
+     * @return self
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+
+        return $this;
     }
 }
