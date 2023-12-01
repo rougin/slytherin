@@ -33,6 +33,11 @@ class Router extends Slytherin
             return 'Welcome call!';
         });
 
+        $this->get('/call/:name', function ($name)
+        {
+            return 'Welcome ' . $name . '!';
+        });
+
         $this->get('/param', 'Home@param');
 
         $this->get('/handler/conts', 'Hello@conts');
