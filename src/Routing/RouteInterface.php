@@ -38,6 +38,11 @@ interface RouteInterface
     public function getRegex();
 
     /**
+     * @return mixed
+     */
+    public function getResult();
+
+    /**
      * @return string
      */
     public function getUri();
@@ -47,4 +52,10 @@ interface RouteInterface
      * @return self
      */
     public function setParams($params);
+
+    /**
+     * @param  mixed $result
+     * @return self
+     */
+    public function setResult($result);
 }

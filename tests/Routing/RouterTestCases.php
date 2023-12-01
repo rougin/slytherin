@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Routing;
 class RouterTestCases extends \Rougin\Slytherin\Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Routing\RouterInterface
+     * @var \Rougin\Slytherin\Routing\Router
      */
     protected $router;
 
@@ -58,20 +58,6 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
         $this->router->post('/posts', 'PostsController@store');
 
         $this->assertTrue($this->router->has('POST', '/posts'));
-    }
-
-    /**
-     * Tests RouterInterface::__call with an exception.
-     *
-     * @return void
-     */
-    public function testCallMagicMethodWithException()
-    {
-        $this->setExpectedException('BadMethodCallException');
-
-        $this->exists(get_class($this->router));
-
-        $this->router->test('/test', 'PostsController@test');
     }
 
     /**

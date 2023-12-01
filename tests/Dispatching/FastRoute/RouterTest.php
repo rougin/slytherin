@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Dispatching\FastRoute;
 class RouterTest extends \Rougin\Slytherin\Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\RouterInterface
+     * @var \Rougin\Slytherin\Dispatching\FastRoute\Router
      */
     protected $router;
 

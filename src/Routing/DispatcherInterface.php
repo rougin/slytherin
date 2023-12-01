@@ -19,7 +19,7 @@ interface DispatcherInterface
      * @param  string $uri
      * @return \Rougin\Slytherin\Routing\RouteInterface
      *
-     * @throws \UnexpectedValueException
+     * @throws \BadMethodCallException
      */
     public function dispatch($method, $uri);
 

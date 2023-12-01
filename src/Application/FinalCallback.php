@@ -54,6 +54,13 @@ class FinalCallback
     {
         $handler = $this->route->getHandler();
 
+        $result = $this->route->getResult();
+
+        if ($result instanceof ResponseInterface)
+        {
+            return $this->finalize($result);
+        }
+
         // Attach the request again in the container to reflect from stack ---
         $this->container->set(self::REQUEST, $request);
         // -------------------------------------------------------------------

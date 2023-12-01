@@ -91,6 +91,15 @@ interface RouterInterface
     public function post($uri, $handler, $middlewares = array());
 
     /**
+     * Sets a prefix for the succeeding route endpoints.
+     *
+     * @param  string      $prefix
+     * @param  string|null $namespace
+     * @return self
+     */
+    public function prefix($prefix = '', $namespace = null);
+
+    /**
      * Adds a PUT route.
      *
      * @param  string                                                        $uri

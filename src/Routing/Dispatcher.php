@@ -13,6 +13,11 @@ namespace Rougin\Slytherin\Routing;
 class Dispatcher implements DispatcherInterface
 {
     /**
+     * @var string[]
+     */
+    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+
+    /**
      * @var \Rougin\Slytherin\Routing\RouterInterface
      */
     protected $router;
@@ -34,7 +39,7 @@ class Dispatcher implements DispatcherInterface
      * @param  string $uri
      * @return \Rougin\Slytherin\Routing\RouteInterface
      *
-     * @throws \UnexpectedValueException
+     * @throws \BadMethodCallException
      */
     public function dispatch($method, $uri)
     {
@@ -48,7 +53,7 @@ class Dispatcher implements DispatcherInterface
 
             $error = sprintf($text, $method, $uri);
 
-            throw new \UnexpectedValueException($error);
+            throw new \BadMethodCallException($error);
         }
 
         // Parses the matched parameters back to the route --------
@@ -90,6 +95,23 @@ class Dispatcher implements DispatcherInterface
         $this->router = $router;
 
         return $this;
+    }
+
+    /**
+     * Checks if the specified method is a valid HTTP method.
+     *
+     * @param  string $method
+     * @return boolean
+     *
+     * @throws \BadMethodCallException
+     */
+    protected function validMethod($method)
+    {
+        if (in_array($method, $this->allowed)) return true;
+
+        $message = 'Used method is not allowed';
+
+        throw new \BadMethodCallException($message);
     }
 
     /**

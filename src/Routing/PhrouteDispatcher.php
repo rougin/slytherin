@@ -34,8 +34,6 @@ class PhrouteDispatcher extends Dispatcher
     protected $resolver;
 
     /**
-     * Initializes the dispatcher instance.
-     *
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      * @param \Phroute\Phroute\HandlerResolverInterface|null $resolver
      */
@@ -61,7 +59,9 @@ class PhrouteDispatcher extends Dispatcher
 
         $phroute = new Phroute($routes, $this->resolver);
 
-        if (! $phroute->dispatch($method, $uri))
+        $result = $phroute->dispatch($method, $uri);
+
+        if (! $result)
         {
             $text = (string) 'Route "%s %s" not found';
 
@@ -71,8 +71,10 @@ class PhrouteDispatcher extends Dispatcher
         }
 
         // Need only to find the Route instance ----
-        return $this->router->find($method, $uri);
+        $route = $this->router->find($method, $uri);
         // -----------------------------------------
+
+        return $route->setResult($result);
     }
 
     /**

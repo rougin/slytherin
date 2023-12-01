@@ -26,7 +26,12 @@ class Route implements RouteInterface
     /**
      * @var string[]
      */
-    protected $params;
+    protected $params = array();
+
+    /**
+     * @var mixed
+     */
+    protected $result;
 
     /**
      * @var string
@@ -34,23 +39,31 @@ class Route implements RouteInterface
     protected $uri;
 
     /**
-     * @param string                                                        $method
-     * @param string                                                        $uri
-     * @param callable|string[]|string                                      $handler
-     * @param \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
-     * @param string[]                                                      $params
+     * @param string                                                               $method
+     * @param string                                                               $uri
+     * @param callable|string[]|string                                             $handler
+     * @param \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string $middlewares
      */
-    public function __construct($method, $uri, $handler, $middlewares = array(), $params = array())
+    public function __construct($method, $uri, $handler, $middlewares = array())
     {
+        if (is_string($handler))
+        {
+            /** @var string[] */
+            $handler = explode('@', $handler);
+        }
+
         $this->handler = $handler;
 
         $this->method = $method;
 
+        if (is_string($middlewares))
+        {
+            $middlewares = array($middlewares);
+        }
+
         $this->middlewares = $middlewares;
 
         $this->uri = (string) $uri;
-
-        $this->params = $params;
     }
 
     /**
@@ -112,6 +125,14 @@ class Route implements RouteInterface
     }
 
     /**
+     * @return mixed
+     */
+    public function getResult()
+    {
+        return $this->result;
+    }
+
+    /**
      * @return string
      */
     public function getUri()
@@ -140,6 +161,17 @@ class Route implements RouteInterface
     public function setParams($params)
     {
         $this->params = $params;
+
+        return $this;
+    }
+
+    /**
+     * @param  mixed $result
+     * @return self
+     */
+    public function setResult($result)
+    {
+        $this->result = $result;
 
         return $this;
     }

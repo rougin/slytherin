@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use Phroute\Phroute\RouteCollector;
-
 /**
  * Phroute Router
  *

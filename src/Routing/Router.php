@@ -46,7 +46,7 @@ class Router implements RouterInterface
             /** @var string */
             $uri = $route[1];
 
-            /** @var string[]|string */
+            /** @var callable|string[]|string */
             $handler = $route[2];
 
             /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string */
@@ -248,6 +248,29 @@ class Router implements RouterInterface
     }
 
     /**
+     * Sets a prefix for the succeeding route endpoints.
+     *
+     * @param  string      $prefix
+     * @param  string|null $namespace
+     * @return self
+     */
+    public function prefix($prefix = '', $namespace = null)
+    {
+        $this->prefix = $prefix;
+
+        if ($namespace)
+        {
+            $namespace = $namespace . '\\';
+
+            $namespace = str_replace('\\\\', '\\', $namespace);
+
+            $this->namespace = $namespace;
+        }
+
+        return $this;
+    }
+
+    /**
      * Adds a PUT route.
      *
      * @param  string                                                        $uri
@@ -258,29 +281,6 @@ class Router implements RouterInterface
     public function put($uri, $handler, $middlewares = array())
     {
         return $this->add('PUT', $uri, $handler, $middlewares);
-    }
-
-    /**
-     * Finds a specific route based on the specified HTTP method and URI.
-     * NOTE: To be removed in v1.0.0. Use $this->find() instead.
-     *
-     * @param  string $method
-     * @param  string $uri
-     * @return \Rougin\Slytherin\Routing\RouteInterface|null
-     */
-    public function retrieve($method, $uri)
-    {
-        return $this->find($method, $uri);
-    }
-
-    /**
-     * Returns a listing of available routes.
-     *
-     * @return \Rougin\Slytherin\Routing\RouteInterface[]
-     */
-    public function routes()
-    {
-        return $this->routes;
     }
 
     /**
@@ -307,26 +307,26 @@ class Router implements RouterInterface
     }
 
     /**
-     * Sets a prefix for the succeeding route endpoints.
+     * Finds a specific route based on the specified HTTP method and URI.
+     * NOTE: To be removed in v1.0.0. Use $this->find() instead.
      *
-     * @param  string      $prefix
-     * @param  string|null $namespace
-     * @return self
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
-    public function prefix($prefix = '', $namespace = null)
+    public function retrieve($method, $uri)
     {
-        $this->prefix = $prefix;
+        return $this->find($method, $uri);
+    }
 
-        if ($namespace)
-        {
-            $namespace = $namespace . '\\';
-
-            $namespace = str_replace('\\\\', '\\', $namespace);
-
-            $this->namespace = $namespace;
-        }
-
-        return $this;
+    /**
+     * Returns a listing of available routes.
+     *
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
+     */
+    public function routes()
+    {
+        return $this->routes;
     }
 
     /**
