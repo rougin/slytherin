@@ -2,13 +2,19 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Dispatching\Vanilla\Router as Vanilla;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Routing\PhrouteResolver;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Dispatcher Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends \Rougin\Slytherin\Testcase
+class DispatcherTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -27,7 +33,8 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('Phroute\Phroute\Dispatcher')) {
+        if (! class_exists('Phroute\Phroute\Dispatcher'))
+        {
             $this->markTestSkipped('Phroute is not installed.');
         }
 
@@ -41,9 +48,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
             }),
         );
 
-        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($this->routes);
+        $router = new Router($this->routes);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
+        $dispatcher = new Dispatcher($router);
 
         $this->dispatcher = $dispatcher;
     }
@@ -55,11 +62,15 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethod()
     {
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
-        $expected = array($controller->index(), array());
+        $expected = $controller->index();
 
-        $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/'));
+        $route = $this->dispatcher->dispatch('GET', '/');
+
+        $actual = $route->getResult();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -69,9 +80,13 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithClosure()
     {
-        $expected = array('Hi', array());
+        $expected = 'Hi';
 
-        $this->assertEquals($expected, $this->dispatcher->dispatch('GET', '/hi'));
+        $route = $this->dispatcher->dispatch('GET', '/hi');
+
+        $actual = $route->getResult();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -81,9 +96,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('BadMethodCallException');
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('GET', '/test');
+        $this->dispatcher->dispatch('GET', '/test');
     }
 
     /**
@@ -93,9 +108,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('BadMethodCallException');
 
-        list($callback, $parameters) = $this->dispatcher->dispatch('TEST', '/hi');
+        $this->dispatcher->dispatch('TEST', '/hi');
     }
 
     /**
@@ -117,14 +132,18 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithDifferentRouter()
     {
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($this->routes);
+        $router = new Vanilla($this->routes);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
+        $dispatcher = new Dispatcher($router);
 
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
 
-        $expected = array($controller->index(), array());
+        $expected = $controller->index();
 
-        $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
+        $route = $dispatcher->dispatch('GET', '/');
+
+        $actual = $route->getResult();
+
+        $this->assertEquals($expected, $actual);
     }
 }

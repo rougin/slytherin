@@ -2,13 +2,19 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
+use FastRoute\DataGenerator\GroupCountBased;
+use FastRoute\RouteCollector;
+use FastRoute\RouteParser\Std;
+use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Router Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \Rougin\Slytherin\Testcase
+class RouterTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\FastRoute\Router
@@ -16,11 +22,9 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     protected $router;
 
     /**
-     * @var array
+     * @var \Rougin\Slytherin\Routing\RouteInterface[]
      */
-    protected $routes = array(
-        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
-    );
+    protected $routes = array();
 
     /**
      * Sets up the router.
@@ -29,16 +33,22 @@ class RouterTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('FastRoute\RouteCollector')) {
+        if (! class_exists('FastRoute\RouteCollector'))
+        {
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
-        $based = new \FastRoute\DataGenerator\GroupCountBased;
-        $std   = new \FastRoute\RouteParser\Std;
+        // Generate a sample route for testing --------------
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $collector = new \FastRoute\RouteCollector($std, $based);
+        $route = new Route('GET', '/', $class . '@index');
 
-        $this->router = new \Rougin\Slytherin\Dispatching\FastRoute\Router;
+        array_push($this->routes, $route);
+        // --------------------------------------------------
+
+        $collector = new RouteCollector(new Std, new GroupCountBased);
+
+        $this->router = new Router;
 
         $this->router->setCollector($collector);
     }
@@ -50,14 +60,21 @@ class RouterTest extends \Rougin\Slytherin\Testcase
      */
     public function testAddRouteMethod()
     {
-        list($httpMethod, $uri, $handler) = $this->routes[0];
+        // Returns details from the sample route ---
+        $expected = $this->routes[0];
 
-        $this->router->addRoute($httpMethod, $uri, $handler);
+        $method = $expected->getMethod();
 
-        $this->assertEquals(
-            $this->routes[0],
-            $this->router->getRoute($httpMethod, $uri)
-        );
+        $uri = $expected->getUri();
+
+        $handler = $expected->getHandler();
+        // -----------------------------------------
+
+        $this->router->addRoute($method, $uri, $handler);
+
+        $actual = $this->router->getRoute($method, $uri);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -71,15 +88,15 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the specified routes exists in the listing of routes.
+     * Tests if the existing routes are parsed.
      *
      * @return void
      */
-    public function testGetRoutesMethod()
+    public function testParsedMethod()
     {
-        $this->router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($this->routes);
+        $this->router = new Router;
 
-        $this->assertInstanceOf('Closure', $this->router->getRoutes(true));
+        $this->assertInstanceOf('Closure', $this->router->parsed());
     }
 
     /**

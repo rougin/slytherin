@@ -43,6 +43,8 @@ class Dispatcher implements DispatcherInterface
      */
     public function dispatch($method, $uri)
     {
+        $this->validMethod($method);
+
         $uri = $uri[0] !== '/' ? '/' . $uri : $uri;
 
         $route = $this->match($method, $uri);
@@ -74,21 +76,11 @@ class Dispatcher implements DispatcherInterface
 
     /**
      * Sets the router and parse its available routes if needed.
-     * NOTE: To be removed in v1.0.0. Use $this->setRouter() instead.
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
-     */
-    public function router(RouterInterface $router)
-    {
-        return $this->setRouter($router);
-    }
-
-    /**
-     * Sets the router and parse its available routes if needed.
-     *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
-     * @return self
+     * 
+     * @throws \UnexpectedValueException
      */
     public function setRouter(RouterInterface $router)
     {
@@ -119,7 +111,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  string $method
      * @param  string $uri
-     * @return \Rougin\Slytherin\Routing\RouteInterface
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     protected function match($method, $uri)
     {

@@ -41,7 +41,6 @@ interface RouterInterface
      * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     public function find($method, $uri);
-    // public function retrieve($method, $uri);
 
     /**
      * Adds a GET route.
@@ -69,6 +68,14 @@ interface RouterInterface
      * @return self
      */
     public function merge(array $routes);
+
+    /**
+     * Returns a listing of parsed routes.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
+     */
+    public function parsed(array $routes = array());
 
     /**
      * Adds a PATCH route.

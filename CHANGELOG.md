@@ -7,6 +7,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Added
 - `preferred` property in integrations
 - `ContainerException` in `Container`
+- `RouteInterface` for handling specific routes
 
 ### Changed
 - Third-party route dispatchers only conform to one router

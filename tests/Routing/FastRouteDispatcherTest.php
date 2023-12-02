@@ -29,7 +29,8 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $router->post('/', 'NewClass@store');
 
-        $router->get('/hi', function () {
+        $router->get('/hi', function ()
+        {
             return 'Hi and this is a callback';
         });
 
@@ -57,13 +58,13 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $route = $dispatcher->dispatch('GET', '/');
 
         $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+        $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -87,12 +88,12 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $route = $dispatcher->dispatch('GET', '/');
 
         $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+        $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

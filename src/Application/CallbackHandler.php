@@ -90,10 +90,9 @@ class CallbackHandler
      */
     protected function middleware(FinalCallback $callback, ServerRequestInterface $request)
     {
-        if (! interface_exists(Application::MIDDLEWARE))
-        {
-            return $callback($request);
-        }
+        $exists = interface_exists(Application::MIDDLEWARE);
+
+        if (! $exists) return $callback($request);
 
         /** @var \Psr\Http\Message\ResponseInterface */
         $response = $this->container->get(self::RESPONSE);

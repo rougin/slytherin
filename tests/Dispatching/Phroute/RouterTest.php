@@ -2,25 +2,27 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
+use Phroute\Phroute\RouteCollector;
+use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Router Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \Rougin\Slytherin\Testcase
+class RouterTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\RouterInterface
+     * @var \Rougin\Slytherin\Routing\PhrouteRouter
      */
     protected $router;
 
     /**
-     * @var array
+     * @var \Rougin\Slytherin\Routing\RouteInterface[]
      */
-    protected $routes = array(
-        array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array())
-    );
+    protected $routes = array();
 
     /**
      * Sets up the router.
@@ -29,13 +31,22 @@ class RouterTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('Phroute\Phroute\RouteCollector')) {
+        if (! class_exists('Phroute\Phroute\RouteCollector'))
+        {
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $this->router = new \Rougin\Slytherin\Dispatching\Phroute\Router;
+        // Generate a sample route for testing --------------
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->router->setCollector(new \Phroute\Phroute\RouteCollector);
+        $route = new Route('GET', '/', $class . '@index');
+
+        array_push($this->routes, $route);
+        // --------------------------------------------------
+
+        $this->router = new Router;
+
+        $this->router->setCollector(new RouteCollector);
     }
 
     /**
@@ -45,11 +56,21 @@ class RouterTest extends \Rougin\Slytherin\Testcase
      */
     public function testAddRouteMethod()
     {
-        list($httpMethod, $uri, $handler) = $this->routes[0];
+        // Returns details from the sample route ---
+        $expected = $this->routes[0];
 
-        $this->router->addRoute($httpMethod, $uri, $handler);
+        $method = $expected->getMethod();
 
-        $this->assertEquals($this->routes[0], $this->router->getRoute($httpMethod, $uri));
+        $uri = $expected->getUri();
+
+        $handler = $expected->getHandler();
+        // -----------------------------------------
+
+        $this->router->addRoute($method, $uri, $handler);
+
+        $actual = $this->router->getRoute($method, $uri);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -63,15 +84,15 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the specified routes exists in the listing of routes.
+     * Tests if the existing routes are parsed.
      *
      * @return void
      */
-    public function testGetRoutesMethod()
+    public function testParsedMethod()
     {
-        $this->router = new \Rougin\Slytherin\Dispatching\Phroute\Router($this->routes);
+        $this->router = new Router;
 
-        $this->assertInstanceOf('Phroute\Phroute\RouteDataArray', $this->router->getRoutes(true));
+        $this->assertInstanceOf('Phroute\Phroute\RouteDataArray', $this->router->parsed());
     }
 
     /**

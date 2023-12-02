@@ -178,7 +178,7 @@ class Router implements RouterInterface
      *
      * @param  string $method
      * @param  string $uri
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     public function getRoute($method, $uri)
     {
@@ -219,6 +219,17 @@ class Router implements RouterInterface
         $this->routes = array_merge($this->routes, $routes);
 
         return $this;
+    }
+
+    /**
+     * Returns a listing of parsed routes.
+     *
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
+     */
+    public function parsed(array $routes = array())
+    {
+        return null;
     }
 
     /**
@@ -293,15 +304,15 @@ class Router implements RouterInterface
      */
     public function restful($uri, $class, $middlewares = array())
     {
-        $middlewares = (is_string($middlewares)) ? array($middlewares) : $middlewares;
+        if (is_string($middlewares)) $middlewares = array($middlewares);
 
-        $this->add('GET', '/' . $uri, $class . '@index', $middlewares);
-        $this->add('POST', '/' . $uri, $class . '@store', $middlewares);
+        $this->get('/' . $uri, $class . '@index', $middlewares);
+        $this->post('/' . $uri, $class . '@store', $middlewares);
 
-        $this->add('DELETE', '/' . $uri . '/:id', $class . '@delete', $middlewares);
-        $this->add('GET', '/' . $uri . '/:id', $class . '@show', $middlewares);
-        $this->add('PATCH', '/' . $uri . '/:id', $class . '@update', $middlewares);
-        $this->add('PUT', '/' . $uri . '/:id', $class . '@update', $middlewares);
+        $this->delete('/' . $uri . '/:id', $class . '@delete', $middlewares);
+        $this->get('/' . $uri . '/:id', $class . '@show', $middlewares);
+        $this->patch('/' . $uri . '/:id', $class . '@update', $middlewares);
+        $this->put('/' . $uri . '/:id', $class . '@update', $middlewares);
 
         return $this;
     }

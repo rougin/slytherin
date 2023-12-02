@@ -3,8 +3,9 @@
 namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\Dispatcher as Phroute;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\HandlerResolverInterface;
-use Phroute\Phroute\RouteCollector;
+use Phroute\Phroute\RouteDataArray;
 
 /**
  * Phroute Dispatcher
@@ -29,6 +30,11 @@ class PhrouteDispatcher extends Dispatcher
     protected $dispatcher;
 
     /**
+     * @var \Phroute\Phroute\RouteDataArray
+     */
+    protected $items;
+
+    /**
      * @var \Phroute\Phroute\HandlerResolverInterface|null
      */
     protected $resolver;
@@ -51,28 +57,27 @@ class PhrouteDispatcher extends Dispatcher
      * @param  string $uri
      * @return \Rougin\Slytherin\Routing\RouteInterface
      *
-     * @throws \UnexpectedValueException
+     * @throws \BadMethodCallException
      */
     public function dispatch($method, $uri)
     {
-        $routes = $this->collector->getData();
+        $this->validMethod($method);
 
-        $phroute = new Phroute($routes, $this->resolver);
+        $phroute = new Phroute($this->items, $this->resolver);
 
-        $result = $phroute->dispatch($method, $uri);
-
-        if (! $result)
+        try
         {
-            $text = (string) 'Route "%s %s" not found';
-
-            $error = sprintf($text, $method, $uri);
-
-            throw new \UnexpectedValueException($error);
+            $result = $phroute->dispatch($method, $uri);
+        }
+        catch (HttpRouteNotFoundException $e)
+        {
+            throw new \BadMethodCallException($e->getMessage());
         }
 
-        // Need only to find the Route instance ----
+        // Need only to find the Route instance ------------
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->find($method, $uri);
-        // -----------------------------------------
+        // -------------------------------------------------
 
         return $route->setResult($result);
     }
@@ -82,21 +87,27 @@ class PhrouteDispatcher extends Dispatcher
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
+     * 
+     * @throws \UnexpectedValueException
      */
     public function setRouter(RouterInterface $router)
     {
-        $collector = new RouteCollector;
-
         $routes = $router->routes();
 
-        foreach ($routes as $route)
+        $parsed = $router->parsed($routes);
+
+        // Force to use third-party router if not being used ---
+        if (! $parsed instanceof RouteDataArray)
         {
-            $collector->addRoute($route->getMethod(), $route->getUri(), $route->getHandler());
+            $phroute = new PhrouteRouter;
+
+            $parsed = $phroute->asParsed($routes);
         }
+        // -----------------------------------------------------
 
         $this->router = $router;
 
-        $this->collector = $collector;
+        $this->items = $parsed;
 
         return $this;
     }

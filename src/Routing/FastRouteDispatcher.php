@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 use FastRoute\RouteCollector;
+use UnexpectedValueException;
 
 /**
  * FastRoute Dispatcher
@@ -46,11 +47,15 @@ class FastRouteDispatcher extends Dispatcher
             throw new \BadMethodCallException($error);
         }
 
-        // Need only to find the Route instance ----
+        // Need only to find the Route instance ------------
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->find($method, $uri);
-        // -----------------------------------------
+        // -------------------------------------------------
 
-        return $route->setParams($result[2]);
+        /** @var string[] */
+        $params = $result[2];
+
+        return $route->setParams($params);
     }
 
     /**
@@ -58,22 +63,27 @@ class FastRouteDispatcher extends Dispatcher
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
+     * 
+     * @throws \UnexpectedValueException
      */
     public function setRouter(RouterInterface $router)
     {
         $routes = $router->routes();
 
-        $fn = function (RouteCollector $collector) use ($routes)
+        $parsed = $router->parsed($routes);
+
+        // Force to use third-party router if not being used ---
+        if (! is_callable($parsed))
         {
-            foreach ($routes as $route)
-            {
-                $collector->addRoute($route->getMethod(), $route->getUri(), $route->getHandler());
-            }
-        };
+            $fastroute = new FastRouteRouter;
+
+            $parsed = $fastroute->asParsed($routes);
+        }
+        // -----------------------------------------------------
 
         $this->router = $router;
 
-        $this->fastroute = \FastRoute\simpleDispatcher($fn);
+        $this->fastroute = \FastRoute\simpleDispatcher($parsed);
 
         return $this;
     }

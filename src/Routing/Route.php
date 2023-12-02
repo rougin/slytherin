@@ -108,6 +108,7 @@ class Route implements RouteInterface
     public function getRegex()
     {
         // Turn "(/)" into "/?" ------------------------------
+        /** @var string */
         $uri = preg_replace('#\(/\)#', '/?', $this->getUri());
         // ---------------------------------------------------
 
@@ -151,6 +152,7 @@ class Route implements RouteInterface
     {
         $replace = '(?<$1>' . self::ALLOWED_REGEX . ')';
 
+        /** @var string */
         return preg_replace($search, $replace, $pattern);
     }
 

@@ -2,7 +2,9 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Dispatcher Test
@@ -10,7 +12,7 @@ use Rougin\Slytherin\Routing\Route;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends \Rougin\Slytherin\Testcase
+class DispatcherTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -57,7 +59,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethod()
     {
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $controller = new NewClass;
+
+        $expected = $controller->index();
 
         $route = $this->dispatcher->dispatch('GET', '/');
 
@@ -65,9 +69,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
 
         $object = array(new $class, $method);
 
-        $result = call_user_func_array($object, $route->getParams());
+        $actual = call_user_func_array($object, $route->getParams());
 
-        $this->assertEquals($controller->index(), $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -83,9 +87,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
 
         $parameters = $route->getParams();
 
-        $result = call_user_func($callback, $parameters);
+        $actual = call_user_func($callback, $parameters);
 
-        $this->assertEquals('Hi', $result);
+        $this->assertEquals('Hi', $actual);
     }
 
     /**
