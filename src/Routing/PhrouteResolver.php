@@ -7,7 +7,7 @@ use Phroute\Phroute\HandlerResolverInterface;
 /**
  * Phroute Resolver
  *
- * A handler resolver that uses PSR-11 containers to resolve dependencies.
+ * A handler resolver that wraps the route as the result.
  *
  * https://github.com/mrjgreen/phroute
  *
@@ -17,26 +17,11 @@ use Phroute\Phroute\HandlerResolverInterface;
 class PhrouteResolver implements HandlerResolverInterface
 {
     /**
-     * Create an instance of the given handler.
-     *
      * @param  \Rougin\Slytherin\Routing\RouteInterface $handler
      * @return array<int, mixed>
      */
     public function resolve($handler)
     {
-        /** @var \Rougin\Slytherin\Routing\RouteInterface */
-        $route = $handler;
-
-        $handler = $route->getHandler();
-
-        $method = $route->getMethod();
-
-        $uri = $route->getUri();
-
-        $middlewares = $route->getMiddlewares();
-
-        $route = new Route($method, $uri, $handler, $middlewares);
-
-        return array(new PhrouteRoute($route), 'setParams');
+        return array(new PhrouteWrapper($handler), 'setParams');
     }
 }

@@ -3,14 +3,14 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * A simple class for resolving routes in Phroute.
+ * A simple class wrapper for resolving routes in Phroute.
  *
  * https://github.com/mrjgreen/phroute
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class PhrouteRoute
+class PhrouteWrapper
 {
     /** @var \Rougin\Slytherin\Routing\RouteInterface */
     protected $route;
