@@ -10,7 +10,9 @@ All notable changes to `Slytherin` will be documented in this file.
 - `RouteInterface` for handling specific routes
 
 ### Changed
-- Third-party route dispatchers only conform to one router
+- Third-party packages in `Routing` extends to Slytherin's `Dispatcher`, `Router`
+- Conformed all application logic to `RouteInterface`
+- `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)
@@ -19,6 +21,9 @@ All notable changes to `Slytherin` will be documented in this file.
 - If `ServerRequestInterface` is an argument with a middleware
 - Backward compatibility for `LeagueContainer::set` (as of `~3.0`)
 - Backward compatibility for `TwigRenderer::render` (as of `~3.0`)
+
+### Removed
+- `__call` methods in `Router`, use the defined methods instead (e.g., `get()`, `post()`, etc.)
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

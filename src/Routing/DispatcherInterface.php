@@ -30,5 +30,4 @@ interface DispatcherInterface
      * @return self
      */
     public function setRouter(RouterInterface $router);
-    // public function router(RouterInterface $router);
 }

@@ -52,18 +52,17 @@ class FinalCallback
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        $handler = $this->route->getHandler();
-
         $result = $this->route->getResult();
 
-        if ($result instanceof ResponseInterface)
-        {
-            return $this->finalize($result);
-        }
+        // Return if the dispatcher from Routing resolves the route automatically (e.g., Phroute) ---
+        if ($result instanceof ResponseInterface) return $this->finalize($result);
+        // ------------------------------------------------------------------------------------------
 
         // Attach the request again in the container to reflect from stack ---
         $this->container->set(self::REQUEST, $request);
         // -------------------------------------------------------------------
+
+        $handler = $this->route->getHandler();
 
         if (is_array($handler) && is_string($handler[0]))
         {
