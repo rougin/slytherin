@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Application;
 
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Routing\Router;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Application Test Cases
@@ -11,7 +12,7 @@ use Rougin\Slytherin\Routing\Router;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTestCases extends \Rougin\Slytherin\Testcase
+class ApplicationTestCases extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Application
@@ -207,10 +208,12 @@ class ApplicationTestCases extends \Rougin\Slytherin\Testcase
 
         $dispatcher = Application::container()->get($interface);
 
-        // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver
-        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher')) {
+        // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver ----------
+        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher'))
+        {
             $this->markTestSkipped('Resolving type hinted parameters are not yet implemented in Phroute.');
         }
+        // ------------------------------------------------------------------------------------------------
 
         $request = $this->request('GET', '/typehint/202');
 
@@ -316,7 +319,8 @@ class ApplicationTestCases extends \Rougin\Slytherin\Testcase
 
         $router->get('/typehint/:code', 'WithResponseInterface@typehint');
 
-        $router->get('/callback', function () {
+        $router->get('/callback', function ()
+        {
             return 'Hello, this is a callback';
         });
 

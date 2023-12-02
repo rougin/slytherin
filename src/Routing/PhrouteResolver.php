@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\HandlerResolverInterface;
-use Psr\Container\ContainerInterface;
 
 /**
  * Phroute Resolver
@@ -18,33 +17,26 @@ use Psr\Container\ContainerInterface;
 class PhrouteResolver implements HandlerResolverInterface
 {
     /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $container;
-
-    /**
-     * Initializes the resolver instance.
-     *
-     * @param \Psr\Container\ContainerInterface $container
-     */
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
      * Create an instance of the given handler.
      *
-     * @param  array<int, mixed> $handler
+     * @param  \Rougin\Slytherin\Routing\RouteInterface $handler
      * @return array<int, mixed>
      */
     public function resolve($handler)
     {
-        if (is_array($handler) && is_string($handler[0]))
-        {
-            $handler[0] = $this->container->get($handler[0]);
-        }
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
+        $route = $handler;
 
-        return $handler;
+        $handler = $route->getHandler();
+
+        $method = $route->getMethod();
+
+        $uri = $route->getUri();
+
+        $middlewares = $route->getMiddlewares();
+
+        $route = new Route($method, $uri, $handler, $middlewares);
+
+        return array(new PhrouteRoute($route), 'setParams');
     }
 }

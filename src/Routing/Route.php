@@ -29,11 +29,6 @@ class Route implements RouteInterface
     protected $params = array();
 
     /**
-     * @var mixed
-     */
-    protected $result;
-
-    /**
      * @var string
      */
     protected $uri;
@@ -126,14 +121,6 @@ class Route implements RouteInterface
     }
 
     /**
-     * @return mixed
-     */
-    public function getResult()
-    {
-        return $this->result;
-    }
-
-    /**
      * @return string
      */
     public function getUri()
@@ -163,17 +150,6 @@ class Route implements RouteInterface
     public function setParams($params)
     {
         $this->params = $params;
-
-        return $this;
-    }
-
-    /**
-     * @param  mixed $result
-     * @return self
-     */
-    public function setResult($result)
-    {
-        $this->result = $result;
 
         return $this;
     }

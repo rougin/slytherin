@@ -68,7 +68,11 @@ class DispatcherTest extends Testcase
 
         $route = $this->dispatcher->dispatch('GET', '/');
 
-        $actual = $route->getResult();
+        list($class, $method) = $route->getHandler();
+
+        $object = array(new $class, $method);
+
+        $actual = call_user_func_array($object, $route->getParams());
 
         $this->assertEquals($expected, $actual);
     }
@@ -80,13 +84,15 @@ class DispatcherTest extends Testcase
      */
     public function testDispatchMethodWithClosure()
     {
-        $expected = 'Hi';
-
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
-        $actual = $route->getResult();
+        $callback = $route->getHandler();
 
-        $this->assertEquals($expected, $actual);
+        $parameters = $route->getParams();
+
+        $actual = call_user_func($callback, $parameters);
+
+        $this->assertEquals('Hi', $actual);
     }
 
     /**
@@ -142,7 +148,11 @@ class DispatcherTest extends Testcase
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        $actual = $route->getResult();
+        list($class, $method) = $route->getHandler();
+
+        $object = array(new $class, $method);
+
+        $actual = call_user_func_array($object, $route->getParams());
 
         $this->assertEquals($expected, $actual);
     }

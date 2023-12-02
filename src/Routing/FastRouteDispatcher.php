@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use FastRoute\RouteCollector;
-use UnexpectedValueException;
-
 /**
  * FastRoute Dispatcher
  *
@@ -47,10 +44,8 @@ class FastRouteDispatcher extends Dispatcher
             throw new \BadMethodCallException($error);
         }
 
-        // Need only to find the Route instance ------------
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
-        $route = $this->router->find($method, $uri);
-        // -------------------------------------------------
+        $route = $result[1];
 
         /** @var string[] */
         $params = $result[2];

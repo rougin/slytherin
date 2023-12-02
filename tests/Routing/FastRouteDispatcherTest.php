@@ -21,20 +21,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $router = new FastRouteRouter;
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function ()
-        {
-            return 'Hi and this is a callback';
-        });
-
-        $router->add('TEST', '/', 'NewClass@index');
+        $router = $this->getRouter('fastroute');
 
         $this->dispatcher = new FastRouteDispatcher($router);
     }

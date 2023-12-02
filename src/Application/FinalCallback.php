@@ -52,12 +52,6 @@ class FinalCallback
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        $result = $this->route->getResult();
-
-        // Return if the dispatcher from Routing resolves the route automatically (e.g., Phroute) ---
-        if ($result instanceof ResponseInterface) return $this->finalize($result);
-        // ------------------------------------------------------------------------------------------
-
         // Attach the request again in the container to reflect from stack ---
         $this->container->set(self::REQUEST, $request);
         // -------------------------------------------------------------------
@@ -87,11 +81,9 @@ class FinalCallback
         /** @var callable */
         $callable = $handler;
 
-        $parameters = $this->route->getParams();
+        $params = $this->setParams($reflector);
 
-        $parameters = $this->container->arguments($reflector, $parameters);
-
-        $handler = call_user_func_array($callable, $parameters);
+        $handler = call_user_func_array($callable, $params);
 
         return $this->finalize($handler);
     }
@@ -117,5 +109,36 @@ class FinalCallback
         $instanceof = $function instanceof ResponseInterface;
 
         return $instanceof ? $function : $response;
+    }
+
+    /**
+     * Parses the reflection parameters against the result parameters.
+     *
+     * @param  \ReflectionFunctionAbstract $reflector
+     * @return array<int, mixed>
+     */
+    protected function setParams(\ReflectionFunctionAbstract $reflector)
+    {
+        $params = $this->route->getParams();
+
+        if (empty($params))
+        {
+            return $this->container->arguments($reflector, $params);
+        }
+
+        $items = $reflector->getParameters();
+
+        $values = $this->container->arguments($reflector, $params);
+
+        $result = array();
+
+        foreach (array_keys($items) as $key)
+        {
+            $exists = array_key_exists($key, $values);
+
+            $result[] = $exists ? $values[$key] : $params[$key];
+        }
+
+        return $result;
     }
 }

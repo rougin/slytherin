@@ -21,20 +21,7 @@ class PhrouteDispatcherTest extends DispatcherTestCases
     {
         $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
 
-        $router = new PhrouteRouter;
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function ()
-        {
-            return 'Hi and this is a callback';
-        });
-
-        $router->add('TEST', '/', 'NewClass@index');
+        $router = $this->getRouter('phroute');
 
         $this->dispatcher = new PhrouteDispatcher($router);
     }
@@ -54,11 +41,11 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $dispatcher = new PhrouteDispatcher($router);
 
-        $controller = new NewClass;
-
         $route = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+        $controller = new NewClass;
+
+        $expected = $controller->index();
 
         $actual = $this->resolve($route);
 

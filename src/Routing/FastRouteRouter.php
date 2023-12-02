@@ -58,7 +58,7 @@ class FastRouteRouter extends Router
         {
             foreach ($routes as $route)
             {
-                $collector->addRoute($route->getMethod(), $route->getUri(), $route->getHandler());
+                $collector->addRoute($route->getMethod(), $route->getUri(), $route);
             }
         };
 

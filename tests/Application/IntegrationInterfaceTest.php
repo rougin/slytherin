@@ -27,7 +27,8 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         $config->set('app.router', $this->router());
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
+        {
             $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
 
             $middlewares = array('Rougin\Slytherin\Fixture\Middlewares\EmptyMiddleware');

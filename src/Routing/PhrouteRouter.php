@@ -51,7 +51,7 @@ class PhrouteRouter extends Router
         $route = $this->routes[count($this->routes) - 1];
         // ------------------------------------------------
 
-        $this->collector->addRoute($method, $route->getUri(), $route->getHandler());
+        $this->collector->addRoute($method, $route->getUri(), $route);
 
         return $this;
     }
@@ -64,7 +64,7 @@ class PhrouteRouter extends Router
     {
         foreach ($routes as $route)
         {
-            $this->collector->addRoute($route->getMethod(), $route->getUri(), $route->getHandler());
+            $this->collector->addRoute($route->getMethod(), $route->getUri(), $route);
         }
 
         return $this->collector->getData();

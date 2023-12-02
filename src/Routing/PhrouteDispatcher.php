@@ -47,7 +47,12 @@ class PhrouteDispatcher extends Dispatcher
     {
         parent::__construct($router);
 
-        if ($resolver) $this->resolver = $resolver;
+        if (! $resolver)
+        {
+            $resolver = new PhrouteResolver;
+        }
+
+        $this->resolver = $resolver;
     }
 
     /**
@@ -67,19 +72,13 @@ class PhrouteDispatcher extends Dispatcher
 
         try
         {
-            $result = $phroute->dispatch($method, $uri);
+            /** @var \Rougin\Slytherin\Routing\RouteInterface */
+            return $phroute->dispatch($method, $uri);
         }
         catch (HttpRouteNotFoundException $e)
         {
             throw new \BadMethodCallException($e->getMessage());
         }
-
-        // Need only to find the Route instance ------------
-        /** @var \Rougin\Slytherin\Routing\RouteInterface */
-        $route = $this->router->find($method, $uri);
-        // -------------------------------------------------
-
-        return $route->setResult($result);
     }
 
     /**

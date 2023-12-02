@@ -19,31 +19,6 @@ class DispatcherTestCases extends Testcase
     protected $dispatcher;
 
     /**
-     * Sets up the dispatcher.
-     *
-     * @return void
-     */
-    protected function doSetUp()
-    {
-        $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
-
-        $router = new Router($routes);
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function ()
-        {
-            return 'Hi and this is a callback';
-        });
-
-        $this->dispatcher = new Dispatcher($router);
-    }
-
-    /**
      * Tests DispatcherInterface::dispatch with callback.
      *
      * @return void
@@ -55,6 +30,24 @@ class DispatcherTestCases extends Testcase
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
         $expected = 'Hi and this is a callback';
+
+        $actual = $this->resolve($route);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests DispatcherInterface::dispatch with callback and argument.
+     *
+     * @return void
+     */
+    public function testDispatchMethodWithCallbackAndArgument()
+    {
+        $this->exists(get_class($this->dispatcher));
+
+        $route = $this->dispatcher->dispatch('GET', '/hi/Slytherin');
+
+        $expected = 'Hi Slytherin!';
 
         $actual = $this->resolve($route);
 
@@ -157,6 +150,47 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
+     * Returns a list of sample routes.
+     *
+     * @param  string|null $type
+     * @return \Rougin\Slytherin\Routing\RouterInterface
+     */
+    protected function getRouter($type = null)
+    {
+        $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
+
+        $router = new Router($routes);
+
+        if ($type === 'fastroute')
+        {
+            $router = new FastRouteRouter($routes);
+        }
+
+        if ($type === 'phroute')
+        {
+            $router = new PhrouteRouter($routes);
+        }
+
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+
+        $router->post('/', 'NewClass@store');
+
+        $router->get('/hi/{name}', function ($name)
+        {
+            return 'Hi ' . $name . '!';
+        });
+
+        $router->get('/hi', function ()
+        {
+            return 'Hi and this is a callback';
+        });
+
+        return $router;
+    }
+
+    /**
      * Returns result from the dispatched route.
      *
      * @param  \Rougin\Slytherin\Routing\RouteInterface $route
@@ -177,5 +211,4 @@ class DispatcherTestCases extends Testcase
 
         return call_user_func_array($handler, $params);
     }
-
 }

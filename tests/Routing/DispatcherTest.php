@@ -19,22 +19,7 @@ class DispatcherTest extends DispatcherTestCases
      */
     protected function doSetUp()
     {
-        $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
-
-        $router = new Router($routes);
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function ()
-        {
-            return 'Hi and this is a callback';
-        });
-
-        $this->dispatcher = new Dispatcher($router);
+        $this->dispatcher = new Dispatcher($this->getRouter());
     }
 
     /**
