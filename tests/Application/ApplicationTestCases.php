@@ -206,7 +206,7 @@ class ApplicationTestCases extends Testcase
     {
         $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
-        $dispatcher = Application::container()->get($interface);
+        $dispatcher = $this->application->get($interface);
 
         // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver ----------
         if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher'))
@@ -271,7 +271,7 @@ class ApplicationTestCases extends Testcase
         }
 
         // TODO: Remove this one. This was added because of Phroute will resolve it automatically. :( ---
-        $static = Application::container();
+        $static = $this->application;
 
         if ($static && method_exists($static, 'set'))
         {

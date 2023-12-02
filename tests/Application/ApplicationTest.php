@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Application Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ApplicationTest extends \Rougin\Slytherin\Testcase
+class ApplicationTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\ComponentCollection
@@ -22,11 +24,13 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface')) {
+        if (! interface_exists('Psr\Container\ContainerInterface'))
+        {
             $this->markTestSkipped('Container Interop is not installed.');
         }
 
-        if (! interface_exists('Psr\Http\Message\ResponseInterface')) {
+        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
+        {
             $this->markTestSkipped('PSR-7 HTTP Message is not installed.');
         }
 
@@ -38,7 +42,8 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
         );
 
-        if (class_exists('Zend\Stratigility\MiddlewarePipe')) {
+        if (class_exists('Zend\Stratigility\MiddlewarePipe'))
+        {
             $components[] = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
         }
 
@@ -137,7 +142,8 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
      */
     public function testRunMethodWithPhroute()
     {
-        if (! class_exists('Phroute\Phroute\RouteCollector')) {
+        if (! class_exists('Phroute\Phroute\RouteCollector'))
+        {
             $this->markTestSkipped('Phroute is not installed.');
         }
 
@@ -188,7 +194,8 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
         $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
         $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
+        {
             $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
         }
 
@@ -215,7 +222,8 @@ class ApplicationTest extends \Rougin\Slytherin\Testcase
 
         $request = $request->withMethod($httpMethod)->withUri($uri);
 
-        switch ($httpMethod) {
+        switch ($httpMethod)
+        {
             case 'GET':
                 $request = $request->withQueryParams($data);
 

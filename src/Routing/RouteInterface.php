@@ -21,7 +21,7 @@ interface RouteInterface
     public function getMethod();
 
     /**
-     * @return \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]
+     * @return mixed[]
      */
     public function getMiddlewares();
 

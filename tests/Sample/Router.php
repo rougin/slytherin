@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Sample;
 
+use Rougin\Slytherin\Fixture\Middlewares\LastMiddleware;
 use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
@@ -20,7 +21,7 @@ class Router extends Slytherin
 
         $this->get('/hello', 'Hello@index');
 
-        $this->get('/response', 'Hello@response');
+        $this->get('/response', 'Hello@response', new LastMiddleware);
 
         $this->get('/hi/{name}', 'Hello@name');
 

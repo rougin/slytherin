@@ -19,7 +19,7 @@ class Route implements RouteInterface
     protected $method;
 
     /**
-     * @var \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]
+     * @var mixed[]
      */
     protected $middlewares;
 
@@ -34,10 +34,10 @@ class Route implements RouteInterface
     protected $uri;
 
     /**
-     * @param string                                                               $method
-     * @param string                                                               $uri
-     * @param callable|string[]|string                                             $handler
-     * @param \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string $middlewares
+     * @param string                   $method
+     * @param string                   $uri
+     * @param callable|string[]|string $handler
+     * @param mixed[]                  $middlewares
      */
     public function __construct($method, $uri, $handler, $middlewares = array())
     {

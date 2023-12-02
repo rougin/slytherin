@@ -29,7 +29,8 @@ class AurynContainerTest extends ApplicationTestCases
         $container->alias('Psr\Http\Message\ResponseInterface', 'Rougin\Slytherin\Http\Response');
         $container->alias('Rougin\Slytherin\Routing\DispatcherInterface', 'Rougin\Slytherin\Routing\Dispatcher');
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
+        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
+        {
             $container->share(new \Rougin\Slytherin\Middleware\Dispatcher);
 
             $container->alias('Rougin\Slytherin\Middleware\DispatcherInterface', 'Rougin\Slytherin\Middleware\Dispatcher');
