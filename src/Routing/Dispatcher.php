@@ -79,7 +79,7 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
-     * 
+     *
      * @throws \UnexpectedValueException
      */
     public function setRouter(RouterInterface $router)
