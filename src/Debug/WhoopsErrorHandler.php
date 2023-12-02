@@ -107,14 +107,14 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      * Calls methods from the \Whoops\Run instance.
      *
      * @param  string  $method
-     * @param  mixed[] $parameters
+     * @param  mixed[] $params
      * @return mixed
      */
-    public function __call($method, $parameters)
+    public function __call($method, $params)
     {
         /** @var callable */
         $class = array($this->whoops, $method);
 
-        return call_user_func_array($class, $parameters);
+        return call_user_func_array($class, $params);
     }
 }

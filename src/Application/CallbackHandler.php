@@ -65,21 +65,18 @@ class CallbackHandler
             /** @var \Rougin\Slytherin\Routing\RouterInterface */
             $router = $this->container->get(self::ROUTER);
 
-            $dispatcher = $dispatcher->router($router);
+            $dispatcher = $dispatcher->setRouter($router);
         }
 
         $path = $request->getUri()->getPath();
 
         $method = $request->getMethod();
 
-        $result = $dispatcher->dispatch($method, $path);
+        $route = $dispatcher->dispatch($method, $path);
 
-        /** @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> */
-        $items = $result[1];
+        $this->middlewares = $route->getMiddlewares();
 
-        $this->middlewares = (array) $items;
-
-        $callback = new FinalCallback($this->container, $result[0]);
+        $callback = new FinalCallback($route, $this->container);
 
         return $this->middleware($callback, $request);
     }
@@ -93,15 +90,17 @@ class CallbackHandler
      */
     protected function middleware(FinalCallback $callback, ServerRequestInterface $request)
     {
+        $exists = interface_exists(Application::MIDDLEWARE);
+
+        if (! $exists) return $callback($request);
+
         /** @var \Psr\Http\Message\ResponseInterface */
         $response = $this->container->get(self::RESPONSE);
 
-        $middleware = (string) Application::MIDDLEWARE;
-
-        if (! interface_exists($middleware)) return $callback($request);
-
         $middleware = new Dispatcher($this->middlewares, $response);
 
-        return $middleware->process($request, new Delegate($callback));
+        $delegate = new Delegate($callback);
+
+        return $middleware->process($request, $delegate);
     }
 }

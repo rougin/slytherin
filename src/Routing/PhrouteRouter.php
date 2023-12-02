@@ -8,6 +8,7 @@ use Phroute\Phroute\RouteCollector;
  * Phroute Router
  *
  * A simple implementation of router that is built on top of Phroute.
+ * NOTE: To be removed in v1.0.0. Must conform to one Router only.
  *
  * https://github.com/mrjgreen/phroute
  *
@@ -36,42 +37,51 @@ class PhrouteRouter extends Router
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $httpMethod
-     * @param  string                                                        $route
-     * @param  string|string[]                                               $handler
+     * @param  string                                                        $method
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function add($httpMethod, $route, $handler, $middlewares = array())
+    public function add($method, $uri, $handler, $middlewares = array())
     {
-        parent::add($httpMethod, $route, $handler, $middlewares);
+        parent::add($method, $uri, $handler, $middlewares);
 
         // Returns the recently added route from parent ---
-        /** @var array<int, string|string[]> */
         $route = $this->routes[count($this->routes) - 1];
         // ------------------------------------------------
 
-        $this->collector->addRoute($httpMethod, $route[1], $route[2]);
+        $this->collector->addRoute($method, $route->getUri(), $route);
 
         return $this;
     }
 
     /**
-     * Returns a listing of available routes.
-     *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return \Phroute\Phroute\RouteDataArray
      */
-    public function routes($parsed = false)
+    public function asParsed(array $routes)
     {
-        $routes = $this->routes;
+        foreach ($routes as $route)
+        {
+            $this->collector->addRoute($route->getMethod(), $route->getUri(), $route);
+        }
 
-        return ($parsed) ? $this->collector->getData() : $routes;
+        return $this->collector->getData();
     }
 
     /**
-     * Sets the collector of routes.
+     * Returns a listing of parsed routes.
      *
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
+     */
+    public function parsed(array $routes = array())
+    {
+        return $this->collector->getData();
+    }
+
+    /**
      * @param  \Phroute\Phroute\RouteCollector $collector
      * @return self
      */

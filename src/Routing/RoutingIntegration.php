@@ -51,9 +51,7 @@ class RoutingIntegration implements IntegrationInterface
 
         if (($empty || $wantPhroute) && $hasPhroute)
         {
-            $resolver = new PhrouteResolver($container);
-
-            $dispatcher = new PhrouteDispatcher(null, $resolver);
+            $dispatcher = new PhrouteDispatcher;
         }
 
         $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);

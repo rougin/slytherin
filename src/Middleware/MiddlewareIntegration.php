@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
+use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
@@ -32,10 +33,9 @@ class MiddlewareIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
-        {
-            return $container;
-        }
+        $middleware = Application::MIDDLEWARE;
+
+        if (! interface_exists($middleware)) return $container;
 
         /** @var \Psr\Http\Message\ResponseInterface */
         $response = $container->get('Psr\Http\Message\ResponseInterface');

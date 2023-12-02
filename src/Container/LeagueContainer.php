@@ -42,7 +42,10 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
         }
         // --------------------------------------------
 
+        // Added $shared for backward compatibility ---
+        /** @phpstan-ignore-next-line */
         $this->add($id, $concrete, $shared);
+        // --------------------------------------------
 
         return $this;
     }

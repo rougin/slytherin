@@ -135,11 +135,25 @@ class SampleTest extends Testcase
      *
      * @return void
      */
-    public function test_callable_as_the_route_and_only_as_the_output()
+    public function test_callable_as_the_route_and_string_only_as_the_output()
     {
         $this->builder->setUrl('GET', '/callable');
 
         $this->expectOutputString('Welcome call!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_callable_as_the_route_with_params_and_string_only_as_the_output()
+    {
+        $this->builder->setUrl('GET', '/call/Slytherin');
+
+        $this->expectOutputString('Welcome Slytherin!');
 
         $this->builder->make()->run();
     }

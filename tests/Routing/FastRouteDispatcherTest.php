@@ -21,19 +21,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $router = new FastRouteRouter;
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function () {
-            return 'Hi and this is a callback';
-        });
-
-        $router->add('TEST', '/', 'NewClass@index');
+        $router = $this->getRouter('fastroute');
 
         $this->dispatcher = new FastRouteDispatcher($router);
     }
@@ -57,13 +45,13 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $route = $dispatcher->dispatch('GET', '/');
 
         $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+        $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -87,12 +75,12 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $route = $dispatcher->dispatch('GET', '/');
 
         $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+        $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

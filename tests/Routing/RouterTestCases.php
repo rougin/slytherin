@@ -2,16 +2,18 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Router Test Cases
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTestCases extends \Rougin\Slytherin\Testcase
+class RouterTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Routing\RouterInterface
+     * @var \Rougin\Slytherin\Routing\Router
      */
     protected $router;
 
@@ -61,20 +63,6 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests RouterInterface::__call with an exception.
-     *
-     * @return void
-     */
-    public function testCallMagicMethodWithException()
-    {
-        $this->setExpectedException('BadMethodCallException');
-
-        $this->exists(get_class($this->router));
-
-        $this->router->test('/test', 'PostsController@test');
-    }
-
-    /**
      * Tests RouterInterface::has.
      *
      * @return void
@@ -97,13 +85,13 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
     {
         $this->exists(get_class($this->router));
 
-        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass@index';
+        $expected = array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index');
 
         $route = $this->router->retrieve('GET', '/');
 
-        $result = implode('@', $route[2]);
+        $actual = $route->getHandler();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -129,15 +117,13 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
     {
         $this->exists(get_class($this->router));
 
-        $expected = $this->routes;
+        $route = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
 
-        $expected[0][2] = explode('@', $expected[0][2]);
+        $expected = (array) array($route);
 
-        $expected[0][] = array();
+        $actual = $this->router->routes();
 
-        $result = $this->router->routes();
-
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -151,19 +137,19 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
 
         $expected = array();
 
-        $expected[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), array());
-        $expected[] = array('GET', '/posts', array('PostsController', 'index'), array());
-        $expected[] = array('POST', '/posts', array('PostsController', 'store'), array());
-        $expected[] = array('DELETE', '/posts/:id', array('PostsController', 'delete'), array());
-        $expected[] = array('GET', '/posts/:id', array('PostsController', 'show'), array());
-        $expected[] = array('PATCH', '/posts/:id', array('PostsController', 'update'), array());
-        $expected[] = array('PUT', '/posts/:id', array('PostsController', 'update'), array());
+        $expected[] = new Route('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
+        $expected[] = new Route('GET', '/posts', array('PostsController', 'index'));
+        $expected[] = new Route('POST', '/posts', array('PostsController', 'store'));
+        $expected[] = new Route('DELETE', '/posts/:id', array('PostsController', 'delete'));
+        $expected[] = new Route('GET', '/posts/:id', array('PostsController', 'show'));
+        $expected[] = new Route('PATCH', '/posts/:id', array('PostsController', 'update'));
+        $expected[] = new Route('PUT', '/posts/:id', array('PostsController', 'update'));
 
         $this->router->restful('posts', 'PostsController');
 
-        $result = $this->router->routes();
+        $actual = $this->router->routes();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -209,17 +195,17 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
 
         $this->router->get('/test', 'TestController@test');
 
-        $home = $this->router->retrieve('GET', '/home');
+        $route = $this->router->retrieve('GET', '/home');
+        $handler = $route->getHandler();
+        $home = 'Acme\Http\Controllers\HomeController' === $handler[0];
 
-        $home = 'Acme\Http\Controllers\HomeController' === $home[2][0];
+        $route = $this->router->retrieve('POST', '/v1/auth/login');
+        $handler = $route->getHandler();
+        $login = 'Acme\Http\Controllers\AuthController' === $handler[0];
 
-        $login = $this->router->retrieve('POST', '/v1/auth/login');
-
-        $login = 'Acme\Http\Controllers\AuthController' === $login[2][0];
-
-        $hello = $this->router->retrieve('GET', '/v1/test/hello');
-
-        $hello = 'Acme\Http\Controllers\TestController' === $hello[2][0];
+        $route = $this->router->retrieve('GET', '/v1/test/hello');
+        $handler = $route->getHandler();
+        $hello = 'Acme\Http\Controllers\TestController' === $handler[0];
 
         $this->assertTrue($home && $login && $hello);
     }
@@ -252,20 +238,22 @@ class RouterTestCases extends \Rougin\Slytherin\Testcase
      */
     protected function exists($router)
     {
-        if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter') {
+        if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter')
+        {
             $exists = class_exists('FastRoute\RouteCollector');
 
-            $message = (string) 'FastRoute is not installed.';
+            $message = 'FastRoute is not installed.';
 
-            $exists || $this->markTestSkipped((string) $message);
+            if (! $exists) $this->markTestSkipped($message);
         }
 
-        if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter') {
+        if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter')
+        {
             $exists = class_exists('Phroute\Phroute\RouteCollector');
 
-            $message = (string) 'Phroute is not installed.';
+            $message = 'Phroute is not installed.';
 
-            $exists || $this->markTestSkipped((string) $message);
+            if (! $exists) $this->markTestSkipped($message);
         }
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use FastRoute\RouteCollector;
-
 /**
  * FastRoute Dispatcher
  *
@@ -14,58 +12,45 @@ use FastRoute\RouteCollector;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class FastRouteDispatcher implements DispatcherInterface
+class FastRouteDispatcher extends Dispatcher
 {
     /**
      * @var \FastRoute\Dispatcher
      */
-    protected $dispatcher;
-
-    /**
-     * @var \Rougin\Slytherin\Routing\RouterInterface
-     */
-    protected $router;
-
-    /**
-     * Initializes the dispatcher instance.
-     *
-     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
-     */
-    public function __construct(RouterInterface $router = null)
-    {
-        if ($router) $this->router($router);
-    }
+    protected $fastroute;
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return array|mixed
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \BadMethodCallException
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($method, $uri)
     {
-        $this->allowed($httpMethod);
+        $this->validMethod($method);
 
-        /** @var array<int, string> */
-        $result = $this->dispatcher->dispatch($httpMethod, $uri);
+        /** @var array<int, int|string> */
+        $result = $this->fastroute->dispatch($method, $uri);
 
-        if ($result[0] == \FastRoute\Dispatcher::NOT_FOUND)
+        if ($result[0] === \FastRoute\Dispatcher::NOT_FOUND)
         {
-            $message = 'Route "' . $uri . '" not found';
+            $text = (string) 'Route "%s %s" not found';
 
-            throw new \UnexpectedValueException($message);
+            $error = sprintf($text, $method, $uri);
+
+            throw new \BadMethodCallException($error);
         }
 
-        $route = $this->router->retrieve($httpMethod, (string) $uri);
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
+        $route = $result[1];
 
-        $sameRoute = isset($route[2]) && $route[2] === $result[1];
+        /** @var string[] */
+        $params = $result[2];
 
-        $hasMiddleware = isset($route[3]);
-
-        $middlewares = $sameRoute && $hasMiddleware ? $route[3] : array();
-
-        return array(array($result[1], $result[2]), $middlewares);
+        return $route->setParams($params);
     }
 
     /**
@@ -73,65 +58,28 @@ class FastRouteDispatcher implements DispatcherInterface
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
-     */
-    public function router(RouterInterface $router)
-    {
-        $this->router = $router;
-
-        if ($router instanceof FastRouteRouter)
-        {
-            /** @var callable */
-            $routes = $router->routes(true);
-
-            $this->dispatcher = \FastRoute\simpleDispatcher($routes);
-
-            return $this;
-        }
-
-        $fn = function (RouteCollector $collector) use ($router)
-        {
-            /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> */
-            $routes = $router->routes();
-
-            foreach (array_filter($routes) as $route)
-            {
-                /** @var string */
-                $method = $route[0];
-
-                /** @var string */
-                $uri = $route[1];
-
-                /** @var string[]|string */
-                $handler = $route[2];
-
-                $collector->addRoute($method, $uri, $handler);
-            }
-        };
-
-        $this->dispatcher = \FastRoute\simpleDispatcher($fn);
-
-        return $this;
-    }
-
-    /**
-     * Checks if the specified method is a valid HTTP method.
-     *
-     * @param  string $httpMethod
-     * @return boolean
      *
      * @throws \UnexpectedValueException
      */
-    protected function allowed($httpMethod)
+    public function setRouter(RouterInterface $router)
     {
-        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+        $routes = $router->routes();
 
-        if (in_array($httpMethod, $allowed) === false)
+        $parsed = $router->parsed($routes);
+
+        // Force to use third-party router if not being used ---
+        if (! is_callable($parsed))
         {
-            $message = 'Used method is not allowed';
+            $fastroute = new FastRouteRouter;
 
-            throw new \UnexpectedValueException($message);
+            $parsed = $fastroute->asParsed($routes);
         }
+        // -----------------------------------------------------
 
-        return true;
+        $this->router = $router;
+
+        $this->fastroute = \FastRoute\simpleDispatcher($parsed);
+
+        return $this;
     }
 }

@@ -2,13 +2,16 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
+use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Dispatcher Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTest extends \Rougin\Slytherin\Testcase
+class DispatcherTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -33,9 +36,9 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
             }),
         );
 
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+        $router = new Router($routes);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router);
+        $dispatcher = new Dispatcher($router);
 
         $this->dispatcher = $dispatcher;
     }
@@ -47,17 +50,19 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithClass()
     {
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $newClass = new NewClass;
 
-        list($function) = $this->dispatcher->dispatch('GET', '/');
+        $expected = $newClass->index();
 
-        list($callback, $parameters) = $function;
+        $route = $this->dispatcher->dispatch('GET', '/');
 
-        list($class, $method) = $callback;
+        list($class, $method) = $route->getHandler();
 
-        $result = call_user_func_array(array(new $class, $method), $parameters);
+        $object = array(new $class, $method);
 
-        $this->assertEquals($controller->index(), $result);
+        $actual = call_user_func_array($object, $route->getParams());
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -67,17 +72,19 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithClassAndPostMethod()
     {
-        $controller = new \Rougin\Slytherin\Fixture\Classes\NewClass;
+        $newClass = new NewClass;
 
-        list($function) = $this->dispatcher->dispatch('POST', '/');
+        $expected = $newClass->store();
 
-        list($callback, $parameters) = $function;
+        $route = $this->dispatcher->dispatch('POST', '/');
 
-        list($class, $method) = $callback;
+        list($class, $method) = $route->getHandler();
 
-        $result = call_user_func_array(array(new $class, $method), $parameters);
+        $object = array(new $class, $method);
 
-        $this->assertEquals($controller->store(), $result);
+        $actual = call_user_func_array($object, $route->getParams());
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -87,11 +94,15 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithClosure()
     {
-        list($function) = $this->dispatcher->dispatch('GET', '/hi');
+        $route = $this->dispatcher->dispatch('GET', '/hi');
 
-        list($callback, $parameters) = $function;
+        $callback = $route->getHandler();
 
-        $this->assertEquals('Hi', call_user_func($callback, $parameters));
+        $parameters = $route->getParams();
+
+        $actual = call_user_func($callback, $parameters);
+
+        $this->assertEquals('Hi', $actual);
     }
 
     /**
@@ -101,7 +112,7 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithError()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('BadMethodCallException');
 
         $this->dispatcher->dispatch('GET', '/test');
     }
@@ -113,7 +124,7 @@ class DispatcherTest extends \Rougin\Slytherin\Testcase
      */
     public function testDispatchMethodWithInvalidMethod()
     {
-        $this->setExpectedException('UnexpectedValueException');
+        $this->setExpectedException('BadMethodCallException');
 
         $this->dispatcher->dispatch('TEST', '/hello');
     }

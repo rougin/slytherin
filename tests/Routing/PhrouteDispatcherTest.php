@@ -21,19 +21,7 @@ class PhrouteDispatcherTest extends DispatcherTestCases
     {
         $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
 
-        $router = new PhrouteRouter;
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $router->post('/', 'NewClass@store');
-
-        $router->get('/hi', function () {
-            return 'Hi and this is a callback';
-        });
-
-        $router->add('TEST', '/', 'NewClass@index');
+        $router = $this->getRouter('phroute');
 
         $this->dispatcher = new PhrouteDispatcher($router);
     }
@@ -53,15 +41,15 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $dispatcher = new PhrouteDispatcher($router);
 
+        $route = $dispatcher->dispatch('GET', '/');
+
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $expected = $controller->index();
 
-        $expected = (string) $controller->index();
+        $actual = $this->resolve($route);
 
-        $result = $this->result($function);
-
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -83,12 +71,12 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $controller = new NewClass;
 
-        list($function) = $dispatcher->dispatch('GET', '/');
+        $route = $dispatcher->dispatch('GET', '/');
 
         $expected = (string) $controller->index();
 
-        $result = $this->result($function);
+        $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

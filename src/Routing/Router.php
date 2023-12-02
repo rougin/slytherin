@@ -2,10 +2,8 @@
 
 namespace Rougin\Slytherin\Routing;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
-
 /**
- * Dispatcher
+ * Router
  *
  * A simple implementation of a router that is based on RouterInterface.
  *
@@ -25,14 +23,9 @@ class Router implements RouterInterface
     protected $prefix = '';
 
     /**
-     * @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>>
+     * @var \Rougin\Slytherin\Routing\RouteInterface[]
      */
     protected $routes = array();
-
-    /**
-     * @var string[]
-     */
-    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
      * Initializes the router instance.
@@ -53,7 +46,7 @@ class Router implements RouterInterface
             /** @var string */
             $uri = $route[1];
 
-            /** @var string[]|string */
+            /** @var callable|string[]|string */
             $handler = $route[2];
 
             /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string */
@@ -68,17 +61,17 @@ class Router implements RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $httpMethod
-     * @param  string                                                        $route
-     * @param  string|string[]                                               $handler
+     * @param  string                                                        $method
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function add($httpMethod, $route, $handler, $middlewares = array())
+    public function add($method, $uri, $handler, $middlewares = array())
     {
-        $method = strtoupper($httpMethod);
+        $method = strtoupper($method);
 
-        $uri = str_replace('//', '/', $this->prefix . $route);
+        $uri = str_replace('//', '/', $this->prefix . $uri);
 
         if (is_string($handler))
         {
@@ -96,9 +89,9 @@ class Router implements RouterInterface
             $middlewares = array($middlewares);
         }
 
-        $item = array($method, $uri, $handler, $middlewares);
+        $route = new Route($method, $uri, $handler, $middlewares);
 
-        array_push($this->routes, $item);
+        array_push($this->routes, $route);
 
         return $this;
     }
@@ -107,22 +100,22 @@ class Router implements RouterInterface
      * Adds a new raw route.
      * NOTE: To be removed in v1.0.0. Use $this->add() instead.
      *
-     * @param  string                                                        $httpMethod
+     * @param  string                                                        $method
      * @param  string                                                        $route
-     * @param  string|string[]                                               $handler
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function addRoute($httpMethod, $route, $handler, $middlewares = array())
+    public function addRoute($method, $route, $handler, $middlewares = array())
     {
-        return $this->add($httpMethod, $route, $handler, $middlewares);
+        return $this->add($method, $route, $handler, $middlewares);
     }
 
     /**
      * Merges a listing of parsed routes to current one.
      * NOTE: To be removed in v1.0.0. Use $this->merge() instead.
      *
-     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
      */
     public function addRoutes(array $routes)
@@ -131,46 +124,94 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a DELETE route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function delete($uri, $handler, $middlewares = array())
+    {
+        return $this->add('DELETE', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Finds a specific route based on the specified HTTP method and URI.
+     *
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
+     */
+    public function find($method, $uri)
+    {
+        foreach ($this->routes as $route)
+        {
+            $sameMethod = $route->getMethod() === $method;
+
+            $sameUri = $route->getUri() === $uri;
+
+            if (! $sameMethod || ! $sameUri) continue;
+
+            return $route;
+        }
+
+        return null;
+    }
+
+    /**
+     * Adds a GET route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function get($uri, $handler, $middlewares = array())
+    {
+        return $this->add('GET', $uri, $handler, $middlewares);
+    }
+
+    /**
      * Returns a specific route based on the specified HTTP method and URI.
      * NOTE: To be removed in v1.0.0. Use $this->retrieve() instead.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
-    public function getRoute($httpMethod, $uri)
+    public function getRoute($method, $uri)
     {
-        return $this->retrieve($httpMethod, $uri);
+        return $this->retrieve($method, $uri);
     }
 
     /**
      * Returns a listing of available routes.
      * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
      *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
      */
-    public function getRoutes($parsed = false)
+    public function getRoutes()
     {
-        return $this->routes($parsed);
+        return $this->routes();
     }
 
     /**
      * Checks if the specified route is available in the router.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
      * @return boolean
      */
-    public function has($httpMethod, $uri)
+    public function has($method, $uri)
     {
-        return $this->retrieve($httpMethod, $uri) !== null;
+        return $this->retrieve($method, $uri) !== null;
     }
 
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
      */
     public function merge(array $routes)
@@ -181,62 +222,40 @@ class Router implements RouterInterface
     }
 
     /**
-     * Returns a specific route based on the specified HTTP method and URI.
+     * Returns a listing of parsed routes.
      *
-     * @param  string $httpMethod
-     * @param  string $uri
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
      */
-    public function retrieve($httpMethod, $uri)
+    public function parsed(array $routes = array())
     {
-        $route = array($httpMethod, $uri);
-
-        $fn = function ($route)
-        {
-            return array($route[0], $route[1]);
-        };
-
-        $routes = array_map($fn, $this->routes);
-
-        $key = array_search($route, $routes);
-
-        if ($key === false) return null;
-
-        return $this->routes[(integer) $key];
+        return null;
     }
 
     /**
-     * Returns a listing of available routes.
+     * Adds a PATCH route.
      *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
-     */
-    public function routes($parsed = false)
-    {
-        return $this->routes;
-    }
-
-    /**
-     * Adds a listing of routes specified for RESTful approach.
-     *
-     * @param  string          $route
-     * @param  string          $class
-     * @param  string|string[] $middlewares
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function restful($route, $class, $middlewares = array())
+    public function patch($uri, $handler, $middlewares = array())
     {
-        $middlewares = (is_string($middlewares)) ? array($middlewares) : $middlewares;
+        return $this->add('PATCH', $uri, $handler, $middlewares);
+    }
 
-        $this->add('GET', '/' . $route, $class . '@index', $middlewares);
-        $this->add('POST', '/' . $route, $class . '@store', $middlewares);
-
-        $this->add('DELETE', '/' . $route . '/:id', $class . '@delete', $middlewares);
-        $this->add('GET', '/' . $route . '/:id', $class . '@show', $middlewares);
-        $this->add('PATCH', '/' . $route . '/:id', $class . '@update', $middlewares);
-        $this->add('PUT', '/' . $route . '/:id', $class . '@update', $middlewares);
-
-        return $this;
+    /**
+     * Adds a POST route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function post($uri, $handler, $middlewares = array())
+    {
+        return $this->add('POST', $uri, $handler, $middlewares);
     }
 
     /**
@@ -263,6 +282,65 @@ class Router implements RouterInterface
     }
 
     /**
+     * Adds a PUT route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function put($uri, $handler, $middlewares = array())
+    {
+        return $this->add('PUT', $uri, $handler, $middlewares);
+    }
+
+    /**
+     * Adds a listing of routes specified for RESTful approach.
+     *
+     * @param  string          $uri
+     * @param  class-string    $class
+     * @param  string|string[] $middlewares
+     * @return self
+     */
+    public function restful($uri, $class, $middlewares = array())
+    {
+        if (is_string($middlewares)) $middlewares = array($middlewares);
+
+        $this->get('/' . $uri, $class . '@index', $middlewares);
+        $this->post('/' . $uri, $class . '@store', $middlewares);
+
+        $this->delete('/' . $uri . '/:id', $class . '@delete', $middlewares);
+        $this->get('/' . $uri . '/:id', $class . '@show', $middlewares);
+        $this->patch('/' . $uri . '/:id', $class . '@update', $middlewares);
+        $this->put('/' . $uri . '/:id', $class . '@update', $middlewares);
+
+        return $this;
+    }
+
+    /**
+     * Finds a specific route based on the specified HTTP method and URI.
+     * NOTE: To be removed in v1.0.0. Use $this->find() instead.
+     *
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
+     */
+    public function retrieve($method, $uri)
+    {
+        return $this->find($method, $uri);
+    }
+
+    /**
+     * Returns a listing of available routes.
+     *
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
+     */
+    public function routes()
+    {
+        return $this->routes;
+    }
+
+    /**
      * Sets a prefix for the succeeding route endpoints.
      * NOTE: To be removed in v1.0.0. Use $this->prefix() instead.
      *
@@ -273,28 +351,5 @@ class Router implements RouterInterface
     public function setPrefix($prefix = '', $namespace = '')
     {
         return $this->prefix($prefix, $namespace);
-    }
-
-    /**
-     * Calls methods from this class in HTTP method format.
-     *
-     * @param  string  $method
-     * @param  mixed[] $parameters
-     * @return mixed
-     */
-    public function __call($method, $parameters)
-    {
-        $method = (string) strtoupper($method);
-
-        if (! in_array($method, $this->allowed))
-        {
-            $text = "\"$method\" is not a valid HTTP method";
-
-            throw new \BadMethodCallException($text);
-        }
-
-        array_unshift($parameters, $method);
-
-        return call_user_func_array(array($this, 'add'), $parameters);
     }
 }

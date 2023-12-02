@@ -15,45 +15,111 @@ interface RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $httpMethod
-     * @param  string                                                        $route
-     * @param  string|string[]                                               $handler
+     * @param  string                                                        $method
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
      * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
-    public function add($httpMethod, $route, $handler, $middlewares = array());
+    public function add($method, $uri, $handler, $middlewares = array());
+
+    /**
+     * Adds a DELETE route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function delete($uri, $handler, $middlewares = array());
+
+    /**
+     * Finds a specific route based on the specified HTTP method and URI.
+     *
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
+     */
+    public function find($method, $uri);
+
+    /**
+     * Adds a GET route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function get($uri, $handler, $middlewares = array());
 
     /**
      * Checks if the specified route is available in the router.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
      * @return boolean
      */
-    public function has($httpMethod, $uri);
+    public function has($method, $uri);
 
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  mixed[] $routes
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
      */
     public function merge(array $routes);
 
     /**
-     * Returns a specific route based on the specified HTTP method and URI.
+     * Returns a listing of parsed routes.
      *
-     * @param  string $httpMethod
-     * @param  string $uri
-     * @return mixed[]|null
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
      */
-    public function retrieve($httpMethod, $uri);
+    public function parsed(array $routes = array());
+
+    /**
+     * Adds a PATCH route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function patch($uri, $handler, $middlewares = array());
+
+    /**
+     * Adds a POST route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function post($uri, $handler, $middlewares = array());
+
+    /**
+     * Sets a prefix for the succeeding route endpoints.
+     *
+     * @param  string      $prefix
+     * @param  string|null $namespace
+     * @return self
+     */
+    public function prefix($prefix = '', $namespace = null);
+
+    /**
+     * Adds a PUT route.
+     *
+     * @param  string                                                        $uri
+     * @param  callable|string[]|string                                      $handler
+     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @return self
+     */
+    public function put($uri, $handler, $middlewares = array());
 
     /**
      * Returns a listing of available routes.
      *
-     * @param  boolean $parsed
-     * @return array<int, array<int, mixed>>|mixed
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
      */
-    public function routes($parsed = false);
+    public function routes();
 }

@@ -15,12 +15,12 @@ class Dispatcher implements DispatcherInterface
     /**
      * @var string[]
      */
-    protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
+    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
 
     /**
-     * @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>>
+     * @var \Rougin\Slytherin\Routing\RouterInterface
      */
-    protected $routes = array();
+    protected $router;
 
     /**
      * Initializes the route dispatcher instance.
@@ -29,31 +29,49 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        if ($router) $this->router($router);
+        if ($router) $this->setRouter($router);
     }
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return array<int, mixed>
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \BadMethodCallException
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($method, $uri)
     {
-        /** @var array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> */
-        $routes = array();
+        $this->validMethod($method);
 
-        foreach ($this->routes as $route)
+        $uri = $uri[0] !== '/' ? '/' . $uri : $uri;
+
+        $route = $this->match($method, $uri);
+
+        if (! $route)
         {
-            $parsed = $this->parse($httpMethod, $uri, $route);
+            $text = (string) 'Route "%s %s" not found';
 
-            array_push($routes, $parsed);
+            $error = sprintf($text, $method, $uri);
+
+            throw new \BadMethodCallException($error);
         }
 
-        $route = $this->retrieve($routes, $uri);
+        // Parses the matched parameters back to the route --------
+        $params = $route->getParams();
 
-        return array(array($route[0], $route[1]), $route[2]);
+        /** @var string[] */
+        $filtered = array_filter(array_keys($params), 'is_string');
+
+        /** @var string[] */
+        $flipped = (array) array_flip($filtered);
+
+        /** @var string[] */
+        $values = array_intersect_key($params, $flipped);
+        // --------------------------------------------------------
+
+        return $route->setParams($values);
     }
 
     /**
@@ -61,28 +79,12 @@ class Dispatcher implements DispatcherInterface
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
+     *
+     * @throws \UnexpectedValueException
      */
-    public function router(RouterInterface $router)
+    public function setRouter(RouterInterface $router)
     {
-        /** @var array<int, array<int, mixed>> */
-        $routes = $router->routes();
-
-        $fn = function ($item)
-        {
-            return str_replace(':', '', $item);
-        };
-
-        /** @var array<int, string> $route */
-        foreach (array_filter($routes) as $route)
-        {
-            preg_match_all('/:[a-z]*/', $route[1], $result);
-
-            $route[4] = str_replace($result[0], '(\w+)', $route[1]);
-            $route[4] = '/^' . str_replace('/', '\/', $route[4]) . '$/';
-            $route[5] = array_map($fn, $result[0]);
-
-            array_push($this->routes, (array) $route);
-        }
+        $this->router = $router;
 
         return $this;
     }
@@ -90,85 +92,45 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the specified method is a valid HTTP method.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @return boolean
      *
-     * @throws \UnexpectedValueException
+     * @throws \BadMethodCallException
      */
-    protected function allowed($httpMethod)
+    protected function validMethod($method)
     {
-        if (! in_array($httpMethod, $this->allowed))
-        {
-            $message = 'Used method is not allowed';
+        if (in_array($method, $this->allowed)) return true;
 
-            throw new \UnexpectedValueException($message);
-        }
+        $message = 'Used method is not allowed';
 
-        return true;
+        throw new \BadMethodCallException($message);
     }
 
     /**
-     * Parses the specified route and make some checks.
+     * Matches the route from the parsed URI.
      *
-     * @param  string                                                                           $httpMethod
-     * @param  string                                                                           $uri
-     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> $route
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null
-     */
-    protected function parse($httpMethod, $uri, $route)
-    {
-        /** @var string $route[4] */
-        $matched = preg_match($route[4], $uri, $parameters);
-
-        if (! $matched) return null;
-
-        if ($httpMethod != $route[0] && $httpMethod != 'OPTIONS')
-        {
-            return null;
-        }
-
-        $this->allowed($route[0]);
-
-        array_shift($parameters);
-
-        return array($route[2], $parameters, $route[3], $route[5]);
-    }
-
-    /**
-     * Retrieved the specified route from the result.
-     *
-     * @param  array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>|null> $routes
+     * @param  string $method
      * @param  string $uri
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>
-     *
-     * @throws \UnexpectedValueException
+     * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
-    protected function retrieve(array $routes, $uri)
+    protected function match($method, $uri)
     {
-        $routes = array_values(array_filter($routes));
+        $routes = $this->router->routes();
 
-        if (empty($routes))
+        foreach ($routes as $route)
         {
-            $message = 'Route "' . $uri . '" not found';
+            $regex = $route->getRegex();
 
-            throw new \UnexpectedValueException($message);
+            $matched = preg_match($regex, $uri, $matches);
+
+            $sameMethod = $route->getMethod() === $method;
+
+            if ($matched && $sameMethod)
+            {
+                return $route->setParams($matches);
+            }
         }
 
-        /** @var array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string> */
-        $route = current($routes);
-
-        /** @var string[] */
-        $params = $route[1];
-
-        if (count($params) > 0)
-        {
-            /** @var string[] */
-            $regex = $route[3];
-
-            /** @var string[] $route[1] */
-            $route[1] = array_combine($regex, $params);
-        }
-
-        return (array) $route;
+        return null;
     }
 }

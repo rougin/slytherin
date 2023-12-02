@@ -3,7 +3,9 @@
 namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\Dispatcher as Phroute;
+use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\HandlerResolverInterface;
+use Phroute\Phroute\RouteDataArray;
 
 /**
  * Phroute Dispatcher
@@ -15,12 +17,22 @@ use Phroute\Phroute\HandlerResolverInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class PhrouteDispatcher implements DispatcherInterface
+class PhrouteDispatcher extends Dispatcher
 {
+    /**
+     * @var \Phroute\Phroute\RouteCollector
+     */
+    protected $collector;
+
     /**
      * @var \Phroute\Phroute\Dispatcher
      */
     protected $dispatcher;
+
+    /**
+     * @var \Phroute\Phroute\RouteDataArray
+     */
+    protected $items;
 
     /**
      * @var \Phroute\Phroute\HandlerResolverInterface|null
@@ -28,54 +40,45 @@ class PhrouteDispatcher implements DispatcherInterface
     protected $resolver;
 
     /**
-     * @var \Rougin\Slytherin\Routing\RouterInterface
-     */
-    protected $router;
-
-    /**
-     * Initializes the dispatcher instance.
-     *
      * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
      * @param \Phroute\Phroute\HandlerResolverInterface|null $resolver
      */
     public function __construct(RouterInterface $router = null, HandlerResolverInterface $resolver = null)
     {
-        if ($resolver) $this->resolver = $resolver;
+        parent::__construct($router);
 
-        if ($router) $this->router($router);
+        if (! $resolver)
+        {
+            $resolver = new PhrouteResolver;
+        }
+
+        $this->resolver = $resolver;
     }
 
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return array|mixed
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \BadMethodCallException
      */
-    public function dispatch($httpMethod, $uri)
+    public function dispatch($method, $uri)
     {
-        $result = array();
+        $this->validMethod($method);
+
+        $phroute = new Phroute($this->items, $this->resolver);
 
         try
         {
-            $this->allowed((string) $httpMethod);
-
-            $info = $this->router->retrieve((string) $httpMethod, $uri);
-
-            $result = $this->dispatcher->dispatch($httpMethod, $uri);
-
-            $middlewares = array();
-
-            if ($result && isset($info[3])) $middlewares = $info[3];
-
-            $result = array($result, $middlewares);
+            /** @var \Rougin\Slytherin\Routing\RouteInterface */
+            return $phroute->dispatch($method, $uri);
         }
-        catch (\Exception $exception)
+        catch (HttpRouteNotFoundException $e)
         {
-            $this->exceptions($exception, $uri);
+            throw new \BadMethodCallException($e->getMessage());
         }
-
-        return $result;
     }
 
     /**
@@ -83,89 +86,28 @@ class PhrouteDispatcher implements DispatcherInterface
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
+     *
+     * @throws \UnexpectedValueException
      */
-    public function router(RouterInterface $router)
+    public function setRouter(RouterInterface $router)
     {
-        $routes = $this->collect($router);
+        $routes = $router->routes();
+
+        $parsed = $router->parsed($routes);
+
+        // Force to use third-party router if not being used ---
+        if (! $parsed instanceof RouteDataArray)
+        {
+            $phroute = new PhrouteRouter;
+
+            $parsed = $phroute->asParsed($routes);
+        }
+        // -----------------------------------------------------
 
         $this->router = $router;
 
-        $isPhroute = $router instanceof PhrouteRouter;
-
-        if ($isPhroute)
-        {
-            /** @var \Phroute\Phroute\RouteDataArray */
-            $routes = $router->routes(true);
-        }
-
-        $this->dispatcher = new Phroute($routes, $this->resolver);
+        $this->items = $parsed;
 
         return $this;
-    }
-
-    /**
-     * Collects the specified routes and generates a data for it.
-     *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
-     * @return \Phroute\Phroute\RouteDataArray
-     */
-    protected function collect(RouterInterface $router)
-    {
-        /** @var array<int, array<int, mixed>> */
-        $routes = $router->routes();
-
-        $collector = new \Phroute\Phroute\RouteCollector;
-
-        foreach ($routes as $route)
-        {
-            $collector->addRoute($route[0], $route[1], $route[2]);
-        }
-
-        return $collector->getData();
-    }
-
-    /**
-     * Returns exceptions based on catched error.
-     *
-     * @throws \UnexpectedValueException
-     *
-     * @param  \Exception $exception
-     * @param  string     $uri
-     * @return void
-     */
-    protected function exceptions(\Exception $exception, $uri)
-    {
-        $interface = 'Phroute\Phroute\Exception\HttpRouteNotFoundException';
-
-        $message = $exception->getMessage();
-
-        if (is_a($exception, $interface))
-        {
-            $message = 'Route "' . $uri . '" not found';
-        }
-
-        throw new \UnexpectedValueException($message);
-    }
-
-    /**
-     * Checks if the specified method is a valid HTTP method.
-     *
-     * @param  string $httpMethod
-     * @return boolean
-     *
-     * @throws \UnexpectedValueException
-     */
-    protected function allowed($httpMethod)
-    {
-        $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
-
-        if (! in_array($httpMethod, $allowed))
-        {
-            $message = 'Used method is not allowed';
-
-            throw new \UnexpectedValueException($message);
-        }
-
-        return true;
     }
 }

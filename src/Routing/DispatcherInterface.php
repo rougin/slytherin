@@ -15,17 +15,21 @@ interface DispatcherInterface
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $httpMethod
+     * @param  string $method
      * @param  string $uri
-     * @return array<int, mixed>
+     * @return \Rougin\Slytherin\Routing\RouteInterface
+     *
+     * @throws \BadMethodCallException
      */
-    public function dispatch($httpMethod, $uri);
+    public function dispatch($method, $uri);
 
     /**
      * Sets the router and parse its available routes if needed.
      *
      * @param  \Rougin\Slytherin\Routing\RouterInterface $router
      * @return self
+     *
+     * @throws \UnexpectedValueException
      */
-    public function router(RouterInterface $router);
+    public function setRouter(RouterInterface $router);
 }

@@ -2,12 +2,15 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use FastRoute\DataGenerator\GroupCountBased;
 use FastRoute\RouteCollector;
+use FastRoute\RouteParser\Std;
 
 /**
  * FastRoute Router
  *
  * A simple implementation of router that is built on top of FastRoute.
+ * NOTE: To be removed in v1.0.0. Must conform to one Router only.
  *
  * https://github.com/nikic/FastRoute
  *
@@ -30,16 +33,39 @@ class FastRouteRouter extends Router
     {
         parent::__construct($routes);
 
-        $count = new \FastRoute\DataGenerator\GroupCountBased;
-
-        $std = new \FastRoute\RouteParser\Std;
-
-        $this->collector = new RouteCollector($std, $count);
+        $this->collector = new RouteCollector(new Std, new GroupCountBased);
     }
 
     /**
-     * Sets the collector of routes.
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return callable
+     */
+    public function asParsed(array $routes)
+    {
+        /** @var callable */
+        return $this->parsed($routes);
+    }
+
+    /**
+     * Returns a listing of parsed routes.
      *
+     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @return mixed|null
+     */
+    public function parsed(array $routes = array())
+    {
+        $fn = function (RouteCollector $collector) use ($routes)
+        {
+            foreach ($routes as $route)
+            {
+                $collector->addRoute($route->getMethod(), $route->getUri(), $route);
+            }
+        };
+
+        return $fn;
+    }
+
+    /**
      * @param  \FastRoute\RouteCollector $collector
      * @return self
      */
@@ -48,28 +74,5 @@ class FastRouteRouter extends Router
         $this->collector = $collector;
 
         return $this;
-    }
-
-    /**
-     * Returns a listing of available routes.
-     *
-     * @param  boolean $parsed
-     * @return array<int, mixed>|callable
-     */
-    public function routes($parsed = false)
-    {
-        $data = $this->collector->getData();
-
-        $routes = array_filter(array_merge($this->routes, $data));
-
-        if (! $parsed) return $routes;
-
-        return function (RouteCollector $collector) use ($routes)
-        {
-            foreach ($routes as $route)
-            {
-                $collector->addRoute($route[0], $route[1], $route[2]);
-            }
-        };
     }
 }
