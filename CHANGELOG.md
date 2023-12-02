@@ -21,7 +21,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - If `ServerRequestInterface` is an argument with a middleware
 - Backward compatibility for `LeagueContainer::set` (as of `~3.0`)
 - Backward compatibility for `TwigRenderer::render` (as of `~3.0`)
-- Resolving typehinted routes for `FastRouteDispatcher`, `PhrouteDispatcher`
+- Resolving typehinted routes for third-party routers
 
 ### Removed
 - `__call` methods in `Router`, use the defined methods instead (e.g., `get()`, `post()`, etc.)
