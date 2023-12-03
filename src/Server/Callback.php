@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Callback
+class Callback implements MiddlewareInterface
 {
     /**
      * @var callable
@@ -39,8 +39,8 @@ class Callback
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  mixed                                    $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, $handler)
