@@ -9,7 +9,7 @@ namespace Rougin\Slytherin\Server;
 interface DispatchInterface extends MiddlewareInterface
 {
     /**
-     * @return mixed[]
+     * @return \Rougin\Slytherin\Server\MiddlewareInterface[]
      */
     public function getStack();
 

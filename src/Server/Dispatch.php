@@ -24,7 +24,7 @@ class Dispatch implements DispatchInterface
     }
 
     /**
-     * @return mixed[]
+     * @return \Rougin\Slytherin\Server\MiddlewareInterface[]
      */
     public function getStack()
     {
@@ -69,8 +69,8 @@ class Dispatch implements DispatchInterface
     {
         $isClosure = is_a($middleware, 'Closure');
 
-        if (! $isClosure) return new $middleware;
+        if (! $isClosure) return new Wrapper($middleware);
 
-        return new Wrapper($middleware);
+        return new Callback($middleware);
     }
 }

@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin\Sample;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Routing\Router as Slytherin;
+use Rougin\Slytherin\Server\HandlerInterface;
 
 /**
  * @package Slytherin
@@ -57,9 +57,9 @@ class Router extends Slytherin
 
         $this->get('/handler/param', 'Hello@param');
 
-        $fn = function (ServerRequestInterface $request, DelegateInterface $delegate)
+        $fn = function (ServerRequestInterface $request, HandlerInterface $handler)
         {
-            $response = $delegate->process($request);
+            $response = $handler->handle($request);
 
             $response->getBody()->write('From callable middleware!');
 

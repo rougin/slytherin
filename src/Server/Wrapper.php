@@ -2,62 +2,74 @@
 
 namespace Rougin\Slytherin\Server;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\ResponseInterface;
+use Rougin\Slytherin\Server\Handlers\Handler030;
+use Rougin\Slytherin\Server\Handlers\Handler041;
+use Rougin\Slytherin\Server\Handlers\Handler050;
+use Rougin\Slytherin\Server\Handlers\Handler100;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Converts callables into PSR-15 middlewares.
+ * Converts various middlewares into Slytherin counterparts.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Wrapper
+class Wrapper implements MiddlewareInterface
 {
     /**
-     * @var callable
+     * @var mixed
      */
     protected $middleware;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface|null
-     */
-    protected $response = null;
-
-    /**
      * Initializes the middleware instance.
      *
-     * @param callable                                 $middleware
-     * @param \Psr\Http\Message\ResponseInterface|null $response
+     * @param mixed $middleware
      */
-    public function __construct($middleware, ResponseInterface $response = null)
+    public function __construct($middleware)
     {
         $this->middleware = $middleware;
-
-        $this->response = $response;
     }
 
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $middleware = $this->middleware;
 
-        return $middleware($request, $delegate);
+        if (is_string($middleware))
+        {
+            $middleware = new $middleware;
+        }
 
-        // TODO: Allow only double pass callable middlewares ---
-        // $fn = function ($request) use ($delegate)
-        // {
-        //     return $delegate->process($request);
-        // };
+        // @codeCoverageIgnoreStart
+        switch (Version::get())
+        {
+            case '0.3.0':
+                $next = new Handler030($handler);
 
-        // return $middleware($request, $this->response, $fn);
-        // -----------------------------------------------------
+                break;
+            case '0.4.1':
+                $next = new Handler041($handler);
+
+                break;
+            case '0.5.0':
+                $next = new Handler050($handler);
+
+                break;
+            default:
+                $next = new Handler100($handler);
+
+                break;
+        }
+        // @codeCoverageIgnoreEnd
+
+        /** @phpstan-ignore-next-line */
+        return $middleware->process($request, $next);
     }
 }
