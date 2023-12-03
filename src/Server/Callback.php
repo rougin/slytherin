@@ -53,24 +53,26 @@ class Callback implements MiddlewareInterface
             $middleware = new $middleware;
         }
 
-        if (! $this->isDoublePass($middleware))
+        if ($this->isSinglePass($middleware))
         {
             return $middleware($request, $handler);
         }
+
+        $response = $this->response;
 
         $fn = function ($request) use ($handler)
         {
             return $handler->handle($request);
         };
 
-        return $middleware($request, $this->response, $fn);
+        return $middleware($request, $response, $fn);
     }
 
     /**
      * @param  mixed $item
      * @return boolean
      */
-    protected function isDoublePass($item)
+    protected function isSinglePass($item)
     {
         if ($item instanceof \Closure)
         {
@@ -82,6 +84,6 @@ class Callback implements MiddlewareInterface
             $object = new \ReflectionMethod($item, '__invoke');
         }
 
-        return count($object->getParameters()) === 3;
+        return count($object->getParameters()) === 2;
     }
 }
