@@ -9,6 +9,7 @@ use Rougin\Slytherin\Container\VanillaContainer;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareDispatcher;
 use Rougin\Slytherin\Routing\DispatcherInterface as RouteDispatcher;
+use Rougin\Slytherin\System;
 
 /**
  * Component Collection
@@ -33,9 +34,7 @@ class Collection extends VanillaContainer
      */
     public function getContainer()
     {
-        $interface = 'Psr\Container\ContainerInterface';
-
-        return (is_a($this->container, $interface)) ? $this->container : $this;
+        return (is_a($this->container, System::CONTAINER)) ? $this->container : $this;
     }
 
     /**
@@ -59,7 +58,7 @@ class Collection extends VanillaContainer
     public function getDispatcher()
     {
         /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
-        return $this->get('Rougin\Slytherin\Routing\DispatcherInterface');
+        return $this->get(System::DISPATCHER);
     }
 
     /**
@@ -70,7 +69,7 @@ class Collection extends VanillaContainer
      */
     public function setDispatcher(RouteDispatcher $dispatcher)
     {
-        $this->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+        $this->set(System::DISPATCHER, $dispatcher);
 
         return $this;
     }
@@ -105,12 +104,10 @@ class Collection extends VanillaContainer
      */
     public function getErrorHandler()
     {
-        $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
-
-        if (! $this->getContainer()->has($interface)) return null;
+        if (! $this->getContainer()->has(System::ERREPORT)) return null;
 
         /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
-        return $this->getContainer()->get((string) $interface);
+        return $this->getContainer()->get(System::ERREPORT);
     }
 
     /**
@@ -119,9 +116,9 @@ class Collection extends VanillaContainer
      * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler
      * @return self
      */
-    public function setErrorHandler(\Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler)
+    public function setErrorHandler(ErrorHandlerInterface $errorHandler)
     {
-        $this->set('Rougin\Slytherin\Debug\ErrorHandlerInterface', $errorHandler);
+        $this->set(System::ERREPORT, $errorHandler);
 
         return $this;
     }
@@ -133,8 +130,9 @@ class Collection extends VanillaContainer
      */
     public function getHttp()
     {
-        $request  = $this->get('Psr\Http\Message\ServerRequestInterface');
-        $response = $this->get('Psr\Http\Message\ResponseInterface');
+        $request = $this->get(System::SERVER_REQUEST);
+
+        $response = $this->get(System::RESPONSE);
 
         return array($request, $response);
     }
@@ -148,9 +146,9 @@ class Collection extends VanillaContainer
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->set('Psr\Http\Message\ServerRequestInterface', $request);
+        $this->set(System::SERVER_REQUEST, $request);
 
-        $this->set('Psr\Http\Message\ResponseInterface', $response);
+        $this->set(System::RESPONSE, $response);
 
         return $this;
     }
@@ -163,7 +161,7 @@ class Collection extends VanillaContainer
     public function getHttpRequest()
     {
         /** @var \Psr\Http\Message\ServerRequestInterface */
-        return $this->get('Psr\Http\Message\ServerRequestInterface');
+        return $this->get(System::SERVER_REQUEST);
     }
 
     /**
@@ -174,7 +172,7 @@ class Collection extends VanillaContainer
      */
     public function setHttpRequest(ServerRequestInterface $request)
     {
-        $this->set('Psr\Http\Message\ServerRequestInterface', $request);
+        $this->set(System::SERVER_REQUEST, $request);
 
         return $this;
     }
@@ -187,7 +185,7 @@ class Collection extends VanillaContainer
     public function getHttpResponse()
     {
         /** @var \Psr\Http\Message\ResponseInterface */
-        return $this->get('Psr\Http\Message\ResponseInterface');
+        return $this->get(System::RESPONSE);
     }
 
     /**
@@ -198,12 +196,14 @@ class Collection extends VanillaContainer
      */
     public function setHttpResponse(ResponseInterface $response)
     {
-        $this->set('Psr\Http\Message\ResponseInterface', $response);
+        $this->set(System::RESPONSE, $response);
 
         return $this;
     }
 
     /**
+     * TODO: Reimplement Middleware package.
+     *
      * Gets the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface|null
@@ -219,6 +219,8 @@ class Collection extends VanillaContainer
     }
 
     /**
+     * TODO: Reimplement Middleware package.
+     *
      * Sets the middleware.
      *
      * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware

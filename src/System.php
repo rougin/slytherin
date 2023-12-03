@@ -10,6 +10,8 @@ use Rougin\Slytherin\System\Handler;
 
 class System
 {
+    const CONTAINER = 'Psr\Container\ContainerInterface';
+
     const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
     const ERREPORT = 'Rougin\Slytherin\Ereport\EreportInterface';
