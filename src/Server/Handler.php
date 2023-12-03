@@ -14,9 +14,9 @@ class Handler implements HandlerInterface
 
     protected $index = 0;
 
-    protected $stack = array();
+    protected $stack;
 
-    public function __construct($stack = array(), $default)
+    public function __construct(array $stack, $default)
     {
         $this->default = $default;
 
