@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Dispatch implements DispatchInterface
 {
     /**
-     * @var mixed[]
+     * @var \Rougin\Slytherin\Server\MiddlewareInterface[]
      */
     protected $stack = array();
 
@@ -38,12 +38,7 @@ class Dispatch implements DispatchInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $stack = array();
-
-        foreach ($this->stack as $item)
-        {
-            $stack[] = $this->transform($item);
-        }
+        $stack = (array) $this->getStack();
 
         $handler = new Handler($stack, $handler);
 
@@ -56,7 +51,14 @@ class Dispatch implements DispatchInterface
      */
     public function setStack($stack)
     {
-        $this->stack = $stack;
+        $result = array();
+
+        foreach ($stack as $item)
+        {
+            $result[] = $this->transform($item);
+        }
+
+        $this->stack = $result;
 
         return $this;
     }
@@ -67,10 +69,18 @@ class Dispatch implements DispatchInterface
      */
     protected function transform($middleware)
     {
-        $isClosure = is_a($middleware, 'Closure');
+        if ($middleware instanceof MiddlewareInterface)
+        {
+            return $middleware;
+        }
 
-        if (! $isClosure) return new Wrapper($middleware);
+        $object = is_object($middleware);
 
-        return new Callback($middleware);
+        if ($object && is_a($middleware, 'Closure'))
+        {
+            return new Callback($middleware);
+        }
+
+        return new Wrapper($middleware);
     }
 }
