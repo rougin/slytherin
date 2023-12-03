@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\System;
 
 use Psr\Container\ContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Parameter;
 use Rougin\Slytherin\Container\ReflectionContainer;

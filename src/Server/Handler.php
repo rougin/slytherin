@@ -14,13 +14,26 @@ use Rougin\Slytherin\Server\Handlers\Handler100;
  */
 class Handler implements HandlerInterface
 {
+    /**
+     * @var \Rougin\Slytherin\Server\HandlerInterface
+     */
     protected $default;
 
+    /**
+     * @var integer
+     */
     protected $index = 0;
 
+    /**
+     * @var \Rougin\Slytherin\Server\MiddlewareInterface[]
+     */
     protected $stack;
 
-    public function __construct(array $stack, $default)
+    /**
+     * @param \Rougin\Slytherin\Server\MiddlewareInterface[] $stack
+     * @param \Rougin\Slytherin\Server\HandlerInterface      $default
+     */
+    public function __construct(array $stack, HandlerInterface $default)
     {
         $this->default = $default;
 
@@ -28,7 +41,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @param  mixed $request
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)
@@ -43,30 +56,34 @@ class Handler implements HandlerInterface
         $next = $this->next();
 
         // @codeCoverageIgnoreStart
-        if (Version::is('0.3.0'))
+        switch (Version::get())
         {
-            $next = new Handler030($next);
-        }
+            case '0.3.0':
+                $next = new Handler030($next);
 
-        if (Version::is('0.4.1'))
-        {
-            $next = new Handler041($next);
-        }
+                break;
+            case '0.4.1':
+                $next = new Handler041($next);
 
-        if (Version::is('0.5.0'))
-        {
-            $next = new Handler050($next);
-        }
+                break;
+            case '0.5.0':
+                $next = new Handler050($next);
 
-        if (Version::is('1.0.0'))
-        {
-            $next = new Handler100($next);
+                break;
+            case '1.0.0':
+                $next = new Handler100($next);
+
+                break;
         }
         // @codeCoverageIgnoreEnd
 
+        /** @var \Rougin\Slytherin\Server\HandlerInterface $next */
         return $item->process($request, $next);
     }
 
+    /**
+     * @return \Rougin\Slytherin\Server\HandlerInterface
+     */
     protected function next()
     {
         $next = clone $this;

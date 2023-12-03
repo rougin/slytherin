@@ -37,7 +37,7 @@ class Route implements RouteInterface
      * @param string                   $method
      * @param string                   $uri
      * @param callable|string[]|string $handler
-     * @param mixed[]                  $middlewares
+     * @param mixed[]|string           $middlewares
      */
     public function __construct($method, $uri, $handler, $middlewares = array())
     {
@@ -78,7 +78,7 @@ class Route implements RouteInterface
     }
 
     /**
-     * @return \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]
+     * @return mixed[]
      */
     public function getMiddlewares()
     {

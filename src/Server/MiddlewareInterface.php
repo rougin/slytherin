@@ -10,9 +10,10 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 interface MiddlewareInterface
 {
-    public function getStack();
-
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler);
-
-    public function setStack($stack);
 }

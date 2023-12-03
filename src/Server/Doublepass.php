@@ -14,10 +14,20 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Doublepass
 {
+    /**
+     * @var callable
+     */
     protected $handler;
 
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
     protected $response;
 
+    /**
+     * @param callable                            $handler
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
     public function __construct($handler, ResponseInterface $response)
     {
         $this->handler = $handler;
@@ -25,6 +35,10 @@ class Doublepass
         $this->response = $response;
     }
 
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function handle(ServerRequestInterface $request)
     {
         return call_user_func($this->handler, $request, $this->response);

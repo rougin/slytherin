@@ -14,7 +14,7 @@ class System
 
     const ERREPORT = 'Rougin\Slytherin\Ereport\EreportInterface';
 
-    const MIDDLEWARE = 'Rougin\Slytherin\Server\MiddlewareInterface';
+    const MIDDLEWARE = 'Rougin\Slytherin\Server\DispatchInterface';
 
     const RENDERER = 'Rougin\Slytherin\Template\RendererInterface';
 
@@ -58,7 +58,7 @@ class System
      * @throws \Psr\Container\ContainerExceptionInterface
      *
      * @param  string $id
-     * @return object
+     * @return mixed
      */
     public function get($id)
     {
@@ -99,7 +99,7 @@ class System
             return $handler->handle($request);
         }
 
-        /** @var \Rougin\Slytherin\Server\MiddlewareInterface */
+        /** @var \Rougin\Slytherin\Server\DispatchInterface */
         $middleware = $this->container->get(self::MIDDLEWARE);
 
         $stack = $middleware->getStack();

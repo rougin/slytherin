@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\Server\Handlers;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Server\Handler;
+use Rougin\Slytherin\Server\HandlerInterface;
 
 /**
  * @package Slytherin
@@ -14,14 +14,14 @@ use Rougin\Slytherin\Server\Handler;
 class Handler041 implements DelegateInterface
 {
     /**
-     * @var \Rougin\Slytherin\Server\Handler
+     * @var \Rougin\Slytherin\Server\HandlerInterface
      */
     protected $handler;
 
     /**
-     * @param \Rougin\Slytherin\Server\Handler $handler
+     * @param \Rougin\Slytherin\Server\HandlerInterface $handler
      */
-    public function __construct(Handler $handler)
+    public function __construct(HandlerInterface $handler)
     {
         $this->handler = $handler;
     }
