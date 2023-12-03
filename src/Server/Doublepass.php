@@ -5,6 +5,13 @@ namespace Rougin\Slytherin\Server;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * TODO: Add unit test and apply this class.
+ *
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @codeCoverageIgnore
+ */
 class Doublepass
 {
     protected $handler;

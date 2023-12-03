@@ -25,19 +25,13 @@ class Resolver
     protected $extra;
 
     /**
-     * @param \Psr\Container\ContainerInterface      $container
-     * @param \Psr\Container\ContainerInterface|null $extra
+     * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(ContainerInterface $container, ContainerInterface $extra = null)
+    public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
 
-        if (! $extra)
-        {
-            $extra = new ReflectionContainer;
-        }
- 
-        $this->extra = $extra;
+        $this->extra = new ReflectionContainer;
     }
 
     /**
@@ -115,15 +109,16 @@ class Resolver
         }
         catch (\ReflectionException $exception)
         {
+            // Backward compatibility for ReflectionParameter ---
             $param = new Parameter($parameter);
+            // --------------------------------------------------
 
-            $class = $param->getClass();
+            $argument = null; $name = $param->getName();
 
-            $name = $parameter->getName();
-
-            if (! is_null($class)) $name = $class->getName();
-
-            $argument = $this->value($name);
+            if ($this->container->has($name))
+            {
+                $argument = $this->container->get($name);
+            }
         }
 
         return $argument;
@@ -139,38 +134,5 @@ class Resolver
     protected function handle($argument, ServerRequestInterface $request = null)
     {
         return $argument instanceof ServerRequestInterface && $request ? $request : $argument;
-    }
-
-    /**
-     * Returns the value of the specified argument.
-     *
-     * @param  string $name
-     * @return mixed|null
-     */
-    protected function value($name)
-    {
-        $object = null;
-
-        if ($this->container->has($name))
-        {
-            $object = $this->container->get($name);
-        }
-
-        if ($object || ! $this->extra->has($name))
-        {
-            return $object;
-        }
-
-        // If the identifier does not exists from extra, ---
-        // Try to get again from the parent container
-        try
-        {
-            return $this->extra->get($name);
-        }
-        catch (NotFoundExceptionInterface $error)
-        {
-            return $this->container->get($name);
-        }
-        // -------------------------------------------------
     }
 }

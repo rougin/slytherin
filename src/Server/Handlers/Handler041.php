@@ -6,6 +6,11 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Server\Handler;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @codeCoverageIgnore
+ */
 class Handler041 implements DelegateInterface
 {
     /**

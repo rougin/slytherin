@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Sample\Routes;
 
+use Rougin\Slytherin\Sample\Depots\EsteDepot;
 use Rougin\Slytherin\Sample\Depots\SestDepot;
 
 /**
@@ -25,8 +26,8 @@ class Home extends Route
         return $this->sest->text('Welcome home!');
     }
 
-    public function param(SestDepot $sest)
+    public function param(EsteDepot $este)
     {
-        return $sest->text('Welcome param!');
+        return $este->text('Welcome param!');
     }
 }

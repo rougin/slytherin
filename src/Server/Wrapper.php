@@ -7,8 +7,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Callable Middleware Wrapper
- *
  * Converts callables into PSR-15 middlewares.
  *
  * @package Slytherin
@@ -51,16 +49,15 @@ class Wrapper
     {
         $middleware = $this->middleware;
 
-        if (! $this->response instanceof ResponseInterface)
-        {
-            return $middleware($request, $delegate);
-        }
+        return $middleware($request, $delegate);
 
-        $fn = function ($request) use ($delegate)
-        {
-            return $delegate->process($request);
-        };
+        // TODO: Allow only double pass callable middlewares ---
+        // $fn = function ($request) use ($delegate)
+        // {
+        //     return $delegate->process($request);
+        // };
 
-        return $middleware($request, $this->response, $fn);
+        // return $middleware($request, $this->response, $fn);
+        // -----------------------------------------------------
     }
 }

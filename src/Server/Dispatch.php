@@ -4,6 +4,10 @@ namespace Rougin\Slytherin\Server;
 
 use Psr\Http\Message\ServerRequestInterface;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class Dispatch implements MiddlewareInterface
 {
     protected $stack = array();

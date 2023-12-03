@@ -7,6 +7,11 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Server\Handler;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @codeCoverageIgnore
+ */
 class Handler100 implements RequestHandlerInterface
 {
     /**

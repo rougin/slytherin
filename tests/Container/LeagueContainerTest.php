@@ -2,16 +2,19 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Rougin\Slytherin\Container\LeagueContainer;
+use Rougin\Slytherin\Testcase;
+
 /**
  * League Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class LeagueContainerTest extends \Rougin\Slytherin\Testcase
+class LeagueContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\LeagueContainer
      */
     protected $container;
 
@@ -22,9 +25,12 @@ class LeagueContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        class_exists('League\Container\Container') || $this->markTestSkipped('League Container is not installed.');
+        if (! class_exists('League\Container\Container'))
+        {
+            $this->markTestSkipped('League Container is not installed.');
+        }
 
-        $this->container = new \Rougin\Slytherin\Container\LeagueContainer;
+        $this->container = new LeagueContainer;
     }
 
     /**
@@ -36,9 +42,15 @@ class LeagueContainerTest extends \Rougin\Slytherin\Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $expected = (string) $class;
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        // Added "$shared" to true in the unit test ----
+        $this->container->set($class, new $class, true);
+        // ---------------------------------------------
+
+        $actual = $this->container->get($class);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**

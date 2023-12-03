@@ -8,6 +8,10 @@ use Rougin\Slytherin\Server\Handlers\Handler041;
 use Rougin\Slytherin\Server\Handlers\Handler050;
 use Rougin\Slytherin\Server\Handlers\Handler100;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class Handler implements HandlerInterface
 {
     protected $default;
@@ -38,6 +42,7 @@ class Handler implements HandlerInterface
 
         $next = $this->next();
 
+        // @codeCoverageIgnoreStart
         if (Version::is('0.3.0'))
         {
             $next = new Handler030($next);
@@ -57,6 +62,7 @@ class Handler implements HandlerInterface
         {
             $next = new Handler100($next);
         }
+        // @codeCoverageIgnoreEnd
 
         return $item->process($request, $next);
     }

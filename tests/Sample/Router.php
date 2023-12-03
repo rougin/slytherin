@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Sample;
 
+use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
@@ -28,26 +30,43 @@ class Router extends Slytherin
 
         $this->get('/', 'Home@index');
 
-        $this->get('/callable', function ()
+        $fn = function ()
         {
             return 'Welcome call!';
-        });
+        };
 
-        $this->get('/call/{name}/{age}', function ($name, $age)
+        $this->get('/callable', $fn);
+
+        $fn = function ($name, $age)
         {
             return 'Welcome ' . $name . ', ' . $age . '!';
-        });
+        };
 
-        $this->get('/call/{name}', function ($name)
+        $this->get('/call/{name}/{age}', $fn);
+
+        $fn = function ($name)
         {
             return 'Welcome ' . $name . '!';
-        });
+        };
+
+        $this->get('/call/{name}', $fn);
 
         $this->get('/param', 'Home@param');
 
         $this->get('/handler/conts', 'Hello@conts');
 
         $this->get('/handler/param', 'Hello@param');
+
+        $fn = function (ServerRequestInterface $request, DelegateInterface $delegate)
+        {
+            $response = $delegate->process($request);
+
+            $response->getBody()->write('From callable middleware!');
+
+            return $response;
+        };
+
+        $this->get('middleware', 'Hello@response', $fn);
 
         return parent::routes($parsed);
     }
