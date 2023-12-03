@@ -43,11 +43,8 @@ class Dispatch implements MiddlewareInterface
     {
         $isClosure = is_a($middleware, 'Closure');
 
-        if ($isClosure)
-        {
-            return new CallableWrapper($middleware);
-        }
+        if (! $isClosure) return new $middleware;
 
-        return new $middleware;
+        return new Wrapper($middleware);
     }
 }

@@ -2,6 +2,13 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Application;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Routing\Dispatcher;
+use Rougin\Slytherin\Server\Dispatch;
+use Rougin\Slytherin\System;
+
 /**
  * Container Interface Test
  *
@@ -17,22 +24,20 @@ class ContainerInterfaceTest extends ApplicationTestCases
      */
     protected function doSetUp()
     {
-        $container = new \Rougin\Slytherin\Container\Container;
+        $container = new Container;
 
-        $dispatcher = new \Rougin\Slytherin\Routing\Dispatcher($this->router());
+        $dispatcher = new Dispatcher($this->router());
+        $container->set(System::DISPATCHER, $dispatcher);
 
-        $response = new \Rougin\Slytherin\Http\Response;
+        $request = $this->request('GET', '/');
+        $container->set(System::SERVER_REQUEST, $request);
 
-        $container->set('Psr\Http\Message\ServerRequestInterface', $this->request('GET', '/'));
-        $container->set('Psr\Http\Message\ResponseInterface', $response);
-        $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+        $response = new Response;
+        $container->set(System::RESPONSE, $response);
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $middleware = new \Rougin\Slytherin\Middleware\Dispatcher;
+        $dispatch = new Dispatch;
+        $container->set(System::MIDDLEWARE, $dispatch);
 
-            $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
-        }
-
-        $this->application = new \Rougin\Slytherin\Application($container);
+        $this->application = new Application($container);
     }
 }

@@ -132,9 +132,7 @@ class Handler implements HandlerInterface
 
         if (is_string($function))
         {
-            $stream = $response->getBody();
-
-            $stream->write($function);
+            $response->getBody()->write($function);
         }
 
         $instanceof = $function instanceof ResponseInterface;

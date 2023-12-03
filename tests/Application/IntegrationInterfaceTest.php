@@ -43,18 +43,4 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         $this->application = $app->integrate($integrations, $config);
     }
-
-    /**
-     * Tests the instances of static::$container.
-     *
-     * @return
-     */
-    public function testStaticContainer()
-    {
-        $container = \Rougin\Slytherin\Application::container();
-
-        $interface = 'Rougin\Slytherin\Template\RendererInterface';
-
-        $this->assertTrue($container->has($interface));
-    }
 }

@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class CallableWrapper
+class Wrapper
 {
     /**
      * @var callable

@@ -2,6 +2,12 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Container\AurynContainer;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Routing\Dispatcher;
+use Rougin\Slytherin\Server\Dispatch;
+use Rougin\Slytherin\System;
+
 /**
  * Auryn Container Test
  *
@@ -17,25 +23,26 @@ class AurynContainerTest extends ApplicationTestCases
      */
     protected function doSetUp()
     {
-        class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
+        if (! class_exists('Auryn\Injector')) $this->markTestSkipped('Auryn is not installed.');
 
-        $container = new \Rougin\Slytherin\Container\AurynContainer;
+        $container = new AurynContainer;
+
+        $router = $this->router();
 
         $container->share($this->request('GET', '/'));
-        $container->share(new \Rougin\Slytherin\Http\Response);
-        $container->share(new \Rougin\Slytherin\Routing\Dispatcher($this->router()));
+        $container->alias(System::SERVER_REQUEST, 'Rougin\Slytherin\Http\ServerRequest');
 
-        $container->alias('Psr\Http\Message\ServerRequestInterface', 'Rougin\Slytherin\Http\ServerRequest');
-        $container->alias('Psr\Http\Message\ResponseInterface', 'Rougin\Slytherin\Http\Response');
-        $container->alias('Rougin\Slytherin\Routing\DispatcherInterface', 'Rougin\Slytherin\Routing\Dispatcher');
+        $container->share(new Response);
+        $container->alias(System::RESPONSE, 'Rougin\Slytherin\Http\Response');
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
-        {
-            $container->share(new \Rougin\Slytherin\Middleware\Dispatcher);
+        $container->share(new Dispatcher($router));
+        $container->alias(System::DISPATCHER, 'Rougin\Slytherin\Routing\Dispatcher');
 
-            $container->alias('Rougin\Slytherin\Middleware\DispatcherInterface', 'Rougin\Slytherin\Middleware\Dispatcher');
-        }
+        // TODO: Reimplement "Server" with "Middleware" --------------------------
+        $container->share(new Dispatch);
+        $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Server\Dispatch');
+        // -----------------------------------------------------------------------
 
-        $this->application = new \Rougin\Slytherin\Application($container);
+        $this->application = new Application($container);
     }
 }
