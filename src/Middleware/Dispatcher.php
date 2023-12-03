@@ -242,7 +242,9 @@ class Dispatcher implements DispatcherInterface
     {
         $response = null;
 
-        if (is_a($middleware, Application::MIDDLEWARE)) return $middleware;
+        $psr = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+
+        if (is_a($middleware, $psr)) return $middleware;
 
         $approach = $this->approach($middleware);
 

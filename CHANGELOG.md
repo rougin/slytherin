@@ -8,11 +8,13 @@ All notable changes to `Slytherin` will be documented in this file.
 - `preferred` property in integrations
 - `ContainerException` in `Container`
 - `RouteInterface` for handling specific routes
+- Support for all versions of `http-interop/http-middleware` (`0.3`, `0.4`, `0.5`)
 
 ### Changed
 - Third-party packages in `Routing` extends to Slytherin's `Dispatcher`, `Router`
 - Conformed all application logic to `RouteInterface`
 - `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
+- Conformed `Middleware` to the official `PSR-15` package (`psr/http-server-middleware`)
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)
@@ -25,6 +27,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - `__call` methods in `Router`, use the defined methods instead (e.g., `get()`, `post()`, etc.)
+- Double pass middlewares (to be fully compliant for PSR-15)
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

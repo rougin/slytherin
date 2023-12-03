@@ -270,19 +270,6 @@ class ApplicationTestCases extends Testcase
                 break;
         }
 
-        // TODO: Remove this one. This was added because of Phroute will resolve it automatically. :( ---
-        $static = $this->application;
-
-        if ($static && method_exists($static, 'set'))
-        {
-            $class = (string) Application::SERVER_REQUEST;
-
-            $container = call_user_func(array($static, 'set'), $class, $request);
-
-            $this->application = new Application($container);
-        }
-        // ----------------------------------------------------------------------------------------------
-
         return $request;
     }
 

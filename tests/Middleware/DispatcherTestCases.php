@@ -25,12 +25,14 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithDoublePassCallback()
     {
-        $this->dispatcher->push(function ($request, $response, $next)
+        $fn = function ($request, $response, $next)
         {
             $response = $next($request, $response)->withStatus(404);
 
             return $response->withHeader('X-Slytherin', time());
-        });
+        };
+
+        $this->dispatcher->push($fn);
 
         $expected = (integer) 404;
 
@@ -52,9 +54,7 @@ class DispatcherTestCases extends Testcase
 
         if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper))
         {
-            $message = 'Stratigility\'s current installed version';
-
-            $message .= ' does not accept single pass middlewares';
+            $message = 'Stratigility\'s current installed version does not accept single pass middlewares';
 
             $this->markTestSkipped((string) $message);
         }
@@ -88,9 +88,7 @@ class DispatcherTestCases extends Testcase
 
         if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper))
         {
-            $message = 'Stratigility\'s current version';
-
-            $message .= (string) ' does not accept delegates';
+            $message = 'Stratigility\'s current version does not accept delegates';
 
             $this->markTestSkipped((string) $message);
         }
