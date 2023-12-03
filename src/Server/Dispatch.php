@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Server;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Http\Response;
 
 /**
  * @package Slytherin
@@ -14,6 +15,11 @@ class Dispatch implements DispatchInterface
      * @var \Rougin\Slytherin\Server\MiddlewareInterface[]
      */
     protected $stack = array();
+
+    /**
+     * @var \Psr\Http\Message\ResponseInterface|null
+     */
+    protected $response = null;
 
     /**
      * @param mixed[] $stack
@@ -74,13 +80,37 @@ class Dispatch implements DispatchInterface
             return $middleware;
         }
 
-        $object = is_object($middleware);
-
-        if ($object && is_a($middleware, 'Closure'))
+        // Set empty response for double pass middlewares ---
+        if (! $this->response)
         {
-            return new Callback($middleware);
+            $this->response = new Response;
+        }
+        // --------------------------------------------------
+
+        if ($this->isCallable($middleware))
+        {
+            /** @var callable $middleware */
+            return new Callback($middleware, $this->response);
         }
 
         return new Wrapper($middleware);
+    }
+
+    /**
+     * @param  mixed $item
+     * @return boolean
+     */
+    protected function isCallable($item)
+    {
+        /** @var object|string $item */
+        $method = method_exists($item, '__invoke');
+
+        $callable = is_callable($item);
+
+        $object = is_object($item);
+
+        $closure = (! $object) || $item instanceof \Closure;
+
+        return ($method || $callable) && $closure;
     }
 }

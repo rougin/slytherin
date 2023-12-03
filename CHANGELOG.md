@@ -27,7 +27,6 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - `__call` methods in `Router`, use the defined methods instead (e.g., `get()`, `post()`, etc.)
-- Double pass middlewares (to be fully compliant for PSR-15)
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

@@ -43,19 +43,45 @@ class Callback implements MiddlewareInterface
      * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, $handler)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $middleware = $this->middleware;
 
-        return $middleware($request, $handler);
+        if (is_string($middleware))
+        {
+            /** @var callable */
+            $middleware = new $middleware;
+        }
 
-        // TODO: Allow only double pass callable middlewares ---
-        // $fn = function ($request) use ($delegate)
-        // {
-        //     return $delegate->process($request);
-        // };
+        if (! $this->isDoublePass($middleware))
+        {
+            return $middleware($request, $handler);
+        }
 
-        // return $middleware($request, $this->response, $fn);
-        // -----------------------------------------------------
+        $fn = function ($request) use ($handler)
+        {
+            return $handler->handle($request);
+        };
+
+        return $middleware($request, $this->response, $fn);
+    }
+
+    /**
+     * @param  mixed $item
+     * @return boolean
+     */
+    protected function isDoublePass($item)
+    {
+        if ($item instanceof \Closure)
+        {
+            $object = new \ReflectionFunction($item);
+        }
+        else
+        {
+            /** @var object|string $item */
+            $object = new \ReflectionMethod($item, '__invoke');
+        }
+
+        return count($object->getParameters()) === 3;
     }
 }

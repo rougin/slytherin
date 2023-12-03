@@ -225,6 +225,20 @@ class SampleTest extends Testcase
      *
      * @return void
      */
+    public function test_interop_middleware_changing_the_response_parameter()
+    {
+        $this->builder->setUrl('GET', '/interop');
+
+        $this->expectOutputString('From interop!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
     public function test_without_forward_slash_in_the_router_namespace()
     {
         $this->builder->addPackage(new SamplePackage);

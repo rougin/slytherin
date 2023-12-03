@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin\Sample\Handlers;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Server\HandlerInterface;
+use Rougin\Slytherin\Server\MiddlewareInterface;
 
 /**
  * @package Slytherin
@@ -12,9 +12,9 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class ToJson implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $response = $delegate->process($request);
+        $response = $handler->handle($request);
 
         return $response->withHeader('Content-Type', 'application/json');
     }
