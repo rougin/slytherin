@@ -38,12 +38,9 @@ class Wrapper implements MiddlewareInterface
     {
         $middleware = $this->middleware;
 
-        if (is_string($middleware))
-        {
-            $middleware = new $middleware;
-        }
+        if (is_string($middleware)) $middleware = new $middleware;
 
-        $next = Interop::get($handler);
+        $next = Interop::getHandler($handler);
 
         /** @phpstan-ignore-next-line */
         return $middleware->process($request, $next);

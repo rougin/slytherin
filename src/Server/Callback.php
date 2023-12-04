@@ -43,6 +43,18 @@ class Callback implements MiddlewareInterface
      * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
+    public function __invoke($request, $handler)
+    {
+        return $this->process($request, $handler);
+    }
+
+    /**
+     * Processes an incoming server request and return a response.
+     *
+     * @param  \Psr\Http\Message\ServerRequestInterface  $request
+     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $middleware = $this->middleware;

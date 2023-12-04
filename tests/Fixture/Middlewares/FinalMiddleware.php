@@ -9,11 +9,11 @@ use Psr\Http\Message\ServerRequestInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class LastMiddleware
+class FinalMiddleware
 {
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
-        $response->getBody()->write(' Last!');
+        $response->getBody()->write('Loaded with middleware');
 
         return $response;
     }

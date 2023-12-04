@@ -3,8 +3,10 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Server\HandlerInterface;
 use Rougin\Slytherin\Server\Interop;
+use Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -39,15 +41,31 @@ class StratigilityDispatcher extends Dispatcher
      * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    // public function process(ServerRequestInterface $request, HandlerInterface $handler)
-    // {
-    //     foreach ($this->getStack() as $item)
-    //     {
-    //         $this->zend->pipe($item);
-    //     }
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
+    {
+        $response = new Response;
 
-    //     $next = Interop::get($handler);
+        $factory = new CallableMiddlewareWrapperFactory($response);
 
-    //     return $this->zend->process($request, $next);
-    // }
+        $this->zend->setCallableMiddlewareDecorator($factory);
+
+        foreach ($this->getStack() as $item)
+        {
+            // Convert the handler into a callable -----------------
+            $fn = function ($request, $response, $next) use ($item)
+            {
+                return $item->process($request, new Interop($next));
+            };
+            // -----------------------------------------------------
+
+            $this->zend->pipe($fn);
+        }
+
+        $next = Interop::getHandler($handler);
+
+        $zend = $this->zend;
+
+        /** @phpstan-ignore-next-line */
+        return $zend($request, $response, $next);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Server;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Server\Handlers\Handler030;
 use Rougin\Slytherin\Server\Handlers\Handler041;
 use Rougin\Slytherin\Server\Handlers\Handler050;
@@ -12,13 +13,46 @@ use Rougin\Slytherin\Server\Handlers\Handler100;
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @codeCoverageIgnore
  */
-class Interop
+class Interop implements HandlerInterface
 {
     /**
-     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @var mixed
+     */
+    protected $handler;
+
+    /**
+     * @param mixed $handler
+     */
+    public function __construct($handler)
+    {
+        $this->handler = $handler;
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->handle($request);
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function handle(ServerRequestInterface $request)
+    {
+        $handler = $this->handler;
+
+        return $handler($request);
+    }
+
+    /**
+     * @param  mixed $handler
      * @return mixed
      */
-    public static function get(HandlerInterface $handler)
+    public static function getHandler($handler)
     {
         switch (Version::get())
         {

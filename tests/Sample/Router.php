@@ -26,9 +26,9 @@ class Router extends Slytherin
 
         $this->get('without-slash', 'Hello@string');
 
-        $fn = function ($request, $handler)
+        $fn = function ($request, $next)
         {
-            $response = $handler->handle($request);
+            $response = $next($request);
 
             $response->getBody()->write('From callable middleware!');
 

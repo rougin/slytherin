@@ -90,10 +90,6 @@ class ApplicationTestCases extends Testcase
      */
     public function testHandleMethodWithMiddleware()
     {
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-        interface_exists($interface) || $this->markTestSkipped('PSR-15 is not installed.');
-
         $request = $this->request('GET', '/middleware');
 
         $expected = (string) 'Loaded with middleware';
@@ -280,7 +276,7 @@ class ApplicationTestCases extends Testcase
      */
     protected function router()
     {
-        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\FinalMiddleware';
 
         $router = new Router;
 
