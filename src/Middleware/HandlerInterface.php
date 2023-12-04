@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Rougin\Slytherin\Server\HandlerInterface as Slytherin;
 
 /**
  * Handler Interface
@@ -12,6 +12,6 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-interface HandlerInterface extends DelegateInterface
+interface HandlerInterface extends Slytherin
 {
 }

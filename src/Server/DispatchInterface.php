@@ -14,6 +14,12 @@ interface DispatchInterface extends MiddlewareInterface
     public function getStack();
 
     /**
+     * @param  mixed $middleware
+     * @return self
+     */
+    public function push($middleware);
+
+    /**
      * @param  mixed[] $stack
      * @return self
      */

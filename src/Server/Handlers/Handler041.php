@@ -30,6 +30,15 @@ class Handler041 implements DelegateInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->process($request);
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request)
     {
         return $this->handler->handle($request);

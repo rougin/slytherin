@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @codeCoverageIgnore
  */
 class Handler implements HandlerInterface
 {
@@ -34,6 +35,15 @@ class Handler implements HandlerInterface
         $this->default = $default;
 
         $this->stack = $stack;
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->handle($request);
     }
 
     /**

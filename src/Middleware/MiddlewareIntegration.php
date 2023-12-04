@@ -7,6 +7,7 @@ use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\Server\Dispatch;
 use Rougin\Slytherin\System;
+use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * Middleware Integration
@@ -40,6 +41,19 @@ class MiddlewareIntegration implements IntegrationInterface
         $stack = $config->get('app.middlewares', array());
 
         $dispatch = new Dispatch($stack);
+
+        $empty = $this->preferred === null;
+
+        $hasZend = class_exists('Zend\Stratigility\MiddlewarePipe');
+
+        $wantZend = $this->preferred === 'stratigility';
+
+        if (($empty || $wantZend) && $hasZend)
+        {
+            $pipe = new MiddlewarePipe;
+
+            $dispatch = new StratigilityDispatcher($pipe);
+        }
 
         return $container->set($middleware, $dispatch);
     }

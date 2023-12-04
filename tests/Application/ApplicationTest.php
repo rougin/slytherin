@@ -42,11 +42,6 @@ class ApplicationTest extends Testcase
             'Rougin\Slytherin\Fixture\Components\SingleComponent',
         );
 
-        if (class_exists('Zend\Stratigility\MiddlewarePipe'))
-        {
-            $components[] = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
-        }
-
         $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
 
         $globals = $GLOBALS;

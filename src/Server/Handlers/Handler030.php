@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Server\Handlers;
 
 use Interop\Http\Middleware\DelegateInterface;
 use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Server\HandlerInterface;
 
 /**
@@ -24,6 +25,15 @@ class Handler030 implements DelegateInterface
     public function __construct(HandlerInterface $handler)
     {
         $this->handler = $handler;
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->process($request);
     }
 
     /**

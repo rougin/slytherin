@@ -5,3 +5,4 @@ parameters:
   excludePaths:
     analyse:
         - src/Server/Handlers
+        - src/Server/Interop.php

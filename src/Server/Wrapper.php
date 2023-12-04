@@ -2,10 +2,6 @@
 
 namespace Rougin\Slytherin\Server;
 
-use Rougin\Slytherin\Server\Handlers\Handler030;
-use Rougin\Slytherin\Server\Handlers\Handler041;
-use Rougin\Slytherin\Server\Handlers\Handler050;
-use Rougin\Slytherin\Server\Handlers\Handler100;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -47,27 +43,7 @@ class Wrapper implements MiddlewareInterface
             $middleware = new $middleware;
         }
 
-        // @codeCoverageIgnoreStart
-        switch (Version::get())
-        {
-            case '0.3.0':
-                $next = new Handler030($handler);
-
-                break;
-            case '0.4.1':
-                $next = new Handler041($handler);
-
-                break;
-            case '0.5.0':
-                $next = new Handler050($handler);
-
-                break;
-            default:
-                $next = new Handler100($handler);
-
-                break;
-        }
-        // @codeCoverageIgnoreEnd
+        $next = Interop::get($handler);
 
         /** @phpstan-ignore-next-line */
         return $middleware->process($request, $next);

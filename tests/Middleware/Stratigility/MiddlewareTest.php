@@ -2,29 +2,34 @@
 
 namespace Rougin\Slytherin\Middleware\Stratigility;
 
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Stratigility\Middleware;
+use Rougin\Slytherin\System\Endofline;
+use Rougin\Slytherin\Testcase;
+use Zend\Stratigility\MiddlewarePipe;
+
 /**
- * Stratigility Middleware Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MiddlewareTest extends \Rougin\Slytherin\Testcase
+class MiddlewareTest extends Testcase
 {
     /**
-     * Tests __invoke() method
-     *
      * @return void
      */
     public function testInvokeMethod()
     {
-        if (! class_exists('Zend\Stratigility\MiddlewarePipe')) {
+        if (! class_exists('Zend\Stratigility\MiddlewarePipe'))
+        {
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
 
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI']    = '/';
-        $_SERVER['SERVER_NAME']    = 'localhost';
-        $_SERVER['SERVER_PORT']    = '8000';
+        $server = array();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
         $stack = array();
 
@@ -32,14 +37,17 @@ class MiddlewareTest extends \Rougin\Slytherin\Testcase
         $stack[] = 'Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware';
         $stack[] = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
-        $pipeline = new \Zend\Stratigility\MiddlewarePipe;
-        $middleware = new \Rougin\Slytherin\Middleware\Stratigility\Middleware($pipeline);
+        $pipeline = new MiddlewarePipe;
+        $middleware = new Middleware($pipeline, $stack);
 
-        $request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
-        $response = new \Rougin\Slytherin\Http\Response;
+        $request = new ServerRequest($server);
+        $response = new Response;
 
-        $response = $middleware($request, $response, $stack);
+        $expected = 'First! Second! Last!';
 
-        $this->assertEquals('First! Second! Last!', (string) $response->getBody());
+        $response = $middleware->process($request, new Endofline);
+        $actual = (string) $response->getBody();
+
+        $this->assertEquals($expected, $actual);
     }
 }

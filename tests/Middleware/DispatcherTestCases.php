@@ -3,6 +3,8 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Server\Wrapper;
+use Rougin\Slytherin\System\Endofline;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -14,7 +16,7 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Middleware\DispatcherInterface
+     * @var \Rougin\Slytherin\Server\Dispatch
      */
     protected $dispatcher;
 
@@ -61,18 +63,20 @@ class DispatcherTestCases extends Testcase
 
         $time = (integer) time();
 
-        $this->dispatcher->push(function ($request, $next) use ($time)
+        $fn = function ($request, $next) use ($time)
         {
             $response = $next($request);
 
             return $response->withHeader('X-Slytherin', $time);
-        });
+        };
 
-        $expected = array((integer) $time);
+        $this->dispatcher->push($fn);
 
-        $result = $this->process()->getHeader('X-Slytherin');
+        $expected = array($time);
 
-        $this->assertEquals($expected, $result);
+        $actual = $this->process()->getHeader('X-Slytherin');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -93,12 +97,14 @@ class DispatcherTestCases extends Testcase
             $this->markTestSkipped((string) $message);
         }
 
-        $this->dispatcher->push(function ($request, $delegate)
+        $fn = function ($request, $next)
         {
-            $response = $delegate->process($request);
+            $response = $next($request);
 
             return $response->withHeader('Content-Type', 'application/json');
-        });
+        };
+
+        $this->dispatcher->push($fn);
 
         $expected = array('application/json');
 
@@ -143,11 +149,11 @@ class DispatcherTestCases extends Testcase
      */
     public function testPushMethodWithArray()
     {
-        $expected = array('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
-        $expected[] = 'Rougin\Slytherin\Middleware\FinalResponse';
+        $expected = array(new Wrapper($interop));
 
-        $this->dispatcher->push($expected);
+        $this->dispatcher->push(array($interop));
 
         $result = $this->dispatcher->stack();
 
@@ -163,13 +169,9 @@ class DispatcherTestCases extends Testcase
     {
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
-        $this->dispatcher->push('Rougin\Slytherin\Middleware\FinalResponse');
+        $actual = $this->dispatcher->stack();
 
-        $expected = (integer) 2;
-
-        $result = $this->dispatcher->stack();
-
-        $this->assertCount($expected, $result);
+        $this->assertCount(1, $actual);
     }
 
     /**
@@ -189,6 +191,6 @@ class DispatcherTestCases extends Testcase
 
         $request = new ServerRequest($server);
 
-        return $this->dispatcher->process($request, new Delegate);
+        return $this->dispatcher->process($request, new Endofline);
     }
 }

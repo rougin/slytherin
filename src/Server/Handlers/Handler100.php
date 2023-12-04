@@ -31,6 +31,15 @@ class Handler100 implements RequestHandlerInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
+    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    {
+        return $this->handle($request);
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return $this->handler->handle($request);

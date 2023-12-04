@@ -52,6 +52,26 @@ class Dispatch implements DispatchInterface
     }
 
     /**
+     * @param  mixed $middleware
+     * @return self
+     */
+    public function push($middleware)
+    {
+        if (! is_array($middleware))
+        {
+            $item = $this->transform($middleware);
+
+            array_push($this->stack, $item);
+
+            return $this;
+        }
+
+        foreach ($middleware as $item) $this->push($item);
+
+        return $this;
+    }
+
+    /**
      * @param  mixed[] $stack
      * @return self
      */
@@ -67,6 +87,16 @@ class Dispatch implements DispatchInterface
         $this->stack = $result;
 
         return $this;
+    }
+
+    /**
+     * NOTE: To be removed in v1.0.0. Use $this->getStack() instead.
+     *
+     * @return \Rougin\Slytherin\Server\MiddlewareInterface[]
+     */
+    public function stack()
+    {
+        return $this->getStack();
     }
 
     /**

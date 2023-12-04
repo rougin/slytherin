@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\VanillaContainer;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
-use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareDispatcher;
 use Rougin\Slytherin\Routing\DispatcherInterface as RouteDispatcher;
+use Rougin\Slytherin\Server\DispatchInterface as MiddlewareDispatcher;
 use Rougin\Slytherin\System;
 
 /**
@@ -104,10 +104,10 @@ class Collection extends VanillaContainer
      */
     public function getErrorHandler()
     {
-        if (! $this->getContainer()->has(System::ERREPORT)) return null;
+        if (! $this->has(System::ERREPORT)) return null;
 
         /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
-        return $this->getContainer()->get(System::ERREPORT);
+        return $this->get(System::ERREPORT);
     }
 
     /**
@@ -206,16 +206,14 @@ class Collection extends VanillaContainer
      *
      * Gets the middleware.
      *
-     * @return \Rougin\Slytherin\Middleware\DispatcherInterface|null
+     * @return \Rougin\Slytherin\Server\DispatchInterface|null
      */
     public function getMiddleware()
     {
-        $interface = 'Rougin\Slytherin\Middleware\DispatcherInterface';
+        if (! $this->has(System::MIDDLEWARE)) return null;
 
-        if (! $this->getContainer()->has($interface)) return null;
-
-        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
-        return $this->getContainer()->get((string) $interface);
+        /** @var \Rougin\Slytherin\Server\DispatchInterface */
+        return $this->get(System::MIDDLEWARE);
     }
 
     /**
@@ -223,12 +221,12 @@ class Collection extends VanillaContainer
      *
      * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
+     * @param  \Rougin\Slytherin\Server\DispatchInterface $middleware
      * @return self
      */
     public function setMiddleware(MiddlewareDispatcher $middleware)
     {
-        $this->set('Rougin\Slytherin\Middleware\DispatcherInterface', $middleware);
+        $this->set(System::MIDDLEWARE, $middleware);
 
         return $this;
     }
