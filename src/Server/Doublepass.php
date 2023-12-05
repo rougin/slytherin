@@ -1,0 +1,52 @@
+<?php
+
+namespace Rougin\Slytherin\Server;
+
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
+class Doublepass implements HandlerInterface
+{
+    /**
+     * @var callable
+     */
+    protected $handler;
+
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
+    protected $response;
+
+    /**
+     * @param callable                            $handler
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
+    public function __construct($handler, ResponseInterface $response)
+    {
+        $this->handler = $handler;
+
+        $this->response = $response;
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function __invoke(ServerRequestInterface $request)
+    {
+        return $this->handle($request);
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function handle(ServerRequestInterface $request)
+    {
+        return call_user_func($this->handler, $request, $this->response);
+    }
+}

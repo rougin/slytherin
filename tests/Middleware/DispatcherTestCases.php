@@ -50,6 +50,19 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithSinglePassCallback()
     {
+        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        if (is_a($this->dispatcher, $class))
+        {
+            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
+            $zend = $this->dispatcher;
+
+            if (! $zend->hasPsr() && ! $zend->hasFactory())
+            {
+                $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
+            }
+        }
+
         $time = (integer) time();
 
         $fn = function ($request, $next) use ($time)
@@ -75,6 +88,19 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithDelagateInterfaceCallback()
     {
+        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        if (is_a($this->dispatcher, $class))
+        {
+            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
+            $zend = $this->dispatcher;
+
+            if (! $zend->hasPsr() && ! $zend->hasFactory())
+            {
+                $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
+            }
+        }
+
         $fn = function ($request, $next)
         {
             $response = $next($request);

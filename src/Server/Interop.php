@@ -66,8 +66,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * @param  mixed  $handler
-     * @param  string $version
+     * @param  mixed       $handler
+     * @param  string|null $version
      * @return mixed
      */
     public static function getHandler($handler, $version = null)

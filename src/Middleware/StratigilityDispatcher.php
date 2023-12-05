@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Server\Doublepass;
 use Rougin\Slytherin\Server\HandlerInterface;
 use Rougin\Slytherin\Server\Interop;
 use Rougin\Slytherin\Server\MiddlewareInterface;
@@ -38,6 +39,22 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * @return boolean
+     */
+    public function hasFactory()
+    {
+        return class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasPsr()
+    {
+        return class_exists('Zend\Stratigility\Middleware\CallableMiddlewareDecorator');
+    }
+
+    /**
      * @param  \Psr\Http\Message\ServerRequestInterface  $request
      * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
@@ -48,32 +65,28 @@ class StratigilityDispatcher extends Dispatcher
 
         $this->setFactory($response);
 
-        /** @var class-string */
-        $psr = 'Zend\Stratigility\Middleware\CallableMiddlewareDecorator';
-
         foreach ($this->getStack() as $item)
         {
             $item = $this->setMiddleware($item);
 
-            if (! $this->hasFactory())
+            if (! $this->hasFactory() && $this->hasPsr())
             {
-                $class = new \ReflectionClass($psr);
-
-                $item = $class->newInstance($item);
+                $item = $this->setPsrMiddleware($item);
             }
 
+            /** @phpstan-ignore-next-line */
             $this->zend->pipe($item);
         }
 
         // Force version check to 1.0.0 if using v3.0 ---
-        $version = class_exists($psr) ? '1.0.0' : null;
+        $version = $this->hasPsr() ? '1.0.0' : null;
         // ----------------------------------------------
 
         $next = Interop::getHandler($handler, $version);
 
         $zend = $this->zend;
 
-        if (class_exists($psr))
+        if ($this->hasPsr())
         {
             /** @phpstan-ignore-next-line */
             return $zend->process($request, $next);
@@ -84,14 +97,6 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
-     * @return boolean
-     */
-    protected function hasFactory()
-    {
-        return class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory');
-    }
-
-    /**
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return void
      */
@@ -99,12 +104,14 @@ class StratigilityDispatcher extends Dispatcher
     {
         if (! $this->hasFactory()) return;
 
+        /** @var class-string */
         $factory = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory';
 
         $class = new \ReflectionClass((string) $factory);
 
         $factory = $class->newInstance($response);
 
+        /** @var callable */
         $class = array($this->zend, 'setCallableMiddlewareDecorator');
 
         call_user_func_array($class, array($factory));
@@ -116,19 +123,34 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function setMiddleware(MiddlewareInterface $item)
     {
-        // Convert the handler into a callable if has a factory ----
-        if ($this->hasFactory())
+        if ($this->hasPsr())
         {
-            return function ($request, $response, $next) use ($item)
+            return function ($request, $handler) use ($item)
             {
-                return $item->process($request, new Interop($next));
+                return $item->process($request, new Interop($handler));
             };
         }
-        // ---------------------------------------------------------
 
-        return function ($request, $handler) use ($item)
+        return function ($request, $response, $next) use ($item)
         {
-            return $item->process($request, new Interop($handler));
+            /** @var callable $next */
+            $handle = new Doublepass($next, $response);
+
+            return $item->process($request, $handle);
         };
+    }
+
+    /**
+     * @param  callable $item
+     * @return object
+     */
+    protected function setPsrMiddleware($item)
+    {
+        /** @var class-string */
+        $psr = 'Zend\Stratigility\Middleware\CallableMiddlewareDecorator';
+
+        $class = new \ReflectionClass($psr);
+
+        return $class->newInstance($item);
     }
 }
