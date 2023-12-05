@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Server;
+namespace Rougin\Slytherin\Middleware;
 
 /**
  * @package Slytherin

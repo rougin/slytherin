@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\System;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Server\HandlerInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
  * @package Slytherin

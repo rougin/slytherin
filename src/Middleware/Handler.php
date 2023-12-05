@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Server;
+namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -12,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class Handler implements HandlerInterface
 {
     /**
-     * @var \Rougin\Slytherin\Server\HandlerInterface
+     * @var \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected $default;
 
@@ -22,13 +22,13 @@ class Handler implements HandlerInterface
     protected $index = 0;
 
     /**
-     * @var \Rougin\Slytherin\Server\MiddlewareInterface[]
+     * @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */
     protected $stack;
 
     /**
-     * @param \Rougin\Slytherin\Server\MiddlewareInterface[] $stack
-     * @param \Rougin\Slytherin\Server\HandlerInterface      $default
+     * @param \Rougin\Slytherin\Middleware\MiddlewareInterface[] $stack
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface      $default
      */
     public function __construct(array $stack, HandlerInterface $default)
     {
@@ -65,7 +65,7 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * @return \Rougin\Slytherin\Server\HandlerInterface
+     * @return \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected function next()
     {

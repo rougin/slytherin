@@ -16,7 +16,7 @@ class System
 
     const ERREPORT = 'Rougin\Slytherin\Ereport\EreportInterface';
 
-    const MIDDLEWARE = 'Rougin\Slytherin\Server\DispatchInterface';
+    const MIDDLEWARE = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
     const RENDERER = 'Rougin\Slytherin\Template\RendererInterface';
 
@@ -101,7 +101,7 @@ class System
             return $handler->handle($request);
         }
 
-        /** @var \Rougin\Slytherin\Server\DispatchInterface */
+        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
         $middleware = $this->container->get(self::MIDDLEWARE);
 
         $stack = $middleware->getStack();

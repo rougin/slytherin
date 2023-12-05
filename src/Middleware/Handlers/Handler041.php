@@ -1,25 +1,25 @@
 <?php
 
-namespace Rougin\Slytherin\Server\Handlers;
+namespace Rougin\Slytherin\Middleware\Handlers;
 
-use Interop\Http\Server\RequestHandlerInterface;
+use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Server\HandlerInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @codeCoverageIgnore
  */
-class Handler050 implements RequestHandlerInterface
+class Handler041 implements DelegateInterface
 {
     /**
-     * @var \Rougin\Slytherin\Server\HandlerInterface
+     * @var \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected $handler;
 
     /**
-     * @param \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
      */
     public function __construct(HandlerInterface $handler)
     {
@@ -32,14 +32,14 @@ class Handler050 implements RequestHandlerInterface
      */
     public function __invoke(ServerRequestInterface $request)
     {
-        return $this->handle($request);
+        return $this->process($request);
     }
 
     /**
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(ServerRequestInterface $request)
+    public function process(ServerRequestInterface $request)
     {
         return $this->handler->handle($request);
     }

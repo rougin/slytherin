@@ -3,7 +3,8 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Server\Wrapper;
+use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\Wrapper;
 use Rougin\Slytherin\System\Endofline;
 use Rougin\Slytherin\Testcase;
 
@@ -16,7 +17,7 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Server\Dispatch
+     * @var \Rougin\Slytherin\Middleware\Dispatch
      */
     protected $dispatcher;
 
@@ -124,6 +125,11 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithString()
     {
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
+
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
         $this->dispatcher->push($interop);
@@ -142,6 +148,11 @@ class DispatcherTestCases extends Testcase
      */
     public function testPushMethodWithArray()
     {
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
+
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
         $expected = array(new Wrapper($interop));
@@ -160,6 +171,11 @@ class DispatcherTestCases extends Testcase
      */
     public function testStackMethod()
     {
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
+
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
         $actual = $this->dispatcher->stack();

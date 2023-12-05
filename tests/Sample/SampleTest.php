@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Forward;
 
+use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Sample\Builder;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Request;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Response;
@@ -227,6 +228,11 @@ class SampleTest extends Testcase
      */
     public function test_interop_middleware_changing_the_response_parameter()
     {
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
+
         $this->builder->setUrl('GET', '/interop');
 
         $this->expectOutputString('From interop!');

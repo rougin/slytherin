@@ -2,17 +2,22 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\MiddlewareInterface as InteropMiddlewareInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Middleware Interface
  *
- * An interface for handling third party middlewares.
- * NOTE: To be removed in v1.0.0. Use DispatcherInterface instead.
+ * An interface for handling middlewares to Slytherin.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-interface MiddlewareInterface extends InteropMiddlewareInterface
+interface MiddlewareInterface
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function process(ServerRequestInterface $request, HandlerInterface $handler);
 }

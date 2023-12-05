@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Rougin\Slytherin\System\Handler;
-
 /**
  * Calls the callback with a specified HTTP request.
  * NOTE: To be removed in v1.0.0. Use "Handler" instead.

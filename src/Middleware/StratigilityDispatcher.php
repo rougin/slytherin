@@ -5,10 +5,10 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Server\Doublepass;
-use Rougin\Slytherin\Server\HandlerInterface;
-use Rougin\Slytherin\Server\Interop;
-use Rougin\Slytherin\Server\MiddlewareInterface;
+use Rougin\Slytherin\Middleware\Doublepass;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -55,8 +55,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface  $request
-     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
@@ -74,7 +74,6 @@ class StratigilityDispatcher extends Dispatcher
                 $item = $this->setPsrMiddleware($item);
             }
 
-            /** @phpstan-ignore-next-line */
             $this->zend->pipe($item);
         }
 
@@ -119,7 +118,7 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
-     * @param  \Rougin\Slytherin\Server\MiddlewareInterface $item
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $item
      * @return callable
      */
     protected function setMiddleware(MiddlewareInterface $item)

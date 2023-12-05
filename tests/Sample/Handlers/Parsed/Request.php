@@ -3,8 +3,8 @@
 namespace Rougin\Slytherin\Sample\Handlers\Parsed;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Server\HandlerInterface;
-use Rougin\Slytherin\Server\MiddlewareInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * @package Slytherin

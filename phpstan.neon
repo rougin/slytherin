@@ -4,5 +4,5 @@ parameters:
     - src
   excludePaths:
     analyse:
-        - src/Server/Handlers
-        - src/Server/Interop.php
+        - src/Middleware/Handlers
+        - src/Middleware/Interop.php

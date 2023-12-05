@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Server;
+namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -30,8 +30,8 @@ class Wrapper implements MiddlewareInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface  $request
-     * @param  \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)

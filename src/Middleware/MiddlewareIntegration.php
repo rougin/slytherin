@@ -5,7 +5,6 @@ namespace Rougin\Slytherin\Middleware;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
-use Rougin\Slytherin\Server\Dispatch;
 use Rougin\Slytherin\System;
 use Zend\Stratigility\MiddlewarePipe;
 
@@ -40,7 +39,7 @@ class MiddlewareIntegration implements IntegrationInterface
         /** @var array<int, mixed> */
         $stack = $config->get('app.middlewares', array());
 
-        $dispatch = new Dispatch($stack);
+        $dispatch = new Dispatcher($stack);
 
         $empty = $this->preferred === null;
 

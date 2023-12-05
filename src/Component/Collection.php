@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\VanillaContainer;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
-use Rougin\Slytherin\Routing\DispatcherInterface as RouteDispatcher;
-use Rougin\Slytherin\Server\DispatchInterface as MiddlewareDispatcher;
+use Rougin\Slytherin\Middleware\DispatcherInterface as Middleware;
+use Rougin\Slytherin\Routing\DispatcherInterface as Routing;
 use Rougin\Slytherin\System;
 
 /**
@@ -67,7 +67,7 @@ class Collection extends VanillaContainer
      * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      * @return self
      */
-    public function setDispatcher(RouteDispatcher $dispatcher)
+    public function setDispatcher(Routing $dispatcher)
     {
         $this->set(System::DISPATCHER, $dispatcher);
 
@@ -206,13 +206,13 @@ class Collection extends VanillaContainer
      *
      * Gets the middleware.
      *
-     * @return \Rougin\Slytherin\Server\DispatchInterface|null
+     * @return \Rougin\Slytherin\Middleware\DispatcherInterface|null
      */
     public function getMiddleware()
     {
         if (! $this->has(System::MIDDLEWARE)) return null;
 
-        /** @var \Rougin\Slytherin\Server\DispatchInterface */
+        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
         return $this->get(System::MIDDLEWARE);
     }
 
@@ -221,10 +221,10 @@ class Collection extends VanillaContainer
      *
      * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Server\DispatchInterface $middleware
+     * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
      * @return self
      */
-    public function setMiddleware(MiddlewareDispatcher $middleware)
+    public function setMiddleware(Middleware $middleware)
     {
         $this->set(System::MIDDLEWARE, $middleware);
 

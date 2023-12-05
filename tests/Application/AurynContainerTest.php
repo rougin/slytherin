@@ -4,8 +4,8 @@ namespace Rougin\Slytherin\Application;
 
 use Rougin\Slytherin\Container\AurynContainer;
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Middleware\Dispatcher as Middleware;
 use Rougin\Slytherin\Routing\Dispatcher;
-use Rougin\Slytherin\Server\Dispatch;
 use Rougin\Slytherin\System;
 
 /**
@@ -38,10 +38,8 @@ class AurynContainerTest extends ApplicationTestCases
         $container->share(new Dispatcher($router));
         $container->alias(System::DISPATCHER, 'Rougin\Slytherin\Routing\Dispatcher');
 
-        // TODO: Reimplement "Server" with "Middleware" --------------------------
-        $container->share(new Dispatch);
-        $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Server\Dispatch');
-        // -----------------------------------------------------------------------
+        $container->share(new Middleware);
+        $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Middleware\Dispatcher');
 
         $this->application = new Application($container);
     }

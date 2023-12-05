@@ -5,8 +5,8 @@ namespace Rougin\Slytherin\System;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 use Rougin\Slytherin\Routing\RouteInterface;
-use Rougin\Slytherin\Server\HandlerInterface;
 use Rougin\Slytherin\System;
 
 /**

@@ -5,8 +5,8 @@ namespace Rougin\Slytherin\Application;
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Middleware\Dispatcher as Middleware;
 use Rougin\Slytherin\Routing\Dispatcher;
-use Rougin\Slytherin\Server\Dispatch;
 use Rougin\Slytherin\System;
 
 /**
@@ -35,7 +35,7 @@ class ContainerInterfaceTest extends ApplicationTestCases
         $response = new Response;
         $container->set(System::RESPONSE, $response);
 
-        $dispatch = new Dispatch;
+        $dispatch = new Middleware;
         $container->set(System::MIDDLEWARE, $dispatch);
 
         $this->application = new Application($container);

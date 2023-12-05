@@ -1,12 +1,12 @@
 <?php
 
-namespace Rougin\Slytherin\Server;
+namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Server\Handlers\Handler030;
-use Rougin\Slytherin\Server\Handlers\Handler041;
-use Rougin\Slytherin\Server\Handlers\Handler050;
-use Rougin\Slytherin\Server\Handlers\Handler100;
+use Rougin\Slytherin\Middleware\Handlers\Handler030;
+use Rougin\Slytherin\Middleware\Handlers\Handler041;
+use Rougin\Slytherin\Middleware\Handlers\Handler050;
+use Rougin\Slytherin\Middleware\Handlers\Handler100;
 
 /**
  * @package Slytherin
@@ -66,6 +66,16 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * @return boolean
+     */
+    public static function exists()
+    {
+        return interface_exists(self::VERSION_0_3_0)
+            || interface_exists(self::VERSION_0_4_1)
+            || interface_exists(self::VERSION_0_5_0);
+    }
+
+    /**
      * @param  mixed       $handler
      * @param  string|null $version
      * @return mixed
@@ -87,22 +97,22 @@ class Interop implements HandlerInterface
                 return new Handler100($handler);
         }
 
-        if (self::exists($handler, self::VERSION_0_3_0))
+        if (self::hasVersion($handler, self::VERSION_0_3_0))
         {
             return new Handler030($handler);
         }
 
-        if (self::exists($handler, self::VERSION_0_4_1))
+        if (self::hasVersion($handler, self::VERSION_0_4_1))
         {
             return new Handler041($handler);
         }
 
-        if (self::exists($handler, self::VERSION_0_5_0))
+        if (self::hasVersion($handler, self::VERSION_0_5_0))
         {
             return new Handler050($handler);
         }
 
-        if (self::exists($handler, self::VERSION_1_0_0))
+        if (self::hasVersion($handler, self::VERSION_1_0_0))
         {
             return new Handler100($handler);
         }
@@ -115,8 +125,16 @@ class Interop implements HandlerInterface
      * @param  string $version
      * @return boolean
      */
-    public static function exists($handler, $class)
+    public static function hasVersion($handler, $class)
     {
         return interface_exists($class) || is_a($handler, $class);
+    }
+
+    /**
+     * @return boolean
+     */
+    public static function psrExists()
+    {
+        return interface_exists(self::VERSION_1_0_0);
     }
 }

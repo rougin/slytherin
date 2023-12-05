@@ -1,37 +1,43 @@
 <?php
 
-namespace Rougin\Slytherin\Server\Handlers;
+namespace Rougin\Slytherin\Middleware;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Server\HandlerInterface;
 
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @codeCoverageIgnore
  */
-class Handler100 implements RequestHandlerInterface
+class Doublepass implements HandlerInterface
 {
     /**
-     * @var \Rougin\Slytherin\Server\HandlerInterface
+     * @var callable
      */
     protected $handler;
 
     /**
-     * @param \Rougin\Slytherin\Server\HandlerInterface $handler
+     * @var \Psr\Http\Message\ResponseInterface
      */
-    public function __construct(HandlerInterface $handler)
+    protected $response;
+
+    /**
+     * @param callable                            $handler
+     * @param \Psr\Http\Message\ResponseInterface $response
+     */
+    public function __construct($handler, ResponseInterface $response)
     {
         $this->handler = $handler;
+
+        $this->response = $response;
     }
 
     /**
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request): ResponseInterface
+    public function __invoke(ServerRequestInterface $request)
     {
         return $this->handle($request);
     }
@@ -40,8 +46,8 @@ class Handler100 implements RequestHandlerInterface
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function handle(ServerRequestInterface $request): ResponseInterface
+    public function handle(ServerRequestInterface $request)
     {
-        return $this->handler->handle($request);
+        return call_user_func($this->handler, $request, $this->response);
     }
 }
