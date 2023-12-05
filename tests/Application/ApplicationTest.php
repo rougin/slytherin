@@ -2,6 +2,13 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Component\Collector;
+use Rougin\Slytherin\Configuration;
+use Rougin\Slytherin\Dispatching\Phroute\Dispatcher as PhrouteDispatcher;
+use Rougin\Slytherin\Dispatching\Phroute\Router as PhrouteRouter;
+use Rougin\Slytherin\Dispatching\Vanilla\Router;
+use Rougin\Slytherin\Http\Uri;
+use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -34,19 +41,17 @@ class ApplicationTest extends Testcase
             $this->markTestSkipped('PSR-7 HTTP Message is not installed.');
         }
 
-        $components = array(
-            'Rougin\Slytherin\Fixture\Components\CollectionComponent',
-            'Rougin\Slytherin\Fixture\Components\DebuggerComponent',
-            'Rougin\Slytherin\Fixture\Components\DispatcherComponent',
-            'Rougin\Slytherin\Fixture\Components\HttpComponent',
-            'Rougin\Slytherin\Fixture\Components\SingleComponent',
-        );
+        $items = array();
 
-        $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
+        $items[] = 'Rougin\Slytherin\Fixture\Components\CollectionComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\DebuggerComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\DispatcherComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\HttpComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\SingleComponent';
 
-        $globals = $GLOBALS;
+        $container = new Container;
 
-        $components = \Rougin\Slytherin\Component\Collector::get($container, $components, $globals);
+        $components = Collector::get($container, $items, $GLOBALS);
 
         $this->components = $components;
     }
@@ -148,9 +153,9 @@ class ApplicationTest extends Testcase
 
         $routes = array(array('GET', '/', array($class, 'index')));
 
-        $router = new \Rougin\Slytherin\Dispatching\Phroute\Router($routes);
+        $router = new PhrouteRouter((array) $routes);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\Phroute\Dispatcher($router);
+        $dispatcher = new PhrouteDispatcher($router);
 
         $this->components->setDispatcher($dispatcher);
 
@@ -171,34 +176,29 @@ class ApplicationTest extends Testcase
 
         header('X-SLYTHERIN-HEADER: foobar');
 
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
+        $router = new Router;
 
         $router->get('/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
 
-        $application = new \Rougin\Slytherin\Application;
+        $application = new Application;
 
-        $config = new \Rougin\Slytherin\Configuration(__DIR__ . '/../Fixture/Configurations');
+        $config = new Configuration(__DIR__ . '/../Fixture/Configurations');
 
         $config->set('app.environment', 'development');
         $config->set('app.router', $router);
-        $config->set('app.views', $root);
+        $config->set('app.views', (string) $root);
 
-        $integrations = array('Rougin\Slytherin\Http\HttpIntegration');
+        $items = array('Rougin\Slytherin\Http\HttpIntegration');
 
-        $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
-        $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
-        $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
-
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
-        {
-            $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
-        }
-
-        $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
+        $items[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+        $items[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
+        $items[] = 'Rougin\Slytherin\Template\RendererIntegration';
+        $items[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
+        $items[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
 
         $this->expectOutputString('Hello');
 
-        $application->integrate($integrations, $config)->run();
+        $application->integrate($items, $config)->run();
     }
 
     /**
@@ -213,7 +213,7 @@ class ApplicationTest extends Testcase
     {
         list($request, $response) = $this->components->getHttp();
 
-        $uri = new \Rougin\Slytherin\Http\Uri('http://localhost:8000' . $uriEndpoint);
+        $uri = new Uri('http://localhost:8000' . $uriEndpoint);
 
         $request = $request->withMethod($httpMethod)->withUri($uri);
 
@@ -233,6 +233,6 @@ class ApplicationTest extends Testcase
 
         $this->components->setHttp($request, $response);
 
-        return new \Rougin\Slytherin\Application($this->components);
+        return new Application($this->components);
     }
 }

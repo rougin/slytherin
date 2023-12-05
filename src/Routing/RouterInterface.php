@@ -15,10 +15,10 @@ interface RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $method
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $method
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array());
@@ -26,9 +26,9 @@ interface RouterInterface
     /**
      * Adds a DELETE route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function delete($uri, $handler, $middlewares = array());
@@ -45,9 +45,9 @@ interface RouterInterface
     /**
      * Adds a GET route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function get($uri, $handler, $middlewares = array());
@@ -80,9 +80,9 @@ interface RouterInterface
     /**
      * Adds a PATCH route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function patch($uri, $handler, $middlewares = array());
@@ -90,9 +90,9 @@ interface RouterInterface
     /**
      * Adds a POST route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function post($uri, $handler, $middlewares = array());
@@ -109,9 +109,9 @@ interface RouterInterface
     /**
      * Adds a PUT route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function put($uri, $handler, $middlewares = array());
