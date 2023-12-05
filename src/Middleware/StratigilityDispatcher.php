@@ -99,6 +99,7 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return void
+     * @codeCoverageIgnore
      */
     protected function setFactory(ResponseInterface $response)
     {
