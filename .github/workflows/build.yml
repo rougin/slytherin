@@ -39,27 +39,7 @@ jobs:
 
     - name: Install third-party packages not for PHP 5.3
       if: ${{ matrix.php-versions != '5.3' }}
-      run: composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros http-interop/http-middleware:^0.4.1 --dev
-
-    - name: Install third-party packages for PHP 7.1
-      if: ${{ matrix.php-versions == '7.1' }}
-      run: composer require zendframework/zend-stratigility:~2.0 --dev
-
-    - name: Install third-party packages for PHP 7.2
-      if: ${{ matrix.php-versions == '7.2' }}
-      run: composer require zendframework/zend-stratigility:~2.0 --dev
-
-    - name: Install third-party packages for PHP 7.3
-      if: ${{ matrix.php-versions == '7.3' }}
-      run: composer require zendframework/zend-stratigility:~2.0 --dev
-
-    - name: Install third-party packages for PHP 7.4
-      if: ${{ matrix.php-versions == '7.4' }}
-      run: composer require zendframework/zend-stratigility:~2.0 --dev
-
-    - name: Install third-party packages for PHP 8.1
-      if: ${{ matrix.php-versions == '8.1' }}
-      run: composer require twig/twig --dev
+      run: composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware:^0.4.1 --dev
 
     - name: Run test suite
       run: vendor/bin/phpunit --coverage-clover=coverage.clover

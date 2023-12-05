@@ -50,17 +50,6 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithSinglePassCallback()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
-
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
-
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper))
-        {
-            $message = 'Stratigility\'s current installed version does not accept single pass middlewares';
-
-            $this->markTestSkipped((string) $message);
-        }
-
         $time = (integer) time();
 
         $fn = function ($request, $next) use ($time)
@@ -86,17 +75,6 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithDelagateInterfaceCallback()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
-
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
-
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper))
-        {
-            $message = 'Stratigility\'s current version does not accept delegates';
-
-            $this->markTestSkipped((string) $message);
-        }
-
         $fn = function ($request, $next)
         {
             $response = $next($request);
@@ -120,17 +98,6 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithString()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
-
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
-
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper))
-        {
-            $message = 'Stratigility\'s current version does not accept PSR-15 middlewares';
-
-            $this->markTestSkipped((string) $message);
-        }
-
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
         $this->dispatcher->push($interop);
