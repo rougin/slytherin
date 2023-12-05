@@ -23,7 +23,10 @@ class AurynContainerTest extends ApplicationTestCases
      */
     protected function doSetUp()
     {
-        if (! class_exists('Auryn\Injector')) $this->markTestSkipped('Auryn is not installed.');
+        if (! class_exists('Auryn\Injector'))
+        {
+            $this->markTestSkipped('Auryn is not installed.');
+        }
 
         $container = new AurynContainer;
 

@@ -15,6 +15,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Conformed all application logic to `RouteInterface`
 - `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
 - Conformed `Middleware` to the official `PSR-15` package (`psr/http-server-middleware`)
+- `ERROR_HANDLER` to `ERREPORT`
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)
@@ -23,7 +24,8 @@ All notable changes to `Slytherin` will be documented in this file.
 - If `ServerRequestInterface` is an argument with a middleware
 - Backward compatibility for `LeagueContainer::set` (as of `~3.0`)
 - Backward compatibility for `TwigRenderer::render` (as of `~3.0`)
-- Resolving typehinted routes for third-party routers
+- Backward compatibility for `StratigilityDispatcher::process` (until `~3.0`)
+- Resolving type hinted routes for third-party routers
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
