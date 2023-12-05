@@ -51,7 +51,9 @@ class ApplicationTest extends Testcase
 
         $container = new Container;
 
-        $components = Collector::get($container, $items, $GLOBALS);
+        $globals = $GLOBALS;
+
+        $components = Collector::get($container, $items, $globals);
 
         $this->components = $components;
     }
