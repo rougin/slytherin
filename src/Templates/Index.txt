@@ -7,6 +7,12 @@
 require realpath('vendor') . '/autoload.php';
 
 /**
+ * Add constant variable for application path
+ */
+
+define('APPPATH', realpath(__DIR__) . '/app/');
+
+/**
  * Import the Slytherin namespace
  */
 

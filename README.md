@@ -23,7 +23,7 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
         }
       },
       "scripts": {
-        "post-install-cmd": [
+        "post-update-cmd": [
           "Rougin\\Slytherin\\Installer::deploy"
         ]
       }
@@ -36,42 +36,73 @@ Slytherin is a simple and extensible PHP library that follows an MVC software ar
 
 # Usage
 
-Let us use a table named ```account``` and it contains 3 columns:
+Create a table named `users` with the following fields:
 
-* ```id```       integer
-* ```name```     string
-* ```username``` string
+* `id` as `integer`
+* `email` as `string`
+* `name` as `string`
+* `created_at` as `datetime`
+* `updated_at` as `datetime`
 
-**app/controllers/Accounts.php**
+``` sql
+DROP TABLE IF EXISTS `users`;
 
-```php
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `email` varchar(200) NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+INSERT INTO users (email, NAME, created_at) VALUES
+('rougingutib@gmail.com', 'Rougin Gutib', CURRENT_TIMESTAMP),
+('me@slytherin.dev', 'Slytherin', CURRENT_TIMESTAMP),
+('test@gmail.com', 'Test', CURRENT_TIMESTAMP),
+('me@roug.in', 'Royce Gutib', CURRENT_TIMESTAMP);
+```
+
+After creating the database table and populating the data, create the following code for `CRUD`:
+
+``` php
+// app/controllers/Users.php
+
 namespace Controllers;
 
+use Models\User;
 use Rougin\Slytherin\Controller;
 use Rougin\Slytherin\View;
-use Models\Account;
 
-/**
- * Accounts Controller
- * 
- * @category Controllers
- */
-class Accounts extends Controller {
+class Users extends Controller
+{
+    protected $user;
+
+    public function __construct()
+    {
+        $this->user = new User;
+    }
 
     public function index()
     {
-        $account = new Account();
-        $data['accounts'] = $account->getAll();
+        $data = array();
 
-        return View::render('accounts/index', $data);
+        $page = $_GET['page'] ?? 1;
+
+        $limit = $_GET['limit'] ?? 10;
+
+        $items = $this->user->get($page, $limit);
+
+        $data['items'] = $items;
+
+        return View::render('users/index', $data);
     }
-    
 }
 ```
 
-**app/config/databases.php**
-
 ```php
+// app/config/databases.php
+
 /**
  * Database Configuration
  * 
@@ -93,35 +124,31 @@ return array(
 );
 ```
 
-**app/models/Account.php**
+``` php
+// app/models/User.php
 
-```php
 namespace Models;
 
 use Rougin\Slytherin\Model;
 
-/**
- * Account Model
- * 
- * @category Models
- */
-class Account extends Model {
-
-    public static function getAll()
+class User extends Model
+{
+    public function get($page = 1, $limit = 10)
     {
-        $accounts = array();
+        $pdo = $this->databaseHandle;
 
-        $statement = $this->databaseHandle->prepare('SELECT * FROM account');
-        $statement->execute();
-        $statement->setFetchMode(\PDO::FETCH_OBJ);
+        $query = 'SELECT * FROM users';
 
-        while ($row = $statement->fetch()) {
-            $accounts[] = $row;
-        }
+        $offset = ($page - 1) * $limit;
 
-        return $accounts;
+        $query .= " LIMIT $limit OFFSET $offset";
+
+        $st = $pdo->prepare($query);
+
+        $st->execute();
+
+        return $st->fetchAll(\PDO::FETCH_ASSOC);
     }
-
 }
 ```
 
@@ -132,14 +159,12 @@ You can also specify the database connection to be used in a model. For example,
 **app/config/databases.php**
 
 ```php
+// app/config/databases.php
+
+// ...
+
 return array(
-    'default' => array(
-        'hostname' => 'localhost',
-        'username' => 'root',
-        'password' => '',
-        'database' => '',
-        'driver'   => 'mysql'
-    ),
+    'default' => /** ... */,
     'my_another_connection' => array(
         'hostname' => 'localhost',
         'username' => 'root',
@@ -150,18 +175,18 @@ return array(
 );
 ```
 
-Then add it in the ```Account``` model as a parameter:
-
-**app/controllers/Accounts.php**
+Next, add the said connection in the ```Account``` model as a parameter:
 
 ```php
+// app/controllers/Accounts.php
+
 $account = new Account('my_another_connection');
 $data['accounts'] = $account->getAll();
 ```
 
-**app/views/accounts/index.php**
-
 ```php
+// app/views/accounts/index.php
+
 <table>
     <thead>
         <tr>
@@ -178,6 +203,20 @@ $data['accounts'] = $account->getAll();
         <?php endforeach; ?>
     </tbody>
 </table>
+```
+
+After creating the required `CRUD` code, add its required route on `app/config/routes.php`:
+
+``` php
+// ...
+
+$route->get('/users', 'Controllers\\Users:index');
+
+/**
+ * Default controller
+ */
+
+// ...
 ```
 
 ### Creating a Library
