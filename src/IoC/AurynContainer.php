@@ -54,4 +54,9 @@ class AurynContainer extends BaseContainer implements ContainerInterface
 
         return $this;
     }
+
+    public function __call($method, $args)
+    {
+        return call_user_func_array(array($this->injector, $method), $args);
+    }
 }
