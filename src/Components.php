@@ -45,6 +45,28 @@ class Components
     }
 
     /**
+     * Gets an instance of the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
+     * 
+     * @return \Rougin\Slytherin\IoC\ContainerInterface
+     */
+    public function getDependencyInjector()
+    {
+        return $this->getContainer();
+    }
+
+    /**
+     * Sets the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
+     * 
+     * @param \Rougin\Slytherin\IoC\ContainerInterface $injector
+     */
+    public function setDependencyInjector(ContainerInterface $injector)
+    {
+        return $this->setContainer($injector);
+    }
+
+    /**
      * Gets the dispatcher.
      * 
      * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
@@ -67,7 +89,7 @@ class Components
     /**
      * Gets the debugger.
      * 
-     * @return \Rougin\Slytherin\Debugger\DebuggerInterface
+     * @return \Rougin\Slytherin\Debug\DebuggerInterface
      */
     public function getDebugger()
     {
@@ -77,11 +99,33 @@ class Components
     /**
      * Sets the debugger.
      * 
-     * @param  \Rougin\Slytherin\Debugger\DebuggerInterface $debugger
+     * @param  \Rougin\Slytherin\Debug\DebuggerInterface $debugger
      */
     public function setDebugger(DebuggerInterface $debugger)
     {
         return $this->setComponent('debugger', $debugger);
+    }
+
+    /**
+     * Gets the debugger.
+     * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
+     * 
+     * @return \Rougin\Slytherin\Debug\DebuggerInterface
+     */
+    public function getErrorHandler()
+    {
+        return $this->getDebugger();
+    }
+
+    /**
+     * Sets the debugger.
+     * NOTE: To be removed in v1.0.0. Use "setDebugger" instead.
+     * 
+     * @param  \Rougin\Slytherin\Debug\DebuggerInterface $debugger
+     */
+    public function setErrorHandler(DebuggerInterface $debugger)
+    {
+        return $this->setDebugger($debugger);
     }
 
     /**
