@@ -9,6 +9,8 @@ All notable changes to `Slytherin` will be documented in this file.
 - `ContainerException` in `Container`
 - `RouteInterface` for handling specific routes
 - Support for all versions of `http-interop/http-middleware` (`0.3`, `0.4`, `0.5`)
+- `ERRATUM.md` for changes in `README.md` for specified versions
+- `UPGRADE.md` for documentation on how to upgrade versions with BC breaks
 
 ### Changed
 - Third-party packages in `Routing` extends to Slytherin's `Dispatcher`, `Router`
