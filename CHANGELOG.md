@@ -241,7 +241,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
 - Dependency of [nikic/fast-route](https://github.com/nikic/FastRoute) in `Dispatching` (use `Dispatching\FastRoute` instead)
 
-## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
+## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.2...v0.3.0) - 2015-11-02
 
 **NOTE**: This release will break your application if upgrading from `v0.2.0` release.
 
@@ -254,6 +254,16 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - Almost everything, this release will be no longer an application skeleton
+
+## [0.2.2](https://github.com/rougin/slytherin/compare/v0.2.1...v0.2.2) - 2023-12-08
+
+**NOTE**: This is a backport fix to prevent any backward compatability issues from previous versions.
+
+### Changed
+- `post-install-cmd` to `post-update-cmd` in `README.md`
+
+### Fixed
+- Missing `APPPATH` after creating `index.php` from `Installer`
 
 ## [0.2.1](https://github.com/rougin/slytherin/compare/v0.2.0...v0.2.1) - 2015-09-30
 
