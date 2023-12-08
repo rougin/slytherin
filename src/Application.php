@@ -76,11 +76,11 @@ class Application
         // Extracts the result into variables
         list($function, $parameters) = $route;
 
-        // If not set, set as empty by default ----------
+        // If not set, set as empty by default --------
         $middlewares = array();
 
-        if (isset($result[2])) $middlewares = $result[2];
-        // ----------------------------------------------
+        if (isset($route[2])) $middlewares = $route[2];
+        // --------------------------------------------
 
         return [ [ $function, $parameters ], $middlewares ];
     }
