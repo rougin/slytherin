@@ -2,6 +2,14 @@
 
 Below are the guides when upgrading from specified versions due to backward compatibility breaks:
 
+## From `v0.8.0` to `v0.9.0`
+
+No known backward compatibility issues found.
+
+## From `v0.7.0` to `v0.8.0`
+
+No known backward compatibility issues found.
+
 ## From `v0.6.0` to `v0.7.0`
 
 Although no backward compatibility issues found in Slytherin's code, one of the Slytherin's supported packages, `filp/whoops`, has an issue regarding PHP errors. With this, kindly change its version to `~2.0` in the `composer.json` then perform `composer update` after:
