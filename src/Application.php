@@ -7,7 +7,7 @@ use Rougin\Slytherin\Application\Application as BaseApplication;
 /**
  * Application
  *
- * Integrates all specified components into the application.
+ * NOTE: To be removed in v1.0.0. Use "Application\Application" instead.
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

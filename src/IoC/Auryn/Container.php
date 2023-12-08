@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\IoC\Auryn;
 use Auryn\Injector;
 
 use Rougin\Slytherin\IoC\BaseContainer;
-use Interop\Container\ContainerInterface;
+use Rougin\Slytherin\IoC\ContainerInterface;
 
 /**
  * Auryn Container
@@ -56,5 +56,10 @@ class Container extends BaseContainer implements ContainerInterface
         $this->instances[$id] = $this->injector->make($id, $arguments);
 
         return $this;
+    }
+
+    public function __call($method, $args)
+    {
+        return call_user_func_array(array($this->injector, $method), $args);
     }
 }
