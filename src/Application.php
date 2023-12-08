@@ -3,10 +3,9 @@
 namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ResponseInterface;
+use Rougin\Slytherin\Http\HttpFoundationFactory;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
-
-use Rougin\Slytherin\Http\HttpFoundationFactory;
 
 /**
  * Application
@@ -52,7 +51,13 @@ class Application extends HttpFoundationFactory implements HttpKernelInterface
         $result = $dispatcher->dispatch($httpMethod, $uri);
 
         // Extracts the result into variables.
-        list($function, $parameters, $middlewares) = $result;
+        list($function, $parameters) = $result;
+
+        // If not set, set as empty by default ----------
+        $middlewares = array();
+
+        if (isset($result[2])) $middlewares = $result[2];
+        // ----------------------------------------------
 
         // Calls the specified middlewares.
         if ($middleware && ! empty($middlewares)) {
