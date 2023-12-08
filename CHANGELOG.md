@@ -178,7 +178,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - `HttpKernelInterface`
 
-## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.0...v0.6.0) - 2016-05-24
+## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.1...v0.6.0) - 2016-05-24
 
 ### Added
 - Parameter for adding default data and file extension in `Template\TwigRenderer`
@@ -186,6 +186,17 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Changed
 - File and directory structure
+
+## [0.5.1](https://github.com/rougin/slytherin/compare/v0.5.0...v0.5.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Added
+- `NoopFinalHandler` in `StratigilityMiddleware`
+
+### Fixed
+- Compatibility issues from `v0.4.4` release
+- Issue if no middleware was defined in `Application`
 
 ## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.4...v0.5.0) - 2016-04-14
 
