@@ -54,6 +54,12 @@ class Application extends HttpFoundationFactory implements HttpKernelInterface
         // Extracts the result into variables.
         list($function, $parameters, $middlewares) = $result;
 
+        // If not set, set as empty by default ----------
+        $middlewares = array();
+
+        if (isset($result[2])) $middlewares = $result[2];
+        // ----------------------------------------------
+
         // Calls the specified middlewares.
         if ($middleware && ! empty($middlewares)) {
             $psrRequest = $this->components->getHttpRequest();
