@@ -199,6 +199,19 @@ All notable changes to `Slytherin` will be documented in this file.
 - PHP version to `v5.4.0`
 - Interface from `RequestInterface` to `ServerRequestInterface` in `Components`
 
+## [0.4.4](https://github.com/rougin/slytherin/compare/v0.4.3...v0.4.4) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Added
+- `ComponentCollection`
+- `ErrorHandler` (`ErrorHandlerInterface`, `Whoops`)
+- `IoC\Auryn`
+- `Template\Twig`
+
+### Fixed
+- Missing `container-interop/container-interop` package in `composer.json`
+
 ## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) - 2016-02-19
 
 ### Added
@@ -259,13 +272,14 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.2.2](https://github.com/rougin/slytherin/compare/v0.2.1...v0.2.2) - 2023-12-08
 
-**NOTE**: This is a backport fix to prevent any backward compatability issues from previous versions.
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
 
 ### Changed
 - `post-install-cmd` to `post-update-cmd` in `README.md`
+- Detailed example in creating the `CRUD` code
 
 ### Fixed
-- Missing `APPPATH` after creating `index.php` from `Installer`
+- Missing `APPPATH` after generating `index.php` from `Installer`
 
 ## [0.2.1](https://github.com/rougin/slytherin/compare/v0.2.0...v0.2.1) - 2015-09-30
 

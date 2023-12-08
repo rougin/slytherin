@@ -76,7 +76,7 @@ Update the following details in `composer.json`:
  }
 ```
 
-**NOTE**: `Rougin\\Nostalgia\\` is only a example namespace. The said namespace can be changed for the whole project.
+**NOTE**: `Rougin\\Nostalgia\\` is only an example namespace. The said namespace can be changed for the whole project.
 
 Then execute `composer update` to update the packages:
 
@@ -187,7 +187,7 @@ Once copied, remove the `extends Controller` in each of the files in the `src/Ro
 
 ``` diff
 -namespace Controllers;
-+namespace Routes;
++namespace Rougin\Nostalgia\Routes;
 
 -use Rougin\Slytherin\Controller;
 -use Rougin\Slytherin\View;
