@@ -187,7 +187,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Changed
 - File and directory structure
 
-## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) - 2016-04-14
+## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.4...v0.5.0) - 2016-04-14
 
 ### Added
 - `Middleware` component
