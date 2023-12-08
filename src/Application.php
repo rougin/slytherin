@@ -52,7 +52,7 @@ class Application extends HttpFoundationFactory implements HttpKernelInterface
         $result = $dispatcher->dispatch($httpMethod, $uri);
 
         // Extracts the result into variables.
-        list($function, $parameters, $middlewares) = $result;
+        list($function, $parameters) = $result;
 
         // If not set, set as empty by default ----------
         $middlewares = array();
