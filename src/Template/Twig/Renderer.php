@@ -45,7 +45,7 @@ class Renderer implements RendererInterface
      * @param  string $fileExtension
      * @return string
      */
-    public function render($template, array $data = [], $fileExtension = 'twig')
+    public function render($template, array $data = [], $fileExtension = 'html')
     {
         return $this->twig->render("$template.$fileExtension", $data);
     }
