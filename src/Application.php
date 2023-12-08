@@ -4,7 +4,6 @@ namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
 use Rougin\Slytherin\Component\Collection;
 
 /**
@@ -74,8 +73,14 @@ class Application
         // Gets the requested route from the dispatcher
         $route = $dispatcher->dispatch($method, $path);
 
-        // Extract the result into variables
-        list($function, $parameters, $middlewares) = $route;
+        // Extracts the result into variables
+        list($function, $parameters) = $route;
+
+        // If not set, set as empty by default ----------
+        $middlewares = array();
+
+        if (isset($result[2])) $middlewares = $result[2];
+        // ----------------------------------------------
 
         return [ [ $function, $parameters ], $middlewares ];
     }

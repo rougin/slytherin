@@ -2,11 +2,11 @@
 
 namespace Rougin\Slytherin\Middleware\Stratigility;
 
-use Zend\Stratigility\MiddlewarePipe;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-
 use Rougin\Slytherin\Middleware\MiddlewareInterface;
+use Zend\Stratigility\MiddlewarePipe;
+use Zend\Stratigility\NoopFinalHandler;
 
 /**
  * Stratigility Middleware
@@ -49,6 +49,6 @@ class Middleware implements MiddlewareInterface
             $middleware->pipe(new $class);
         }
 
-        return $middleware($request, $response);
+        return $middleware($request, $response, new NoopFinalHandler);
     }
 }

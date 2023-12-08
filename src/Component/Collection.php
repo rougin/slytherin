@@ -4,11 +4,10 @@ namespace Rougin\Slytherin\Component;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use Rougin\Slytherin\IoC\ContainerInterface;
 use Rougin\Slytherin\Debug\DebuggerInterface;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
 use Rougin\Slytherin\Dispatching\DispatcherInterface;
+use Rougin\Slytherin\IoC\ContainerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * Component Collection
@@ -16,7 +15,7 @@ use Rougin\Slytherin\Dispatching\DispatcherInterface;
  * Contains all the required components for Slytherin.
  * 
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class Collection
 {
@@ -43,6 +42,28 @@ class Collection
     public function setContainer(ContainerInterface $container)
     {
         return $this->setComponent('container', $container);
+    }
+
+    /**
+     * Gets an instance of the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
+     * 
+     * @return \Rougin\Slytherin\IoC\ContainerInterface
+     */
+    public function getDependencyInjector()
+    {
+        return $this->getContainer();
+    }
+
+    /**
+     * Sets the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
+     * 
+     * @param \Rougin\Slytherin\IoC\ContainerInterface $injector
+     */
+    public function setDependencyInjector(ContainerInterface $injector)
+    {
+        return $this->setContainer($injector);
     }
 
     /**
@@ -86,13 +107,35 @@ class Collection
     }
 
     /**
+     * Gets the debugger.
+     * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
+     * 
+     * @return \Rougin\Slytherin\Debug\DebuggerInterface
+     */
+    public function getErrorHandler()
+    {
+        return $this->getDebugger();
+    }
+
+    /**
+     * Sets the debugger.
+     * NOTE: To be removed in v1.0.0. Use "setDebugger" instead.
+     * 
+     * @param  \Rougin\Slytherin\Debug\DebuggerInterface $debugger
+     */
+    public function setErrorHandler(DebuggerInterface $debugger)
+    {
+        return $this->setDebugger($debugger);
+    }
+
+    /**
      * Gets the HTTP components.
      * 
      * @return mixed
      */
     public function getHttp()
     {
-        return [ $this->getHttpRequest(), $this->getHttpResponse() ];
+        return array($this->getHttpRequest(), $this->getHttpResponse());
     }
 
     /**
@@ -177,4 +220,3 @@ class Collection
         return $this;
     }
 }
-
