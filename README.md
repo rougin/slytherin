@@ -39,31 +39,28 @@ Regarding the example implementation above, you need to select a package of your
 
 ### Middlewares
 
-Middlewares in concept are a layer of actions or callables that are wrapped around a piece of core logic in an application. To add middlewares in Slytherin, kindly add the following code:
+Middlewares in concept are a layer of actions or callables that are wrapped around a piece of core logic in an application. To add middlewares in Slytherin, kindly install `Stratigility` first for handling the middlewares:
 
-``` php
-// src/Handlers/Hello.php
-
-namespace Rougin\Nostalgia\Handlers;
-
-/**
- * This is a sample middleware
- */
-class Hello
-{
-    /**
-     * Creating middlewares should follow this __invoke method.
-     */
-    public function __invoke($request, $response, $next = null)
-    {
-        $response = $next($request, $response);
-
-        $response->getBody()->write('Hello from middleware');
-
-        return $response;
-    }
-}
+``` diff
+ {
+     "require":
+     {
+         "rougin/slytherin": "~0.5.0",
+         "filp/whoops": "~1.0",
+         "nikic/fast-route": "~1.0",
+         "rdlowrey/auryn": "~1.0",
+         "twig/twig": "~1.0",
+-        "zendframework/zend-diactoros": "~1.0"
++        "zendframework/zend-diactoros": "~1.0",
++        "zendframework/zend-stratigility": "~1.0"
+ }
 ```
+
+``` bash
+$ composer update
+```
+
+After installing the said package, update the code below to support the handling of middlewares:
 
 ``` php
 // app/web/index.php
@@ -95,6 +92,30 @@ $router->addRoute('GET', '/hello', function () {}, $items);
 // --------------------------------------------------------
 
 // ...
+```
+
+``` php
+// src/Handlers/Hello.php
+
+namespace Rougin\Nostalgia\Handlers;
+
+/**
+ * This is a sample middleware
+ */
+class Hello
+{
+    /**
+     * Creating middlewares should follow this __invoke method.
+     */
+    public function __invoke($request, $response, $next = null)
+    {
+        $response = $next($request, $response);
+
+        $response->getBody()->write('Hello from middleware');
+
+        return $response;
+    }
+}
 ```
 
 **NOTE**: Due to the nature of middleware and as a new concept, integrating middlewares to existing routes is not yet supported.
