@@ -37,6 +37,68 @@ $application->run();
 
 Regarding the example implementation above, you need to select a package of your choice and implement it with a provided interface in order for it to be integrated in Slytherin. More information about this can be found in the [Using Interfaces](https://github.com/rougin/slytherin/wiki/Using-Interfaces) section.
 
+### Middlewares
+
+Middlewares in concept are a layer of actions or callables that are wrapped around a piece of core logic in an application. To add middlewares in Slytherin, kindly add the following code:
+
+``` php
+// src/Handlers/Hello.php
+
+namespace Rougin\Nostalgia\Handlers;
+
+/**
+ * This is a sample middleware
+ */
+class Hello
+{
+    /**
+     * Creating middlewares should follow this __invoke method.
+     */
+    public function __invoke($request, $response, $next = null)
+    {
+        $response = $next($request, $response);
+
+        $response->getBody()->write('Hello from middleware');
+
+        return $response;
+    }
+}
+```
+
+``` php
+// app/web/index.php
+
+// ...
+
+// Initialize the middleware -------------------
+$pipe = new MiddlewarePipe;
+$middleware = new StratigilityMiddleware($pipe);
+$component->setMiddleware($middleware);
+// ---------------------------------------------
+
+$app = new Application($component);
+
+// ...
+```
+
+``` php
+// app/config/routes.php
+
+$router = new Rougin\Slytherin\Dispatching\Router;
+
+// ...
+
+// Add the middlewares to a specified route ---------------
+$items = array('Rougin\Nostalgia\Handlers\Hello');
+
+$router->addRoute('GET', '/hello', function () {}, $items);
+// --------------------------------------------------------
+
+// ...
+```
+
+**NOTE**: Due to the nature of middleware and as a new concept, integrating middlewares to existing routes is not yet supported.
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
