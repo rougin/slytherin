@@ -21,6 +21,7 @@
     ],
     "require": {
         "php" : ">=5.4.0",
+        "container-interop/container-interop": "~1.0",
         "symfony/http-kernel": "^2.8",
         "symfony/psr-http-message-bridge": "^0.2.0"
     },
