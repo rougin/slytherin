@@ -58,6 +58,20 @@ class Container extends BaseContainer implements ContainerInterface
         return $this;
     }
 
+    public function alias($original, $alias)
+    {
+        $this->injector->alias($original, $alias);
+
+        if (is_string($alias))
+        {
+            $alias = $this->injector->make($alias);
+        }
+
+        $this->instances[$original] = $alias;
+
+        return $this;
+    }
+
     public function __call($method, $args)
     {
         return call_user_func_array(array($this->injector, $method), $args);
