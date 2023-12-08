@@ -14,7 +14,6 @@ use Rougin\Slytherin\System;
 /**
  * Component Collection
  *
- * Contains all the required components for Slytherin.
  * NOTE: To be removed in v1.0.0. Use "Integration" instead.
  *
  * @package Slytherin
@@ -48,6 +47,28 @@ class Collection extends VanillaContainer
         $this->container = $container;
 
         return $this;
+    }
+
+    /**
+     * Gets an instance of the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
+     *
+     * @return \Rougin\Slytherin\IoC\ContainerInterface
+     */
+    public function getDependencyInjector()
+    {
+        return $this->getContainer();
+    }
+
+    /**
+     * Sets the dependency injector.
+     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
+     *
+     * @param \Rougin\Slytherin\IoC\ContainerInterface $injector
+     */
+    public function setDependencyInjector(ContainerInterface $injector)
+    {
+        return $this->setContainer($injector);
     }
 
     /**
@@ -130,11 +151,7 @@ class Collection extends VanillaContainer
      */
     public function getHttp()
     {
-        $request = $this->get(System::SERVER_REQUEST);
-
-        $response = $this->get(System::RESPONSE);
-
-        return array($request, $response);
+        return array($this->getHttpRequest(), $this->getHttpResponse());
     }
 
     /**

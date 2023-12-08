@@ -5,7 +5,7 @@ namespace Rougin\Slytherin;
 /**
  * Configuration
  *
- * Serves as a storage for configuration data.
+ * NOTE: To be removed in v1.0.0. Use "Integration/Configuration" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

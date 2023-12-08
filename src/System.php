@@ -8,6 +8,14 @@ use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Integration\ConfigurationInterface;
 use Rougin\Slytherin\System\Handler;
 
+/**
+ * System Application
+ *
+ * Integrates all specified components into the application.
+ *
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class System
 {
     const CONTAINER = 'Psr\Container\ContainerInterface';
