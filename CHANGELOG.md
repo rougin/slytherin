@@ -163,7 +163,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - Third party packages in `require-dev`
 
-## [0.7.0](https://github.com/rougin/slytherin/compare/v0.6.0...v0.7.0) - 2016-07-17
+## [0.7.0](https://github.com/rougin/slytherin/compare/v0.6.1...v0.7.0) - 2016-07-17
 
 ### Added
 - HTTP method spoofing
@@ -177,6 +177,13 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - `HttpKernelInterface`
+
+## [0.6.1](https://github.com/rougin/slytherin/compare/v0.6.0...v0.6.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Fixed
+- Compatibility issues from `v0.5.1` release
 
 ## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.1...v0.6.0) - 2016-05-24
 
