@@ -96,7 +96,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Fixed
 - Retrieving a single uploaded file in `ServerRequest::getUploadedFiles`
 
-## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.1...v0.9.0) - 2017-07-08
+## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.2...v0.9.0) - 2017-07-08
 
 **NOTE**: This release may break your application if upgrading from `v0.8.0` release.
 
@@ -149,6 +149,13 @@ All notable changes to `Slytherin` will be documented in this file.
 - Traits (in order to achieve PHP `v5.3.0` as the minimum required version)
 - `getEnvironment` and `setEnvironment` in `Debug\ErrorHandlerInterface`
 
+## [0.8.2](https://github.com/rougin/slytherin/compare/v0.8.1...v0.8.2) - 2023-12-09
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Fixed
+- Compatibility issues from `v0.7.2` release
+
 ## [0.8.1](https://github.com/rougin/slytherin/compare/v0.8.0...v0.8.1) - 2023-12-08
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
@@ -160,7 +167,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Compatibility issues from `v0.7.1` release
 - `html` as the default `$fileExtension` instead of `twig`
 
-## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.1...v0.8.0) - 2016-09-08
+## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.2...v0.8.0) - 2016-09-08
 
 ### Added
 - Implementation for [Phroute](https://github.com/mrjgreen/phroute) package
@@ -173,6 +180,18 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - Third party packages in `require-dev`
+
+## [0.7.2](https://github.com/rougin/slytherin/compare/v0.7.1...v0.7.2) - 2023-12-09
+
+### Added
+- `setTemplate` for setting `RendererInterface` in `Collection`
+- `ComponentInterface` for defining Slytherin implementations
+
+### Changed
+- Rework `Collection`, `Collector`
+
+### Fixed
+- Add items in `Auryn\Container`
 
 ## [0.7.1](https://github.com/rougin/slytherin/compare/v0.7.0...v0.7.1) - 2023-12-08
 
