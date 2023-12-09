@@ -47,14 +47,20 @@ class Collection implements ContainerInterface
      */
     public function add($id, $concrete)
     {
-        return $this->container->set($id, $concrete);
+        return $this->set($id, $concrete);
     }
 
     /**
-     * {@inheritdoc}
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param  string $id
+     * @return object
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function get($id)
     {
+        /** @var object */
         return $this->container->get($id);
     }
 
@@ -71,10 +77,11 @@ class Collection implements ContainerInterface
     /**
      * Gets the debugger.
      *
-     * @return \Rougin\Slytherin\Debugger\ErrorHandlerInterface
+     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
     public function getDebugger()
     {
+        /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
         return $this->get(System::DEBUGGER);
     }
 
@@ -95,6 +102,7 @@ class Collection implements ContainerInterface
      */
     public function getDispatcher()
     {
+        /** @var \Rougin\Slytherin\Dispatching\DispatcherInterface */
         return $this->get(System::DISPATCHER);
     }
 
@@ -125,6 +133,7 @@ class Collection implements ContainerInterface
      */
     public function getHttpRequest()
     {
+        /** @var \Psr\Http\Message\ServerRequestInterface */
         return $this->get(System::REQUEST);
     }
 
@@ -135,6 +144,7 @@ class Collection implements ContainerInterface
      */
     public function getHttpResponse()
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         return $this->get(System::RESPONSE);
     }
 
@@ -145,6 +155,7 @@ class Collection implements ContainerInterface
      */
     public function getMiddleware()
     {
+        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
         return $this->get(System::MIDDLEWARE);
     }
 
@@ -155,11 +166,15 @@ class Collection implements ContainerInterface
      */
     public function getTemplate()
     {
+        /** @var \Rougin\Slytherin\Template\RendererInterface */
         return $this->get(System::TEMPLATE);
     }
 
     /**
-     * {@inheritdoc}
+     * Returns true if the container can return an entry for the given identifier.
+     *
+     * @param  string $id
+     * @return boolean
      */
     public function has($id)
     {
@@ -167,7 +182,11 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Sets a new instance to the container.
+     *
+     * @param  string $id
+     * @param  mixed  $concrete
+     * @return self
      */
     public function set($id, $concrete = null)
     {
@@ -179,7 +198,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the container.
      *
-     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @return self
      */
     public function setContainer(ContainerInterface $container)
     {
@@ -191,7 +211,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the debugger.
      *
-     * @param  \Rougin\Slytherin\Debugger\ErrorHandlerInterface $debugger
+     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     * @return self
      */
     public function setDebugger(ErrorHandlerInterface $debugger)
     {

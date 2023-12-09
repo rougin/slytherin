@@ -40,7 +40,7 @@ class Collector
     /**
      * Generates a Collection instance.
      *
-     * @param  
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
      * @return \Rougin\Slytherin\Component\Collection
      */
     public function make(ContainerInterface $container)
@@ -96,7 +96,7 @@ class Collector
 
             if ($item->getType() === 'middleware')
             {
-                /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface */
+                /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
                 $result = $item->get();
 
                 $collection->setMiddleware($result);
@@ -116,7 +116,7 @@ class Collector
 
     /**
      * Collects the specified components.
-     * 
+     *
      * @param  \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
      * @param  \Rougin\Slytherin\IoC\ContainerInterface                  $container
      * @return \Rougin\Slytherin\Component\Collection

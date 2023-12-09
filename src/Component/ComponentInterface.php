@@ -21,7 +21,7 @@ interface ComponentInterface
 
     /**
      * Returns the type of the component.
-     * 
+     *
      * @return string
      */
     public function getType();

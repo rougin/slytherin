@@ -15,7 +15,7 @@ abstract class AbstractComponent implements ComponentInterface
     /**
      * Type of the component:
      * container, dispatcher, debugger, http, middleware, template
-     * 
+     *
      * @var string
      */
     protected $type = '';
