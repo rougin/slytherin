@@ -60,12 +60,12 @@ class Builder
 
     protected function setContainer()
     {
-        // Initialize the RendererInterface ------------
+        // Initialize the RendererInterface ----------------------
         $views = (string) realpath(__DIR__ . '/Plates');
         $loader = new Twig_Loader_Filesystem($views);
         $twig = new Twig(new Twig_Environment($loader));
-        $renderer = RendererInterface::class;
-        // ---------------------------------------------
+        $renderer = 'Rougin\Slytherin\Template\RendererInterface';
+        // -------------------------------------------------------
 
         $auryn = new Auryn(new \Auryn\Injector);
 
