@@ -22,7 +22,7 @@ class TwigLoader
 
     /**
      * @param  string|string[] $path
-     * @return \Rougin\Slytherin\Template\RendererInterface
+     * @return \Twig\Environment
      */
     public function load($path)
     {
@@ -45,11 +45,7 @@ class TwigLoader
 
         $environment = new \ReflectionClass($environment);
 
-        /**
-         * @var \Twig\Environment
-         */
-        $environment = $environment->newInstance($loader);
-
-        return new TwigRenderer($environment);
+        /** @var \Twig\Environment */
+        return $environment->newInstance($loader);
     }
 }
