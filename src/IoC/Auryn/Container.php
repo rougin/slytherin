@@ -41,19 +41,37 @@ class Container extends BaseContainer implements ContainerInterface
      */
     public function add($id, $concrete = null)
     {
-        if ($concrete && ! is_array($concrete)) {
+        if ($concrete && ! is_array($concrete))
+        {
             $this->instances[$id] = $concrete;
+
+            try
+            {
+                $this->share($concrete);
+            }
+            catch (\Exception $error)
+            {}
+
+            try
+            {
+                $this->alias($id, get_class($concrete));
+            }
+            catch (\Exception $error)
+            {}
 
             return $this;
         }
 
         $arguments = [];
 
-        if (is_array($concrete)) {
+        if (is_array($concrete))
+        {
             $arguments = $concrete;
         }
 
-        $this->instances[$id] = $this->injector->make($id, $arguments);
+        $result = $this->injector->make($id, $arguments);
+
+        $this->instances[$id] = $result;
 
         return $this;
     }

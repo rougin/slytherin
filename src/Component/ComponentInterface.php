@@ -2,23 +2,27 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Interop\Container\ContainerInterface;
-
 /**
  * Component Interface
  *
  * An interface for handling components.
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 interface ComponentInterface
 {
     /**
-     * Sets the component and add it to the container of your choice.
+     * Returns an instance from the named class.
      *
-     * @param  \Interop\Container\ContainerInterface &$container
-     * @return void
+     * @return mixed
      */
-    public function set(ContainerInterface &$container);
+    public function get();
+
+    /**
+     * Returns the type of the component.
+     * 
+     * @return string
+     */
+    public function getType();
 }

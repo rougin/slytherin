@@ -94,14 +94,4 @@ class CollectionTest extends PHPUnit_Framework_TestCase
 
         $this->assertEquals([ $request, $response ], $this->components->getHttp());
     }
-
-    /**
-     * Tests if getComponent() returns null.
-     *
-     * @return void
-     */
-    public function testGetNullComponent()
-    {
-        $this->assertNull($this->components->getContainer());
-    }
 }
