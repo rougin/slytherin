@@ -33,6 +33,11 @@ class PreviousTest extends Testcase
             $this->markTestSkipped('Zend Diactoros is not installed.');
         }
 
+        if (! class_exists('Twig_Loader_Filesystem'))
+        {
+            $this->markTestSkipped('Twig v1.0~v2.0 is not installed.');
+        }
+
         $this->builder = new Builder;
     }
 
