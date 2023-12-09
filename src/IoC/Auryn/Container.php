@@ -44,6 +44,18 @@ class Container extends BaseContainer implements ContainerInterface
         if ($concrete && ! is_array($concrete)) {
             $this->instances[$id] = $concrete;
 
+            try
+            {
+                $this->share($concrete);
+            }
+            catch (\Exception $error) {}
+
+            try
+            {
+                $this->alias($id, get_class($concrete));
+            }
+            catch (\Exception $error) {}
+
             return $this;
         }
 
