@@ -89,7 +89,7 @@ class AurynContainer implements ContainerInterface
      */
     public function has($id)
     {
-        if (array_key_exists($id, $this->has)) return $this->has[$id];
+        if (array_key_exists($id, $this->items)) return true;
 
         $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
 
@@ -113,39 +113,14 @@ class AurynContainer implements ContainerInterface
      */
     public function set($id, $concrete)
     {
+        $params = is_array($concrete) ? $concrete : array();
+
         if (! $concrete || is_array($concrete))
         {
-            $params = is_array($concrete) ? $concrete : array();
-
-            $this->items[$id] = $this->injector->make($id, $params);
-
-            return $this;
+            $concrete = $this->injector->make($id, $params);
         }
 
         $this->items[$id] = $concrete;
-
-        // Tries to set the instance as shareable ---
-        try
-        {
-            $this->injector->share($concrete);
-        }
-        // @codeCoverageIgnoreStart
-        catch (\Exception $error) {}
-        // @codeCoverageIgnoreEnd
-        // ------------------------------------------
-
-        // Also create an alias if available ---
-        try
-        {
-            /** @var object $concrete */
-            $class = get_class($concrete);
-
-            $this->injector->alias($id, $class);
-        }
-        // @codeCoverageIgnoreStart
-        catch (\Exception $error) {}
-        // @codeCoverageIgnoreEnd
-        // -------------------------------------
 
         return $this;
     }
