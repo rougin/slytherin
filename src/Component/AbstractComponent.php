@@ -10,36 +10,15 @@ namespace Rougin\Slytherin\Component;
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
  */
-abstract class AbstractComponent
+abstract class AbstractComponent implements ComponentInterface
 {
     /**
-     * Name of the class to be added in the container.
-     * 
-     * @var string
-     */
-    protected $className = '';
-
-    /**
-     * Checks if the said component needs a container.
-     * 
-     * @var boolean
-     */
-    protected $container = false;
-
-    /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      * 
      * @var string
      */
     protected $type;
-
-    /**
-     * Returns an instance from the named class.
-     *
-     * @return mixed
-     */
-    abstract public function get();
 
     /**
      * Returns the type of the component.
@@ -49,25 +28,5 @@ abstract class AbstractComponent
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Checks if the components needs a container.
-     * 
-     * @return boolean
-     */
-    public function needsContainer()
-    {
-        return $this->container;
-    }
-
-    /**
-     * Returns the class name;
-     * 
-     * @return string
-     */
-    public function __toString()
-    {
-        return $this->className;
     }
 }

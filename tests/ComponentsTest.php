@@ -90,14 +90,4 @@ class ComponentsTest extends PHPUnit_Framework_TestCase
             $this->components->getHttp()
         );
     }
-
-    /**
-     * Tests if getComponent() returns null.
-     * 
-     * @return void
-     */
-    public function testGetNullComponent()
-    {
-        $this->assertNull($this->components->getContainer());
-    }
 }

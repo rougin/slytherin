@@ -11,13 +11,13 @@ use Rougin\Slytherin\Component\AbstractComponent;
  * Debugger Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DebuggerComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      * 
      * @var string
      */

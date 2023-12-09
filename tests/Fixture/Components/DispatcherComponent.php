@@ -10,13 +10,13 @@ use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
  * Dispatcher Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      * 
      * @var string
      */

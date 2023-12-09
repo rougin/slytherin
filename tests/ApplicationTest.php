@@ -41,7 +41,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
             'Rougin\Slytherin\Test\Fixture\Components\CollectionComponent',
         ];
 
-        $this->components = Collector::get(new Container, $components, $GLOBALS);
+        $this->components = Collector::get($components);
     }
 
     /**

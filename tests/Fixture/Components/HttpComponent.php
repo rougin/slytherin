@@ -11,13 +11,13 @@ use Rougin\Slytherin\Component\AbstractComponent;
  * HTTP Component
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class HttpComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      * 
      * @var string
      */
@@ -30,6 +30,6 @@ class HttpComponent extends AbstractComponent
      */
     public function get()
     {
-        return [ ServerRequestFactory::fromGlobals(), new Response ];
+        return array(ServerRequestFactory::fromGlobals(), new Response);
     }
 }
