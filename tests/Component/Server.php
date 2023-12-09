@@ -20,8 +20,6 @@ $container = new Container;
 
 $components = Collector::get($container, $items, $globals);
 
-var_dump($components);
-
 $app = new Application($components);
 
 $app->run();

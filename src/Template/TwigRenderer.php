@@ -54,7 +54,7 @@ class TwigRenderer implements RendererInterface
      * @param  string               $extension
      * @return string
      */
-    public function render($template, array $data = [], $extension = 'html')
+    public function render($template, array $data = array(), $extension = 'html')
     {
         return $this->twig->render("$template.$extension", $data);
     }
