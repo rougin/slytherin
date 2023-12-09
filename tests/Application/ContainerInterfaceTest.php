@@ -30,7 +30,7 @@ class ContainerInterfaceTest extends ApplicationTestCases
         $container->set(System::DISPATCHER, $dispatcher);
 
         $request = $this->request('GET', '/');
-        $container->set(System::SERVER_REQUEST, $request);
+        $container->set(System::REQUEST, $request);
 
         $response = new Response;
         $container->set(System::RESPONSE, $response);

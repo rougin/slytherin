@@ -11,6 +11,8 @@ use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Middleware\VanillaMiddleware;
+use Rougin\Slytherin\Template\TwigLoader;
+use Rougin\Slytherin\Template\TwigRenderer;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -43,16 +45,27 @@ class CollectionTest extends Testcase
      */
     public function testSetContainerMethod()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface'))
-        {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
-
         $expected = new Container;
 
         $this->components->setContainer($expected);
 
         $actual = $this->components->getContainer();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests the setDependencyInjector() method.
+     *
+     * @return void
+     */
+    public function testSetDependencyInjectorMethod()
+    {
+        $expected = new Container;
+
+        $this->components->setDependencyInjector($expected);
+
+        $actual = $this->components->getDependencyInjector();
 
         $this->assertEquals($expected, $actual);
     }
@@ -64,9 +77,7 @@ class CollectionTest extends Testcase
      */
     public function testSetDispatcherMethod()
     {
-        $router = new Router;
-
-        $expected = new Dispatcher($router);
+        $expected = new Dispatcher(new Router);
 
         $this->components->setDispatcher($expected);
 
@@ -92,17 +103,28 @@ class CollectionTest extends Testcase
     }
 
     /**
+     * Tests the setErrorHandler() method.
+     *
+     * @return void
+     */
+    public function testSetErrorHandlerMethod()
+    {
+        $expected = new Debugger;
+
+        $this->components->setErrorHandler($expected);
+
+        $actual = $this->components->getErrorHandler();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
      * Tests the setHttp() method.
      *
      * @return void
      */
     public function testSetHttpMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
-
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';
@@ -129,11 +151,6 @@ class CollectionTest extends Testcase
      */
     public function testSetHttpRequestMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ServerRequestInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
-
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';
@@ -156,11 +173,6 @@ class CollectionTest extends Testcase
      */
     public function testSetHttpResponseMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
-
         $expected = new Response;
 
         $this->components->setHttpResponse($expected);
@@ -177,11 +189,6 @@ class CollectionTest extends Testcase
      */
     public function testSetMiddlewareMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
-
         if (! Interop::exists())
         {
             $this->markTestSkipped('Interop middleware/s not yet installed');
@@ -197,12 +204,29 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests if get() returns null.
+     * Tests the setMiddleware() method.
      *
      * @return void
      */
-    public function testGetNullComponent()
+    public function testSetTemplateMethod()
     {
-        $this->assertNull($this->components->getDebugger());
+        $twig = new TwigLoader;
+
+        if (! $twig->exists())
+        {
+            $this->markTestSkipped('Twig is not installed.');
+        }
+
+        $path = realpath(__DIR__ . '/../../Fixture/Templates');
+
+        $environment = $twig->load($path);
+
+        $expected = new TwigRenderer($environment);
+
+        $this->components->setTemplate($expected);
+
+        $actual = $this->components->getTemplate();
+
+        $this->assertEquals($expected, $actual);
     }
 }

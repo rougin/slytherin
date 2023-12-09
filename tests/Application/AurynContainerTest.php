@@ -33,7 +33,7 @@ class AurynContainerTest extends ApplicationTestCases
         $router = $this->router();
 
         $container->share($this->request('GET', '/'));
-        $container->alias(System::SERVER_REQUEST, 'Rougin\Slytherin\Http\ServerRequest');
+        $container->alias(System::REQUEST, 'Rougin\Slytherin\Http\ServerRequest');
 
         $container->share(new Response);
         $container->alias(System::RESPONSE, 'Rougin\Slytherin\Http\Response');

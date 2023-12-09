@@ -90,7 +90,7 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * NOTE: To be removed in v1.0.0. Use $this->getStack() instead.
+     * NOTE: To be removed in v1.0.0. Use "getStack" instead.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */

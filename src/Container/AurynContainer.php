@@ -58,7 +58,7 @@ class AurynContainer extends Injector implements ContainerInterface
 
     /**
      * Adds a new instance to the container.
-     * NOTE: To be removed in v1.0.0. Use $this->set() instead.
+     * NOTE: To be removed in v1.0.0. Use "set" instead.
      *
      * @param  string     $id
      * @param  mixed|null $concrete

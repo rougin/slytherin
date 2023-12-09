@@ -6,6 +6,7 @@ use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Sample\Builder;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Request;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Response;
+use Rougin\Slytherin\Sample\Packages\MiddlewarePackage;
 use Rougin\Slytherin\Sample\Packages\SamplePackage;
 use Rougin\Slytherin\Testcase;
 
@@ -166,6 +167,8 @@ class SampleTest extends Testcase
      */
     public function test_middleware_changing_the_request_constructor()
     {
+        $this->builder->addPackage(new MiddlewarePackage);
+
         $this->builder->addHandler(new Request);
 
         $this->builder->setUrl('GET', '/handler/conts');
@@ -182,6 +185,8 @@ class SampleTest extends Testcase
      */
     public function test_middleware_changing_the_request_parameter()
     {
+        $this->builder->addPackage(new MiddlewarePackage);
+
         $this->builder->addHandler(new Request);
 
         $this->builder->setUrl('GET', '/handler/param');
@@ -198,6 +203,8 @@ class SampleTest extends Testcase
      */
     public function test_middleware_changing_the_response_parameter()
     {
+        $this->builder->addPackage(new MiddlewarePackage);
+
         $this->builder->addHandler(new Response);
 
         $this->builder->setUrl('GET', '/response');
@@ -214,6 +221,8 @@ class SampleTest extends Testcase
      */
     public function test_callable_middleware_changing_the_response_parameter()
     {
+        $this->builder->addPackage(new MiddlewarePackage);
+
         $this->builder->setUrl('GET', '/middleware');
 
         $this->expectOutputString('From callable middleware!');
@@ -228,6 +237,8 @@ class SampleTest extends Testcase
      */
     public function test_interop_middleware_changing_the_response_parameter()
     {
+        $this->builder->addPackage(new MiddlewarePackage);
+
         if (! Interop::exists())
         {
             $this->markTestSkipped('Interop middleware/s not yet installed');

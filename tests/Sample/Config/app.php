@@ -4,11 +4,10 @@ use Rougin\Slytherin\Sample\Router;
 
 $packages = array();
 
-// Testing Packages -----------------------------------------------
+// Testing Packages --------------------------------------------
 $packages[] = 'Rougin\Slytherin\Sample\Packages\HttpPackage';
-$packages[] = 'Rougin\Slytherin\Sample\Packages\MiddlewarePackage';
 $packages[] = 'Rougin\Slytherin\Sample\Packages\RoutingPackage';
-// ----------------------------------------------------------------
+// -------------------------------------------------------------
 
 $config = array('name' => 'Slytherin');
 

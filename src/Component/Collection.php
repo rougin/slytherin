@@ -2,14 +2,15 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Container\VanillaContainer;
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as Middleware;
 use Rougin\Slytherin\Routing\DispatcherInterface as Routing;
 use Rougin\Slytherin\System;
+use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * Component Collection
@@ -19,41 +20,68 @@ use Rougin\Slytherin\System;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Collection extends VanillaContainer
+class Collection implements ContainerInterface
 {
     /**
-     * @var \Psr\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected $container;
 
     /**
+     * @var mixed[]
+     */
+    protected $items = array();
+
+    public function __construct()
+    {
+        $this->container = new Container;
+    }
+
+    /**
+     * Adds a new instance to the container.
+     * NOTE: To be removed in v1.0.0. Use "set" instead.
+     *
+     * @param  string $id
+     * @param  object $concrete
+     * @return self
+     */
+    public function add($id, $concrete)
+    {
+        return $this->container->set($id, $concrete);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function get($id)
+    {
+        return $this->container->get($id);
+    }
+
+    /**
      * Gets an instance of the container.
      *
-     * @return \Psr\Container\ContainerInterface
+     * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public function getContainer()
     {
-        return (is_a($this->container, System::CONTAINER)) ? $this->container : $this;
+        return $this->container;
     }
 
     /**
-     * Sets the container.
+     * Gets the debugger.
      *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return self
+     * @return \Rougin\Slytherin\Debugger\ErrorHandlerInterface
      */
-    public function setContainer(ContainerInterface $container)
+    public function getDebugger()
     {
-        $this->container = $container;
-
-        return $this;
+        return $this->get(System::DEBUGGER);
     }
 
     /**
-     * Gets an instance of the dependency injector.
      * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
      *
-     * @return \Rougin\Slytherin\IoC\ContainerInterface
+     * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public function getDependencyInjector()
     {
@@ -61,87 +89,23 @@ class Collection extends VanillaContainer
     }
 
     /**
-     * Sets the dependency injector.
-     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
-     *
-     * @param \Rougin\Slytherin\IoC\ContainerInterface $injector
-     */
-    public function setDependencyInjector(ContainerInterface $injector)
-    {
-        return $this->setContainer($injector);
-    }
-
-    /**
      * Gets the dispatcher.
      *
-     * @return \Rougin\Slytherin\Routing\DispatcherInterface
+     * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
     public function getDispatcher()
     {
-        /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
         return $this->get(System::DISPATCHER);
     }
 
     /**
-     * Sets the dispatcher.
+     * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
      *
-     * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
-     * @return self
-     */
-    public function setDispatcher(Routing $dispatcher)
-    {
-        $this->set(System::DISPATCHER, $dispatcher);
-
-        return $this;
-    }
-
-    /**
-     * Gets the debugger.
-     *
-     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface|null
-     */
-    public function getDebugger()
-    {
-        return $this->getErrorHandler();
-    }
-
-    /**
-     * Sets the debugger.
-     *
-     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
-     * @return self
-     */
-    public function setDebugger(ErrorHandlerInterface $debugger)
-    {
-        $this->setErrorHandler($debugger);
-
-        return $this;
-    }
-
-    /**
-     * Gets the error handler.
-     *
-     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface|null
+     * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
     public function getErrorHandler()
     {
-        if (! $this->has(System::ERREPORT)) return null;
-
-        /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
-        return $this->get(System::ERREPORT);
-    }
-
-    /**
-     * Sets the error handler.
-     *
-     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $errorHandler
-     * @return self
-     */
-    public function setErrorHandler(ErrorHandlerInterface $errorHandler)
-    {
-        $this->set(System::ERREPORT, $errorHandler);
-
-        return $this;
+        return $this->getDebugger();
     }
 
     /**
@@ -155,6 +119,119 @@ class Collection extends VanillaContainer
     }
 
     /**
+     * Gets the request.
+     *
+     * @return \Psr\Http\Message\ServerRequestInterface
+     */
+    public function getHttpRequest()
+    {
+        return $this->get(System::REQUEST);
+    }
+
+    /**
+     * Gets the response.
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function getHttpResponse()
+    {
+        return $this->get(System::RESPONSE);
+    }
+
+    /**
+     * Gets the middleware.
+     *
+     * @return \Rougin\Slytherin\Middleware\DispatcherInterface
+     */
+    public function getMiddleware()
+    {
+        return $this->get(System::MIDDLEWARE);
+    }
+
+    /**
+     * Gets the template.
+     *
+     * @return \Rougin\Slytherin\Template\RendererInterface
+     */
+    public function getTemplate()
+    {
+        return $this->get(System::TEMPLATE);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function has($id)
+    {
+        return $this->container->has($id);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set($id, $concrete = null)
+    {
+        $this->container->set($id, $concrete);
+
+        return $this;
+    }
+
+    /**
+     * Sets the container.
+     *
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return $this;
+    }
+
+    /**
+     * Sets the debugger.
+     *
+     * @param  \Rougin\Slytherin\Debugger\ErrorHandlerInterface $debugger
+     */
+    public function setDebugger(ErrorHandlerInterface $debugger)
+    {
+        return $this->add(System::DEBUGGER, $debugger);
+    }
+
+    /**
+     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
+     *
+     * @param  \Rougin\Slytherin\Container\ContainerInterface $injector
+     * @return self
+     */
+    public function setDependencyInjector(ContainerInterface $injector)
+    {
+        return $this->setContainer($injector);
+    }
+
+    /**
+     * Sets the dispatcher.
+     *
+     * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @return self
+     */
+    public function setDispatcher(Routing $dispatcher)
+    {
+        return $this->add(System::DISPATCHER, $dispatcher);
+    }
+
+    /**
+     * NOTE: To be removed in v1.0.0. Use "setDebugger" instead.
+     *
+     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     * @return self
+     */
+    public function setErrorHandler(ErrorHandlerInterface $debugger)
+    {
+        return $this->setDebugger($debugger);
+    }
+
+    /**
      * Sets the HTTP components.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
@@ -163,22 +240,9 @@ class Collection extends VanillaContainer
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
     {
-        $this->set(System::SERVER_REQUEST, $request);
+        $this->add(System::REQUEST, $request);
 
-        $this->set(System::RESPONSE, $response);
-
-        return $this;
-    }
-
-    /**
-     * Gets the HTTP request.
-     *
-     * @return \Psr\Http\Message\ServerRequestInterface
-     */
-    public function getHttpRequest()
-    {
-        /** @var \Psr\Http\Message\ServerRequestInterface */
-        return $this->get(System::SERVER_REQUEST);
+        return $this->add(System::RESPONSE, $response);
     }
 
     /**
@@ -189,20 +253,9 @@ class Collection extends VanillaContainer
      */
     public function setHttpRequest(ServerRequestInterface $request)
     {
-        $this->set(System::SERVER_REQUEST, $request);
+        $this->set(System::REQUEST, $request);
 
         return $this;
-    }
-
-    /**
-     * Gets the HTTP response.
-     *
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    public function getHttpResponse()
-    {
-        /** @var \Psr\Http\Message\ResponseInterface */
-        return $this->get(System::RESPONSE);
     }
 
     /**
@@ -219,23 +272,6 @@ class Collection extends VanillaContainer
     }
 
     /**
-     * TODO: Reimplement Middleware package.
-     *
-     * Gets the middleware.
-     *
-     * @return \Rougin\Slytherin\Middleware\DispatcherInterface|null
-     */
-    public function getMiddleware()
-    {
-        if (! $this->has(System::MIDDLEWARE)) return null;
-
-        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
-        return $this->get(System::MIDDLEWARE);
-    }
-
-    /**
-     * TODO: Reimplement Middleware package.
-     *
      * Sets the middleware.
      *
      * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
@@ -243,8 +279,17 @@ class Collection extends VanillaContainer
      */
     public function setMiddleware(Middleware $middleware)
     {
-        $this->set(System::MIDDLEWARE, $middleware);
+        return $this->add(System::MIDDLEWARE, $middleware);
+    }
 
-        return $this;
+    /**
+     * Sets the template.
+     *
+     * @param  \Rougin\Slytherin\Template\RendererInterface $template
+     * @return self
+     */
+    public function setTemplate(RendererInterface $template)
+    {
+        return $this->add(System::TEMPLATE, $template);
     }
 }

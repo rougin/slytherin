@@ -2,17 +2,19 @@
 
 namespace Rougin\Slytherin\Fixture\Components;
 
+use Rougin\Slytherin\Component\AbstractComponent;
+
 /**
  * HTTP Component
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class HttpComponent extends \Rougin\Slytherin\Component\AbstractComponent
+class HttpComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      *
      * @var string
      */

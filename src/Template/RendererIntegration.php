@@ -49,7 +49,7 @@ class RendererIntegration implements IntegrationInterface
             $renderer = $twig->load($path);
         }
 
-        $container->set(Application::RENDERER, $renderer);
+        $container->set(Application::TEMPLATE, $renderer);
 
         return $container;
     }

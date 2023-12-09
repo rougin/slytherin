@@ -3,15 +3,15 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
-use Rougin\Slytherin\Debug\Vanilla\Debugger;
+use Rougin\Slytherin\Container\Container;
 
 /**
- * Debugger Component
+ * Container Component
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerComponent extends AbstractComponent
+class ContainerComponent extends AbstractComponent
 {
     /**
      * Type of the component:
@@ -19,7 +19,7 @@ class DebuggerComponent extends AbstractComponent
      *
      * @var string
      */
-    protected $type = 'error_handler';
+    protected $type = 'container';
 
     /**
      * Returns an instance from the named class.
@@ -29,10 +29,6 @@ class DebuggerComponent extends AbstractComponent
      */
     public function get()
     {
-        $debugger = new Debugger;
-
-        $debugger->setEnvironment('development');
-
-        return $debugger;
+        return new Container;
     }
 }

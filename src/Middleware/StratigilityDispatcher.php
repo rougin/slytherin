@@ -143,6 +143,7 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * @param  callable $item
      * @return object
+     * @codeCoverageIgnore
      */
     protected function setPsrMiddleware($item)
     {

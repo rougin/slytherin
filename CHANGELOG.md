@@ -18,7 +18,6 @@ All notable changes to `Slytherin` will be documented in this file.
 - `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
 - Conformed `Middleware` to the official `PSR-15` package (`psr/http-server-middleware`)
 - `Application` class to `System`
-- `ERROR_HANDLER` constant to `ERREPORT` in `System`
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)

@@ -49,7 +49,7 @@ class Handler implements HandlerInterface
     public function handle(ServerRequestInterface $request)
     {
         // Attach the request again in the container to reflect from stack ---
-        $this->container->set(System::SERVER_REQUEST, $request);
+        $this->container->set(System::REQUEST, $request);
         // -------------------------------------------------------------------
 
         $resolver = new Resolver($this->container);

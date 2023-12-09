@@ -22,17 +22,19 @@ class System
 
     const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
-    const ERREPORT = 'Rougin\Slytherin\Ereport\EreportInterface';
+    // TODO: Implement Error Handler -------------------------------
+    const DEBUGGER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
+    // -------------------------------------------------------------
 
     const MIDDLEWARE = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
-    const RENDERER = 'Rougin\Slytherin\Template\RendererInterface';
+    const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
+
+    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
 
     const ROUTER = 'Rougin\Slytherin\Routing\RouterInterface';
 
-    const SERVER_REQUEST = 'Psr\Http\Message\ServerRequestInterface';
-
-    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
+    const TEMPLATE = 'Rougin\Slytherin\Template\RendererInterface';
 
     /**
      * @var \Rougin\Slytherin\Integration\Configuration
@@ -153,7 +155,7 @@ class System
     public function run()
     {
         /** @var \Psr\Http\Message\ServerRequestInterface */
-        $request = $this->container->get(self::SERVER_REQUEST);
+        $request = $this->container->get(self::REQUEST);
 
         echo (string) $this->emit($request)->getBody();
     }

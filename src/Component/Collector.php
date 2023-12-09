@@ -2,14 +2,13 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Integration\Configuration;
 
 /**
  * Component Collector
  *
- * Collects all components into Collection.
- * NOTE: To be removed in v1.0.0. Use "Integration" instead.
+ * Collects all defined components into a Collection.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -17,72 +16,117 @@ use Rougin\Slytherin\Integration\Configuration;
 class Collector
 {
     /**
-     * Collects the specified components.
+     * @var \Rougin\Slytherin\Component\ComponentInterface[]
+     */
+    protected $items = array();
+
+    /**
+     * @param \Rougin\Slytherin\Component\ComponentInterface[]|string[] $items
+     */
+    public function __construct(array $items = array())
+    {
+        foreach ($items as $item)
+        {
+            if (is_string($item))
+            {
+                /** @var \Rougin\Slytherin\Component\ComponentInterface */
+                $item = new $item;
+            }
+
+            array_push($this->items, $item);
+        }
+    }
+
+    /**
+     * Generates a Collection instance.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  string[]                                       $components
-     * @param  array<string, mixed>|null                      $globals
+     * @param  
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(ContainerInterface $container, array $components = array(), &$globals = null)
+    public function make(ContainerInterface $container)
     {
-        $configuration = new Configuration;
-
         $collection = new Collection;
-
-        foreach ($components as $component)
-        {
-            $instance = self::prepare($collection, $component);
-
-            $container = $instance->define($container, $configuration);
-        }
 
         $collection->setContainer($container);
 
-        // NOTE: To be removed in v1.0.0. Use Application::container instead. ---
-        if ($globals)
+        // If there is a defined container, set it first -----------
+        foreach ($this->items as $item)
         {
-            $globals['container'] = $container;
+            if ($item->getType() === 'container')
+            {
+                /** @var \Rougin\Slytherin\IoC\ContainerInterface */
+                $result = $item->get();
+
+                $collection->setDependencyInjector($result);
+            }
         }
-        // ----------------------------------------------------------------------
+        // ---------------------------------------------------------
+
+        foreach ($this->items as $item)
+        {
+            if ($item->getType() === 'dispatcher')
+            {
+                /** @var \Rougin\Slytherin\Dispatching\DispatcherInterface */
+                $result = $item->get();
+
+                $collection->setDispatcher($result);
+            }
+
+            if (in_array($item->getType(), array('debugger', 'error_handler')))
+            {
+                /** @var \Rougin\Slytherin\Debug\DebuggerInterface */
+                $result = $item->get();
+
+                $collection->setErrorHandler($result);
+            }
+
+            if ($item->getType() === 'http')
+            {
+                /** @var array<int, mixed> */
+                $result = $item->get();
+
+                /** @var \Psr\Http\Message\ServerRequestInterface */
+                $request = $result[0];
+
+                /** @var \Psr\Http\Message\ResponseInterface */
+                $response = $result[1];
+
+                $collection->setHttp($request, $response);
+            }
+
+            if ($item->getType() === 'middleware')
+            {
+                /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface */
+                $result = $item->get();
+
+                $collection->setMiddleware($result);
+            }
+
+            if ($item->getType() === 'template')
+            {
+                /** @var \Rougin\Slytherin\Template\RendererInterface */
+                $result = $item->get();
+
+                $collection->setTemplate($result);
+            }
+        }
 
         return $collection;
     }
 
     /**
-     * Prepares the component and sets it to the collection.
-     *
-     * @param  \Rougin\Slytherin\Component\Collection &$collection
-     * @param  string                                 $component
-     * @return \Rougin\Slytherin\Integration\IntegrationInterface
+     * Collects the specified components.
+     * 
+     * @param  \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
+     * @param  \Rougin\Slytherin\IoC\ContainerInterface                  $container
+     * @return \Rougin\Slytherin\Component\Collection
      */
-    protected static function prepare(Collection &$collection, $component)
+    public static function get(array $components, ContainerInterface $container = null)
     {
-        /** @var class-string $component */
-        $instance = new $component;
+        $self = new Collector($components);
 
-        /** @var callable */
-        $class = array($instance, 'type');
-        $type = call_user_func($class);
+        if (! $container) $container = new Container;
 
-        if (empty($type))
-        {
-            /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
-            return $instance;
-        }
-
-        /** @var callable */
-        $class = array($instance, 'get');
-        $args = call_user_func($class);
-
-        if ($type !== 'http') $args = array($args);
-
-        /** @var callable */
-        $class = array($collection, 'set' . ucfirst($type));
-
-        call_user_func_array($class, $args);
-
-        /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
-        return $instance;
+        return $self->make($container);
     }
 }

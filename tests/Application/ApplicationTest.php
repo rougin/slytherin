@@ -43,19 +43,18 @@ class ApplicationTest extends Testcase
 
         $items = array();
 
-        $items[] = 'Rougin\Slytherin\Fixture\Components\CollectionComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\ContainerComponent';
         $items[] = 'Rougin\Slytherin\Fixture\Components\DebuggerComponent';
         $items[] = 'Rougin\Slytherin\Fixture\Components\DispatcherComponent';
         $items[] = 'Rougin\Slytherin\Fixture\Components\HttpComponent';
-        $items[] = 'Rougin\Slytherin\Fixture\Components\SingleComponent';
+        $items[] = 'Rougin\Slytherin\Fixture\Components\TemplateComponent';
 
-        $container = new Container;
+        if (class_exists('Zend\Stratigility\MiddlewarePipe'))
+        {
+            $items[] = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
+        }
 
-        $globals = $GLOBALS;
-
-        $components = Collector::get($container, $items, $globals);
-
-        $this->components = $components;
+        $this->components = Collector::get($items);
     }
 
     /**
