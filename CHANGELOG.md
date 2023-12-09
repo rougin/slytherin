@@ -8,11 +8,16 @@ All notable changes to `Slytherin` will be documented in this file.
 - `preferred` property in integrations
 - `ContainerException` in `Container`
 - `RouteInterface` for handling specific routes
+- Support for all versions of `http-interop/http-middleware` (`0.3`, `0.4`, `0.5`)
+- `ERRATUM.md` for changes in `README.md` for specified versions
+- `UPGRADE.md` for documentation on how to upgrade versions with BC breaks
 
 ### Changed
 - Third-party packages in `Routing` extends to Slytherin's `Dispatcher`, `Router`
 - Conformed all application logic to `RouteInterface`
 - `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
+- Conformed `Middleware` to the official `PSR-15` package (`psr/http-server-middleware`)
+- `Application` class to `System`
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)
@@ -21,10 +26,8 @@ All notable changes to `Slytherin` will be documented in this file.
 - If `ServerRequestInterface` is an argument with a middleware
 - Backward compatibility for `LeagueContainer::set` (as of `~3.0`)
 - Backward compatibility for `TwigRenderer::render` (as of `~3.0`)
-- Resolving typehinted routes for third-party routers
-
-### Removed
-- `__call` methods in `Router`, use the defined methods instead (e.g., `get()`, `post()`, etc.)
+- Backward compatibility for `StratigilityDispatcher::process` (until `~3.0`)
+- Resolving type hinted routes for third-party routers
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
@@ -92,7 +95,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Fixed
 - Retrieving a single uploaded file in `ServerRequest::getUploadedFiles`
 
-## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.0...v0.9.0) - 2017-07-08
+## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.2...v0.9.0) - 2017-07-08
 
 **NOTE**: This release may break your application if upgrading from `v0.8.0` release.
 
@@ -145,7 +148,25 @@ All notable changes to `Slytherin` will be documented in this file.
 - Traits (in order to achieve PHP `v5.3.0` as the minimum required version)
 - `getEnvironment` and `setEnvironment` in `Debug\ErrorHandlerInterface`
 
-## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.0...v0.8.0) - 2016-09-08
+## [0.8.2](https://github.com/rougin/slytherin/compare/v0.8.1...v0.8.2) - 2023-12-09
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Fixed
+- Compatibility issues from `v0.7.2` release
+
+## [0.8.1](https://github.com/rougin/slytherin/compare/v0.8.0...v0.8.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Added
+- `alias` method in `AurynContainer` for backport fix from previous versions
+
+### Fixed
+- Compatibility issues from `v0.7.1` release
+- `html` as the default `$fileExtension` instead of `twig`
+
+## [0.8.0](https://github.com/rougin/slytherin/compare/v0.7.2...v0.8.0) - 2016-09-08
 
 ### Added
 - Implementation for [Phroute](https://github.com/mrjgreen/phroute) package
@@ -159,7 +180,26 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - Third party packages in `require-dev`
 
-## [0.7.0](https://github.com/rougin/slytherin/compare/v0.6.0...v0.7.0) - 2016-07-17
+## [0.7.2](https://github.com/rougin/slytherin/compare/v0.7.1...v0.7.2) - 2023-12-09
+
+### Added
+- `setTemplate` for setting `RendererInterface` in `Collection`
+- `ComponentInterface` for defining Slytherin implementations
+
+### Changed
+- Rework `Collection`, `Collector`
+
+### Fixed
+- Add items in `Auryn\Container`
+
+## [0.7.1](https://github.com/rougin/slytherin/compare/v0.7.0...v0.7.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Fixed
+- Compatibility issues from `v0.6.1` release
+
+## [0.7.0](https://github.com/rougin/slytherin/compare/v0.6.1...v0.7.0) - 2016-07-17
 
 ### Added
 - HTTP method spoofing
@@ -174,7 +214,14 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - `HttpKernelInterface`
 
-## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.0...v0.6.0) - 2016-05-24
+## [0.6.1](https://github.com/rougin/slytherin/compare/v0.6.0...v0.6.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Fixed
+- Compatibility issues from `v0.5.1` release
+
+## [0.6.0](https://github.com/rougin/slytherin/compare/v0.5.1...v0.6.0) - 2016-05-24
 
 ### Added
 - Parameter for adding default data and file extension in `Template\TwigRenderer`
@@ -183,7 +230,18 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Changed
 - File and directory structure
 
-## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.3...v0.5.0) - 2016-04-14
+## [0.5.1](https://github.com/rougin/slytherin/compare/v0.5.0...v0.5.1) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Added
+- `NoopFinalHandler` in `StratigilityMiddleware`
+
+### Fixed
+- Compatibility issues from `v0.4.4` release
+- Issue if no middleware was defined in `Application`
+
+## [0.5.0](https://github.com/rougin/slytherin/compare/v0.4.4...v0.5.0) - 2016-04-14
 
 ### Added
 - `Middleware` component
@@ -194,6 +252,19 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Changed
 - PHP version to `v5.4.0`
 - Interface from `RequestInterface` to `ServerRequestInterface` in `Components`
+
+## [0.4.4](https://github.com/rougin/slytherin/compare/v0.4.3...v0.4.4) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Added
+- `ComponentCollection`
+- `ErrorHandler` (`ErrorHandlerInterface`, `Whoops`)
+- `IoC\Auryn`
+- `Template\Twig`
+
+### Fixed
+- Missing `container-interop/container-interop` package in `composer.json`
 
 ## [0.4.3](https://github.com/rougin/slytherin/compare/v0.4.2...v0.4.3) - 2016-02-19
 
@@ -239,7 +310,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
 - Dependency of [nikic/fast-route](https://github.com/nikic/FastRoute) in `Dispatching` (use `Dispatching\FastRoute` instead)
 
-## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.1...v0.3.0) - 2015-11-02
+## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.2...v0.3.0) - 2015-11-02
 
 **NOTE**: This release will break your application if upgrading from `v0.2.0` release.
 
@@ -252,6 +323,17 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - Almost everything, this release will be no longer an application skeleton
+
+## [0.2.2](https://github.com/rougin/slytherin/compare/v0.2.1...v0.2.2) - 2023-12-08
+
+**NOTE**: This is a backport fix to lessen backward compatibility issues.
+
+### Changed
+- `post-install-cmd` to `post-update-cmd` in `README.md`
+- Detailed example in creating the `CRUD` code
+
+### Fixed
+- Missing `APPPATH` after generating `index.php` from `Installer`
 
 ## [0.2.1](https://github.com/rougin/slytherin/compare/v0.2.0...v0.2.1) - 2015-09-30
 

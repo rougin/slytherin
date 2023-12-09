@@ -2,9 +2,9 @@
 
 namespace Rougin\Slytherin\Sample\Handlers\Parsed;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
-use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * @package Slytherin
@@ -12,12 +12,12 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Request implements MiddlewareInterface
 {
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $data = array('name' => 'Slytherin');
 
         $request = $request->withParsedBody($data);
 
-        return $delegate->process($request);
+        return $handler->handle($request);
     }
 }

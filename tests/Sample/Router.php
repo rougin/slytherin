@@ -26,6 +26,17 @@ class Router extends Slytherin
 
         $this->get('without-slash', 'Hello@string');
 
+        $fn = function ($request, $next)
+        {
+            $response = $next($request);
+
+            $response->getBody()->write('From callable middleware!');
+
+            return $response;
+        };
+
+        $this->get('middleware', 'Hello@response', $fn);
+
         $this->get('/', 'Home@index');
 
         $this->get('/callable', function ()
@@ -48,6 +59,10 @@ class Router extends Slytherin
         $this->get('/handler/conts', 'Hello@conts');
 
         $this->get('/handler/param', 'Hello@param');
+
+        $interop = 'Rougin\Slytherin\Sample\Handlers\Interop';
+
+        $this->get('interop', 'Hello@response', $interop);
 
         return parent::routes($parsed);
     }

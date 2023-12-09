@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Rougin\Slytherin\Integration\Configuration;
+
 /**
  * Integration Interface Test
  *
@@ -22,39 +24,18 @@ class IntegrationInterfaceTest extends ApplicationTestCases
         $integrations[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
         $integrations[] = 'Rougin\Slytherin\Http\HttpIntegration';
         $integrations[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+        $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+        $integrations[] = 'Rougin\Slytherin\Template\RendererIntegration';
+        $integrations[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
 
-        $config = new \Rougin\Slytherin\Integration\Configuration;
+        $config = new Configuration;
 
-        $config->set('app.router', $this->router());
+        $router = $this->router();
 
-        if (interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface'))
-        {
-            $integrations[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+        $config->set('app.router', $router);
 
-            $middlewares = array('Rougin\Slytherin\Fixture\Middlewares\EmptyMiddleware');
-
-            $config->set('app.middlewares', $middlewares);
-        }
-
-        $app = new \Rougin\Slytherin\Application;
-
-        $app->integrate('Rougin\Slytherin\Template\RendererIntegration');
-        $app->integrate('Rougin\Slytherin\Integration\ConfigurationIntegration');
+        $app = new Application;
 
         $this->application = $app->integrate($integrations, $config);
-    }
-
-    /**
-     * Tests the instances of static::$container.
-     *
-     * @return
-     */
-    public function testStaticContainer()
-    {
-        $container = \Rougin\Slytherin\Application::container();
-
-        $interface = 'Rougin\Slytherin\Template\RendererInterface';
-
-        $this->assertTrue($container->has($interface));
     }
 }

@@ -3,6 +3,10 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\Wrapper;
+use Rougin\Slytherin\System\Endofline;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Dispatcher Test Cases
@@ -10,10 +14,10 @@ use Rougin\Slytherin\Http\ServerRequest;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DispatcherTestCases extends \Rougin\Slytherin\Testcase
+class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Middleware\DispatcherInterface
+     * @var \Rougin\Slytherin\Middleware\Dispatch
      */
     protected $dispatcher;
 
@@ -24,11 +28,14 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testProcessMethodWithDoublePassCallback()
     {
-        $this->dispatcher->push(function ($request, $response, $next) {
+        $fn = function ($request, $response, $next)
+        {
             $response = $next($request, $response)->withStatus(404);
 
             return $response->withHeader('X-Slytherin', time());
-        });
+        };
+
+        $this->dispatcher->push($fn);
 
         $expected = (integer) 404;
 
@@ -44,31 +51,35 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testProcessMethodWithSinglePassCallback()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
+        if (is_a($this->dispatcher, $class))
+        {
+            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
+            $zend = $this->dispatcher;
 
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
-            $message = 'Stratigility\'s current installed version';
-
-            $message .= ' does not accept single pass middlewares';
-
-            $this->markTestSkipped((string) $message);
+            if (! $zend->hasPsr() && ! $zend->hasFactory())
+            {
+                $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
+            }
         }
 
         $time = (integer) time();
 
-        $this->dispatcher->push(function ($request, $next) use ($time) {
+        $fn = function ($request, $next) use ($time)
+        {
             $response = $next($request);
 
             return $response->withHeader('X-Slytherin', $time);
-        });
+        };
 
-        $expected = array((integer) $time);
+        $this->dispatcher->push($fn);
 
-        $result = $this->process()->getHeader('X-Slytherin');
+        $expected = array($time);
 
-        $this->assertEquals($expected, $result);
+        $actual = $this->process()->getHeader('X-Slytherin');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -78,23 +89,27 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testProcessMethodWithDelagateInterfaceCallback()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
+        if (is_a($this->dispatcher, $class))
+        {
+            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
+            $zend = $this->dispatcher;
 
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
-            $message = 'Stratigility\'s current version';
-
-            $message .= (string) ' does not accept delegates';
-
-            $this->markTestSkipped((string) $message);
+            if (! $zend->hasPsr() && ! $zend->hasFactory())
+            {
+                $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
+            }
         }
 
-        $this->dispatcher->push(function ($request, $delegate) {
-            $response = $delegate->process($request);
+        $fn = function ($request, $next)
+        {
+            $response = $next($request);
 
             return $response->withHeader('Content-Type', 'application/json');
-        });
+        };
+
+        $this->dispatcher->push($fn);
 
         $expected = array('application/json');
 
@@ -110,16 +125,9 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testProcessMethodWithString()
     {
-        $stratigility = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
-
-        $wrapper = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapper';
-
-        if (is_a($this->dispatcher, $stratigility) && ! class_exists($wrapper)) {
-            $message = 'Stratigility\'s current version';
-
-            $message .= ' does not accept PSR-15 middlewares';
-
-            $this->markTestSkipped((string) $message);
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
         }
 
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
@@ -140,11 +148,16 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testPushMethodWithArray()
     {
-        $expected = array('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
 
-        $expected[] = 'Rougin\Slytherin\Middleware\FinalResponse';
+        $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
-        $this->dispatcher->push($expected);
+        $expected = array(new Wrapper($interop));
+
+        $this->dispatcher->push(array($interop));
 
         $result = $this->dispatcher->stack();
 
@@ -158,15 +171,16 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
      */
     public function testStackMethod()
     {
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
+
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
-        $this->dispatcher->push('Rougin\Slytherin\Middleware\FinalResponse');
+        $actual = $this->dispatcher->stack();
 
-        $expected = (integer) 2;
-
-        $result = $this->dispatcher->stack();
-
-        $this->assertCount($expected, $result);
+        $this->assertCount(1, $actual);
     }
 
     /**
@@ -186,6 +200,6 @@ class DispatcherTestCases extends \Rougin\Slytherin\Testcase
 
         $request = new ServerRequest($server);
 
-        return $this->dispatcher->process($request, new Delegate);
+        return $this->dispatcher->process($request, new Endofline);
     }
 }

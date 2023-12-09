@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
-
 /**
  * Dispatcher Interface
  *
@@ -16,28 +13,19 @@ use Psr\Http\Message\ServerRequestInterface;
 interface DispatcherInterface extends MiddlewareInterface
 {
     /**
-     * Processes the specified middlewares from stack.
-     * NOTE: To be removed in v1.0.0. Use MiddlewareInterface::process instead.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface                                       $request
-     * @param  \Psr\Http\Message\ResponseInterface                                            $response
-     * @param  array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface|callable|string> $stack
-     * @return \Psr\Http\Message\ResponseInterface
+     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */
-    public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $stack = array());
+    public function getStack();
 
     /**
-     * Adds a new middleware or a list of middlewares in the stack.
-     *
-     * @param  array<int, mixed>|\Interop\Http\ServerMiddleware\MiddlewareInterface|callable|string $middleware
+     * @param  mixed $middleware
      * @return self
      */
     public function push($middleware);
 
     /**
-     * Returns the listing of middlewares included.
-     *
-     * @return array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface|callable|string>
+     * @param  mixed[] $stack
+     * @return self
      */
-    public function stack();
+    public function setStack($stack);
 }

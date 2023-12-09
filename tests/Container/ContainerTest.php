@@ -11,7 +11,7 @@ namespace Rougin\Slytherin\Container;
 class ContainerTest extends \Rougin\Slytherin\Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\Container
      */
     protected $container;
 

@@ -32,7 +32,7 @@ class RendererTest extends Testcase
             $this->markTestSkipped('Twig is not installed.');
         }
 
-        $path = __DIR__ . '/../../Fixture/Templates';
+        $path = realpath(__DIR__ . '/../../Fixture/Templates');
 
         $this->twig = $twig->load((string) $path);
 
@@ -48,7 +48,7 @@ class RendererTest extends Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $rendered = $this->renderer->render('test.php');
+        $rendered = $this->renderer->render('test', array(), 'php');
 
         $this->assertEquals($expected, $rendered);
     }
@@ -64,7 +64,7 @@ class RendererTest extends Testcase
 
         $data = array('name' => 'template');
 
-        $rendered = $this->renderer->render('test-with-twig-data.php', $data);
+        $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
 
         $this->assertEquals($expected, $rendered);
     }
@@ -84,7 +84,7 @@ class RendererTest extends Testcase
 
         $renderer->addGlobal('test', 'wew');
 
-        $rendered = $renderer->render('test-with-twig-data.php');
+        $rendered = $renderer->render('test-with-twig-data', array(), 'php');
 
         $this->assertEquals($expected, $rendered);
     }

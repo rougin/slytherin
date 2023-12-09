@@ -37,8 +37,6 @@ class LeagueContainer extends BaseContainer implements ContainerInterface
             $params = array($id, $concrete);
 
             call_user_func_array($class, $params);
-
-            return $this;
         }
         // --------------------------------------------
 

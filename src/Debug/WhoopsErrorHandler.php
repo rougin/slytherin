@@ -66,7 +66,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Returns a listing of handlers.
-     * NOTE: To be removed in v1.0.0. Use __call() instead.
+     * NOTE: To be removed in v1.0.0. Use __call" instead.
      *
      * @return \Whoops\Handler\HandlerInterface[]
      */
@@ -93,7 +93,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Sets a handler.
-     * NOTE: To be removed in v1.0.0. Use __call() instead.
+     * NOTE: To be removed in v1.0.0. Use __call" instead.
      *
      * @param  \Whoops\Handler\HandlerInterface|callable $handler
      * @return void

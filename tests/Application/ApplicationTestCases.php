@@ -90,10 +90,6 @@ class ApplicationTestCases extends Testcase
      */
     public function testHandleMethodWithMiddleware()
     {
-        $interface = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
-
-        interface_exists($interface) || $this->markTestSkipped('PSR-15 is not installed.');
-
         $request = $this->request('GET', '/middleware');
 
         $expected = (string) 'Loaded with middleware';
@@ -206,7 +202,7 @@ class ApplicationTestCases extends Testcase
     {
         $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
-        $dispatcher = Application::container()->get($interface);
+        $dispatcher = $this->application->get($interface);
 
         // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver ----------
         if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher'))
@@ -270,19 +266,6 @@ class ApplicationTestCases extends Testcase
                 break;
         }
 
-        // TODO: Remove this one. This was added because of Phroute will resolve it automatically. :( ---
-        $static = Application::container();
-
-        if ($static && method_exists($static, 'set'))
-        {
-            $class = (string) Application::SERVER_REQUEST;
-
-            $container = call_user_func(array($static, 'set'), $class, $request);
-
-            $this->application = new Application($container);
-        }
-        // ----------------------------------------------------------------------------------------------
-
         return $request;
     }
 
@@ -293,7 +276,7 @@ class ApplicationTestCases extends Testcase
      */
     protected function router()
     {
-        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\FinalMiddleware';
 
         $router = new Router;
 

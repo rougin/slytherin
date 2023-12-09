@@ -3,18 +3,24 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
-
-use Rougin\Slytherin\Fixture\TestClass;
-use Rougin\Slytherin\Fixture\TestClassWithEmptyConstructor;
+use Rougin\Slytherin\Template\Renderer;
 
 /**
- * Collection Component
+ * Template Component
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class CollectionComponent extends AbstractComponent
+class TemplateComponent extends AbstractComponent
 {
+    /**
+     * Type of the component:
+     * container, dispatcher, debugger, http, middleware, template
+     *
+     * @var string
+     */
+    protected $type = 'template';
+
     /**
      * Returns an instance from the named class.
      * It's used in supporting component types for Slytherin.
@@ -23,6 +29,6 @@ class CollectionComponent extends AbstractComponent
      */
     public function get()
     {
-        return array(new TestClass, new TestClassWithEmptyConstructor);
+        return new Renderer(array());
     }
 }

@@ -43,11 +43,7 @@ class ErrorHandlerIntegration implements IntegrationInterface
         {
             ini_set('display_errors', '1');
 
-            error_reporting(E_ALL);
-
-            // NOTE: To be removed in v1.0.0. Use $handler->display() instead. ---
-            $container->set(Application::ERROR_HANDLER, $handler);
-            // -------------------------------------------------------------------
+            error_reporting(E_ALL); $handler->display();
         }
 
         return $container;

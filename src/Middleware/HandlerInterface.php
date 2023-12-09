@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Handler Interface
@@ -12,6 +12,11 @@ use Interop\Http\ServerMiddleware\DelegateInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-interface HandlerInterface extends DelegateInterface
+interface HandlerInterface
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function handle(ServerRequestInterface $request);
 }

@@ -2,17 +2,20 @@
 
 namespace Rougin\Slytherin\Fixture\Components;
 
+use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Debug\Vanilla\Debugger;
+
 /**
  * Debugger Component
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerComponent extends \Rougin\Slytherin\Component\AbstractComponent
+class DebuggerComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      *
      * @var string
      */
@@ -26,7 +29,7 @@ class DebuggerComponent extends \Rougin\Slytherin\Component\AbstractComponent
      */
     public function get()
     {
-        $debugger = new \Rougin\Slytherin\Debug\Vanilla\Debugger;
+        $debugger = new Debugger;
 
         $debugger->setEnvironment('development');
 

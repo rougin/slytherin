@@ -92,23 +92,17 @@ class ReflectionContainer implements PsrContainerInterface
 
         foreach ($items as $key => $item)
         {
-            $name = (string) $item->getName();
-
             // Backward compatibility for ReflectionParameter ---
             $param = new Parameter($item);
 
-            if ($param->getClass())
-            {
-                $name = $param->getClass()->getName();
-            }
+            $name = $param->getName();
             // --------------------------------------------------
 
-            $result[$key] = $this->argument($item, $name);
+            $result[$key] = $this->argument($item, (string) $name);
 
-            if (array_key_exists($name, $parameters))
-            {
-                $result[$key] = $parameters[(string) $name];
-            }
+            $exists = array_key_exists($name, $parameters);
+
+            if ($exists) $result[$key] = $parameters[$name];
         }
 
         return $result;

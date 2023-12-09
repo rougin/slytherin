@@ -2,7 +2,8 @@
 
 namespace Rougin\Slytherin\Fixture\Components;
 
-use Rougin\Slytherin\Middleware\Stratigility\Middleware;
+use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Middleware\Middleware;
 
 /**
  * Middleware Component
@@ -10,11 +11,11 @@ use Rougin\Slytherin\Middleware\Stratigility\Middleware;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MiddlewareComponent extends \Rougin\Slytherin\Component\AbstractComponent
+class MiddlewareComponent extends AbstractComponent
 {
     /**
      * Type of the component:
-     * dispatcher, debugger, http, middleware
+     * container, dispatcher, debugger, http, middleware, template
      *
      * @var string
      */
@@ -28,6 +29,6 @@ class MiddlewareComponent extends \Rougin\Slytherin\Component\AbstractComponent
      */
     public function get()
     {
-        return new Middleware(new \Zend\Stratigility\MiddlewarePipe);
+        return new Middleware;
     }
 }

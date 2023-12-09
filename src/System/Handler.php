@@ -1,28 +1,24 @@
 <?php
 
-namespace Rougin\Slytherin\Application;
+namespace Rougin\Slytherin\System;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Middleware\HandlerInterface;
 use Rougin\Slytherin\Routing\RouteInterface;
+use Rougin\Slytherin\System;
 
 /**
- * Final Callback
- *
  * Builds the final callback after handling from application.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class FinalCallback
+class Handler implements HandlerInterface
 {
-    const REQUEST = 'Psr\Http\Message\ServerRequestInterface';
-
-    const RESPONSE = 'Psr\Http\Message\ResponseInterface';
-
     /**
-     * @var \Rougin\Slytherin\Container\Container
+     * @var \Rougin\Slytherin\Container\ContainerInterface
      */
     protected $container;
 
@@ -32,16 +28,16 @@ class FinalCallback
     protected $route;
 
     /**
-     * Sets up the callback handler.
+     * Initializes the system handler.
      *
-     * @param \Rougin\Slytherin\Routing\RouteInterface $route
-     * @param \Rougin\Slytherin\Container\Container    $container
+     * @param \Rougin\Slytherin\Routing\RouteInterface       $route
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
      */
-    public function __construct(RouteInterface $route, Container $container)
+    public function __construct(RouteInterface $route, ContainerInterface $container)
     {
-        $this->container = $container;
-
         $this->route = $route;
+
+        $this->container = $container;
     }
 
     /**
@@ -50,17 +46,19 @@ class FinalCallback
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function __invoke(ServerRequestInterface $request)
+    public function handle(ServerRequestInterface $request)
     {
         // Attach the request again in the container to reflect from stack ---
-        $this->container->set(self::REQUEST, $request);
+        $this->container->set(System::REQUEST, $request);
         // -------------------------------------------------------------------
+
+        $resolver = new Resolver($this->container);
 
         $handler = $this->route->getHandler();
 
         if (is_array($handler) && is_string($handler[0]))
         {
-            $handler[0] = $this->container->resolve($handler[0], $request);
+            $handler[0] = $resolver->resolve($handler[0], $request);
 
             /** @var object|string */
             $objectOrMethod = $handler[0];
@@ -85,30 +83,7 @@ class FinalCallback
 
         $handler = call_user_func_array($callable, $params);
 
-        return $this->finalize($handler);
-    }
-
-    /**
-     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface|mixed $function
-     * @return \Psr\Http\Message\ResponseInterface
-     */
-    protected function finalize($function)
-    {
-        /** @var \Psr\Http\Message\ResponseInterface */
-        $response = $this->container->get(self::RESPONSE);
-
-        if (is_string($function))
-        {
-            $stream = $response->getBody();
-
-            $stream->write($function);
-        }
-
-        $instanceof = $function instanceof ResponseInterface;
-
-        return $instanceof ? $function : $response;
+        return $this->setResponse($handler);
     }
 
     /**
@@ -119,16 +94,18 @@ class FinalCallback
      */
     protected function setParams(\ReflectionFunctionAbstract $reflector)
     {
+        $resolver = new Resolver($this->container);
+
         $params = $this->route->getParams();
 
         if (empty($params))
         {
-            return $this->container->arguments($reflector, $params);
+            return $resolver->getArguments($reflector, $params);
         }
 
         $items = $reflector->getParameters();
 
-        $values = $this->container->arguments($reflector, $params);
+        $values = $resolver->getArguments($reflector, $params);
 
         $result = array();
 
@@ -140,5 +117,26 @@ class FinalCallback
         }
 
         return $result;
+    }
+
+    /**
+     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
+     *
+     * @param  \Psr\Http\Message\ResponseInterface|mixed $function
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    protected function setResponse($function)
+    {
+        /** @var \Psr\Http\Message\ResponseInterface */
+        $response = $this->container->get(System::RESPONSE);
+
+        if (is_string($function))
+        {
+            $response->getBody()->write($function);
+        }
+
+        $instanceof = $function instanceof ResponseInterface;
+
+        return $instanceof ? $function : $response;
     }
 }

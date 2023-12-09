@@ -2,13 +2,26 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Rougin\Slytherin\Component\Collection;
+use Rougin\Slytherin\Debug\Vanilla\Debugger;
+use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
+use Rougin\Slytherin\Dispatching\Vanilla\Router;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\IoC\Vanilla\Container;
+use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\VanillaMiddleware;
+use Rougin\Slytherin\Template\TwigLoader;
+use Rougin\Slytherin\Template\TwigRenderer;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Component Collection Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class CollectionTest extends \Rougin\Slytherin\Testcase
+class CollectionTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Component\Collection
@@ -22,7 +35,7 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        $this->components = new \Rougin\Slytherin\Component\Collection;
+        $this->components = new Collection;
     }
 
     /**
@@ -32,16 +45,29 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetContainerMethod()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface'))
-        {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
+        $expected = new Container;
 
-        $container = new \Rougin\Slytherin\IoC\Vanilla\Container;
+        $this->components->setContainer($expected);
 
-        $this->components->setContainer($container);
+        $actual = $this->components->getContainer();
 
-        $this->assertEquals($container, $this->components->getContainer());
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests the setDependencyInjector() method.
+     *
+     * @return void
+     */
+    public function testSetDependencyInjectorMethod()
+    {
+        $expected = new Container;
+
+        $this->components->setDependencyInjector($expected);
+
+        $actual = $this->components->getDependencyInjector();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -51,13 +77,13 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetDispatcherMethod()
     {
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router;
+        $expected = new Dispatcher(new Router);
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\Vanilla\Dispatcher($router);
+        $this->components->setDispatcher($expected);
 
-        $this->components->setDispatcher($dispatcher);
+        $actual = $this->components->getDispatcher();
 
-        $this->assertEquals($dispatcher, $this->components->getDispatcher());
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -67,11 +93,29 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetDebuggerMethod()
     {
-        $debugger = new \Rougin\Slytherin\Debug\Vanilla\Debugger;
+        $expected = new Debugger;
 
-        $this->components->setDebugger($debugger);
+        $this->components->setDebugger($expected);
 
-        $this->assertEquals($debugger, $this->components->getDebugger());
+        $actual = $this->components->getDebugger();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests the setErrorHandler() method.
+     *
+     * @return void
+     */
+    public function testSetErrorHandlerMethod()
+    {
+        $expected = new Debugger;
+
+        $this->components->setErrorHandler($expected);
+
+        $actual = $this->components->getErrorHandler();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -81,24 +125,23 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
+        $server = array();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
-        $server = array(
-            'SERVER_NAME'    => 'localhost',
-            'SERVER_PORT'    => '8000',
-            'REQUEST_URI'    => '/',
-            'REQUEST_METHOD' => 'GET',
-        );
+        $request = new ServerRequest($server);
 
-        $response = new \Rougin\Slytherin\Http\Response;
-        $request  = new \Rougin\Slytherin\Http\ServerRequest($server);
+        $response = new Response;
+
+        $expected = array($request, $response);
 
         $this->components->setHttp($request, $response);
 
-        $this->assertEquals(array($request, $response), $this->components->getHttp());
+        $actual = $this->components->getHttp();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -108,23 +151,19 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpRequestMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ServerRequestInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
+        $server = array();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
-        $server = array(
-            'SERVER_NAME'    => 'localhost',
-            'SERVER_PORT'    => '8000',
-            'REQUEST_URI'    => '/',
-            'REQUEST_METHOD' => 'GET',
-        );
+        $expected = new ServerRequest($server);
 
-        $request  = new \Rougin\Slytherin\Http\ServerRequest($server);
+        $this->components->setHttpRequest($expected);
 
-        $this->components->setHttpRequest($request);
+        $actual = $this->components->getHttpRequest();
 
-        $this->assertEquals($request, $this->components->getHttpRequest());
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -134,16 +173,13 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHttpResponseMethod()
     {
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR HTTP Message is not installed.');
-        }
+        $expected = new Response;
 
-        $response = new \Rougin\Slytherin\Http\Response;
+        $this->components->setHttpResponse($expected);
 
-        $this->components->setHttpResponse($response);
+        $actual = $this->components->getHttpResponse();
 
-        $this->assertEquals($response, $this->components->getHttpResponse());
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -153,28 +189,44 @@ class CollectionTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetMiddlewareMethod()
     {
-        $response = 'Psr\Http\Message\ResponseInterface';
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not yet installed');
+        }
 
-        interface_exists($response) || $this->markTestSkipped('PSR HTTP Message is not installed.');
+        $expected = new VanillaMiddleware;
 
-        $middleware = 'Interop\Http\ServerMiddleware\MiddlewareInterface';
+        $this->components->setMiddleware($expected);
 
-        interface_exists($middleware) || $this->markTestSkipped('Interop Middleware is not installed.');
+        $actual = $this->components->getMiddleware();
 
-        $middleware = new \Rougin\Slytherin\Middleware\VanillaMiddleware;
-
-        $this->components->setMiddleware($middleware);
-
-        $this->assertEquals($middleware, $this->components->getMiddleware());
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if get() returns null.
+     * Tests the setMiddleware() method.
      *
      * @return void
      */
-    public function testGetNullComponent()
+    public function testSetTemplateMethod()
     {
-        $this->assertNull($this->components->getDebugger());
+        $twig = new TwigLoader;
+
+        if (! $twig->exists())
+        {
+            $this->markTestSkipped('Twig is not installed.');
+        }
+
+        $path = realpath(__DIR__ . '/../../Fixture/Templates');
+
+        $environment = $twig->load($path);
+
+        $expected = new TwigRenderer($environment);
+
+        $this->components->setTemplate($expected);
+
+        $actual = $this->components->getTemplate();
+
+        $this->assertEquals($expected, $actual);
     }
 }

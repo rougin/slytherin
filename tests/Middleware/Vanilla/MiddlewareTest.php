@@ -2,70 +2,72 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Vanilla\Middleware;
+use Rougin\Slytherin\System\Endofline;
+use Rougin\Slytherin\Testcase;
+
 /**
- * Stratigility Middleware Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MiddlewareTest extends \Rougin\Slytherin\Testcase
+class MiddlewareTest extends Testcase
 {
     /**
-     * Tests __invoke() method
-     *
      * @return void
      */
     public function testInvokeMethod()
     {
-        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $this->markTestSkipped('Interop Middleware is not installed.');
-        }
+        $server = array();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI']    = '/';
-        $_SERVER['SERVER_NAME']    = 'localhost';
-        $_SERVER['SERVER_PORT']    = '8000';
+        $middleware = new Middleware;
+        $request = new ServerRequest($server);
+        $response = new Response;
 
-        $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
-        $request    = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
-        $response   = new \Rougin\Slytherin\Http\Response;
-
-        $middleware->push(function ($request, $next = null) {
+        $fn = function ($request, $next)
+        {
             return $next($request);
-        });
+        };
+
+        $middleware->push($fn);
 
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
 
-        $response = $middleware($request, $response, $middleware->getStack());
+        $expected = 'First! Second! Last!';
 
-        $this->assertEquals('First! Second! Last!', (string) $response->getBody());
+        $response = $middleware->process($request, new Endofline);
+        $actual = (string) $response->getBody();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests process() method
-     *
      * @return void
      */
     public function testProcessMethod()
     {
-        if (! interface_exists('Interop\Http\ServerMiddleware\MiddlewareInterface')) {
-            $this->markTestSkipped('Interop Middleware is not installed.');
-        }
+        $server = array();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI']    = '/';
-        $_SERVER['SERVER_NAME']    = 'localhost';
-        $_SERVER['SERVER_PORT']    = '8000';
-
-        $middleware = new \Rougin\Slytherin\Middleware\Vanilla\Middleware;
-        $request = new \Rougin\Slytherin\Http\ServerRequest($_SERVER);
-        $response = new \Rougin\Slytherin\Http\Response;
+        $middleware = new Middleware;
+        $request = new ServerRequest($server);
 
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
-        $middleware->push('Rougin\Slytherin\Middleware\FinalResponse');
 
-        $this->assertInstanceOf('Psr\Http\Message\ResponseInterface', $middleware($request, $response));
+        $expected = 'Psr\Http\Message\ResponseInterface';
+
+        $actual = $middleware->process($request, new Endofline);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 }

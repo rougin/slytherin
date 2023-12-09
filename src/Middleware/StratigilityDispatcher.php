@@ -2,10 +2,13 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Middleware\Doublepass;
+use Rougin\Slytherin\Middleware\HandlerInterface;
+use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\MiddlewareInterface;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -22,53 +25,133 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * @var \Zend\Stratigility\MiddlewarePipe
      */
-    protected $pipeline;
+    protected $zend;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface
+     * @param \Zend\Stratigility\MiddlewarePipe $pipe
+     * @param mixed[]                           $stack
      */
-    protected $response;
-
-    /**
-     * @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string>
-     */
-    protected $stack = array();
-
-    /**
-     * Initializes the dispatcher instance.
-     *
-     * @param \Zend\Stratigility\MiddlewarePipe                                              $pipeline
-     * @param array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
-     * @param \Psr\Http\Message\ResponseInterface|null                                       $response
-     */
-    public function __construct(MiddlewarePipe $pipeline, array $stack = array(), ResponseInterface $response = null)
+    public function __construct(MiddlewarePipe $pipe, $stack = array())
     {
-        $this->pipeline = $pipeline;
+        parent::__construct($stack);
 
-        $this->response = $response ?: new Response;
-
-        $this->stack = $stack;
+        $this->zend = $pipe;
     }
 
     /**
-     * Processes an incoming server request and return a response.
-     *
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @return boolean
+     */
+    public function hasFactory()
+    {
+        return class_exists('Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory');
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasPsr()
+    {
+        return class_exists('Zend\Stratigility\Middleware\CallableMiddlewareDecorator');
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $wrap = class_exists('Zend\Stratigility\Middleware\ErrorHandler');
+        $response = new Response;
 
-        foreach ($this->stack as $middleware)
+        $this->setFactory($response);
+
+        foreach ($this->getStack() as $item)
         {
-            if (is_string($middleware)) $middleware = new $middleware;
+            $item = $this->setMiddleware($item);
 
-            /** @var \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface $middleware */
-            $this->pipeline->pipe($this->transform($middleware, $wrap));
+            if (! $this->hasFactory() && $this->hasPsr())
+            {
+                $item = $this->setPsrMiddleware($item);
+            }
+
+            $this->zend->pipe($item);
         }
 
-        return $this->pipeline->__invoke($request, $this->response, $delegate);
+        // Force version check to 1.0.0 if using v3.0 ---
+        $version = $this->hasPsr() ? '1.0.0' : null;
+        // ----------------------------------------------
+
+        $next = Interop::getHandler($handler, $version);
+
+        $zend = $this->zend;
+
+        if ($this->hasPsr())
+        {
+            /** @phpstan-ignore-next-line */
+            return $zend->process($request, $next);
+        }
+
+        /** @phpstan-ignore-next-line */
+        return $zend($request, $response, $next);
+    }
+
+    /**
+     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @return void
+     * @codeCoverageIgnore
+     */
+    protected function setFactory(ResponseInterface $response)
+    {
+        if (! $this->hasFactory()) return;
+
+        /** @var class-string */
+        $factory = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory';
+
+        $class = new \ReflectionClass((string) $factory);
+
+        $factory = $class->newInstance($response);
+
+        /** @var callable */
+        $class = array($this->zend, 'setCallableMiddlewareDecorator');
+
+        call_user_func_array($class, array($factory));
+    }
+
+    /**
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $item
+     * @return callable
+     */
+    protected function setMiddleware(MiddlewareInterface $item)
+    {
+        if ($this->hasPsr())
+        {
+            return function ($request, $handler) use ($item)
+            {
+                return $item->process($request, new Interop($handler));
+            };
+        }
+
+        return function ($request, $response, $next) use ($item)
+        {
+            /** @var callable $next */
+            $handle = new Doublepass($next, $response);
+
+            return $item->process($request, $handle);
+        };
+    }
+
+    /**
+     * @param  callable $item
+     * @return object
+     * @codeCoverageIgnore
+     */
+    protected function setPsrMiddleware($item)
+    {
+        /** @var class-string */
+        $psr = 'Zend\Stratigility\Middleware\CallableMiddlewareDecorator';
+
+        $class = new \ReflectionClass($psr);
+
+        return $class->newInstance($item);
     }
 }

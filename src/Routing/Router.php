@@ -30,7 +30,7 @@ class Router implements RouterInterface
     /**
      * Initializes the router instance.
      *
-     * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>> $routes
      */
     public function __construct(array $routes = array())
     {
@@ -49,7 +49,7 @@ class Router implements RouterInterface
             /** @var callable|string[]|string */
             $handler = $route[2];
 
-            /** @var \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string */
+            /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string */
             $middlewares = isset($route[3]) ? $route[3] : array();
 
             if (is_string($middlewares)) $middlewares = array($middlewares);
@@ -62,9 +62,9 @@ class Router implements RouterInterface
      * Adds a new raw route.
      *
      * @param  string                                                        $method
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array())
@@ -98,12 +98,12 @@ class Router implements RouterInterface
 
     /**
      * Adds a new raw route.
-     * NOTE: To be removed in v1.0.0. Use $this->add() instead.
+     * NOTE: To be removed in v1.0.0. Use "add" instead.
      *
      * @param  string                                                        $method
      * @param  string                                                        $route
      * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function addRoute($method, $route, $handler, $middlewares = array())
@@ -113,7 +113,7 @@ class Router implements RouterInterface
 
     /**
      * Merges a listing of parsed routes to current one.
-     * NOTE: To be removed in v1.0.0. Use $this->merge() instead.
+     * NOTE: To be removed in v1.0.0. Use "merge" instead.
      *
      * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
@@ -126,9 +126,9 @@ class Router implements RouterInterface
     /**
      * Adds a DELETE route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function delete($uri, $handler, $middlewares = array())
@@ -162,9 +162,9 @@ class Router implements RouterInterface
     /**
      * Adds a GET route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function get($uri, $handler, $middlewares = array())
@@ -174,7 +174,7 @@ class Router implements RouterInterface
 
     /**
      * Returns a specific route based on the specified HTTP method and URI.
-     * NOTE: To be removed in v1.0.0. Use $this->retrieve() instead.
+     * NOTE: To be removed in v1.0.0. Use "retrieve" instead.
      *
      * @param  string $method
      * @param  string $uri
@@ -187,7 +187,7 @@ class Router implements RouterInterface
 
     /**
      * Returns a listing of available routes.
-     * NOTE: To be removed in v1.0.0. Use $this->routes() instead.
+     * NOTE: To be removed in v1.0.0. Use "routes" instead.
      *
      * @return \Rougin\Slytherin\Routing\RouteInterface[]
      */
@@ -235,9 +235,9 @@ class Router implements RouterInterface
     /**
      * Adds a PATCH route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function patch($uri, $handler, $middlewares = array())
@@ -248,9 +248,9 @@ class Router implements RouterInterface
     /**
      * Adds a POST route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function post($uri, $handler, $middlewares = array())
@@ -284,9 +284,9 @@ class Router implements RouterInterface
     /**
      * Adds a PUT route.
      *
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function put($uri, $handler, $middlewares = array())
@@ -319,7 +319,7 @@ class Router implements RouterInterface
 
     /**
      * Finds a specific route based on the specified HTTP method and URI.
-     * NOTE: To be removed in v1.0.0. Use $this->find() instead.
+     * NOTE: To be removed in v1.0.0. Use "find" instead.
      *
      * @param  string $method
      * @param  string $uri
@@ -342,7 +342,7 @@ class Router implements RouterInterface
 
     /**
      * Sets a prefix for the succeeding route endpoints.
-     * NOTE: To be removed in v1.0.0. Use $this->prefix() instead.
+     * NOTE: To be removed in v1.0.0. Use "prefix" instead.
      *
      * @param  string $prefix
      * @param  string $namespace

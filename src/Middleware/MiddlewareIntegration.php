@@ -2,11 +2,10 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
-use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
+use Rougin\Slytherin\System;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -33,38 +32,14 @@ class MiddlewareIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $middleware = Application::MIDDLEWARE;
+        $middleware = System::MIDDLEWARE;
 
         if (! interface_exists($middleware)) return $container;
 
-        /** @var \Psr\Http\Message\ResponseInterface */
-        $response = $container->get('Psr\Http\Message\ResponseInterface');
-
-        /** @var array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> */
+        /** @var array<int, mixed> */
         $stack = $config->get('app.middlewares', array());
 
-        $dispatcher = $this->dispatcher($response, $stack);
-
-        // NOTE: To be removed in v1.0.0. Use Middleware\DispatcherInterface instead. ---
-        $container->set('Rougin\Slytherin\Middleware\MiddlewareInterface', $dispatcher);
-        // ------------------------------------------------------------------------------
-
-        $container->set('Rougin\Slytherin\Middleware\DispatcherInterface', $dispatcher);
-        $container->set('Interop\Http\ServerMiddleware\MiddlewareInterface', $dispatcher);
-
-        return $container;
-    }
-
-    /**
-     * Returns the middleware dispatcher to be used.
-     *
-     * @param  \Psr\Http\Message\ResponseInterface                                            $response
-     * @param  array<int, \Closure|\Interop\Http\ServerMiddleware\MiddlewareInterface|string> $stack
-     * @return \Rougin\Slytherin\Middleware\DispatcherInterface
-     */
-    protected function dispatcher(ResponseInterface $response, $stack)
-    {
-        $dispatcher = new Dispatcher($stack, $response);
+        $dispatch = new Dispatcher($stack);
 
         $empty = $this->preferred === null;
 
@@ -76,9 +51,9 @@ class MiddlewareIntegration implements IntegrationInterface
         {
             $pipe = new MiddlewarePipe;
 
-            $dispatcher = new StratigilityDispatcher($pipe, $stack, $response);
+            $dispatch = new StratigilityDispatcher($pipe);
         }
 
-        return $dispatcher;
+        return $container->set($middleware, $dispatch);
     }
 }

@@ -32,6 +32,7 @@ class Parameter
      * Gets a \ReflectionClass object for the parameter being reflected or "null".
      *
      * @return \ReflectionClass<object>|null
+     * @codeCoverageIgnore
      */
     public function getClass()
     {
@@ -57,5 +58,13 @@ class Parameter
         $class = array($type, 'getName');
 
         return new \ReflectionClass(call_user_func($class));
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getClass() ? $this->getClass()->getName() : $this->param->getName();
     }
 }

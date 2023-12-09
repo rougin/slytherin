@@ -8,7 +8,6 @@ use Phroute\Phroute\RouteCollector;
  * Phroute Router
  *
  * A simple implementation of router that is built on top of Phroute.
- * NOTE: To be removed in v1.0.0. Must conform to one Router only.
  *
  * https://github.com/mrjgreen/phroute
  *
@@ -25,7 +24,7 @@ class PhrouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>> $routes
      */
     public function __construct(array $routes = array())
     {
@@ -37,10 +36,10 @@ class PhrouteRouter extends Router
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $method
-     * @param  string                                                        $uri
-     * @param  callable|string[]|string                                      $handler
-     * @param  \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                                                      $method
+     * @param  string                                                      $uri
+     * @param  callable|string[]|string                                    $handler
+     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array())

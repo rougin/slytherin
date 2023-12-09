@@ -10,7 +10,6 @@ use FastRoute\RouteParser\Std;
  * FastRoute Router
  *
  * A simple implementation of router that is built on top of FastRoute.
- * NOTE: To be removed in v1.0.0. Must conform to one Router only.
  *
  * https://github.com/nikic/FastRoute
  *
@@ -27,7 +26,7 @@ class FastRouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array<int, array<int, \Interop\Http\ServerMiddleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>> $routes
      */
     public function __construct(array $routes = array())
     {
