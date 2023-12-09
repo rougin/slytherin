@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Forward;
+namespace Rougin\Slytherin\Sample;
 
 use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Sample\Builder;

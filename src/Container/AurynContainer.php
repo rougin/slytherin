@@ -17,7 +17,7 @@ use Auryn\Injector;
  * @author  Matthew Turland <me@matthewturland.com>
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends Injector implements ContainerInterface
+class AurynContainer implements ContainerInterface
 {
     /**
      * @var array<string, boolean>
@@ -35,25 +35,11 @@ class AurynContainer extends Injector implements ContainerInterface
     protected $items = array();
 
     /**
-     * Initializes the container instance.
-     * NOTE: To be removed in v1.0.0. It should use \Auryn\Injector::__construct.
-     *
-     * @param \Auryn\Injector|\Auryn\Reflector|null $data
+     * @param \Auryn\Injector $injector
      */
-    public function __construct($data = null)
+    public function __construct(Injector $injector)
     {
-        $injector = $data instanceof Injector;
-
-        $instance = $this;
-
-        if ($injector) $instance = $data;
-
-        if (! $injector)
-        {
-            parent::__construct($data);
-        }
-
-        $this->injector = $instance;
+        $this->injector = $injector;
     }
 
     /**
@@ -127,8 +113,55 @@ class AurynContainer extends Injector implements ContainerInterface
      */
     public function set($id, $concrete)
     {
+        if (! $concrete || is_array($concrete))
+        {
+            $params = is_array($concrete) ? $concrete : array();
+
+            $this->items[$id] = $this->injector->make($id, $params);
+
+            return $this;
+        }
+
         $this->items[$id] = $concrete;
 
+        // Tries to set the instance as shareable ---
+        try
+        {
+            $this->injector->share($concrete);
+        }
+        // @codeCoverageIgnoreStart
+        catch (\Exception $error) {}
+        // @codeCoverageIgnoreEnd
+        // ------------------------------------------
+
+        // Also create an alias if available ---
+        try
+        {
+            /** @var object $concrete */
+            $class = get_class($concrete);
+
+            $this->injector->alias($id, $class);
+        }
+        // @codeCoverageIgnoreStart
+        catch (\Exception $error) {}
+        // @codeCoverageIgnoreEnd
+        // -------------------------------------
+
         return $this;
+    }
+
+    /**
+     * Calls methods from the \Auryn\Injector instance.
+     *
+     * @param  string  $method
+     * @param  mixed[] $params
+     * @return mixed
+     */
+    public function __call($method, $params)
+    {
+        /** @var callable $class */
+        $class = array($this->injector, $method);
+
+        return call_user_func_array($class, $params);
     }
 }

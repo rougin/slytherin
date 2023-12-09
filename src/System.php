@@ -2,9 +2,10 @@
 
 namespace Rougin\Slytherin;
 
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\ConfigurationInterface;
 use Rougin\Slytherin\System\Handler;
 
@@ -18,7 +19,7 @@ use Rougin\Slytherin\System\Handler;
  */
 class System
 {
-    const CONTAINER = 'Psr\Container\ContainerInterface';
+    const CONTAINER = 'Rougin\Slytherin\Container\ContainerInterface';
 
     const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
@@ -49,18 +50,26 @@ class System
     /**
      * Initializes the application instance.
      *
-     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
-     * @param \Rougin\Slytherin\Integration\Configuration|null    $config
+     * @param mixed|null                                       $container
+     * @param \Rougin\Slytherin\Integration\Configuration|null $config
      */
-    public function __construct(ContainerInterface $container = null, ConfigurationInterface $config = null)
+    public function __construct($container = null, ConfigurationInterface $config = null)
     {
         if (! $config) $config = new Configuration;
 
         $this->config = $config;
 
+        if ($container instanceof Collection)
+        {
+            $container = $container->getContainer();
+        }
+
         if (! $container) $container = new Container;
 
-        $this->container = $container;
+        if ($container instanceof ContainerInterface)
+        {
+            $this->container = $container;
+        }
     }
 
     /**

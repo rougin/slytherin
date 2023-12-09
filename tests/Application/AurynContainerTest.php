@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Application;
 
+use Auryn\Injector;
 use Rougin\Slytherin\Container\AurynContainer;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\Dispatcher as Middleware;
@@ -28,7 +29,7 @@ class AurynContainerTest extends ApplicationTestCases
             $this->markTestSkipped('Auryn is not installed.');
         }
 
-        $container = new AurynContainer;
+        $container = new AurynContainer(new Injector);
 
         $router = $this->router();
 

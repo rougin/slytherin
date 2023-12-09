@@ -19,4 +19,4 @@ $builder->setServer($_SERVER);
 $builder->addPackage(new SamplePackage);
 $builder->addHandler(new Cors);
 
-echo $builder->make()->run();
+$builder->make()->run();

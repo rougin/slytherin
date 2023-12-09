@@ -11,6 +11,7 @@ use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Middleware\VanillaMiddleware;
+use Rougin\Slytherin\System;
 use Rougin\Slytherin\Template\TwigLoader;
 use Rougin\Slytherin\Template\TwigRenderer;
 use Rougin\Slytherin\Testcase;
@@ -228,5 +229,15 @@ class CollectionTest extends Testcase
         $actual = $this->components->getTemplate();
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests the has() method.
+     *
+     * @return void
+     */
+    public function testHasMethod()
+    {
+        $this->assertFalse($this->components->has(System::TEMPLATE));
     }
 }
