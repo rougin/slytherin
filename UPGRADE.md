@@ -1,4 +1,4 @@
-# Slytherin Upgrade Guide
+# Upgrade Guide
 
 Below are the guides when upgrading from specified versions due to backward compatibility breaks:
 
