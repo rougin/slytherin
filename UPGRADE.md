@@ -7,7 +7,7 @@ Below are the guides when upgrading from specified versions due to backward comp
 
 ## From `v0.8.0` to `v0.9.0`
 
-### Transition to official PSR-11 implementation
+### Transition to the official PSR-11 implementation
 
 The `Container` has been reworked to support the official PSR-11 implementation (`psr/container`). The `ContainerInterface` was moved from `IoC` to `Container` directory. The `add` method was also changed to `set` to complement the `get` method from the official `ContainerInterface`:
 
@@ -67,9 +67,9 @@ namespace Rougin\Slytherin\Debug;
  }
 ```
 
-### Transition to PSR-15 (HTTP middlewares)
+### Transition to the official PSR-15 implementation
 
-The `Middleware` has been reworked due to the transition to the PSR-15 implementation. The `MiddlewareInterface` has been changed and it should be compatible with the various implementations of PSR-15:
+The `Middleware` has been reworked due to the transition to the official PSR-15 implementation (`psr/http-server-middleware`). The `MiddlewareInterface` has been changed and it should be compatible with the various implementations of PSR-15:
 
 ``` diff
  namespace Rougin\Slytherin\Middleware;
@@ -93,6 +93,9 @@ The `Middleware` has been reworked due to the transition to the PSR-15 implement
 +    public function process(ServerRequestInterface $request, HandlerInterface $handler);
  }
 ```
+
+> [!NOTE]
+> Although the `MiddlewareInterface` does not extend to the official `MiddlewareInterface`, Slytherin automatically converts the currently installed PSR-15 middleware (`http-interop/http-middleware` or `psr/http-server-middleware`) to its Slytherin counterpart.
 
 ### Additional method for `DispatcherInterface` in `Routing`
 
