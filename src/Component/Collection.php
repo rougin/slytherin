@@ -51,7 +51,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the specified component.
+     * Returns the specified component.
      *
      * @param  string $id
      * @return object
@@ -63,7 +63,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the container.
+     * Returns the container.
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
@@ -73,7 +73,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the debugger.
+     * Returns the debugger.
      *
      * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
@@ -84,7 +84,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the dependency injector.
+     * Returns the dependency injector.
      * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
@@ -95,7 +95,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the dispatcher.
+     * Returns the dispatcher.
      *
      * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
@@ -106,7 +106,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the error handler.
+     * Returns the error handler.
      * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
      *
      * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
@@ -117,7 +117,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the HTTP request and response.
+     * Returns the HTTP request and response.
      *
      * @return mixed
      */
@@ -127,7 +127,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the HTTP request.
+     * Returns the HTTP request.
      *
      * @return \Psr\Http\Message\ServerRequestInterface
      */
@@ -138,7 +138,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the HTTP response.
+     * Returns the HTTP response.
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -149,7 +149,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the middleware.
+     * Returns the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
@@ -160,7 +160,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the template.
+     * Returns the template.
      *
      * @return \Rougin\Slytherin\Template\RendererInterface
      */

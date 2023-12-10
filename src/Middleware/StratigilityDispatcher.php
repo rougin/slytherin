@@ -40,6 +40,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Checks if the current version has a wrapper factory.
+     *
      * @return boolean
      */
     public function hasFactory()
@@ -48,6 +50,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Checks if the current version implements the official PSR-15.
+     *
      * @return boolean
      */
     public function hasPsr()
@@ -56,6 +60,9 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Process an incoming server request and return a response, optionally delegating
+     * to the next middleware component to create the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface      $request
      * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
@@ -97,6 +104,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Sets the factory if there is a middleware decorator.
+     *
      * @param  \Psr\Http\Message\ResponseInterface $response
      * @return void
      * @codeCoverageIgnore
@@ -119,6 +128,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Sets the Slytherin middleware into a single-pass or double-pass callable.
+     *
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $item
      * @return callable
      */
@@ -142,6 +153,8 @@ class StratigilityDispatcher extends Dispatcher
     }
 
     /**
+     * Sets the PSR-15 decorator to a middleware.
+     *
      * @param  callable $item
      * @return object
      * @codeCoverageIgnore

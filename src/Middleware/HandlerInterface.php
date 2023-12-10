@@ -15,6 +15,8 @@ use Psr\Http\Message\ServerRequestInterface;
 interface HandlerInterface
 {
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */

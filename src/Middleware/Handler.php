@@ -41,6 +41,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -50,6 +52,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -68,6 +72,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Returns the next specified middleware.
+     *
      * @return \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected function next()

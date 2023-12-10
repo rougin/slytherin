@@ -4,7 +4,7 @@ The following are the erratum for each `README.md` found from the previous versi
 
 ## 0.9.0
 
-This version introduced a PSR-15 implementation based on `http-interop/http-middleware`. With this, kindly add the said package and update the packages using `composer update`:
+This version introduced a support for PSR-15 implementations based on `http-interop/http-middleware`. With this, kindly add the said package and update the packages using `composer update`:
 
 ``` diff
  {

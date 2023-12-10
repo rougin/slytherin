@@ -28,7 +28,7 @@ class Parameter
     }
 
     /**
-     * Gets a \ReflectionClass object for the parameter being reflected or "null".
+     * Returns a \ReflectionClass object for the parameter being reflected or "null".
      *
      * @return \ReflectionClass<object>|null
      * @codeCoverageIgnore

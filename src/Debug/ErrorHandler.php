@@ -40,7 +40,7 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Gets the specified environment.
+     * Returns the specified environment.
      * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @return string

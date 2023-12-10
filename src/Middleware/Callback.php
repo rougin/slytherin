@@ -71,6 +71,8 @@ class Callback implements MiddlewareInterface
     }
 
     /**
+     * Checks if the middleware is a single-pass or a double-pass implementation.
+     *
      * @param  mixed $item
      * @return boolean
      */
