@@ -10,6 +10,8 @@ use Rougin\Slytherin\Routing\RouteInterface;
 use Rougin\Slytherin\System;
 
 /**
+ * Callback Handler
+ *
  * Builds the final callback after handling from application.
  *
  * @package Slytherin

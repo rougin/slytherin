@@ -7,6 +7,10 @@ use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
+ * End of Line (EOL)
+ *
+ * A handler that only returns an empty HTTP response.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */

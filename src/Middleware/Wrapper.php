@@ -5,7 +5,9 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Converts various middlewares into Slytherin counterparts.
+ * Wrapper
+ *
+ * A middleware that converts various middlewares into its Slytherin counterpart.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

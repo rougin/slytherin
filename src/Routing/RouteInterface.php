@@ -3,6 +3,10 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
+ * Route Interface
+ *
+ * An interface for handling the HTTP routes.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */

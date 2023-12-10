@@ -6,9 +6,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
+ * Doublepass
+ *
+ * A backward compatible handler to double-pass middlewares.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @codeCoverageIgnore
  */
 class Doublepass implements HandlerInterface
 {

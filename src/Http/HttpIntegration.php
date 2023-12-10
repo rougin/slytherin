@@ -9,6 +9,7 @@ use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
+use Rougin\Slytherin\System;
 use Zend\Diactoros\Response as ZendResponse;
 use Zend\Diactoros\ServerRequestFactory;
 
@@ -124,26 +125,26 @@ class HttpIntegration implements IntegrationInterface
      */
     protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
     {
+        $class = 'Zend\Diactoros\ServerRequestFactory';
+
         $empty = $this->preferred === null;
 
-        $hasDiactoros = class_exists('Zend\Diactoros\ServerRequestFactory');
+        $wantZend = $this->preferred === 'diactoros';
 
-        $wantDiactoros = $this->preferred === 'diactoros';
-
-        if (($empty || $wantDiactoros) && $hasDiactoros)
+        if (($empty || $wantZend) && class_exists($class))
         {
             $response = new ZendResponse;
 
             $request = ServerRequestFactory::fromGlobals();
         }
 
-        $container->set('Psr\Http\Message\ServerRequestInterface', $request);
+        $container->set(System::REQUEST, $request);
 
-        return $container->set('Psr\Http\Message\ResponseInterface', $response);
+        return $container->set(System::RESPONSE, $response);
     }
 
     /**
-     * Returns a sample $_SERVER values.
+     * Returns a sample of $_SERVER values.
      *
      * @return array<string, string>
      */

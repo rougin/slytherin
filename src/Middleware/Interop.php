@@ -9,6 +9,10 @@ use Rougin\Slytherin\Middleware\Handlers\Handler050;
 use Rougin\Slytherin\Middleware\Handlers\Handler100;
 
 /**
+ * Interop Handler
+ *
+ * A handler that allows all "http-interop" middlewares to interact with Slytherin.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @codeCoverageIgnore

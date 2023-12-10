@@ -5,12 +5,11 @@ namespace Rougin\Slytherin\Middleware;
 /**
  * Middleware
  *
- * A simple implementation of a middleware.
- * NOTE: To be removed in v1.0.0. Use "Middleware\Dispatcher" instead.
+ * NOTE: To be removed in v1.0.0. Use "Vanilla\Middleware" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class VanillaMiddleware extends Middleware
+class VanillaMiddleware extends Vanilla\Middleware
 {
 }

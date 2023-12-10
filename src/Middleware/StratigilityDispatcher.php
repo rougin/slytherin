@@ -18,7 +18,8 @@ use Zend\Stratigility\MiddlewarePipe;
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @link    https://github.com/zendframework/zend-stratigility
+ *
+ * @link https://github.com/zendframework/zend-stratigility
  */
 class StratigilityDispatcher extends Dispatcher
 {

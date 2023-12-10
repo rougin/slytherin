@@ -8,6 +8,10 @@ use Rougin\Slytherin\Container\Parameter;
 use Rougin\Slytherin\Container\ReflectionContainer;
 
 /**
+ * Resolver
+ *
+ * Resolves the identifier from the container.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */

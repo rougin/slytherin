@@ -6,6 +6,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
 
 /**
+ * Dispatcher
+ *
+ * A sample implementation of the middleware dispatcher.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */

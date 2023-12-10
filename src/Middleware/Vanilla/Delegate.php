@@ -2,18 +2,16 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
-use Rougin\Slytherin\Middleware\VanillaDelegate;
+use Rougin\Slytherin\Middleware\Delegate as Slytherin;
 
 /**
  * Delegate
  *
- * Calls the callback with a specified HTTP request.
- * NOTE: To be removed in v1.0.0. Use "Middleware\Delegate" instead.
+ * NOTE: To be removed in v1.0.0. Use "Delegate" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Delegate extends VanillaDelegate
+class Delegate extends Slytherin
 {
 }

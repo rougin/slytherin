@@ -3,6 +3,10 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
+ * Version
+ *
+ * A simple class for getting the current installed version of "http-interop".
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
