@@ -12,6 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ * @codeCoverageIgnore
  */
 class Doublepass implements HandlerInterface
 {
