@@ -6,7 +6,6 @@ namespace Rougin\Slytherin\Container;
  * Parameter
  *
  * A backward compatible class for handling ReflectionParameter.
- * NOTE: This will only work on PHP <= 8.0. Needs to be refactored.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

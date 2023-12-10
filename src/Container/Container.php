@@ -8,7 +8,7 @@ use Rougin\Slytherin\System\Resolver;
 /**
  * Container
  *
- * A simple container that is implemented on PSR-11 (Container).
+ * A simple container that is implemented on PSR-11.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -21,14 +21,14 @@ class Container implements ContainerInterface
     protected $extra;
 
     /**
-     * @var array<string, object>
+     * @var array<string, mixed>
      */
     protected $items = array();
 
     /**
      * Initializes the container instance.
      *
-     * @param array<string, object>                  $items
+     * @param array<string, mixed>                   $items
      * @param \Psr\Container\ContainerInterface|null $extra
      */
     public function __construct(array $items = array(), PsrContainerInterface $extra = null)
@@ -48,7 +48,7 @@ class Container implements ContainerInterface
      * NOTE: To be removed in v1.0.0. Use "set" instead.
      *
      * @param  string $id
-     * @param  object $concrete
+     * @param  mixed  $concrete
      * @return self
      */
     public function add($id, $concrete)
@@ -121,7 +121,7 @@ class Container implements ContainerInterface
      * Sets a new instance to the container.
      *
      * @param  string $id
-     * @param  object $concrete
+     * @param  mixed  $concrete
      * @return self
      */
     public function set($id, $concrete)

@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Middleware;
 /**
  * Dispatcher Interface
  *
- * An interface for handling third party middleware dispatchers.
+ * An interface for handling third-party middleware dispatchers.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

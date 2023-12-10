@@ -7,10 +7,7 @@ use Rougin\Slytherin\Debug\WhoopsErrorHandler;
 /**
  * Debugger
  *
- * A simple implementation of a debugger built on top of Filipe Dobreira's
- * Whoops. NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
- *
- * http://filp.github.io/whoops
+ * NOTE: To be removed in v1.0.0. Use "WhoopsErrorHandler" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

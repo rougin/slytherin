@@ -2,16 +2,20 @@
 
 namespace Rougin\Slytherin\Debug\Vanilla;
 
+use Rougin\Slytherin\Debug\Vanilla\Debugger;
+use Rougin\Slytherin\System;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Debugger Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends \Rougin\Slytherin\Testcase
+class DebuggerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Debug\DebuggerInterface
+     * @var \Rougin\Slytherin\Debug\Vanilla\Debugger
      */
     protected $debugger;
 
@@ -27,7 +31,7 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        $this->debugger = new \Rougin\Slytherin\Debug\Vanilla\Debugger;
+        $this->debugger = new Debugger;
     }
 
     /**
@@ -39,7 +43,11 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
     {
         $this->debugger->setEnvironment($this->environment);
 
-        $this->assertEquals($this->environment, $this->debugger->getEnvironment());
+        $expected = $this->environment;
+
+        $actual = $this->debugger->getEnvironment();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -49,18 +57,18 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     public function testDisplayMethod()
     {
-        $this->assertEquals('', $this->debugger->display());
+        $this->debugger->display();
+
+        $this->assertEquals(error_reporting(), E_ALL);
     }
 
     /**
-     * Tests if the debugger is implemented in ErrorHandlerInterface.
+     * Tests if the debugger is implemented in DebuggerInterface.
      *
      * @return void
      */
     public function testDebuggerInterface()
     {
-        $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
-
-        $this->assertInstanceOf($interface, $this->debugger);
+        $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
     }
 }

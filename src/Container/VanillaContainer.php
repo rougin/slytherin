@@ -5,8 +5,7 @@ namespace Rougin\Slytherin\Container;
 /**
  * Container
  *
- * A simple container that is implemented on \Psr\Container\ContainerInterface.
- * NOTE: To be removed in v1.0.0. Use "Container\Container" instead.
+ * NOTE: To be removed in v1.0.0. Use "Container" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
