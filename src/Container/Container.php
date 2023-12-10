@@ -3,14 +3,12 @@
 namespace Rougin\Slytherin\Container;
 
 use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Psr\Container\NotFoundExceptionInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\System\Resolver;
 
 /**
  * Container
  *
- * A simple container that is implemented on \Psr\Container\ContainerInterface.
+ * A simple container that is implemented on PSR-11 (Container).
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -23,28 +21,26 @@ class Container implements ContainerInterface
     protected $extra;
 
     /**
-     * NOTE: To be removed in v1.0.0. Use "protected" visibility instead.
-     *
      * @var array<string, object>
      */
-    public $instances = array();
+    protected $items = array();
 
     /**
      * Initializes the container instance.
      *
-     * @param array<string, object>                  $instances
-     * @param \Psr\Container\ContainerInterface|null $container
+     * @param array<string, object>                  $items
+     * @param \Psr\Container\ContainerInterface|null $extra
      */
-    public function __construct(array $instances = array(), PsrContainerInterface $container = null)
+    public function __construct(array $items = array(), PsrContainerInterface $extra = null)
     {
-        $this->instances = $instances;
+        $this->items = $items;
 
-        if (! $container)
+        if (! $extra)
         {
-            $container = new ReflectionContainer;
+            $extra = new ReflectionContainer;
         }
  
-        $this->extra = $container;
+        $this->extra = $extra;
     }
 
     /**
@@ -69,7 +65,7 @@ class Container implements ContainerInterface
      */
     public function alias($id, $original)
     {
-        $this->instances[$id] = $this->get($original);
+        $this->items[$id] = $this->get($original);
 
         return $this;
     }
@@ -77,11 +73,11 @@ class Container implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
+     * @param  string $id
+     * @return mixed
+     *
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
-     *
-     * @param  string $id
-     * @return object
      */
     public function get($id)
     {
@@ -92,9 +88,9 @@ class Container implements ContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        if (isset($this->instances[$id]))
+        if (isset($this->items[$id]))
         {
-            $entry = $this->instances[$id];
+            $entry = $this->items[$id];
         }
         else
         {
@@ -118,7 +114,7 @@ class Container implements ContainerInterface
      */
     public function has($id)
     {
-        return isset($this->instances[$id]) || $this->extra->has($id);
+        return isset($this->items[$id]) || $this->extra->has($id);
     }
 
     /**
@@ -130,7 +126,7 @@ class Container implements ContainerInterface
      */
     public function set($id, $concrete)
     {
-        $this->instances[$id] = $concrete;
+        $this->items[$id] = $concrete;
 
         return $this;
     }

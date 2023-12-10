@@ -308,7 +308,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
 - `DependencyInjectorInterface` (will now require implementations in `Interop\Container\ContainerInterface`)
 - `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
-- Dependency of [nikic/fast-route](https://github.com/nikic/FastRoute) in `Dispatching` (use `Dispatching\FastRoute` instead)
+- Dependency of `nikic/fast-route` in `Dispatching` (use `Dispatching\FastRoute` instead)
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.2...v0.3.0) - 2015-11-02
 

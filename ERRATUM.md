@@ -174,6 +174,8 @@ class MiddlewarePackage extends AbstractComponent
 ```
 
 ``` php
+// src/Packages/TemplatePackage.php
+
 namespace Rougin\Nostalgia\Packages;
 
 use Rougin\Slytherin\Component\AbstractComponent;
@@ -401,6 +403,43 @@ In this version, the `patricklouys/http` has been removed in favor for PSR-07 (`
 +        "zendframework/zend-diactoros": "~1.0"
      }
  }
+```
+
+The version also favors the PSR-11 (`container-interop/container-interop`). The classes that implements `DependencyInjectorInterface` must be migrated to `ContainerInterface`:
+
+``` php
+namespace Interop\Container;
+
+/**
+ * Describes the interface of a container that exposes methods to read its entries.
+ */
+interface ContainerInterface
+{
+    /**
+     * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
+     * @throws ContainerExceptionInterface Error while retrieving the entry.
+     *
+     * @return mixed Entry.
+     */
+    public function get($id);
+
+    /**
+     * Returns true if the container can return an entry for the given identifier.
+     * Returns false otherwise.
+     *
+     * `has($id)` returning true does not mean that `get($id)` will not throw an exception.
+     * It does however mean that `get($id)` will not throw a `NotFoundExceptionInterface`.
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @return bool
+     */
+    public function has($id);
+}
 ```
 
 Perform `composer update` afterwards to update the specified packages.

@@ -36,7 +36,7 @@ No known backward compatibility issues found.
 
 ## From `v0.3.0` to `v0.4.0`
 
-The `v0.4.0` version requires a PSR-07 compliant package. See the `v0.4.0` in `ERRATUM` for updating the `composer.json`.
+The `v0.4.0` version requires a PSR-07 and PSR-11 compliant packages. See the `v0.4.0` in `ERRATUM` for updating the `composer.json`.
 
 With the transition to PSR-07, kindly update the following classes from `index.php`:
 
@@ -55,17 +55,15 @@ With the transition to PSR-07, kindly update the following classes from `index.p
 
  // ...
 
--// Initialize the RequestInterface and ResponseInterface -----------------------------
+// Initialize the RequestInterface and ResponseInterface -----------------------------
 -$stream = file_get_contents('php://input');
 -$request = new \Http\HttpRequest($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER, $stream);
 -$request = new Request($request);
 -$response = new Response(new \Http\HttpResponse);
-+// Initialize the ServerRequestInterface and ResponseInterface ---
 +$request = ServerRequestFactory::fromGlobals();
 +$response = new Response;
  $component->setHttp($request, $response);
--// -----------------------------------------------------------------------------------
-+// ---------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 
  // ...
 ```

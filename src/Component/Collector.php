@@ -38,7 +38,7 @@ class Collector
     }
 
     /**
-     * Generates a Collection instance.
+     * Creates a new collection.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $container
      * @return \Rougin\Slytherin\Component\Collection
@@ -49,18 +49,18 @@ class Collector
 
         $collection->setContainer($container);
 
-        // If there is a defined container, set it first -----------
+        // If there is a defined container, set it first -----------------
         foreach ($this->items as $item)
         {
             if ($item->getType() === 'container')
             {
-                /** @var \Rougin\Slytherin\IoC\ContainerInterface */
+                /** @var \Rougin\Slytherin\Container\ContainerInterface */
                 $result = $item->get();
 
                 $collection->setDependencyInjector($result);
             }
         }
-        // ---------------------------------------------------------
+        // ---------------------------------------------------------------
 
         foreach ($this->items as $item)
         {
@@ -115,7 +115,7 @@ class Collector
     }
 
     /**
-     * Collects the specified components.
+     * Initializes the specified components.
      *
      * @param  \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
      * @param  \Rougin\Slytherin\IoC\ContainerInterface                  $container

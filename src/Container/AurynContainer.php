@@ -58,11 +58,11 @@ class AurynContainer implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     *
      * @param  string $id
      * @return mixed
+     *
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function get($id)
     {
