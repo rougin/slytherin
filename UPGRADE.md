@@ -7,6 +7,32 @@ Below are the guides when upgrading from specified versions due to backward comp
 
 ## From `v0.8.0` to `v0.9.0`
 
+### Transition to official PSR-11 implementation
+
+The `Container` has been reworked to support the official PSR-11 implementation (`psr/container`). The `ContainerInterface` was moved from `IoC` to `Container` directory. The `add` method was also changed to `set` to complement the `get` method from the official `ContainerInterface`:
+
+``` diff
+-namespace Rougin\Slytherin\IoC;
++namespace Rougin\Slytherin\Container;
+
+-use Interop\Container\ContainerInterface as InteropContainerInterface;
++use Psr\Container\ContainerInterface as PsrContainerInterface;
+
+-interface ContainerInterface extends InteropContainerInterface
++interface ContainerInterface extends PsrContainerInterface
+ {
+     /**
+-     * @param string  $id
+-     * @param mixed   $concrete
++     * @param  string $id
++     * @param  mixed  $concrete
++     * @return self
+      */
+-    public function add($id, $concrete = null);
++    public function set($id, $concrete);
+ }
+```
+
 ### Change of `DebuggerInterface` to `ErrorHandlerInterface`
 
 The `DebuggerInterface` is renamed to `ErrorHandlerInterface`. Although there is no backward compatibility break in this change, the specified interface removes required methods and may not be used in Slytherin:
@@ -43,7 +69,7 @@ namespace Rougin\Slytherin\Debug;
 
 ### Transition to PSR-15 (HTTP middlewares)
 
-Due to the transition to PSR-15, the `Middleware` has been reworked. The `MiddlewareInterface` has been changed and it should be compatible with the various implementations of PSR-15:
+The `Middleware` has been reworked due to the transition to the PSR-15 implementation. The `MiddlewareInterface` has been changed and it should be compatible with the various implementations of PSR-15:
 
 ``` diff
  namespace Rougin\Slytherin\Middleware;
@@ -140,9 +166,9 @@ No known backward compatibility issues found.
 
 ## From `v0.3.0` to `v0.4.0`
 
-### Transition to PSR-07 (HTTP messages) and PSR-11 (Containers)
+### Transition to PSR-07 (HTTP messages)
 
-The `v0.4.0` version requires a PSR-07 and PSR-11 compliant packages. See the `v0.4.0` in `ERRATUM` for updating the `composer.json`.
+The `v0.4.0` version requires a PSR-07 compliant package. See the `v0.4.0` in `ERRATUM` for updating the `composer.json`.
 
 With the transition to PSR-07, kindly update the following classes from `index.php`:
 
@@ -172,6 +198,34 @@ With the transition to PSR-07, kindly update the following classes from `index.p
 // -----------------------------------------------------------------------------------
 
  // ...
+```
+
+### Transition to PSR-11 (Containers)
+
+This version also introduced support for a PSR-11 compliant package. With this, the `DependencyInjectorInterface` has been removed and was replaced by `ContainerInterface` which extends to the `container-interop` package but added a new method:
+
+``` diff
+ namespace Rougin\Slytherin\IoC;
+
++use Interop\Container\ContainerInterface as InteropContainerInterface;
++
+-interface DependencyInjectorInterface
++interface ContainerInterface extends InteropContainerInterface
+ {
+     /**
+-     * Instantiates/provisions a class instance.
+-     *
+-     * @param  string $name
+-     * @param  array  $args
+-     * @return mixed
++     * Adds a new instance to the container.
++     *
++     * @param string  $id
++     * @param mixed   $concrete
+      */
+-    public function make($name, array $args = array());
++    public function add($id, $concrete = null);
+ }
 ```
 
 ### Change from `ErrorHandler` to `Debug`
