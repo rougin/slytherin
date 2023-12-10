@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Debug;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
+use Rougin\Slytherin\System;
 
 /**
  * Error Handler Integration
@@ -28,6 +29,8 @@ class ErrorHandlerIntegration implements IntegrationInterface
         /** @var string */
         $environment = $config->get('app.environment', 'development');
 
+        if ($environment !== 'development') return $container;
+
         $handler = new ErrorHandler($environment);
 
         if (interface_exists('Whoops\RunInterface'))
@@ -37,13 +40,6 @@ class ErrorHandlerIntegration implements IntegrationInterface
             $handler = new WhoopsErrorHandler($whoops, $environment);
         }
 
-        if ($environment === 'development')
-        {
-            ini_set('display_errors', '1');
-
-            error_reporting(E_ALL); $handler->display();
-        }
-
-        return $container;
+        return $container->set(System::DEBUGGER, $handler);
     }
 }

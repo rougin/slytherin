@@ -21,11 +21,9 @@ class System
 {
     const CONTAINER = 'Rougin\Slytherin\Container\ContainerInterface';
 
-    const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
-    // TODO: Implement Error Handler -------------------------------
     const DEBUGGER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
-    // -------------------------------------------------------------
+
+    const DISPATCHER = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
     const MIDDLEWARE = 'Rougin\Slytherin\Middleware\DispatcherInterface';
 
@@ -75,11 +73,11 @@ class System
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     *
      * @param  string $id
      * @return mixed
+     *
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function get($id)
     {
@@ -133,22 +131,28 @@ class System
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  \Rougin\Slytherin\Integration\IntegrationInterface[]|string[]|string $integrations
-     * @param  \Rougin\Slytherin\Integration\Configuration|null                     $config
+     * @param  mixed[]|string                                   $items
+     * @param  \Rougin\Slytherin\Integration\Configuration|null $config
      * @return self
      */
-    public function integrate($integrations, ConfigurationInterface $config = null)
+    public function integrate($items, ConfigurationInterface $config = null)
     {
         if (! $config) $config = $this->config;
 
+        if (is_string($items)) $items = array($items);
+
         $container = $this->container;
 
-        foreach ((array) $integrations as $item)
+        /** @var \Rougin\Slytherin\Integration\IntegrationInterface|string $item */
+        foreach ($items as $item)
         {
-            /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
-            $integration = is_string($item) ? new $item : $item;
+            if (is_string($item))
+            {
+                /** @var \Rougin\Slytherin\Integration\IntegrationInterface */
+                $item = new $item;
+            }
 
-            $container = $integration->define($container, $config);
+            $container = $item->define($container, $config);
         }
 
         $this->container = $container;
@@ -163,6 +167,14 @@ class System
      */
     public function run()
     {
+        if ($this->container->has(self::DEBUGGER))
+        {
+            /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
+            $debugger = $this->container->get(self::DEBUGGER);
+
+            $debugger->display();
+        }
+
         /** @var \Psr\Http\Message\ServerRequestInterface */
         $request = $this->container->get(self::REQUEST);
 
@@ -171,7 +183,6 @@ class System
 
     /**
      * Emits the headers based from the response.
-     * NOTE: To be removed in v1.0.0. Should be included in run().
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface

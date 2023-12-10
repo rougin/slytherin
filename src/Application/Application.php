@@ -7,7 +7,7 @@ use Rougin\Slytherin\Application as Slytherin;
 /**
  * Application
  *
- * NOTE: To be removed in v1.0.0. Use "Application" instead.
+ * NOTE: To be removed in v1.0.0. Use "\Application" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

@@ -5,7 +5,7 @@ namespace Rougin\Slytherin;
 /**
  * Component Collection
  *
- * NOTE: To be removed in v1.0.0. Use "Component\Collection" instead.
+ * NOTE: To be removed in v1.0.0. Use "ComponentCollection" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
