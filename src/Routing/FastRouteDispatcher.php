@@ -7,10 +7,10 @@ namespace Rougin\Slytherin\Routing;
  *
  * A simple implementation of dispatcher that is built on top of FastRoute.
  *
- * https://github.com/nikic/FastRoute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/nikic/FastRoute
  */
 class FastRouteDispatcher extends Dispatcher
 {

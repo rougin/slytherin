@@ -2,19 +2,19 @@
 
 namespace Rougin\Slytherin\Container;
 
-use League\Container\Container as BaseContainer;
+use League\Container\Container as League;
 
 /**
  * League Container
  *
  * A simple implementation of a container that is based on League\Container.
  *
- * http://container.thephpleague.com
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link http://container.thephpleague.com
  */
-class LeagueContainer extends BaseContainer implements ContainerInterface
+class LeagueContainer extends League implements ContainerInterface
 {
     /**
      * Sets a new instance to the container.

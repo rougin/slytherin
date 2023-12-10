@@ -2,17 +2,16 @@
 
 namespace Rougin\Slytherin\Routing\Vanilla;
 
-use Rougin\Slytherin\Routing\Router as VanillaRouter;
+use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
  * Router
  *
- * A simple implementation of a router that is based on RouterInterface.
  * NOTE: To be removed in v1.0.0. Use "Routing\Router" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Router extends VanillaRouter
+class Router extends Slytherin
 {
 }

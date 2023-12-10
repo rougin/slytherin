@@ -3,6 +3,10 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
+ * Route
+ *
+ * A simple class for handling routes.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -62,6 +66,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the handler.
+     *
      * @return callable|string[]|string
      */
     public function getHandler()
@@ -70,6 +76,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the HTTP method.
+     *
      * @return string
      */
     public function getMethod()
@@ -78,6 +86,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the defined middlewares.
+     *
      * @return mixed[]
      */
     public function getMiddlewares()
@@ -86,6 +96,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the defined parameters.
+     *
      * @return string[]
      */
     public function getParams()
@@ -96,9 +108,9 @@ class Route implements RouteInterface
     /**
      * Returns a regular expression pattern from the given URI.
      *
-     * @link https://stackoverflow.com/q/30130913
-     *
      * @return string
+     *
+     * @link https://stackoverflow.com/q/30130913
      */
     public function getRegex()
     {
@@ -121,26 +133,13 @@ class Route implements RouteInterface
     }
 
     /**
+     * Return the URI of the route.
+     *
      * @return string
      */
     public function getUri()
     {
         return $this->uri;
-    }
-
-    /**
-     * Capture the specified regular expressions.
-     *
-     * @param  string $pattern
-     * @param  string $search
-     * @return string
-     */
-    protected function capture($pattern, $search)
-    {
-        $replace = '(?<$1>' . self::ALLOWED_REGEX . ')';
-
-        /** @var string */
-        return preg_replace($search, $replace, $pattern);
     }
 
     /**
@@ -152,5 +151,18 @@ class Route implements RouteInterface
         $this->params = $params;
 
         return $this;
+    }
+
+    /**
+     * Capture the specified regular expressions.
+     *
+     * @param  string $pattern
+     * @param  string $search
+     * @return string
+     */
+    protected function capture($pattern, $search)
+    {
+        /** @var string */
+        return preg_replace($search, '(?<$1>' . self::ALLOWED_REGEX . ')', $pattern);
     }
 }

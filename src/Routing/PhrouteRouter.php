@@ -9,10 +9,10 @@ use Phroute\Phroute\RouteCollector;
  *
  * A simple implementation of router that is built on top of Phroute.
  *
- * https://github.com/mrjgreen/phroute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/mrjgreen/phroute
  */
 class PhrouteRouter extends Router
 {

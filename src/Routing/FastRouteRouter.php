@@ -11,10 +11,10 @@ use FastRoute\RouteParser\Std;
  *
  * A simple implementation of router that is built on top of FastRoute.
  *
- * https://github.com/nikic/FastRoute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/nikic/FastRoute
  */
 class FastRouteRouter extends Router
 {

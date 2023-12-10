@@ -61,7 +61,7 @@ class Router implements RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                        $method
+     * @param  string                                                      $method
      * @param  string                                                      $uri
      * @param  callable|string[]|string                                    $handler
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
@@ -100,9 +100,9 @@ class Router implements RouterInterface
      * Adds a new raw route.
      * NOTE: To be removed in v1.0.0. Use "add" instead.
      *
-     * @param  string                                                        $method
-     * @param  string                                                        $route
-     * @param  callable|string[]|string                                      $handler
+     * @param  string                                                      $method
+     * @param  string                                                      $route
+     * @param  callable|string[]|string                                    $handler
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
      * @return self
      */

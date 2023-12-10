@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Routing;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
+use Rougin\Slytherin\System;
 
 /**
  * Routing Integration
@@ -30,34 +31,51 @@ class RoutingIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $hasFastroute = interface_exists('FastRoute\Dispatcher');
-
-        $wantFastroute = $this->preferred === 'fastroute';
-
-        $hasPhroute = class_exists('Phroute\Phroute\Dispatcher');
-
-        $wantPhroute = $this->preferred === 'phroute';
-
         $dispatcher = new Dispatcher;
 
         $router = $config->get('app.router', new Router);
 
-        $empty = $this->preferred === null;
-
-        if (($empty || $wantFastroute) && $hasFastroute)
+        if ($this->wants('fastroute'))
         {
             $dispatcher = new FastRouteDispatcher;
         }
 
-        if (($empty || $wantPhroute) && $hasPhroute)
+        if ($this->wants('phroute'))
         {
             $dispatcher = new PhrouteDispatcher;
         }
 
-        $container->set('Rougin\Slytherin\Routing\DispatcherInterface', $dispatcher);
+        $container->set(System::DISPATCHER, $dispatcher);
 
-        $container->set('Rougin\Slytherin\Routing\RouterInterface', $router);
+        return $container->set(System::ROUTER, $router);
+    }
 
-        return $container;
+    /**
+     * Checks the preferred package to be used.
+     *
+     * @param  string $type
+     * @return boolean
+     */
+    protected function wants($type)
+    {
+        $empty = $this->preferred === null;
+
+        $package = '';
+
+        if ($type === 'fastroute')
+        {
+            $package = 'FastRoute\RouteCollector';
+        }
+
+        if ($type === 'phroute')
+        {
+            $package = 'Phroute\Phroute\Dispatcher';
+        }
+
+        $preferred = $this->preferred === $type;
+
+        $exists = class_exists($package);
+
+        return ($empty || $preferred) && $exists;
     }
 }
