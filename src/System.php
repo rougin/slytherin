@@ -6,7 +6,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Integration\ConfigurationInterface;
+use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\System\Handler;
 
 /**
@@ -51,7 +51,7 @@ class System
      * @param mixed|null                                       $container
      * @param \Rougin\Slytherin\Integration\Configuration|null $config
      */
-    public function __construct($container = null, ConfigurationInterface $config = null)
+    public function __construct($container = null, Configuration $config = null)
     {
         if (! $config) $config = new Configuration;
 
@@ -135,7 +135,7 @@ class System
      * @param  \Rougin\Slytherin\Integration\Configuration|null $config
      * @return self
      */
-    public function integrate($items, ConfigurationInterface $config = null)
+    public function integrate($items, Configuration $config = null)
     {
         if (! $config) $config = $this->config;
 
