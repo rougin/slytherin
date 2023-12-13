@@ -148,7 +148,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Traits (in order to achieve PHP `v5.3.0` as the minimum required version)
 - `getEnvironment` and `setEnvironment` in `Debug\ErrorHandlerInterface`
 
-## [0.8.1](https://github.com/rougin/slytherin/compare/v0.8.0...v0.8.1) - Unreleased
+## [0.8.1](https://github.com/rougin/slytherin/compare/v0.8.0...v0.8.1) - 2023-12-13
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
 
@@ -173,7 +173,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - Third party packages in `require-dev`
 
-## [0.7.1](https://github.com/rougin/slytherin/compare/v0.7.0...v0.7.1) - Unreleased
+## [0.7.1](https://github.com/rougin/slytherin/compare/v0.7.0...v0.7.1) - 2023-12-13
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
 
@@ -203,7 +203,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Removed
 - `HttpKernelInterface`
 
-## [0.6.1](https://github.com/rougin/slytherin/compare/v0.6.0...v0.6.1) - Unreleased
+## [0.6.1](https://github.com/rougin/slytherin/compare/v0.6.0...v0.6.1) - 2023-12-13
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
 
@@ -219,7 +219,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Changed
 - File and directory structure
 
-## [0.5.1](https://github.com/rougin/slytherin/compare/v0.5.0...v0.5.1) - Unreleased
+## [0.5.1](https://github.com/rougin/slytherin/compare/v0.5.0...v0.5.1) - 2023-12-13
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
 
@@ -242,7 +242,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - PHP version to `v5.4.0`
 - Interface from `RequestInterface` to `ServerRequestInterface` in `Components`
 
-## [0.4.4](https://github.com/rougin/slytherin/compare/v0.4.3...v0.4.4) - Unreleased
+## [0.4.4](https://github.com/rougin/slytherin/compare/v0.4.3...v0.4.4) - 2023-12-13
 
 **NOTE**: This is a backport fix to lessen backward compatibility issues.
 
