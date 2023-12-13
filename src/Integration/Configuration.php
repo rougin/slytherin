@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Integration;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Configuration implements ConfigurationInterface
+class Configuration
 {
     /**
      * @var array<string, mixed>

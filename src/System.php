@@ -19,6 +19,8 @@ use Rougin\Slytherin\System\Handler;
  */
 class System
 {
+    const CONFIG = 'Rougin\Slytherin\Integration\Configuration';
+
     const CONTAINER = 'Rougin\Slytherin\Container\ContainerInterface';
 
     const DEBUGGER = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';

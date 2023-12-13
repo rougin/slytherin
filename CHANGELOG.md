@@ -29,6 +29,9 @@ All notable changes to `Slytherin` will be documented in this file.
 - Backward compatibility for `StratigilityDispatcher::process` (until `~3.0`)
 - Resolving type hinted routes for third-party routers
 
+### Removed
+- `Integration\ConfigurationInterface` as its not being used
+
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 
 ### Added
