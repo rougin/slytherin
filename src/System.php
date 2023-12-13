@@ -73,20 +73,6 @@ class System
     }
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param  string $id
-     * @return mixed
-     *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     */
-    public function get($id)
-    {
-        return $this->container->get($id);
-    }
-
-    /**
      * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request

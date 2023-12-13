@@ -28,7 +28,7 @@ class Route implements RouteInterface
     protected $middlewares;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     protected $params = array();
 
@@ -98,7 +98,7 @@ class Route implements RouteInterface
     /**
      * Returns the defined parameters.
      *
-     * @return string[]
+     * @return array<string, string>
      */
     public function getParams()
     {
@@ -143,7 +143,9 @@ class Route implements RouteInterface
     }
 
     /**
-     * @param  string[] $params
+     * Sets the parameters to the route.
+     *
+     * @param  array<string, string> $params
      * @return self
      */
     public function setParams($params)

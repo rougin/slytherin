@@ -22,7 +22,7 @@ class Router extends Slytherin
 
         $this->get('/response', 'Hello@response');
 
-        $this->get('/hi/{name}', 'Hello@name');
+        $this->get('/hi/:name', 'Hello@name');
 
         $this->get('without-slash', 'Hello@string');
 
@@ -49,7 +49,7 @@ class Router extends Slytherin
             return 'Welcome ' . $name . ', ' . $age . '!';
         });
 
-        $this->get('/call/{name}', function ($name)
+        $this->get('/call/:name', function ($name)
         {
             return 'Welcome ' . $name . '!';
         });

@@ -27,7 +27,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Backward compatibility for `LeagueContainer::set` (as of `~3.0`)
 - Backward compatibility for `TwigRenderer::render` (as of `~3.0`)
 - Backward compatibility for `StratigilityDispatcher::process` (until `~3.0`)
-- Resolving type hinted routes for third-party routers
+- Resolving type hinted routes for third-party routing dispatchers
 
 ### Removed
 - `Integration\ConfigurationInterface` as its not being used

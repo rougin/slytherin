@@ -77,10 +77,12 @@ class StratigilityDispatcher extends Dispatcher
         {
             $item = $this->setMiddleware($item);
 
+            // @codeCoverageIgnoreStart
             if (! $this->hasFactory() && $this->hasPsr())
             {
                 $item = $this->setPsrMiddleware($item);
             }
+            // @codeCoverageIgnoreEnd
 
             $this->zend->pipe($item);
         }
@@ -93,11 +95,13 @@ class StratigilityDispatcher extends Dispatcher
 
         $zend = $this->zend;
 
+        // @codeCoverageIgnoreStart
         if ($this->hasPsr())
         {
             /** @phpstan-ignore-next-line */
             return $zend->process($request, $next);
         }
+        // @codeCoverageIgnoreEnd
 
         /** @phpstan-ignore-next-line */
         return $zend($request, $response, $next);
@@ -135,6 +139,7 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function setMiddleware(MiddlewareInterface $item)
     {
+        // @codeCoverageIgnoreStart
         if ($this->hasPsr())
         {
             return function ($request, $handler) use ($item)
@@ -142,6 +147,7 @@ class StratigilityDispatcher extends Dispatcher
                 return $item->process($request, new Interop($handler));
             };
         }
+        // @codeCoverageIgnoreEnd
 
         return function ($request, $response, $next) use ($item)
         {

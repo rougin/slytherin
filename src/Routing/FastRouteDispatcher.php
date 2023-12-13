@@ -47,7 +47,7 @@ class FastRouteDispatcher extends Dispatcher
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $result[1];
 
-        /** @var string[] */
+        /** @var array<string, string> */
         $params = $result[2];
 
         return $route->setParams($params);

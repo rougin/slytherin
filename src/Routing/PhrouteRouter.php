@@ -63,7 +63,21 @@ class PhrouteRouter extends Router
     {
         foreach ($routes as $route)
         {
-            $this->collector->addRoute($route->getMethod(), $route->getUri(), $route);
+            // Convert the ":name" pattern into "{name}" pattern ------------------
+            $uri = $route->getUri();
+
+            $matched = preg_match_all('/\:([a-zA-Z0-9\_\-]+)/i', $uri, $matches);
+
+            if ($matched)
+            {
+                foreach ($matches[0] as $key => $item)
+                {
+                    $uri = str_replace($item, '{' . $matches[1][$key] . '}', $uri);
+                }
+            }
+            // --------------------------------------------------------------------
+
+            $this->collector->addRoute($route->getMethod(), $uri, $route);
         }
 
         return $this->collector->getData();
