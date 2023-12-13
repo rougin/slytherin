@@ -10,12 +10,12 @@ use Auryn\Injector;
  * A simple implementation of a container that is built on top of
  * Daniel Lowrey's Auryn Inversion Of Control (IoC) Dependency Injector.
  *
- * https://github.com/rdlowrey/auryn
- * https://github.com/elazar/auryn-container-interop
- *
  * @package Slytherin
  * @author  Matthew Turland <me@matthewturland.com>
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/rdlowrey/auryn
+ * @link https://github.com/elazar/auryn-container-interop
  */
 class AurynContainer implements ContainerInterface
 {
@@ -58,11 +58,11 @@ class AurynContainer implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     *
      * @param  string $id
      * @return mixed
+     *
+     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function get($id)
     {

@@ -10,7 +10,7 @@ namespace Rougin\Slytherin\Integration;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Configuration implements ConfigurationInterface
+class Configuration
 {
     /**
      * @var array<string, mixed>
@@ -48,10 +48,8 @@ class Configuration implements ConfigurationInterface
             /** @var string */
             $index = $keys[(int) $i];
 
-            // TODO: Need to refactor ------
             /** @phpstan-ignore-next-line */
             $data = &$data[$index];
-            // -----------------------------
         }
 
         return $data !== null ? $data : $default;

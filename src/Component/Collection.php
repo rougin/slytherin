@@ -15,7 +15,7 @@ use Rougin\Slytherin\Template\RendererInterface;
 /**
  * Component Collection
  *
- * NOTE: To be removed in v1.0.0. Use "Integration" instead.
+ * Contains all the required components for Slytherin.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -38,7 +38,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Adds a new instance to the container.
+     * Adds an instance to the container.
      * NOTE: To be removed in v1.0.0. Use "set" instead.
      *
      * @param  string $id
@@ -51,12 +51,10 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     * Returns the specified component.
      *
      * @param  string $id
      * @return object
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
      */
     public function get($id)
     {
@@ -65,7 +63,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets an instance of the container.
+     * Returns the container.
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
@@ -75,7 +73,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the debugger.
+     * Returns the debugger.
      *
      * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
@@ -86,6 +84,7 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * Returns the dependency injector.
      * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
@@ -96,7 +95,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the dispatcher.
+     * Returns the dispatcher.
      *
      * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
      */
@@ -107,6 +106,7 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * Returns the error handler.
      * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
      *
      * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
@@ -117,7 +117,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the HTTP components.
+     * Returns the HTTP request and response.
      *
      * @return mixed
      */
@@ -127,7 +127,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the request.
+     * Returns the HTTP request.
      *
      * @return \Psr\Http\Message\ServerRequestInterface
      */
@@ -138,7 +138,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the response.
+     * Returns the HTTP response.
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -149,7 +149,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the middleware.
+     * Returns the middleware.
      *
      * @return \Rougin\Slytherin\Middleware\DispatcherInterface
      */
@@ -160,7 +160,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Gets the template.
+     * Returns the template.
      *
      * @return \Rougin\Slytherin\Template\RendererInterface
      */
@@ -171,7 +171,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Returns true if the container can return an entry for the given identifier.
+     * Checks if a specified component exists.
      *
      * @param  string $id
      * @return boolean
@@ -182,7 +182,7 @@ class Collection implements ContainerInterface
     }
 
     /**
-     * Sets a new instance to the container.
+     * Sets an instance to the collection.
      *
      * @param  string $id
      * @param  mixed  $concrete
@@ -220,6 +220,7 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * Sets the dependency injector.
      * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $injector
@@ -242,6 +243,7 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * Sets the error handler.
      * NOTE: To be removed in v1.0.0. Use "setDebugger" instead.
      *
      * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger

@@ -21,6 +21,7 @@ interface ComponentInterface
 
     /**
      * Returns the type of the component.
+     * Could be: container, dispatcher, debugger, http, middleware, template
      *
      * @return string
      */

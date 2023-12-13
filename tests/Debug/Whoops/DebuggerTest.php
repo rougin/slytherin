@@ -2,16 +2,21 @@
 
 namespace Rougin\Slytherin\Debug\Whoops;
 
+use Rougin\Slytherin\Debug\Whoops\Debugger;
+use Rougin\Slytherin\System;
+use Rougin\Slytherin\Testcase;
+use Whoops\Handler\PrettyPageHandler;
+
 /**
  * Whoops Debugger Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class DebuggerTest extends \Rougin\Slytherin\Testcase
+class DebuggerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Debug\DebuggerInterface
+     * @var \Rougin\Slytherin\Debug\Whoops\Debugger
      */
     protected $debugger;
 
@@ -27,13 +32,12 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('Whoops\Run')) {
+        if (! class_exists('Whoops\Run'))
+        {
             $this->markTestSkipped('Whoops is not installed.');
         }
 
-        $whoops = new \Whoops\Run;
-
-        $this->debugger = new \Rougin\Slytherin\Debug\Whoops\Debugger($whoops);
+        $this->debugger = new Debugger(new \Whoops\Run);
     }
 
     /**
@@ -45,7 +49,11 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
     {
         $this->debugger->setEnvironment($this->environment);
 
-        $this->assertEquals($this->environment, $this->debugger->getEnvironment());
+        $expected = $this->environment;
+
+        $actual = $this->debugger->getEnvironment();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -55,11 +63,15 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHandlerMethod()
     {
-        $this->debugger->setHandler(new \Whoops\Handler\PrettyPageHandler);
+        $this->debugger->setHandler(new PrettyPageHandler);
 
         $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\PrettyPageHandler', $handlers[0]);
+        $expected = 'Whoops\Handler\PrettyPageHandler';
+
+        $actual = $handlers[0];
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -69,13 +81,17 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetHandlerMethodWithCallback()
     {
-        $this->debugger->setHandler(function () {
-            return 'Hello';
-        });
+        $fn = function () { return 'Hello'; };
+
+        $this->debugger->setHandler($fn);
 
         $handlers = $this->debugger->getHandlers();
 
-        $this->assertInstanceOf('Whoops\Handler\CallbackHandler', $handlers[0]);
+        $expected = 'Whoops\Handler\CallbackHandler';
+
+        $actual = $handlers[0];
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -85,18 +101,18 @@ class DebuggerTest extends \Rougin\Slytherin\Testcase
      */
     public function testDisplayMethod()
     {
-        $this->assertInstanceOf('Whoops\Run', $this->debugger->display());
+        $this->debugger->display();
+
+        $this->assertEquals(error_reporting(), E_ALL);
     }
 
     /**
-     * Tests if the debugger is implemented in ErrorHandlerInterface.
+     * Tests if the debugger is implemented in DebuggerInterface.
      *
      * @return void
      */
     public function testDebuggerInterface()
     {
-        $interface = 'Rougin\Slytherin\Debug\ErrorHandlerInterface';
-
-        $this->assertInstanceOf($interface, $this->debugger);
+        $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
     }
 }

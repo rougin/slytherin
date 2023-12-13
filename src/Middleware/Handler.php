@@ -5,9 +5,12 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
+ * Handler
+ *
+ * A default route for handling the application logic.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @codeCoverageIgnore
  */
 class Handler implements HandlerInterface
 {
@@ -38,6 +41,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -47,6 +52,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -65,6 +72,8 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Returns the next specified middleware.
+     *
      * @return \Rougin\Slytherin\Middleware\HandlerInterface
      */
     protected function next()

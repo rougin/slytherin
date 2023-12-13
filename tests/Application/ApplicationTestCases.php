@@ -200,17 +200,6 @@ class ApplicationTestCases extends Testcase
      */
     public function testHandleMethodWithTypehintedParameter()
     {
-        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
-        $dispatcher = $this->application->get($interface);
-
-        // TODO: Implement resolving of type hinted parameters from container to PhrouteResolver ----------
-        if (is_a($dispatcher, 'Rougin\Slytherin\Routing\PhrouteDispatcher'))
-        {
-            $this->markTestSkipped('Resolving type hinted parameters are not yet implemented in Phroute.');
-        }
-        // ------------------------------------------------------------------------------------------------
-
         $request = $this->request('GET', '/typehint/202');
 
         $expected = (integer) 202;

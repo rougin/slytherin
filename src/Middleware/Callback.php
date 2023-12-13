@@ -6,7 +6,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Converts callables into Slytherin middlewares.
+ * Callback
+ *
+ * A class that converts callables into Slytherin middlewares.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -69,6 +71,8 @@ class Callback implements MiddlewareInterface
     }
 
     /**
+     * Checks if the middleware is a single-pass or a double-pass implementation.
+     *
      * @param  mixed $item
      * @return boolean
      */

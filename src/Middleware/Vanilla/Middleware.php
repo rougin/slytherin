@@ -2,18 +2,16 @@
 
 namespace Rougin\Slytherin\Middleware\Vanilla;
 
-use Rougin\Slytherin\Middleware\VanillaMiddleware;
+use Rougin\Slytherin\Middleware\Middleware as Slytherin;
 
 /**
  * Middleware
  *
- * A simple implementation of a middleware on PSR-15.
- * NOTE: To be removed in v1.0.0. Use "Middleware\Dispatcher" instead.
+ * NOTE: To be removed in v1.0.0. Use "Middleware" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
- * @author  Rasmus Schultz <rasmus@mindplay.dk>
  */
-class Middleware extends VanillaMiddleware
+class Middleware extends Slytherin
 {
 }

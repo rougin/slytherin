@@ -7,8 +7,7 @@ use Rougin\Slytherin\Container\VanillaContainer;
 /**
  * Container
  *
- * A container that extends on Rougin\Slytherin\IoC\BaseContainer.
- * NOTE: To be removed in v1.0.0. Use "Container\Container" instead.
+ * NOTE: To be removed in v1.0.0. Use "Container\VanillaContainer" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

@@ -8,13 +8,12 @@ use Whoops\Run;
 /**
  * Whoops Error Handler
  *
- * A simple implementation of an error handler built on top of Filipe Dobreira's
- * Whoops. NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
- *
- * http://filp.github.io/whoops
+ * A simple implementation of an error handler built on top of Whoops.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link http://filp.github.io/whoops
  */
 class WhoopsErrorHandler implements ErrorHandlerInterface
 {
@@ -41,7 +40,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Sets up the environment to be used.
-     * NOTE: To be removed in v1.0.0.
+     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @param  string $environment
      * @return self
@@ -54,8 +53,8 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Gets the specified environment.
-     * NOTE: To be removed in v1.0.0.
+     * Returns the specified environment.
+     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @return string
      */
@@ -66,7 +65,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
     /**
      * Returns a listing of handlers.
-     * NOTE: To be removed in v1.0.0. Use __call" instead.
+     * NOTE: To be removed in v1.0.0. Use the magic method "__call" instead.
      *
      * @return \Whoops\Handler\HandlerInterface[]
      */
@@ -78,7 +77,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     /**
      * Registers the instance as an error handler.
      *
-     * @return mixed
+     * @return void
      */
     public function display()
     {
@@ -88,7 +87,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
 
         $this->__call('pushHandler', array($handler));
 
-        return $this->whoops->register();
+        $this->whoops->register();
     }
 
     /**

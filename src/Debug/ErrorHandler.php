@@ -5,8 +5,7 @@ namespace Rougin\Slytherin\Debug;
 /**
  * Error Handler
  *
- * A simple implementation of a debugger.
- * NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
+ * A simple implementation of an error handler.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -28,7 +27,7 @@ class ErrorHandler implements ErrorHandlerInterface
 
     /**
      * Sets up the environment to be used.
-     * NOTE: To be removed in v1.0.0.
+     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @param  string $environment
      * @return self
@@ -41,8 +40,8 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
-     * Gets the specified environment.
-     * NOTE: To be removed in v1.0.0.
+     * Returns the specified environment.
+     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @return string
      */
@@ -54,7 +53,7 @@ class ErrorHandler implements ErrorHandlerInterface
     /**
      * Registers the instance as an error handler.
      *
-     * @return mixed
+     * @return void
      */
     public function display()
     {

@@ -9,6 +9,10 @@ use Rougin\Slytherin\Middleware\Handlers\Handler050;
 use Rougin\Slytherin\Middleware\Handlers\Handler100;
 
 /**
+ * Interop Handler
+ *
+ * A handler that allows all "http-interop" middlewares to interact with Slytherin.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  * @codeCoverageIgnore
@@ -37,6 +41,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -46,6 +52,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Dispatch the next available middleware and return the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
      */
@@ -66,6 +74,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Checks if one of the supported versions are installed.
+     *
      * @return boolean
      */
     public static function exists()
@@ -76,6 +86,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Converts the handler into the currently installed PSR-15 implementation.
+     *
      * @param  mixed       $handler
      * @param  string|null $version
      * @return mixed
@@ -121,6 +133,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Checks if the handler is installed in the supported PSR-15 version.
+     *
      * @param  mixed  $handler
      * @param  string $version
      * @return boolean
@@ -131,6 +145,8 @@ class Interop implements HandlerInterface
     }
 
     /**
+     * Checks if the official PSR-15 is currently installed.
+     *
      * @return boolean
      */
     public static function psrExists()

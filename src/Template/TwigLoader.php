@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Template;
 /**
  * Twig Loader
  *
- * Backward compatibility for the Twig package.
+ * A backward compatibility class for the Twig package.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
@@ -13,6 +13,8 @@ namespace Rougin\Slytherin\Template;
 class TwigLoader
 {
     /**
+     * Check if any version of Twig is installed.
+     *
      * @return boolean
      */
     public function exists()
@@ -21,6 +23,8 @@ class TwigLoader
     }
 
     /**
+     * Loads the Twig instance.
+     *
      * @param  string|string[] $path
      * @return \Twig\Environment
      */

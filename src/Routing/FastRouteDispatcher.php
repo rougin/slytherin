@@ -7,10 +7,10 @@ namespace Rougin\Slytherin\Routing;
  *
  * A simple implementation of dispatcher that is built on top of FastRoute.
  *
- * https://github.com/nikic/FastRoute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/nikic/FastRoute
  */
 class FastRouteDispatcher extends Dispatcher
 {
@@ -47,7 +47,7 @@ class FastRouteDispatcher extends Dispatcher
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $result[1];
 
-        /** @var string[] */
+        /** @var array<string, string> */
         $params = $result[2];
 
         return $route->setParams($params);

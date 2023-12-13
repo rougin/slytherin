@@ -11,10 +11,10 @@ use FastRoute\RouteParser\Std;
  *
  * A simple implementation of router that is built on top of FastRoute.
  *
- * https://github.com/nikic/FastRoute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/nikic/FastRoute
  */
 class FastRouteRouter extends Router
 {
@@ -57,7 +57,21 @@ class FastRouteRouter extends Router
         {
             foreach ($routes as $route)
             {
-                $collector->addRoute($route->getMethod(), $route->getUri(), $route);
+                // Convert the ":name" pattern into "{name}" pattern ------------------
+                $uri = $route->getUri();
+
+                $matched = preg_match_all('/\:([a-zA-Z0-9\_\-]+)/i', $uri, $matches);
+
+                if ($matched)
+                {
+                    foreach ($matches[0] as $key => $item)
+                    {
+                        $uri = str_replace($item, '{' . $matches[1][$key] . '}', $uri);
+                    }
+                }
+                // --------------------------------------------------------------------
+
+                $collector->addRoute($route->getMethod(), $uri, $route);
             }
         };
 

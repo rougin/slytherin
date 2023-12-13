@@ -3,6 +3,10 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
+ * Route
+ *
+ * A simple class for handling routes.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -24,7 +28,7 @@ class Route implements RouteInterface
     protected $middlewares;
 
     /**
-     * @var string[]
+     * @var array<string, string>
      */
     protected $params = array();
 
@@ -62,6 +66,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the handler.
+     *
      * @return callable|string[]|string
      */
     public function getHandler()
@@ -70,6 +76,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the HTTP method.
+     *
      * @return string
      */
     public function getMethod()
@@ -78,6 +86,8 @@ class Route implements RouteInterface
     }
 
     /**
+     * Returns the defined middlewares.
+     *
      * @return mixed[]
      */
     public function getMiddlewares()
@@ -86,7 +96,9 @@ class Route implements RouteInterface
     }
 
     /**
-     * @return string[]
+     * Returns the defined parameters.
+     *
+     * @return array<string, string>
      */
     public function getParams()
     {
@@ -96,9 +108,9 @@ class Route implements RouteInterface
     /**
      * Returns a regular expression pattern from the given URI.
      *
-     * @link https://stackoverflow.com/q/30130913
-     *
      * @return string
+     *
+     * @link https://stackoverflow.com/q/30130913
      */
     public function getRegex()
     {
@@ -121,11 +133,26 @@ class Route implements RouteInterface
     }
 
     /**
+     * Return the URI of the route.
+     *
      * @return string
      */
     public function getUri()
     {
         return $this->uri;
+    }
+
+    /**
+     * Sets the parameters to the route.
+     *
+     * @param  array<string, string> $params
+     * @return self
+     */
+    public function setParams($params)
+    {
+        $this->params = $params;
+
+        return $this;
     }
 
     /**
@@ -137,20 +164,7 @@ class Route implements RouteInterface
      */
     protected function capture($pattern, $search)
     {
-        $replace = '(?<$1>' . self::ALLOWED_REGEX . ')';
-
         /** @var string */
-        return preg_replace($search, $replace, $pattern);
-    }
-
-    /**
-     * @param  string[] $params
-     * @return self
-     */
-    public function setParams($params)
-    {
-        $this->params = $params;
-
-        return $this;
+        return preg_replace($search, '(?<$1>' . self::ALLOWED_REGEX . ')', $pattern);
     }
 }

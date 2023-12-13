@@ -12,10 +12,10 @@ use Phroute\Phroute\RouteDataArray;
  *
  * A simple implementation of dispatcher that is built on top of Phroute.
  *
- * https://github.com/mrjgreen/phroute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/mrjgreen/phroute
  */
 class PhrouteDispatcher extends Dispatcher
 {
@@ -73,7 +73,27 @@ class PhrouteDispatcher extends Dispatcher
         try
         {
             /** @var \Rougin\Slytherin\Routing\RouteInterface */
-            return $phroute->dispatch($method, $uri);
+            $route = $phroute->dispatch($method, $uri);
+
+            // Combine values from resolver and the current parameters -------------
+            $regex = '/\{([a-zA-Z0-9\_\-]+)\}/i';
+
+            $matched = preg_match_all($regex, $route->getUri(), $matches);
+
+            // If "{name}" pattern is not found, try the ":name" pattern instead ---
+            if (! $matched)
+            {
+                $regex = '/\:([a-zA-Z0-9\_\-]+)/i';
+
+                $matched = preg_match_all($regex, $route->getUri(), $matches);
+            }
+            // ---------------------------------------------------------------------
+
+            /** @var array<string, string> */
+            $params = array_combine($matches[1], $route->getParams());
+
+            return $route->setParams($params);
+            // ---------------------------------------------------------------------
         }
         catch (HttpRouteNotFoundException $e)
         {

@@ -6,6 +6,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
 
 /**
+ * Dispatcher
+ *
+ * A sample implementation of the middleware dispatcher.
+ *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -30,6 +34,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Returns the list of added middlewares.
+     *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */
     public function getStack()
@@ -38,6 +44,9 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Process an incoming server request and return a response, optionally delegating
+     * to the next middleware component to create the response.
+     *
      * @param  \Psr\Http\Message\ServerRequestInterface      $request
      * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
      * @return \Psr\Http\Message\ResponseInterface
@@ -52,6 +61,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Add a new middleware to the end of the stack.
+     *
      * @param  mixed $middleware
      * @return self
      */
@@ -72,6 +83,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Sets a new stack of middlewares.
+     *
      * @param  mixed[] $stack
      * @return self
      */
@@ -90,6 +103,7 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Returns the list of added middlewares.
      * NOTE: To be removed in v1.0.0. Use "getStack" instead.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface[]
@@ -100,6 +114,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Transforms the middleware into a Slytherin counterpart.
+     *
      * @param  mixed $middleware
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
@@ -127,6 +143,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * Checks if the middleware is a callable.
+     *
      * @param  mixed $item
      * @return boolean
      */

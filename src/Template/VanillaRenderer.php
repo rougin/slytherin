@@ -5,12 +5,11 @@ namespace Rougin\Slytherin\Template;
 /**
  * Renderer
  *
- * A simple implementation of a template renderer.
- * NOTE: To be removed in v1.0.0. Use "Template\Renderer" instead.
+ * NOTE: To be removed in v1.0.0. Use "Vanilla\Renderer" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class VanillaRenderer extends Renderer
+class VanillaRenderer extends Vanilla\Renderer
 {
 }

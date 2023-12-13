@@ -2,17 +2,16 @@
 
 namespace Rougin\Slytherin\Debug;
 
-use Rougin\Slytherin\Debug\Vanilla\Debugger as BaseDebugger;
+use Rougin\Slytherin\Debug\Vanilla\Debugger as Slytherin;
 
 /**
  * Debugger
  *
- * A simple implementation of a debugger.
- * NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
+ * NOTE: To be removed in v1.0.0. Use "VanillaDebugger" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Debugger extends BaseDebugger
+class Debugger extends Slytherin
 {
 }

@@ -15,15 +15,15 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
 class ReflectionContainer implements PsrContainerInterface
 {
     /**
-     * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
-     *
      * Finds an entry of the container by its identifier and returns it.
+     *
+     * @param  string $id
+     * @return mixed
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      *
-     * @param  string $id
-     * @return mixed
+     * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      */
     public function get($id)
     {

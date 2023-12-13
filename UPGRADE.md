@@ -2,15 +2,148 @@
 
 Below are the guides when upgrading from specified versions due to backward compatibility breaks:
 
+> [!NOTE]
+> There should be no backward compatibility issues if using the public methods of Slytherin components that are documented starting from `v0.3.0`. The following below should be considered if there are custom implementations that uses Slytherin's interfaces.
+
 ## From `v0.8.0` to `v0.9.0`
 
-No known backward compatibility issues found.
+### Transition to the official PSR-11 implementation
+
+The `Container` has been reworked to support the official PSR-11 implementation (`psr/container`). The `ContainerInterface` was moved from `IoC` to `Container` directory. The `add` method was also changed to `set` to complement the `get` method from the official `ContainerInterface`:
+
+``` diff
+-namespace Rougin\Slytherin\IoC;
++namespace Rougin\Slytherin\Container;
+
+-use Interop\Container\ContainerInterface as InteropContainerInterface;
++use Psr\Container\ContainerInterface as PsrContainerInterface;
+
+-interface ContainerInterface extends InteropContainerInterface
++interface ContainerInterface extends PsrContainerInterface
+ {
+     /**
+-     * @param string  $id
+-     * @param mixed   $concrete
++     * @param  string $id
++     * @param  mixed  $concrete
++     * @return self
+      */
+-    public function add($id, $concrete = null);
++    public function set($id, $concrete);
+ }
+```
+
+### Change of `DebuggerInterface` to `ErrorHandlerInterface`
+
+The `DebuggerInterface` is renamed to `ErrorHandlerInterface`. Although there is no backward compatibility break in this change, the specified interface removes required methods and may not be used in Slytherin:
+
+``` diff
+namespace Rougin\Slytherin\Debug;
+
+-interface DebuggerInterface
++interface ErrorHandlerInterface
+ {
+-    /**
+-     * Sets up the environment to be used.
+-     *
+-     * @param  string $environment
+-     * @return void
+-     */
+-    public function setEnvironment($environment);
+-
+-    /**
+-     * Returns the specified environment.
+-     *
+-     * @return string
+-     */
+-    public function getEnvironment();
+
+     /**
+      * Registers the instance as a debugger.
+      * 
+      * @return object
+      */
+     public function display();
+ }
+```
+
+### Transition to the official PSR-15 implementation
+
+The `Middleware` has been reworked due to the transition to the official PSR-15 implementation (`psr/http-server-middleware`). The `MiddlewareInterface` has been changed and it should be compatible with the various implementations of PSR-15:
+
+``` diff
+ namespace Rougin\Slytherin\Middleware;
+
+-use Psr\Http\Message\ResponseInterface as Response;
+-use Psr\Http\Message\ServerRequestInterface as Request;
++use Psr\Http\Message\ServerRequestInterface;
+
+ interface MiddlewareInterface
+ {
+     /**
+-     * @param  \Psr\Http\Message\RequestInterface  $request
+-     * @param  \Psr\Http\Message\ResponseInterface $response
+-     * @param  array                               $queue
+-     * @return \Psr\Http\Message\ResponseInterface|null
++     * @param  \Psr\Http\Message\ServerRequestInterface      $request
++     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
++     * @return \Psr\Http\Message\ResponseInterface
+      */
+-    public function __invoke(Request $request, Response $response, array $queue = []);
++    public function process(ServerRequestInterface $request, HandlerInterface $handler);
+ }
+```
+
+> [!NOTE]
+> Although the `MiddlewareInterface` does not extend to the official `MiddlewareInterface`, Slytherin automatically converts the currently installed PSR-15 middleware (`http-interop/http-middleware` or `psr/http-server-middleware`) to its Slytherin counterpart.
+
+### Additional method for `DispatcherInterface` in `Routing`
+
+The `DispatcherInterface` for `Routing` has a new method named `setRouter`. If using the specified interface, kindly implement the recent method:
+
+``` diff
+ namespace Rougin\Slytherin\Routing;
+
+ /**
+  * Dispatcher Interface
+  *
+  * An interface for handling third-party route dispatchers.
+  *
+  * @package Slytherin
+  * @author  Rougin Gutib <rougingutib@gmail.com>
+  */
+ interface DispatcherInterface
+ {
+     /**
+      * Dispatches against the provided HTTP method verb and URI.
+      *
+      * @param  string $method
+      * @param  string $uri
+      * @return \Rougin\Slytherin\Routing\RouteInterface
+      *
+      * @throws \BadMethodCallException
+      */
+     public function dispatch($method, $uri);
+
++    /**
++     * Sets the router and parse its available routes if needed.
++     *
++     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
++     * @return self
++     *
++     * @throws \UnexpectedValueException
++     */
++    public function setRouter(RouterInterface $router);
+ }
+```
 
 ## From `v0.7.0` to `v0.8.0`
 
 No known backward compatibility issues found.
 
 ## From `v0.6.0` to `v0.7.0`
+
+### Upgrade version of `filp/whoops`
 
 Although no backward compatibility issues found in Slytherin's code, one of the Slytherin's supported packages, `filp/whoops`, has an issue regarding PHP errors. With this, kindly change its version to `~2.0` in the `composer.json` then perform `composer update` after:
 
@@ -36,6 +169,8 @@ No known backward compatibility issues found.
 
 ## From `v0.3.0` to `v0.4.0`
 
+### Transition to PSR-07 (HTTP messages)
+
 The `v0.4.0` version requires a PSR-07 compliant package. See the `v0.4.0` in `ERRATUM` for updating the `composer.json`.
 
 With the transition to PSR-07, kindly update the following classes from `index.php`:
@@ -55,22 +190,72 @@ With the transition to PSR-07, kindly update the following classes from `index.p
 
  // ...
 
--// Initialize the RequestInterface and ResponseInterface -----------------------------
+// Initialize the RequestInterface and ResponseInterface -----------------------------
 -$stream = file_get_contents('php://input');
 -$request = new \Http\HttpRequest($_GET, $_POST, $_COOKIE, $_FILES, $_SERVER, $stream);
 -$request = new Request($request);
 -$response = new Response(new \Http\HttpResponse);
-+// Initialize the ServerRequestInterface and ResponseInterface ---
 +$request = ServerRequestFactory::fromGlobals();
 +$response = new Response;
  $component->setHttp($request, $response);
--// -----------------------------------------------------------------------------------
-+// ---------------------------------------------------------------
+// -----------------------------------------------------------------------------------
 
  // ...
 ```
 
-## From `v0.2.1` to `v0.3.0`
+### Transition to PSR-11 (Containers)
+
+This version also introduced support for a PSR-11 compliant package. With this, the `DependencyInjectorInterface` has been removed and was replaced by `ContainerInterface` which extends to the `container-interop` package but added a new method:
+
+``` diff
+ namespace Rougin\Slytherin\IoC;
+
++use Interop\Container\ContainerInterface as InteropContainerInterface;
++
+-interface DependencyInjectorInterface
++interface ContainerInterface extends InteropContainerInterface
+ {
+     /**
+-     * Instantiates/provisions a class instance.
+-     *
+-     * @param  string $name
+-     * @param  array  $args
+-     * @return mixed
++     * Adds a new instance to the container.
++     *
++     * @param string  $id
++     * @param mixed   $concrete
+      */
+-    public function make($name, array $args = array());
++    public function add($id, $concrete = null);
+ }
+```
+
+### Change from `ErrorHandler` to `Debug`
+
+The `ErrorHandlerInterface` has been moved from `ErrorHandler` to `Debug` and renamed as `DebuggerInterface`. No backward compatibility break should occur as the latter interface extends to the former:
+
+``` diff
+-namespace Rougin\Slytherin\ErrorHandler;
++namespace Rougin\Slytherin\Debug;
+
+ /**
+- * Error Handler Interface
++ * Debugger Interface
+  *
+- * An interface for handling third party error handlers
++ * An interface for handling third party debuggers.
+  *
+  * @package Slytherin
+  * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+  */
+-interface ErrorHandlerInterface
++interface DebuggerInterface
+```
+
+## From `v0.2.0` to `v0.3.0`
+
+### Migrating to a micro-framework package
 
 Due to transition from an application project to a micro-framework package, the following updates must be performed:
 
@@ -108,7 +293,8 @@ Update the following details in `composer.json`:
  }
 ```
 
-**NOTE**: `Rougin\\Nostalgia\\` is only an example namespace. The said namespace can be changed for the whole project.
+> [!NOTE]
+> `Rougin\\Nostalgia\\` is only an example for the namespace. The `src` directory should have its own namespace for easy importing of its classes.
 
 Then execute `composer update` to update the packages:
 
@@ -116,7 +302,7 @@ Then execute `composer update` to update the packages:
 $ composer update
 ```
 
-After updating, copy the `index.php` to `app/web` directory:
+After updating the packages, copy the `index.php` to `app/web` directory:
 
 ``` diff
 +app/
@@ -125,7 +311,7 @@ After updating, copy the `index.php` to `app/web` directory:
 -index.php
 ```
 
-From the `index.php`, paste the following code:
+Then copy the following code below to the said `index.php`:
 
 ``` php
 use Rougin\Slytherin\Application;
@@ -299,3 +485,6 @@ If using the `Model` class for handling database results, replace it with the im
 
          $st->execute();
 ```
+
+> [!NOTE]
+> Use a third-party `PDO` implementation for improving code maintainability and readability.

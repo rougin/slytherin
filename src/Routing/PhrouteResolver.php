@@ -9,10 +9,10 @@ use Phroute\Phroute\HandlerResolverInterface;
  *
  * A handler resolver that wraps the route as the result.
  *
- * https://github.com/mrjgreen/phroute
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @link https://github.com/mrjgreen/phroute
  */
 class PhrouteResolver implements HandlerResolverInterface
 {

@@ -2,17 +2,16 @@
 
 namespace Rougin\Slytherin\Container\Exception;
 
-use Rougin\Slytherin\Container\ContainerException as BaseException;
+use Rougin\Slytherin\Container\ContainerException as Slytherin;
 
 /**
  * Container Exception
  *
- * A specified exception in handling errors in containers.
- * NOTE: To be removed in v1.0.0. Use Container\ContainerException instead.
+ * NOTE: To be removed in v1.0.0. Use "Container\ContainerException" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerException extends BaseException
+class ContainerException extends Slytherin
 {
 }

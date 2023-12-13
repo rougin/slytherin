@@ -39,15 +39,16 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
-        $router->get('/', 'NewClass@index');
+        $router->get('/hi/:name', function ($name)
+        {
+            return 'Hello ' . $name . '!';
+        });
 
         $dispatcher = new FastRouteDispatcher($router);
 
-        $controller = new NewClass;
+        $route = $dispatcher->dispatch('GET', '/hi/Slytherin');
 
-        $route = $dispatcher->dispatch('GET', '/');
-
-        $expected = (string) $controller->index();
+        $expected = (string) 'Hello Slytherin!';
 
         $actual = $this->resolve($route);
 

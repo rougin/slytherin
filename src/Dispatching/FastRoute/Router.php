@@ -2,19 +2,16 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
-use Rougin\Slytherin\Routing\FastRoute\Router as BaseRouter;
+use Rougin\Slytherin\Routing\FastRoute\Router as Slytherin;
 
 /**
  * FastRoute Router
  *
- * A simple implementation of router that is built on top of FastRoute.
- * NOTE: To be removed in v1.0.0. Use "Routing\FastRouteRouter" instead.
- *
- * https://github.com/nikic/FastRoute
+ * NOTE: To be removed in v1.0.0. Use "Routing\FastRoute\Router" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Router extends BaseRouter
+class Router extends Slytherin
 {
 }

@@ -2,17 +2,16 @@
 
 namespace Rougin\Slytherin\Dispatching;
 
-use Rougin\Slytherin\Routing\Router as AbstractRouter;
+use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
  * Base Router
  *
- * A simple implementation of a router that is based on RouterInterface.
- * NOTE: To be removed in v1.0.0
+ * NOTE: To be removed in v1.0.0. Use "Routing\Router" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-abstract class BaseRouter extends AbstractRouter
+abstract class BaseRouter extends Slytherin
 {
 }

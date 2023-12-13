@@ -2,19 +2,16 @@
 
 namespace Rougin\Slytherin\Debug;
 
-use Rougin\Slytherin\Debug\Whoops\Debugger as BaseDebugger;
+use Rougin\Slytherin\Debug\Whoops\Debugger as Slytherin;
 
 /**
- * Debugger
+ * Whoops Debugger
  *
- * A simple implementation of a debugger built on top of Filipe Dobreira's
- * Whoops. NOTE: To be removed in v1.0.0. Use "ErrorHandlerIntegration" instead.
- *
- * http://filp.github.io/whoops
+ * NOTE: To be removed in v1.0.0. Use "Whoops\Debugger" instead.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class WhoopsDebugger extends BaseDebugger
+class WhoopsDebugger extends Slytherin
 {
 }

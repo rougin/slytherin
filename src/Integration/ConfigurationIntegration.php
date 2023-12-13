@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Integration;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
+use Rougin\Slytherin\System;
 
 /**
  * Configuration Integration
@@ -25,10 +26,8 @@ class ConfigurationIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $container->set('Rougin\Slytherin\Configuration', $config);
+        $alias = 'Rougin\Slytherin\Configuration';
 
-        $container->set('Rougin\Slytherin\Integration\Configuration', $config);
-
-        return $container;
+        return $container->set($alias, $config)->set(System::CONFIG, $config);
     }
 }

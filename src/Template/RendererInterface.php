@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Template;
 /**
  * Renderer Interface
  *
- * An interface for handling third party template engines.
+ * An interface for handling third-party template engines.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
