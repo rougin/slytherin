@@ -97,18 +97,13 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.9.0](https://github.com/rougin/slytherin/compare/v0.8.1...v0.9.0) - 2017-07-08
 
-**NOTE**: This release may break your application if upgrading from `v0.8.0` release.
-
-### Fixed
-- Appending of middleware response from `DispatcherInterface`'s result in `Application::run`
-- `Array to string conversion` error when add callback routes with arguments
-- Compatibility issue for `Statigility\Middleware`
-- Getting `$request` object in container after being defined in `Application::handle`
+> [!CAUTION]
+> This _may_ break your application if upgrading from `v0.8.0` release.
 
 ### Added
-- Implementation of [PSR-7](http://www.php-fig.org/psr/psr-7), [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md), and [PSR-15](https://github.com/php-fig/fig-standards/blob/master/proposed/http-middleware/middleware.md) standards.
-    - Packages `psr/container` and `psr/http-message` are already included in this release
-    - Install `http-interop/http-middleware` if you want to use middlewares in `Middleware` directory
+- Implementation of PSR-07 (`psr/http-message`)
+- Implementation of PSR-11 (from `container-interop/container-interop` to `psr/container`)
+- Implementation of PSR-15 (`http-interop/http-middleware:0.4.1`)
 - Middlewares in `FastRoute\Dispatcher` and `Phroute\Dispatcher`
 - `Integration` for integrating third-party packages to Slytherin
 - `Configuration` for ease of access in getting configurations inside integrations
@@ -143,6 +138,12 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Template\Twig\Renderer` class
 - `Vanilla` related classes
 
+### Fixed
+- Appending of middleware response from `DispatcherInterface`'s result in `Application::run`
+- `Array to string conversion` error when add callback routes with arguments
+- Compatibility issue for `Statigility\Middleware`
+- Getting `$request` object in container after being defined in `Application::handle`
+
 ### Removed
 - HTTP method spoofing (apply it on a [middleware](https://github.com/rougin/weasley/blob/master/src/Http/Middleware/FormMethodSpoofing.php) instead)
 - Traits (in order to achieve PHP `v5.3.0` as the minimum required version)
@@ -150,7 +151,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.8.1](https://github.com/rougin/slytherin/compare/v0.8.0...v0.8.1) - 2023-12-13
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Added
 - `alias` method in `AurynContainer` for backport fix from previous versions
@@ -175,7 +177,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.7.1](https://github.com/rougin/slytherin/compare/v0.7.0...v0.7.1) - 2023-12-13
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Added
 - `setTemplate` for setting `RendererInterface` in `Collection`
@@ -205,7 +208,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.6.1](https://github.com/rougin/slytherin/compare/v0.6.0...v0.6.1) - 2023-12-13
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Fixed
 - Compatibility issues from `v0.5.1` release
@@ -221,7 +225,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.5.1](https://github.com/rougin/slytherin/compare/v0.5.0...v0.5.1) - 2023-12-13
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Added
 - `NoopFinalHandler` in `StratigilityMiddleware`
@@ -244,7 +249,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.4.4](https://github.com/rougin/slytherin/compare/v0.4.3...v0.4.4) - 2023-12-13
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Added
 - `ComponentCollection`
@@ -279,7 +285,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.4.0](https://github.com/rougin/slytherin/compare/v0.3.0...v0.4.0) - 2016-01-13
 
-**NOTE**: This release will break your application if upgrading from `v0.3.0` release.
+> [!CAUTION]
+> This _may_ break your application if upgrading from `v0.3.0` release.
 
 ### Added
 - `ComponentCollection::setContainer` for adding packages implemented on `Interop\Container\ContainerInterface`
@@ -301,7 +308,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.3.0](https://github.com/rougin/slytherin/compare/v0.2.2...v0.3.0) - 2015-11-02
 
-**NOTE**: This release will break your application if upgrading from `v0.2.0` release.
+> [!CAUTION]
+> This will break your application if upgrading from `v0.2.0` release.
 
 ### Added
 - Interface-based package implementations
@@ -315,7 +323,8 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ## [0.2.2](https://github.com/rougin/slytherin/compare/v0.2.1...v0.2.2) - 2023-12-08
 
-**NOTE**: This is a backport fix to lessen backward compatibility issues.
+> [!NOTE]
+> This is a backport fix to lessen backward compatibility issues.
 
 ### Changed
 - `post-install-cmd` to `post-update-cmd` in `README.md`
