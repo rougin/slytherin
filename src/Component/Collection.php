@@ -27,11 +27,6 @@ class Collection implements ContainerInterface
      */
     protected $container;
 
-    /**
-     * @var mixed[]
-     */
-    protected $items = array();
-
     public function __construct()
     {
         $this->container = new Container;

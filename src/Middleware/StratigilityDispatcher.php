@@ -84,6 +84,7 @@ class StratigilityDispatcher extends Dispatcher
             }
             // @codeCoverageIgnoreEnd
 
+            /** @phpstan-ignore-next-line */
             $this->zend->pipe($item);
         }
 
@@ -101,10 +102,10 @@ class StratigilityDispatcher extends Dispatcher
             /** @phpstan-ignore-next-line */
             return $zend->process($request, $next);
         }
-        // @codeCoverageIgnoreEnd
 
         /** @phpstan-ignore-next-line */
         return $zend($request, $response, $next);
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -136,10 +137,10 @@ class StratigilityDispatcher extends Dispatcher
      *
      * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $item
      * @return callable
+     * @codeCoverageIgnore
      */
     protected function setMiddleware(MiddlewareInterface $item)
     {
-        // @codeCoverageIgnoreStart
         if ($this->hasPsr())
         {
             return function ($request, $handler) use ($item)
@@ -147,7 +148,6 @@ class StratigilityDispatcher extends Dispatcher
                 return $item->process($request, new Interop($handler));
             };
         }
-        // @codeCoverageIgnoreEnd
 
         return function ($request, $response, $next) use ($item)
         {
