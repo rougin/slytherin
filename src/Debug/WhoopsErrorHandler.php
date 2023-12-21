@@ -13,7 +13,7 @@ use Whoops\Run;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  *
- * @link http://filp.github.io/whoops
+ * @link https://filp.github.io/whoops
  */
 class WhoopsErrorHandler implements ErrorHandlerInterface
 {

@@ -115,7 +115,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `Routing\Router::restful` for adding RESTful routes based on one base route
 - `Routing\DispatcherInterface::router` for setting up routers manually
 - `Application::container` for getting the static instance of [PSR-11](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-11-container.md) container
-- `Container\ReflectionContainer` for using PHP's [Reflection API](http://php.net/manual/en/book.reflection.php) for solving class dependencies
+- `Container\ReflectionContainer` for using PHP's [Reflection API](https://php.net/manual/en/book.reflection.php) for solving class dependencies
 - Resolving of type hinted parameters in functions or class methods
 - `Application\CallbackHandler` and `Application\FinalCallback` for building a callback for the application
 
@@ -304,7 +304,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - `ComponentCollection::setInjector` (use `ComponentCollection::setContainer` instead)
-- `Http` directory (will now require implementations in [PSR-7](http://www.php-fig.org/psr/psr-7))
+- `Http` directory (will now require implementations in [PSR-7](https://www.php-fig.org/psr/psr-7))
 - `DependencyInjectorInterface` (will now require implementations in `Interop\Container\ContainerInterface`)
 - `Http\ResponseInterface` dependency in `Dispatching\Dispatcher`
 - Dependency of `nikic/fast-route` in `Dispatching` (use `Dispatching\FastRoute` instead)
