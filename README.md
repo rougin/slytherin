@@ -14,14 +14,6 @@ In the current state of PHP ecosystem, the mostly used PHP frameworks are [Symfo
 
 With this, Slytherin tries an alternative approach to only require the basic tools (e.g., HTTP and Routing) and let the application evolve from a simple API tool to a full-featured web application. With no defined directory structure, every PHP software engineer can use Slytherin to mix and match any structure they like and to tap more of the open-source packages in the PHP ecosystem.
 
-## Installation
-
-Install `Slytherin` through [Composer](https://getcomposer.org/):
-
-``` bash
-$ composer require rougin/slytherin
-```
-
 ## Basic Example
 
 Kindly check the [Basic Example][link-example] page in this wiki for the sample code.
@@ -35,6 +27,8 @@ As Slytherin is evolving as a micro-framework, there might be some breaking chan
 Please see [CHANGELOG][link-changelog] for more information what has changed recently.
 
 ## Testing
+
+To check all test cases written, kindly install the specified third-party packages prior running tests:
 
 ``` bash
 $ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware:^0.4.1 --dev

@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\System;
 
 use Psr\Container\ContainerInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Parameter;
 use Rougin\Slytherin\Container\ReflectionContainer;
 
@@ -23,18 +22,11 @@ class Resolver
     protected $container;
 
     /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $extra;
-
-    /**
      * @param \Psr\Container\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
-
-        $this->extra = new ReflectionContainer;
     }
 
     /**
@@ -70,29 +62,28 @@ class Resolver
     /**
      * Resolves the specified identifier to an instance.
      *
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     *
-     * @param  string                                        $id
-     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
+     * @param  string $id
      * @return mixed
+     *
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function resolve($id, ServerRequestInterface $request = null)
+    public function resolve($id)
     {
         /** @var class-string $id */
         $reflection = new \ReflectionClass($id);
 
         if (! $constructor = $reflection->getConstructor())
         {
-            return $this->extra->get($id);
+            $container = new ReflectionContainer;
+
+            return $container->get((string) $id);
         }
 
         $result = array();
 
         foreach ($constructor->getParameters() as $parameter)
         {
-            $argument = $this->getArgument($parameter);
-
-            $result[] = $this->handle($argument, $request);
+            $result[] = $this->getArgument($parameter);
         }
 
         return $reflection->newInstanceArgs($result);
@@ -125,17 +116,5 @@ class Resolver
         }
 
         return $argument;
-    }
-
-    /**
-     * Handles the manipulated ServerRequest (from middleware) to an argument.
-     *
-     * @param  mixed                                         $argument
-     * @param  \Psr\Http\Message\ServerRequestInterface|null $request
-     * @return mixed
-     */
-    protected function handle($argument, ServerRequestInterface $request = null)
-    {
-        return $argument instanceof ServerRequestInterface && $request ? $request : $argument;
     }
 }

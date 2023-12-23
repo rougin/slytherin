@@ -60,7 +60,7 @@ class Handler implements HandlerInterface
 
         if (is_array($handler) && is_string($handler[0]))
         {
-            $handler[0] = $resolver->resolve($handler[0], $request);
+            $handler[0] = $resolver->resolve($handler[0]);
 
             /** @var object|string */
             $objectOrMethod = $handler[0];

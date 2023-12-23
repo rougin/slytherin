@@ -88,16 +88,14 @@ class Container implements ContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        if (isset($this->items[$id]))
-        {
-            $entry = $this->items[$id];
-        }
-        else
-        {
-            $resolver = new Resolver($this);
+        $resolver = new Resolver($this);
 
-            $entry = $resolver->resolve($id);
+        if (! array_key_exists($id, $this->items))
+        {
+            $this->items[$id] = $resolver->resolve($id);
         }
+
+        $entry = $this->items[(string) $id];
 
         if (is_object($entry)) return $entry;
 
