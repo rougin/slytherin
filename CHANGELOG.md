@@ -31,6 +31,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Removed
 - `Integration\ConfigurationInterface` as its not being used
+- `Resolver` inside `Container` (will now not provide autowiring by default)
 
 ## [0.9.6](https://github.com/rougin/slytherin/compare/v0.9.5...v0.9.6) - 2023-11-16
 

@@ -2,9 +2,6 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Psr\Container\ContainerInterface as PsrContainerInterface;
-use Rougin\Slytherin\System\Resolver;
-
 /**
  * Container
  *
@@ -16,11 +13,6 @@ use Rougin\Slytherin\System\Resolver;
 class Container implements ContainerInterface
 {
     /**
-     * @var \Psr\Container\ContainerInterface
-     */
-    protected $extra;
-
-    /**
      * @var array<string, mixed>
      */
     protected $items = array();
@@ -28,19 +20,11 @@ class Container implements ContainerInterface
     /**
      * Initializes the container instance.
      *
-     * @param array<string, mixed>                   $items
-     * @param \Psr\Container\ContainerInterface|null $extra
+     * @param array<string, mixed> $items
      */
-    public function __construct(array $items = array(), PsrContainerInterface $extra = null)
+    public function __construct(array $items = array())
     {
         $this->items = $items;
-
-        if (! $extra)
-        {
-            $extra = new ReflectionContainer;
-        }
- 
-        $this->extra = $extra;
     }
 
     /**
@@ -88,13 +72,6 @@ class Container implements ContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        $resolver = new Resolver($this);
-
-        if (! array_key_exists($id, $this->items))
-        {
-            $this->items[$id] = $resolver->resolve($id);
-        }
-
         $entry = $this->items[(string) $id];
 
         if (is_object($entry)) return $entry;
@@ -112,7 +89,7 @@ class Container implements ContainerInterface
      */
     public function has($id)
     {
-        return isset($this->items[$id]) || $this->extra->has($id);
+        return isset($this->items[$id]);
     }
 
     /**

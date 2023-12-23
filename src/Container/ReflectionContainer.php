@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Psr\Container\ContainerInterface as PsrContainerInterface;
+use Psr\Container\ContainerInterface;
 
 /**
  * Reflection Container
@@ -12,8 +12,21 @@ use Psr\Container\ContainerInterface as PsrContainerInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements PsrContainerInterface
+class ReflectionContainer implements ContainerInterface
 {
+    /**
+     * @var \Psr\Container\ContainerInterface|null
+     */
+    protected $container = null;
+
+    /**
+     * @param \Psr\Container\ContainerInterface|null $container
+     */
+    public function __construct(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
@@ -44,6 +57,11 @@ class ReflectionContainer implements PsrContainerInterface
             return $reflection->newInstanceArgs($arguments);
         }
 
+        if ($this->container && $this->container->has($id))
+        {
+            return $this->container->get((string) $id);
+        }
+
         return new $id;
     }
 
@@ -55,7 +73,14 @@ class ReflectionContainer implements PsrContainerInterface
      */
     public function has($id)
     {
-        return class_exists($id);
+        $fromContainer = false;
+
+        if ($this->container)
+        {
+            $fromContainer = $this->container->has($id);
+        }
+
+        return class_exists($id) || $fromContainer;
     }
 
     /**

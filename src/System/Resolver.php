@@ -26,7 +26,7 @@ class Resolver
      */
     public function __construct(ContainerInterface $container)
     {
-        $this->container = $container;
+        $this->container = new ReflectionContainer($container);
     }
 
     /**
@@ -74,9 +74,7 @@ class Resolver
 
         if (! $constructor = $reflection->getConstructor())
         {
-            $container = new ReflectionContainer;
-
-            return $container->get((string) $id);
+            return $this->container->get($id);
         }
 
         $result = array();
