@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\System;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 use Rougin\Slytherin\Routing\RouteInterface;
 use Rougin\Slytherin\System;
@@ -54,13 +55,13 @@ class Handler implements HandlerInterface
         $this->container->set(System::REQUEST, $request);
         // -------------------------------------------------------------------
 
-        $resolver = new Resolver($this->container);
+        $container = new ReflectionContainer($this->container);
 
         $handler = $this->route->getHandler();
 
         if (is_array($handler) && is_string($handler[0]))
         {
-            $handler[0] = $resolver->resolve($handler[0]);
+            $handler[0] = $container->get($handler[0]);
 
             /** @var object|string */
             $objectOrMethod = $handler[0];
@@ -96,18 +97,18 @@ class Handler implements HandlerInterface
      */
     protected function setParams(\ReflectionFunctionAbstract $reflector)
     {
-        $resolver = new Resolver($this->container);
+        $container = new ReflectionContainer($this->container);
 
         $params = $this->route->getParams();
 
         if (empty($params))
         {
-            return $resolver->getArguments($reflector, $params);
+            return $container->getArguments($reflector, $params);
         }
 
         $items = $reflector->getParameters();
 
-        $values = $resolver->getArguments($reflector, $params);
+        $values = $container->getArguments($reflector, $params);
 
         $result = array();
 

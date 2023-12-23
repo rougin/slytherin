@@ -2,13 +2,17 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ReflectionContainer;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Reflection Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainerTest extends \Rougin\Slytherin\Testcase
+class ReflectionContainerTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -22,9 +26,9 @@ class ReflectionContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        $delegate = new \Rougin\Slytherin\Container\Container;
+        $delegate = new Container;
 
-        $this->container = new \Rougin\Slytherin\Container\ReflectionContainer($delegate);
+        $this->container = new ReflectionContainer($delegate);
     }
 
     /**
@@ -65,18 +69,6 @@ class ReflectionContainerTest extends \Rougin\Slytherin\Testcase
         $object = $this->container->get($class);
 
         $this->assertEquals($expected, $object->index());
-    }
-
-    /**
-     * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
-     *
-     * @return void
-     */
-    public function testGetMethodWithContainerException()
-    {
-        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
-
-        $this->container->get('Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter');
     }
 
     /**

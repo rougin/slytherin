@@ -66,6 +66,36 @@ class ReflectionContainer implements ContainerInterface
     }
 
     /**
+     * Resolves the specified parameters from a container.
+     *
+     * @param  \ReflectionFunctionAbstract $reflector
+     * @param  array<string, mixed>        $parameters
+     * @return array<int, mixed>
+     */
+    public function getArguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
+    {
+        $items = $reflector->getParameters();
+
+        $result = array();
+
+        foreach ($items as $key => $item)
+        {
+            $argument = $this->getArgument($item);
+
+            $name = (string) $item->getName();
+
+            if (array_key_exists($name, $parameters))
+            {
+                $result[$key] = $parameters[$name];
+            }
+
+            if ($argument) $result[$key] = $argument;
+        }
+
+        return $result;
+    }
+
+    /**
      * Returns true if the container can return an entry for the given identifier.
      *
      * @param  string $id
@@ -87,19 +117,29 @@ class ReflectionContainer implements ContainerInterface
      * Returns an argument based on the given parameter.
      *
      * @param  \ReflectionParameter $parameter
-     * @param  string               $name
      * @return mixed|null
      */
-    protected function argument(\ReflectionParameter $parameter, $name)
+    protected function getArgument(\ReflectionParameter $parameter)
     {
         try
         {
-            return $parameter->getDefaultValue();
+            $argument = $parameter->getDefaultValue();
         }
         catch (\ReflectionException $exception)
         {
-            return $this->get((string) $name);
+            // Backward compatibility for ReflectionParameter ---
+            $param = new Parameter($parameter);
+            // --------------------------------------------------
+
+            $argument = null; $name = $param->getName();
+
+            if ($this->has($name))
+            {
+                $argument = $this->get((string) $name);
+            }
         }
+
+        return $argument;
     }
 
     /**
@@ -117,13 +157,11 @@ class ReflectionContainer implements ContainerInterface
 
         foreach ($items as $key => $item)
         {
-            // Backward compatibility for ReflectionParameter ---
-            $param = new Parameter($item);
+            // Backward compatibility for ReflectionParameter -------
+            $param = new Parameter($item); $name = $param->getName();
+            // ------------------------------------------------------
 
-            $name = $param->getName();
-            // --------------------------------------------------
-
-            $result[$key] = $this->argument($item, (string) $name);
+            $result[$key] = $this->getArgument($item);
 
             $exists = array_key_exists($name, $parameters);
 
