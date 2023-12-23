@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface as PsrContainer;
 
 /**
  * Reflection Container
@@ -12,7 +12,7 @@ use Psr\Container\ContainerInterface;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements ContainerInterface
+class ReflectionContainer implements PsrContainer
 {
     /**
      * @var \Psr\Container\ContainerInterface|null
