@@ -22,7 +22,7 @@ class ReflectionContainer implements PsrContainer
     /**
      * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(PsrContainer $container = null)
     {
         $this->container = $container;
     }
