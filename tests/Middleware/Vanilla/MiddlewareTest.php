@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\Vanilla\Middleware;
-use Rougin\Slytherin\System\Endofline;
+use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -42,7 +42,7 @@ class MiddlewareTest extends Testcase
 
         $expected = 'First! Second! Last!';
 
-        $response = $middleware->process($request, new Endofline);
+        $response = $middleware->process($request, new Lastone);
         $actual = (string) $response->getBody();
 
         $this->assertEquals($expected, $actual);
@@ -66,7 +66,7 @@ class MiddlewareTest extends Testcase
 
         $expected = 'Psr\Http\Message\ResponseInterface';
 
-        $actual = $middleware->process($request, new Endofline);
+        $actual = $middleware->process($request, new Lastone);
 
         $this->assertInstanceOf($expected, $actual);
     }

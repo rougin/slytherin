@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\Middleware;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Middleware\Wrapper;
-use Rougin\Slytherin\System\Endofline;
+use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -200,6 +200,6 @@ class DispatcherTestCases extends Testcase
 
         $request = new ServerRequest($server);
 
-        return $this->dispatcher->process($request, new Endofline);
+        return $this->dispatcher->process($request, new Lastone);
     }
 }

@@ -7,14 +7,14 @@ use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
- * End of Line (EOL)
+ * Last One
  *
  * A handler that only returns an empty HTTP response.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Endofline implements HandlerInterface
+class Lastone implements HandlerInterface
 {
     /**
      * @param  \Psr\Http\Message\ServerRequestInterface $request
