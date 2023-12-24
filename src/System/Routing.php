@@ -23,27 +23,6 @@ class Routing extends System
     protected $router = null;
 
     /**
-     * Adds a new raw route.
-     *
-     * @param  string                                                      $method
-     * @param  string                                                      $uri
-     * @param  callable|string[]|string                                    $handler
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
-     * @return self
-     */
-    public function add($method, $uri, $handler, $middlewares = array())
-    {
-        if (is_null($this->router))
-        {
-            $this->router = new Router;
-        }
-
-        $this->router->add($method, $uri, $handler, $middlewares);
-
-        return $this;
-    }
-
-    /**
      * Emits the headers from response and runs the application.
      *
      * @return void
@@ -89,10 +68,10 @@ class Routing extends System
      */
     public function __call($method, $params)
     {
-        array_unshift($params, $method);
+        if (! $this->router) $this->router = new Router;
 
         /** @var callable $class */
-        $class = array($this, 'add');
+        $class = array($this->router, $method);
 
         return call_user_func_array($class, $params);
     }
