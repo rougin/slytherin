@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
@@ -50,26 +49,18 @@ class System
     /**
      * Initializes the application instance.
      *
-     * @param mixed|null                                       $container
-     * @param \Rougin\Slytherin\Integration\Configuration|null $config
+     * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
+     * @param \Rougin\Slytherin\Integration\Configuration|null    $config
      */
-    public function __construct($container = null, Configuration $config = null)
+    public function __construct(ContainerInterface $container = null, Configuration $config = null)
     {
         if (! $config) $config = new Configuration;
 
         $this->config = $config;
 
-        if ($container instanceof Collection)
-        {
-            $container = $container->getContainer();
-        }
-
         if (! $container) $container = new Container;
 
-        if ($container instanceof ContainerInterface)
-        {
-            $this->container = $container;
-        }
+        $this->container = $container;
     }
 
     /**

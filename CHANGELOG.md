@@ -11,6 +11,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Support for all versions of `http-interop/http-middleware` (`0.3`, `0.4`, `0.5`)
 - `ERRATUM.md` for changes in `README.md` for specified versions
 - Support versions for PHP `v8.3`
+- `Routing` for creating HTTP routes directly in `Application`
 
 ### Changed
 - Third-party packages in `Routing` extends to Slytherin's `Dispatcher`, `Router`
