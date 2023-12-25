@@ -55,7 +55,7 @@ class Route implements RouteInterface
 
         $this->method = $method;
 
-        if (is_string($middlewares))
+        if (! is_array($middlewares))
         {
             $middlewares = array($middlewares);
         }

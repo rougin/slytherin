@@ -16,14 +16,18 @@ With this, Slytherin tries an alternative approach to only require the basic too
 
 ## Basic Example
 
-Kindly check the [Basic Example][link-example] page in the wiki for more information in the provided sample code below:
+Below is an example code for creating a simple Slytherin-based application:
 
 ``` php
 // app/web/index.php
 
 use Rougin\Slytherin\Application;
 
-require 'vendor/autoload.php';
+// Load the Composer autoloader ----
+$root = dirname(dirname(__DIR__));
+
+require "$root/vendor/autoload.php";
+// ---------------------------------
 
 // Create a new application instance ---
 $app = new Application;
@@ -40,6 +44,8 @@ $app->get('/', function ()
 echo $app->run();
 // ----------------------------------
 ```
+
+Kindly check the [Basic Example][link-example] page in the wiki for more information in the provided sample code above.
 
 ## Upgrade Guide
 

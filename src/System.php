@@ -118,7 +118,7 @@ class System
     {
         if (! $config) $config = $this->config;
 
-        if (is_string($items)) $items = array($items);
+        if (! is_array($items)) $items = array($items);
 
         $container = $this->container;
 
