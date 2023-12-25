@@ -12,11 +12,34 @@ Slytherin is a simple and extensible PHP micro-framework that tries to achieve a
 
 In the current state of PHP ecosystem, the mostly used PHP frameworks are [Symfony](http://symfony.com) and [Laravel](https://laravel.com) which provide great tools for every PHP software engineer. While the said PHP frameworks provide a kitchen-sink solution for every need (e.g., content management system (CMS), CRUD, etc.), they are often overkill, overwhelming at first, or sometimes uses a strict directory structure.
 
-With this, Slytherin tries an alternative approach to only require the basic tools (e.g., HTTP and Routing) and let the application evolve from a simple API tool to a full-featured web application. With no defined directory structure, every PHP software engineer can use Slytherin to mix and match any structure they like and to tap more of the open-source packages in the PHP ecosystem.
+With this, Slytherin tries an alternative approach to only require the basic tools (e.g., HTTP and Routing) and let the application evolve from a simple API tool to a full-featured web application. With no defined directory structure, Slytherin can be used to mix and match any structure based on the application's requirements and to tap more of the open-source packages in the PHP ecosystem.
 
 ## Basic Example
 
-Kindly check the [Basic Example][link-example] page in this wiki for the sample code.
+Kindly check the [Basic Example][link-example] page in the wiki for more information in the provided sample code below:
+
+``` php
+// app/web/index.php
+
+use Rougin\Slytherin\Application;
+
+require 'vendor/autoload.php';
+
+// Create a new application instance ---
+$app = new Application;
+// -------------------------------------
+
+// Create a new HTTP route ---
+$app->get('/', function ()
+{
+    return 'Hello world!';
+});
+// ---------------------------
+
+// Then run the application after ---
+echo $app->run();
+// ----------------------------------
+```
 
 ## Upgrade Guide
 
@@ -28,7 +51,7 @@ Please see [CHANGELOG][link-changelog] for more information what has changed rec
 
 ## Testing
 
-To check all test cases written, kindly install the specified third-party packages prior running tests:
+To check all test cases written, kindly install the specified third-party packages first:
 
 ``` bash
 $ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware:^0.4.1 --dev
