@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Request Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RequestTest extends \Rougin\Slytherin\Testcase
+class RequestTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\RequestInterface
@@ -36,9 +38,9 @@ class RequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withMethod($expected);
 
-        $result = $request->getMethod();
+        $actual = $request->getMethod();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -52,9 +54,9 @@ class RequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withRequestTarget($expected);
 
-        $result = $request->getRequestTarget();
+        $actual = $request->getRequestTarget();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -68,8 +70,8 @@ class RequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withUri($expected);
 
-        $result = $request->getUri();
+        $actual = $request->getUri();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Response Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ResponseTest extends \Rougin\Slytherin\Testcase
+class ResponseTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -36,9 +38,9 @@ class ResponseTest extends \Rougin\Slytherin\Testcase
 
         $response = $this->response->withStatus(200, $expected);
 
-        $result = $response->getReasonPhrase();
+        $actual = $response->getReasonPhrase();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -52,8 +54,8 @@ class ResponseTest extends \Rougin\Slytherin\Testcase
 
         $response = $this->response->withStatus($expected);
 
-        $result = $response->getStatusCode();
+        $actual = $response->getStatusCode();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

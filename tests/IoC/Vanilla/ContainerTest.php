@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\IoC\Vanilla;
 
+use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithInterface;
@@ -103,7 +104,8 @@ class ContainerTest extends Testcase
      */
     public function testAliasMethod()
     {
-        $class     = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
+        $class = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
+
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         $this->container->add($class, new $class)->alias($interface, $class);
@@ -120,7 +122,11 @@ class ContainerTest extends Testcase
     {
         $this->container->add($this->class, $this->instance);
 
-        $this->assertEquals($this->instance, $this->container->get($this->class));
+        $expected = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -205,7 +211,7 @@ class ContainerTest extends Testcase
      */
     public function testReflectionContainerGetMethodWithNotFoundException()
     {
-        $container = new \Rougin\Slytherin\Container\ReflectionContainer($this->container);
+        $container = new ReflectionContainer($this->container);
 
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 

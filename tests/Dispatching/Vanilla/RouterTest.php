@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
 use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Router Test
@@ -10,7 +11,7 @@ use Rougin\Slytherin\Routing\Route;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \Rougin\Slytherin\Testcase
+class RouterTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Routing\Router
@@ -130,7 +131,11 @@ class RouterTest extends \Rougin\Slytherin\Testcase
 
         $this->router->restful('new', $class);
 
-        $this->assertCount(6, $this->router->getRoutes());
+        $expected = (integer) 6;
+
+        $actual = $this->router->getRoutes();
+
+        $this->assertCount($expected, $actual);
     }
 
     /**
@@ -142,7 +147,11 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     {
         $this->router->addRoutes($this->routes);
 
-        $this->assertEquals($this->routes, $this->router->getRoutes());
+        $expected = $this->routes;
+
+        $actual = $this->router->getRoutes();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

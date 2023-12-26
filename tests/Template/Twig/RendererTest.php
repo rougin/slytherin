@@ -13,7 +13,7 @@ use Rougin\Slytherin\Testcase;
 class RendererTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Template\RendererInterface
+     * @var \Rougin\Slytherin\Template\TwigRenderer
      */
     protected $renderer;
 

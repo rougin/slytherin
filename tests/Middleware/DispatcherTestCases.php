@@ -39,9 +39,9 @@ class DispatcherTestCases extends Testcase
 
         $expected = (integer) 404;
 
-        $result = $this->process()->getStatusCode();
+        $actual = $this->process()->getStatusCode();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -117,9 +117,9 @@ class DispatcherTestCases extends Testcase
 
         $expected = array('application/json');
 
-        $result = $this->process()->getHeader('Content-Type');
+        $actual = $this->process()->getHeader('Content-Type');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -142,9 +142,9 @@ class DispatcherTestCases extends Testcase
 
         $expected = 500;
 
-        $result = $this->process()->getStatusCode();
+        $actual = $this->process()->getStatusCode();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

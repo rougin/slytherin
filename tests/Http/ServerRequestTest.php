@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Server Request Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ServerRequestTest extends \Rougin\Slytherin\Testcase
+class ServerRequestTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\ServerRequestInterface
@@ -27,15 +29,15 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
         $_SERVER['SERVER_NAME'] = 'localhost';
         $_SERVER['SERVER_PORT'] = '8000';
 
-        $uploaded = array('file' => array());
+        $files = array('file' => array());
 
-        $uploaded['file']['error'] = array('0');
-        $uploaded['file']['name'] = array('test.txt');
-        $uploaded['file']['size'] = array('617369');
-        $uploaded['file']['tmp_name'] = array('/tmp/test.txt');
-        $uploaded['file']['type'] = array('application/pdf');
+        $files['file']['error'] = array('0');
+        $files['file']['name'] = array('test.txt');
+        $files['file']['size'] = array('617369');
+        $files['file']['tmp_name'] = array('/tmp/test.txt');
+        $files['file']['type'] = array('application/pdf');
 
-        $this->request = new ServerRequest($_SERVER, array(), array(), $uploaded);
+        $this->request = new ServerRequest($_SERVER, array(), array(), $files);
     }
 
     /**
@@ -47,9 +49,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
     {
         $expected = (string) 'localhost';
 
-        $result = $this->request->getAttribute('SERVER_NAME');
+        $actual = $this->request->getAttribute('SERVER_NAME');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -59,14 +61,15 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetAttributesMethod()
     {
-        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes.
+        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes. ---
         $expected = array_merge($_SERVER, array('user' => 'John Doe'));
+        // -------------------------------------------------------------------------------
 
         $request = $this->request->withAttribute('user', 'John Doe');
 
-        $result = $request->getAttributes();
+        $actual = $request->getAttributes();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -76,13 +79,13 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetCookieParamsMethod()
     {
-        $expected = array('name' => 'John Doe', 'age' => 19);
+        $expected = array('name' => 'John Doe', 'age' => '19');
 
         $request = $this->request->withCookieParams($expected);
 
-        $result = $request->getCookieParams();
+        $actual = $request->getCookieParams();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -96,9 +99,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withParsedBody($expected);
 
-        $result = $request->getParsedBody();
+        $actual = $request->getParsedBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -112,9 +115,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withQueryParams($expected);
 
-        $result = $request->getQueryParams();
+        $actual = $request->getQueryParams();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -126,9 +129,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
     {
         $expected = (array) $_SERVER;
 
-        $result = $this->request->getServerParams();
+        $actual = $this->request->getServerParams();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -150,9 +153,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $this->request->withUploadedFiles($expected);
 
-        $result = (array) $this->request->getUploadedFiles();
+        $actual = $request->getUploadedFiles();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -187,9 +190,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $expected = array('file' => array($uploaded));
 
-        $result = (array) $request->getUploadedFiles();
+        $actual = $request->getUploadedFiles();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -208,8 +211,8 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $request = $request->withoutAttribute('age');
 
-        $result = $request->getAttributes();
+        $actual = $request->getAttributes();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

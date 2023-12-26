@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Integration;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Configuration Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ConfigurationTest extends \Rougin\Slytherin\Testcase
+class ConfigurationTest extends Testcase
 {
     /**
      * Tests Configuration::get with array.
@@ -23,9 +25,9 @@ class ConfigurationTest extends \Rougin\Slytherin\Testcase
 
         $config = new Configuration($data);
 
-        $result = $config->get('names');
+        $actual = $config->get('names');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -55,9 +57,9 @@ class ConfigurationTest extends \Rougin\Slytherin\Testcase
 
         $config = new Configuration($data);
 
-        $result = $config->get('database.username');
+        $actual = $config->get('database.username');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -73,9 +75,9 @@ class ConfigurationTest extends \Rougin\Slytherin\Testcase
 
         $config = new Configuration($data);
 
-        $result = $config->get('number', $default);
+        $actual = $config->get('number', $default);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -91,8 +93,8 @@ class ConfigurationTest extends \Rougin\Slytherin\Testcase
 
         $config = new Configuration($data);
 
-        $result = $config->get('name');
+        $actual = $config->get('name');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

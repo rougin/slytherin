@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Message Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MessageTest extends \Rougin\Slytherin\Testcase
+class MessageTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\MessageInterface
@@ -64,7 +66,9 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetHeadersMethod()
     {
-        $expected = array('name' => array('John Doe'), 'age' => array('18'));
+        $expected = array('name' => array('John Doe'));
+
+        $expected['age'] = array('18');
 
         $message = $this->message->withHeader('name', 'John Doe');
 

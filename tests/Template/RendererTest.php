@@ -38,9 +38,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $result = $this->renderer->render('test');
+        $actual = $this->renderer->render('test');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -54,9 +54,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
 
         $data = array('name' => 'template');
 
-        $result = $this->renderer->render('test-with-data', $data);
+        $actual = $this->renderer->render('test-with-data', $data);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

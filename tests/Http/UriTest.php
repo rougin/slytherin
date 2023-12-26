@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * URI Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class UriTest extends \Rougin\Slytherin\Testcase
+class UriTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\UriInterface
@@ -36,9 +38,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withScheme('http');
 
-        $result = $uri->getScheme();
+        $actual = $uri->getScheme();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -50,9 +52,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'me@roug.in:400';
 
-        $result = $this->uri->getAuthority();
+        $actual = $this->uri->getAuthority();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -66,9 +68,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withUserInfo('username', 'password');
 
-        $result = $uri->getUserInfo();
+        $actual = $uri->getUserInfo();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -82,9 +84,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withHost('google.com');
 
-        $result = $uri->getHost();
+        $actual = $uri->getHost();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -98,9 +100,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withPort(500);
 
-        $result = $uri->getPort();
+        $actual = $uri->getPort();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -114,9 +116,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withQuery('type=user');
 
-        $result = $uri->getQuery();
+        $actual = $uri->getQuery();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -130,9 +132,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withFragment('test');
 
-        $result = $uri->getFragment();
+        $actual = $uri->getFragment();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -146,9 +148,9 @@ class UriTest extends \Rougin\Slytherin\Testcase
 
         $uri = $this->uri->withPath('/test');
 
-        $result = (string) $uri->getPath();
+        $actual = (string) $uri->getPath();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -160,8 +162,8 @@ class UriTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'https://me@roug.in:400/about';
 
-        $result = $this->uri->__toString();
+        $actual = $this->uri->__toString();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

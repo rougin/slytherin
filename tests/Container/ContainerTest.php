@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\Container
@@ -52,9 +54,9 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
 
         $this->container->set($expected, new $expected);
 
-        $result = $this->container->get((string) $expected);
+        $actual = $this->container->get((string) $expected);
 
-        $this->assertInstanceOf($expected, $result);
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**

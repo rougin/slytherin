@@ -34,11 +34,11 @@ class RendererTest extends Testcase
      */
     public function testRenderMethod()
     {
-        $result = 'This is a text from a template.';
+        $expected = 'This is a text from a template.';
 
         $actual = $this->renderer->render('test');
 
-        $this->assertEquals($result, $actual);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

@@ -28,7 +28,7 @@ class ForwardTest extends Testcase
      *
      * @return void
      */
-    public function test_get_method()
+    public function test_default_route()
     {
         $this->builder->setUrl('GET', '/');
 

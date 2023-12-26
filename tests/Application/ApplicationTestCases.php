@@ -44,9 +44,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -62,9 +62,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -80,9 +80,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -98,9 +98,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -116,9 +116,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -134,9 +134,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -152,9 +152,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -170,9 +170,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -190,9 +190,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = (string) $response->getBody();
+        $actual = (string) $response->getBody();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -208,9 +208,9 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->application->handle($request);
 
-        $result = $response->getStatusCode();
+        $actual = $response->getStatusCode();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

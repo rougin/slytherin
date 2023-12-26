@@ -142,9 +142,9 @@ class StreamTest extends Testcase
     {
         $expected = (integer) 31;
 
-        $result = $this->stream->getSize();
+        $actual = $this->stream->getSize();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -156,9 +156,9 @@ class StreamTest extends Testcase
     {
         $expected = (string) 'This';
 
-        $result = (string) $this->stream->read(4);
+        $actual = (string) $this->stream->read(4);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

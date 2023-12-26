@@ -61,9 +61,9 @@ class RouterTestCases extends Testcase
     {
         $this->exists(get_class($this->router));
 
-        $result = $this->router->has('GET', '/');
+        $actual = $this->router->has('GET', '/');
 
-        $this->assertTrue((boolean) $result);
+        $this->assertTrue((boolean) $actual);
     }
 
     /**

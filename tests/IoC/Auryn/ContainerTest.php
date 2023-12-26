@@ -96,7 +96,11 @@ class ContainerTest extends Testcase
     {
         $this->container->add($this->class, $this->instance);
 
-        $this->assertEquals($this->instance, $this->container->get($this->class));
+        $expected = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

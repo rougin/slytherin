@@ -38,9 +38,11 @@ class ReflectionContainerTest extends Testcase
      */
     public function testGetMethod()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -50,9 +52,11 @@ class ReflectionContainerTest extends Testcase
      */
     public function testGetMethodWithParameter()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -69,7 +73,9 @@ class ReflectionContainerTest extends Testcase
         /** @var \Rougin\Slytherin\Fixture\Classes\ParameterClass */
         $object = $this->container->get($class);
 
-        $this->assertEquals($expected, $object->index());
+        $actual = $object->index();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -81,6 +87,6 @@ class ReflectionContainerTest extends Testcase
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        $this->container->get('Test');
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentCl');
     }
 }

@@ -59,7 +59,11 @@ class DebuggerTest extends Testcase
     {
         $this->debugger->display();
 
-        $this->assertEquals(error_reporting(), E_ALL);
+        $expected = E_ALL;
+
+        $actual = error_reporting();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

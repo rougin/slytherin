@@ -2,13 +2,15 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Uploaded File Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class UploadedFileTest extends \Rougin\Slytherin\Testcase
+class UploadedFileTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\UploadedFileInterface
@@ -38,11 +40,11 @@ class UploadedFileTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetSizeMethod()
     {
-        $expected = (integer) 400;
+        $actual = $this->uploaded->getSize();
 
-        $result = (integer) $this->uploaded->getSize();
+        $expected = 400;
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -52,11 +54,11 @@ class UploadedFileTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetErrorMethod()
     {
-        $expected = (integer) UPLOAD_ERR_OK;
+        $actual = $this->uploaded->getError();
 
-        $result = $this->uploaded->getError();
+        $expected = UPLOAD_ERR_OK;
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -68,9 +70,9 @@ class UploadedFileTest extends \Rougin\Slytherin\Testcase
     {
         $expected = (string) 'new-test.php';
 
-        $result = $this->uploaded->getClientFilename();
+        $actual = $this->uploaded->getClientFilename();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -82,9 +84,9 @@ class UploadedFileTest extends \Rougin\Slytherin\Testcase
     {
         $expected = (string) 'text/plain';
 
-        $result = $this->uploaded->getClientMediaType();
+        $actual = $this->uploaded->getClientMediaType();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -96,9 +98,9 @@ class UploadedFileTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'Rougin\Slytherin\Http\Stream';
 
-        $result = $this->uploaded->getStream();
+        $actual = $this->uploaded->getStream();
 
-        $this->assertInstanceOf($expected, $result);
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**

@@ -2,13 +2,16 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Auryn\Injector;
+use Rougin\Slytherin\Testcase;
+
 /**
  * Auryn Container Test Class
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainerTest extends \Rougin\Slytherin\Testcase
+class AurynContainerTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -29,7 +32,7 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
         }
         // @codeCoverageIgnoreEnd
 
-        $this->container = new \Rougin\Slytherin\Container\AurynContainer(new \Auryn\Injector);
+        $this->container = new AurynContainer(new Injector);
     }
 
     /**
@@ -39,12 +42,13 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetMethod()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($expected, new $expected);
 
-        $this->assertInstanceOf($class, $this->container->get($class));
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
@@ -80,10 +84,12 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
      */
     public function testSetMethod()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($expected, new $expected);
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 }
