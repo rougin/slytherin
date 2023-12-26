@@ -16,6 +16,9 @@ class PreviousTest extends Testcase
      */
     protected $builder;
 
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         if (! class_exists('Auryn\Injector'))

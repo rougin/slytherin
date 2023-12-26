@@ -2,10 +2,11 @@
 
 namespace Rougin\Slytherin\IoC\Vanilla;
 
-use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithInterface;
 use Rougin\Slytherin\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Container Test
@@ -14,10 +15,10 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\ContainerInterface
+     * @var \Rougin\Slytherin\IoC\Vanilla\Container
      */
     protected $container;
 
@@ -38,12 +39,9 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface')) {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
+        $this->container = new Container;
 
-        $this->container = new \Rougin\Slytherin\IoC\Vanilla\Container;
-        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**

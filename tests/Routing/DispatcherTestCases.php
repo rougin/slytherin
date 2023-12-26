@@ -202,8 +202,13 @@ class DispatcherTestCases extends Testcase
 
         if (is_array($handler))
         {
-            list($class, $method) = $handler;
+            /** @var class-string */
+            $class = $handler[0];
 
+            /** @var string */
+            $method = $handler[1];
+
+            /** @var callable */
             $handler = array(new $class, $method);
         }
 

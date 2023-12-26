@@ -298,7 +298,7 @@ class Router implements RouterInterface
      * Adds a listing of routes specified for RESTful approach.
      *
      * @param  string          $uri
-     * @param  class-string    $class
+     * @param  string          $class
      * @param  string|string[] $middlewares
      * @return self
      */

@@ -2,9 +2,10 @@
 
 namespace Rougin\Slytherin\IoC\League;
 
-use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Testcase;
 
 /**
  * League Container Test
@@ -13,10 +14,10 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\ContainerInterface
+     * @var \Rougin\Slytherin\IoC\League\Container
      */
     protected $container;
 
@@ -37,11 +38,13 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('League\Container\Container')) {
+        if (! class_exists('League\Container\Container'))
+        {
             $this->markTestSkipped('League Container is not installed.');
         }
 
-        $this->container = new \Rougin\Slytherin\IoC\League\Container;
+        $this->container = new Container;
+
         $this->instance  = new WithParameter(new NewClass, new AnotherClass);
     }
 
@@ -76,11 +79,11 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetMethod()
     {
-        // Should only used methods found in ContainerInterface ---
+        // Should only use methods found in ContainerInterface ---
         // $this->container->add($this->class)
         //     ->withArgument(new NewClass)
         //     ->withArgument(new AnotherClass);
-        // --------------------------------------------------------
+        // -------------------------------------------------------
 
         $this->container->set($this->class, $this->instance);
 

@@ -6,6 +6,10 @@ use Rougin\Slytherin\Template\TwigLoader;
 use Rougin\Slytherin\Template\TwigRenderer;
 use Rougin\Slytherin\Testcase;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class RendererTest extends Testcase
 {
     /**

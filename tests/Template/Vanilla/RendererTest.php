@@ -2,6 +2,10 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class RendererTest extends \Rougin\Slytherin\Testcase
 {
     /**

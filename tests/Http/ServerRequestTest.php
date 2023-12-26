@@ -29,9 +29,9 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $uploaded = array('file' => array());
 
-        $uploaded['file']['error'] = array(0);
+        $uploaded['file']['error'] = array('0');
         $uploaded['file']['name'] = array('test.txt');
-        $uploaded['file']['size'] = array(617369);
+        $uploaded['file']['size'] = array('617369');
         $uploaded['file']['tmp_name'] = array('/tmp/test.txt');
         $uploaded['file']['type'] = array('application/pdf');
 
@@ -169,18 +169,18 @@ class ServerRequestTest extends \Rougin\Slytherin\Testcase
 
         $uploaded = array('file' => array());
 
-        $uploaded['file']['error'] = 0;
+        $uploaded['file']['error'] = '0';
         $uploaded['file']['name'] = 'test.txt';
-        $uploaded['file']['size'] = 617369;
+        $uploaded['file']['size'] = '617369';
         $uploaded['file']['tmp_name'] = '/tmp/test.txt';
         $uploaded['file']['type'] = 'application/pdf';
 
         $request = new ServerRequest($_SERVER, array(), array(), $uploaded);
 
-        $error = $uploaded['file']['error'];
-        $name = $uploaded['file']['name'];
-        $size = $uploaded['file']['size'];
+        $error = (int) $uploaded['file']['error'];
         $file = $uploaded['file']['tmp_name'];
+        $name = $uploaded['file']['name'];
+        $size = (int) $uploaded['file']['size'];
         $type = $uploaded['file']['type'];
 
         $uploaded = new UploadedFile($file, $size, $error, $name, $type);

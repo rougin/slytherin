@@ -2,9 +2,11 @@
 
 namespace Rougin\Slytherin\IoC\Auryn;
 
-use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Auryn\Injector;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Testcase;
 
 /**
  * Auryn Container Test
@@ -13,10 +15,10 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\ContainerInterface
+     * @var \Rougin\Slytherin\IoC\Auryn\Container
      */
     protected $container;
 
@@ -37,16 +39,14 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        if (! class_exists('Auryn\Injector')) {
+        if (! class_exists('Auryn\Injector'))
+        {
             $this->markTestSkipped('Auryn is not installed.');
         }
 
-        if (! interface_exists('Psr\Container\ContainerInterface')) {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
+        $this->container = new Container(new Injector);
 
-        $this->container = new \Rougin\Slytherin\IoC\Auryn\Container(new \Auryn\Injector);
-        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**

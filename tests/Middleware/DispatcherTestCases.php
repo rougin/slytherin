@@ -17,7 +17,7 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Middleware\Dispatch
+     * @var \Rougin\Slytherin\Middleware\DispatcherInterface
      */
     protected $dispatcher;
 
@@ -159,9 +159,13 @@ class DispatcherTestCases extends Testcase
 
         $this->dispatcher->push(array($interop));
 
-        $result = $this->dispatcher->stack();
+        // NOTE: Ignore for backward compatibility check ---
+        /** @disregard P1013 */
+        /** @phpstan-ignore-next-line */
+        $actual = $this->dispatcher->stack();
+        // -------------------------------------------------
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -178,7 +182,11 @@ class DispatcherTestCases extends Testcase
 
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
+        // NOTE: Ignore for backward compatibility check ---
+        /** @disregard P1013 */
+        /** @phpstan-ignore-next-line */
         $actual = $this->dispatcher->stack();
+        // -------------------------------------------------
 
         $this->assertCount(1, $actual);
     }

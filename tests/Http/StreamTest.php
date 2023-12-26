@@ -2,19 +2,16 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * Stream Test
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class StreamTest extends \Rougin\Slytherin\Testcase
+class StreamTest extends Testcase
 {
-    /**
-     * @var resource
-     */
-    protected $file;
-
     /**
      * @var string
      */
@@ -32,13 +29,14 @@ class StreamTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        $root = (string) str_replace('Http', 'Fixture', __DIR__);
+        $root = str_replace('Http', 'Fixture', __DIR__);
 
-        $this->filepath = (string) $root . '/Templates/new-test.php';
+        /** @var resource */
+        $file = fopen("$root/Templates/test.php", 'r');
 
-        $this->file = fopen($root . '/Templates/test.php', 'r');
+        $this->stream = new Stream($file);
 
-        $this->stream = new Stream($this->file);
+        $this->filepath = "$root/Templates/new-test.php";
     }
 
     /**
@@ -62,13 +60,16 @@ class StreamTest extends \Rougin\Slytherin\Testcase
      */
     public function testDetachMethod()
     {
-        $expected = 'stream';
+        $expected = 'stream'; $actual = null;
 
         $resource = $this->stream->detach();
 
-        $result = get_resource_type($resource);
+        if ($resource)
+        {
+            $actual = get_resource_type($resource);
+        }
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -78,7 +79,7 @@ class StreamTest extends \Rougin\Slytherin\Testcase
      */
     public function testEofMethod()
     {
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $this->assertFalse($stream->eof());
     }
@@ -106,9 +107,12 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        /** @var resource */
+        $file = fopen($this->filepath, 'w');
 
-        $stream->getContents()->__toString();
+        $stream = new Stream($file);
+
+        echo $stream->getContents();
     }
 
     /**
@@ -118,15 +122,15 @@ class StreamTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetMetadataMethod()
     {
-        $file = fopen($this->filepath, 'r');
-
-        $expected = stream_get_meta_data($file);
+        $file = $this->newFile();
 
         $stream = new Stream($file);
 
-        $result = $stream->getMetadata();
+        $expected = stream_get_meta_data($file);
 
-        $this->assertEquals($expected, $result);
+        $actual = $stream->getMetadata();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -166,7 +170,7 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->read(55);
     }
@@ -180,13 +184,13 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $expected = (integer) 2;
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->seek($expected);
 
-        $result = $stream->tell();
+        $actual = $stream->tell();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -198,7 +202,7 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->detach() && $stream->seek(2);
     }
@@ -212,7 +216,7 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->detach() && $stream->tell();
     }
@@ -226,15 +230,15 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $expected = 'Lorem ipsum dolor sit amet elit.';
 
-        $stream = new Stream(fopen($this->filepath, 'w+'));
+        $stream = new Stream($this->newFile('w+'));
 
         $stream->write($expected);
 
-        $stream = new Stream(fopen($this->filepath, 'r'));
+        $stream = new Stream($this->newFile('r'));
 
-        $result = $stream->getContents();
+        $actual = $stream->getContents();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -246,8 +250,18 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'r'));
+        $stream = new Stream($this->newFile('r'));
 
         $stream->write('Hello') && $stream->getContents();
+    }
+
+    /**
+     * @param  string $mode
+     * @return resource
+     */
+    protected function newFile($mode = 'w')
+    {
+        /** @var resource */
+        return fopen($this->filepath, $mode);
     }
 }

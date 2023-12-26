@@ -15,6 +15,9 @@ class ForwardTest extends Testcase
      */
     protected $builder;
 
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         $this->builder = new Builder;

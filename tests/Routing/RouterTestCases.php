@@ -18,19 +18,9 @@ class RouterTestCases extends Testcase
     protected $router;
 
     /**
-     * @var array
+     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
-
-    /**
-     * Sets up the router.
-     *
-     * @return void
-     */
-    protected function doSetUp()
-    {
-        $this->markTestSkipped('No implementation style defined.');
-    }
 
     /**
      * Tests RouterInterface::add.
@@ -87,6 +77,7 @@ class RouterTestCases extends Testcase
 
         $expected = array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index');
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/');
 
         $actual = $route->getHandler();
@@ -195,17 +186,35 @@ class RouterTestCases extends Testcase
 
         $this->router->get('/test', 'TestController@test');
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/home');
-        $handler = $route->getHandler();
-        $home = 'Acme\Http\Controllers\HomeController' === $handler[0];
 
+        $home = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $home = 'Acme\Http\Controllers\HomeController' === $handler[0];
+        }
+
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('POST', '/v1/auth/login');
-        $handler = $route->getHandler();
-        $login = 'Acme\Http\Controllers\AuthController' === $handler[0];
 
+        $login = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $login = 'Acme\Http\Controllers\AuthController' === $handler[0];
+        }
+
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/v1/test/hello');
-        $handler = $route->getHandler();
-        $hello = 'Acme\Http\Controllers\TestController' === $handler[0];
+        
+        $hello = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $hello = 'Acme\Http\Controllers\TestController' === $handler[0];
+        }
 
         $this->assertTrue($home && $login && $hello);
     }

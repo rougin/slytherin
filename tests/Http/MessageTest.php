@@ -32,13 +32,13 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetHeaderLineMethod()
     {
-        $expected = (integer) 18;
+        $expected = '18';
 
-        $message = $this->message->withHeader('age', 18);
+        $message = $this->message->withHeader('age', '18');
 
-        $result = $message->getHeaderLine('age');
+        $actual = $message->getHeaderLine('age');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -48,13 +48,13 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetHeaderMethod()
     {
-        $expected = array(18);
+        $expected = array('18');
 
-        $message = $this->message->withHeader('age', 18);
+        $message = $this->message->withHeader('age', '18');
 
-        $result = $message->getHeader('age');
+        $actual = $message->getHeader('age');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -64,15 +64,15 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testGetHeadersMethod()
     {
-        $expected = array('name' => array('John Doe'), 'age' => array(18));
+        $expected = array('name' => array('John Doe'), 'age' => array('18'));
 
         $message = $this->message->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', 18);
+        $message = $message->withHeader('age', '18');
 
-        $result = $message->getHeaders();
+        $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -86,9 +86,9 @@ class MessageTest extends \Rougin\Slytherin\Testcase
 
         $message = $this->message->withProtocolVersion($expected);
 
-        $result = $message->getProtocolVersion();
+        $actual = $message->getProtocolVersion();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -98,7 +98,7 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testWithAddedHeaderMethod()
     {
-        $message = $this->message->withAddedHeader('age', 18);
+        $message = $this->message->withAddedHeader('age', '18');
 
         $this->assertTrue($message->hasHeader('age'));
 
@@ -106,7 +106,9 @@ class MessageTest extends \Rougin\Slytherin\Testcase
 
         $message = $this->message->withAddedHeader('names', $expected);
 
-        $this->assertEquals($expected, $message->getHeader('names'));
+        $actual = $message->getHeader('names');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -116,11 +118,16 @@ class MessageTest extends \Rougin\Slytherin\Testcase
      */
     public function testWithBodyMethod()
     {
-        $expected = new Stream(fopen('php://temp', 'r+'));
+        /** @var resource */
+        $file = fopen('php://temp', 'r+');
+
+        $expected = new Stream($file);
 
         $message = $this->message->withBody($expected);
 
-        $this->assertEquals($expected, $message->getBody());
+        $actual = $message->getBody();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -134,12 +141,12 @@ class MessageTest extends \Rougin\Slytherin\Testcase
 
         $message = $this->message->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', 18);
+        $message = $message->withHeader('age', '18');
 
         $message = $message->withoutHeader('age');
 
-        $result = $message->getHeaders();
+        $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }
