@@ -70,7 +70,7 @@ class RendererTest extends Testcase
 
         $data = array('name' => 'template');
 
-        $actual = $this->renderer->render('test-with-twig-data', $data, 'php');
+        $actual = $this->renderer->render('test-with-twig-data', $data);
 
         $this->assertEquals($expected, $actual);
     }
@@ -90,7 +90,7 @@ class RendererTest extends Testcase
 
         $renderer->addGlobal('test', 'wew');
 
-        $actual = $renderer->render('test-with-twig-data', array(), 'php');
+        $actual = $renderer->render('test-with-twig-data');
 
         $this->assertEquals($expected, $actual);
     }

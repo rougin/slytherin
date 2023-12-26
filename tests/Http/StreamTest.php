@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Stream Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -23,8 +21,6 @@ class StreamTest extends Testcase
     protected $stream;
 
     /**
-     * Sets up the stream instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -40,11 +36,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::close.
-     *
      * @return void
      */
-    public function testCloseMethod()
+    public function test_closing_the_contents()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -54,11 +48,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::detach.
-     *
      * @return void
      */
-    public function testDetachMethod()
+    public function test_detaching_the_stream()
     {
         $expected = 'stream'; $actual = null;
 
@@ -73,11 +65,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::eof.
-     *
      * @return void
      */
-    public function testEofMethod()
+    public function test_getting_end_of_file()
     {
         $stream = new Stream($this->newFile());
 
@@ -85,11 +75,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::getContents.
-     *
      * @return void
      */
-    public function testGetContentsMethod()
+    public function test_getting_stream_content()
     {
         $expected = 'This is a text from a template.';
 
@@ -99,11 +87,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::getContents with an exception.
-     *
      * @return void
      */
-    public function testGetContentsMethodWithException()
+    public function test_getting_stream_content_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -116,11 +102,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::getMetadata.
-     *
      * @return void
      */
-    public function testGetMetadataMethod()
+    public function test_getting_metadata()
     {
         $file = $this->newFile();
 
@@ -134,11 +118,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::getSize.
-     *
      * @return void
      */
-    public function testGetSizeMethod()
+    public function test_getting_stream_size()
     {
         $expected = (integer) 31;
 
@@ -148,11 +130,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::read.
-     *
      * @return void
      */
-    public function testReadMethod()
+    public function test_reading_stream()
     {
         $expected = (string) 'This';
 
@@ -162,11 +142,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::read with an exception.
-     *
      * @return void
      */
-    public function testReadMethodWithException()
+    public function test_reading_stream_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -176,11 +154,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::seek.
-     *
      * @return void
      */
-    public function testSeekMethod()
+    public function test_setting_position()
     {
         $expected = (integer) 2;
 
@@ -194,11 +170,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::seek with an exception.
-     *
      * @return void
      */
-    public function testSeekMethodWithException()
+    public function test_setting_position_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -208,11 +182,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::tell with an exception.
-     *
      * @return void
      */
-    public function testTellMethodWithException()
+    public function test_getting_current_position_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -222,11 +194,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::write.
-     *
      * @return void
      */
-    public function testWriteMethod()
+    public function test_writing_the_stream()
     {
         $expected = 'Lorem ipsum dolor sit amet elit.';
 
@@ -242,11 +212,9 @@ class StreamTest extends Testcase
     }
 
     /**
-     * Tests StreamInterface::write with an exception.
-     *
      * @return void
      */
-    public function testWriteMethodWithException()
+    public function test_writing_the_stream_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 

@@ -7,8 +7,6 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Dispatcher Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -25,8 +23,6 @@ class DispatcherTest extends Testcase
     protected $routes = array();
 
     /**
-     * Sets up the dispatcher.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -51,11 +47,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully.
-     *
      * @return void
      */
-    public function testDispatchMethod()
+    public function test_dispatching_a_route()
     {
         $controller = new NewClass;
 
@@ -79,11 +73,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with a closure.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClosure()
+    public function test_dispatching_a_route_as_a_callback()
     {
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
@@ -98,11 +90,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an error.
-     *
      * @return void
      */
-    public function testDispatchMethodWithError()
+    public function test_dispatching_a_route_with_an_error()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -110,11 +100,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an invalid method.
-     *
      * @return void
      */
-    public function testDispatchMethodWithInvalidMethod()
+    public function test_dispatching_a_route_with_an_invalid_http_method()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -122,11 +110,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if the dispatcher is implemented in DispatcherInterface.
-     *
      * @return void
      */
-    public function testDispatcherInterface()
+    public function test_checking_route_dispatcher_interace()
     {
         $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 
@@ -134,11 +120,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() can return successfully with a different router.
-     *
      * @return void
      */
-    public function testDispatchMethodWithDifferentRouter()
+    public function test_dispatching_a_route_with_a_different_router()
     {
         $router = new Vanilla($this->routes);
 

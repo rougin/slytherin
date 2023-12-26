@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Request Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class RequestTest extends Testcase
     protected $request;
 
     /**
-     * Sets up the request instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -28,11 +24,9 @@ class RequestTest extends Testcase
     }
 
     /**
-     * Tests RequestInterface::getMethod.
-     *
      * @return void
      */
-    public function testGetMethodMethod()
+    public function test_setting_a_http_method()
     {
         $expected = 'POST';
 
@@ -44,11 +38,9 @@ class RequestTest extends Testcase
     }
 
     /**
-     * Tests RequestInterface::getRequestTarget.
-     *
      * @return void
      */
-    public function testGetRequestTargetMethod()
+    public function test_getting_a_request_target()
     {
         $expected = '/lorem-ipsum';
 
@@ -60,11 +52,9 @@ class RequestTest extends Testcase
     }
 
     /**
-     * Tests RequestInterface::getUri.
-     *
      * @return void
      */
-    public function testGetUriMethod()
+    public function test_getting_an_uri_instance()
     {
         $expected = new Uri('https://www.google.com');
 

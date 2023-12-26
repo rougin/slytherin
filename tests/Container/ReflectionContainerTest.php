@@ -7,8 +7,6 @@ use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Reflection Container Test Class
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -20,8 +18,6 @@ class ReflectionContainerTest extends Testcase
     protected $container;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -32,11 +28,9 @@ class ReflectionContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -46,11 +40,9 @@ class ReflectionContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get with parameter.
-     *
      * @return void
      */
-    public function testGetMethodWithParameter()
+    public function test_getting_a_class_with_parameter()
     {
         $expected = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
@@ -60,11 +52,9 @@ class ReflectionContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get with multiple parameters.
-     *
      * @return void
      */
-    public function testGetMethodWithMultipleParameters()
+    public function test_getting_a_class_with_multiple_parameters()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\ParameterClass';
 
@@ -79,11 +69,9 @@ class ReflectionContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\NotFoundExceptionInterface.
-     *
      * @return void
      */
-    public function testGetMethodWithNotFoundException()
+    public function test_getting_instance_with_not_found_exception()
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 

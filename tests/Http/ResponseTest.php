@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Response Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class ResponseTest extends Testcase
     protected $response;
 
     /**
-     * Sets up the response instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -28,11 +24,9 @@ class ResponseTest extends Testcase
     }
 
     /**
-     * Tests ResponseInterface::getReasonPhrase.
-     *
      * @return void
      */
-    public function testGetReasonPhraseMethod()
+    public function test_getting_the_reason_phrase()
     {
         $expected = 'Lorem ipsum dolor';
 
@@ -44,11 +38,9 @@ class ResponseTest extends Testcase
     }
 
     /**
-     * Tests ResponseInterface::getStatusCode.
-     *
      * @return void
      */
-    public function testGetStatusCodeMethod()
+    public function test_getting_the_status_code()
     {
         $expected = (integer) 500;
 

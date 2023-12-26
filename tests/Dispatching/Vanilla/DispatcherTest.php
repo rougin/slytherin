@@ -6,8 +6,6 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Dispatcher Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -19,8 +17,6 @@ class DispatcherTest extends Testcase
     protected $dispatcher;
 
     /**
-     * Sets up the dispatcher.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -40,11 +36,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with a class.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClass()
+    public function test_dispatching_a_route_as_a_class()
     {
         $newClass = new NewClass;
 
@@ -68,11 +62,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with a class.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClassAndPostMethod()
+    public function test_dispatching_a_route_as_a_class_from_post_http_method()
     {
         $newClass = new NewClass;
 
@@ -96,11 +88,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with a closure.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClosure()
+    public function test_dispatching_a_route_as_a_callback()
     {
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
@@ -115,11 +105,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an error.
-     *
      * @return void
      */
-    public function testDispatchMethodWithError()
+    public function test_dispatching_a_route_with_an_error()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -127,11 +115,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if dispatch() returned successfully with an invalid method.
-     *
      * @return void
      */
-    public function testDispatchMethodWithInvalidMethod()
+    public function test_dispatching_a_route_with_an_invalid_http_method()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -139,11 +125,9 @@ class DispatcherTest extends Testcase
     }
 
     /**
-     * Tests if the dispatcher is implemented in DispatcherInterface.
-     *
      * @return void
      */
-    public function testDispatcherInterface()
+    public function test_checking_route_dispatcher_interace()
     {
         $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
 

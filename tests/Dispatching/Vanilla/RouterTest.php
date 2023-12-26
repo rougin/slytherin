@@ -6,8 +6,6 @@ use Rougin\Slytherin\Routing\Route;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Router Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -24,8 +22,6 @@ class RouterTest extends Testcase
     protected $routes = array();
 
     /**
-     * Sets up the router.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -42,11 +38,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the newly added route exists in the router.
-     *
      * @return void
      */
-    public function testAddRouteMethod()
+    public function test_adding_a_route()
     {
         // Returns details from the sample route ---
         $expected = $this->routes[0];
@@ -66,31 +60,25 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the getRoute() method returns null.
-     *
      * @return void
      */
-    public function testEmptyGetRouteMethod()
+    public function test_getting_an_empty_route()
     {
         $this->assertNull($this->router->getRoute('GET', '/test'));
     }
 
     /**
-     * Tests if the existing routes are parsed.
-     *
      * @return void
      */
-    public function testParsedMethod()
+    public function test_getting_parsed_routes()
     {
         $this->assertNull($this->router->parsed());
     }
 
     /**
-     * Tests if the router is implemented in RouterInterface.
-     *
      * @return void
      */
-    public function testRouterInterface()
+    public function test_checking_the_router_interface()
     {
         $interface = 'Rougin\Slytherin\Routing\RouterInterface';
 
@@ -98,11 +86,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests $router->setPrefix() to add additional prefix in new routes.
-     *
      * @return void
      */
-    public function testSetPrefixMethod()
+    public function test_adding_a_route_with_a_prefix()
     {
         $this->router->setPrefix('/v1/slytherin');
 
@@ -121,11 +107,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests $router->restful() to add additional routes based on route.
-     *
      * @return void
      */
-    public function testRestfulMethod()
+    public function test_adding_a_route_as_a_restful()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -139,11 +123,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests $router->addRoutes() to add a listing of routes.
-     *
      * @return void
      */
-    public function testAddRoutesMethod()
+    public function test_adding_multiple_routes()
     {
         $this->router->addRoutes($this->routes);
 
@@ -155,11 +137,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the newly added route exists in the router.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_an_existing_route()
     {
         $route = $this->routes[0];
 

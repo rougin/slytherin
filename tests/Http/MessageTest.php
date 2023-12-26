@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Message Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class MessageTest extends Testcase
     protected $message;
 
     /**
-     * Sets up the message instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -28,11 +24,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::getHeaderLine.
-     *
      * @return void
      */
-    public function testGetHeaderLineMethod()
+    public function test_getting_a_single_header_line()
     {
         $expected = '18';
 
@@ -44,11 +38,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::getHeader.
-     *
      * @return void
      */
-    public function testGetHeaderMethod()
+    public function test_getting_a_single_header()
     {
         $expected = array('18');
 
@@ -60,11 +52,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::getHeaders.
-     *
      * @return void
      */
-    public function testGetHeadersMethod()
+    public function test_getting_multiple_headers()
     {
         $expected = array('name' => array('John Doe'));
 
@@ -80,11 +70,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::getProtocolVersion.
-     *
      * @return void
      */
-    public function testGetProtocolVersionMethod()
+    public function test_getting_protocol_version()
     {
         $expected = (string) '1.2';
 
@@ -96,11 +84,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::withAddedHeader.
-     *
      * @return void
      */
-    public function testWithAddedHeaderMethod()
+    public function test_adding_a_header()
     {
         $message = $this->message->withAddedHeader('age', '18');
 
@@ -116,11 +102,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::withBody.
-     *
      * @return void
      */
-    public function testWithBodyMethod()
+    public function test_setting_a_stream_body()
     {
         /** @var resource */
         $file = fopen('php://temp', 'r+');
@@ -135,11 +119,9 @@ class MessageTest extends Testcase
     }
 
     /**
-     * Tests MessageInterface::withoutAddedHeader.
-     *
      * @return void
      */
-    public function testWithoutAddedHeaderMethod()
+    public function test_excluding_an_existing_header()
     {
         $expected = array('name' => array('John Doe'));
 

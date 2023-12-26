@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Server Request Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class ServerRequestTest extends Testcase
     protected $request;
 
     /**
-     * Sets up the request instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -41,11 +37,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getAttribute if it has $_SERVER values.
-     *
      * @return void
      */
-    public function testGetAttributeMethodWithServerParams()
+    public function test_getting_attribute_from_server_params()
     {
         $expected = (string) 'localhost';
 
@@ -55,11 +49,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getAttributes.
-     *
      * @return void
      */
-    public function testGetAttributesMethod()
+    public function test_getting_request_attributes()
     {
         // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes. ---
         $expected = array_merge($_SERVER, array('user' => 'John Doe'));
@@ -73,11 +65,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getCookieParams.
-     *
      * @return void
      */
-    public function testGetCookieParamsMethod()
+    public function test_getting_cookie_params()
     {
         $expected = array('name' => 'John Doe', 'age' => '19');
 
@@ -89,11 +79,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getParsedBody.
-     *
      * @return void
      */
-    public function testGetParsedBodyMethod()
+    public function test_getting_the_parsed_body()
     {
         $expected = array('page' => 10, 'name' => 'users');
 
@@ -105,11 +93,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getQueryParams.
-     *
      * @return void
      */
-    public function testGetQueryParamsMethod()
+    public function test_getting_the_query_params()
     {
         $expected = array('page' => 10, 'name' => 'users');
 
@@ -121,11 +107,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getServerParams.
-     *
      * @return void
      */
-    public function testGetServerParamsMethod()
+    public function test_getting_the_server_params()
     {
         $expected = (array) $_SERVER;
 
@@ -135,11 +119,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getUploadedFiles.
-     *
      * @return void
      */
-    public function testGetUploadedFilesMethod()
+    public function test_getting_the_uploaded_files()
     {
         $error = 0;
         $name = 'test.txt';
@@ -159,11 +141,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::getUploadedFiles with a single uploaded file.
-     *
      * @return void
      */
-    public function testGetUploadedFilesMethodWithSingleUploadedFile()
+    public function test_getting_the_uploaded_files_with_a_single_uploaded_file()
     {
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/';
@@ -196,11 +176,9 @@ class ServerRequestTest extends Testcase
     }
 
     /**
-     * Tests ServerRequestInterface::withoutAttribute.
-     *
      * @return void
      */
-    public function testWithoutAttributeMethod()
+    public function test_excluding_a_request_attribute()
     {
         // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes.
         $expected = array_merge($_SERVER, array('user' => 'John Doe'));

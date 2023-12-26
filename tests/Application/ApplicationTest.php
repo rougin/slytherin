@@ -11,8 +11,6 @@ use Rougin\Slytherin\Http\Uri;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Application Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -24,8 +22,6 @@ class ApplicationTest extends Testcase
     protected $components;
 
     /**
-     * Sets up the application.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -47,12 +43,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethod()
+    public function test_default_route()
     {
         $this->expectOutputString('Hello');
 
@@ -60,12 +55,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with a response as result.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithResponse()
+    public function test_route_with_http_response()
     {
         $this->expectOutputString('Hello with response');
 
@@ -73,12 +67,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with a parameter.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithParameter()
+    public function test_route_with_parameter()
     {
         $this->expectOutputString('Hello');
 
@@ -86,12 +79,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with an optional parameter.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithOptionalParameter()
+    public function test_route_with_optional_parameter()
     {
         $this->expectOutputString('Hello');
 
@@ -99,12 +91,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with a callback as result.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithCallback()
+    public function test_route_with_callback()
     {
         $this->expectOutputString('Hello');
 
@@ -112,12 +103,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with a PUT HTTP method.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithPutHttpMethod()
+    public function test_route_with_put_http_method()
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
@@ -125,12 +115,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method with Phroute as dispatcher.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithPhroute()
+    public function test_default_route_with_phroute_dispatcher()
     {
         // @codeCoverageIgnoreStart
         if (! class_exists('Phroute\Phroute\RouteCollector'))
@@ -155,12 +144,11 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the "integration" functionality.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithIntegrateMethod()
+    public function test_default_route_with_integrations()
     {
         $slash = DIRECTORY_SEPARATOR;
 

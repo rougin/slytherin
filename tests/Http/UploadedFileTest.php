@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Uploaded File Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class UploadedFileTest extends Testcase
     protected $uploaded;
 
     /**
-     * Sets up the uploaded file instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -34,11 +30,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UploadedFileInterface::getSize.
-     *
      * @return void
      */
-    public function testGetSizeMethod()
+    public function test_getting_file_size()
     {
         $actual = $this->uploaded->getSize();
 
@@ -48,11 +42,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UploadedFileInterface::getError.
-     *
      * @return void
      */
-    public function testGetErrorMethod()
+    public function test_getting_file_error_if_any()
     {
         $actual = $this->uploaded->getError();
 
@@ -62,11 +54,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UploadedFileInterface::getClientFilename.
-     *
      * @return void
      */
-    public function testGetClientFilenameMethod()
+    public function test_getting_the_file_name()
     {
         $expected = (string) 'new-test.php';
 
@@ -76,11 +66,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UploadedFileInterface::getClientMediaType.
-     *
      * @return void
      */
-    public function testGetClientMediaTypeMethod()
+    public function test_getting_the_media_type()
     {
         $expected = (string) 'text/plain';
 
@@ -90,11 +78,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UplaodedFileInterface::getStream.
-     *
      * @return void
      */
-    public function testGetStreamMethod()
+    public function test_getting_the_stream_body()
     {
         $expected = 'Rougin\Slytherin\Http\Stream';
 
@@ -104,11 +90,9 @@ class UploadedFileTest extends Testcase
     }
 
     /**
-     * Tests UploadedFileInterface::moveTo.
-     *
      * @return void
      */
-    public function testMoveToMethod()
+    public function test_moving_the_uploaded_file()
     {
         $root = (string) str_replace('Http', 'Fixture', __DIR__);
 

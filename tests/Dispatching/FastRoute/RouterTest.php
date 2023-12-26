@@ -9,8 +9,6 @@ use Rougin\Slytherin\Routing\Route;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Router Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -27,8 +25,6 @@ class RouterTest extends Testcase
     protected $routes = array();
 
     /**
-     * Sets up the router.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -56,11 +52,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the newly added route exists in the router.
-     *
      * @return void
      */
-    public function testAddRouteMethod()
+    public function test_adding_a_route()
     {
         // Returns details from the sample route ---
         $expected = $this->routes[0];
@@ -80,21 +74,17 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the getRoute() method returns null.
-     *
      * @return void
      */
-    public function testEmptyGetRouteMethod()
+    public function test_getting_an_empty_route()
     {
         $this->assertNull($this->router->getRoute('GET', '/test'));
     }
 
     /**
-     * Tests if the existing routes are parsed.
-     *
      * @return void
      */
-    public function testParsedMethod()
+    public function test_getting_parsed_routes()
     {
         $this->router = new Router;
 
@@ -102,11 +92,9 @@ class RouterTest extends Testcase
     }
 
     /**
-     * Tests if the router is implemented in RouterInterface.
-     *
      * @return void
      */
-    public function testRouterInterface()
+    public function test_checking_the_router_interface()
     {
         $interface = 'Rougin\Slytherin\Routing\RouterInterface';
 

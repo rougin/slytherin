@@ -5,19 +5,15 @@ namespace Rougin\Slytherin\Integration;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Configuration Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ConfigurationTest extends Testcase
 {
     /**
-     * Tests Configuration::get with array.
-     *
      * @return void
      */
-    public function testGetMethodWithArray()
+    public function test_setting_array_as_values()
     {
         $data = array('names' => array('John Doe', 'Mary Doe'));
 
@@ -31,11 +27,9 @@ class ConfigurationTest extends Testcase
     }
 
     /**
-     * Tests Conguration::get with default value.
-     *
      * @return void
      */
-    public function testGetMethodWithDefaultValue()
+    public function test_getting_keyword_with_value()
     {
         $config = new Configuration;
 
@@ -43,11 +37,9 @@ class ConfigurationTest extends Testcase
     }
 
     /**
-     * Tests Configuration::get with dot notation.
-     *
      * @return void
      */
-    public function testGetMethodWithDotNotation()
+    public function test_getting_keyword_with_dot_notation()
     {
         $data = array('database' => array());
 
@@ -63,11 +55,9 @@ class ConfigurationTest extends Testcase
     }
 
     /**
-     * Tests Configuration::get with integer and default value.
-     *
      * @return void
      */
-    public function testGetMethodWithIntegerAndDefaultValue()
+    public function test_setting_value_as_a_number_with_default_value()
     {
         list($data, $default) = array(array('number' => 0), 1);
 
@@ -81,11 +71,9 @@ class ConfigurationTest extends Testcase
     }
 
     /**
-     * Tests Configuration::get with string.
-     *
      * @return void
      */
-    public function testGetMethodWithString()
+    public function test_getting_keyword_as_a_string()
     {
         $data = array('name' => 'John Doe');
 

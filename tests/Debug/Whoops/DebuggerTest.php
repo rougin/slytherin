@@ -8,8 +8,6 @@ use Rougin\Slytherin\Testcase;
 use Whoops\Handler\PrettyPageHandler;
 
 /**
- * Whoops Debugger Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -26,8 +24,6 @@ class DebuggerTest extends Testcase
     protected $environment = 'production';
 
     /**
-     * Sets up the debugger.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -43,11 +39,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests if the debugger's environment is equal to the specified environment.
-     *
      * @return void
      */
-    public function testSetEnvironmentMethod()
+    public function test_setting_the_environment()
     {
         $this->debugger->setEnvironment($this->environment);
 
@@ -59,11 +53,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests if the specified handler is in the debugger's list of handlers.
-     *
      * @return void
      */
-    public function testSetHandlerMethod()
+    public function test_setting_the_handler()
     {
         $this->debugger->setHandler(new PrettyPageHandler);
 
@@ -77,11 +69,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests if the specified handler is in the debugger's list of handlers.
-     *
      * @return void
      */
-    public function testSetHandlerMethodWithCallback()
+    public function test_setting_handler_as_a_callback()
     {
         $fn = function () { return 'Hello'; };
 
@@ -97,11 +87,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests the display() method.
-     *
      * @return void
      */
-    public function testDisplayMethod()
+    public function test_setting_the_error_reporting()
     {
         $this->debugger->display();
 
@@ -113,11 +101,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests if the debugger is implemented in DebuggerInterface.
-     *
      * @return void
      */
-    public function testDebuggerInterface()
+    public function test_checking_debugger_instance()
     {
         $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
     }

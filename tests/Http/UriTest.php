@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Rougin\Slytherin\Testcase;
 
 /**
- * URI Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,8 +16,6 @@ class UriTest extends Testcase
     protected $uri;
 
     /**
-     * Sets up the URI instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -28,11 +24,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getScheme.
-     *
      * @return void
      */
-    public function testGetSchemeMethod()
+    public function test_getting_url_scheme()
     {
         $expected = (string) 'http';
 
@@ -44,11 +38,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getAuthority.
-     *
      * @return void
      */
-    public function testGetAuthorityMethod()
+    public function test_getting_authority_link()
     {
         $expected = 'me@roug.in:400';
 
@@ -58,11 +50,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getUserInfo.
-     *
      * @return void
      */
-    public function testGetUserInfoMethod()
+    public function test_setting_user_info()
     {
         $expected = (string) 'username:password';
 
@@ -74,11 +64,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getHost.
-     *
      * @return void
      */
-    public function testGetHostMethod()
+    public function test_updating_hostname()
     {
         $expected = (string) 'google.com';
 
@@ -90,11 +78,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getPort.
-     *
      * @return void
      */
-    public function testGetPortMethod()
+    public function test_setting_the_url_port()
     {
         $expected = (integer) 500;
 
@@ -106,11 +92,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getQuery.
-     *
      * @return void
      */
-    public function testGetQueryMethod()
+    public function test_updating_the_query_params()
     {
         $expected = (string) 'type=user';
 
@@ -122,11 +106,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getFragment.
-     *
      * @return void
      */
-    public function testGetFragmentMethod()
+    public function test_updating_the_fragment()
     {
         $expected = (string) 'test';
 
@@ -138,11 +120,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::getPath.
-     *
      * @return void
      */
-    public function testGetPathMethod()
+    public function test_updating_the_url_path()
     {
         $expected = (string) '/test';
 
@@ -154,11 +134,9 @@ class UriTest extends Testcase
     }
 
     /**
-     * Tests UriInterface::__toString.
-     *
      * @return void
      */
-    public function testToStringMethod()
+    public function test_converting_instance_to_string()
     {
         $expected = 'https://me@roug.in:400/about';
 

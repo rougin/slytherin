@@ -10,16 +10,12 @@ use Rougin\Slytherin\Routing\Dispatcher;
 use Rougin\Slytherin\System;
 
 /**
- * Container Interface Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerInterfaceTest extends ApplicationTestCases
 {
     /**
-     * Prepares the application instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -38,6 +34,6 @@ class ContainerInterfaceTest extends ApplicationTestCases
         $dispatch = new Middleware;
         $container->set(System::MIDDLEWARE, $dispatch);
 
-        $this->application = new Application($container);
+        $this->system = new Application($container);
     }
 }
