@@ -27,10 +27,12 @@ class DispatcherTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! interface_exists('FastRoute\Dispatcher'))
         {
             $this->markTestSkipped('FastRoute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 

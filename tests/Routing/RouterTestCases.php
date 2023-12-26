@@ -249,20 +249,22 @@ class RouterTestCases extends Testcase
     {
         if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter')
         {
-            $exists = class_exists('FastRoute\RouteCollector');
-
-            $message = 'FastRoute is not installed.';
-
-            if (! $exists) $this->markTestSkipped($message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('FastRoute\RouteCollector'))
+            {
+                $this->markTestSkipped('FastRoute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
 
         if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter')
         {
-            $exists = class_exists('Phroute\Phroute\RouteCollector');
-
-            $message = 'Phroute is not installed.';
-
-            if (! $exists) $this->markTestSkipped($message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('Phroute\Phroute\RouteCollector'))
+            {
+                $this->markTestSkipped('Phroute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
     }
 }

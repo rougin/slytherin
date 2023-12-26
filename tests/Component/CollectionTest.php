@@ -190,10 +190,12 @@ class CollectionTest extends Testcase
      */
     public function testSetMiddlewareMethod()
     {
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
             $this->markTestSkipped('Interop middleware/s not yet installed');
         }
+        // @codeCoverageIgnoreEnd
 
         $expected = new VanillaMiddleware;
 
@@ -213,10 +215,12 @@ class CollectionTest extends Testcase
     {
         $twig = new TwigLoader;
 
+        // @codeCoverageIgnoreStart
         if (! $twig->exists())
         {
             $this->markTestSkipped('Twig is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         /** @var string */
         $path = realpath(__DIR__ . '/../../Fixture/Templates');

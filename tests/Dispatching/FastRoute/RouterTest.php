@@ -33,10 +33,12 @@ class RouterTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('FastRoute\RouteCollector'))
         {
             $this->markTestSkipped('FastRoute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         // Generate a sample route for testing --------------
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';

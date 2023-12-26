@@ -32,10 +32,12 @@ class DebuggerTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Whoops\Run'))
         {
             $this->markTestSkipped('Whoops is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->debugger = new Debugger(new \Whoops\Run);
     }

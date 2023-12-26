@@ -91,4 +91,12 @@ class Hello extends Route
     {
         return 'Hello string world!';
     }
+
+    /**
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function encoded()
+    {
+        return $this->json('Encoded world!');
+    }
 }

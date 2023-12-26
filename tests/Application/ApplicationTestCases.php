@@ -26,7 +26,9 @@ class ApplicationTestCases extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         $this->markTestSkipped('No implementation style defined.');
+        // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -242,18 +244,14 @@ class ApplicationTestCases extends Testcase
 
         $request = new ServerRequest($server);
 
-        switch ($method)
+        if ($method === 'GET')
         {
-            case 'GET':
-                $request = $request->withQueryParams($data);
+            $request = $request->withQueryParams($data);
+        }
 
-                break;
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-                $request = $request->withParsedBody($data);
-
-                break;
+        if (in_array($method, array('POST', 'PUT', 'DELETE')))
+        {
+            $request = $request->withParsedBody($data);
         }
 
         return $request;

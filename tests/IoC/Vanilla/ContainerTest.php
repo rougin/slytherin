@@ -173,14 +173,15 @@ class ContainerTest extends Testcase
      */
     public function testGetMethodWithInterface()
     {
-        $class              = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
-        $classWithParameter = 'Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter';
-        $interface          = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
+        $withParam = 'Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter';
+
+        $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         $this->container->add($interface, new WithInterface);
-        $this->container->add($classWithParameter, $this->container->get($interface));
 
-        $this->assertTrue($this->container->has($classWithParameter));
+        $this->container->add($withParam, $this->container->get($interface));
+
+        $this->assertTrue($this->container->has($withParam));
     }
 
     /**

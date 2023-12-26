@@ -132,20 +132,22 @@ class DispatcherTestCases extends Testcase
     {
         if ($dispatcher === 'Rougin\Slytherin\Routing\FastRouteDispatcher')
         {
-            $exists = interface_exists('FastRoute\Dispatcher');
-
-            $message = (string) 'FastRoute is not installed.';
-
-            $exists || $this->markTestSkipped((string) $message);
+            // @codeCoverageIgnoreStart
+            if (! interface_exists('FastRoute\Dispatcher'))
+            {
+                $this->markTestSkipped('FastRoute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
 
         if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher')
         {
-            $exists = class_exists('Phroute\Phroute\Dispatcher');
-
-            $message = (string) 'Phroute is not installed.';
-
-            $exists || $this->markTestSkipped((string) $message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('Phroute\Phroute\Dispatcher'))
+            {
+                $this->markTestSkipped('Phroute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
     }
 

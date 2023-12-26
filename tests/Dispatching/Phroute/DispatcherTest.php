@@ -31,10 +31,12 @@ class DispatcherTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Phroute\Phroute\Dispatcher'))
         {
             $this->markTestSkipped('Phroute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $routes = array();
         $routes[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));

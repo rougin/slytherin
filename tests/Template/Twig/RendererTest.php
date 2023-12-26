@@ -13,7 +13,7 @@ use Rougin\Slytherin\Testcase;
 class RendererTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Template\TwigRenderer
+     * @var \Rougin\Slytherin\Template\RendererInterface
      */
     protected $renderer;
 
@@ -31,10 +31,12 @@ class RendererTest extends Testcase
     {
         $twig = new TwigLoader;
 
+        // @codeCoverageIgnoreStart
         if (! $twig->exists())
         {
             $this->markTestSkipped('Twig is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $path = realpath(__DIR__ . '/../../Fixture/Templates');
 
@@ -52,9 +54,9 @@ class RendererTest extends Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $rendered = $this->renderer->render('test', array(), 'php');
+        $actual = $this->renderer->render('test', array(), 'php');
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -68,9 +70,9 @@ class RendererTest extends Testcase
 
         $data = array('name' => 'template');
 
-        $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
+        $actual = $this->renderer->render('test-with-twig-data', $data, 'php');
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -88,8 +90,8 @@ class RendererTest extends Testcase
 
         $renderer->addGlobal('test', 'wew');
 
-        $rendered = $renderer->render('test-with-twig-data', array(), 'php');
+        $actual = $renderer->render('test-with-twig-data', array(), 'php');
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 }

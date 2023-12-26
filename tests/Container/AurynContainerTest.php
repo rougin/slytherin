@@ -22,7 +22,12 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
+        // @codeCoverageIgnoreStart
+        if (! class_exists('Auryn\Injector'))
+        {
+            $this->markTestSkipped('Auryn is not installed.');
+        }
+        // @codeCoverageIgnoreEnd
 
         $this->container = new \Rougin\Slytherin\Container\AurynContainer(new \Auryn\Injector);
     }

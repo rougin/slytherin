@@ -20,10 +20,12 @@ class MiddlewareTest extends Testcase
      */
     public function testInvokeMethod()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Zend\Stratigility\MiddlewarePipe'))
         {
             $this->markTestSkipped('Zend Stratigility is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';

@@ -39,10 +39,12 @@ class ContainerTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Auryn\Injector'))
         {
             $this->markTestSkipped('Auryn is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->container = new Container(new Injector);
 

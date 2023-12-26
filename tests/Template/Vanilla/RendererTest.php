@@ -2,11 +2,13 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
+use Rougin\Slytherin\Testcase;
+
 /**
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RendererTest extends \Rougin\Slytherin\Testcase
+class RendererTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -20,9 +22,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
      */
     protected function doSetUp()
     {
-        $directories = array(__DIR__ . '/../../Fixture/Templates');
+        $paths = array(__DIR__ . '/../../Fixture/Templates');
 
-        $this->renderer = new \Rougin\Slytherin\Template\Vanilla\Renderer($directories);
+        $this->renderer = new Renderer($paths);
     }
 
     /**
@@ -34,7 +36,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     {
         $result = 'This is a text from a template.';
 
-        $this->assertEquals($result, $this->renderer->render('test'));
+        $actual = $this->renderer->render('test');
+
+        $this->assertEquals($result, $actual);
     }
 
     /**
@@ -48,9 +52,9 @@ class RendererTest extends \Rougin\Slytherin\Testcase
 
         $data = array('name' => 'template');
 
-        $rendered = $this->renderer->render('test-with-data', $data);
+        $actual = $this->renderer->render('test-with-data', $data);
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**

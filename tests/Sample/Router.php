@@ -75,6 +75,8 @@ class Router extends Slytherin
 
         $this->get('interop', 'Hello@response', $interop);
 
+        $this->get('encoded', 'Hello@encoded');
+
         return parent::routes();
     }
 }

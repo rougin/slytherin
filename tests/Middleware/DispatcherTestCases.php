@@ -17,7 +17,7 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Middleware\DispatcherInterface
+     * @var \Rougin\Slytherin\Middleware\Dispatcher|\Rougin\Slytherin\Middleware\StratigilityDispatcher
      */
     protected $dispatcher;
 
@@ -58,10 +58,12 @@ class DispatcherTestCases extends Testcase
             /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
             $zend = $this->dispatcher;
 
+            // @codeCoverageIgnoreStart
             if (! $zend->hasPsr() && ! $zend->hasFactory())
             {
                 $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
             }
+            // @codeCoverageIgnoreEnd
         }
 
         $time = (integer) time();
@@ -96,10 +98,12 @@ class DispatcherTestCases extends Testcase
             /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
             $zend = $this->dispatcher;
 
+            // @codeCoverageIgnoreStart
             if (! $zend->hasPsr() && ! $zend->hasFactory())
             {
                 $this->markTestSkipped('Current Stratigility version does not support single pass callbacks');
             }
+            // @codeCoverageIgnoreEnd
         }
 
         $fn = function ($request, $next)
@@ -125,10 +129,12 @@ class DispatcherTestCases extends Testcase
      */
     public function testProcessMethodWithString()
     {
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
-            $this->markTestSkipped('Interop middleware/s not yet installed');
+            $this->markTestSkipped('Interop middleware/s not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
@@ -148,10 +154,12 @@ class DispatcherTestCases extends Testcase
      */
     public function testPushMethodWithArray()
     {
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
-            $this->markTestSkipped('Interop middleware/s not yet installed');
+            $this->markTestSkipped('Interop middleware/s not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
@@ -159,11 +167,7 @@ class DispatcherTestCases extends Testcase
 
         $this->dispatcher->push(array($interop));
 
-        // NOTE: Ignore for backward compatibility check ---
-        /** @disregard P1013 */
-        /** @phpstan-ignore-next-line */
         $actual = $this->dispatcher->stack();
-        // -------------------------------------------------
 
         $this->assertEquals($expected, $actual);
     }
@@ -175,18 +179,16 @@ class DispatcherTestCases extends Testcase
      */
     public function testStackMethod()
     {
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
-            $this->markTestSkipped('Interop middleware/s not yet installed');
+            $this->markTestSkipped('Interop middleware/s not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
 
-        // NOTE: Ignore for backward compatibility check ---
-        /** @disregard P1013 */
-        /** @phpstan-ignore-next-line */
         $actual = $this->dispatcher->stack();
-        // -------------------------------------------------
 
         $this->assertCount(1, $actual);
     }

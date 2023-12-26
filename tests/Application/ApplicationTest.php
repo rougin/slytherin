@@ -8,7 +8,6 @@ use Rougin\Slytherin\Dispatching\Phroute\Dispatcher as PhrouteDispatcher;
 use Rougin\Slytherin\Dispatching\Phroute\Router as PhrouteRouter;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Http\Uri;
-use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -57,7 +56,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/')->run();
+        $this->setUrl('GET', '/')->run();
     }
 
     /**
@@ -70,7 +69,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello with response');
 
-        $this->runApplication('GET', '/hello')->run();
+        $this->setUrl('GET', '/hello')->run();
     }
 
     /**
@@ -83,7 +82,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/parameter')->run();
+        $this->setUrl('GET', '/parameter')->run();
     }
 
     /**
@@ -96,7 +95,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/optional')->run();
+        $this->setUrl('GET', '/optional')->run();
     }
 
     /**
@@ -109,7 +108,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/callback')->run();
+        $this->setUrl('GET', '/callback')->run();
     }
 
     /**
@@ -122,7 +121,7 @@ class ApplicationTest extends Testcase
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
-        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'))->run();
+        $this->setUrl('PUT', '/hello', array('_method' => 'PUT'))->run();
     }
 
     /**
@@ -133,10 +132,12 @@ class ApplicationTest extends Testcase
      */
     public function testRunMethodWithPhroute()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Phroute\Phroute\RouteCollector'))
         {
             $this->markTestSkipped('Phroute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->expectOutputString('Hello');
 
@@ -150,7 +151,7 @@ class ApplicationTest extends Testcase
 
         $this->components->setDispatcher($dispatcher);
 
-        $this->runApplication('GET', '/')->run();
+        $this->setUrl('GET', '/')->run();
     }
 
     /**
@@ -200,7 +201,7 @@ class ApplicationTest extends Testcase
      * @param  array<string, string> $data
      * @return \Rougin\Slytherin\Application
      */
-    private function runApplication($method, $uri, $data = array())
+    private function setUrl($method, $uri, $data = array())
     {
         $result = $this->components->getHttp();
 
@@ -214,18 +215,14 @@ class ApplicationTest extends Testcase
 
         $request = $request->withMethod($method)->withUri($uri);
 
-        switch ($method)
+        if ($method === 'GET')
         {
-            case 'GET':
-                $request = $request->withQueryParams($data);
+            $request = $request->withQueryParams($data);
+        }
 
-                break;
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-                $request = $request->withParsedBody($data);
-
-                break;
+        if (in_array($method, array('POST', 'PUT', 'DELETE')))
+        {
+            $request = $request->withParsedBody($data);
         }
 
         $this->components->setHttp($request, $response);

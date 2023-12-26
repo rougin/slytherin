@@ -25,10 +25,12 @@ class LeagueContainerTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('League\Container\Container'))
         {
             $this->markTestSkipped('League Container is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->container = new LeagueContainer;
     }

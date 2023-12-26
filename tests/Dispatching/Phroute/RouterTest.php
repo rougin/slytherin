@@ -31,10 +31,12 @@ class RouterTest extends Testcase
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Phroute\Phroute\RouteCollector'))
         {
             $this->markTestSkipped('Phroute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         // Generate a sample route for testing --------------
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';

@@ -17,10 +17,12 @@ class StratigilityDispatcherTest extends DispatcherTestCases
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Zend\Stratigility\MiddlewarePipe'))
         {
-            $this->markTestSkipped('Zend Stratigility is not installed');
+            $this->markTestSkipped('Zend Stratigility is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $pipe = new MiddlewarePipe;
 
