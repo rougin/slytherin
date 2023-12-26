@@ -9,8 +9,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `ContainerException` in `Container`
 - `RouteInterface` for handling specific routes
 - Support for all versions of `http-interop/http-middleware` (`0.3`, `0.4`, `0.5`)
-- `ERRATUM.md` for changes in `README.md` for specified versions
-- Support versions for PHP `v8.3`
+- Support version for PHP `v8.3`
 - `Routing` for creating HTTP routes directly in `Application`
 
 ### Changed
@@ -19,6 +18,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `UnexpectedValueException` to `BadMethodCallException` in `DispatcherInterface`
 - Conformed `Middleware` to the official `PSR-15` package (`psr/http-server-middleware`)
 - `Application` class to `System`
+- Improvement to unit tests (renamed to `snake_case`, improved logic)
 
 ### Fixed
 - Type hinting of all classes using `PHPStan` (up to `level 9`)
