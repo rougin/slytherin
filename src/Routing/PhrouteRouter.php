@@ -36,10 +36,10 @@ class PhrouteRouter extends Router
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                      $method
-     * @param  string                                                      $uri
-     * @param  callable|string[]|string                                    $handler
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
+     * @param  string                   $method
+     * @param  string                   $uri
+     * @param  callable|string[]|string $handler
+     * @param  callable|mixed[]|string  $middlewares
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array())

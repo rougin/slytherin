@@ -10,4 +10,4 @@ require $root . '/vendor/autoload.php';
 $builder = new Builder;
 
 $builder->make()->run();
-// @codeCoverageIgnoreENd
+// @codeCoverageIgnoreEnd
