@@ -5,16 +5,12 @@ namespace Rougin\Slytherin\Routing;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
- * FastRoute Dispatcher Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class FastRouteDispatcherTest extends DispatcherTestCases
 {
     /**
-     * Sets up the dispatcher.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -27,11 +23,9 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     }
 
     /**
-     * Tests FastRouteDispatcher::dispatch with Slytherin's Router.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClassAndSlytherinRouter()
+    public function test_dispatching_a_route_with_a_slytherin_router()
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
@@ -56,11 +50,9 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     }
 
     /**
-     * Tests FastRouteDispatcher::dispatch with PhrouteRouter.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClassAndPhrouteRouter()
+    public function test_dispatching_a_route_with_a_phroute_router()
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 

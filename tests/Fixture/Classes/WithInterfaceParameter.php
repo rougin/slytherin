@@ -14,12 +14,4 @@ class WithInterfaceParameter
      * @var \Rougin\Slytherin\Fixture\Classes\NewInterface
      */
     protected $class;
-
-    /**
-     * @param \Rougin\Slytherin\Fixture\Classes\NewInterface $class
-     */
-    public function __construct(NewInterface $class)
-    {
-        $this->class = $class;
-    }
 }

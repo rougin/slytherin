@@ -16,8 +16,6 @@ class RendererTest extends Testcase
     protected $renderer;
 
     /**
-     * Sets up the renderer.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -28,11 +26,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method.
-     *
      * @return void
      */
-    public function testRenderMethod()
+    public function test_rendering_a_text_from_file()
     {
         $expected = 'This is a text from a template.';
 
@@ -42,11 +38,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method with data.
-     *
      * @return void
      */
-    public function testRenderMethodWithData()
+    public function test_rendering_a_text_from_file_with_data()
     {
         $expected = 'This is a text from a template.';
 
@@ -58,11 +52,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests if the specified template is not found.
-     *
      * @return void
      */
-    public function testTemplateNotFound()
+    public function test_rendering_a_text_from_file_with_an_error()
     {
         $this->setExpectedException('InvalidArgumentException');
 

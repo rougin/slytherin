@@ -9,7 +9,6 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Auryn Container Test
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
@@ -33,8 +32,6 @@ class ContainerTest extends Testcase
     protected $instance;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -52,11 +49,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -64,23 +59,19 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests add() method with a concrete as a parameter.
-     *
      * @return void
      */
-    public function testAddMethodWithConcreteParameter()
+    public function test_setting_a_simple_class()
     {
-        $this->container->add($this->class, $this->instance);
+        $this->container->set($this->class, $this->instance);
 
         $this->assertTrue($this->container->has($this->class));
     }
 
     /**
-     * Tests add() method with parameters.
-     *
      * @return void
      */
-    public function testAddMethodWithParameters()
+    public function test_adding_a_class_with_multiple_parameters()
     {
         $this->container->add($this->class, array(':class' => new NewClass));
 
@@ -88,11 +79,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the specified instance can be returned.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -104,11 +93,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests get() method with an error.
-     *
      * @return void
      */
-    public function testGetMethodWithError()
+    public function test_getting_class_with_an_error()
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
@@ -116,11 +103,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_class_exists()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

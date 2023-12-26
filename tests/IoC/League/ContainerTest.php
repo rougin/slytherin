@@ -8,7 +8,6 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 use Rougin\Slytherin\Testcase;
 
 /**
- * League Container Test
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
@@ -32,8 +31,6 @@ class ContainerTest extends Testcase
     protected $instance;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -47,15 +44,13 @@ class ContainerTest extends Testcase
 
         $this->container = new Container;
 
-        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -63,11 +58,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the defined instance exists.
-     *
      * @return void
      */
-    public function testSetMethod()
+    public function test_setting_a_simple_class()
     {
         $this->container->set($this->class, $this->instance);
 
@@ -75,11 +68,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the specified instance can be returned.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         // Should only use methods found in ContainerInterface ---
         // $this->container->add($this->class)
@@ -97,11 +88,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_class_exists()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

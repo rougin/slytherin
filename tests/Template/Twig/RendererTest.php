@@ -23,8 +23,6 @@ class RendererTest extends Testcase
     protected $twig;
 
     /**
-     * Sets up the renderer.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -46,11 +44,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method.
-     *
      * @return void
      */
-    public function testRenderMethod()
+    public function test_rendering_a_text_from_file()
     {
         $expected = 'This is a text from a template.';
 
@@ -60,11 +56,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method with data.
-     *
      * @return void
      */
-    public function testRenderMethodWithData()
+    public function test_rendering_a_text_from_file_with_data()
     {
         $expected = 'This is a text from a template.';
 
@@ -76,11 +70,9 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method with a global variable.
-     *
      * @return void
      */
-    public function testRenderMethodWithGlobals()
+    public function test_rendering_a_text_from_file_with_globals()
     {
         $expected = 'This is a text from a template.';
 

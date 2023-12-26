@@ -11,8 +11,6 @@ use Zend\Stratigility\MiddlewarePipe;
 class StratigilityDispatcherTest extends DispatcherTestCases
 {
     /**
-     * Sets up the middleware dispatcher instance.
-     *
      * @return void
      */
     protected function doSetUp()

@@ -10,7 +10,6 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Container Test
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
@@ -34,8 +33,6 @@ class ContainerTest extends Testcase
     protected $instance;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -46,11 +43,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -58,11 +53,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests add() method without a parameter.
-     *
      * @return void
      */
-    public function testAddMethodWithNoParameter()
+    public function test_adding_a_class_without_a_parameter()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -72,11 +65,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests add() method without a parameter.
-     *
      * @return void
      */
-    public function testAddMethodWithOptionalParameter()
+    public function test_adding_a_class_with_an_optional_parameter()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter';
 
@@ -86,11 +77,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests add() method with a concrete as a parameter.
-     *
      * @return void
      */
-    public function testAddMethodWithConcreteParameter()
+    public function test_adding_a_class_with_a_parameter()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -98,27 +87,25 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests alias() method.
-     *
      * @return void
      */
-    public function testAliasMethod()
+    public function test_setting_alias_to_a_class()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
 
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
-        $this->container->add($class, new $class)->alias($interface, $class);
+        $this->container->add($class, new $class);
+
+        $this->container->alias($interface, $class);
 
         $this->assertTrue($this->container->has($interface));
     }
 
     /**
-     * Tests if the specified instance can be returned.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -130,11 +117,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests get() method with an empty constructor.
-     *
      * @return void
      */
-    public function testGetMethodWithEmptyConstructor()
+    public function test_checking_a_class_with_no_constructor()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithEmptyConstructor';
 
@@ -144,11 +129,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests get() method with NotFoundException.
-     *
      * @return void
      */
-    public function testGetMethodWithNotFoundException()
+    public function test_getting_class_that_doesnt_exists()
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
@@ -159,11 +142,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests get() method with ContainerException.
-     *
      * @return void
      */
-    public function testGetMethodWithContainerException()
+    public function test_getting_class_with_an_error()
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
 
@@ -173,11 +154,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests get() method with an interface.
-     *
      * @return void
      */
-    public function testGetMethodWithInterface()
+    public function test_getting_class_as_an_interface()
     {
         $withParam = 'Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter';
 
@@ -191,11 +170,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_class_exists()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -205,11 +182,9 @@ class ContainerTest extends Testcase
     }
 
     /**
-     * Tests ReflectionContainer::get() method with NotFoundException.
-     *
      * @return void
      */
-    public function testReflectionContainerGetMethodWithNotFoundException()
+    public function test_reflection_container_with_an_error()
     {
         $container = new ReflectionContainer($this->container);
 

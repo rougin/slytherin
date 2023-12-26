@@ -18,7 +18,7 @@ class MiddlewareTest extends Testcase
     /**
      * @return void
      */
-    public function testInvokeMethod()
+    public function test_processing_multiple_middlewares()
     {
         // @codeCoverageIgnoreStart
         if (! class_exists('Zend\Stratigility\MiddlewarePipe'))

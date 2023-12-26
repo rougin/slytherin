@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Routing;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Router Test Cases
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -23,11 +21,9 @@ class RouterTestCases extends Testcase
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 
     /**
-     * Tests RouterInterface::add.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_route()
     {
         $this->exists(get_class($this->router));
 
@@ -39,11 +35,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::__call.
-     *
      * @return void
      */
-    public function testCallMagicMethod()
+    public function test_adding_a_route_from_call_magic_method()
     {
         $this->exists(get_class($this->router));
 
@@ -53,11 +47,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::has.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_existing_route()
     {
         $this->exists(get_class($this->router));
 
@@ -67,11 +59,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::retrieve.
-     *
      * @return void
      */
-    public function testRetrieveMethod()
+    public function test_getting_a_route()
     {
         $this->exists(get_class($this->router));
 
@@ -86,11 +76,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::retrieve with null as the result.
-     *
      * @return void
      */
-    public function testRetrieveMethodWithNull()
+    public function test_getting_an_empty_route()
     {
         $this->exists(get_class($this->router));
 
@@ -100,11 +88,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::routes.
-     *
      * @return void
      */
-    public function testRoutesMethod()
+    public function test_getting_routes()
     {
         $this->exists(get_class($this->router));
 
@@ -118,11 +104,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::restful.
-     *
      * @return void
      */
-    public function testRestfulMethod()
+    public function test_adding_a_route_as_a_restful()
     {
         $this->exists(get_class($this->router));
 
@@ -144,11 +128,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::prefix.
-     *
      * @return void
      */
-    public function testPrefixMethod()
+    public function test_adding_a_route_with_a_prefix()
     {
         $this->exists(get_class($this->router));
 
@@ -162,11 +144,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::prefix with multiple prefixes.
-     *
      * @return void
      */
-    public function testPrefixMethodWithMultiplePrefixes()
+    public function test_adding_a_route_with_multiple_prefixes()
     {
         $this->exists(get_class($this->router));
 
@@ -220,11 +200,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::merge.
-     *
      * @return void
      */
-    public function testMergeMethod()
+    public function test_merging_existing_routes()
     {
         $this->exists(get_class($this->router));
 
