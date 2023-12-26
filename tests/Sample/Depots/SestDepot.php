@@ -8,13 +8,23 @@ namespace Rougin\Slytherin\Sample\Depots;
  */
 class SestDepot
 {
+    /**
+     * @var \Rougin\Slytherin\Sample\Depots\TestDepot
+     */
     protected $test;
 
+    /**
+     * @param \Rougin\Slytherin\Sample\Depots\TestDepot $test
+     */
     public function __construct(TestDepot $test)
     {
         $this->test = $test;
     }
 
+    /**
+     * @param  string $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function text($data)
     {
         return $this->test->text($data);

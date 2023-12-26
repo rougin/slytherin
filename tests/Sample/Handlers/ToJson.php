@@ -12,6 +12,11 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  */
 class ToJson implements MiddlewareInterface
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $response = $handler->handle($request);

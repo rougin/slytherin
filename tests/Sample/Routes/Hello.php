@@ -12,14 +12,19 @@ use Rougin\Slytherin\Sample\Depots\TestDepot;
  */
 class Hello extends Route
 {
+    /**
+     * @return string
+     */
     public function conts()
     {
+        /** @var array<string, string> */
         $data = $this->request->getParsedBody();
 
         return 'Hello, ' . $data['name'] . '!';
     }
 
     /**
+     * @param  \Rougin\Slytherin\Sample\Depots\TestDepot $test
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function index(TestDepot $test)
@@ -28,6 +33,8 @@ class Hello extends Route
     }
 
     /**
+     * @param  string                                    $name
+     * @param  \Rougin\Slytherin\Sample\Depots\TestDepot $test
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function name($name, TestDepot $test)
@@ -35,8 +42,12 @@ class Hello extends Route
         return $test->text("Hello, $name!");
     }
 
+    /**
+     * @return string
+     */
     public function param(ServerRequestInterface $request)
     {
+        /** @var array<string, string> */
         $data = $request->getParsedBody();
 
         return 'Hello, ' . $data['name'] . '!';
@@ -58,6 +69,9 @@ class Hello extends Route
         return 'This is a simple string.';
     }
 
+    /**
+     * @return string
+     */
     public function upload(ServerRequestInterface $request)
     {
         $files = $request->getUploadedFiles();
@@ -70,6 +84,9 @@ class Hello extends Route
         return 'The file is ' . $name . '!';
     }
 
+    /**
+     * @return string
+     */
     public function world()
     {
         return 'Hello string world!';

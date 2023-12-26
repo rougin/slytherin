@@ -11,8 +11,14 @@ use Rougin\Slytherin\Sample\Depots\SestDepot;
  */
 class Home extends Route
 {
+    /**
+     * @var \Rougin\Slytherin\Sample\Depots\SestDepot
+     */
     protected $sest;
 
+    /**
+     * @param \Rougin\Slytherin\Sample\Depots\SestDepot $sest
+     */
     public function __construct(SestDepot $sest)
     {
         $this->sest = $sest;
@@ -26,6 +32,10 @@ class Home extends Route
         return $this->sest->text('Welcome home!');
     }
 
+    /**
+     * @param  \Rougin\Slytherin\Sample\Depots\EsteDepot $este
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function param(EsteDepot $este)
     {
         return $este->text('Welcome param!');

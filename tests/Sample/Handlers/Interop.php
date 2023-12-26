@@ -12,6 +12,11 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Interop implements MiddlewareInterface
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface         $request
+     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)
     {
         $response = $delegate->process($request);

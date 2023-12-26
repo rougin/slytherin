@@ -11,10 +11,20 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class TestDepot
 {
+    /**
+     * @var \Psr\Http\Message\ServerRequestInterface
+     */
     protected $request;
 
+    /**
+     * @var \Psr\Http\Message\ResponseInterface
+     */
     protected $response;
 
+    /**
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     */
     public function __construct(ServerRequestInterface $request, ResponseInterface $response)
     {
         $this->request = $request;
@@ -22,6 +32,10 @@ class TestDepot
         $this->response = $response;
     }
 
+    /**
+     * @param  string $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function text($data)
     {
         $this->response->getBody()->write($data);

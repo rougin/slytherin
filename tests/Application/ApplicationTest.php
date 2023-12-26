@@ -20,7 +20,7 @@ use Rougin\Slytherin\Testcase;
 class ApplicationTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\ComponentCollection
+     * @var \Rougin\Slytherin\Component\Collection
      */
     protected $components;
 
@@ -31,16 +31,6 @@ class ApplicationTest extends Testcase
      */
     protected function doSetUp()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface'))
-        {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
-
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR-7 HTTP Message is not installed.');
-        }
-
         $items = array();
 
         $items[] = 'Rougin\Slytherin\Fixture\Components\ContainerComponent';
@@ -205,20 +195,26 @@ class ApplicationTest extends Testcase
     /**
      * Changes the HTTP method and the uri of the request.
      *
-     * @param  string $httpMethod
-     * @param  string $uriEndpoint
-     * @param  array  $data
-     * @return \Rougin\Slytherin\Application\Application
+     * @param  string                $method
+     * @param  string                $uri
+     * @param  array<string, string> $data
+     * @return \Rougin\Slytherin\Application
      */
-    private function runApplication($httpMethod, $uriEndpoint, $data = array())
+    private function runApplication($method, $uri, $data = array())
     {
-        list($request, $response) = $this->components->getHttp();
+        $result = $this->components->getHttp();
 
-        $uri = new Uri('http://localhost:8000' . $uriEndpoint);
+        /** @var \Psr\Http\Message\ServerRequestInterface */
+        $request = $result[0];
 
-        $request = $request->withMethod($httpMethod)->withUri($uri);
+        /** @var \Psr\Http\Message\ResponseInterface */
+        $response = $result[1];
 
-        switch ($httpMethod)
+        $uri = new Uri('http://localhost:8000' . $uri);
+
+        $request = $request->withMethod($method)->withUri($uri);
+
+        switch ($method)
         {
             case 'GET':
                 $request = $request->withQueryParams($data);

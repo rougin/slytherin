@@ -227,9 +227,10 @@ class ApplicationTestCases extends Testcase
     /**
      * Prepares the HTTP method and the URI of the request.
      *
-     * @param  string $method
-     * @param  string $uri
-     * @param  array  $data
+     * @param  string                $method
+     * @param  string                $uri
+     * @param  array<string, string> $data
+     * @param  array<string, string> $server
      * @return \Psr\Http\Message\ServerRequestInterface
      */
     protected function request($method, $uri, $data = array(), $server = array())
