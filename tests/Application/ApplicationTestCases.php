@@ -15,7 +15,7 @@ use Rougin\Slytherin\Testcase;
 class ApplicationTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Application
+     * @var \Rougin\Slytherin\System
      */
     protected $application;
 

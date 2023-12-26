@@ -1,5 +1,6 @@
 <?php
 
+// @codeCoverageIgnoreStart
 use Rougin\Slytherin\Sample\Builder;
 use Rougin\Slytherin\Sample\Handlers\Cors;
 use Rougin\Slytherin\Sample\Packages\SamplePackage;
@@ -20,3 +21,4 @@ $builder->addPackage(new SamplePackage);
 $builder->addHandler(new Cors);
 
 $builder->make()->run();
+// @codeCoverageIgnoreEnd

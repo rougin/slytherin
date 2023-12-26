@@ -11,10 +11,17 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class SecondMiddleware
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface      $response
+     * @param  callable|null                            $next
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
         $response->getBody()->write(' Second!');
 
+        /** @phpstan-ignore-next-line */
         return $next($request, $response);
     }
 }

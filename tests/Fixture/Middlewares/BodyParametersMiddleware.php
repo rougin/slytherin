@@ -12,8 +12,16 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  */
 class BodyParametersMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var string[]
+     */
     protected $complex = array('PUT', 'DELETE');
 
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         if (! in_array($request->getMethod(), $this->complex))
@@ -21,10 +29,13 @@ class BodyParametersMiddleware implements MiddlewareInterface
             return $handler->handle($request);
         }
 
+        /** @var string */
         $file = file_get_contents('php://input');
 
         parse_str($file, $body);
 
-        return $request->withParsedBody($body);
+        $request = $request->withParsedBody($body);
+
+        return $handler->handle($request);
     }
 }

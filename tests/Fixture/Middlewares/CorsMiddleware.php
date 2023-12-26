@@ -13,10 +13,21 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  */
 class CorsMiddleware implements MiddlewareInterface
 {
+    /**
+     * @var string[]
+     */
     protected $allowed = array('*');
 
+    /**
+     * @var string[]
+     */
     protected $methods = array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
 
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $isOptions = $request->getMethod() === 'OPTIONS';

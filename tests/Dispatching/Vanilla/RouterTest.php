@@ -13,7 +13,7 @@ use Rougin\Slytherin\Routing\Route;
 class RouterTest extends \Rougin\Slytherin\Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\Router
+     * @var \Rougin\Slytherin\Routing\Router
      */
     protected $router;
 
@@ -111,6 +111,7 @@ class RouterTest extends \Rougin\Slytherin\Testcase
 
         $expected = '/v1/slytherin/';
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->getRoute($route->getMethod(), $expected);
 
         $actual = $route->getUri();

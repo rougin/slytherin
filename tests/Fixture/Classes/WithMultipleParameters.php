@@ -11,30 +11,30 @@ namespace Rougin\Slytherin\Fixture\Classes;
 class WithMultipleParameters
 {
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $data = array();
 
     /**
-     * @var array
+     * @var array<string, string>
      */
     protected $fields = array();
 
     /**
-     * @var null
+     * @var string|null
      */
     protected $lang = null;
 
     /**
-     * @var null
+     * @var string|null
      */
     protected $dir = null;
 
     /**
-     * @param array       $data
-     * @param array       $fields
-     * @param string|null $lang
-     * @param string|null $dir
+     * @param array<string, string> $data
+     * @param array<string, string> $fields
+     * @param string|null           $lang
+     * @param string|null           $dir
      */
     public function __construct($data = array(), $fields = array(), $lang = null, $dir = null)
     {

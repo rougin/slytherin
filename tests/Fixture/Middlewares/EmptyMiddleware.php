@@ -13,11 +13,23 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
  */
 class EmptyMiddleware implements MiddlewareInterface
 {
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param  \Psr\Http\Message\ResponseInterface      $response
+     * @param  callable|null                            $next
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, $next = null)
     {
+        /** @phpstan-ignore-next-line */
         return $next($request, $response);
     }
 
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         return $handler->handle($request);

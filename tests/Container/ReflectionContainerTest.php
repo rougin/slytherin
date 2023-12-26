@@ -15,7 +15,7 @@ use Rougin\Slytherin\Testcase;
 class ReflectionContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
@@ -66,6 +66,7 @@ class ReflectionContainerTest extends Testcase
 
         $expected = 'With multiple parameters';
 
+        /** @var \Rougin\Slytherin\Fixture\Classes\ParameterClass */
         $object = $this->container->get($class);
 
         $this->assertEquals($expected, $object->index());

@@ -2,10 +2,8 @@
 
 namespace Rougin\Slytherin\Dispatching\Phroute;
 
-use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Dispatching\Vanilla\Router as Vanilla;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
-use Rougin\Slytherin\Routing\PhrouteResolver;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -17,12 +15,12 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @var \Rougin\Slytherin\Routing\DispatcherInterface
      */
     protected $dispatcher;
 
     /**
-     * @var array
+     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>>
      */
     protected $routes = array();
 
@@ -38,21 +36,16 @@ class DispatcherTest extends Testcase
             $this->markTestSkipped('Phroute is not installed.');
         }
 
-        $this->routes = array(
-            array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index')),
-            array('GET', '/hi', function () {
-                return 'Hi';
-            }),
-            array('TEST', '/hello', function () {
-                return 'It must not go through here';
-            }),
-        );
+        $routes = array();
+        $routes[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
+        $routes[] = array('GET', '/hi', function () { return 'Hi'; });
+        $routes[] = array('TEST', '/hello', function () { return 'It must not go through here'; });
 
-        $router = new Router($this->routes);
+        $this->routes = $routes;
 
-        $dispatcher = new Dispatcher($router);
+        $router = new Router($routes);
 
-        $this->dispatcher = $dispatcher;
+        $this->dispatcher = new Dispatcher($router);
     }
 
     /**
@@ -68,11 +61,17 @@ class DispatcherTest extends Testcase
 
         $route = $this->dispatcher->dispatch('GET', '/');
 
-        list($class, $method) = $route->getHandler();
+        /** @var string */
+        $handler = $route->getHandler();
 
+        $class = $handler[0]; $method = $handler[1];
+
+        $params = (array) $route->getParams();
+
+        /** @var callable */
         $object = array(new $class, $method);
 
-        $actual = call_user_func_array($object, $route->getParams());
+        $actual = call_user_func_array($object, $params);
 
         $this->assertEquals($expected, $actual);
     }
@@ -86,11 +85,12 @@ class DispatcherTest extends Testcase
     {
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
+        /** @var callable */
         $callback = $route->getHandler();
 
-        $parameters = $route->getParams();
+        $params = $route->getParams();
 
-        $actual = call_user_func($callback, $parameters);
+        $actual = call_user_func($callback, $params);
 
         $this->assertEquals('Hi', $actual);
     }
@@ -148,11 +148,17 @@ class DispatcherTest extends Testcase
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        list($class, $method) = $route->getHandler();
+        /** @var string */
+        $handler = $route->getHandler();
 
+        $class = $handler[0]; $method = $handler[1];
+
+        $params = (array) $route->getParams();
+
+        /** @var callable */
         $object = array(new $class, $method);
 
-        $actual = call_user_func_array($object, $route->getParams());
+        $actual = call_user_func_array($object, $params);
 
         $this->assertEquals($expected, $actual);
     }

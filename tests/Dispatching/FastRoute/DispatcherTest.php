@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Dispatching\FastRoute;
 
+use Rougin\Slytherin\Dispatching\Vanilla\Router as Vanilla;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Routing\Route;
 use Rougin\Slytherin\Testcase;
@@ -15,7 +16,7 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @var \Rougin\Slytherin\Routing\DispatcherInterface
      */
     protected $dispatcher;
 
@@ -26,30 +27,21 @@ class DispatcherTest extends Testcase
      */
     protected function doSetUp()
     {
-        if (! interface_exists('FastRoute\Dispatcher')) {
+        if (! interface_exists('FastRoute\Dispatcher'))
+        {
             $this->markTestSkipped('FastRoute is not installed.');
         }
 
-        $routes = array(
-            array(
-                'GET',
-                '/',
-                array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'),
-                'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'
-            ),
-            array('GET', '/hi', function () {
-                return 'Hi';
-            }),
-            array('TEST', '/hello', function () {
-                return 'It must not go through here';
-            }),
-        );
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
-        $router = new \Rougin\Slytherin\Dispatching\FastRoute\Router($routes);
+        $routes = array();
+        $routes[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), $middleware);
+        $routes[] = array('GET', '/hi', function () { return 'Hi'; });
+        $routes[] = array('TEST', '/hello', function () { return 'It must not go through here'; });
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
+        $router = new Router($routes);
 
-        $this->dispatcher = $dispatcher;
+        $this->dispatcher = new Dispatcher($router);
     }
 
     /**
@@ -65,11 +57,17 @@ class DispatcherTest extends Testcase
 
         $route = $this->dispatcher->dispatch('GET', '/');
 
-        list($class, $method) = $route->getHandler();
+        /** @var string */
+        $handler = $route->getHandler();
 
+        $class = $handler[0]; $method = $handler[1];
+
+        $params = (array) $route->getParams();
+
+        /** @var callable */
         $object = array(new $class, $method);
 
-        $actual = call_user_func_array($object, $route->getParams());
+        $actual = call_user_func_array($object, $params);
 
         $this->assertEquals($expected, $actual);
     }
@@ -83,11 +81,12 @@ class DispatcherTest extends Testcase
     {
         $route = $this->dispatcher->dispatch('GET', '/hi');
 
+        /** @var callable */
         $callback = $route->getHandler();
 
-        $parameters = $route->getParams();
+        $params = $route->getParams();
 
-        $actual = call_user_func($callback, $parameters);
+        $actual = call_user_func($callback, $params);
 
         $this->assertEquals('Hi', $actual);
     }
@@ -147,14 +146,18 @@ class DispatcherTest extends Testcase
      */
     public function testDispatchMethodWithDifferentRouter()
     {
-        $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware'));
+        $middleware = 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware';
 
-        $router = new \Rougin\Slytherin\Dispatching\Vanilla\Router($routes);
+        $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $middleware));
 
-        $dispatcher = new \Rougin\Slytherin\Dispatching\FastRoute\Dispatcher($router);
+        $router = new Vanilla($routes);
 
-        $expected = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', 'Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
+        $dispatcher = new Dispatcher($router);
 
-        $this->assertEquals($expected, $dispatcher->dispatch('GET', '/'));
+        $expected = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index', $middleware);
+
+        $actual = $dispatcher->dispatch('GET', '/');
+
+        $this->assertEquals($expected, $actual);
     }
 }

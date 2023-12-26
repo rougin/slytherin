@@ -3,6 +3,9 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Http\Response;
+use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\System;
 
 /**
  * HTTP Component
@@ -39,34 +42,22 @@ class HttpComponent extends AbstractComponent
     public function get()
     {
         $slash = DIRECTORY_SEPARATOR;
-        $root  = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
 
-        $server = array(
-            'DOCUMENT_ROOT'   => $root,
-            'REMOTE_ADDR'     => '127.0.0.1',
-            'SCRIPT_FILENAME' => '/var/www/html/slytherin/index.php',
-            'SCRIPT_NAME'     => '/slytherin/index.php',
-            'SERVER_NAME'     => 'localhost',
-            'SERVER_PORT'     => '8000',
-            'REQUEST_URI'     => '/',
-            'REQUEST_METHOD'  => 'GET',
-        );
+        $root = str_replace($slash . 'tests' . $slash . 'Fixture' . $slash . 'Components', '', __DIR__);
 
-        $this->request  = new \Rougin\Slytherin\Http\ServerRequest($server);
-        $this->response = new \Rougin\Slytherin\Http\Response;
+        $server = array('REQUEST_URI' => '/');
+        $server['DOCUMENT_ROOT'] = $root;
+        $server['REMOTE_ADDR'] = '127.0.0.1';
+        $server['SCRIPT_FILENAME'] = '/var/www/html/slytherin/index.php';
+        $server['SCRIPT_NAME'] = '/slytherin/index.php';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
+        $server['REQUEST_METHOD'] = 'GET';
+
+        $this->request = new ServerRequest($server);
+
+        $this->response = new Response;
 
         return array($this->request, $this->response);
-    }
-
-    /**
-     * Sets the component. Can also add it to the container.
-     *
-     * @param  \Psr\Container\ContainerInterface $container
-     * @return void
-     */
-    public function set(\Psr\Container\ContainerInterface &$container)
-    {
-        $container->add('Psr\Http\Message\ServerRequestInterface', $this->request);
-        $container->add('Psr\Http\Message\ResponseInterface', $this->response);
     }
 }

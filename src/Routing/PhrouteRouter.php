@@ -24,7 +24,7 @@ class PhrouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>> $routes
+     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>> $routes
      */
     public function __construct(array $routes = array())
     {

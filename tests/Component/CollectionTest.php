@@ -218,6 +218,7 @@ class CollectionTest extends Testcase
             $this->markTestSkipped('Twig is not installed.');
         }
 
+        /** @var string */
         $path = realpath(__DIR__ . '/../../Fixture/Templates');
 
         $environment = $twig->load($path);
