@@ -8,39 +8,24 @@ use Rougin\Slytherin\Dispatching\Phroute\Dispatcher as PhrouteDispatcher;
 use Rougin\Slytherin\Dispatching\Phroute\Router as PhrouteRouter;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Http\Uri;
-use Rougin\Slytherin\IoC\Vanilla\Container;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Application Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ApplicationTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\ComponentCollection
+     * @var \Rougin\Slytherin\Component\Collection
      */
     protected $components;
 
     /**
-     * Sets up the application.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        if (! interface_exists('Psr\Container\ContainerInterface'))
-        {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
-
-        if (! interface_exists('Psr\Http\Message\ResponseInterface'))
-        {
-            $this->markTestSkipped('PSR-7 HTTP Message is not installed.');
-        }
-
         $items = array();
 
         $items[] = 'Rougin\Slytherin\Fixture\Components\ContainerComponent';
@@ -58,95 +43,90 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * Tests the run() method.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethod()
+    public function test_default_route()
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/')->run();
+        $this->setUrl('GET', '/')->run();
     }
 
     /**
-     * Tests the run() method with a response as result.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithResponse()
+    public function test_route_with_http_response()
     {
         $this->expectOutputString('Hello with response');
 
-        $this->runApplication('GET', '/hello')->run();
+        $this->setUrl('GET', '/hello')->run();
     }
 
     /**
-     * Tests the run() method with a parameter.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithParameter()
+    public function test_route_with_parameter()
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/parameter')->run();
+        $this->setUrl('GET', '/parameter')->run();
     }
 
     /**
-     * Tests the run() method with an optional parameter.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithOptionalParameter()
+    public function test_route_with_optional_parameter()
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/optional')->run();
+        $this->setUrl('GET', '/optional')->run();
     }
 
     /**
-     * Tests the run() method with a callback as result.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithCallback()
+    public function test_route_with_callback()
     {
         $this->expectOutputString('Hello');
 
-        $this->runApplication('GET', '/callback')->run();
+        $this->setUrl('GET', '/callback')->run();
     }
 
     /**
-     * Tests the run() method with a PUT HTTP method.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithPutHttpMethod()
+    public function test_route_with_put_http_method()
     {
         $this->expectOutputString('Hello from PUT HTTP method');
 
-        $this->runApplication('PUT', '/hello', array('_method' => 'PUT'))->run();
+        $this->setUrl('PUT', '/hello', array('_method' => 'PUT'))->run();
     }
 
     /**
-     * Tests the run() method with Phroute as dispatcher.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithPhroute()
+    public function test_default_route_with_phroute_dispatcher()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Phroute\Phroute\RouteCollector'))
         {
             $this->markTestSkipped('Phroute is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->expectOutputString('Hello');
 
@@ -160,16 +140,15 @@ class ApplicationTest extends Testcase
 
         $this->components->setDispatcher($dispatcher);
 
-        $this->runApplication('GET', '/')->run();
+        $this->setUrl('GET', '/')->run();
     }
 
     /**
-     * Tests the "integration" functionality.
+     * @runInSeparateProcess
      *
      * @return void
-     * @runInSeparateProcess
      */
-    public function testRunMethodWithIntegrateMethod()
+    public function test_default_route_with_integrations()
     {
         $slash = DIRECTORY_SEPARATOR;
 
@@ -205,31 +184,33 @@ class ApplicationTest extends Testcase
     /**
      * Changes the HTTP method and the uri of the request.
      *
-     * @param  string $httpMethod
-     * @param  string $uriEndpoint
-     * @param  array  $data
-     * @return \Rougin\Slytherin\Application\Application
+     * @param  string                $method
+     * @param  string                $uri
+     * @param  array<string, string> $data
+     * @return \Rougin\Slytherin\Application
      */
-    private function runApplication($httpMethod, $uriEndpoint, $data = array())
+    private function setUrl($method, $uri, $data = array())
     {
-        list($request, $response) = $this->components->getHttp();
+        $result = $this->components->getHttp();
 
-        $uri = new Uri('http://localhost:8000' . $uriEndpoint);
+        /** @var \Psr\Http\Message\ServerRequestInterface */
+        $request = $result[0];
 
-        $request = $request->withMethod($httpMethod)->withUri($uri);
+        /** @var \Psr\Http\Message\ResponseInterface */
+        $response = $result[1];
 
-        switch ($httpMethod)
+        $uri = new Uri('http://localhost:8000' . $uri);
+
+        $request = $request->withMethod($method)->withUri($uri);
+
+        if ($method === 'GET')
         {
-            case 'GET':
-                $request = $request->withQueryParams($data);
+            $request = $request->withQueryParams($data);
+        }
 
-                break;
-            case 'POST':
-            case 'PUT':
-            case 'DELETE':
-                $request = $request->withParsedBody($data);
-
-                break;
+        if (in_array($method, array('POST', 'PUT', 'DELETE')))
+        {
+            $request = $request->withParsedBody($data);
         }
 
         $this->components->setHttp($request, $response);

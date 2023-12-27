@@ -6,9 +6,9 @@ $name = 'Rougin\Slytherin\Previous\Routes';
 
 $router = new Router;
 
-$router->addRoute('GET', '/', [ "$name\Hello", 'index' ]);
+$router->addRoute('GET', '/hi/:name', array("$name\Hello", 'hi'));
 
-$router->addRoute('GET', '/hi/:name', [ "$name\Hello", 'hi' ]);
+$router->addRoute('GET', '/', array("$name\Hello", 'index'));
 
 // Add the middlewares to a specified route ---------------------------
 $items = array('Rougin\Slytherin\Previous\Handlers\Hello');

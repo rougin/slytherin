@@ -13,7 +13,7 @@ namespace Rougin\Slytherin\Routing;
 class Route implements RouteInterface
 {
     /**
-     * @var callable|string[]|string
+     * @var callable|string[]
      */
     protected $handler;
 
@@ -41,7 +41,7 @@ class Route implements RouteInterface
      * @param string                   $method
      * @param string                   $uri
      * @param callable|string[]|string $handler
-     * @param mixed[]|string           $middlewares
+     * @param callable|mixed[]|string  $middlewares
      */
     public function __construct($method, $uri, $handler, $middlewares = array())
     {
@@ -68,7 +68,7 @@ class Route implements RouteInterface
     /**
      * Returns the handler.
      *
-     * @return callable|string[]|string
+     * @return callable|string[]
      */
     public function getHandler()
     {

@@ -2,13 +2,14 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Auryn\Injector;
+use Rougin\Slytherin\Testcase;
+
 /**
- * Auryn Container Test Class
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainerTest extends \Rougin\Slytherin\Testcase
+class AurynContainerTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
@@ -16,38 +17,38 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
     protected $container;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        class_exists('Auryn\Injector') || $this->markTestSkipped('Auryn is not installed.');
+        // @codeCoverageIgnoreStart
+        if (! class_exists('Auryn\Injector'))
+        {
+            $this->markTestSkipped('Auryn is not installed.');
+        }
+        // @codeCoverageIgnoreEnd
 
-        $this->container = new \Rougin\Slytherin\Container\AurynContainer(new \Auryn\Injector);
+        $this->container = new AurynContainer(new Injector);
     }
 
     /**
-     * Tests ContainerInterface::get.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($expected, new $expected);
 
-        $this->assertInstanceOf($class, $this->container->get($class));
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\ContainerExceptionInterface.
-     *
      * @return void
      */
-    public function testGetMethodWithContainerException()
+    public function test_getting_instance_with_container_exception()
     {
         $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
 
@@ -55,11 +56,9 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\NotFoundExceptionInterface.
-     *
      * @return void
      */
-    public function testGetMethodWithNotFoundException()
+    public function test_getting_instance_with_not_found_exception()
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
@@ -69,16 +68,16 @@ class AurynContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests ContainerInterface::set.
-     *
      * @return void
      */
-    public function testSetMethod()
+    public function test_setting_instance()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($class, new $class);
+        $this->container->set($expected, new $expected);
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 }

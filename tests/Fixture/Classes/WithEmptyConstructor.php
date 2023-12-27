@@ -13,14 +13,4 @@ class WithEmptyConstructor
     public function __construct()
     {
     }
-
-    /**
-     * Returns a string 'Hello'.
-     *
-     * @return string
-     */
-    public function index()
-    {
-        return 'Hello';
-    }
 }

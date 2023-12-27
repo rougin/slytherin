@@ -7,21 +7,17 @@ use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Reflection Container Test Class
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class ReflectionContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Psr\Container\ContainerInterface
      */
     protected $container;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -32,54 +28,53 @@ class ReflectionContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
-     * Tests ContainerInterface::get with parameter.
-     *
      * @return void
      */
-    public function testGetMethodWithParameter()
+    public function test_getting_a_class_with_parameter()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
+        $expected = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
-        $this->assertInstanceOf($class, $this->container->get($class));
+        $actual = $this->container->get($expected);
+
+        $this->assertInstanceOf($expected, $actual);
     }
 
     /**
-     * Tests ContainerInterface::get with multiple parameters.
-     *
      * @return void
      */
-    public function testGetMethodWithMultipleParameters()
+    public function test_getting_a_class_with_multiple_parameters()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\ParameterClass';
 
         $expected = 'With multiple parameters';
 
+        /** @var \Rougin\Slytherin\Fixture\Classes\ParameterClass */
         $object = $this->container->get($class);
 
-        $this->assertEquals($expected, $object->index());
+        $actual = $object->index();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\NotFoundExceptionInterface.
-     *
      * @return void
      */
-    public function testGetMethodWithNotFoundException()
+    public function test_getting_instance_with_not_found_exception()
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        $this->container->get('Test');
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentCl');
     }
 }

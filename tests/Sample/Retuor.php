@@ -10,14 +10,22 @@ use Rougin\Slytherin\Routing\Router as Slytherin;
  */
 class Retuor extends Slytherin
 {
+    /**
+     * @var string
+     */
     protected $namespace = 'Rougin\Slytherin\Sample\Routes';
 
-    public function routes($parsed = false)
+    /**
+     * Returns a listing of available routes.
+     *
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
+     */
+    public function routes()
     {
         $this->get('/world', 'Hello@world');
 
         $this->post('/upload', 'Hello@upload');
 
-        return parent::routes($parsed);
+        return $this->routes;
     }
 }

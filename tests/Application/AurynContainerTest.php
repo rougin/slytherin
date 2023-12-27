@@ -10,24 +10,22 @@ use Rougin\Slytherin\Routing\Dispatcher;
 use Rougin\Slytherin\System;
 
 /**
- * Auryn Container Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
 class AurynContainerTest extends ApplicationTestCases
 {
     /**
-     * Prepares the application instance.
-     *
      * @return void
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Auryn\Injector'))
         {
             $this->markTestSkipped('Auryn is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $container = new AurynContainer(new Injector);
 
@@ -45,6 +43,6 @@ class AurynContainerTest extends ApplicationTestCases
         $container->share(new Middleware);
         $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Middleware\Dispatcher');
 
-        $this->application = new Application($container);
+        $this->system = new Application($container);
     }
 }

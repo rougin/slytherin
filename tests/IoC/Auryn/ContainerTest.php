@@ -2,21 +2,22 @@
 
 namespace Rougin\Slytherin\IoC\Auryn;
 
-use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Auryn\Injector;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Testcase;
 
 /**
- * Auryn Container Test
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\ContainerInterface
+     * @var \Rougin\Slytherin\IoC\Auryn\Container
      */
     protected $container;
 
@@ -31,30 +32,26 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     protected $instance;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        if (! class_exists('Auryn\Injector')) {
+        // @codeCoverageIgnoreStart
+        if (! class_exists('Auryn\Injector'))
+        {
             $this->markTestSkipped('Auryn is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
-        if (! interface_exists('Psr\Container\ContainerInterface')) {
-            $this->markTestSkipped('Container Interop is not installed.');
-        }
+        $this->container = new Container(new Injector);
 
-        $this->container = new \Rougin\Slytherin\IoC\Auryn\Container(new \Auryn\Injector);
-        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -62,23 +59,19 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests add() method with a concrete as a parameter.
-     *
      * @return void
      */
-    public function testAddMethodWithConcreteParameter()
+    public function test_setting_a_simple_class()
     {
-        $this->container->add($this->class, $this->instance);
+        $this->container->set($this->class, $this->instance);
 
         $this->assertTrue($this->container->has($this->class));
     }
 
     /**
-     * Tests add() method with parameters.
-     *
      * @return void
      */
-    public function testAddMethodWithParameters()
+    public function test_adding_a_class_with_multiple_parameters()
     {
         $this->container->add($this->class, array(':class' => new NewClass));
 
@@ -86,23 +79,23 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the specified instance can be returned.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
-        $this->assertEquals($this->instance, $this->container->get($this->class));
+        $expected = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests get() method with an error.
-     *
      * @return void
      */
-    public function testGetMethodWithError()
+    public function test_getting_class_with_an_error()
     {
         $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
@@ -110,11 +103,9 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_class_exists()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

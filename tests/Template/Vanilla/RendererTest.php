@@ -2,7 +2,13 @@
 
 namespace Rougin\Slytherin\Template\Vanilla;
 
-class RendererTest extends \Rougin\Slytherin\Testcase
+use Rougin\Slytherin\Testcase;
+
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
+class RendererTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -10,51 +16,45 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     protected $renderer;
 
     /**
-     * Sets up the renderer.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        $directories = array(__DIR__ . '/../../Fixture/Templates');
+        $paths = array(__DIR__ . '/../../Fixture/Templates');
 
-        $this->renderer = new \Rougin\Slytherin\Template\Vanilla\Renderer($directories);
+        $this->renderer = new Renderer($paths);
     }
 
     /**
-     * Tests the render() method.
-     *
      * @return void
      */
-    public function testRenderMethod()
+    public function test_rendering_a_text_from_file()
     {
-        $result = 'This is a text from a template.';
+        $expected = 'This is a text from a template.';
 
-        $this->assertEquals($result, $this->renderer->render('test'));
+        $actual = $this->renderer->render('test');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests the render() method with data.
-     *
      * @return void
      */
-    public function testRenderMethodWithData()
+    public function test_rendering_a_text_from_file_with_data()
     {
         $expected = 'This is a text from a template.';
 
         $data = array('name' => 'template');
 
-        $rendered = $this->renderer->render('test-with-data', $data);
+        $actual = $this->renderer->render('test-with-data', $data);
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if the specified template is not found.
-     *
      * @return void
      */
-    public function testTemplateNotFound()
+    public function test_rendering_a_text_from_file_with_an_error()
     {
         $this->setExpectedException('InvalidArgumentException');
 

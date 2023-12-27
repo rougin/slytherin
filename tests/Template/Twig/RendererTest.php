@@ -6,6 +6,10 @@ use Rougin\Slytherin\Template\TwigLoader;
 use Rougin\Slytherin\Template\TwigRenderer;
 use Rougin\Slytherin\Testcase;
 
+/**
+ * @package Slytherin
+ * @author  Rougin Gutib <rougingutib@gmail.com>
+ */
 class RendererTest extends Testcase
 {
     /**
@@ -19,18 +23,18 @@ class RendererTest extends Testcase
     protected $twig;
 
     /**
-     * Sets up the renderer.
-     *
      * @return void
      */
     protected function doSetUp()
     {
         $twig = new TwigLoader;
 
+        // @codeCoverageIgnoreStart
         if (! $twig->exists())
         {
             $this->markTestSkipped('Twig is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $path = realpath(__DIR__ . '/../../Fixture/Templates');
 
@@ -40,41 +44,35 @@ class RendererTest extends Testcase
     }
 
     /**
-     * Tests the render() method.
-     *
      * @return void
      */
-    public function testRenderMethod()
+    public function test_rendering_a_text_from_file()
     {
         $expected = 'This is a text from a template.';
 
-        $rendered = $this->renderer->render('test', array(), 'php');
+        $actual = $this->renderer->render('test', array(), 'php');
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests the render() method with data.
-     *
      * @return void
      */
-    public function testRenderMethodWithData()
+    public function test_rendering_a_text_from_file_with_data()
     {
         $expected = 'This is a text from a template.';
 
         $data = array('name' => 'template');
 
-        $rendered = $this->renderer->render('test-with-twig-data', $data, 'php');
+        $actual = $this->renderer->render('test-with-twig-data', $data);
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests the render() method with a global variable.
-     *
      * @return void
      */
-    public function testRenderMethodWithGlobals()
+    public function test_rendering_a_text_from_file_with_globals()
     {
         $expected = 'This is a text from a template.';
 
@@ -84,8 +82,8 @@ class RendererTest extends Testcase
 
         $renderer->addGlobal('test', 'wew');
 
-        $rendered = $renderer->render('test-with-twig-data', array(), 'php');
+        $actual = $renderer->render('test-with-twig-data');
 
-        $this->assertEquals($expected, $rendered);
+        $this->assertEquals($expected, $actual);
     }
 }

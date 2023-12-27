@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * Request Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RequestTest extends \Rougin\Slytherin\Testcase
+class RequestTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\RequestInterface
@@ -16,8 +16,6 @@ class RequestTest extends \Rougin\Slytherin\Testcase
     protected $request;
 
     /**
-     * Sets up the request instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -26,50 +24,44 @@ class RequestTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests RequestInterface::getMethod.
-     *
      * @return void
      */
-    public function testGetMethodMethod()
+    public function test_setting_a_http_method()
     {
         $expected = 'POST';
 
         $request = $this->request->withMethod($expected);
 
-        $result = $request->getMethod();
+        $actual = $request->getMethod();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests RequestInterface::getRequestTarget.
-     *
      * @return void
      */
-    public function testGetRequestTargetMethod()
+    public function test_getting_a_request_target()
     {
         $expected = '/lorem-ipsum';
 
         $request = $this->request->withRequestTarget($expected);
 
-        $result = $request->getRequestTarget();
+        $actual = $request->getRequestTarget();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests RequestInterface::getUri.
-     *
      * @return void
      */
-    public function testGetUriMethod()
+    public function test_getting_an_uri_instance()
     {
         $expected = new Uri('https://www.google.com');
 
         $request = $this->request->withUri($expected);
 
-        $result = $request->getUri();
+        $actual = $request->getUri();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

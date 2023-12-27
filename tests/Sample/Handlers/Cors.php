@@ -17,10 +17,20 @@ class Cors implements MiddlewareInterface
 
     const ORIGIN = 'Access-Control-Allow-Origin';
 
+    /**
+     * @var string[]
+     */
     protected $allowed = array();
 
+    /**
+     * @var string[]
+     */
     protected $methods = array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
 
+    /**
+     * @param string[]|null $allowed
+     * @param string[]|null $methods
+     */
     public function __construct(array $allowed = null, array $methods = null)
     {
         if (! $allowed) $allowed = array('*');
@@ -32,6 +42,11 @@ class Cors implements MiddlewareInterface
         $this->methods = $methods;
     }
 
+    /**
+     * @param  \Psr\Http\Message\ServerRequestInterface      $request
+     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
         $options = $request->getMethod() === 'OPTIONS';

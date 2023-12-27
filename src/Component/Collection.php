@@ -92,11 +92,11 @@ class Collection implements ContainerInterface
     /**
      * Returns the dispatcher.
      *
-     * @return \Rougin\Slytherin\Dispatching\DispatcherInterface
+     * @return \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function getDispatcher()
     {
-        /** @var \Rougin\Slytherin\Dispatching\DispatcherInterface */
+        /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
         return $this->get(System::DISPATCHER);
     }
 
@@ -114,7 +114,7 @@ class Collection implements ContainerInterface
     /**
      * Returns the HTTP request and response.
      *
-     * @return mixed
+     * @return array<int, mixed>
      */
     public function getHttp()
     {
@@ -229,7 +229,7 @@ class Collection implements ContainerInterface
     /**
      * Sets the dispatcher.
      *
-     * @param  \Rougin\Slytherin\Dispatching\DispatcherInterface $dispatcher
+     * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      * @return self
      */
     public function setDispatcher(Routing $dispatcher)

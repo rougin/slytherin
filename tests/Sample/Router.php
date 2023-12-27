@@ -10,11 +10,22 @@ use Rougin\Slytherin\Routing\Router as Slytherin;
  */
 class Router extends Slytherin
 {
+    /**
+     * @var string
+     */
     protected $namespace = 'Rougin\Slytherin\Sample\Routes\\';
 
+    /**
+     * @var string
+     */
     protected $prefix = '/';
 
-    public function routes($parsed = false)
+    /**
+     * Returns a listing of available routes.
+     *
+     * @return \Rougin\Slytherin\Routing\RouteInterface[]
+     */
+    public function routes()
     {
         $this->get('/string', 'Hello@string');
 
@@ -64,6 +75,8 @@ class Router extends Slytherin
 
         $this->get('interop', 'Hello@response', $interop);
 
-        return parent::routes($parsed);
+        $this->get('encoded', 'Hello@encoded');
+
+        return parent::routes();
     }
 }

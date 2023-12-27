@@ -3,17 +3,16 @@
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
 use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\Testcase;
 
 /**
- * Router Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends \Rougin\Slytherin\Testcase
+class RouterTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Dispatching\Router
+     * @var \Rougin\Slytherin\Routing\Router
      */
     protected $router;
 
@@ -23,8 +22,6 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     protected $routes = array();
 
     /**
-     * Sets up the router.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -41,11 +38,9 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the newly added route exists in the router.
-     *
      * @return void
      */
-    public function testAddRouteMethod()
+    public function test_adding_a_route()
     {
         // Returns details from the sample route ---
         $expected = $this->routes[0];
@@ -65,31 +60,25 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the getRoute() method returns null.
-     *
      * @return void
      */
-    public function testEmptyGetRouteMethod()
+    public function test_getting_an_empty_route()
     {
         $this->assertNull($this->router->getRoute('GET', '/test'));
     }
 
     /**
-     * Tests if the existing routes are parsed.
-     *
      * @return void
      */
-    public function testParsedMethod()
+    public function test_getting_parsed_routes()
     {
         $this->assertNull($this->router->parsed());
     }
 
     /**
-     * Tests if the router is implemented in RouterInterface.
-     *
      * @return void
      */
-    public function testRouterInterface()
+    public function test_checking_the_router_interface()
     {
         $interface = 'Rougin\Slytherin\Routing\RouterInterface';
 
@@ -97,11 +86,9 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests $router->setPrefix() to add additional prefix in new routes.
-     *
      * @return void
      */
-    public function testSetPrefixMethod()
+    public function test_adding_a_route_with_a_prefix()
     {
         $this->router->setPrefix('/v1/slytherin');
 
@@ -111,6 +98,7 @@ class RouterTest extends \Rougin\Slytherin\Testcase
 
         $expected = '/v1/slytherin/';
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->getRoute($route->getMethod(), $expected);
 
         $actual = $route->getUri();
@@ -119,37 +107,39 @@ class RouterTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests $router->restful() to add additional routes based on route.
-     *
      * @return void
      */
-    public function testRestfulMethod()
+    public function test_adding_a_route_as_a_restful()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         $this->router->restful('new', $class);
 
-        $this->assertCount(6, $this->router->getRoutes());
+        $expected = (integer) 6;
+
+        $actual = $this->router->getRoutes();
+
+        $this->assertCount($expected, $actual);
     }
 
     /**
-     * Tests $router->addRoutes() to add a listing of routes.
-     *
      * @return void
      */
-    public function testAddRoutesMethod()
+    public function test_adding_multiple_routes()
     {
         $this->router->addRoutes($this->routes);
 
-        $this->assertEquals($this->routes, $this->router->getRoutes());
+        $expected = $this->routes;
+
+        $actual = $this->router->getRoutes();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if the newly added route exists in the router.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_an_existing_route()
     {
         $route = $this->routes[0];
 

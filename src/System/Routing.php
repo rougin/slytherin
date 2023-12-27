@@ -14,6 +14,18 @@ use Rougin\Slytherin\System;
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @method add($method, $uri, $handler, $middlewares = array())
+ * @method delete($uri, $handler, $middlewares = array())
+ * @method get($uri, $handler, $middlewares = array())
+ * @method merge(array $routes)
+ * @method parsed(array $routes = array())
+ * @method patch($uri, $handler, $middlewares = array())
+ * @method post($uri, $handler, $middlewares = array())
+ * @method prefix($prefix = '', $namespace = null)
+ * @method put($uri, $handler, $middlewares = array())
+ * @method restful($uri, $class, $middlewares = array())
+ * @method routes()
  */
 class Routing extends System
 {

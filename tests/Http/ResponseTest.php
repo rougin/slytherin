@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * Response Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ResponseTest extends \Rougin\Slytherin\Testcase
+class ResponseTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -16,8 +16,6 @@ class ResponseTest extends \Rougin\Slytherin\Testcase
     protected $response;
 
     /**
-     * Sets up the response instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -26,34 +24,30 @@ class ResponseTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests ResponseInterface::getReasonPhrase.
-     *
      * @return void
      */
-    public function testGetReasonPhraseMethod()
+    public function test_getting_the_reason_phrase()
     {
         $expected = 'Lorem ipsum dolor';
 
         $response = $this->response->withStatus(200, $expected);
 
-        $result = $response->getReasonPhrase();
+        $actual = $response->getReasonPhrase();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests ResponseInterface::getStatusCode.
-     *
      * @return void
      */
-    public function testGetStatusCodeMethod()
+    public function test_getting_the_status_code()
     {
         $expected = (integer) 500;
 
         $response = $this->response->withStatus($expected);
 
-        $result = $response->getStatusCode();
+        $actual = $response->getStatusCode();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

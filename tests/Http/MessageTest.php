@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * Message Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class MessageTest extends \Rougin\Slytherin\Testcase
+class MessageTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\MessageInterface
@@ -16,8 +16,6 @@ class MessageTest extends \Rougin\Slytherin\Testcase
     protected $message;
 
     /**
-     * Sets up the message instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -26,79 +24,71 @@ class MessageTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests MessageInterface::getHeaderLine.
-     *
      * @return void
      */
-    public function testGetHeaderLineMethod()
+    public function test_getting_a_single_header_line()
     {
-        $expected = (integer) 18;
+        $expected = '18';
 
-        $message = $this->message->withHeader('age', 18);
+        $message = $this->message->withHeader('age', '18');
 
-        $result = $message->getHeaderLine('age');
+        $actual = $message->getHeaderLine('age');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::getHeader.
-     *
      * @return void
      */
-    public function testGetHeaderMethod()
+    public function test_getting_a_single_header()
     {
-        $expected = array(18);
+        $expected = array('18');
 
-        $message = $this->message->withHeader('age', 18);
+        $message = $this->message->withHeader('age', '18');
 
-        $result = $message->getHeader('age');
+        $actual = $message->getHeader('age');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::getHeaders.
-     *
      * @return void
      */
-    public function testGetHeadersMethod()
+    public function test_getting_multiple_headers()
     {
-        $expected = array('name' => array('John Doe'), 'age' => array(18));
+        $expected = array('name' => array('John Doe'));
+
+        $expected['age'] = array('18');
 
         $message = $this->message->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', 18);
+        $message = $message->withHeader('age', '18');
 
-        $result = $message->getHeaders();
+        $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::getProtocolVersion.
-     *
      * @return void
      */
-    public function testGetProtocolVersionMethod()
+    public function test_getting_protocol_version()
     {
         $expected = (string) '1.2';
 
         $message = $this->message->withProtocolVersion($expected);
 
-        $result = $message->getProtocolVersion();
+        $actual = $message->getProtocolVersion();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::withAddedHeader.
-     *
      * @return void
      */
-    public function testWithAddedHeaderMethod()
+    public function test_adding_a_header()
     {
-        $message = $this->message->withAddedHeader('age', 18);
+        $message = $this->message->withAddedHeader('age', '18');
 
         $this->assertTrue($message->hasHeader('age'));
 
@@ -106,40 +96,43 @@ class MessageTest extends \Rougin\Slytherin\Testcase
 
         $message = $this->message->withAddedHeader('names', $expected);
 
-        $this->assertEquals($expected, $message->getHeader('names'));
+        $actual = $message->getHeader('names');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::withBody.
-     *
      * @return void
      */
-    public function testWithBodyMethod()
+    public function test_setting_a_stream_body()
     {
-        $expected = new Stream(fopen('php://temp', 'r+'));
+        /** @var resource */
+        $file = fopen('php://temp', 'r+');
+
+        $expected = new Stream($file);
 
         $message = $this->message->withBody($expected);
 
-        $this->assertEquals($expected, $message->getBody());
+        $actual = $message->getBody();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests MessageInterface::withoutAddedHeader.
-     *
      * @return void
      */
-    public function testWithoutAddedHeaderMethod()
+    public function test_excluding_an_existing_header()
     {
         $expected = array('name' => array('John Doe'));
 
         $message = $this->message->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', 18);
+        $message = $message->withHeader('age', '18');
 
         $message = $message->withoutHeader('age');
 
-        $result = $message->getHeaders();
+        $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

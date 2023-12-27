@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * URI Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class UriTest extends \Rougin\Slytherin\Testcase
+class UriTest extends Testcase
 {
     /**
      * @var \Psr\Http\Message\UriInterface
@@ -16,8 +16,6 @@ class UriTest extends \Rougin\Slytherin\Testcase
     protected $uri;
 
     /**
-     * Sets up the URI instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -26,142 +24,124 @@ class UriTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests UriInterface::getScheme.
-     *
      * @return void
      */
-    public function testGetSchemeMethod()
+    public function test_getting_url_scheme()
     {
         $expected = (string) 'http';
 
         $uri = $this->uri->withScheme('http');
 
-        $result = $uri->getScheme();
+        $actual = $uri->getScheme();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getAuthority.
-     *
      * @return void
      */
-    public function testGetAuthorityMethod()
+    public function test_getting_authority_link()
     {
         $expected = 'me@roug.in:400';
 
-        $result = $this->uri->getAuthority();
+        $actual = $this->uri->getAuthority();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getUserInfo.
-     *
      * @return void
      */
-    public function testGetUserInfoMethod()
+    public function test_setting_user_info()
     {
         $expected = (string) 'username:password';
 
         $uri = $this->uri->withUserInfo('username', 'password');
 
-        $result = $uri->getUserInfo();
+        $actual = $uri->getUserInfo();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getHost.
-     *
      * @return void
      */
-    public function testGetHostMethod()
+    public function test_updating_hostname()
     {
         $expected = (string) 'google.com';
 
         $uri = $this->uri->withHost('google.com');
 
-        $result = $uri->getHost();
+        $actual = $uri->getHost();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getPort.
-     *
      * @return void
      */
-    public function testGetPortMethod()
+    public function test_setting_the_url_port()
     {
         $expected = (integer) 500;
 
         $uri = $this->uri->withPort(500);
 
-        $result = $uri->getPort();
+        $actual = $uri->getPort();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getQuery.
-     *
      * @return void
      */
-    public function testGetQueryMethod()
+    public function test_updating_the_query_params()
     {
         $expected = (string) 'type=user';
 
         $uri = $this->uri->withQuery('type=user');
 
-        $result = $uri->getQuery();
+        $actual = $uri->getQuery();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getFragment.
-     *
      * @return void
      */
-    public function testGetFragmentMethod()
+    public function test_updating_the_fragment()
     {
         $expected = (string) 'test';
 
         $uri = $this->uri->withFragment('test');
 
-        $result = $uri->getFragment();
+        $actual = $uri->getFragment();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::getPath.
-     *
      * @return void
      */
-    public function testGetPathMethod()
+    public function test_updating_the_url_path()
     {
         $expected = (string) '/test';
 
         $uri = $this->uri->withPath('/test');
 
-        $result = (string) $uri->getPath();
+        $actual = (string) $uri->getPath();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests UriInterface::__toString.
-     *
      * @return void
      */
-    public function testToStringMethod()
+    public function test_converting_instance_to_string()
     {
         $expected = 'https://me@roug.in:400/about';
 
-        $result = $this->uri->__toString();
+        $actual = $this->uri->__toString();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 }

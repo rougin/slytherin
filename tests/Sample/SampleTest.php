@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Sample;
 
 use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Sample\Builder;
+use Rougin\Slytherin\Sample\Handlers\Cors;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Request;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Response;
 use Rougin\Slytherin\Sample\Packages\MiddlewarePackage;
@@ -21,9 +22,22 @@ class SampleTest extends Testcase
      */
     protected $builder;
 
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         $this->builder = new Builder;
+
+        $this->builder->setCookies($_COOKIE);
+
+        $this->builder->setFiles($_FILES);
+
+        $this->builder->setQuery((array) $_GET);
+
+        $this->builder->setParsed($_POST);
+
+        $this->builder->setServer($_SERVER);
     }
 
     /**
@@ -165,8 +179,24 @@ class SampleTest extends Testcase
      *
      * @return void
      */
+    public function test_callable_as_the_route_with_multiple_params()
+    {
+        $this->builder->setUrl('GET', '/call/Slytherin/18');
+
+        $this->expectOutputString('Welcome Slytherin, 18!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
     public function test_middleware_changing_the_request_constructor()
     {
+        $this->builder->addHandler(new Cors);
+
         $this->builder->addPackage(new MiddlewarePackage);
 
         $this->builder->addHandler(new Request);
@@ -185,6 +215,8 @@ class SampleTest extends Testcase
      */
     public function test_middleware_changing_the_request_parameter()
     {
+        $this->builder->addHandler(new Cors);
+
         $this->builder->addPackage(new MiddlewarePackage);
 
         $this->builder->addHandler(new Request);
@@ -203,6 +235,8 @@ class SampleTest extends Testcase
      */
     public function test_middleware_changing_the_response_parameter()
     {
+        $this->builder->addHandler(new Cors);
+
         $this->builder->addPackage(new MiddlewarePackage);
 
         $this->builder->addHandler(new Response);
@@ -239,10 +273,12 @@ class SampleTest extends Testcase
     {
         $this->builder->addPackage(new MiddlewarePackage);
 
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
-            $this->markTestSkipped('Interop middleware/s not yet installed');
+            $this->markTestSkipped('Interop middleware/s not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->builder->setUrl('GET', '/interop');
 
@@ -274,6 +310,7 @@ class SampleTest extends Testcase
      */
     public function test_uploaded_file_from_request()
     {
+        /** @var string */
         $file = realpath(__DIR__ . '/EMDAER.txt');
 
         $this->builder->addFile('files', $file);
@@ -283,6 +320,22 @@ class SampleTest extends Testcase
         $this->builder->setUrl('POST', '/upload');
 
         $this->expectOutputString('The file is EMDAER.txt!');
+
+        $this->builder->make()->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_with_route_to_json()
+    {
+        $this->builder->addPackage(new SamplePackage);
+
+        $this->builder->setUrl('GET', '/encoded');
+
+        $this->expectOutputString('"Encoded world!"');
 
         $this->builder->make()->run();
     }

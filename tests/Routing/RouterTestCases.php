@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Routing;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Router Test Cases
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -18,26 +16,14 @@ class RouterTestCases extends Testcase
     protected $router;
 
     /**
-     * @var array
+     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 
     /**
-     * Sets up the router.
-     *
      * @return void
      */
-    protected function doSetUp()
-    {
-        $this->markTestSkipped('No implementation style defined.');
-    }
-
-    /**
-     * Tests RouterInterface::add.
-     *
-     * @return void
-     */
-    public function testAddMethod()
+    public function test_adding_a_route()
     {
         $this->exists(get_class($this->router));
 
@@ -49,11 +35,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::__call.
-     *
      * @return void
      */
-    public function testCallMagicMethod()
+    public function test_adding_a_route_from_call_magic_method()
     {
         $this->exists(get_class($this->router));
 
@@ -63,30 +47,27 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::has.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_existing_route()
     {
         $this->exists(get_class($this->router));
 
-        $result = $this->router->has('GET', '/');
+        $actual = $this->router->has('GET', '/');
 
-        $this->assertTrue((boolean) $result);
+        $this->assertTrue((boolean) $actual);
     }
 
     /**
-     * Tests RouterInterface::retrieve.
-     *
      * @return void
      */
-    public function testRetrieveMethod()
+    public function test_getting_a_route()
     {
         $this->exists(get_class($this->router));
 
         $expected = array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index');
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/');
 
         $actual = $route->getHandler();
@@ -95,11 +76,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::retrieve with null as the result.
-     *
      * @return void
      */
-    public function testRetrieveMethodWithNull()
+    public function test_getting_an_empty_route()
     {
         $this->exists(get_class($this->router));
 
@@ -109,11 +88,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::routes.
-     *
      * @return void
      */
-    public function testRoutesMethod()
+    public function test_getting_routes()
     {
         $this->exists(get_class($this->router));
 
@@ -127,11 +104,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::restful.
-     *
      * @return void
      */
-    public function testRestfulMethod()
+    public function test_adding_a_route_as_a_restful()
     {
         $this->exists(get_class($this->router));
 
@@ -153,11 +128,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::prefix.
-     *
      * @return void
      */
-    public function testPrefixMethod()
+    public function test_adding_a_route_with_a_prefix()
     {
         $this->exists(get_class($this->router));
 
@@ -171,11 +144,9 @@ class RouterTestCases extends Testcase
     }
 
     /**
-     * Tests RouterInterface::prefix with multiple prefixes.
-     *
      * @return void
      */
-    public function testPrefixMethodWithMultiplePrefixes()
+    public function test_adding_a_route_with_multiple_prefixes()
     {
         $this->exists(get_class($this->router));
 
@@ -195,27 +166,43 @@ class RouterTestCases extends Testcase
 
         $this->router->get('/test', 'TestController@test');
 
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/home');
-        $handler = $route->getHandler();
-        $home = 'Acme\Http\Controllers\HomeController' === $handler[0];
 
+        $home = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $home = 'Acme\Http\Controllers\HomeController' === $handler[0];
+        }
+
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('POST', '/v1/auth/login');
-        $handler = $route->getHandler();
-        $login = 'Acme\Http\Controllers\AuthController' === $handler[0];
 
+        $login = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $login = 'Acme\Http\Controllers\AuthController' === $handler[0];
+        }
+
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/v1/test/hello');
-        $handler = $route->getHandler();
-        $hello = 'Acme\Http\Controllers\TestController' === $handler[0];
+        
+        $hello = false;
+
+        if (is_array($handler = $route->getHandler()))
+        {
+            $hello = 'Acme\Http\Controllers\TestController' === $handler[0];
+        }
 
         $this->assertTrue($home && $login && $hello);
     }
 
     /**
-     * Tests RouterInterface::merge.
-     *
      * @return void
      */
-    public function testMergeMethod()
+    public function test_merging_existing_routes()
     {
         $this->exists(get_class($this->router));
 
@@ -240,20 +227,22 @@ class RouterTestCases extends Testcase
     {
         if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter')
         {
-            $exists = class_exists('FastRoute\RouteCollector');
-
-            $message = 'FastRoute is not installed.';
-
-            if (! $exists) $this->markTestSkipped($message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('FastRoute\RouteCollector'))
+            {
+                $this->markTestSkipped('FastRoute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
 
         if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter')
         {
-            $exists = class_exists('Phroute\Phroute\RouteCollector');
-
-            $message = 'Phroute is not installed.';
-
-            if (! $exists) $this->markTestSkipped($message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('Phroute\Phroute\RouteCollector'))
+            {
+                $this->markTestSkipped('Phroute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
     }
 }

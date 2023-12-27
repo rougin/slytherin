@@ -1,5 +1,6 @@
 <?php
 
+// @codeCoverageIgnoreStart
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Component\Collector;
 
@@ -18,3 +19,4 @@ $components = Collector::get($items);
 $app = new Application($components);
 
 $app->run();
+// @codeCoverageIgnoreEnd

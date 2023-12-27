@@ -2,21 +2,21 @@
 
 namespace Rougin\Slytherin\IoC\League;
 
-use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\AnotherClass;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Classes\WithParameter;
+use Rougin\Slytherin\Testcase;
 
 /**
- * League Container Test
  * NOTE: To be removed in v1.0.0.
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ContainerTest extends \Rougin\Slytherin\Testcase
+class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\ContainerInterface
+     * @var \Rougin\Slytherin\IoC\League\Container
      */
     protected $container;
 
@@ -31,26 +31,26 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     protected $instance;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        if (! class_exists('League\Container\Container')) {
+        // @codeCoverageIgnoreStart
+        if (! class_exists('League\Container\Container'))
+        {
             $this->markTestSkipped('League Container is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
-        $this->container = new \Rougin\Slytherin\IoC\League\Container;
-        $this->instance  = new WithParameter(new NewClass, new AnotherClass);
+        $this->container = new Container;
+
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testAddMethod()
+    public function test_adding_a_simple_class()
     {
         $this->container->add($this->class, $this->instance);
 
@@ -58,11 +58,9 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the defined instance exists.
-     *
      * @return void
      */
-    public function testSetMethod()
+    public function test_setting_a_simple_class()
     {
         $this->container->set($this->class, $this->instance);
 
@@ -70,29 +68,29 @@ class ContainerTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests if the specified instance can be returned.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
-        // Should only used methods found in ContainerInterface ---
+        // Should only use methods found in ContainerInterface ---
         // $this->container->add($this->class)
         //     ->withArgument(new NewClass)
         //     ->withArgument(new AnotherClass);
-        // --------------------------------------------------------
+        // -------------------------------------------------------
 
         $this->container->set($this->class, $this->instance);
 
-        $this->assertEquals($this->instance, $this->container->get($this->class));
+        $expected = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if the added instance exists.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_class_exists()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

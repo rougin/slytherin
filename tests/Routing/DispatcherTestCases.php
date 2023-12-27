@@ -6,8 +6,6 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Dispatcher Test Cases
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -19,11 +17,9 @@ class DispatcherTestCases extends Testcase
     protected $dispatcher;
 
     /**
-     * Tests DispatcherInterface::dispatch with callback.
-     *
      * @return void
      */
-    public function testDispatchMethodWithCallback()
+    public function test_dispatching_a_route_as_a_callback()
     {
         $this->exists(get_class($this->dispatcher));
 
@@ -37,11 +33,9 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with callback and argument.
-     *
      * @return void
      */
-    public function testDispatchMethodWithCallbackAndArgument()
+    public function test_dispatching_a_route_as_a_callback_with_argument()
     {
         $this->exists(get_class($this->dispatcher));
 
@@ -55,11 +49,9 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with class.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClass()
+    public function test_dispatching_a_route_as_a_class()
     {
         $this->exists(get_class($this->dispatcher));
 
@@ -75,11 +67,9 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with class and POST HTTP method.
-     *
      * @return void
      */
-    public function testDispatchMethodWithClassAndPostHttpMethod()
+    public function test_dispatching_a_route_as_a_class_from_put_http_method()
     {
         $this->exists(get_class($this->dispatcher));
 
@@ -95,11 +85,9 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with error.
-     *
      * @return void
      */
-    public function testDispatchMethodWithError()
+    public function test_dispatching_a_route_with_an_error()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -109,11 +97,9 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
-     * Tests DispatcherInterface::dispatch with invalid HTTP method.
-     *
      * @return void
      */
-    public function testDispatchMethodWithInvalidMethod()
+    public function test_dispatching_a_route_with_an_invalid_http_method()
     {
         $this->setExpectedException('BadMethodCallException');
 
@@ -132,20 +118,22 @@ class DispatcherTestCases extends Testcase
     {
         if ($dispatcher === 'Rougin\Slytherin\Routing\FastRouteDispatcher')
         {
-            $exists = interface_exists('FastRoute\Dispatcher');
-
-            $message = (string) 'FastRoute is not installed.';
-
-            $exists || $this->markTestSkipped((string) $message);
+            // @codeCoverageIgnoreStart
+            if (! interface_exists('FastRoute\Dispatcher'))
+            {
+                $this->markTestSkipped('FastRoute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
 
         if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher')
         {
-            $exists = class_exists('Phroute\Phroute\Dispatcher');
-
-            $message = (string) 'Phroute is not installed.';
-
-            $exists || $this->markTestSkipped((string) $message);
+            // @codeCoverageIgnoreStart
+            if (! class_exists('Phroute\Phroute\Dispatcher'))
+            {
+                $this->markTestSkipped('Phroute is not installed.');
+            }
+            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -202,8 +190,13 @@ class DispatcherTestCases extends Testcase
 
         if (is_array($handler))
         {
-            list($class, $method) = $handler;
+            /** @var class-string */
+            $class = $handler[0];
 
+            /** @var string */
+            $method = $handler[1];
+
+            /** @var callable */
             $handler = array(new $class, $method);
         }
 

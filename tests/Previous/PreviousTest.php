@@ -16,8 +16,12 @@ class PreviousTest extends Testcase
      */
     protected $builder;
 
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Auryn\Injector'))
         {
             $this->markTestSkipped('Auryn is not installed.');
@@ -37,6 +41,7 @@ class PreviousTest extends Testcase
         {
             $this->markTestSkipped('Twig v1.0~v2.0 is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->builder = new Builder;
     }

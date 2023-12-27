@@ -22,24 +22,4 @@ class AnotherClass
     {
         $this->text = $text;
     }
-
-    /**
-     * Returns a string 'Hello'.
-     *
-     * @return string
-     */
-    public function index()
-    {
-        return $this->text;
-    }
-
-    /**
-     * Returns a string 'Store'.
-     *
-     * @return string
-     */
-    public function store()
-    {
-        return 'Store';
-    }
 }

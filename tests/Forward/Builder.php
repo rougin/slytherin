@@ -10,6 +10,9 @@ use Rougin\Slytherin\Application;
  */
 class Builder
 {
+    /**
+     * @return \Rougin\Slytherin\Application
+     */
     public function make()
     {
         $app = new Application;
@@ -19,6 +22,11 @@ class Builder
         return $app;
     }
 
+    /**
+     * @param  string $method
+     * @param  string $uri
+     * @return self
+     */
     public function setUrl($method, $uri)
     {
         $_SERVER['REQUEST_METHOD'] = $method;

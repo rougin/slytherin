@@ -6,8 +6,6 @@ use Rougin\Slytherin\Container\LeagueContainer;
 use Rougin\Slytherin\Testcase;
 
 /**
- * League Container Test Class
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -19,26 +17,24 @@ class LeagueContainerTest extends Testcase
     protected $container;
 
     /**
-     * Sets up the container.
-     *
      * @return void
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('League\Container\Container'))
         {
             $this->markTestSkipped('League Container is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $this->container = new LeagueContainer;
     }
 
     /**
-     * Tests ContainerInterface::get.
-     *
      * @return void
      */
-    public function testGetMethod()
+    public function test_getting_a_simple_class()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -54,17 +50,13 @@ class LeagueContainerTest extends Testcase
     }
 
     /**
-     * Tests ContainerInterface::get with Psr\Container\NotFoundExceptionInterface.
-     *
      * @return void
      */
-    public function testGetMethodWithNotFoundException()
+    public function test_getting_instance_with_not_found_exception()
     {
         $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
 
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->get($class);
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NewClass');
     }
 
     /**
@@ -72,7 +64,7 @@ class LeagueContainerTest extends Testcase
      *
      * @return void
      */
-    public function testSetMethod()
+    public function test_setting_instance()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

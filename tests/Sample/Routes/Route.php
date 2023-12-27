@@ -22,8 +22,6 @@ class Route
     protected $response;
 
     /**
-     * Initializes the controller instance.
-     *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      * @param \Psr\Http\Message\ResponseInterface      $response
      */
@@ -34,10 +32,16 @@ class Route
         $this->response = $response;
     }
 
+    /**
+     * @param  mixed   $data
+     * @param  integer $code
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public function json($data, $code = 200)
     {
         $response = $this->response->withStatus($code);
 
+        /** @var string */
         $stream = json_encode($data);
 
         $response->getBody()->write($stream);

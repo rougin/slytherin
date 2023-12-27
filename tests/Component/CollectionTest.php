@@ -17,8 +17,6 @@ use Rougin\Slytherin\Template\TwigRenderer;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Component Collection Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -30,8 +28,6 @@ class CollectionTest extends Testcase
     protected $components;
 
     /**
-     * Sets up the component class.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -40,11 +36,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setContainer() method.
-     *
      * @return void
      */
-    public function testSetContainerMethod()
+    public function test_setting_the_container()
     {
         $expected = new Container;
 
@@ -56,11 +50,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setDependencyInjector() method.
-     *
      * @return void
      */
-    public function testSetDependencyInjectorMethod()
+    public function test_setting_the_dependency_injector()
     {
         $expected = new Container;
 
@@ -72,11 +64,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setDispatcher() method.
-     *
      * @return void
      */
-    public function testSetDispatcherMethod()
+    public function test_setting_the_routing_dispatcher()
     {
         $expected = new Dispatcher(new Router);
 
@@ -88,11 +78,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setDebugger() method.
-     *
      * @return void
      */
-    public function testSetDebuggerMethod()
+    public function test_setting_the_debugger()
     {
         $expected = new Debugger;
 
@@ -104,11 +92,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setErrorHandler() method.
-     *
      * @return void
      */
-    public function testSetErrorHandlerMethod()
+    public function test_setting_the_error_handler()
     {
         $expected = new Debugger;
 
@@ -120,11 +106,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setHttp() method.
-     *
      * @return void
      */
-    public function testSetHttpMethod()
+    public function test_setting_the_http_interface()
     {
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
@@ -146,11 +130,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setHttpRequest() method.
-     *
      * @return void
      */
-    public function testSetHttpRequestMethod()
+    public function test_setting_the_http_request()
     {
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
@@ -168,11 +150,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setHttpResponse() method.
-     *
      * @return void
      */
-    public function testSetHttpResponseMethod()
+    public function test_setting_the_http_response()
     {
         $expected = new Response;
 
@@ -184,16 +164,16 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setMiddleware() method.
-     *
      * @return void
      */
-    public function testSetMiddlewareMethod()
+    public function test_setting_the_middleware()
     {
+        // @codeCoverageIgnoreStart
         if (! Interop::exists())
         {
             $this->markTestSkipped('Interop middleware/s not yet installed');
         }
+        // @codeCoverageIgnoreEnd
 
         $expected = new VanillaMiddleware;
 
@@ -205,19 +185,20 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the setMiddleware() method.
-     *
      * @return void
      */
-    public function testSetTemplateMethod()
+    public function test_setting_the_template()
     {
         $twig = new TwigLoader;
 
+        // @codeCoverageIgnoreStart
         if (! $twig->exists())
         {
             $this->markTestSkipped('Twig is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
+        /** @var string */
         $path = realpath(__DIR__ . '/../../Fixture/Templates');
 
         $environment = $twig->load($path);
@@ -232,11 +213,9 @@ class CollectionTest extends Testcase
     }
 
     /**
-     * Tests the has() method.
-     *
      * @return void
      */
-    public function testHasMethod()
+    public function test_checking_existing_components()
     {
         $this->assertFalse($this->components->has(System::TEMPLATE));
     }

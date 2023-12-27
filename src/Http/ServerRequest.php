@@ -57,16 +57,16 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Initializes the server request instance.
      *
-     * @param array<string, string>                  $server
-     * @param array<string, string>                  $cookies
-     * @param array<string, string>                  $query
-     * @param array<string, array<string, string[]>> $uploaded
-     * @param array<string, mixed>|null|object       $data
-     * @param array<string, string>                  $attributes
-     * @param \Psr\Http\Message\UriInterface|null    $uri
-     * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array<string, string[]>                $headers
-     * @param string                                 $version
+     * @param array<string, string>                         $server
+     * @param array<string, string>                         $cookies
+     * @param array<string, string>                         $query
+     * @param array<string, array<string, string|string[]>> $uploaded
+     * @param array<string, mixed>|null|object              $data
+     * @param array<string, string>                         $attributes
+     * @param \Psr\Http\Message\UriInterface|null           $uri
+     * @param \Psr\Http\Message\StreamInterface|null        $body
+     * @param array<string, string[]>                       $headers
+     * @param string                                        $version
      */
     public function __construct(array $server, array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
     {

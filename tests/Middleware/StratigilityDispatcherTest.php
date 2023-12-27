@@ -11,16 +11,16 @@ use Zend\Stratigility\MiddlewarePipe;
 class StratigilityDispatcherTest extends DispatcherTestCases
 {
     /**
-     * Sets up the middleware dispatcher instance.
-     *
      * @return void
      */
     protected function doSetUp()
     {
+        // @codeCoverageIgnoreStart
         if (! class_exists('Zend\Stratigility\MiddlewarePipe'))
         {
-            $this->markTestSkipped('Zend Stratigility is not installed');
+            $this->markTestSkipped('Zend Stratigility is not installed.');
         }
+        // @codeCoverageIgnoreEnd
 
         $pipe = new MiddlewarePipe;
 

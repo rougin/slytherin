@@ -7,8 +7,6 @@ use Rougin\Slytherin\System;
 use Rougin\Slytherin\Testcase;
 
 /**
- * Debugger Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
@@ -25,8 +23,6 @@ class DebuggerTest extends Testcase
     protected $environment = 'production';
 
     /**
-     * Sets up the debugger.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -35,11 +31,9 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests if the debugger's environment is equal to the specified environment.
-     *
      * @return void
      */
-    public function testSetEnvironmentMethod()
+    public function test_setting_the_environment()
     {
         $this->debugger->setEnvironment($this->environment);
 
@@ -51,23 +45,23 @@ class DebuggerTest extends Testcase
     }
 
     /**
-     * Tests the display() method.
-     *
      * @return void
      */
-    public function testDisplayMethod()
+    public function test_setting_the_error_reporting()
     {
         $this->debugger->display();
 
-        $this->assertEquals(error_reporting(), E_ALL);
+        $expected = E_ALL;
+
+        $actual = error_reporting();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if the debugger is implemented in DebuggerInterface.
-     *
      * @return void
      */
-    public function testDebuggerInterface()
+    public function test_checking_debugger_instance()
     {
         $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
     }

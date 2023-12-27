@@ -17,7 +17,7 @@ class MiddlewareTest extends Testcase
     /**
      * @return void
      */
-    public function testInvokeMethod()
+    public function test_processing_multiple_middlewares()
     {
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
@@ -51,7 +51,7 @@ class MiddlewareTest extends Testcase
     /**
      * @return void
      */
-    public function testProcessMethod()
+    public function test_processing_one_middleware()
     {
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';

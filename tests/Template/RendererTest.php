@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Template;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * Renderer Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class RendererTest extends \Rougin\Slytherin\Testcase
+class RendererTest extends Testcase
 {
     /**
      * @var \Rougin\Slytherin\Template\RendererInterface
@@ -16,8 +16,6 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     protected $renderer;
 
     /**
-     * Sets up the renderer instance.
-     *
      * @return void
      */
     protected function doSetUp()
@@ -30,41 +28,35 @@ class RendererTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests RendererInterface::render.
-     *
      * @return void
      */
-    public function testRenderMethod()
+    public function test_rendering_a_text_from_file()
     {
         $expected = 'This is a text from a template.';
 
-        $result = $this->renderer->render('test');
+        $actual = $this->renderer->render('test');
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests RendererInterface::render with data.
-     *
      * @return void
      */
-    public function testRenderMethodWithData()
+    public function test_rendering_a_text_from_file_with_data()
     {
         $expected = (string) 'This is a text from a template.';
 
         $data = array('name' => 'template');
 
-        $result = $this->renderer->render('test-with-data', $data);
+        $actual = $this->renderer->render('test-with-data', $data);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests if the specified template is not found.
-     *
      * @return void
      */
-    public function testTemplateNotFound()
+    public function test_rendering_a_text_from_file_with_an_error()
     {
         $this->setExpectedException('InvalidArgumentException');
 

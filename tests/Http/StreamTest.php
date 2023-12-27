@@ -2,19 +2,14 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Testcase;
+
 /**
- * Stream Test
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class StreamTest extends \Rougin\Slytherin\Testcase
+class StreamTest extends Testcase
 {
-    /**
-     * @var resource
-     */
-    protected $file;
-
     /**
      * @var string
      */
@@ -26,27 +21,24 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     protected $stream;
 
     /**
-     * Sets up the stream instance.
-     *
      * @return void
      */
     protected function doSetUp()
     {
-        $root = (string) str_replace('Http', 'Fixture', __DIR__);
+        $root = str_replace('Http', 'Fixture', __DIR__);
 
-        $this->filepath = (string) $root . '/Templates/new-test.php';
+        /** @var resource */
+        $file = fopen("$root/Templates/test.php", 'r');
 
-        $this->file = fopen($root . '/Templates/test.php', 'r');
+        $this->stream = new Stream($file);
 
-        $this->stream = new Stream($this->file);
+        $this->filepath = "$root/Templates/new-test.php";
     }
 
     /**
-     * Tests StreamInterface::close.
-     *
      * @return void
      */
-    public function testCloseMethod()
+    public function test_closing_the_contents()
     {
         $this->setExpectedException('RuntimeException');
 
@@ -56,39 +48,36 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests StreamInterface::detach.
-     *
      * @return void
      */
-    public function testDetachMethod()
+    public function test_detaching_the_stream()
     {
-        $expected = 'stream';
+        $expected = 'stream'; $actual = null;
 
         $resource = $this->stream->detach();
 
-        $result = get_resource_type($resource);
+        if ($resource)
+        {
+            $actual = get_resource_type($resource);
+        }
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests StreamInterface::eof.
-     *
      * @return void
      */
-    public function testEofMethod()
+    public function test_getting_end_of_file()
     {
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $this->assertFalse($stream->eof());
     }
 
     /**
-     * Tests StreamInterface::getContents.
-     *
      * @return void
      */
-    public function testGetContentsMethod()
+    public function test_getting_stream_content()
     {
         $expected = 'This is a text from a template.';
 
@@ -98,156 +87,149 @@ class StreamTest extends \Rougin\Slytherin\Testcase
     }
 
     /**
-     * Tests StreamInterface::getContents with an exception.
-     *
      * @return void
      */
-    public function testGetContentsMethodWithException()
+    public function test_getting_stream_content_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
-
-        $stream->getContents()->__toString();
-    }
-
-    /**
-     * Tests StreamInterface::getMetadata.
-     *
-     * @return void
-     */
-    public function testGetMetadataMethod()
-    {
-        $file = fopen($this->filepath, 'r');
-
-        $expected = stream_get_meta_data($file);
+        /** @var resource */
+        $file = fopen($this->filepath, 'w');
 
         $stream = new Stream($file);
 
-        $result = $stream->getMetadata();
-
-        $this->assertEquals($expected, $result);
+        echo $stream->getContents();
     }
 
     /**
-     * Tests StreamInterface::getSize.
-     *
      * @return void
      */
-    public function testGetSizeMethod()
+    public function test_getting_metadata()
+    {
+        $file = $this->newFile();
+
+        $stream = new Stream($file);
+
+        $expected = stream_get_meta_data($file);
+
+        $actual = $stream->getMetadata();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_stream_size()
     {
         $expected = (integer) 31;
 
-        $result = $this->stream->getSize();
+        $actual = $this->stream->getSize();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests StreamInterface::read.
-     *
      * @return void
      */
-    public function testReadMethod()
+    public function test_reading_stream()
     {
         $expected = (string) 'This';
 
-        $result = (string) $this->stream->read(4);
+        $actual = (string) $this->stream->read(4);
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests StreamInterface::read with an exception.
-     *
      * @return void
      */
-    public function testReadMethodWithException()
+    public function test_reading_stream_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->read(55);
     }
 
     /**
-     * Tests StreamInterface::seek.
-     *
      * @return void
      */
-    public function testSeekMethod()
+    public function test_setting_position()
     {
         $expected = (integer) 2;
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->seek($expected);
 
-        $result = $stream->tell();
+        $actual = $stream->tell();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests StreamInterface::seek with an exception.
-     *
      * @return void
      */
-    public function testSeekMethodWithException()
+    public function test_setting_position_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->detach() && $stream->seek(2);
     }
 
     /**
-     * Tests StreamInterface::tell with an exception.
-     *
      * @return void
      */
-    public function testTellMethodWithException()
+    public function test_getting_current_position_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'w'));
+        $stream = new Stream($this->newFile());
 
         $stream->detach() && $stream->tell();
     }
 
     /**
-     * Tests StreamInterface::write.
-     *
      * @return void
      */
-    public function testWriteMethod()
+    public function test_writing_the_stream()
     {
         $expected = 'Lorem ipsum dolor sit amet elit.';
 
-        $stream = new Stream(fopen($this->filepath, 'w+'));
+        $stream = new Stream($this->newFile('w+'));
 
         $stream->write($expected);
 
-        $stream = new Stream(fopen($this->filepath, 'r'));
+        $stream = new Stream($this->newFile('r'));
 
-        $result = $stream->getContents();
+        $actual = $stream->getContents();
 
-        $this->assertEquals($expected, $result);
+        $this->assertEquals($expected, $actual);
     }
 
     /**
-     * Tests StreamInterface::write with an exception.
-     *
      * @return void
      */
-    public function testWriteMethodWithException()
+    public function test_writing_the_stream_with_an_error()
     {
         $this->setExpectedException('RuntimeException');
 
-        $stream = new Stream(fopen($this->filepath, 'r'));
+        $stream = new Stream($this->newFile('r'));
 
         $stream->write('Hello') && $stream->getContents();
+    }
+
+    /**
+     * @param  string $mode
+     * @return resource
+     */
+    protected function newFile($mode = 'w')
+    {
+        /** @var resource */
+        return fopen($this->filepath, $mode);
     }
 }

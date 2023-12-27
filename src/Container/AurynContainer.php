@@ -16,6 +16,9 @@ use Auryn\Injector;
  *
  * @link https://github.com/rdlowrey/auryn
  * @link https://github.com/elazar/auryn-container-interop
+ *
+ * @method alias($original, $alias)
+ * @method share($nameOrInstance)
  */
 class AurynContainer implements ContainerInterface
 {

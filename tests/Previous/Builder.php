@@ -9,7 +9,6 @@ use Rougin\Slytherin\ErrorHandler\Whoops;
 use Rougin\Slytherin\Http\Uri;
 use Rougin\Slytherin\IoC\Auryn;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
-use Rougin\Slytherin\Template\RendererInterface;
 use Rougin\Slytherin\Template\Twig;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -33,6 +32,11 @@ class Builder
         $this->collection = new ComponentCollection;
     }
 
+    /**
+     * @param  string $method
+     * @param  string $uri
+     * @return \Rougin\Slytherin\Application
+     */
     public function make($method = null, $uri = null)
     {
         // Initialize the DependencyInjectorInterface ---
@@ -58,6 +62,9 @@ class Builder
         return new Application($this->collection);
     }
 
+    /**
+     * @return self
+     */
     protected function setContainer()
     {
         // Initialize the RendererInterface ----------------------
@@ -79,15 +86,23 @@ class Builder
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function setDebugger()
     {
-        $whoops = new Whoops(new \Whoops\Run);
+        $whoops = new Whoops;
 
         $this->collection->setErrorHandler($whoops);
 
         return $this;
     }
 
+    /**
+     * @param  string $method
+     * @param  string $uri
+     * @return self
+     */
     protected function setHttp($method = null, $uri = null)
     {
         $request = ServerRequestFactory::fromGlobals();
@@ -108,6 +123,9 @@ class Builder
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function setMiddleware()
     {
         $pipe = new MiddlewarePipe;
@@ -119,13 +137,16 @@ class Builder
         return $this;
     }
 
+    /**
+     * @return self
+     */
     protected function setRouting()
     {
-        $router = require realpath(__DIR__ . '/Router.php');
+        $router = __DIR__ . '/Router.php';
 
-        $response = $this->collection->getHttpResponse();
+        $router = require realpath((string) $router);
 
-        $dispatcher = new Dispatcher($router, $response);
+        $dispatcher = new Dispatcher($router);
 
         $this->collection->setDispatcher($dispatcher);
 

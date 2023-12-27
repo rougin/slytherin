@@ -17,7 +17,7 @@ interface RouteInterface
     /**
      * Returns the handler.
      *
-     * @return callable|string[]|string
+     * @return callable|string[]
      */
     public function getHandler();
 
