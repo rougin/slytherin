@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Rougin\Slytherin\Http;
 
@@ -97,17 +97,17 @@ class HttpIntegration implements IntegrationInterface
     {
         $headers = array();
 
-        foreach ((array) $server as $key => $value)
+        foreach ($server as $key => $value)
         {
             $http = strpos($key, 'HTTP_') === 0;
 
-            $string = strtolower(substr($key, 5));
+            $string = strtolower((string) substr($key, 5));
 
             $string = str_replace('_', ' ', $string);
 
             $string = ucwords(strtolower($string));
 
-            $key = str_replace(' ', '-', $string);
+            $key = str_replace(' ', '-', (string) $string);
 
             $http && $headers[$key] = $value;
         }

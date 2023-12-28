@@ -1,8 +1,9 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Rougin\Slytherin\System;
 
 use Rougin\Slytherin\Http\HttpIntegration;
+use Rougin\Slytherin\Middleware\MiddlewareIntegration;
 use Rougin\Slytherin\Routing\Router;
 use Rougin\Slytherin\Routing\RoutingIntegration;
 use Rougin\Slytherin\System;
@@ -59,6 +60,10 @@ class Routing extends System
 
         $items = array(new HttpIntegration);
         // -----------------------------------------------
+
+        // Prepare the MiddlewareIntegration ---
+        $items[] = new MiddlewareIntegration;
+        // -------------------------------------
 
         // Prepare the RoutingIntegration -------------------
         $items[] = new RoutingIntegration;
