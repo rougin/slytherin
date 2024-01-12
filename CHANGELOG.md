@@ -2,7 +2,7 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.7](https://github.com/rougin/slytherin/compare/v0.9.6...master) - Unreleased
+## [0.9.7](https://github.com/rougin/slytherin/compare/v0.9.6...v0.9.7) - 2024-01-12
 
 ### Added
 - `preferred` property in integrations
