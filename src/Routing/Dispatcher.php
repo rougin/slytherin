@@ -15,7 +15,7 @@ class Dispatcher implements DispatcherInterface
     /**
      * @var string[]
      */
-    protected $allowed = array('DELETE', 'GET', 'PATCH', 'POST', 'PUT');
+    protected $allowed = array('DELETE', 'GET', 'OPTIONS', 'PATCH', 'POST', 'PUT');
 
     /**
      * @var \Rougin\Slytherin\Routing\RouterInterface
@@ -101,7 +101,7 @@ class Dispatcher implements DispatcherInterface
     {
         if (in_array($method, $this->allowed)) return true;
 
-        $message = 'Used method is not allowed';
+        $message = 'Used method is not allowed (' . $method . ')';
 
         throw new \BadMethodCallException($message);
     }
@@ -125,7 +125,9 @@ class Dispatcher implements DispatcherInterface
 
             $sameMethod = $route->getMethod() === $method;
 
-            if ($matched && $sameMethod)
+            $isOptions = $route->getMethod() === 'OPTIONS';
+
+            if ($matched && ($sameMethod || $isOptions))
             {
                 return $route->setParams($matches);
             }
