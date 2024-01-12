@@ -47,6 +47,11 @@ class ReflectionContainer implements PsrContainer
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
+        if ($this->container && $this->container->has($id))
+        {
+            return $this->container->get((string) $id);
+        }
+
         /** @var class-string $id */
         $reflection = new \ReflectionClass((string) $id);
 
@@ -55,11 +60,6 @@ class ReflectionContainer implements PsrContainer
             $arguments = $this->resolve($constructor);
 
             return $reflection->newInstanceArgs($arguments);
-        }
-
-        if ($this->container && $this->container->has($id))
-        {
-            return $this->container->get((string) $id);
         }
 
         return new $id;

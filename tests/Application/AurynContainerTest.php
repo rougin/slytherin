@@ -16,6 +16,11 @@ use Rougin\Slytherin\System;
 class AurynContainerTest extends ApplicationTestCases
 {
     /**
+     * @var string
+     */
+    protected $type = 'auryn';
+
+    /**
      * @return void
      */
     protected function doSetUp()
@@ -31,14 +36,14 @@ class AurynContainerTest extends ApplicationTestCases
 
         $router = $this->router();
 
+        $container->share(new Dispatcher($router));
+        $container->alias(System::DISPATCHER, 'Rougin\Slytherin\Routing\Dispatcher');
+
         $container->share($this->request('GET', '/'));
         $container->alias(System::REQUEST, 'Rougin\Slytherin\Http\ServerRequest');
 
         $container->share(new Response);
         $container->alias(System::RESPONSE, 'Rougin\Slytherin\Http\Response');
-
-        $container->share(new Dispatcher($router));
-        $container->alias(System::DISPATCHER, 'Rougin\Slytherin\Routing\Dispatcher');
 
         $container->share(new Middleware);
         $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Middleware\Dispatcher');

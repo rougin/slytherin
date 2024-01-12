@@ -13,6 +13,11 @@ use Rougin\Slytherin\Testcase;
 class ApplicationTestCases extends Testcase
 {
     /**
+     * @var string
+     */
+    protected $type = '';
+
+    /**
      * @var \Rougin\Slytherin\System
      */
     protected $system;
@@ -160,6 +165,11 @@ class ApplicationTestCases extends Testcase
      */
     public function test_response_with_mutated_server_request()
     {
+        if ($this->type === 'auryn')
+        {
+            $this->markTestSkipped('Dynamic request must be shared again if using Auryn.');
+        }
+
         $data = array('test' => 'Hello with request');
 
         $request = $this->request('GET', '/request', $data);
