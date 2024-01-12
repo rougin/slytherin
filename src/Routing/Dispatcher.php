@@ -117,6 +117,8 @@ class Dispatcher implements DispatcherInterface
     {
         $routes = $this->router->routes();
 
+        $isOptions = $method === 'OPTIONS';
+
         foreach ($routes as $route)
         {
             $regex = $route->getRegex();
@@ -124,8 +126,6 @@ class Dispatcher implements DispatcherInterface
             $matched = preg_match($regex, $uri, $matches);
 
             $sameMethod = $route->getMethod() === $method;
-
-            $isOptions = $route->getMethod() === 'OPTIONS';
 
             if ($matched && ($sameMethod || $isOptions))
             {
