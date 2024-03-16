@@ -18,7 +18,7 @@ class DispatcherTest extends Testcase
     protected $dispatcher;
 
     /**
-     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>>
+     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>>
      */
     protected $routes = array();
 

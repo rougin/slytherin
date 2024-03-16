@@ -180,7 +180,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Creates a new UploadedFile instance.
      *
-     * @param  array<string, array<int, string|integer>> $file
+     * @param  array<string, array<integer, string|integer>> $file
      * @param  integer                                   $key
      * @return \Psr\Http\Message\UploadedFileInterface
      */

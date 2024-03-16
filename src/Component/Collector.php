@@ -82,7 +82,7 @@ class Collector
 
             if ($item->getType() === 'http')
             {
-                /** @var array<int, mixed> */
+                /** @var array<integer, mixed> */
                 $result = $item->get();
 
                 /** @var \Psr\Http\Message\ServerRequestInterface */

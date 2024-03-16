@@ -32,7 +32,7 @@ class FastRouteDispatcher extends Dispatcher
     {
         $this->validMethod($method);
 
-        /** @var array<int, int|string> */
+        /** @var array<integer, int|string> */
         $result = $this->fastroute->dispatch($method, $uri);
 
         if ($result[0] === \FastRoute\Dispatcher::NOT_FOUND)

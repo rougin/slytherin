@@ -16,7 +16,7 @@ class RouterTestCases extends Testcase
     protected $router;
 
     /**
-     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
+     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 

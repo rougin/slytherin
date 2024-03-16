@@ -70,7 +70,7 @@ class HttpIntegration implements IntegrationInterface
      * Returns the PHP's global variables.
      *
      * @param  \Rougin\Slytherin\Integration\Configuration $config
-     * @return array<int, mixed>
+     * @return array<integer, mixed>
      */
     protected function globals(Configuration $config)
     {

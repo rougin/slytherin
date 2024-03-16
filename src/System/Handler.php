@@ -93,7 +93,7 @@ class Handler implements HandlerInterface
      * Parses the reflection parameters against the result parameters.
      *
      * @param  \ReflectionFunctionAbstract $reflector
-     * @return array<int, mixed>
+     * @return array<integer, mixed>
      */
     protected function setParams(\ReflectionFunctionAbstract $reflector)
     {

@@ -66,7 +66,7 @@ class Configuration
      */
     public function load($directory)
     {
-        /** @var array<int, string> */
+        /** @var array<integer, string> */
         $configurations = glob($directory . '/*.php');
 
         foreach ($configurations as $item)

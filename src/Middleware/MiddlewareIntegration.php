@@ -39,7 +39,7 @@ class MiddlewareIntegration implements IntegrationInterface
             return $container;
         }
 
-        /** @var array<int, mixed> */
+        /** @var array<integer, mixed> */
         $stack = $config->get('app.middlewares', array());
 
         $dispatch = new Dispatcher($stack);
