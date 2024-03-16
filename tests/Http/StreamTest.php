@@ -134,6 +134,18 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
+    public function test_getting_stream_size_if_stream_is_empty()
+    {
+        $stream = new Stream;
+
+        $actual = $stream->getSize();
+
+        $this->assertNull($actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_reading_stream()
     {
         $expected = (string) 'This';

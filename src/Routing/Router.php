@@ -40,12 +40,14 @@ class Router implements RouterInterface
 
         foreach ($routes as $route)
         {
+            // Add it directly to list of routes if it's already a RouteInterface ---
             if ($route instanceof RouteInterface)
             {
                 array_push($this->routes, $route);
 
                 continue;
             }
+            // ----------------------------------------------------------------------
 
             /** @var string */
             $method = $route[0];
@@ -310,18 +312,13 @@ class Router implements RouterInterface
     /**
      * Adds a listing of routes specified for RESTful approach.
      *
-     * @param  string          $uri
-     * @param  string          $class
-     * @param  string|string[] $middlewares
+     * @param  string         $uri
+     * @param  string         $class
+     * @param  mixed[]|string $middlewares
      * @return self
      */
     public function restful($uri, $class, $middlewares = array())
     {
-        if (is_string($middlewares))
-        {
-            $middlewares = array($middlewares);
-        }
-
         $this->get('/' . $uri, $class . '@index', $middlewares);
         $this->post('/' . $uri, $class . '@store', $middlewares);
 

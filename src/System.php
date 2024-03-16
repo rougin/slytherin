@@ -116,7 +116,7 @@ class System
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  mixed[]|string                                   $items
+     * @param  mixed|mixed[]                                    $items
      * @param  \Rougin\Slytherin\Integration\Configuration|null $config
      * @return self
      */

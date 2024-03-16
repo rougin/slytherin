@@ -59,13 +59,11 @@ class Routing extends System
 
         $this->config->set('app.http.server', $_SERVER);
 
-        $items = array(new HttpIntegration);
+        $this->integrate(new HttpIntegration);
         // -----------------------------------------------
 
         // Prepare the RoutingIntegration -------------------
-        $items[] = new RoutingIntegration;
-
-        $this->integrate($items);
+        $this->integrate(new RoutingIntegration);
 
         $this->container->set(System::ROUTER, $this->router);
         // --------------------------------------------------

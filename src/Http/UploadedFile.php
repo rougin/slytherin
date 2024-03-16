@@ -161,11 +161,6 @@ class UploadedFile implements UploadedFileInterface
         {
             $items = array();
 
-            if (! isset($file['name']))
-            {
-                continue;
-            }
-
             foreach ($file['name'] as $key => $value)
             {
                 $items[] = self::create($file, $key);

@@ -26,6 +26,7 @@ class IntegrationInterfaceTest extends ApplicationTestCases
 
         $config = new Configuration;
 
+        $config->set('app.environment', 'production');
         $config->set('app.router', $this->router());
 
         $app = new Application;
