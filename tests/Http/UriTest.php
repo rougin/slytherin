@@ -82,7 +82,7 @@ class UriTest extends Testcase
      */
     public function test_setting_the_url_port()
     {
-        $expected = (integer) 500;
+        $expected = (int) 500;
 
         $uri = $this->uri->withPort(500);
 

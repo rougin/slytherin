@@ -25,8 +25,14 @@ class DispatcherTest extends Testcase
 
         $routes[] = array('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
         $routes[] = array('POST', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'store'));
-        $routes[] = array('GET', '/hi', function () { return 'Hi'; });
-        $routes[] = array('TEST', '/hello', function () { return 'It must not go through here'; });
+        $routes[] = array('GET', '/hi', function ()
+        {
+            return 'Hi';
+        });
+        $routes[] = array('TEST', '/hello', function ()
+        {
+            return 'It must not go through here';
+        });
 
         $router = new Router($routes);
 
@@ -49,7 +55,8 @@ class DispatcherTest extends Testcase
         /** @var string */
         $handler = $route->getHandler();
 
-        $class = $handler[0]; $method = $handler[1];
+        $class = $handler[0];
+        $method = $handler[1];
 
         $params = (array) $route->getParams();
 
@@ -75,7 +82,8 @@ class DispatcherTest extends Testcase
         /** @var string */
         $handler = $route->getHandler();
 
-        $class = $handler[0]; $method = $handler[1];
+        $class = $handler[0];
+        $method = $handler[1];
 
         $params = (array) $route->getParams();
 

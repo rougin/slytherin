@@ -22,7 +22,10 @@ class Configuration
      */
     public function __construct($data = null)
     {
-        if (is_array($data)) $this->data = $data;
+        if (is_array($data))
+        {
+            $this->data = $data;
+        }
 
         if (is_string($data))
         {
@@ -63,7 +66,7 @@ class Configuration
      */
     public function load($directory)
     {
-        /** @var array<int, string> */
+        /** @var array<integer, string> */
         $configurations = glob($directory . '/*.php');
 
         foreach ($configurations as $item)
@@ -118,7 +121,10 @@ class Configuration
             return $data[$key];
         }
 
-        if (! isset($data[$key])) $data[$key] = array();
+        if (! isset($data[$key]))
+        {
+            $data[$key] = array();
+        }
 
         return $this->save($keys, $data[$key], $value);
     }

@@ -32,11 +32,7 @@ class MiddlewareIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $middleware = System::MIDDLEWARE;
-
-        if (! interface_exists($middleware)) return $container;
-
-        /** @var array<int, mixed> */
+        /** @var array<integer, mixed> */
         $stack = $config->get('app.middlewares', array());
 
         $dispatch = new Dispatcher($stack);
@@ -54,6 +50,6 @@ class MiddlewareIntegration implements IntegrationInterface
             $dispatch = new StratigilityDispatcher($pipe);
         }
 
-        return $container->set($middleware, $dispatch);
+        return $container->set(System::MIDDLEWARE, $dispatch);
     }
 }

@@ -52,7 +52,9 @@ class StreamTest extends Testcase
      */
     public function test_detaching_the_stream()
     {
-        $expected = 'stream'; $actual = null;
+        $expected = 'stream';
+
+        $actual = null;
 
         $resource = $this->stream->detach();
 
@@ -122,11 +124,23 @@ class StreamTest extends Testcase
      */
     public function test_getting_stream_size()
     {
-        $expected = (integer) 31;
+        $expected = (int) 31;
 
         $actual = $this->stream->getSize();
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_stream_size_if_stream_is_empty()
+    {
+        $stream = new Stream;
+
+        $actual = $stream->getSize();
+
+        $this->assertNull($actual);
     }
 
     /**
@@ -158,7 +172,7 @@ class StreamTest extends Testcase
      */
     public function test_setting_position()
     {
-        $expected = (integer) 2;
+        $expected = (int) 2;
 
         $stream = new Stream($this->newFile());
 

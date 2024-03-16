@@ -29,7 +29,10 @@ class ErrorHandlerIntegration implements IntegrationInterface
         /** @var string */
         $environment = $config->get('app.environment', 'development');
 
-        if ($environment !== 'development') return $container;
+        if ($environment !== 'development')
+        {
+            return $container;
+        }
 
         $handler = new ErrorHandler($environment);
 

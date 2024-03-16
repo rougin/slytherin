@@ -161,8 +161,6 @@ class UploadedFile implements UploadedFileInterface
         {
             $items = array();
 
-            if (! isset($file['name'])) continue;
-
             foreach ($file['name'] as $key => $value)
             {
                 $items[] = self::create($file, $key);
@@ -177,7 +175,7 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Creates a new UploadedFile instance.
      *
-     * @param  array<string, array<int, string|integer>> $file
+     * @param  array<string, array<integer, string|integer>> $file
      * @param  integer                                   $key
      * @return \Psr\Http\Message\UploadedFileInterface
      */

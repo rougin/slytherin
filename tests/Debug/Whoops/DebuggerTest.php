@@ -73,7 +73,10 @@ class DebuggerTest extends Testcase
      */
     public function test_setting_handler_as_a_callback()
     {
-        $fn = function () { return 'Hello'; };
+        $fn = function ()
+        {
+            return 'Hello';
+        };
 
         $this->debugger->setHandler($fn);
 

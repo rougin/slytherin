@@ -33,9 +33,15 @@ class Cors implements MiddlewareInterface
      */
     public function __construct(array $allowed = null, array $methods = null)
     {
-        if (! $allowed) $allowed = array('*');
+        if (! $allowed)
+        {
+            $allowed = array('*');
+        }
 
-        if (! $methods) $methods = $this->methods;
+        if (! $methods)
+        {
+            $methods = $this->methods;
+        }
 
         $this->allowed = $allowed;
 

@@ -29,7 +29,10 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct(RouterInterface $router = null)
     {
-        if ($router) $this->setRouter($router);
+        if ($router)
+        {
+            $this->setRouter($router);
+        }
     }
 
     /**
@@ -99,7 +102,10 @@ class Dispatcher implements DispatcherInterface
      */
     protected function validMethod($method)
     {
-        if (in_array($method, $this->allowed)) return true;
+        if (in_array($method, $this->allowed))
+        {
+            return true;
+        }
 
         $message = 'Used method is not allowed (' . $method . ')';
 

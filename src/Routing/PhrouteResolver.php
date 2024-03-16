@@ -18,7 +18,7 @@ class PhrouteResolver implements HandlerResolverInterface
 {
     /**
      * @param  \Rougin\Slytherin\Routing\RouteInterface $handler
-     * @return array<int, mixed>
+     * @return array<integer, mixed>
      */
     public function resolve($handler)
     {

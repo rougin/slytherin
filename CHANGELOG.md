@@ -2,6 +2,16 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.8](https://github.com/rougin/slytherin/compare/v0.9.7...v0.9.8) - Unreleased
+
+### Added
+- `phpcsfixer.php` as custom rules for the `friendsofphp/php-cs-fixer` package
+- Test cases for the complete code coverage after running `friendsofphp/php-cs-fixer`
+
+### Changed
+- `Router::__construct` supports adding `RouteInterface` in the array
+- Code styling based on `friendsofphp/php-cs-fixer` package
+
 ## [0.9.7](https://github.com/rougin/slytherin/compare/v0.9.6...v0.9.7) - 2024-01-12
 
 ### Added

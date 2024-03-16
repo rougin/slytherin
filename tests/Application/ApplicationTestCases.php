@@ -190,7 +190,7 @@ class ApplicationTestCases extends Testcase
     {
         $request = $this->request('GET', '/typehint/202');
 
-        $expected = (integer) 202;
+        $expected = (int) 202;
 
         $response = $this->system->handle($request);
 

@@ -16,7 +16,7 @@ class RouterTestCases extends Testcase
     protected $router;
 
     /**
-     * @var array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
+     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
      */
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 
@@ -55,7 +55,7 @@ class RouterTestCases extends Testcase
 
         $actual = $this->router->has('GET', '/');
 
-        $this->assertTrue((boolean) $actual);
+        $this->assertTrue((bool) $actual);
     }
 
     /**
@@ -130,6 +130,32 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
+    public function test_adding_a_route_as_a_restful_with_a_middleware()
+    {
+        $this->exists(get_class($this->router));
+
+        $expected = array();
+
+        $middleware = 'Rougin\Slytherin\Sample\Handlers\Cors';
+
+        $expected[] = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $expected[] = new Route('GET', '/news', 'NewsController@index', $middleware);
+        $expected[] = new Route('POST', '/news', 'NewsController@store', $middleware);
+        $expected[] = new Route('DELETE', '/news/:id', 'NewsController@delete', $middleware);
+        $expected[] = new Route('GET', '/news/:id', 'NewsController@show', $middleware);
+        $expected[] = new Route('PATCH', '/news/:id', 'NewsController@update', $middleware);
+        $expected[] = new Route('PUT', '/news/:id', 'NewsController@update', $middleware);
+
+        $this->router->restful('news', 'NewsController', $middleware);
+
+        $actual = $this->router->routes();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_adding_a_route_with_a_prefix()
     {
         $this->exists(get_class($this->router));
@@ -188,7 +214,7 @@ class RouterTestCases extends Testcase
 
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/v1/test/hello');
-        
+
         $hello = false;
 
         if (is_array($handler = $route->getHandler()))
@@ -215,6 +241,23 @@ class RouterTestCases extends Testcase
         $exists = $this->router->has('GET', '/test');
 
         $this->assertTrue($exists);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_adding_routes_as_argument_to_router()
+    {
+        $expected = array();
+
+        $expected[] = new Route('GET', '/news', 'NewsController@index');
+        $expected[] = new Route('POST', '/news', 'NewsController@store');
+
+        $router = new Router($expected);
+
+        $actual = $router->routes();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

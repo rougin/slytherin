@@ -82,7 +82,7 @@ class Collector
 
             if ($item->getType() === 'http')
             {
-                /** @var array<int, mixed> */
+                /** @var array<integer, mixed> */
                 $result = $item->get();
 
                 /** @var \Psr\Http\Message\ServerRequestInterface */
@@ -125,7 +125,10 @@ class Collector
     {
         $self = new Collector($components);
 
-        if (! $container) $container = new Container;
+        if (! $container)
+        {
+            $container = new Container;
+        }
 
         return $self->make($container);
     }

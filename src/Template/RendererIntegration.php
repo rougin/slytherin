@@ -38,7 +38,10 @@ class RendererIntegration implements IntegrationInterface
 
         $empty = $this->preferred === null;
 
-        if (is_string($path)) $path = array($path);
+        if (is_string($path))
+        {
+            $path = array($path);
+        }
 
         $twig = new TwigLoader;
 

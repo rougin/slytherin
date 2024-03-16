@@ -114,7 +114,7 @@ class Collection implements ContainerInterface
     /**
      * Returns the HTTP request and response.
      *
-     * @return array<int, mixed>
+     * @return array<integer, mixed>
      */
     public function getHttp()
     {

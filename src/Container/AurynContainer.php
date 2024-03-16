@@ -92,7 +92,10 @@ class AurynContainer implements ContainerInterface
      */
     public function has($id)
     {
-        if (array_key_exists($id, $this->items)) return true;
+        if (array_key_exists($id, $this->items))
+        {
+            return true;
+        }
 
         $filter = Injector::I_BINDINGS | Injector::I_DELEGATES;
 

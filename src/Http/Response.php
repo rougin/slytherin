@@ -29,7 +29,7 @@ class Response extends Message implements ResponseInterface
     protected $code = 200;
 
     /**
-     * @var array<int, string>
+     * @var array<integer, string>
      */
     protected $codes = array(
         100 => 'Continue',

@@ -319,9 +319,7 @@ class Uri implements UriInterface
      */
     public static function instance(array $server)
     {
-        $secure = 'off';
-
-        if (isset($server['HTTPS'])) $secure = $server['HTTPS'];
+        $secure = isset($server['HTTPS']) ? 'on' : 'off';
 
         $http = $secure === 'off' ? 'http' : 'https';
 

@@ -115,7 +115,7 @@ class RouterTest extends Testcase
 
         $this->router->restful('new', $class);
 
-        $expected = (integer) 6;
+        $expected = (int) 6;
 
         $actual = $this->router->getRoutes();
 

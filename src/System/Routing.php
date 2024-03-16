@@ -41,9 +41,11 @@ class Routing extends System
      */
     public function run()
     {
-        if (is_null($this->router))
+        if ($this->router === null)
         {
-            parent::run(); return;
+            parent::run();
+
+            return;
         }
 
         // Prepare the HttpIntegration -------------------
@@ -57,18 +59,16 @@ class Routing extends System
 
         $this->config->set('app.http.server', $_SERVER);
 
-        $items = array(new HttpIntegration);
+        $this->integrate(new HttpIntegration);
         // -----------------------------------------------
 
         // Prepare the RoutingIntegration -------------------
-        $items[] = new RoutingIntegration;
-
-        $this->integrate($items);
+        $this->integrate(new RoutingIntegration);
 
         $this->container->set(System::ROUTER, $this->router);
         // --------------------------------------------------
 
-        parent::run(); return;
+        parent::run();
     }
 
     /**
@@ -80,7 +80,10 @@ class Routing extends System
      */
     public function __call($method, $params)
     {
-        if (! $this->router) $this->router = new Router;
+        if (! $this->router)
+        {
+            $this->router = new Router;
+        }
 
         /** @var callable $class */
         $class = array($this->router, $method);

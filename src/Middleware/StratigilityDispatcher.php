@@ -117,7 +117,10 @@ class StratigilityDispatcher extends Dispatcher
      */
     protected function setFactory(ResponseInterface $response)
     {
-        if (! $this->hasFactory()) return;
+        if (! $this->hasFactory())
+        {
+            return;
+        }
 
         /** @var class-string */
         $factory = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory';
