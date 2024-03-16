@@ -2,14 +2,14 @@
 
 // Specify the paths in this variable ---
 $paths = array(__DIR__ . '/src');
-$paths[] = __DIR__ . '/tests';
+$paths[] = realpath(__DIR__ . '/tests');
 // --------------------------------------
 
-// Specify the rules for code formatting ---
+// Specify the rules for code formatting ---------
 $rules = array('@PSR12' => true);
 
 $cscp = 'control_structure_continuation_position';
-$rules[$cscp] = [ 'position' => 'next_line' ];
+$rules[$cscp] = array('position' => 'next_line');
 
 $braces = array();
 $braces['control_structures_opening_brace'] = 'next_line_unless_newline_at_signature_end';
@@ -21,11 +21,12 @@ $braces['allow_single_line_anonymous_functions'] = false;
 
 $rules['braces_position'] = $braces;
 
-$rules['new_with_parentheses'] = [ 'named_class' => false ];
+$rules['new_with_parentheses'] = array('named_class' => false);
 
-$visibility = [ 'elements' => [ 'method', 'property' ] ];
+$visibility = array('elements' => array());
+$visibility['elements'] = array('method', 'property');
 $rules['visibility_required'] = $visibility;
-// -----------------------------------------
+// -----------------------------------------------
 
 $finder = new \PhpCsFixer\Finder;
 
