@@ -16,7 +16,10 @@ class Hello
      */
     public function __invoke($request, $response, $next = null)
     {
-        if (! $next) return $response;
+        if (! $next)
+        {
+            return $response;
+        }
 
         $response = $next($request, $response);
 

@@ -34,7 +34,10 @@ class MiddlewareIntegration implements IntegrationInterface
     {
         $middleware = System::MIDDLEWARE;
 
-        if (! interface_exists($middleware)) return $container;
+        if (! interface_exists($middleware))
+        {
+            return $container;
+        }
 
         /** @var array<int, mixed> */
         $stack = $config->get('app.middlewares', array());

@@ -16,7 +16,9 @@ class Testcase extends Legacy
     {
         if (method_exists($this, 'expectException'))
         {
-            $this->expectException($exception); return;
+            $this->expectException($exception);
+
+            return;
         }
 
         /** @phpstan-ignore-next-line */

@@ -55,7 +55,7 @@ class RouterTestCases extends Testcase
 
         $actual = $this->router->has('GET', '/');
 
-        $this->assertTrue((boolean) $actual);
+        $this->assertTrue((bool) $actual);
     }
 
     /**
@@ -188,7 +188,7 @@ class RouterTestCases extends Testcase
 
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/v1/test/hello');
-        
+
         $hello = false;
 
         if (is_array($handler = $route->getHandler()))

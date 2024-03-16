@@ -51,7 +51,10 @@ class Parameter
             $builtIn = call_user_func(array($type, 'isBuiltin'));
         }
 
-        if ($builtIn) return null;
+        if ($builtIn)
+        {
+            return null;
+        }
 
         /** @var callable */
         $class = array($type, 'getName');

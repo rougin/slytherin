@@ -54,11 +54,17 @@ class System
      */
     public function __construct(ContainerInterface $container = null, Configuration $config = null)
     {
-        if (! $config) $config = new Configuration;
+        if (! $config)
+        {
+            $config = new Configuration;
+        }
 
         $this->config = $config;
 
-        if (! $container) $container = new Container;
+        if (! $container)
+        {
+            $container = new Container;
+        }
 
         $this->container = $container;
     }
@@ -116,9 +122,15 @@ class System
      */
     public function integrate($items, Configuration $config = null)
     {
-        if (! $config) $config = $this->config;
+        if (! $config)
+        {
+            $config = $this->config;
+        }
 
-        if (! is_array($items)) $items = array($items);
+        if (! is_array($items))
+        {
+            $items = array($items);
+        }
 
         $container = $this->container;
 

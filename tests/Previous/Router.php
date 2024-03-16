@@ -10,10 +10,15 @@ $router->addRoute('GET', '/hi/:name', array("$name\Hello", 'hi'));
 
 $router->addRoute('GET', '/', array("$name\Hello", 'index'));
 
-// Add the middlewares to a specified route ---------------------------
+// Add the middlewares to a specified route ---------------
 $items = array('Rougin\Slytherin\Previous\Handlers\Hello');
 
-$router->addRoute('GET', '/hello', function () { return ''; }, $items);
-// --------------------------------------------------------------------
+$fn = function ()
+{
+    return '';
+};
+
+$router->addRoute('GET', '/hello', $fn, $items);
+// --------------------------------------------------------
 
 return $router;

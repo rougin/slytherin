@@ -30,7 +30,7 @@ class Router implements RouterInterface
     /**
      * Initializes the router instance.
      *
-     * @param array<int, array<int, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>> $routes
+     * @param array<int, \Rougin\Slytherin\Routing\RouteInterface|mixed[]> $routes
      */
     public function __construct(array $routes = array())
     {
@@ -40,6 +40,13 @@ class Router implements RouterInterface
 
         foreach ($routes as $route)
         {
+            if ($route instanceof RouteInterface)
+            {
+                array_push($this->routes, $route);
+
+                continue;
+            }
+
             /** @var string */
             $method = $route[0];
 
@@ -52,7 +59,10 @@ class Router implements RouterInterface
             /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string */
             $middlewares = isset($route[3]) ? $route[3] : array();
 
-            if (is_string($middlewares)) $middlewares = array($middlewares);
+            if (is_string($middlewares))
+            {
+                $middlewares = array($middlewares);
+            }
 
             $this->add($method, $uri, $handler, $middlewares);
         }
@@ -151,7 +161,10 @@ class Router implements RouterInterface
 
             $sameUri = $route->getUri() === $uri;
 
-            if (! $sameMethod || ! $sameUri) continue;
+            if (! $sameMethod || ! $sameUri)
+            {
+                continue;
+            }
 
             return $route;
         }
@@ -304,7 +317,10 @@ class Router implements RouterInterface
      */
     public function restful($uri, $class, $middlewares = array())
     {
-        if (is_string($middlewares)) $middlewares = array($middlewares);
+        if (is_string($middlewares))
+        {
+            $middlewares = array($middlewares);
+        }
 
         $this->get('/' . $uri, $class . '@index', $middlewares);
         $this->post('/' . $uri, $class . '@store', $middlewares);

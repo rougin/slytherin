@@ -89,7 +89,10 @@ class ReflectionContainer implements PsrContainer
                 $result[$key] = $parameters[$name];
             }
 
-            if ($argument) $result[$key] = $argument;
+            if ($argument)
+            {
+                $result[$key] = $argument;
+            }
         }
 
         return $result;
@@ -131,9 +134,9 @@ class ReflectionContainer implements PsrContainer
             $param = new Parameter($parameter);
             // --------------------------------------------------
 
-            $argument = null; $name = $param->getName();
+            $argument = null;
 
-            if ($this->has($name))
+            if ($this->has($name = $param->getName()))
             {
                 $argument = $this->get((string) $name);
             }
@@ -157,15 +160,18 @@ class ReflectionContainer implements PsrContainer
 
         foreach ($items as $key => $item)
         {
-            // Backward compatibility for ReflectionParameter -------
-            $param = new Parameter($item); $name = $param->getName();
-            // ------------------------------------------------------
+            // Backward compatibility for ReflectionParameter ---
+            $param = new Parameter($item);
+
+            $name = $param->getName();
+            // --------------------------------------------------
 
             $result[$key] = $this->getArgument($item);
 
-            $exists = array_key_exists($name, $parameters);
-
-            if ($exists) $result[$key] = $parameters[$name];
+            if (array_key_exists($name, $parameters))
+            {
+                $result[$key] = $parameters[$name];
+            }
         }
 
         return $result;

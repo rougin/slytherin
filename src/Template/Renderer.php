@@ -46,10 +46,16 @@ class Renderer implements RendererInterface
 
             $item = $this->check($files, $path, $key, "$name.php");
 
-            if ($item !== null) $file = $item;
+            if ($item !== null)
+            {
+                $file = $item;
+            }
         }
 
-        if (! is_null($file)) return $this->extract($file, $data);
+        if (! is_null($file))
+        {
+            return $this->extract($file, $data);
+        }
 
         $message = 'Template file "' . $name . '" not found.';
 
@@ -82,7 +88,10 @@ class Renderer implements RendererInterface
 
             $lowercase = strtolower($filepath) === $template;
 
-            if ($exists || $lowercase) $file = $value;
+            if ($exists || $lowercase)
+            {
+                $file = $value;
+            }
         }
 
         return $file;

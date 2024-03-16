@@ -40,7 +40,10 @@ class Wrapper implements MiddlewareInterface
     {
         $middleware = $this->middleware;
 
-        if (is_string($middleware)) $middleware = new $middleware;
+        if (is_string($middleware))
+        {
+            $middleware = new $middleware;
+        }
 
         $next = Interop::getHandler($handler);
 

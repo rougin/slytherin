@@ -74,7 +74,10 @@ class Container implements ContainerInterface
 
         $entry = $this->items[(string) $id];
 
-        if (is_object($entry)) return $entry;
+        if (is_object($entry))
+        {
+            return $entry;
+        }
 
         $message = sprintf('Alias (%s) is not an object', $id);
 

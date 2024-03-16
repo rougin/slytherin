@@ -125,7 +125,10 @@ class Collector
     {
         $self = new Collector($components);
 
-        if (! $container) $container = new Container;
+        if (! $container)
+        {
+            $container = new Container;
+        }
 
         return $self->make($container);
     }

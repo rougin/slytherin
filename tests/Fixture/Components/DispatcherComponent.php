@@ -41,7 +41,10 @@ class DispatcherComponent extends AbstractComponent
         $routes[] = array('GET', '/error', array('Rougin\Slytherin\Fixture\Classes\WithResponseInterface', 'error'));
         $routes[] = array('GET', '/middleware', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'), $last);
         $routes[] = array('PUT', '/hello', array('Rougin\Slytherin\Fixture\Classes\WithPutHttpMethod', 'index'));
-        $routes[] = array('GET', '/callback', function () { return 'Hello'; });
+        $routes[] = array('GET', '/callback', function ()
+        {
+            return 'Hello';
+        });
 
         return new Dispatcher(new Router($routes));
     }

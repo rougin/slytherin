@@ -30,7 +30,10 @@ class Dispatcher implements DispatcherInterface
      */
     public function __construct($stack = array())
     {
-        if ($stack) $this->setStack($stack);
+        if ($stack)
+        {
+            $this->setStack($stack);
+        }
     }
 
     /**
@@ -77,7 +80,10 @@ class Dispatcher implements DispatcherInterface
             return $this;
         }
 
-        foreach ($middleware as $item) $this->push($item);
+        foreach ($middleware as $item)
+        {
+            $this->push($item);
+        }
 
         return $this;
     }
