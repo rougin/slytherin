@@ -4,6 +4,8 @@ namespace Rougin\Slytherin\Middleware;
 
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\Interop;
+use Rougin\Slytherin\Middleware\Multiple\Interop05;
+use Rougin\Slytherin\Middleware\Multiple\Slytherin;
 use Rougin\Slytherin\Middleware\Wrapper;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
@@ -177,6 +179,22 @@ class DispatcherTestCases extends Testcase
         $actual = $this->dispatcher->stack();
 
         $this->assertCount(1, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_different_middleware_interfaces()
+    {
+        $expected = array('Rougin Gutib');
+
+        $items = array(new Slytherin, new Interop05);
+
+        $this->dispatcher->push($items);
+
+        $actual = $this->process()->getHeader('name');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**

@@ -36,4 +36,18 @@ class ForwardTest extends Testcase
 
         $this->builder->make()->run();
     }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_route_as_callback()
+    {
+        $this->builder->setUrl('GET', '/hello');
+
+        $this->expectOutputString('Hello world!');
+
+        $this->builder->make()->run();
+    }
 }

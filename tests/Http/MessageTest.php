@@ -88,10 +88,6 @@ class MessageTest extends Testcase
      */
     public function test_adding_a_header()
     {
-        $message = $this->message->withAddedHeader('age', '18');
-
-        $this->assertTrue($message->hasHeader('age'));
-
         $expected = array('Rougin', 'Royce', 'Gutib');
 
         $message = $this->message->withAddedHeader('names', $expected);
@@ -99,6 +95,16 @@ class MessageTest extends Testcase
         $actual = $message->getHeader('names');
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_checking_a_header()
+    {
+        $message = $this->message->withAddedHeader('age', '18');
+
+        $this->assertTrue($message->hasHeader('age'));
     }
 
     /**

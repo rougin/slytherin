@@ -19,6 +19,11 @@ class Builder
 
         $app->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
 
+        $app->get('/hello', function ()
+        {
+            return 'Hello world!';
+        });
+
         return $app;
     }
 
