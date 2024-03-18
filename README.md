@@ -12,7 +12,7 @@ Slytherin is a simple and extensible PHP micro-framework that tries to achieve a
 
 In the current state of PHP ecosystem, the mostly used PHP frameworks are [Symfony](http://symfony.com) and [Laravel](https://laravel.com) which provide great tools for every PHP software engineer. While the said PHP frameworks provide a kitchen-sink solution for every need (e.g., content management system (CMS), CRUD, etc.), they are often overkill, overwhelming at first, or sometimes uses a strict directory structure.
 
-With this, Slytherin tries an alternative approach to only require the basic tools (e.g., HTTP and Routing) and let the application evolve from a simple API tool to a full-featured web application. With no defined directory structure, Slytherin can be used to mix and match any structure based on the application's requirements and to tap more of the open-source packages in the PHP ecosystem.
+With this, Slytherin tries an alternative approach to only require the basic tools like [HTTP][link-wiki-http] and [Routing][link-wiki-routing] and let the application evolve from a simple API tool to a full-featured web application. With no defined directory structure, Slytherin can be used to mix and match any structure based on the application's requirements and to encourage the use of open-source packages in the PHP ecosystem.
 
 ## Basic Example
 
@@ -45,11 +45,11 @@ echo $app->run();
 // ----------------------------------
 ```
 
-Kindly check the [Basic Example][link-example] page in the wiki for more information in the provided sample code above.
+Kindly check the [Basic Example][link-wiki-example] page in the wiki for more information in the provided sample code above.
 
 ## Upgrade Guide
 
-As Slytherin is evolving as a micro-framework, there might be some breaking changes in its internal code. The said changes can be found in the [Upgrade Guide][link-upgrade] page.
+As Slytherin is evolving as a micro-framework, there might be some breaking changes in its internal code. The said changes can be found in the [Upgrade Guide][link-wiki-upgrade] page.
 
 ## Changelog
 
@@ -66,7 +66,7 @@ $ composer test
 
 ## Credits
 
-Slytherin is inspired by the following packages below and their respective implementations. Their contributions improved [my understanding][link-home] of writing frameworks and creating application logic from scratch:
+Slytherin is inspired by the following packages below and their respective implementations. Their contributions improved [my understanding][link-homepage] of writing frameworks and creating application logic from scratch:
 
 * [Awesome PHP!](https://github.com/ziadoz/awesome-php) by [Jamie York](https://github.com/ziadoz)
 * [Codeigniter](https://codeigniter.com) by [EllisLab](https://ellislab.com)/[British Columbia Institute of Technology](http://www.bcit.ca)
@@ -93,8 +93,10 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 [link-contributors]: https://github.com/rougin/slytherin/contributors
 [link-coverage]: https://app.codecov.io/gh/rougin/slytherin
 [link-downloads]: https://packagist.org/packages/rougin/slytherin
-[link-example]: https://github.com/rougin/slytherin/wiki/Basic-Example
-[link-home]: https://roug.in
+[link-homepage]: https://roug.in
 [link-license]: https://github.com/rougin/slytherin/blob/master/LICENSE.md
 [link-packagist]: https://packagist.org/packages/rougin/slytherin
-[link-upgrade]: https://github.com/rougin/slytherin/wiki/Upgrade-Guide
+[link-wiki-example]: https://github.com/rougin/slytherin/wiki/Basic-Example
+[link-wiki-http]: https://github.com/rougin/slytherin/wiki/Http
+[link-wiki-routing]: https://github.com/rougin/slytherin/wiki/Routing
+[link-wiki-upgrade]: https://github.com/rougin/slytherin/wiki/Upgrade-Guide

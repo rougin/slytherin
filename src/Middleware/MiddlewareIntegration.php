@@ -39,6 +39,7 @@ class MiddlewareIntegration implements IntegrationInterface
 
         $empty = $this->preferred === null;
 
+        // Use "zend-stratigility" if installed and preferred ------
         $hasZend = class_exists('Zend\Stratigility\MiddlewarePipe');
 
         $wantZend = $this->preferred === 'stratigility';
@@ -49,6 +50,7 @@ class MiddlewareIntegration implements IntegrationInterface
 
             $dispatch = new StratigilityDispatcher($pipe);
         }
+        // ---------------------------------------------------------
 
         return $container->set(System::MIDDLEWARE, $dispatch);
     }

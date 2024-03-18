@@ -41,7 +41,7 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Dispatch the next available middleware and return the response.
+     * Dispatches the next available middleware and return the response.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface
@@ -52,7 +52,7 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Dispatch the next available middleware and return the response.
+     * Dispatches the next available middleware and return the response.
      *
      * @param  \Psr\Http\Message\ServerRequestInterface $request
      * @return \Psr\Http\Message\ResponseInterface

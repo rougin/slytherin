@@ -20,7 +20,7 @@ interface DispatcherInterface extends MiddlewareInterface
     public function getStack();
 
     /**
-     * Add a new middleware to the end of the stack.
+     * Adds a new middleware to the end of the stack.
      *
      * @param  mixed $middleware
      * @return self

@@ -60,12 +60,14 @@ class Callback implements MiddlewareInterface
             return $middleware($request, $handler);
         }
 
+        // Process the double pass middlewares ---
         $response = $this->response;
 
         $fn = function ($request) use ($handler)
         {
             return $handler->handle($request);
         };
+        // ---------------------------------------
 
         return $middleware($request, $response, $fn);
     }
