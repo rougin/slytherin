@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Dispatching\Vanilla;
 use Rougin\Slytherin\Routing\Vanilla\Router as Slytherin;
 
 /**
- * Dispatcher
+ * @deprecated since ~0.9, use "Routing\Vanilla\Router" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\Vanilla\Router" instead.
+ * Dispatcher
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

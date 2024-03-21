@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 use Rougin\Slytherin\Middleware\Middleware as Slytherin;
 
 /**
- * Middleware
+ * @deprecated since ~0.9, use "Middleware" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Middleware" instead.
+ * Middleware
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

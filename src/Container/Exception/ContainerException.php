@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Container\Exception;
 use Rougin\Slytherin\Container\ContainerException as Slytherin;
 
 /**
- * Container Exception
+ * @deprecated since ~0.9, use "Container\ContainerException" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container\ContainerException" instead.
+ * Container Exception
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

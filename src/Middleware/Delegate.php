@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
- * Delegate
+ * @deprecated since ~0.9, use "Handler" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Handler" instead.
+ * Delegate
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

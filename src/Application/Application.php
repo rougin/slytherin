@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Application;
 use Rougin\Slytherin\Application as Slytherin;
 
 /**
- * Application
+ * @deprecated since ~0.9, use "\Application" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "\Application" instead.
+ * Application
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

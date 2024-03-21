@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Debug\Vanilla;
 use Rougin\Slytherin\Debug\VanillaErrorHandler;
 
 /**
- * Debugger
+ * @deprecated since ~0.9, use "VanillaErrorHandler" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "VanillaErrorHandler" instead.
+ * Debugger
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

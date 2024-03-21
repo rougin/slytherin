@@ -26,8 +26,9 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, already not part of the "ErrorHandlerInterface".
+     *
      * Sets up the environment to be used.
-     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @param  string $environment
      * @return self
@@ -40,8 +41,9 @@ class ErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, already not part of the "ErrorHandlerInterface".
+     *
      * Returns the specified environment.
-     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @return string
      */

@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Dispatching\FastRoute;
 use Rougin\Slytherin\Routing\FastRoute\Router as Slytherin;
 
 /**
- * FastRoute Router
+ * @deprecated since ~0.9, use "Routing\FastRoute\Router" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\FastRoute\Router" instead.
+ * FastRoute Router
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

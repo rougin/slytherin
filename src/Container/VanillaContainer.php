@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Container;
 
 /**
- * Container
+ * @deprecated since ~0.9, use "Container" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container" instead.
+ * Container
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

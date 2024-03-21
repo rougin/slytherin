@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
- * Middleware
+ * @deprecated since ~0.9, use "Dispatcher" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Dispatcher" instead.
+ * Middleware
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

@@ -8,8 +8,6 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 use Rougin\Slytherin\Testcase;
 
 /**
- * NOTE: To be removed in v1.0.0.
- *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */

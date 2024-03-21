@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Debug;
 
 /**
- * Error Handler
+ * @deprecated since ~0.9, use "ErrorHandler" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "ErrorHandler" instead.
+ * Error Handler
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

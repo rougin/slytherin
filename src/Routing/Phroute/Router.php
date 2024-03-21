@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Routing\Phroute;
 use Rougin\Slytherin\Routing\PhrouteRouter;
 
 /**
- * Phroute Router
+ * @deprecated since ~0.9, use "Routing\PhrouteRouter" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\PhrouteRouter" instead.
+ * Phroute Router
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

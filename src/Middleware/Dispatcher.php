@@ -109,8 +109,9 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "getStack" instead.
+     *
      * Returns the list of added middlewares.
-     * NOTE: To be removed in v1.0.0. Use "getStack" instead.
      *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */

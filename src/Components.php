@@ -2,14 +2,16 @@
 
 namespace Rougin\Slytherin;
 
+use Rougin\Slytherin\Component\Collection;
+
 /**
- * Component Collection
+ * @deprecated since ~0.4, use "Component\Collection" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "ComponentCollection" instead.
+ * Component Collection
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class Components extends ComponentCollection
+class Components extends Collection
 {
 }

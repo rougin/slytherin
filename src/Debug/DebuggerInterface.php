@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Debug;
 
 /**
- * Debugger Interface
+ * @deprecated since ~0.9, use "ErrorHandlerInterface" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "ErrorHandlerInterface" instead.
+ * Debugger Interface
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

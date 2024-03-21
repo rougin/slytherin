@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\IoC;
 use Rougin\Slytherin\Container\ContainerInterface as Slytherin;
 
 /**
- * Dependency Injection Container Interface
+ * @deprecated since ~0.9, use "Container\ContainerInterface" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container\ContainerInterface" instead.
+ * Dependency Injection Container Interface
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

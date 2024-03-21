@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Dispatching;
 use Rougin\Slytherin\Routing\DispatcherInterface as Slytherin;
 
 /**
- * Dispatcher Interface
+ * @deprecated since ~0.9, use "Routing\DispatcherInterface" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\DispatcherInterface" instead.
+ * Dispatcher Interface
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

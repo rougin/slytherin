@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\IoC\League;
 use Rougin\Slytherin\Container\LeagueContainer;
 
 /**
- * LeagueContainer
+ * @deprecated since ~0.9, use "Container\LeagueContainer" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container\LeagueContainer" instead.
+ * LeagueContainer
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Middleware\Stratigility;
 use Rougin\Slytherin\Middleware\StratigilityDispatcher;
 
 /**
- * Stratigility Middleware
+ * @deprecated since ~0.9, use "Middleware\StratigilityDispatcher" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Middleware\StratigilityDispatcher" instead.
+ * Stratigility Middleware
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
