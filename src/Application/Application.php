@@ -10,7 +10,8 @@ use Rougin\Slytherin\Application as Slytherin;
  * Application
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Application extends Slytherin
 {

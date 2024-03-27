@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Routing;
  * An interface for handling the HTTP routes.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface RouteInterface
 {
@@ -59,7 +60,8 @@ interface RouteInterface
     /**
      * Sets the parameters to the route.
      *
-     * @param  string[] $params
+     * @param string[] $params
+     *
      * @return self
      */
     public function setParams($params);

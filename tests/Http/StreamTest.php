@@ -6,7 +6,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class StreamTest extends Testcase
 {
@@ -238,7 +239,8 @@ class StreamTest extends Testcase
     }
 
     /**
-     * @param  string $mode
+     * @param string $mode
+     *
      * @return resource
      */
     protected function newFile($mode = 'w')

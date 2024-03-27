@@ -13,7 +13,8 @@ use Rougin\Slytherin\System;
  * An integration for Slytherin's Routing packages.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class RoutingIntegration implements IntegrationInterface
 {
@@ -25,8 +26,9 @@ class RoutingIntegration implements IntegrationInterface
     /**
      * Defines the specified integration.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  \Rougin\Slytherin\Integration\Configuration    $config
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\Integration\Configuration    $config
+     *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
@@ -53,7 +55,8 @@ class RoutingIntegration implements IntegrationInterface
     /**
      * Checks the preferred package to be used.
      *
-     * @param  string $type
+     * @param string $type
+     *
      * @return boolean
      */
     protected function wants($type)

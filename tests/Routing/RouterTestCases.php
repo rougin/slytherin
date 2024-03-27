@@ -6,7 +6,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class RouterTestCases extends Testcase
 {
@@ -16,7 +17,7 @@ class RouterTestCases extends Testcase
     protected $router;
 
     /**
-     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string>>
+     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string|string[]>>
      */
     protected $routes = array(array('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
 
@@ -263,7 +264,8 @@ class RouterTestCases extends Testcase
     /**
      * Verifies the specified router if it exists.
      *
-     * @param  string $router
+     * @param string $router
+     *
      * @return void
      */
     protected function exists($router)

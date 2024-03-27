@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Routing;
  * A simple class for handling routes.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Route implements RouteInterface
 {
@@ -40,7 +41,7 @@ class Route implements RouteInterface
     /**
      * @param string                   $method
      * @param string                   $uri
-     * @param callable|string[]|string $handler
+     * @param callable|string|string[] $handler
      * @param callable|mixed[]|string  $middlewares
      */
     public function __construct($method, $uri, $handler, $middlewares = array())
@@ -145,7 +146,8 @@ class Route implements RouteInterface
     /**
      * Sets the parameters to the route.
      *
-     * @param  array<string, string> $params
+     * @param array<string, string> $params
+     *
      * @return self
      */
     public function setParams($params)
@@ -158,8 +160,9 @@ class Route implements RouteInterface
     /**
      * Capture the specified regular expressions.
      *
-     * @param  string $pattern
-     * @param  string $search
+     * @param string $pattern
+     * @param string $search
+     *
      * @return string
      */
     protected function capture($pattern, $search)

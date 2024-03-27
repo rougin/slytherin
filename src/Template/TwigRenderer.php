@@ -9,7 +9,8 @@ namespace Rougin\Slytherin\Template;
  * Sensiolab's Twig - a flexible, fast, and secure template engine for PHP.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://twig.sensiolabs.org
  */
@@ -35,8 +36,9 @@ class TwigRenderer implements RendererInterface
     }
 
     /**
-     * @param  string $name
-     * @param  mixed  $value
+     * @param string $name
+     * @param mixed  $value
+     *
      * @return self
      */
     public function addGlobal($name, $value)
@@ -49,9 +51,10 @@ class TwigRenderer implements RendererInterface
     /**
      * Renders a template.
      *
-     * @param  string               $template
-     * @param  array<string, mixed> $data
-     * @param  string               $extension
+     * @param string               $template
+     * @param array<string, mixed> $data
+     * @param string               $extension
+     *
      * @return string
      */
     public function render($template, array $data = array(), $extension = 'html')

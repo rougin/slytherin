@@ -10,7 +10,8 @@ use Rougin\Slytherin\Container\ContainerException as Slytherin;
  * Container Exception
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerException extends Slytherin
 {

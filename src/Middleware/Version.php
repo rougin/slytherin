@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Middleware;
  * A simple class for getting the current installed version of "http-interop".
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Version
 {
@@ -24,6 +25,7 @@ class Version
      * Returns the current version installed.
      *
      * @return string|null
+     *
      * @codeCoverageIgnore
      */
     public static function get()

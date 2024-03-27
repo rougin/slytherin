@@ -8,7 +8,8 @@ namespace Rougin\Slytherin;
  * Component Collection
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ComponentCollection extends Components
 {

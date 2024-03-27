@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Routing;
  * A simple implementation of a router that is based on RouterInterface.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Router implements RouterInterface
 {
@@ -55,10 +56,10 @@ class Router implements RouterInterface
             /** @var string */
             $uri = $route[1];
 
-            /** @var callable|string[]|string */
+            /** @var callable|string|string[] */
             $handler = $route[2];
 
-            /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[]|string */
+            /** @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string|string[] */
             $middlewares = isset($route[3]) ? $route[3] : array();
 
             if (is_string($middlewares))
@@ -73,10 +74,11 @@ class Router implements RouterInterface
     /**
      * Adds a new raw route.
      *
-     * @param  string                   $method
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $method
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array())
@@ -113,10 +115,11 @@ class Router implements RouterInterface
      *
      * Adds a new raw route.
      *
-     * @param  string                   $method
-     * @param  string                   $route
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $method
+     * @param string                   $route
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function addRoute($method, $route, $handler, $middlewares = array())
@@ -129,7 +132,8 @@ class Router implements RouterInterface
      *
      * Merges a listing of parsed routes to current one.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @param \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     *
      * @return self
      */
     public function addRoutes(array $routes)
@@ -140,9 +144,10 @@ class Router implements RouterInterface
     /**
      * Adds a DELETE route.
      *
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function delete($uri, $handler, $middlewares = array())
@@ -153,8 +158,9 @@ class Router implements RouterInterface
     /**
      * Finds a specific route based on the specified HTTP method and URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     public function find($method, $uri)
@@ -179,9 +185,10 @@ class Router implements RouterInterface
     /**
      * Adds a GET route.
      *
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function get($uri, $handler, $middlewares = array())
@@ -194,8 +201,9 @@ class Router implements RouterInterface
      *
      * Returns a specific route based on the specified HTTP method and URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     public function getRoute($method, $uri)
@@ -218,8 +226,9 @@ class Router implements RouterInterface
     /**
      * Checks if the specified route is available in the router.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return boolean
      */
     public function has($method, $uri)
@@ -230,7 +239,8 @@ class Router implements RouterInterface
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @param \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     *
      * @return self
      */
     public function merge(array $routes)
@@ -243,7 +253,8 @@ class Router implements RouterInterface
     /**
      * Returns a listing of parsed routes.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @param \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     *
      * @return mixed|null
      */
     public function parsed(array $routes = array())
@@ -254,9 +265,10 @@ class Router implements RouterInterface
     /**
      * Adds a PATCH route.
      *
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function patch($uri, $handler, $middlewares = array())
@@ -267,9 +279,10 @@ class Router implements RouterInterface
     /**
      * Adds a POST route.
      *
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function post($uri, $handler, $middlewares = array())
@@ -280,8 +293,9 @@ class Router implements RouterInterface
     /**
      * Sets a prefix for the succeeding route endpoints.
      *
-     * @param  string      $prefix
-     * @param  string|null $namespace
+     * @param string      $prefix
+     * @param string|null $namespace
+     *
      * @return self
      */
     public function prefix($prefix = '', $namespace = null)
@@ -303,9 +317,10 @@ class Router implements RouterInterface
     /**
      * Adds a PUT route.
      *
-     * @param  string                   $uri
-     * @param  callable|string[]|string $handler
-     * @param  callable|mixed[]|string  $middlewares
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function put($uri, $handler, $middlewares = array())
@@ -316,9 +331,10 @@ class Router implements RouterInterface
     /**
      * Adds a listing of routes specified for RESTful approach.
      *
-     * @param  string         $uri
-     * @param  string         $class
-     * @param  mixed[]|string $middlewares
+     * @param string         $uri
+     * @param string         $class
+     * @param mixed[]|string $middlewares
+     *
      * @return self
      */
     public function restful($uri, $class, $middlewares = array())
@@ -339,8 +355,9 @@ class Router implements RouterInterface
      *
      * Finds a specific route based on the specified HTTP method and URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     public function retrieve($method, $uri)
@@ -363,8 +380,9 @@ class Router implements RouterInterface
      *
      * Sets a prefix for the succeeding route endpoints.
      *
-     * @param  string $prefix
-     * @param  string $namespace
+     * @param string $prefix
+     * @param string $namespace
+     *
      * @return self
      */
     public function setPrefix($prefix = '', $namespace = '')

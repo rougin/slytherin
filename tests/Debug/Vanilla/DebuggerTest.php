@@ -2,13 +2,13 @@
 
 namespace Rougin\Slytherin\Debug\Vanilla;
 
-use Rougin\Slytherin\Debug\Vanilla\Debugger;
 use Rougin\Slytherin\System;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class DebuggerTest extends Testcase
 {

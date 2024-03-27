@@ -10,7 +10,8 @@ use Psr\Container\ContainerExceptionInterface;
  * A specified exception in handling errors in containers.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerException extends \Exception implements ContainerExceptionInterface
 {

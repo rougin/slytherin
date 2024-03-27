@@ -11,7 +11,8 @@ use Whoops\Run;
  * A simple implementation of an error handler built on top of Whoops.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://filp.github.io/whoops
  */
@@ -43,7 +44,8 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      *
      * Sets up the environment to be used.
      *
-     * @param  string $environment
+     * @param string $environment
+     *
      * @return self
      */
     public function setEnvironment($environment)
@@ -98,7 +100,8 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      *
      * Sets a handler.
      *
-     * @param  \Whoops\Handler\HandlerInterface|callable $handler
+     * @param \Whoops\Handler\HandlerInterface|callable $handler
+     *
      * @return void
      */
     public function setHandler($handler)
@@ -109,8 +112,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     /**
      * Calls methods from the \Whoops\Run instance.
      *
-     * @param  string  $method
-     * @param  mixed[] $params
+     * @param string  $method
+     * @param mixed[] $params
+     *
      * @return mixed
      */
     public function __call($method, $params)

@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Template;
  * Twig Renderer
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Twig extends Twig\Renderer
 {

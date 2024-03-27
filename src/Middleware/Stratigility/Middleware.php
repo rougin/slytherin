@@ -10,7 +10,8 @@ use Rougin\Slytherin\Middleware\StratigilityDispatcher;
  * Stratigility Middleware
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Middleware extends StratigilityDispatcher
 {

@@ -18,8 +18,9 @@ use Psr\Http\Message\MessageInterface;
  * Message
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Message implements MessageInterface
 {
@@ -76,7 +77,8 @@ class Message implements MessageInterface
     /**
      * Retrieves a message header value by the given case-insensitive name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string[]
      */
     public function getHeader($name)
@@ -87,7 +89,8 @@ class Message implements MessageInterface
     /**
      * Retrieves a comma-separated string of the values for a single header.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     public function getHeaderLine($name)
@@ -118,7 +121,8 @@ class Message implements MessageInterface
     /**
      * Retrieves a message header value by the given case-insensitive name.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return boolean
      */
     public function hasHeader($name)
@@ -129,8 +133,9 @@ class Message implements MessageInterface
     /**
      * Returns an instance with the specified header appended with the given value.
      *
-     * @param  string          $name
-     * @param  string|string[] $value
+     * @param string          $name
+     * @param string|string[] $value
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -160,7 +165,8 @@ class Message implements MessageInterface
     /**
      * Returns an instance with the specified message body.
      *
-     * @param  \Psr\Http\Message\StreamInterface $body
+     * @param \Psr\Http\Message\StreamInterface $body
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -177,8 +183,9 @@ class Message implements MessageInterface
     /**
      * Returns an instance with the provided value replacing the specified header.
      *
-     * @param  string          $name
-     * @param  string|string[] $value
+     * @param string          $name
+     * @param string|string[] $value
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -197,7 +204,8 @@ class Message implements MessageInterface
     /**
      * Returns an instance with the specified HTTP protocol version.
      *
-     * @param  string $version
+     * @param string $version
+     *
      * @return static
      */
     public function withProtocolVersion($version)
@@ -212,7 +220,8 @@ class Message implements MessageInterface
     /**
      * Returns an instance without the specified header.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return static
      */
     public function withoutHeader($name)

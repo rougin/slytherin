@@ -17,8 +17,9 @@ use Psr\Http\Message\UploadedFileInterface;
  * Uploaded File
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class UploadedFile implements UploadedFileInterface
 {
@@ -130,7 +131,8 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Move the uploaded file to a new location.
      *
-     * @param  string $target
+     * @param string $target
+     *
      * @return void
      *
      * @throws \InvalidArgumentException
@@ -147,7 +149,8 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Parses the $_FILES into multiple \File instances.
      *
-     * @param  array<string, array<string, string|string[]>> $uploaded
+     * @param array<string, array<string, string|string[]>> $uploaded
+     *
      * @return array<string, \Psr\Http\Message\UploadedFileInterface[]>
      */
     public static function normalize(array $uploaded)
@@ -175,8 +178,9 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Creates a new UploadedFile instance.
      *
-     * @param  array<string, array<integer, string|integer>> $file
-     * @param  integer                                   $key
+     * @param array<string, array<integer, integer|string>> $file
+     * @param integer                                       $key
+     *
      * @return \Psr\Http\Message\UploadedFileInterface
      */
     protected static function create(array $file, $key)
@@ -202,7 +206,8 @@ class UploadedFile implements UploadedFileInterface
     /**
      * Diverse the $_FILES into a consistent result.
      *
-     * @param  array<string, array<string, string|string[]>> $uploaded
+     * @param array<string, array<string, string|string[]>> $uploaded
+     *
      * @return array<string, array<string, string[]>>
      */
     protected static function diverse(array $uploaded)

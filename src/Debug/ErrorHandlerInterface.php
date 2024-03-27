@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Debug;
  * An interface for handling third-party error handlers.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface ErrorHandlerInterface
 {

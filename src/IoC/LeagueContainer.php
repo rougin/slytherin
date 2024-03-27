@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\IoC;
  * League Container
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class LeagueContainer extends League\Container
 {

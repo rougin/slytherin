@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Template;
  * A backward compatibility class for the Twig package.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class TwigLoader
 {
@@ -25,7 +26,8 @@ class TwigLoader
     /**
      * Loads the Twig instance.
      *
-     * @param  string|string[] $path
+     * @param string|string[] $path
+     *
      * @return \Twig\Environment
      */
     public function load($path)

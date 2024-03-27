@@ -18,8 +18,9 @@ use Psr\Http\Message\StreamInterface;
  * Response
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Response extends Message implements ResponseInterface
 {
@@ -140,8 +141,9 @@ class Response extends Message implements ResponseInterface
     /**
      * Returns an instance with the specified status code and, optionally, reason phrase.
      *
-     * @param  integer $code
-     * @param  string  $reason
+     * @param integer $code
+     * @param string  $reason
+     *
      * @return static
      *
      * @throws \InvalidArgumentException

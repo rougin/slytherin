@@ -8,7 +8,8 @@ use Psr\Http\Message\ResponseInterface;
  * With Response Interface
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class WithResponseInterface
 {
@@ -62,8 +63,9 @@ class WithResponseInterface
     /**
      * Returns a type hinted response.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $response
-     * @param  integer                             $code
+     * @param \Psr\Http\Message\ResponseInterface $response
+     * @param integer                             $code
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function typehint(ResponseInterface $response, $code)

@@ -18,7 +18,8 @@ use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Builder
 {
@@ -33,8 +34,9 @@ class Builder
     }
 
     /**
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Application
      */
     public function make($method = null, $uri = null)
@@ -99,8 +101,9 @@ class Builder
     }
 
     /**
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return self
      */
     protected function setHttp($method = null, $uri = null)

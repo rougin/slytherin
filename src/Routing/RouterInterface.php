@@ -8,17 +8,19 @@ namespace Rougin\Slytherin\Routing;
  * An interface for handling third-party routers.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface RouterInterface
 {
     /**
      * Adds a new raw route.
      *
-     * @param  string                                                      $method
-     * @param  string                                                      $uri
-     * @param  callable|string[]|string                                    $handler
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface[]|string[] $middlewares
+     * @param string                   $method
+     * @param string                   $uri
+     * @param callable|string|string[] $handler
+     * @param callable|mixed[]|string  $middlewares
+     *
      * @return self
      */
     public function add($method, $uri, $handler, $middlewares = array());
@@ -26,7 +28,8 @@ interface RouterInterface
     /**
      * Merges a listing of parsed routes to current one.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @param \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     *
      * @return self
      */
     public function merge(array $routes);
@@ -34,7 +37,8 @@ interface RouterInterface
     /**
      * Returns a listing of parsed routes.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     * @param \Rougin\Slytherin\Routing\RouteInterface[] $routes
+     *
      * @return mixed|null
      */
     public function parsed(array $routes = array());

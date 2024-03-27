@@ -2,14 +2,14 @@
 
 namespace Rougin\Slytherin\Debug\Whoops;
 
-use Rougin\Slytherin\Debug\Whoops\Debugger;
 use Rougin\Slytherin\System;
 use Rougin\Slytherin\Testcase;
 use Whoops\Handler\PrettyPageHandler;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class DebuggerTest extends Testcase
 {

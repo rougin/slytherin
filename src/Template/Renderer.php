@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Template;
  * A simple implementation of a template renderer.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Renderer implements RendererInterface
 {
@@ -30,8 +31,9 @@ class Renderer implements RendererInterface
     /**
      * Renders a file from a specified template.
      *
-     * @param  string               $template
-     * @param  array<string, mixed> $data
+     * @param string               $template
+     * @param array<string, mixed> $data
+     *
      * @return string
      *
      * @throws \InvalidArgumentException
@@ -65,10 +67,11 @@ class Renderer implements RendererInterface
     /**
      * Checks if the specified file exists.
      *
-     * @param  array<string, string> $files
-     * @param  string                $path
-     * @param  string                $source
-     * @param  string                $template
+     * @param array<string, string> $files
+     * @param string                $path
+     * @param string                $source
+     * @param string                $template
+     *
      * @return string|null
      */
     protected function check(array $files, $path, $source, $template)
@@ -100,8 +103,9 @@ class Renderer implements RendererInterface
     /**
      * Extracts the contents of the specified file.
      *
-     * @param  string               $filepath
-     * @param  array<string, mixed> $data
+     * @param string               $filepath
+     * @param array<string, mixed> $data
+     *
      * @return string
      */
     protected function extract($filepath, array $data)
@@ -122,7 +126,8 @@ class Renderer implements RendererInterface
     /**
      * Returns an array of filepaths from a specified directory.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return string[]
      */
     protected function files($path)

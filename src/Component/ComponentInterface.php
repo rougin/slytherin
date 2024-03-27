@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Component;
  * An interface for handling components.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface ComponentInterface
 {

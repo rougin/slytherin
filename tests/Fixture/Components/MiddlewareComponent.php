@@ -9,7 +9,8 @@ use Rougin\Slytherin\Middleware\Middleware;
  * Middleware Component
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareComponent extends AbstractComponent
 {

@@ -10,7 +10,8 @@ use Rougin\Slytherin\Debug\Whoops\Debugger as Slytherin;
  * Whoops Debugger
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class WhoopsDebugger extends Slytherin
 {

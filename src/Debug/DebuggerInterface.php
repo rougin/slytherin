@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Debug;
  * Debugger Interface
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface DebuggerInterface extends ErrorHandlerInterface
 {

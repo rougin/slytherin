@@ -7,7 +7,8 @@ use Rougin\Slytherin\Sample\Depots\SestDepot;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Home extends Route
 {
@@ -33,7 +34,8 @@ class Home extends Route
     }
 
     /**
-     * @param  \Rougin\Slytherin\Sample\Depots\EsteDepot $este
+     * @param \Rougin\Slytherin\Sample\Depots\EsteDepot $este
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function param(EsteDepot $este)

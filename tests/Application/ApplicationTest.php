@@ -12,7 +12,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ApplicationTest extends Testcase
 {
@@ -184,9 +185,10 @@ class ApplicationTest extends Testcase
     /**
      * Changes the HTTP method and the uri of the request.
      *
-     * @param  string                $method
-     * @param  string                $uri
-     * @param  array<string, string> $data
+     * @param string                $method
+     * @param string                $uri
+     * @param array<string, string> $data
+     *
      * @return \Rougin\Slytherin\Application
      */
     private function setUrl($method, $uri, $data = array())

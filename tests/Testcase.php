@@ -6,7 +6,9 @@ use LegacyPHPUnit\TestCase as Legacy;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
+ *
  * @codeCoverageIgnore
  */
 class Testcase extends Legacy

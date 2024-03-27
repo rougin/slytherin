@@ -16,7 +16,8 @@ use Rougin\Slytherin\System;
  * Builds the final callback after handling from application.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Handler implements HandlerInterface
 {
@@ -46,7 +47,8 @@ class Handler implements HandlerInterface
     /**
      * Returns a callback for handling the application.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)
@@ -92,7 +94,8 @@ class Handler implements HandlerInterface
     /**
      * Parses the reflection parameters against the result parameters.
      *
-     * @param  \ReflectionFunctionAbstract $reflector
+     * @param \ReflectionFunctionAbstract $reflector
+     *
      * @return array<integer, mixed>
      */
     protected function setParams(\ReflectionFunctionAbstract $reflector)
@@ -125,7 +128,8 @@ class Handler implements HandlerInterface
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
-     * @param  \Psr\Http\Message\ResponseInterface|mixed $function
+     * @param \Psr\Http\Message\ResponseInterface|mixed $function
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function setResponse($function)

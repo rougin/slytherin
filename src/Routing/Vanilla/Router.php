@@ -10,7 +10,8 @@ use Rougin\Slytherin\Routing\Router as Slytherin;
  * Router
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Router extends Slytherin
 {

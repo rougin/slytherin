@@ -3,16 +3,15 @@
 namespace Rougin\Slytherin\Middleware;
 
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Middleware\Multiple\Interop05;
 use Rougin\Slytherin\Middleware\Multiple\Slytherin;
-use Rougin\Slytherin\Middleware\Wrapper;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTestCases extends Testcase
 {

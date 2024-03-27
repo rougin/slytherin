@@ -11,7 +11,9 @@ use Psr\Http\Message\ServerRequestInterface;
  * A backward compatible handler to double-pass middlewares.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
+ *
  * @codeCoverageIgnore
  */
 class Doublepass implements HandlerInterface
@@ -38,7 +40,8 @@ class Doublepass implements HandlerInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
@@ -47,7 +50,8 @@ class Doublepass implements HandlerInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)

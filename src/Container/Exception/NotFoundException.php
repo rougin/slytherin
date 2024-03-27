@@ -10,7 +10,8 @@ use Rougin\Slytherin\Container\NotFoundException as Slytherin;
  * Not Found Exception
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class NotFoundException extends Slytherin
 {

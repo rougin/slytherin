@@ -19,8 +19,9 @@ use Psr\Http\Message\UriInterface;
  * Server Request
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ServerRequest extends Request implements ServerRequestInterface
 {
@@ -35,7 +36,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     protected $cookies = array();
 
     /**
-     * @var array<string, mixed>|null|object
+     * @var array<string, mixed>|object|null
      */
     protected $data;
 
@@ -61,7 +62,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array<string, string>                         $cookies
      * @param array<string, string>                         $query
      * @param array<string, array<string, string|string[]>> $uploaded
-     * @param array<string, mixed>|null|object              $data
+     * @param array<string, mixed>|object|null              $data
      * @param array<string, string>                         $attributes
      * @param \Psr\Http\Message\UriInterface|null           $uri
      * @param \Psr\Http\Message\StreamInterface|null        $body
@@ -101,8 +102,9 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieves a single derived request attribute.
      *
-     * @param  string $name
-     * @param  mixed  $default
+     * @param string $name
+     * @param mixed  $default
+     *
      * @return mixed
      */
     public function getAttribute($name, $default = null)
@@ -133,7 +135,7 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Retrieve any parameters provided in the request body.
      *
-     * @return array<string, mixed>|null|object
+     * @return array<string, mixed>|object|null
      */
     public function getParsedBody()
     {
@@ -173,8 +175,9 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified derived request attribute.
      *
-     * @param  string $name
-     * @param  string $value
+     * @param string $name
+     * @param string $value
+     *
      * @return static
      */
     public function withAttribute($name, $value)
@@ -189,7 +192,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified cookies.
      *
-     * @param  array<string, string> $cookies
+     * @param array<string, string> $cookies
+     *
      * @return static
      */
     public function withCookieParams(array $cookies)
@@ -204,7 +208,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified body parameters.
      *
-     * @param  array<string, mixed>|null|object $data
+     * @param array<string, mixed>|object|null $data
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -223,7 +228,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance with the specified query string arguments.
      *
-     * @param  array<string, string> $query
+     * @param array<string, string> $query
+     *
      * @return static
      */
     public function withQueryParams(array $query)
@@ -238,7 +244,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Create a new instance with the specified uploaded files.
      *
-     * @param  array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
+     * @param array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -257,7 +264,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     /**
      * Returns an instance that removes the specified derived request attribute.
      *
-     * @param  string $name
+     * @param string $name
+     *
      * @return static
      */
     public function withoutAttribute($name)

@@ -17,8 +17,9 @@ use Psr\Http\Message\UriInterface;
  * URI
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Uri implements UriInterface
 {
@@ -148,7 +149,7 @@ class Uri implements UriInterface
     /**
      * Retrieves the port component of the URI.
      *
-     * @return null|integer
+     * @return integer|null
      */
     public function getPort()
     {
@@ -188,7 +189,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified URI fragment.
      *
-     * @param  string $fragment
+     * @param string $fragment
+     *
      * @return static
      */
     public function withFragment($fragment)
@@ -203,7 +205,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified host.
      *
-     * @param  string $host
+     * @param string $host
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -222,7 +225,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified path.
      *
-     * @param  string $path
+     * @param string $path
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -241,7 +245,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified port.
      *
-     * @param  null|integer $port
+     * @param integer|null $port
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -260,7 +265,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified query string.
      *
-     * @param  string $query
+     * @param string $query
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -279,7 +285,8 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified scheme.
      *
-     * @param  string $scheme
+     * @param string $scheme
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -298,8 +305,9 @@ class Uri implements UriInterface
     /**
      * Returns an instance with the specified user information.
      *
-     * @param  string      $user
-     * @param  null|string $password
+     * @param string      $user
+     * @param string|null $password
+     *
      * @return static
      */
     public function withUserInfo($user, $password = null)
@@ -314,7 +322,8 @@ class Uri implements UriInterface
     /**
      * Generates a \Psr\Http\Message\UriInterface from server variables.
      *
-     * @param  array<string, string> $server
+     * @param array<string, string> $server
+     *
      * @return \Psr\Http\Message\UriInterface
      */
     public static function instance(array $server)

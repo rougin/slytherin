@@ -6,7 +6,8 @@ use Rougin\Slytherin\Middleware\MiddlewareIntegration;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewarePackage extends MiddlewareIntegration
 {

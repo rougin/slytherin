@@ -7,7 +7,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class TestDepot
 {
@@ -33,7 +34,8 @@ class TestDepot
     }
 
     /**
-     * @param  string $data
+     * @param string $data
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function text($data)

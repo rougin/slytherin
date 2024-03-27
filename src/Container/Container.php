@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Container;
  * A simple container that is implemented on PSR-11.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Container implements ContainerInterface
 {
@@ -32,8 +33,9 @@ class Container implements ContainerInterface
      *
      * Adds a new instance to the container.
      *
-     * @param  string $id
-     * @param  mixed  $concrete
+     * @param string $id
+     * @param mixed  $concrete
+     *
      * @return self
      */
     public function add($id, $concrete)
@@ -44,8 +46,9 @@ class Container implements ContainerInterface
     /**
      * Creates an alias for a specified class.
      *
-     * @param  string $id
-     * @param  string $original
+     * @param string $id
+     * @param string $original
+     *
      * @return self
      */
     public function alias($id, $original)
@@ -58,7 +61,8 @@ class Container implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return mixed
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -88,7 +92,8 @@ class Container implements ContainerInterface
     /**
      * Returns true if the container can return an entry for the given identifier.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return boolean
      */
     public function has($id)
@@ -99,8 +104,9 @@ class Container implements ContainerInterface
     /**
      * Sets a new instance to the container.
      *
-     * @param  string $id
-     * @param  mixed  $concrete
+     * @param string $id
+     * @param mixed  $concrete
+     *
      * @return self
      */
     public function set($id, $concrete)

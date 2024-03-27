@@ -10,7 +10,8 @@ use Rougin\Slytherin\Container\LeagueContainer;
  * LeagueContainer
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Container extends LeagueContainer
 {

@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Sample;
 
 use Rougin\Slytherin\Middleware\Interop;
-use Rougin\Slytherin\Sample\Builder;
 use Rougin\Slytherin\Sample\Handlers\Cors;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Request;
 use Rougin\Slytherin\Sample\Handlers\Parsed\Response;
@@ -13,7 +12,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class SampleTest extends Testcase
 {

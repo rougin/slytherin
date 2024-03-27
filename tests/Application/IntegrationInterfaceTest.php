@@ -6,7 +6,8 @@ use Rougin\Slytherin\Integration\Configuration;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class IntegrationInterfaceTest extends ApplicationTestCases
 {

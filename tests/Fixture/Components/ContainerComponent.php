@@ -9,7 +9,8 @@ use Rougin\Slytherin\Container\Container;
  * Container Component
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ContainerComponent extends AbstractComponent
 {

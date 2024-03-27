@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Middleware;
  * An interface for handling third-party middleware dispatchers.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface DispatcherInterface extends MiddlewareInterface
 {
@@ -22,7 +23,8 @@ interface DispatcherInterface extends MiddlewareInterface
     /**
      * Adds a new middleware to the end of the stack.
      *
-     * @param  mixed $middleware
+     * @param mixed $middleware
+     *
      * @return self
      */
     public function push($middleware);
@@ -30,7 +32,8 @@ interface DispatcherInterface extends MiddlewareInterface
     /**
      * Sets a new stack of middlewares.
      *
-     * @param  mixed[] $stack
+     * @param mixed[] $stack
+     *
      * @return self
      */
     public function setStack($stack);

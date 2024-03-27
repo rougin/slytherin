@@ -14,7 +14,8 @@ use Rougin\Slytherin\System\Handler;
  * Integrates all specified components into the application.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class System
 {
@@ -72,7 +73,8 @@ class System
     /**
      * Handles the ServerRequestInterface to convert it to a ResponseInterface.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)
@@ -116,8 +118,9 @@ class System
     /**
      * Adds the specified integrations to the container.
      *
-     * @param  mixed|mixed[]                                    $items
-     * @param  \Rougin\Slytherin\Integration\Configuration|null $config
+     * @param mixed|mixed[]                                    $items
+     * @param \Rougin\Slytherin\Integration\Configuration|null $config
+     *
      * @return self
      */
     public function integrate($items, Configuration $config = null)
@@ -175,7 +178,8 @@ class System
     /**
      * Emits the headers based from the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     protected function emit(ServerRequestInterface $request)

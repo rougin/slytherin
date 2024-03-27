@@ -10,7 +10,8 @@ use Rougin\Slytherin\Routing\DispatcherInterface as Slytherin;
  * Dispatcher Interface
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface DispatcherInterface extends Slytherin
 {

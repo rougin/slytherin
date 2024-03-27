@@ -10,7 +10,8 @@ use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher as Slytherin;
  * Dispatcher
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Dispatcher extends Slytherin
 {

@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\IoC;
  * Dependency Injector Interface
  *
  * @package Slytherin
- * @author  Rougin Royce Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Royce Gutib <rougingutib@gmail.com>
  */
 interface DependencyInjectorInterface extends ContainerInterface
 {

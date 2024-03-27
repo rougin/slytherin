@@ -8,7 +8,8 @@ use Rougin\Slytherin\Sample\Depots\TestDepot;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Hello extends Route
 {
@@ -24,7 +25,8 @@ class Hello extends Route
     }
 
     /**
-     * @param  \Rougin\Slytherin\Sample\Depots\TestDepot $test
+     * @param \Rougin\Slytherin\Sample\Depots\TestDepot $test
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function index(TestDepot $test)
@@ -33,8 +35,9 @@ class Hello extends Route
     }
 
     /**
-     * @param  string                                    $name
-     * @param  \Rougin\Slytherin\Sample\Depots\TestDepot $test
+     * @param string                                    $name
+     * @param \Rougin\Slytherin\Sample\Depots\TestDepot $test
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function name($name, TestDepot $test)

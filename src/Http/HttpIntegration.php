@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Http;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\System;
@@ -19,7 +17,8 @@ use Zend\Diactoros\ServerRequestFactory;
  * An integration for Slytherin's simple HTTP package.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class HttpIntegration implements IntegrationInterface
 {
@@ -31,8 +30,9 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Defines the specified integration.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  \Rougin\Slytherin\Integration\Configuration    $config
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\Integration\Configuration    $config
+     *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
@@ -51,7 +51,7 @@ class HttpIntegration implements IntegrationInterface
         /** @var array<string, array<string, string[]>> */
         $files = $globals[3];
 
-        /** @var array<string, mixed>|null|object */
+        /** @var array<string, mixed>|object|null */
         $parsed = $globals[4];
 
         $headers = $this->headers($server);
@@ -69,7 +69,8 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Returns the PHP's global variables.
      *
-     * @param  \Rougin\Slytherin\Integration\Configuration $config
+     * @param \Rougin\Slytherin\Integration\Configuration $config
+     *
      * @return array<integer, mixed>
      */
     protected function globals(Configuration $config)
@@ -90,7 +91,8 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Converts $_SERVER parameters to message header values.
      *
-     * @param  array<string, string> $server
+     * @param array<string, string> $server
+     *
      * @return array<string, string>
      */
     protected function headers(array $server)
@@ -118,9 +120,10 @@ class HttpIntegration implements IntegrationInterface
     /**
      * Checks on what object will be defined to container.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
-     * @param  \Psr\Http\Message\ServerRequestInterface       $request
-     * @param  \Psr\Http\Message\ResponseInterface            $response
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Psr\Http\Message\ServerRequestInterface       $request
+     * @param \Psr\Http\Message\ResponseInterface            $response
+     *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
     protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)

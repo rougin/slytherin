@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Integration;
  * Serves as a storage for configuration data.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Configuration
 {
@@ -36,8 +37,9 @@ class Configuration
     /**
      * Returns the value from the specified key.
      *
-     * @param  string     $key
-     * @param  mixed|null $default
+     * @param string     $key
+     * @param mixed|null $default
+     *
      * @return mixed
      */
     public function get($key, $default = null)
@@ -61,7 +63,8 @@ class Configuration
     /**
      * Loads the configuration from a specified directory.
      *
-     * @param  string $directory
+     * @param string $directory
+     *
      * @return array<string, mixed>
      */
     public function load($directory)
@@ -86,9 +89,10 @@ class Configuration
     /**
      * Sets the value to the specified key.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @param  boolean $fromFile
+     * @param string  $key
+     * @param mixed   $value
+     * @param boolean $fromFile
+     *
      * @return self
      */
     public function set($key, $value, $fromFile = false)
@@ -105,9 +109,10 @@ class Configuration
     /**
      * Saves the specified key in the list of data.
      *
-     * @param  array<string, mixed> &$keys
-     * @param  array<string, mixed> &$data
-     * @param  mixed  $value
+     * @param array<string, mixed> &$keys
+     * @param array<string, mixed> &$data
+     * @param mixed                $value
+     *
      * @return mixed
      */
     protected function save(array &$keys, &$data, $value)

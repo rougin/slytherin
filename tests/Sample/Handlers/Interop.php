@@ -8,13 +8,15 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Interop implements MiddlewareInterface
 {
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface         $request
-     * @param  \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     * @param \Psr\Http\Message\ServerRequestInterface         $request
+     * @param \Interop\Http\ServerMiddleware\DelegateInterface $delegate
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, DelegateInterface $delegate)

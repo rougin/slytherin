@@ -8,7 +8,8 @@ use Rougin\Slytherin\Container\Container;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Builder
 {
@@ -48,8 +49,9 @@ class Builder
     protected $server = array();
 
     /**
-     * @param  string $name
-     * @param  string $file
+     * @param string $name
+     * @param string $file
+     *
      * @return self
      */
     public function addFile($name, $file)
@@ -79,7 +81,8 @@ class Builder
     }
 
     /**
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface|string $handler
+     * @param \Rougin\Slytherin\Middleware\MiddlewareInterface|string $handler
+     *
      * @return self
      */
     public function addHandler($handler)
@@ -90,7 +93,8 @@ class Builder
     }
 
     /**
-     * @param  \Rougin\Slytherin\Integration\IntegrationInterface|string $package
+     * @param \Rougin\Slytherin\Integration\IntegrationInterface|string $package
+     *
      * @return self
      */
     public function addPackage($package)
@@ -145,7 +149,8 @@ class Builder
     }
 
     /**
-     * @param  array<string, string> $cookies
+     * @param array<string, string> $cookies
+     *
      * @return self
      */
     public function setCookies($cookies)
@@ -156,7 +161,8 @@ class Builder
     }
 
     /**
-     * @param  array<string, array<string, mixed[]>> $files
+     * @param array<string, array<string, mixed[]>> $files
+     *
      * @return self
      */
     public function setFiles($files)
@@ -167,7 +173,8 @@ class Builder
     }
 
     /**
-     * @param  array<string, string> $query
+     * @param array<string, string> $query
+     *
      * @return self
      */
     public function setQuery($query)
@@ -178,7 +185,8 @@ class Builder
     }
 
     /**
-     * @param  array<string, string> $parsed
+     * @param array<string, string> $parsed
+     *
      * @return self
      */
     public function setParsed($parsed)
@@ -189,7 +197,8 @@ class Builder
     }
 
     /**
-     * @param  array<string, string> $server
+     * @param array<string, string> $server
+     *
      * @return self
      */
     public function setServer($server)
@@ -200,8 +209,9 @@ class Builder
     }
 
     /**
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return self
      */
     public function setUrl($method, $uri)

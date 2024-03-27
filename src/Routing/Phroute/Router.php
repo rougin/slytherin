@@ -10,7 +10,8 @@ use Rougin\Slytherin\Routing\PhrouteRouter;
  * Phroute Router
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Router extends PhrouteRouter
 {

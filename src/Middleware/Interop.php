@@ -14,7 +14,9 @@ use Rougin\Slytherin\Middleware\Handlers\Handler100;
  * A handler that allows all "http-interop" middlewares to interact with Slytherin.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
+ *
  * @codeCoverageIgnore
  */
 class Interop implements HandlerInterface
@@ -43,7 +45,8 @@ class Interop implements HandlerInterface
     /**
      * Dispatches the next available middleware and return the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
@@ -54,7 +57,8 @@ class Interop implements HandlerInterface
     /**
      * Dispatches the next available middleware and return the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)
@@ -88,8 +92,9 @@ class Interop implements HandlerInterface
     /**
      * Converts the handler into the currently installed PSR-15 implementation.
      *
-     * @param  mixed       $handler
-     * @param  string|null $version
+     * @param mixed       $handler
+     * @param string|null $version
+     *
      * @return mixed
      */
     public static function getHandler($handler, $version = null)
@@ -135,8 +140,9 @@ class Interop implements HandlerInterface
     /**
      * Checks if the handler is installed in the supported PSR-15 version.
      *
-     * @param  mixed  $handler
-     * @param  string $version
+     * @param mixed  $handler
+     * @param string $version
+     *
      * @return boolean
      */
     public static function hasVersion($handler, $class)

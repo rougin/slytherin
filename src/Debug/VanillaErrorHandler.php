@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Debug;
  * Error Handler
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class VanillaErrorHandler extends ErrorHandler
 {

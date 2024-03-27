@@ -10,7 +10,8 @@ use Rougin\Slytherin\Debug\Vanilla\Debugger as Slytherin;
  * Debugger
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Debugger extends Slytherin
 {

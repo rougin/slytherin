@@ -10,7 +10,8 @@ use Rougin\Slytherin\Container\ContainerInterface as Slytherin;
  * Dependency Injection Container Interface
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 interface ContainerInterface extends Slytherin
 {

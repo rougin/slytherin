@@ -2,13 +2,12 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Rougin\Slytherin\Container\Container;
-use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ReflectionContainerTest extends Testcase
 {

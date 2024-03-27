@@ -7,7 +7,8 @@ use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Route
 {
@@ -33,8 +34,9 @@ class Route
     }
 
     /**
-     * @param  mixed   $data
-     * @param  integer $code
+     * @param mixed   $data
+     * @param integer $code
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function json($data, $code = 200)

@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Container;
  * A backward compatible class for handling ReflectionParameter.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Parameter
 {
@@ -31,6 +32,7 @@ class Parameter
      * Returns a \ReflectionClass object for the parameter being reflected or "null".
      *
      * @return \ReflectionClass<object>|null
+     *
      * @codeCoverageIgnore
      */
     public function getClass()

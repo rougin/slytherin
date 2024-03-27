@@ -7,7 +7,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTestCases extends Testcase
 {
@@ -111,7 +112,8 @@ class DispatcherTestCases extends Testcase
     /**
      * Verifies the specified dispatcher if it exists.
      *
-     * @param  string $dispatcher
+     * @param string $dispatcher
+     *
      * @return void
      */
     protected function exists($dispatcher)
@@ -140,7 +142,8 @@ class DispatcherTestCases extends Testcase
     /**
      * Returns a list of sample routes.
      *
-     * @param  string|null $type
+     * @param string|null $type
+     *
      * @return \Rougin\Slytherin\Routing\RouterInterface
      */
     protected function getRouter($type = null)
@@ -181,7 +184,8 @@ class DispatcherTestCases extends Testcase
     /**
      * Returns result from the dispatched route.
      *
-     * @param  \Rougin\Slytherin\Routing\RouteInterface $route
+     * @param \Rougin\Slytherin\Routing\RouteInterface $route
+     *
      * @return mixed
      */
     protected function resolve(RouteInterface $route)

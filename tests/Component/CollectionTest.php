@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Debug\Vanilla\Debugger;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
@@ -18,7 +17,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class CollectionTest extends Testcase
 {

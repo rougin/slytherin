@@ -8,7 +8,8 @@ use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class DispatcherTest extends Testcase
 {
@@ -18,7 +19,7 @@ class DispatcherTest extends Testcase
     protected $dispatcher;
 
     /**
-     * @var array<integer, array<integer, \Rougin\Slytherin\Middleware\MiddlewareInterface[]|callable|string|string[]>>
+     * @var array<integer, \Rougin\Slytherin\Routing\RouteInterface|mixed[]>
      */
     protected $routes = array();
 

@@ -10,7 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * A default route for handling the application logic.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Handler implements HandlerInterface
 {
@@ -43,7 +44,8 @@ class Handler implements HandlerInterface
     /**
      * Dispatches the next available middleware and return the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
@@ -54,7 +56,8 @@ class Handler implements HandlerInterface
     /**
      * Dispatches the next available middleware and return the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)

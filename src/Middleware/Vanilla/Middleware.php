@@ -10,7 +10,8 @@ use Rougin\Slytherin\Middleware\Middleware as Slytherin;
  * Middleware
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Middleware extends Slytherin
 {

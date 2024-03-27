@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Template;
  * Renderer
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class VanillaRenderer extends Vanilla\Renderer
 {

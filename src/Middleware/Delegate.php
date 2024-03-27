@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Middleware;
  * Delegate
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Delegate extends Handler
 {

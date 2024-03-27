@@ -9,7 +9,8 @@ use Rougin\Slytherin\Template\Renderer;
  * Template Component
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class TemplateComponent extends AbstractComponent
 {

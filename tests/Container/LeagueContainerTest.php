@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Container;
 
-use Rougin\Slytherin\Container\LeagueContainer;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class LeagueContainerTest extends Testcase
 {

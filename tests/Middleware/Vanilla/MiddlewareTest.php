@@ -4,13 +4,13 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Middleware\Vanilla\Middleware;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareTest extends Testcase
 {

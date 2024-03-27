@@ -10,7 +10,8 @@ use Rougin\Slytherin\Component\Collection;
  * Component Collection
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Components extends Collection
 {

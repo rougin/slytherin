@@ -4,14 +4,14 @@ namespace Rougin\Slytherin\Middleware\Stratigility;
 
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Middleware\Stratigility\Middleware;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class MiddlewareTest extends Testcase
 {

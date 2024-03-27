@@ -8,13 +8,15 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Slytherin implements MiddlewareInterface
 {
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param \Psr\Http\Message\ServerRequestInterface      $request
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)

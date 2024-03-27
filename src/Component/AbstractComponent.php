@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Component;
  * Methods used for integrating a component to Slytherin.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 abstract class AbstractComponent implements ComponentInterface
 {

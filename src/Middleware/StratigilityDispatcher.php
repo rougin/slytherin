@@ -5,10 +5,6 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Http\Response;
-use Rougin\Slytherin\Middleware\Doublepass;
-use Rougin\Slytherin\Middleware\HandlerInterface;
-use Rougin\Slytherin\Middleware\Interop;
-use Rougin\Slytherin\Middleware\MiddlewareInterface;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
@@ -17,7 +13,8 @@ use Zend\Stratigility\MiddlewarePipe;
  * A simple implementation of middleware dispatcher that is built on top of Zend's Stratigility.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://github.com/zendframework/zend-stratigility
  */
@@ -63,8 +60,9 @@ class StratigilityDispatcher extends Dispatcher
      * Processes an incoming server request and return a response, optionally
      * delegating to the next middleware component to create the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param \Psr\Http\Message\ServerRequestInterface      $request
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
@@ -111,8 +109,10 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * Sets the factory if there is a middleware decorator.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @return void
+     *
      * @codeCoverageIgnore
      */
     protected function setFactory(ResponseInterface $response)
@@ -138,8 +138,10 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * Sets the Slytherin middleware into a single-pass or double-pass callable.
      *
-     * @param  \Rougin\Slytherin\Middleware\MiddlewareInterface $item
+     * @param \Rougin\Slytherin\Middleware\MiddlewareInterface $item
+     *
      * @return callable
+     *
      * @codeCoverageIgnore
      */
     protected function setMiddleware(MiddlewareInterface $item)
@@ -164,8 +166,10 @@ class StratigilityDispatcher extends Dispatcher
     /**
      * Sets the PSR-15 decorator to a middleware.
      *
-     * @param  callable $item
+     * @param callable $item
+     *
      * @return object
+     *
      * @codeCoverageIgnore
      */
     protected function setPsrMiddleware($item)

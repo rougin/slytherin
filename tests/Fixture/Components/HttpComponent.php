@@ -5,13 +5,13 @@ namespace Rougin\Slytherin\Fixture\Components;
 use Rougin\Slytherin\Component\AbstractComponent;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\System;
 
 /**
  * HTTP Component
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class HttpComponent extends AbstractComponent
 {

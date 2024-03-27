@@ -19,7 +19,8 @@ use Psr\Http\Message\UriInterface;
  * Request
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Request extends Message implements RequestInterface
 {
@@ -92,7 +93,8 @@ class Request extends Message implements RequestInterface
     /**
      * Returns an instance with the provided HTTP method.
      *
-     * @param  string $method
+     * @param string $method
+     *
      * @return static
      *
      * @throws \InvalidArgumentException
@@ -111,7 +113,8 @@ class Request extends Message implements RequestInterface
     /**
      * Returns an instance with the specific request-target.
      *
-     * @param  string $target
+     * @param string $target
+     *
      * @return static
      */
     public function withRequestTarget($target)
@@ -126,8 +129,9 @@ class Request extends Message implements RequestInterface
     /**
      * Returns an instance with the provided URI.
      *
-     * @param  \Psr\Http\Message\UriInterface $uri
-     * @param  boolean                        $preserve
+     * @param \Psr\Http\Message\UriInterface $uri
+     * @param boolean                        $preserve
+     *
      * @return static
      */
     public function withUri(UriInterface $uri, $preserve = false)

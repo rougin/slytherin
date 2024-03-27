@@ -6,7 +6,8 @@ namespace Rougin\Slytherin\Fixture\Classes;
  * With Interface
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class WithInterface implements NewInterface
 {

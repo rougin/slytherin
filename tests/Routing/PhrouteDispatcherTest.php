@@ -6,7 +6,8 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class PhrouteDispatcherTest extends DispatcherTestCases
 {

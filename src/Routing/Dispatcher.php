@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Routing;
  * A simple implementation of a route dispatcher that is based on DispatcherInterface.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Dispatcher implements DispatcherInterface
 {
@@ -38,8 +39,9 @@ class Dispatcher implements DispatcherInterface
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface
      *
      * @throws \BadMethodCallException
@@ -80,7 +82,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Sets the router and parse its available routes if needed.
      *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     *
      * @return self
      *
      * @throws \UnexpectedValueException
@@ -95,7 +98,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the specified method is a valid HTTP method.
      *
-     * @param  string $method
+     * @param string $method
+     *
      * @return boolean
      *
      * @throws \BadMethodCallException
@@ -115,8 +119,9 @@ class Dispatcher implements DispatcherInterface
     /**
      * Matches the route from the parsed URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface|null
      */
     protected function match($method, $uri)

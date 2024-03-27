@@ -10,7 +10,8 @@ use Psr\Container\NotFoundExceptionInterface;
  * A specified exception in handling errors in containers.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class NotFoundException extends \InvalidArgumentException implements NotFoundExceptionInterface
 {

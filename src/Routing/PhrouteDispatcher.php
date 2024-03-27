@@ -13,7 +13,8 @@ use Phroute\Phroute\RouteDataArray;
  * A simple implementation of dispatcher that is built on top of Phroute.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://github.com/mrjgreen/phroute
  */
@@ -58,8 +59,9 @@ class PhrouteDispatcher extends Dispatcher
     /**
      * Dispatches against the provided HTTP method verb and URI.
      *
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return \Rougin\Slytherin\Routing\RouteInterface
      *
      * @throws \BadMethodCallException
@@ -104,7 +106,8 @@ class PhrouteDispatcher extends Dispatcher
     /**
      * Sets the router and parse its available routes if needed.
      *
-     * @param  \Rougin\Slytherin\Routing\RouterInterface $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     *
      * @return self
      *
      * @throws \UnexpectedValueException

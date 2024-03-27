@@ -10,7 +10,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * A middleware that converts various middlewares into its Slytherin counterpart.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Wrapper implements MiddlewareInterface
 {
@@ -32,8 +33,9 @@ class Wrapper implements MiddlewareInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param \Psr\Http\Message\ServerRequestInterface      $request
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)

@@ -11,7 +11,8 @@ use Psr\Http\Message\ServerRequestInterface;
  * A class that converts callables into Slytherin middlewares.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Callback implements MiddlewareInterface
 {
@@ -41,8 +42,9 @@ class Callback implements MiddlewareInterface
     /**
      * Processes an incoming server request and return a response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param \Psr\Http\Message\ServerRequestInterface      $request
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
@@ -75,7 +77,8 @@ class Callback implements MiddlewareInterface
     /**
      * Checks if the middleware is a single-pass or a double-pass implementation.
      *
-     * @param  mixed $item
+     * @param mixed $item
+     *
      * @return boolean
      */
     protected function isSinglePass($item)

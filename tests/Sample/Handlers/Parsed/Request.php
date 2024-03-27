@@ -8,7 +8,8 @@ use Rougin\Slytherin\Middleware\MiddlewareInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Request implements MiddlewareInterface
 {

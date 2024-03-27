@@ -10,7 +10,8 @@ use Psr\Container\ContainerInterface as PsrContainer;
  * A simple container utilizing PHP's Reflection classes.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ReflectionContainer implements PsrContainer
 {
@@ -30,7 +31,8 @@ class ReflectionContainer implements PsrContainer
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return mixed
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -68,8 +70,9 @@ class ReflectionContainer implements PsrContainer
     /**
      * Resolves the specified parameters from a container.
      *
-     * @param  \ReflectionFunctionAbstract $reflector
-     * @param  array<string, mixed>        $parameters
+     * @param \ReflectionFunctionAbstract $reflector
+     * @param array<string, mixed>        $parameters
+     *
      * @return array<integer, mixed>
      */
     public function getArguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
@@ -101,7 +104,8 @@ class ReflectionContainer implements PsrContainer
     /**
      * Returns true if the container can return an entry for the given identifier.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return boolean
      */
     public function has($id)
@@ -119,7 +123,8 @@ class ReflectionContainer implements PsrContainer
     /**
      * Returns an argument based on the given parameter.
      *
-     * @param  \ReflectionParameter $parameter
+     * @param \ReflectionParameter $parameter
+     *
      * @return mixed|null
      */
     protected function getArgument(\ReflectionParameter $parameter)
@@ -148,7 +153,8 @@ class ReflectionContainer implements PsrContainer
     /**
      * Resolves the specified parameters from a container.
      *
-     * @param  \ReflectionFunction|\ReflectionMethod $reflection
+     * @param \ReflectionFunction|\ReflectionMethod $reflection
+     *
      * @return array<integer, mixed>
      */
     protected function resolve($reflection)

@@ -11,8 +11,9 @@ use Auryn\Injector;
  * Daniel Lowrey's Auryn Inversion Of Control (IoC) Dependency Injector.
  *
  * @package Slytherin
- * @author  Matthew Turland <me@matthewturland.com>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Matthew Turland <me@matthewturland.com>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://github.com/rdlowrey/auryn
  * @link https://github.com/elazar/auryn-container-interop
@@ -50,8 +51,9 @@ class AurynContainer implements ContainerInterface
      *
      * Adds a new instance to the container.
      *
-     * @param  string     $id
-     * @param  mixed|null $concrete
+     * @param string     $id
+     * @param mixed|null $concrete
+     *
      * @return self
      */
     public function add($id, $concrete = null)
@@ -62,7 +64,8 @@ class AurynContainer implements ContainerInterface
     /**
      * Finds an entry of the container by its identifier and returns it.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return mixed
      *
      * @throws \Psr\Container\NotFoundExceptionInterface
@@ -88,7 +91,8 @@ class AurynContainer implements ContainerInterface
     /**
      * Returns true if the container can return an entry for the given identifier.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return boolean
      */
     public function has($id)
@@ -114,8 +118,9 @@ class AurynContainer implements ContainerInterface
     /**
      * Sets a new instance to the container.
      *
-     * @param  string $id
-     * @param  mixed  $concrete
+     * @param string $id
+     * @param mixed  $concrete
+     *
      * @return self
      */
     public function set($id, $concrete)
@@ -135,8 +140,9 @@ class AurynContainer implements ContainerInterface
     /**
      * Calls methods from the \Auryn\Injector instance.
      *
-     * @param  string  $method
-     * @param  mixed[] $params
+     * @param string  $method
+     * @param mixed[] $params
+     *
      * @return mixed
      */
     public function __call($method, $params)

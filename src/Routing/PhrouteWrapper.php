@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Routing;
  * A simple class wrapper for resolving routes in Phroute.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://github.com/mrjgreen/phroute
  */
@@ -26,8 +27,9 @@ class PhrouteWrapper
     }
 
     /**
-     * @param  string  $method
-     * @param  mixed[] $params
+     * @param string  $method
+     * @param mixed[] $params
+     *
      * @return mixed
      */
     public function __call($method, $params)

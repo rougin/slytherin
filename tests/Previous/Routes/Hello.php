@@ -6,7 +6,8 @@ use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Hello
 {
@@ -32,7 +33,8 @@ class Hello
     }
 
     /**
-     * @param  string $name
+     * @param string $name
+     *
      * @return string
      */
     public function hi($name)

@@ -12,7 +12,9 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  * A handler that is backward compatible for the v0.4.1 version of "http-interop".
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
+ *
  * @codeCoverageIgnore
  */
 class Handler041 implements DelegateInterface
@@ -31,7 +33,8 @@ class Handler041 implements DelegateInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
@@ -40,7 +43,8 @@ class Handler041 implements DelegateInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request)

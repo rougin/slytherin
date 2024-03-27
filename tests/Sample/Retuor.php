@@ -6,7 +6,8 @@ use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Retuor extends Slytherin
 {

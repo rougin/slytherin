@@ -10,7 +10,8 @@ use Rougin\Slytherin\Container\VanillaContainer;
  * Container
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Container extends VanillaContainer
 {

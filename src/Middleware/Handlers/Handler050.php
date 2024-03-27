@@ -12,7 +12,9 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  * A handler that is backward compatible for the v0.5.0 version of "http-interop".
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
+ *
  * @codeCoverageIgnore
  */
 class Handler050 implements RequestHandlerInterface
@@ -31,7 +33,8 @@ class Handler050 implements RequestHandlerInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function __invoke(ServerRequestInterface $request)
@@ -40,7 +43,8 @@ class Handler050 implements RequestHandlerInterface
     }
 
     /**
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function handle(ServerRequestInterface $request)

@@ -6,7 +6,8 @@ use Rougin\Slytherin\Routing\RoutingIntegration;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class RoutingPackage extends RoutingIntegration
 {

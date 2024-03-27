@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\IoC;
  * Auryn Container
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Auryn extends AurynContainer
 {

@@ -11,7 +11,8 @@ use Rougin\Slytherin\Container\ContainerInterface;
  * Collects all defined components into a Collection.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Collector
 {
@@ -40,7 +41,8 @@ class Collector
     /**
      * Creates a new collection.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     *
      * @return \Rougin\Slytherin\Component\Collection
      */
     public function make(ContainerInterface $container)
@@ -117,8 +119,9 @@ class Collector
     /**
      * Initializes the specified components.
      *
-     * @param  \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
-     * @param  \Rougin\Slytherin\IoC\ContainerInterface                  $container
+     * @param \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
+     * @param \Rougin\Slytherin\IoC\ContainerInterface                  $container
+     *
      * @return \Rougin\Slytherin\Component\Collection
      */
     public static function get(array $components, ContainerInterface $container = null)

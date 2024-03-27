@@ -11,7 +11,8 @@ use Rougin\Slytherin\Http\Response;
  * A sample implementation of the middleware dispatcher.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Dispatcher implements DispatcherInterface
 {
@@ -50,8 +51,9 @@ class Dispatcher implements DispatcherInterface
      * Processes an incoming server request and return a response, optionally
      * delegating to the next middleware component to create the response.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface      $request
-     * @param  \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     * @param \Psr\Http\Message\ServerRequestInterface      $request
+     * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
@@ -66,7 +68,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Adds a new middleware to the end of the stack.
      *
-     * @param  mixed $middleware
+     * @param mixed $middleware
+     *
      * @return self
      */
     public function push($middleware)
@@ -91,7 +94,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Sets a new stack of middlewares.
      *
-     * @param  mixed[] $stack
+     * @param mixed[] $stack
+     *
      * @return self
      */
     public function setStack($stack)
@@ -123,7 +127,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Transforms the middleware into a Slytherin counterpart.
      *
-     * @param  mixed $middleware
+     * @param mixed $middleware
+     *
      * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
      */
     protected function transform($middleware)
@@ -152,7 +157,8 @@ class Dispatcher implements DispatcherInterface
     /**
      * Checks if the middleware is a callable.
      *
-     * @param  mixed $item
+     * @param mixed $item
+     *
      * @return boolean
      */
     protected function isCallable($item)

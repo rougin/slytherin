@@ -18,7 +18,8 @@ use Rougin\Slytherin\Template\RendererInterface;
  * Contains all the required components for Slytherin.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Collection implements ContainerInterface
 {
@@ -37,8 +38,9 @@ class Collection implements ContainerInterface
      *
      * Adds an instance to the container.
      *
-     * @param  string $id
-     * @param  object $concrete
+     * @param string $id
+     * @param object $concrete
+     *
      * @return self
      */
     public function add($id, $concrete)
@@ -49,7 +51,8 @@ class Collection implements ContainerInterface
     /**
      * Returns the specified component.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return object
      */
     public function get($id)
@@ -171,7 +174,8 @@ class Collection implements ContainerInterface
     /**
      * Checks if a specified component exists.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return boolean
      */
     public function has($id)
@@ -182,8 +186,9 @@ class Collection implements ContainerInterface
     /**
      * Sets an instance to the collection.
      *
-     * @param  string $id
-     * @param  mixed  $concrete
+     * @param string $id
+     * @param mixed  $concrete
+     *
      * @return self
      */
     public function set($id, $concrete = null)
@@ -196,7 +201,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the container.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $container
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     *
      * @return self
      */
     public function setContainer(ContainerInterface $container)
@@ -209,7 +215,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the debugger.
      *
-     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     * @param \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     *
      * @return self
      */
     public function setDebugger(ErrorHandlerInterface $debugger)
@@ -222,7 +229,8 @@ class Collection implements ContainerInterface
      *
      * Sets the dependency injector.
      *
-     * @param  \Rougin\Slytherin\Container\ContainerInterface $injector
+     * @param \Rougin\Slytherin\Container\ContainerInterface $injector
+     *
      * @return self
      */
     public function setDependencyInjector(ContainerInterface $injector)
@@ -233,7 +241,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the dispatcher.
      *
-     * @param  \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
+     * @param \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
+     *
      * @return self
      */
     public function setDispatcher(Routing $dispatcher)
@@ -246,7 +255,8 @@ class Collection implements ContainerInterface
      *
      * Sets the error handler.
      *
-     * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     * @param \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
+     *
      * @return self
      */
     public function setErrorHandler(ErrorHandlerInterface $debugger)
@@ -257,8 +267,9 @@ class Collection implements ContainerInterface
     /**
      * Sets the HTTP components.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
-     * @param  \Psr\Http\Message\ResponseInterface      $response
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ResponseInterface      $response
+     *
      * @return self
      */
     public function setHttp(ServerRequestInterface $request, ResponseInterface $response)
@@ -271,7 +282,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the HTTP request.
      *
-     * @param  \Psr\Http\Message\ServerRequestInterface $request
+     * @param \Psr\Http\Message\ServerRequestInterface $request
+     *
      * @return self
      */
     public function setHttpRequest(ServerRequestInterface $request)
@@ -284,7 +296,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the HTTP response.
      *
-     * @param  \Psr\Http\Message\ResponseInterface $response
+     * @param \Psr\Http\Message\ResponseInterface $response
+     *
      * @return self
      */
     public function setHttpResponse(ResponseInterface $response)
@@ -297,7 +310,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the middleware.
      *
-     * @param  \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
+     * @param \Rougin\Slytherin\Middleware\DispatcherInterface $middleware
+     *
      * @return self
      */
     public function setMiddleware(Middleware $middleware)
@@ -308,7 +322,8 @@ class Collection implements ContainerInterface
     /**
      * Sets the template.
      *
-     * @param  \Rougin\Slytherin\Template\RendererInterface $template
+     * @param \Rougin\Slytherin\Template\RendererInterface $template
+     *
      * @return self
      */
     public function setTemplate(RendererInterface $template)

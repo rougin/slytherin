@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Middleware;
  * Stratigility Middleware
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class StratigilityMiddleware extends Stratigility\Middleware
 {

@@ -8,7 +8,8 @@ namespace Rougin\Slytherin\Debug;
  * A simple implementation of an error handler.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class ErrorHandler implements ErrorHandlerInterface
 {
@@ -30,7 +31,8 @@ class ErrorHandler implements ErrorHandlerInterface
      *
      * Sets up the environment to be used.
      *
-     * @param  string $environment
+     * @param string $environment
+     *
      * @return self
      */
     public function setEnvironment($environment)

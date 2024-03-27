@@ -4,7 +4,8 @@ namespace Rougin\Slytherin\Sample\Depots;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class EsteDepot
 {
@@ -22,7 +23,8 @@ class EsteDepot
     }
 
     /**
-     * @param  string $data
+     * @param string $data
+     *
      * @return \Psr\Http\Message\ResponseInterface
      */
     public function text($data)

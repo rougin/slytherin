@@ -17,9 +17,10 @@ use Psr\Http\Message\StreamInterface;
  * Stream
  *
  * @package Slytherin
- * @author  Kévin Dunglas <dunglas@gmail.com>
- * @author  Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Kévin Dunglas <dunglas@gmail.com>
+ * @author Jérémy 'Jejem' Desvages <jejem@phyrexia.org>
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Stream implements StreamInterface
 {
@@ -134,7 +135,8 @@ class Stream implements StreamInterface
     /**
      * Returns stream metadata as an associative array or retrieve a specific key.
      *
-     * @param  string $key
+     * @param string $key
+     *
      * @return array|mixed|null
      */
     public function getMetadata($key = null)
@@ -210,7 +212,8 @@ class Stream implements StreamInterface
     /**
      * Read data from the stream.
      *
-     * @param  int<0, max> $length
+     * @param int<0, max> $length
+     *
      * @return string
      *
      * @throws \RuntimeException
@@ -249,8 +252,9 @@ class Stream implements StreamInterface
     /**
      * Seek to a position in the stream.
      *
-     * @param  integer $offset
-     * @param  integer $whence
+     * @param integer $offset
+     * @param integer $whence
+     *
      * @return void
      *
      * @throws \RuntimeException
@@ -295,7 +299,8 @@ class Stream implements StreamInterface
     /**
      * Write data to the stream.
      *
-     * @param  string $string
+     * @param string $string
+     *
      * @return integer
      *
      * @throws \RuntimeException

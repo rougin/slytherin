@@ -13,7 +13,8 @@ use Rougin\Slytherin\System;
  * A routing utility for defining HTTP routes directly.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @method add($method, $uri, $handler, $middlewares = array())
  * @method delete($uri, $handler, $middlewares = array())
@@ -74,8 +75,9 @@ class Routing extends System
     /**
      * Calls methods from the Router instance.
      *
-     * @param  string  $method
-     * @param  mixed[] $params
+     * @param string  $method
+     * @param mixed[] $params
+     *
      * @return mixed
      */
     public function __call($method, $params)

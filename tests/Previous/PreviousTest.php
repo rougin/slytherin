@@ -2,12 +2,12 @@
 
 namespace Rougin\Slytherin\Previous;
 
-use Rougin\Slytherin\Previous\Builder;
 use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class PreviousTest extends Testcase
 {

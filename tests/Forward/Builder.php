@@ -6,7 +6,8 @@ use Rougin\Slytherin\Application;
 
 /**
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Builder
 {
@@ -28,8 +29,9 @@ class Builder
     }
 
     /**
-     * @param  string $method
-     * @param  string $uri
+     * @param string $method
+     * @param string $uri
+     *
      * @return self
      */
     public function setUrl($method, $uri)

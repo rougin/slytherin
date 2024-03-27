@@ -10,7 +10,8 @@ use Rougin\Slytherin\Routing\FastRouteRouter;
  * FastRoute Router
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Router extends FastRouteRouter
 {

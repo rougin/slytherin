@@ -10,7 +10,8 @@ use Rougin\Slytherin\Template\TwigRenderer;
  * Twig Renderer
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Renderer extends TwigRenderer
 {

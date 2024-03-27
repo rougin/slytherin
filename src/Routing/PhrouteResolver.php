@@ -10,14 +10,16 @@ use Phroute\Phroute\HandlerResolverInterface;
  * A handler resolver that wraps the route as the result.
  *
  * @package Slytherin
- * @author  Rougin Gutib <rougingutib@gmail.com>
+ *
+ * @author Rougin Gutib <rougingutib@gmail.com>
  *
  * @link https://github.com/mrjgreen/phroute
  */
 class PhrouteResolver implements HandlerResolverInterface
 {
     /**
-     * @param  \Rougin\Slytherin\Routing\RouteInterface $handler
+     * @param \Rougin\Slytherin\Routing\RouteInterface $handler
+     *
      * @return array<integer, mixed>
      */
     public function resolve($handler)
