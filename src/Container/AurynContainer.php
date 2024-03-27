@@ -46,8 +46,9 @@ class AurynContainer implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "set" instead.
+     *
      * Adds a new instance to the container.
-     * NOTE: To be removed in v1.0.0. Use "set" instead.
      *
      * @param  string     $id
      * @param  mixed|null $concrete

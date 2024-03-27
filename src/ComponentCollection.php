@@ -3,13 +3,13 @@
 namespace Rougin\Slytherin;
 
 /**
- * Component Collection
+ * @deprecated since ~0.4, use "Components" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Component\Collection" instead.
+ * Component Collection
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
  */
-class ComponentCollection extends Component\Collection
+class ComponentCollection extends Components
 {
 }

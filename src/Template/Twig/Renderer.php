@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Template\Twig;
 use Rougin\Slytherin\Template\TwigRenderer;
 
 /**
- * Twig Renderer
+ * @deprecated since ~0.9, use "TwigRenderer" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "TwigRenderer" instead.
+ * Twig Renderer
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

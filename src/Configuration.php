@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin;
 
 /**
- * Configuration
+ * @deprecated since ~0.9, use "Integration/Configuration" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Integration/Configuration" instead.
+ * Configuration
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

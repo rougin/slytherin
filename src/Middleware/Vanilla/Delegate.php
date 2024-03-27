@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 use Rougin\Slytherin\Middleware\Delegate as Slytherin;
 
 /**
- * Delegate
+ * @deprecated since ~0.9, use "Delegate" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Delegate" instead.
+ * Delegate
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\IoC\Vanilla;
 use Rougin\Slytherin\Container\VanillaContainer;
 
 /**
- * Container
+ * @deprecated since ~0.9, use "Container\VanillaContainer" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container\VanillaContainer" instead.
+ * Container
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

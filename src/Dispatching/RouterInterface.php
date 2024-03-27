@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Dispatching;
 use Rougin\Slytherin\Routing\RouterInterface as Slytherin;
 
 /**
- * Router Interface
+ * @deprecated since ~0.9, use "Routing\RouterInterface" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\RouterInterface" instead.
+ * Router Interface
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

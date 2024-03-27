@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\IoC;
 
 /**
- * League Container
+ * @deprecated since ~0.8, use "League\Container" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "League\Container" instead.
+ * League Container
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

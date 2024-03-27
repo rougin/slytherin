@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Debug;
 use Rougin\Slytherin\Debug\Vanilla\Debugger as Slytherin;
 
 /**
- * Debugger
+ * @deprecated since ~0.8, use "Vanilla\Debugger" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "VanillaDebugger" instead.
+ * Debugger
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

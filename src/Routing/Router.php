@@ -109,8 +109,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "add" instead.
+     *
      * Adds a new raw route.
-     * NOTE: To be removed in v1.0.0. Use "add" instead.
      *
      * @param  string                   $method
      * @param  string                   $route
@@ -124,8 +125,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "merge" instead.
+     *
      * Merges a listing of parsed routes to current one.
-     * NOTE: To be removed in v1.0.0. Use "merge" instead.
      *
      * @param  \Rougin\Slytherin\Routing\RouteInterface[] $routes
      * @return self
@@ -188,8 +190,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "retrieve" instead.
+     *
      * Returns a specific route based on the specified HTTP method and URI.
-     * NOTE: To be removed in v1.0.0. Use "retrieve" instead.
      *
      * @param  string $method
      * @param  string $uri
@@ -201,8 +204,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "routes" instead.
+     *
      * Returns a listing of available routes.
-     * NOTE: To be removed in v1.0.0. Use "routes" instead.
      *
      * @return \Rougin\Slytherin\Routing\RouteInterface[]
      */
@@ -331,8 +335,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "find" instead.
+     *
      * Finds a specific route based on the specified HTTP method and URI.
-     * NOTE: To be removed in v1.0.0. Use "find" instead.
      *
      * @param  string $method
      * @param  string $uri
@@ -354,8 +359,9 @@ class Router implements RouterInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "prefix" instead.
+     *
      * Sets a prefix for the succeeding route endpoints.
-     * NOTE: To be removed in v1.0.0. Use "prefix" instead.
      *
      * @param  string $prefix
      * @param  string $namespace

@@ -39,8 +39,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, already not part of the "ErrorHandlerInterface".
+     *
      * Sets up the environment to be used.
-     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @param  string $environment
      * @return self
@@ -53,8 +54,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, already not part of the "ErrorHandlerInterface".
+     *
      * Returns the specified environment.
-     * NOTE: To be removed in v1.0.0. It is not part of the "ErrorHandlerInterface".
      *
      * @return string
      */
@@ -64,8 +66,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, use magic method "__call" instead.
+     *
      * Returns a listing of handlers.
-     * NOTE: To be removed in v1.0.0. Use the magic method "__call" instead.
      *
      * @return \Whoops\Handler\HandlerInterface[]
      */
@@ -91,8 +94,9 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
     }
 
     /**
+     * @deprecated since ~0.9, use magic method "__call" instead.
+     *
      * Sets a handler.
-     * NOTE: To be removed in v1.0.0. Use __call" instead.
      *
      * @param  \Whoops\Handler\HandlerInterface|callable $handler
      * @return void

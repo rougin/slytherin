@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
- * Stratigility Middleware
+ * @deprecated since ~0.7, use "Stratigility\Middleware" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Stratigility\Middleware" instead.
+ * Stratigility Middleware
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

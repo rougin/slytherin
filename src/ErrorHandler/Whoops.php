@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\ErrorHandler;
 use Rougin\Slytherin\Debug\Debugger;
 
 /**
- * Debugger
+ * @deprecated since ~0.4, use "Debug\Debugger" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Debug\Debugger" instead.
+ * Debugger
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

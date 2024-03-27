@@ -33,8 +33,9 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.9, use "set" instead.
+     *
      * Adds an instance to the container.
-     * NOTE: To be removed in v1.0.0. Use "set" instead.
      *
      * @param  string $id
      * @param  object $concrete
@@ -79,8 +80,9 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.4, use "getContainer" instead.
+     *
      * Returns the dependency injector.
-     * NOTE: To be removed in v1.0.0. Use "getContainer" instead.
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
@@ -101,8 +103,9 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.4, use "getDebugger" instead.
+     *
      * Returns the error handler.
-     * NOTE: To be removed in v1.0.0. Use "getDebugger" instead.
      *
      * @return \Rougin\Slytherin\Debug\ErrorHandlerInterface
      */
@@ -215,8 +218,9 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.4, use "setContainer" instead.
+     *
      * Sets the dependency injector.
-     * NOTE: To be removed in v1.0.0. Use "setContainer" instead.
      *
      * @param  \Rougin\Slytherin\Container\ContainerInterface $injector
      * @return self
@@ -238,8 +242,9 @@ class Collection implements ContainerInterface
     }
 
     /**
+     * @deprecated since ~0.4, use "setDebugger" instead.
+     *
      * Sets the error handler.
-     * NOTE: To be removed in v1.0.0. Use "setDebugger" instead.
      *
      * @param  \Rougin\Slytherin\Debug\ErrorHandlerInterface $debugger
      * @return self

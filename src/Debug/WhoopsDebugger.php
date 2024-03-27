@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Debug;
 use Rougin\Slytherin\Debug\Whoops\Debugger as Slytherin;
 
 /**
- * Whoops Debugger
+ * @deprecated since ~0.8, use "Whoops\Debugger" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Whoops\Debugger" instead.
+ * Whoops Debugger
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

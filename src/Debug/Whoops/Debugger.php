@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Debug\Whoops;
 use Rougin\Slytherin\Debug\WhoopsErrorHandler;
 
 /**
- * Debugger
+ * @deprecated since ~0.9, use "WhoopsErrorHandler" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "WhoopsErrorHandler" instead.
+ * Debugger
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

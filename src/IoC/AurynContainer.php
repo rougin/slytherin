@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\IoC;
 
 /**
- * Auryn Container
+ * @deprecated since ~0.7, use "Auryn\Container" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Auryn\Container" instead.
+ * Auryn Container
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

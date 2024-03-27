@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Container\Exception;
 use Rougin\Slytherin\Container\NotFoundException as Slytherin;
 
 /**
- * Not Found Exception
+ * @deprecated since ~0.9, use "Container\NotFoundException" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Container\NotFoundException" instead.
+ * Not Found Exception
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

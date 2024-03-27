@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Dispatching;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher as Slytherin;
 
 /**
- * Dispatcher
+ * @deprecated since ~0.8, use "Vanilla\Dispatcher" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Vanilla\Dispatcher" instead.
+ * Dispatcher
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

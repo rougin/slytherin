@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Routing\Vanilla;
 use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
- * Router
+ * @deprecated since ~0.9, use "Routing\Router" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Routing\Router" instead.
+ * Router
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>

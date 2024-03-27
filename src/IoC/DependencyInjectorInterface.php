@@ -3,9 +3,9 @@
 namespace Rougin\Slytherin\IoC;
 
 /**
- * Dependency Injector Interface
+ * @deprecated since ~0.4, use "ContainerInterface" instead.
  *
- * An interface for handling third party dependency injection containers.
+ * Dependency Injector Interface
  *
  * @package Slytherin
  * @author  Rougin Royce Gutib <rougingutib@gmail.com>

@@ -5,9 +5,9 @@ namespace Rougin\Slytherin\Template\Vanilla;
 use Rougin\Slytherin\Template\Renderer as Slytherin;
 
 /**
- * Renderer
+ * @deprecated since ~0.9, use "Renderer" instead.
  *
- * NOTE: To be removed in v1.0.0. Use "Renderer" instead.
+ * Renderer
  *
  * @package Slytherin
  * @author  Rougin Gutib <rougingutib@gmail.com>
