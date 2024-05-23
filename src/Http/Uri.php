@@ -208,7 +208,6 @@ class Uri implements UriInterface
      * @param string $host
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withHost($host)
@@ -228,7 +227,6 @@ class Uri implements UriInterface
      * @param string $path
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withPath($path)
@@ -248,7 +246,6 @@ class Uri implements UriInterface
      * @param integer|null $port
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withPort($port)
@@ -268,7 +265,6 @@ class Uri implements UriInterface
      * @param string $query
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withQuery($query)
@@ -288,7 +284,6 @@ class Uri implements UriInterface
      * @param string $scheme
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withScheme($scheme)

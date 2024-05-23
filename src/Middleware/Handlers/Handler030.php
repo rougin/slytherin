@@ -18,7 +18,7 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  *
  * @codeCoverageIgnore
  */
-class Handler030 implements DelegateInterface
+class Handler030 implements DelegateInterface, HandlerInterface
 {
     /**
      * @var \Rougin\Slytherin\Middleware\HandlerInterface
@@ -48,8 +48,18 @@ class Handler030 implements DelegateInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(RequestInterface $request)
+    public function handle(RequestInterface $request)
     {
         return $this->handler->handle($request);
+    }
+
+    /**
+     * @param \Psr\Http\Message\RequestInterface $request
+     *
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function process(RequestInterface $request)
+    {
+        return $this->handle($request);
     }
 }

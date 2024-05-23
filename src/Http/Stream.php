@@ -115,7 +115,6 @@ class Stream implements StreamInterface
      * Returns the remaining contents in a string
      *
      * @return string
-     *
      * @throws \RuntimeException
      */
     public function getContents()
@@ -215,7 +214,6 @@ class Stream implements StreamInterface
      * @param int<0, max> $length
      *
      * @return string
-     *
      * @throws \RuntimeException
      */
     public function read($length)
@@ -241,7 +239,6 @@ class Stream implements StreamInterface
      * Seek to the beginning of the stream.
      *
      * @return void
-     *
      * @throws \RuntimeException
      */
     public function rewind()
@@ -256,7 +253,6 @@ class Stream implements StreamInterface
      * @param integer $whence
      *
      * @return void
-     *
      * @throws \RuntimeException
      */
     public function seek($offset, $whence = SEEK_SET)
@@ -277,7 +273,6 @@ class Stream implements StreamInterface
      * Returns the current position of the file read/write pointer.
      *
      * @return integer
-     *
      * @throws \RuntimeException
      */
     public function tell()
@@ -302,7 +297,6 @@ class Stream implements StreamInterface
      * @param string $string
      *
      * @return integer
-     *
      * @throws \RuntimeException
      */
     public function write($string)

@@ -114,7 +114,6 @@ class UploadedFile implements UploadedFileInterface
      * Retrieves a stream representing the uploaded file.
      *
      * @return \Psr\Http\Message\StreamInterface
-     *
      * @throws \RuntimeException
      */
     public function getStream()
@@ -134,7 +133,6 @@ class UploadedFile implements UploadedFileInterface
      * @param string $target
      *
      * @return void
-     *
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      */

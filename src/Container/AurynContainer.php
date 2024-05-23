@@ -67,7 +67,6 @@ class AurynContainer implements ContainerInterface
      * @param string $id
      *
      * @return mixed
-     *
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      */

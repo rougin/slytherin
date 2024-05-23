@@ -35,7 +35,6 @@ class Renderer implements RendererInterface
      * @param array<string, mixed> $data
      *
      * @return string
-     *
      * @throws \InvalidArgumentException
      */
     public function render($template, array $data = array())

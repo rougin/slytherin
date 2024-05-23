@@ -145,7 +145,6 @@ class Response extends Message implements ResponseInterface
      * @param string  $reason
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withStatus($code, $reason = '')

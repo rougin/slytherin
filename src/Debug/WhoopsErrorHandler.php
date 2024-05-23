@@ -100,7 +100,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      *
      * Sets a handler.
      *
-     * @param \Whoops\Handler\HandlerInterface|callable $handler
+     * @param callable|\Whoops\Handler\HandlerInterface $handler
      *
      * @return void
      */
