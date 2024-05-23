@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Middleware\Handlers;
 
 use Interop\Http\ServerMiddleware\DelegateInterface;
-use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 
@@ -58,7 +57,7 @@ class Handler041 implements DelegateInterface, HandlerInterface
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
-    public function process(RequestInterface $request)
+    public function process(ServerRequestInterface $request)
     {
         return $this->handle($request);
     }
