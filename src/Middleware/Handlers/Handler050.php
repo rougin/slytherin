@@ -17,7 +17,7 @@ use Rougin\Slytherin\Middleware\HandlerInterface;
  *
  * @codeCoverageIgnore
  */
-class Handler050 implements RequestHandlerInterface
+class Handler050 implements RequestHandlerInterface, HandlerInterface
 {
     /**
      * @var \Rougin\Slytherin\Middleware\HandlerInterface
