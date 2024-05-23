@@ -27,7 +27,7 @@ class FastRouteRouter extends Router
     /**
      * Initializes the router instance.
      *
-     * @param array<integer, \Rougin\Slytherin\Routing\RouteInterface|mixed[]> $routes
+     * @param array<integer, mixed[]|\Rougin\Slytherin\Routing\RouteInterface> $routes
      */
     public function __construct(array $routes = array())
     {

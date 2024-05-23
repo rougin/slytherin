@@ -96,7 +96,6 @@ class Request extends Message implements RequestInterface
      * @param string $method
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withMethod($method)

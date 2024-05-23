@@ -27,7 +27,6 @@ class FastRouteDispatcher extends Dispatcher
      * @param string $uri
      *
      * @return \Rougin\Slytherin\Routing\RouteInterface
-     *
      * @throws \BadMethodCallException
      */
     public function dispatch($method, $uri)
@@ -61,7 +60,6 @@ class FastRouteDispatcher extends Dispatcher
      * @param \Rougin\Slytherin\Routing\RouterInterface $router
      *
      * @return self
-     *
      * @throws \UnexpectedValueException
      */
     public function setRouter(RouterInterface $router)

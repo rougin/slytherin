@@ -211,7 +211,6 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array<string, mixed>|object|null $data
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withParsedBody($data)
@@ -247,7 +246,6 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withUploadedFiles(array $uploaded)

@@ -5,5 +5,5 @@ parameters:
     - tests
   excludePaths:
     analyse:
-        - src/Middleware/Handlers
-        - src/Middleware/Interop.php
+      - src/Middleware/Handlers
+      - src/Middleware/Interop.php

@@ -5,7 +5,7 @@ $paths = array(__DIR__ . '/src');
 $paths[] = realpath(__DIR__ . '/tests');
 // --------------------------------------
 
-// Specify the rules for code formatting ---------
+// Specify the rules for code formatting ---
 $rules = array('@PSR12' => true);
 
 $cscp = 'control_structure_continuation_position';
@@ -18,11 +18,8 @@ $braces['anonymous_functions_opening_brace'] = 'next_line_unless_newline_at_sign
 $braces['anonymous_classes_opening_brace'] = 'next_line_unless_newline_at_signature_end';
 $braces['allow_single_line_empty_anonymous_classes'] = false;
 $braces['allow_single_line_anonymous_functions'] = false;
-$rules['braces_position'] = $braces;
 
-$visibility = array('elements' => array());
-$visibility['elements'] = array('method', 'property');
-$rules['visibility_required'] = $visibility;
+$rules['braces_position'] = $braces;
 
 $rules['phpdoc_var_annotation_correct_order'] = true;
 
@@ -34,9 +31,11 @@ $rules['align_multiline_comment'] = true;
 
 $rules['trim_array_spaces'] = true;
 
-$order = ['case_sensitive' => true];
-$order['null_adjustment'] = 'always_last';
-$rules['phpdoc_types_order'] = $order;
+$visibility = array('elements' => array());
+$visibility['elements'] = array('method', 'property');
+$rules['visibility_required'] = $visibility;
+
+$rules['phpdoc_types_order'] = ['null_adjustment' => 'always_last'];
 
 $rules['new_with_parentheses'] = ['named_class' => false];
 
@@ -46,12 +45,11 @@ $rules['no_empty_phpdoc'] = true;
 
 $groups = [];
 $groups[] = ['deprecated', 'link', 'see', 'since'];
-$groups[] = ['property', 'property-read', 'property-write'];
-$groups[] = ['method'];
 $groups[] = ['author', 'copyright', 'license'];
 $groups[] = ['category', 'package', 'subpackage'];
+$groups[] = ['property', 'property-read', 'property-write'];
 $groups[] = ['param'];
-$groups[] = ['return'];
+$groups[] = ['return', 'throws'];
 $rules['phpdoc_separation'] = ['groups' => $groups];
 
 $align = ['align' => 'vertical'];
@@ -61,7 +59,7 @@ $rules['phpdoc_align'] = $align;
 $rules['statement_indentation'] = false;
 
 $rules['align_multiline_comment'] = true;
-// -----------------------------------------------
+// -----------------------------------------
 
 $finder = new \PhpCsFixer\Finder;
 

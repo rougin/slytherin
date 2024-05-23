@@ -137,7 +137,6 @@ class Message implements MessageInterface
      * @param string|string[] $value
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withAddedHeader($name, $value)
@@ -168,7 +167,6 @@ class Message implements MessageInterface
      * @param \Psr\Http\Message\StreamInterface $body
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withBody(StreamInterface $body)
@@ -187,7 +185,6 @@ class Message implements MessageInterface
      * @param string|string[] $value
      *
      * @return static
-     *
      * @throws \InvalidArgumentException
      */
     public function withHeader($name, $value)

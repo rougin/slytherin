@@ -128,7 +128,7 @@ class Handler implements HandlerInterface
     /**
      * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
      *
-     * @param \Psr\Http\Message\ResponseInterface|mixed $function
+     * @param mixed|\Psr\Http\Message\ResponseInterface $function
      *
      * @return \Psr\Http\Message\ResponseInterface
      */
