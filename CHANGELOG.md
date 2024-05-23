@@ -8,6 +8,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - `phpcsfixer.php` as custom rules for the `friendsofphp/php-cs-fixer` package
 - Test cases for the complete code coverage after running `friendsofphp/php-cs-fixer`
 - `@deprecated` notices for specified classes from previous versions
+- `HandlerInterface` for all wrapper variants of `PSR-15` middlewares
 
 ### Changed
 - `Router::__construct` supports adding `RouteInterface` in the array
