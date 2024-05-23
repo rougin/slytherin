@@ -57,10 +57,17 @@ Please see [CHANGELOG][link-changelog] for more information what has changed rec
 
 ## Testing
 
-To check all test cases written, kindly install the specified third-party packages first:
+To check all written test cases, kindly install the specified third-party packages first:
 
 ``` bash
-$ composer require filp/whoops league/container nikic/fast-route phroute/phroute rdlowrey/auryn twig/twig zendframework/zend-diactoros zendframework/zend-stratigility http-interop/http-middleware:^0.4.1 --dev
+$ composer request filp/whoops --dev
+$ composer request league/container --dev
+$ composer request nikic/fast-route --dev
+$ composer request phroute/phroute --dev
+$ composer request rdlowrey/auryn --dev
+$ composer request twig/twig --dev
+$ composer request zendframework/zend-diactoros --dev
+$ composer request zendframework/zend-stratigility --dev
 $ composer test
 ```
 
