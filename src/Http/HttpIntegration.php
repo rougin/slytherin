@@ -141,9 +141,17 @@ class HttpIntegration implements IntegrationInterface
             $request = ServerRequestFactory::fromGlobals();
         }
 
-        $container->set(System::REQUEST, $request);
+        if (! $container->has(System::REQUEST))
+        {
+            $container->set(System::REQUEST, $request);
+        }
 
-        return $container->set(System::RESPONSE, $response);
+        if (! $container->has(System::RESPONSE))
+        {
+            $container->set(System::RESPONSE, $response);
+        }
+
+        return $container;
     }
 
     /**

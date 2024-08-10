@@ -2,6 +2,11 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
+## [0.9.9](https://github.com/rougin/slytherin/compare/v0.9.7...v0.9.8) - Unreleased
+
+### Changed
+- Do not override `System` implementations if already defined from `ContainerInterface`
+
 ## [0.9.8](https://github.com/rougin/slytherin/compare/v0.9.7...v0.9.8) - 2024-05-23
 
 ### Added
