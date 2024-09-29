@@ -1,7 +1,7 @@
 {
   "name": "rougin/slytherin",
-  "description": "An extensible and SOLID-based PHP micro-framework.",
-  "keywords": ["php framework", "php micro-framework", "php package"],
+  "description": "A simple and extensible PHP micro-framework.",
+  "keywords": [ "micro-framework", "php-framework" ],
   "homepage": "https://roug.in/slytherin/",
   "license": "MIT",
   "authors":
