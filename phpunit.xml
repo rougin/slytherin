@@ -11,13 +11,31 @@
       <directory>tests</directory>
     </testsuite>
   </testsuites>
+
+  <!-- For PHP 5.6 to 7.2 -->
+  <filter>
+    <whitelist processUncoveredFilesFromWhitelist="true">
+      <directory suffix=".php">src</directory>
+    </whitelist>
+  </filter>
+
+  <!-- For PHP 5.6 to 7.2 -->
+  <logging>
+    <log type="coverage-clover" target="build/logs/clover.xml"/>
+    <log type="coverage-html" target="build/coverage"/>
+    <log type="coverage-text" target="build/coverage.txt"/>
+  </logging>
+
+  <!-- For PHP 8.0 and above -->
   <source>
-    <include> <!-- For PHP 8.0 and above -->
+    <include>
       <directory suffix=".php">src</directory>
     </include>
   </source>
+
   <coverage>
-    <include> <!-- For PHP 8.0 and below -->
+    <!-- For PHP 7.3 to 8.0 -->
+    <include>
       <directory suffix=".php">src</directory>
     </include>
     <report>
