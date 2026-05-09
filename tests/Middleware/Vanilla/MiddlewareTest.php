@@ -4,6 +4,7 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
@@ -53,6 +54,13 @@ class MiddlewareTest extends Testcase
      */
     public function test_processing_one_middleware()
     {
+        // @codeCoverageIgnoreStart
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not installed.');
+        }
+        // @codeCoverageIgnoreEnd
+
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';

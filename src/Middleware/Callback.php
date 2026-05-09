@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Middleware;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -22,17 +21,17 @@ class Callback implements MiddlewareInterface
     protected $middleware;
 
     /**
-     * @var \Psr\Http\Message\ResponseInterface|null
+     * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $response = null;
+    protected $response;
 
     /**
      * Initializes the middleware instance.
      *
-     * @param callable                                 $middleware
-     * @param \Psr\Http\Message\ResponseInterface|null $response
+     * @param callable                            $middleware
+     * @param \Psr\Http\Message\ResponseInterface $response
      */
-    public function __construct($middleware, ResponseInterface $response = null)
+    public function __construct($middleware, $response)
     {
         $this->middleware = $middleware;
 

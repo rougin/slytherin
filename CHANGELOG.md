@@ -2,10 +2,13 @@
 
 All notable changes to `Slytherin` will be documented in this file.
 
-## [0.9.9](https://github.com/rougin/slytherin/compare/v0.9.7...v0.9.8) - Unreleased
+## [0.9.9](https://github.com/rougin/slytherin/compare/v0.9.8...v0.9.9) - Unreleased
 
 ### Changed
 - Do not override `System` implementations if already defined from `ContainerInterface`
+
+### Fixed
+- [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
 
 ## [0.9.8](https://github.com/rougin/slytherin/compare/v0.9.7...v0.9.8) - 2024-05-23
 

@@ -4,7 +4,6 @@ namespace Rougin\Slytherin\Routing;
 
 use Phroute\Phroute\Dispatcher as Phroute;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
-use Phroute\Phroute\HandlerResolverInterface;
 use Phroute\Phroute\RouteDataArray;
 
 /**
@@ -36,27 +35,6 @@ class PhrouteDispatcher extends Dispatcher
     protected $items;
 
     /**
-     * @var \Phroute\Phroute\HandlerResolverInterface|null
-     */
-    protected $resolver;
-
-    /**
-     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
-     * @param \Phroute\Phroute\HandlerResolverInterface|null $resolver
-     */
-    public function __construct(RouterInterface $router = null, HandlerResolverInterface $resolver = null)
-    {
-        parent::__construct($router);
-
-        if (! $resolver)
-        {
-            $resolver = new PhrouteResolver;
-        }
-
-        $this->resolver = $resolver;
-    }
-
-    /**
      * Dispatches against the provided HTTP method verb and URI.
      *
      * @param string $method
@@ -69,7 +47,9 @@ class PhrouteDispatcher extends Dispatcher
     {
         $this->validMethod($method);
 
-        $phroute = new Phroute($this->items, $this->resolver);
+        $resolver = new PhrouteResolver;
+
+        $phroute = new Phroute($this->items, $resolver);
 
         try
         {

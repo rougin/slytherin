@@ -16,14 +16,14 @@ use Psr\Container\ContainerInterface as PsrContainer;
 class ReflectionContainer implements PsrContainer
 {
     /**
-     * @var \Psr\Container\ContainerInterface|null
+     * @var \Psr\Container\ContainerInterface
      */
-    protected $container = null;
+    protected $container;
 
     /**
-     * @param \Psr\Container\ContainerInterface|null $container
+     * @param \Psr\Container\ContainerInterface $container
      */
-    public function __construct(PsrContainer $container = null)
+    public function __construct($container)
     {
         $this->container = $container;
     }
@@ -48,7 +48,7 @@ class ReflectionContainer implements PsrContainer
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        if ($this->container && $this->container->has($id))
+        if ($this->container->has($id))
         {
             return $this->container->get((string) $id);
         }

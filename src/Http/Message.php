@@ -45,8 +45,10 @@ class Message implements MessageInterface
      * @param \Psr\Http\Message\StreamInterface|null $body
      * @param array<string, string[]>                $headers
      * @param string                                 $version
+     *
+     * @todo Remove usage of "null" in this method.
      */
-    public function __construct(StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct($body = null, array $headers = array(), $version = '1.1')
     {
         if ($body === null)
         {

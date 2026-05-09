@@ -33,18 +33,20 @@ class RoutingIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $dispatcher = new Dispatcher;
+        $router = new Router;
 
-        $router = $config->get('app.router', new Router);
+        $dispatcher = new Dispatcher($router);
+
+        $router = $config->get('app.router', $router);
 
         if ($this->wants('fastroute'))
         {
-            $dispatcher = new FastRouteDispatcher;
+            $dispatcher = new FastRouteDispatcher($router);
         }
 
         if ($this->wants('phroute'))
         {
-            $dispatcher = new PhrouteDispatcher;
+            $dispatcher = new PhrouteDispatcher($router);
         }
 
         $container->set(System::DISPATCHER, $dispatcher);

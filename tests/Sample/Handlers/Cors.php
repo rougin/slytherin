@@ -29,17 +29,17 @@ class Cors implements MiddlewareInterface
     protected $methods = array('GET', 'POST', 'PUT', 'DELETE', 'OPTIONS');
 
     /**
-     * @param string[]|null $allowed
-     * @param string[]|null $methods
+     * @param string[] $allowed
+     * @param string[] $methods
      */
-    public function __construct(array $allowed = null, array $methods = null)
+    public function __construct($allowed = array(), $methods = array())
     {
-        if (! $allowed)
+        if (count($allowed) === 0)
         {
             $allowed = array('*');
         }
 
-        if (! $methods)
+        if (count($methods) === 0)
         {
             $methods = $this->methods;
         }
@@ -57,12 +57,15 @@ class Cors implements MiddlewareInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $options = $request->getMethod() === 'OPTIONS';
+        $response = new Response;
 
-        $response = $options ? new Response : $handler->handle($request);
+        if ($request->getMethod() !== 'OPTIONS')
+        {
+            $response = $handler->handle($request);
+        }
 
         $response = $response->withHeader(self::ORIGIN, $this->allowed);
 
-        return $response->withHeader(self::METHODS, (array) $this->methods);
+        return $response->withHeader(self::METHODS, $this->methods);
     }
 }

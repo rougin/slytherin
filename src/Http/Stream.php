@@ -147,12 +147,17 @@ class Stream implements StreamInterface
             $this->meta = stream_get_meta_data($this->stream);
         }
 
-        if (isset($this->meta[$key]))
+        if ($key === null)
+        {
+            return $this->meta;
+        }
+
+        if ($this->meta && isset($this->meta[$key]))
         {
             $metadata = $this->meta[$key];
         }
 
-        return is_null($key) ? $this->meta : $metadata;
+        return $metadata;
     }
 
     /**

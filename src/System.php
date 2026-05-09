@@ -4,7 +4,6 @@ namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
-use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\System\Handler;
 
@@ -52,8 +51,10 @@ class System
      *
      * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
      * @param \Rougin\Slytherin\Integration\Configuration|null    $config
+     *
+     * @todo Remove usage of "null" in this method.
      */
-    public function __construct(ContainerInterface $container = null, Configuration $config = null)
+    public function __construct($container = null, $config = null)
     {
         if (! $config)
         {
@@ -122,8 +123,10 @@ class System
      * @param \Rougin\Slytherin\Integration\Configuration|null $config
      *
      * @return self
+     *
+     * @todo Remove usage of "null" in this method.
      */
-    public function integrate($items, Configuration $config = null)
+    public function integrate($items, $config = null)
     {
         if (! $config)
         {

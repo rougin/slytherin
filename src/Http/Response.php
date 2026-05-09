@@ -12,7 +12,6 @@
 namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamInterface;
 
 /**
  * Response
@@ -108,8 +107,10 @@ class Response extends Message implements ResponseInterface
      * @param \Psr\Http\Message\StreamInterface|null $body
      * @param array<string, string[]>                $headers
      * @param string                                 $version
+     *
+     * @todo Remove usage of "null" in this method.
      */
-    public function __construct($code = 200, StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct($code = 200, $body = null, array $headers = array(), $version = '1.1')
     {
         parent::__construct($body, $headers, $version);
 

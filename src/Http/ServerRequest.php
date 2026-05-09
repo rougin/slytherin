@@ -12,8 +12,6 @@
 namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamInterface;
-use Psr\Http\Message\UriInterface;
 
 /**
  * Server Request
@@ -69,7 +67,7 @@ class ServerRequest extends Request implements ServerRequestInterface
      * @param array<string, string[]>                       $headers
      * @param string                                        $version
      */
-    public function __construct(array $server, array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct(array $server, array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), $uri = null, $body = null, array $headers = array(), $version = '1.1')
     {
         $uri = $uri === null ? Uri::instance($server) : $uri;
 

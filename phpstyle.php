@@ -15,14 +15,15 @@ $braces['allow_single_line_anonymous_functions'] = false;
 $braces['allow_single_line_empty_anonymous_classes'] = false;
 $braces['anonymous_classes_opening_brace'] = $nextLine;
 $braces['anonymous_functions_opening_brace'] = $nextLine;
+$braces['classes_opening_brace'] = $nextLine;
 $braces['control_structures_opening_brace'] = $nextLine;
 $rules['braces_position'] = $braces;
 // ----------------------------------------------------------
 
-// Visibility -------------------------------------
+// Modifier keywords ------------------------------
 $visible = array('elements' => array());
 $visible['elements'] = array('method', 'property');
-$rules['visibility_required'] = $visible;
+$rules['modifier_keywords'] = $visible;
 // ------------------------------------------------
 
 // PHPDoc multiline alignment -------------------------------------------------
@@ -46,6 +47,7 @@ $groups[] = array('author', 'copyright', 'license');
 $groups[] = array('category', 'package', 'subpackage');
 $groups[] = array('param');
 $groups[] = array('return', 'throws');
+$groups[] = array('todo');
 $rules['phpdoc_separation'] = compact('groups');
 // ---------------------------------------------------------------------------
 
@@ -81,7 +83,7 @@ $rules['statement_indentation'] = false;
 
 $finder = new \PhpCsFixer\Finder;
 
-$finder->in($paths)->exclude('app/plates');
+$finder->in($paths);
 
 $config = new \PhpCsFixer\Config;
 

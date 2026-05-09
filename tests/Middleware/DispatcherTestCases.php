@@ -185,6 +185,13 @@ class DispatcherTestCases extends Testcase
      */
     public function test_different_middleware_interfaces()
     {
+        // @codeCoverageIgnoreStart
+        if (! Interop::exists())
+        {
+            $this->markTestSkipped('Interop middleware/s not installed.');
+        }
+        // @codeCoverageIgnoreEnd
+
         $expected = array('Rougin Gutib');
 
         $items = array(new Slytherin, new Interop05);

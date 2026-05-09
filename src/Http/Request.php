@@ -12,7 +12,6 @@
 namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UriInterface;
 
 /**
@@ -48,8 +47,10 @@ class Request extends Message implements RequestInterface
      * @param \Psr\Http\Message\StreamInterface|null $body
      * @param array<string, string[]>                $headers
      * @param string                                 $version
+     *
+     * @todo Remove usage of "null" in this method.
      */
-    public function __construct($method = 'GET', $target = '/', UriInterface $uri = null, StreamInterface $body = null, array $headers = array(), $version = '1.1')
+    public function __construct($method = 'GET', $target = '/', $uri = null, $body = null, array $headers = array(), $version = '1.1')
     {
         parent::__construct($body, $headers, $version);
 

@@ -120,19 +120,13 @@ class Collector
      * Initializes the specified components.
      *
      * @param \Rougin\Slytherin\Component\ComponentInterface[]|string[] $components
-     * @param \Rougin\Slytherin\IoC\ContainerInterface                  $container
      *
      * @return \Rougin\Slytherin\Component\Collection
      */
-    public static function get(array $components, ContainerInterface $container = null)
+    public static function get(array $components)
     {
         $self = new Collector($components);
 
-        if (! $container)
-        {
-            $container = new Container;
-        }
-
-        return $self->make($container);
+        return $self->make(new Container);
     }
 }

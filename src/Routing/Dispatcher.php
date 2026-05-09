@@ -26,14 +26,11 @@ class Dispatcher implements DispatcherInterface
     /**
      * Initializes the route dispatcher instance.
      *
-     * @param \Rougin\Slytherin\Routing\RouterInterface|null $router
+     * @param \Rougin\Slytherin\Routing\RouterInterface $router
      */
-    public function __construct(RouterInterface $router = null)
+    public function __construct($router)
     {
-        if ($router)
-        {
-            $this->setRouter($router);
-        }
+        $this->setRouter($router);
     }
 
     /**
