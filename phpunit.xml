@@ -12,29 +12,31 @@
     </testsuite>
   </testsuites>
 
-  <!-- For PHP 5.6 to 7.2 -->
+  <!-- For PHP v5.3 to v5.5 -->
   <logging>
     <log type="coverage-clover" target="build/logs/clover.xml"/>
     <log type="coverage-html" target="build/coverage"/>
     <log type="coverage-text" target="build/coverage.txt"/>
   </logging>
 
-  <!-- For PHP 8.0 and above -->
-  <source>
-    <include>
-      <directory suffix=".php">src</directory>
-    </include>
-  </source>
-
   <coverage>
-    <!-- For PHP 7.3 to 8.0 -->
+    <!-- For PHP v7.3 to v8.0 -->
     <include>
       <directory suffix=".php">src</directory>
     </include>
+
+    <!-- For PHP v5.3-v5.5, v7.3 and above -->
     <report>
       <clover outputFile="build/logs/clover.xml"/>
       <html outputDirectory="build/coverage"/>
       <text outputFile="build/coverage.txt"/>
     </report>
   </coverage>
+
+  <!-- For PHP v8.0 and above -->
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>
