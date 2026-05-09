@@ -41,7 +41,7 @@ class StreamTest extends Testcase
      */
     public function test_closing_the_contents()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         $this->stream->close();
 
@@ -94,7 +94,7 @@ class StreamTest extends Testcase
      */
     public function test_getting_stream_content_with_an_error()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         /** @var resource */
         $file = fopen($this->filepath, 'w');
@@ -161,7 +161,7 @@ class StreamTest extends Testcase
      */
     public function test_reading_stream_with_an_error()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         $stream = new Stream($this->newFile());
 
@@ -189,7 +189,7 @@ class StreamTest extends Testcase
      */
     public function test_setting_position_with_an_error()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         $stream = new Stream($this->newFile());
 
@@ -201,7 +201,7 @@ class StreamTest extends Testcase
      */
     public function test_getting_current_position_with_an_error()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         $stream = new Stream($this->newFile());
 
@@ -231,7 +231,7 @@ class StreamTest extends Testcase
      */
     public function test_writing_the_stream_with_an_error()
     {
-        $this->setExpectedException('RuntimeException');
+        $this->doSetExpectedException('RuntimeException');
 
         $stream = new Stream($this->newFile('r'));
 

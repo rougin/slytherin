@@ -98,7 +98,7 @@ class DispatcherTest extends Testcase
      */
     public function test_dispatching_a_route_with_an_error()
     {
-        $this->setExpectedException('BadMethodCallException');
+        $this->doSetExpectedException('BadMethodCallException');
 
         $this->dispatcher->dispatch('GET', '/test');
     }
@@ -108,7 +108,7 @@ class DispatcherTest extends Testcase
      */
     public function test_dispatching_a_route_with_an_invalid_http_method()
     {
-        $this->setExpectedException('BadMethodCallException');
+        $this->doSetExpectedException('BadMethodCallException');
 
         $this->dispatcher->dispatch('TEST', '/hi');
     }
@@ -118,7 +118,7 @@ class DispatcherTest extends Testcase
      */
     public function test_dispatching_a_route_with_a_bad_method_exception()
     {
-        $this->setExpectedException('BadMethodCallException');
+        $this->doSetExpectedException('BadMethodCallException');
 
         $this->dispatcher->dispatch('TEST', '/hi');
     }

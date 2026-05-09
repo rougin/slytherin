@@ -59,7 +59,7 @@ class ContainerTest extends Testcase
      */
     public function test_getting_instance_with_container_exception()
     {
-        $this->setExpectedException('Psr\Container\ContainerExceptionInterface');
+        $this->doSetExpectedException('Psr\Container\ContainerExceptionInterface');
 
         $this->container->set('Test', array());
 
@@ -73,7 +73,7 @@ class ContainerTest extends Testcase
      */
     public function test_getting_instance_with_not_found_exception()
     {
-        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $this->doSetExpectedException('Psr\Container\NotFoundExceptionInterface');
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }

@@ -54,7 +54,7 @@ class LeagueContainerTest extends Testcase
      */
     public function test_getting_instance_with_not_found_exception()
     {
-        $this->setExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $this->doSetExpectedException('Psr\Container\NotFoundExceptionInterface');
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NewClass');
     }

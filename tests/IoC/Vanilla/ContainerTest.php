@@ -132,7 +132,7 @@ class ContainerTest extends Testcase
      */
     public function test_getting_class_that_doesnt_exists()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
         // $this->container->get($this->class);
@@ -145,7 +145,7 @@ class ContainerTest extends Testcase
      */
     public function test_getting_class_with_an_error()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
+        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
 
         $this->container->set('Foo', array());
 
@@ -187,7 +187,7 @@ class ContainerTest extends Testcase
     {
         $container = new ReflectionContainer($this->container);
 
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $container->get('Test');
     }

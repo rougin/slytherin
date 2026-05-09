@@ -96,7 +96,7 @@ class ContainerTest extends Testcase
      */
     public function test_getting_class_with_an_error()
     {
-        $this->setExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
 
         $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
     }

@@ -57,7 +57,7 @@ class RendererTest extends Testcase
      */
     public function test_rendering_a_text_from_file_with_an_error()
     {
-        $this->setExpectedException('InvalidArgumentException');
+        $this->doSetExpectedException('InvalidArgumentException');
 
         $this->renderer->render('hello');
     }
