@@ -72,7 +72,7 @@ class RoutingIntegration implements IntegrationInterface
 
         if ($type === 'phroute')
         {
-            $package = 'Phroute\Phroute\RouteCollector';
+            $package = 'Phroute\Phroute\Dispatcher';
         }
 
         $preferred = $this->preferred === $type;

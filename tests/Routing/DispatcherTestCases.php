@@ -131,7 +131,7 @@ class DispatcherTestCases extends Testcase
         if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher')
         {
             // @codeCoverageIgnoreStart
-            if (! class_exists('Phroute\Phroute\RouteCollector'))
+            if (! class_exists('Phroute\Phroute\Dispatcher'))
             {
                 $this->markTestSkipped('Phroute is not installed.');
             }
