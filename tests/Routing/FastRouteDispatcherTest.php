@@ -57,7 +57,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
-        $this->exists('Rougin\Slytherin\Routing\PhrouteRouter');
+        $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
 
         $router = new PhrouteRouter;
 
