@@ -40,6 +40,8 @@
   },
   "scripts":
   {
+    "analyze": "phpstan analyse",
+    "restyle": "php-cs-fixer fix --config=phpstyle.php",
     "test": "phpunit"
   }
 }

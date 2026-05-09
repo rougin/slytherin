@@ -19,7 +19,7 @@ class DispatcherTest extends Testcase
     protected $dispatcher;
 
     /**
-     * @var array<integer, mixed[]|\Rougin\Slytherin\Routing\RouteInterface>
+     * @var array<integer, \Rougin\Slytherin\Routing\RouteInterface|mixed[]>
      */
     protected $routes = array();
 

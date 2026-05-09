@@ -2,68 +2,86 @@
 
 // Specify the paths in this variable ---
 $paths = array(__DIR__ . '/src');
-$paths[] = realpath(__DIR__ . '/tests');
+
+$paths[] = __DIR__ . '/tests';
 // --------------------------------------
 
-// Specify the rules for code formatting ---
 $rules = array('@PSR12' => true);
 
-$cscp = 'control_structure_continuation_position';
-$rules[$cscp] = ['position' => 'next_line'];
-
-$braces = array();
-$braces['control_structures_opening_brace'] = 'next_line_unless_newline_at_signature_end';
-$braces['functions_opening_brace'] = 'next_line_unless_newline_at_signature_end';
-$braces['anonymous_functions_opening_brace'] = 'next_line_unless_newline_at_signature_end';
-$braces['anonymous_classes_opening_brace'] = 'next_line_unless_newline_at_signature_end';
-$braces['allow_single_line_empty_anonymous_classes'] = false;
+// Braces ---------------------------------------------------
+$nextLine = 'next_line_unless_newline_at_signature_end';
+$braces = array('functions_opening_brace' => $nextLine);
 $braces['allow_single_line_anonymous_functions'] = false;
-
+$braces['allow_single_line_empty_anonymous_classes'] = false;
+$braces['anonymous_classes_opening_brace'] = $nextLine;
+$braces['anonymous_functions_opening_brace'] = $nextLine;
+$braces['control_structures_opening_brace'] = $nextLine;
 $rules['braces_position'] = $braces;
+// ----------------------------------------------------------
 
-$rules['phpdoc_var_annotation_correct_order'] = true;
+// Visibility -------------------------------------
+$visible = array('elements' => array());
+$visible['elements'] = array('method', 'property');
+$rules['visibility_required'] = $visible;
+// ------------------------------------------------
 
-$rules['single_quote'] = ['strings_containing_single_quote_chars' => true];
+// PHPDoc multiline alignment -------------------------------------------------
+$align = array('align' => 'vertical');
+$align['tags'] = array('method', 'param', 'property', 'throws', 'type', 'var');
+$rules['phpdoc_align'] = $align;
+// ----------------------------------------------------------------------------
 
-$rules['no_unused_imports'] = true;
+// PHPDoc ordering -----------------------
+$order = array('case_sensitive' => true);
+$order['null_adjustment'] = 'always_last';
+$rules['phpdoc_types_order'] = $order;
+// ---------------------------------------
 
+// PHPDoc tag separation -----------------------------------------------------
+$groups = array(array('template', 'extends'));
+$groups[] = array('deprecated', 'link', 'see', 'since', 'codeCoverageIgnore');
+$groups[] = array('property', 'property-read', 'property-write');
+$groups[] = array('method');
+$groups[] = array('author', 'copyright', 'license');
+$groups[] = array('category', 'package', 'subpackage');
+$groups[] = array('param');
+$groups[] = array('return', 'throws');
+$rules['phpdoc_separation'] = compact('groups');
+// ---------------------------------------------------------------------------
+
+// Single quotes -------------------------------
+$text = 'strings_containing_single_quote_chars';
+$rules['single_quote'] = array($text => true);
+// ---------------------------------------------
+
+// Control Structure Continuation Position -------
+$cscp = 'control_structure_continuation_position';
+$rules[$cscp] = array('position' => 'next_line');
+// -----------------------------------------------
+
+// Other customized rules ---------------------------
 $rules['align_multiline_comment'] = true;
 
-$rules['trim_array_spaces'] = true;
+$concat = array('spacing' => 'one');
+$rules['concat_space'] = $concat;
 
-$visibility = array('elements' => array());
-$visibility['elements'] = array('method', 'property');
-$rules['visibility_required'] = $visibility;
-
-$rules['phpdoc_types_order'] = ['null_adjustment' => 'always_last'];
-
-$rules['new_with_parentheses'] = ['named_class' => false];
-
-$rules['concat_space'] = ['spacing' => 'one'];
+$config = array('named_class' => false);
+$rules['new_with_parentheses'] = $config;
 
 $rules['no_empty_phpdoc'] = true;
 
-$groups = [];
-$groups[] = ['deprecated', 'link', 'see', 'since'];
-$groups[] = ['author', 'copyright', 'license'];
-$groups[] = ['category', 'package', 'subpackage'];
-$groups[] = ['property', 'property-read', 'property-write'];
-$groups[] = ['param'];
-$groups[] = ['return', 'throws'];
-$rules['phpdoc_separation'] = ['groups' => $groups];
+$rules['no_unused_imports'] = true;
 
-$align = ['align' => 'vertical'];
-$align['tags'] = ['method', 'param', 'property', 'throws', 'type', 'var'];
-$rules['phpdoc_align'] = $align;
+$rules['phpdoc_var_annotation_correct_order'] = true;
+
+$rules['trim_array_spaces'] = true;
 
 $rules['statement_indentation'] = false;
-
-$rules['align_multiline_comment'] = true;
-// -----------------------------------------
+// --------------------------------------------------
 
 $finder = new \PhpCsFixer\Finder;
 
-$finder->in((array) $paths);
+$finder->in($paths)->exclude('app/plates');
 
 $config = new \PhpCsFixer\Config;
 
