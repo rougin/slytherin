@@ -43,11 +43,17 @@ class Route
     {
         $response = $this->response->withStatus($code);
 
-        /** @var string */
         $stream = json_encode($data);
 
-        $response->getBody()->write($stream);
+        if ($stream !== false)
+        {
+            $response->getBody()->write($stream);
+        }
 
-        return $response->withHeader('Content-Type', 'application/json');
+        $value = 'application/json';
+
+        $name = 'Content-Type';
+
+        return $response->withHeader($name, $value);
     }
 }

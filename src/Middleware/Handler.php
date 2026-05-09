@@ -67,7 +67,7 @@ class Handler implements HandlerInterface
             return $this->default->handle($request);
         }
 
-        $item = $this->stack[(int) $this->index];
+        $item = $this->stack[$this->index];
 
         $next = $this->next();
 

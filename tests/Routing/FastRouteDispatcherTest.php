@@ -43,7 +43,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $route = $dispatcher->dispatch('GET', '/hi/Slytherin');
 
-        $expected = (string) 'Hello Slytherin!';
+        $expected = 'Hello Slytherin!';
 
         $actual = $this->resolve($route);
 
@@ -71,7 +71,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+        $expected = $controller->index();
 
         $actual = $this->resolve($route);
 

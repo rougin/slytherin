@@ -43,7 +43,7 @@ class ResponseTest extends Testcase
      */
     public function test_getting_the_status_code()
     {
-        $expected = (int) 500;
+        $expected = 500;
 
         $response = $this->response->withStatus($expected);
 

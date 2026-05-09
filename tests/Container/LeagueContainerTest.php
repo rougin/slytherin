@@ -38,7 +38,7 @@ class LeagueContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $expected = (string) $class;
+        $expected = $class;
 
         // Added "$shared" to true in the unit test ----
         $this->container->set($class, new $class, true);

@@ -48,7 +48,7 @@ class MiddlewareTest extends Testcase
         $expected = 'First! Second! Last!';
 
         $response = $middleware->process($request, new Lastone);
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }

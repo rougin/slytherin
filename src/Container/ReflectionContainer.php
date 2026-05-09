@@ -50,11 +50,11 @@ class ReflectionContainer implements PsrContainer
 
         if ($this->container->has($id))
         {
-            return $this->container->get((string) $id);
+            return $this->container->get($id);
         }
 
         /** @var class-string $id */
-        $reflection = new \ReflectionClass((string) $id);
+        $reflection = new \ReflectionClass($id);
 
         if ($constructor = $reflection->getConstructor())
         {
@@ -84,7 +84,7 @@ class ReflectionContainer implements PsrContainer
         {
             $argument = $this->getArgument($item);
 
-            $name = (string) $item->getName();
+            $name = $item->getName();
 
             if (array_key_exists($name, $parameters))
             {
@@ -142,7 +142,7 @@ class ReflectionContainer implements PsrContainer
 
             if ($this->has($name = $param->getName()))
             {
-                $argument = $this->get((string) $name);
+                $argument = $this->get($name);
             }
         }
 

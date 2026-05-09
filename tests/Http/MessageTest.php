@@ -75,7 +75,7 @@ class MessageTest extends Testcase
      */
     public function test_getting_protocol_version()
     {
-        $expected = (string) '1.2';
+        $expected = '1.2';
 
         $message = $this->message->withProtocolVersion($expected);
 

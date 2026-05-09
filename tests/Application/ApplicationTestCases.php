@@ -40,11 +40,11 @@ class ApplicationTestCases extends Testcase
     {
         $request = $this->request('GET', '/store');
 
-        $expected = (string) 'Store';
+        $expected = 'Store';
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -60,7 +60,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -76,7 +76,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -88,11 +88,11 @@ class ApplicationTestCases extends Testcase
     {
         $request = $this->request('GET', '/middleware');
 
-        $expected = (string) 'Loaded with middleware';
+        $expected = 'Loaded with middleware';
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -104,11 +104,11 @@ class ApplicationTestCases extends Testcase
     {
         $request = $this->request('GET', '/optional');
 
-        $expected = (string) 'Hello';
+        $expected = 'Hello';
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -124,7 +124,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -140,7 +140,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -156,7 +156,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -179,7 +179,7 @@ class ApplicationTestCases extends Testcase
 
         $response = $this->system->handle($request);
 
-        $actual = (string) $response->getBody();
+        $actual = $response->getBody();
 
         $this->assertEquals($expected, $actual);
     }
@@ -191,7 +191,7 @@ class ApplicationTestCases extends Testcase
     {
         $request = $this->request('GET', '/typehint/202');
 
-        $expected = (int) 202;
+        $expected = 202;
 
         $response = $this->system->handle($request);
 

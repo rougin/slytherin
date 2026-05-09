@@ -21,9 +21,9 @@ class UploadedFileTest extends Testcase
      */
     protected function doSetUp()
     {
-        $root = (string) str_replace('Http', 'Fixture', __DIR__);
+        $root = str_replace('Http', 'Fixture', __DIR__);
 
-        $filepath = (string) $root . '/Templates/new-test.php';
+        $filepath = $root . '/Templates/new-test.php';
 
         file_put_contents($filepath, 'Hello world');
 
@@ -59,7 +59,7 @@ class UploadedFileTest extends Testcase
      */
     public function test_getting_the_file_name()
     {
-        $expected = (string) 'new-test.php';
+        $expected = 'new-test.php';
 
         $actual = $this->uploaded->getClientFilename();
 
@@ -71,7 +71,7 @@ class UploadedFileTest extends Testcase
      */
     public function test_getting_the_media_type()
     {
-        $expected = (string) 'text/plain';
+        $expected = 'text/plain';
 
         $actual = $this->uploaded->getClientMediaType();
 
@@ -95,9 +95,9 @@ class UploadedFileTest extends Testcase
      */
     public function test_moving_the_uploaded_file()
     {
-        $root = (string) str_replace('Http', 'Fixture', __DIR__);
+        $root = str_replace('Http', 'Fixture', __DIR__);
 
-        $target = (string) $root . '/Templates/new.php';
+        $target = $root . '/Templates/new.php';
 
         $this->uploaded->moveTo($target);
 

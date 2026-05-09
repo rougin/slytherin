@@ -175,7 +175,7 @@ class System
         /** @var \Psr\Http\Message\ServerRequestInterface */
         $request = $this->container->get(self::REQUEST);
 
-        echo (string) $this->emit($request)->getBody();
+        echo $this->emit($request)->getBody();
     }
 
     /**
@@ -189,7 +189,7 @@ class System
     {
         $response = $this->handle($request);
 
-        $code = (string) $response->getStatusCode();
+        $code = $response->getStatusCode();
 
         $code .= ' ' . $response->getReasonPhrase();
 
@@ -201,9 +201,9 @@ class System
 
         foreach ($headers as $name => $values)
         {
-            $value = (string) implode(',', $values);
+            $value = implode(',', $values);
 
-            header((string) $name . ': ' . $value);
+            header($name . ': ' . $value);
         }
 
         return $response;

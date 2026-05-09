@@ -70,7 +70,7 @@ class Builder
     protected function setContainer()
     {
         // Initialize the RendererInterface ----------------------
-        $views = (string) realpath(__DIR__ . '/Plates');
+        $views = realpath(__DIR__ . '/Plates');
         $loader = new Twig_Loader_Filesystem($views);
         $twig = new Twig(new Twig_Environment($loader));
         $renderer = 'Rougin\Slytherin\Template\RendererInterface';
@@ -147,7 +147,7 @@ class Builder
     {
         $router = __DIR__ . '/Router.php';
 
-        $router = require realpath((string) $router);
+        $router = require realpath($router);
 
         $dispatcher = new Dispatcher($router);
 

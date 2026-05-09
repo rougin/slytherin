@@ -34,7 +34,7 @@ class DispatcherTestCases extends Testcase
 
         $this->dispatcher->push($fn);
 
-        $expected = (int) 404;
+        $expected = 404;
 
         $actual = $this->process()->getStatusCode();
 
@@ -61,7 +61,7 @@ class DispatcherTestCases extends Testcase
             // @codeCoverageIgnoreEnd
         }
 
-        $time = (int) time();
+        $time = time();
 
         $fn = function ($request, $next) use ($time)
         {

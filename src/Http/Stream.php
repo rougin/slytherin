@@ -290,7 +290,7 @@ class Stream implements StreamInterface
         {
             $message = 'Could not get position of pointer in stream';
 
-            throw new \RuntimeException((string) $message);
+            throw new \RuntimeException($message);
         }
 
         return $position;

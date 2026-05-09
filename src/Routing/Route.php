@@ -63,7 +63,7 @@ class Route implements RouteInterface
 
         $this->middlewares = $middlewares;
 
-        $this->uri = (string) $uri;
+        $this->uri = $uri;
     }
 
     /**
@@ -129,7 +129,7 @@ class Route implements RouteInterface
         // ------------------------------------------------------------------
 
         // Add start and end matching ------
-        return (string) '@^' . $uri . '$@D';
+        return '@^' . $uri . '$@D';
         // ---------------------------------
     }
 

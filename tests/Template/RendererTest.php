@@ -23,7 +23,7 @@ class RendererTest extends Testcase
     {
         $root = str_replace('Template', 'Fixture', __DIR__);
 
-        $directories = (string) $root . '/Templates';
+        $directories = $root . '/Templates';
 
         $this->renderer = new Renderer($directories);
     }
@@ -45,7 +45,7 @@ class RendererTest extends Testcase
      */
     public function test_rendering_a_text_from_file_with_data()
     {
-        $expected = (string) 'This is a text from a template.';
+        $expected = 'This is a text from a template.';
 
         $data = array('name' => 'template');
 

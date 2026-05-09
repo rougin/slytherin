@@ -52,7 +52,6 @@ class Callback implements MiddlewareInterface
 
         if (is_string($middleware))
         {
-            /** @var callable */
             $middleware = new $middleware;
         }
 

@@ -167,7 +167,7 @@ class ApplicationTest extends Testcase
 
         $config->set('app.environment', 'development');
         $config->set('app.router', $router);
-        $config->set('app.views', (string) $root);
+        $config->set('app.views', $root);
 
         $items = array('Rougin\Slytherin\Http\HttpIntegration');
 

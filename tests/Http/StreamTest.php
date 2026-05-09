@@ -84,7 +84,7 @@ class StreamTest extends Testcase
     {
         $expected = 'This is a text from a template.';
 
-        $resource = (string) $this->stream->__toString();
+        $resource = $this->stream->__toString();
 
         $this->assertEquals($expected, $resource);
     }
@@ -125,7 +125,7 @@ class StreamTest extends Testcase
      */
     public function test_getting_stream_size()
     {
-        $expected = (int) 31;
+        $expected = 31;
 
         $actual = $this->stream->getSize();
 
@@ -149,9 +149,9 @@ class StreamTest extends Testcase
      */
     public function test_reading_stream()
     {
-        $expected = (string) 'This';
+        $expected = 'This';
 
-        $actual = (string) $this->stream->read(4);
+        $actual = $this->stream->read(4);
 
         $this->assertEquals($expected, $actual);
     }
@@ -173,7 +173,7 @@ class StreamTest extends Testcase
      */
     public function test_setting_position()
     {
-        $expected = (int) 2;
+        $expected = 2;
 
         $stream = new Stream($this->newFile());
 

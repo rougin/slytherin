@@ -66,7 +66,7 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        $expected = (string) $controller->index();
+        $expected = $controller->index();
 
         $actual = $this->resolve($route);
 

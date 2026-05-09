@@ -51,7 +51,7 @@ class Configuration
         for ($i = 0; $i < count($keys); $i++)
         {
             /** @var string */
-            $index = $keys[(int) $i];
+            $index = $keys[$i];
 
             /** @phpstan-ignore-next-line */
             $data = &$data[$index];

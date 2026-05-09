@@ -37,9 +37,9 @@ class RendererTest extends Testcase
         }
         // @codeCoverageIgnoreEnd
 
-        $path = realpath(__DIR__ . '/../../Fixture/Templates');
+        $path = __DIR__ . '/../../Fixture/Templates';
 
-        $this->twig = $twig->load((string) $path);
+        $this->twig = $twig->load($path);
 
         $this->renderer = new TwigRenderer($this->twig);
     }

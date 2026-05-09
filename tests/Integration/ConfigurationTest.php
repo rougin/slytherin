@@ -62,7 +62,7 @@ class ConfigurationTest extends Testcase
     {
         list($data, $default) = array(array('number' => 0), 1);
 
-        $expected = (int) $data['number'];
+        $expected = $data['number'];
 
         $config = new Configuration($data);
 

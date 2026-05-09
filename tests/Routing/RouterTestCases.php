@@ -56,7 +56,7 @@ class RouterTestCases extends Testcase
 
         $actual = $this->router->has('GET', '/');
 
-        $this->assertTrue((bool) $actual);
+        $this->assertTrue($actual);
     }
 
     /**
@@ -161,9 +161,9 @@ class RouterTestCases extends Testcase
     {
         $this->exists(get_class($this->router));
 
-        $this->router->prefix((string) '/v1/slytherin');
+        $this->router->prefix('/v1/slytherin');
 
-        $this->router->get('/hello', (string) 'HelloController@hello');
+        $this->router->get('/hello', 'HelloController@hello');
 
         $exists = $this->router->has('GET', '/v1/slytherin/hello');
 

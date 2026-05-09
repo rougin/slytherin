@@ -76,7 +76,7 @@ class Container implements ContainerInterface
             throw new Exception\NotFoundException(sprintf($message, $id));
         }
 
-        $entry = $this->items[(string) $id];
+        $entry = $this->items[$id];
 
         if (is_object($entry))
         {

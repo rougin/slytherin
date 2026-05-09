@@ -94,7 +94,7 @@ class DispatcherTestCases extends Testcase
 
         $this->exists(get_class($this->dispatcher));
 
-        $this->dispatcher->dispatch('GET', (string) '/test');
+        $this->dispatcher->dispatch('GET', '/test');
     }
 
     /**
@@ -106,7 +106,7 @@ class DispatcherTestCases extends Testcase
 
         $this->exists(get_class($this->dispatcher));
 
-        $this->dispatcher->dispatch('TEST', (string) '/');
+        $this->dispatcher->dispatch('TEST', '/');
     }
 
     /**

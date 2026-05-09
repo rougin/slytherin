@@ -38,7 +38,7 @@ class FastRouteDispatcher extends Dispatcher
 
         if ($result[0] === \FastRoute\Dispatcher::NOT_FOUND)
         {
-            $text = (string) 'Route "%s %s" not found';
+            $text = 'Route "%s %s" not found';
 
             $error = sprintf($text, $method, $uri);
 

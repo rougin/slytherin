@@ -20,13 +20,16 @@ class Testcase extends Legacy
      */
     public function doSetExpectedException($exception)
     {
+        /** @phpstan-ignore-next-line */
         if (method_exists($this, 'expectException'))
         {
+            /** @phpstan-ignore-next-line */
             $this->expectException($exception);
 
             return;
         }
 
+        /** @phpstan-ignore-next-line */
         $this->setExpectedException($exception);
     }
 }

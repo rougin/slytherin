@@ -125,7 +125,7 @@ class StratigilityDispatcher extends Dispatcher
         /** @var class-string */
         $factory = 'Zend\Stratigility\Middleware\CallableMiddlewareWrapperFactory';
 
-        $class = new \ReflectionClass((string) $factory);
+        $class = new \ReflectionClass($factory);
 
         $factory = $class->newInstance($response);
 

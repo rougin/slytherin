@@ -33,7 +33,7 @@ class ContainerTest extends Testcase
 
         $this->container->set($class, new $class);
 
-        $this->container->alias('test', (string) $class);
+        $this->container->alias('test', $class);
 
         $this->assertTrue($this->container->has('test'));
     }
@@ -47,7 +47,7 @@ class ContainerTest extends Testcase
 
         $this->container->set($expected, new $expected);
 
-        $actual = $this->container->get((string) $expected);
+        $actual = $this->container->get($expected);
 
         $this->assertInstanceOf($expected, $actual);
     }
@@ -63,7 +63,7 @@ class ContainerTest extends Testcase
 
         $this->container->set('Test', array());
 
-        $this->container->get((string) 'Test');
+        $this->container->get('Test');
     }
 
     /**

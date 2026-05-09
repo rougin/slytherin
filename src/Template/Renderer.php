@@ -60,7 +60,7 @@ class Renderer implements RendererInterface
 
         $message = 'Template file "' . $name . '" not found.';
 
-        throw new \InvalidArgumentException((string) $message);
+        throw new \InvalidArgumentException($message);
     }
 
     /**
@@ -81,12 +81,12 @@ class Renderer implements RendererInterface
         {
             $filepath = str_replace($path, $source, $value);
 
-            $filepath = str_replace('\\', '/', (string) $filepath);
+            $filepath = str_replace('\\', '/', $filepath);
 
             /** @var string */
             $filepath = preg_replace('/^\d\//i', '', $filepath);
 
-            $exists = (string) $filepath === $template;
+            $exists = $filepath === $template;
 
             $lowercase = strtolower($filepath) === $template;
 

@@ -198,12 +198,11 @@ class CollectionTest extends Testcase
         }
         // @codeCoverageIgnoreEnd
 
-        /** @var string */
-        $path = realpath(__DIR__ . '/../../Fixture/Templates');
+        $path = __DIR__ . '/../Fixture/Templates';
 
-        $environment = $twig->load($path);
+        $env = $twig->load($path);
 
-        $expected = new TwigRenderer($environment);
+        $expected = new TwigRenderer($env);
 
         $this->components->setTemplate($expected);
 

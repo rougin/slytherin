@@ -42,7 +42,7 @@ class ServerRequestTest extends Testcase
      */
     public function test_getting_attribute_from_server_params()
     {
-        $expected = (string) 'localhost';
+        $expected = 'localhost';
 
         $actual = $this->request->getAttribute('SERVER_NAME');
 
@@ -161,10 +161,10 @@ class ServerRequestTest extends Testcase
 
         $request = new ServerRequest($_SERVER, array(), array(), $uploaded);
 
-        $error = (int) $uploaded['file']['error'];
+        $error = $uploaded['file']['error'];
         $file = $uploaded['file']['tmp_name'];
         $name = $uploaded['file']['name'];
-        $size = (int) $uploaded['file']['size'];
+        $size = $uploaded['file']['size'];
         $type = $uploaded['file']['type'];
 
         $uploaded = new UploadedFile($file, $size, $error, $name, $type);

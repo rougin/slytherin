@@ -52,7 +52,7 @@ class Dispatcher implements DispatcherInterface
 
         if (! $route)
         {
-            $text = (string) 'Route "%s %s" not found';
+            $text = 'Route "%s %s" not found';
 
             $error = sprintf($text, $method, $uri);
 

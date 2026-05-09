@@ -29,7 +29,7 @@ class UriTest extends Testcase
      */
     public function test_getting_url_scheme()
     {
-        $expected = (string) 'http';
+        $expected = 'http';
 
         $uri = $this->uri->withScheme('http');
 
@@ -55,7 +55,7 @@ class UriTest extends Testcase
      */
     public function test_setting_user_info()
     {
-        $expected = (string) 'username:password';
+        $expected = 'username:password';
 
         $uri = $this->uri->withUserInfo('username', 'password');
 
@@ -69,7 +69,7 @@ class UriTest extends Testcase
      */
     public function test_updating_hostname()
     {
-        $expected = (string) 'google.com';
+        $expected = 'google.com';
 
         $uri = $this->uri->withHost('google.com');
 
@@ -83,7 +83,7 @@ class UriTest extends Testcase
      */
     public function test_setting_the_url_port()
     {
-        $expected = (int) 500;
+        $expected = 500;
 
         $uri = $this->uri->withPort(500);
 
@@ -97,7 +97,7 @@ class UriTest extends Testcase
      */
     public function test_updating_the_query_params()
     {
-        $expected = (string) 'type=user';
+        $expected = 'type=user';
 
         $uri = $this->uri->withQuery('type=user');
 
@@ -111,7 +111,7 @@ class UriTest extends Testcase
      */
     public function test_updating_the_fragment()
     {
-        $expected = (string) 'test';
+        $expected = 'test';
 
         $uri = $this->uri->withFragment('test');
 
@@ -125,11 +125,11 @@ class UriTest extends Testcase
      */
     public function test_updating_the_url_path()
     {
-        $expected = (string) '/test';
+        $expected = '/test';
 
         $uri = $this->uri->withPath('/test');
 
-        $actual = (string) $uri->getPath();
+        $actual = $uri->getPath();
 
         $this->assertEquals($expected, $actual);
     }

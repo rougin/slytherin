@@ -84,7 +84,7 @@ class Uri implements UriInterface
             $this->$key = $value;
         }
 
-        $this->uri = (string) $uri;
+        $this->uri = $uri;
     }
 
     /**
@@ -329,7 +329,7 @@ class Uri implements UriInterface
 
         $url = $http . '://' . $server['SERVER_NAME'];
 
-        $url .= (string) $server['SERVER_PORT'];
+        $url .= $server['SERVER_PORT'];
 
         return new Uri($url . $server['REQUEST_URI']);
     }

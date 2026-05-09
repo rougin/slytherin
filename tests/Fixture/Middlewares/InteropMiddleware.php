@@ -23,6 +23,6 @@ class InteropMiddleware implements MiddlewareInterface
     {
         $response = $delegate->process($request)->withStatus(500);
 
-        return $response->withHeader('X-Slytherin', (string) time());
+        return $response->withHeader('X-Slytherin', time());
     }
 }
