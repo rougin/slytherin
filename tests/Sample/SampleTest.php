@@ -29,15 +29,25 @@ class SampleTest extends Testcase
     {
         $this->builder = new Builder;
 
-        $this->builder->setCookies($_COOKIE);
+        /** @var array<string, string> */
+        $cookies = $_COOKIE;
+        $this->builder->setCookies($cookies);
 
-        $this->builder->setFiles($_FILES);
+        /** @var array<string, array<string, mixed[]>> */
+        $files = $_FILES;
+        $this->builder->setFiles($files);
 
-        $this->builder->setQuery((array) $_GET);
+        /** @var array<string, string> */
+        $get = $_GET;
+        $this->builder->setQuery($get);
 
-        $this->builder->setParsed($_POST);
+        /** @var array<string, string> */
+        $post = $_POST;
+        $this->builder->setParsed($post);
 
-        $this->builder->setServer($_SERVER);
+        /** @var array<string, string> */
+        $server = $_SERVER;
+        $this->builder->setServer($server);
     }
 
     /**

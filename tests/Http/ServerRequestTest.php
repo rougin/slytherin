@@ -21,10 +21,15 @@ class ServerRequestTest extends Testcase
      */
     protected function doSetUp()
     {
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/';
-        $_SERVER['SERVER_NAME'] = 'localhost';
-        $_SERVER['SERVER_PORT'] = '8000';
+        /** @var array<string, string> */
+        $server = $_SERVER;
+
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
+
+        $_SERVER = $server;
 
         $files = array('file' => array());
 
@@ -34,19 +39,7 @@ class ServerRequestTest extends Testcase
         $files['file']['tmp_name'] = array('/tmp/test.txt');
         $files['file']['type'] = array('application/pdf');
 
-        $this->request = new ServerRequest($_SERVER, array(), array(), $files);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_attribute_from_server_params()
-    {
-        $expected = 'localhost';
-
-        $actual = $this->request->getAttribute('SERVER_NAME');
-
-        $this->assertEquals($expected, $actual);
+        $this->request = new ServerRequest($server, array(), array(), $files);
     }
 
     /**
@@ -54,9 +47,7 @@ class ServerRequestTest extends Testcase
      */
     public function test_getting_request_attributes()
     {
-        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes. ---
-        $expected = array_merge($_SERVER, array('user' => 'John Doe'));
-        // -------------------------------------------------------------------------------
+        $expected = array('user' => 'John Doe');
 
         $request = $this->request->withAttribute('user', 'John Doe');
 
@@ -112,7 +103,7 @@ class ServerRequestTest extends Testcase
      */
     public function test_getting_the_server_params()
     {
-        $expected = (array) $_SERVER;
+        $expected = $_SERVER;
 
         $actual = $this->request->getServerParams();
 
@@ -183,8 +174,7 @@ class ServerRequestTest extends Testcase
      */
     public function test_excluding_a_request_attribute()
     {
-        // TODO: To be removed in v1.0.0. $_SERVER must not be included in attributes.
-        $expected = array_merge($_SERVER, array('user' => 'John Doe'));
+        $expected = array('user' => 'John Doe');
 
         $request = $this->request->withAttribute('user', 'John Doe');
 

@@ -129,11 +129,13 @@ class Builder
      */
     protected function setHttp()
     {
-        $request = ServerRequestFactory::fromGlobals();
-
         $method = $this->method;
 
-        if ($method && $uri = $this->uri)
+        $request = ServerRequestFactory::fromGlobals();
+
+        $uri = $this->uri;
+
+        if ($method && $uri)
         {
             $uri = new Uri('http://localhost:8000' . $uri);
 
