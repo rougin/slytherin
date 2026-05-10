@@ -92,6 +92,8 @@ class DebuggerTest extends Testcase
     }
 
     /**
+     * @runInSeparateProcess
+     *
      * @return void
      */
     public function test_setting_the_error_reporting()
@@ -103,6 +105,13 @@ class DebuggerTest extends Testcase
         $actual = error_reporting();
 
         $this->assertEquals($expected, $actual);
+
+        // [NOTE] Adding these as this was being ---
+        // marked as risky starting in PHP 8.2 -----
+        restore_error_handler();
+
+        restore_exception_handler();
+        // -----------------------------------------
     }
 
     /**

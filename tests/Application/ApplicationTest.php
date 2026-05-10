@@ -180,6 +180,13 @@ class ApplicationTest extends Testcase
         $this->expectOutputString('Hello');
 
         $application->integrate($items, $config)->run();
+
+        // [NOTE] Adding these as this was being ---
+        // marked as risky starting in PHP 8.2 -----
+        restore_error_handler();
+
+        restore_exception_handler();
+        // -----------------------------------------
     }
 
     /**
