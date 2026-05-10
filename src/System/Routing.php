@@ -54,7 +54,7 @@ class Routing extends System
 
         $this->config->set('app.http.files', $_FILES);
 
-        $this->config->set('app.http.get', (array) $_GET);
+        $this->config->set('app.http.get', $_GET);
 
         $this->config->set('app.http.post', $_POST);
 

@@ -23,4 +23,4 @@ $config['middlewares'] = array();
 
 $config['packages'] = $packages;
 
-return (array) $config;
+return $config;

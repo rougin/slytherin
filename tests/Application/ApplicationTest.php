@@ -135,7 +135,7 @@ class ApplicationTest extends Testcase
 
         $routes = array(array('GET', '/', array($class, 'index')));
 
-        $router = new PhrouteRouter((array) $routes);
+        $router = new PhrouteRouter($routes);
 
         $dispatcher = new PhrouteDispatcher($router);
 

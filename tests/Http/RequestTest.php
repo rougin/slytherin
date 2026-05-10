@@ -65,4 +65,22 @@ class RequestTest extends Testcase
 
         $this->assertEquals($expected, $actual);
     }
+
+    /**
+     * @return void
+     */
+    public function test_setting_a_uri_with_the_host_header_preserved()
+    {
+        $uri = new Uri('https://www.google.com');
+
+        $expected = array('localhost');
+
+        $request = $this->request->withHeader('Host', $expected);
+
+        $request = $request->withUri($uri, true);
+
+        $actual = $request->getHeader('Host');
+
+        $this->assertEquals($expected, $actual);
+    }
 }

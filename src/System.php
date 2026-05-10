@@ -193,7 +193,7 @@ class System
 
         $code .= ' ' . $response->getReasonPhrase();
 
-        $headers = (array) $response->getHeaders();
+        $headers = $response->getHeaders();
 
         $version = $response->getProtocolVersion();
 

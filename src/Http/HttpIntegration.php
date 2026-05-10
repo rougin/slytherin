@@ -99,7 +99,7 @@ class HttpIntegration implements IntegrationInterface
     {
         $headers = array();
 
-        foreach ((array) $server as $key => $value)
+        foreach ($server as $key => $value)
         {
             $http = strpos($key, 'HTTP_') === 0;
 

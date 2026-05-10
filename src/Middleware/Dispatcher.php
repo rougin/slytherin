@@ -58,7 +58,7 @@ class Dispatcher implements DispatcherInterface
      */
     public function process(ServerRequestInterface $request, HandlerInterface $handler)
     {
-        $stack = (array) $this->getStack();
+        $stack = $this->getStack();
 
         $handler = new Handler($stack, $handler);
 

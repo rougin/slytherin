@@ -18,7 +18,7 @@ class ConfigurationTest extends Testcase
     {
         $data = array('names' => array('John Doe', 'Mary Doe'));
 
-        $expected = (array) $data['names'];
+        $expected = $data['names'];
 
         $config = new Configuration($data);
 

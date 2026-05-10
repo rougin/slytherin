@@ -68,7 +68,7 @@ class Dispatcher implements DispatcherInterface
         $filtered = array_filter(array_keys($params), 'is_string');
 
         /** @var string[] */
-        $flipped = (array) array_flip($filtered);
+        $flipped = array_flip($filtered);
 
         /** @var string[] */
         $values = array_intersect_key($params, $flipped);

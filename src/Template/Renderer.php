@@ -25,7 +25,12 @@ class Renderer implements RendererInterface
      */
     public function __construct($paths)
     {
-        $this->paths = (array) $paths;
+        if (is_string($paths))
+        {
+            $paths = array($paths);
+        }
+
+        $this->paths = $paths;
     }
 
     /**
@@ -41,9 +46,9 @@ class Renderer implements RendererInterface
     {
         list($file, $name) = array(null, str_replace('.', '/', $template));
 
-        foreach ((array) $this->paths as $key => $path)
+        foreach ($this->paths as $key => $path)
         {
-            $files = (array) $this->files($path);
+            $files = $this->files($path);
 
             $item = $this->check($files, $path, $key, "$name.php");
 
@@ -77,7 +82,7 @@ class Renderer implements RendererInterface
     {
         $file = null;
 
-        foreach ((array) $files as $key => $value)
+        foreach ($files as $key => $value)
         {
             $filepath = str_replace($path, $source, $value);
 
@@ -137,6 +142,6 @@ class Renderer implements RendererInterface
 
         $regex = new \RegexIterator($iterator, '/^.+\.php$/i', 1);
 
-        return (array) array_keys(iterator_to_array($regex));
+        return array_keys(iterator_to_array($regex));
     }
 }

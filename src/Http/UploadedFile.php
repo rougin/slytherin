@@ -167,10 +167,10 @@ class UploadedFile implements UploadedFileInterface
                 $items[] = self::create($file, $key);
             }
 
-            $files[$name] = (array) $items;
+            $files[$name] = $items;
         }
 
-        return (array) $files;
+        return $files;
     }
 
     /**
@@ -210,16 +210,21 @@ class UploadedFile implements UploadedFileInterface
      */
     protected static function diverse(array $uploaded)
     {
-        $result = array();
+        $rows = array();
 
-        foreach ($uploaded as $file => $item)
+        foreach ($uploaded as $file => $items)
         {
-            foreach ($item as $key => $value)
+            foreach ($items as $key => $item)
             {
-                $result[$file][$key] = (array) $value;
+                if (! is_array($item))
+                {
+                    $item = array($item);
+                }
+
+                $rows[$file][$key] = $item;
             }
         }
 
-        return $result;
+        return $rows;
     }
 }

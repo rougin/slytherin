@@ -66,7 +66,7 @@ class DispatcherTest extends Testcase
         $class = $handler[0];
         $method = $handler[1];
 
-        $params = (array) $route->getParams();
+        $params = $route->getParams();
 
         /** @var callable */
         $object = array(new $class, $method);

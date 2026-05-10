@@ -97,7 +97,7 @@ class RouterTestCases extends Testcase
 
         $route = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
 
-        $expected = (array) array($route);
+        $expected = array($route);
 
         $actual = $this->router->routes();
 

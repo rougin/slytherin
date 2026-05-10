@@ -195,7 +195,12 @@ class Message implements MessageInterface
 
         $static = clone $this;
 
-        $static->headers[$name] = (array) $value;
+        if (! is_array($value))
+        {
+            $value = array($value);
+        }
+
+        $static->headers[$name] = $value;
 
         return $static;
     }

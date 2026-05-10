@@ -118,7 +118,7 @@ class Builder
 
         $config->set('app.http.files', $this->files);
 
-        $config->set('app.http.get', (array) $this->query);
+        $config->set('app.http.get', $this->query);
 
         $config->set('app.http.post', $this->parsed);
 

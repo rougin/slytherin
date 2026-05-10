@@ -140,14 +140,16 @@ class Request extends Message implements RequestInterface
 
         $static->uri = $uri;
 
-        if (! $preserve && $host = $uri->getHost())
+        if ($preserve || ! $host = $uri->getHost())
         {
-            $port = $host . ':' . $uri->getPort();
-
-            $host = $uri->getPort() ? $port : $host;
-
-            $static->headers['Host'] = (array) $host;
+            return $static;
         }
+
+        $port = $host . ':' . $uri->getPort();
+
+        $host = $uri->getPort() ? $port : $host;
+
+        $static->headers['Host'] = array($host);
 
         return $static;
     }
