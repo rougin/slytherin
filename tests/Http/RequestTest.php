@@ -14,7 +14,7 @@ class RequestTest extends Testcase
     /**
      * @var \Psr\Http\Message\RequestInterface
      */
-    protected $request;
+    protected $self;
 
     /**
      * @return void
@@ -25,9 +25,7 @@ class RequestTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to set an empty HTTP method ---
-        $this->request->withMethod('');
-        // ---------------------------------------
+        $this->self->withMethod('');
     }
 
     /**
@@ -37,18 +35,16 @@ class RequestTest extends Testcase
     {
         $expect = array('localhost');
 
-        // Set a custom Host header first ---------
-        $request = $this->request->withHeader('Host', $expect);
-        // ----------------------------------------
+        $self = $this->self->withHeader('Host', $expect);
 
-        // Update the URI while preserving the host ----------
+        // Update the URI while preserving the host ---
         $uri = new Uri('https://www.google.com');
 
-        $request = $request->withUri($uri, true);
-        // ---------------------------------------------------
+        $self = $self->withUri($uri, true);
+        // --------------------------------------------
 
         // Verify the original host header was kept ---
-        $actual = $request->getHeader('Host');
+        $actual = $self->getHeader('Host');
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------
@@ -61,12 +57,12 @@ class RequestTest extends Testcase
     {
         $expect = 'POST';
 
-        // Set the HTTP method on the request ------
-        $request = $this->request->withMethod($expect);
-        // -----------------------------------------
+        // Set the HTTP method on the request ---
+        $self = $this->self->withMethod($expect);
+        // --------------------------------------
 
         // Verify the method is returned correctly ---
-        $actual = $request->getMethod();
+        $actual = $self->getMethod();
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------
@@ -79,12 +75,12 @@ class RequestTest extends Testcase
     {
         $expect = '/lorem-ipsum';
 
-        // Set the request target ---------------
-        $request = $this->request->withRequestTarget($expect);
-        // --------------------------------------
+        // Set the request target ----------------------
+        $self = $this->self->withRequestTarget($expect);
+        // ---------------------------------------------
 
         // Verify the target is returned correctly ---
-        $actual = $request->getRequestTarget();
+        $actual = $self->getRequestTarget();
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------
@@ -97,12 +93,12 @@ class RequestTest extends Testcase
     {
         $expect = new Uri('https://www.google.com');
 
-        // Set the URI on the request ------
-        $request = $this->request->withUri($expect);
-        // ---------------------------------
+        // Set the URI on the request --------
+        $self = $this->self->withUri($expect);
+        // -----------------------------------
 
         // Verify the URI is returned correctly ---
-        $actual = $request->getUri();
+        $actual = $self->getUri();
 
         $this->assertEquals($expect, $actual);
         // ----------------------------------------
@@ -113,6 +109,6 @@ class RequestTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->request = new Request;
+        $this->self = new Request;
     }
 }

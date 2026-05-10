@@ -14,6 +14,6 @@ class DispatcherTest extends DispatcherTestCases
      */
     protected function doSetUp()
     {
-        $this->dispatcher = new Dispatcher;
+        $this->self = new Dispatcher;
     }
 }

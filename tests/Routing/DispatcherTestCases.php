@@ -15,7 +15,7 @@ class DispatcherTestCases extends Testcase
     /**
      * @var \Rougin\Slytherin\Routing\DispatcherInterface
      */
-    protected $dispatcher;
+    protected $self;
 
     /**
      * @return void
@@ -26,11 +26,9 @@ class DispatcherTestCases extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Attempt to dispatch with an invalid HTTP method ---
-        $this->dispatcher->dispatch('TEST', '/');
-        // ---------------------------------------------------
+        $this->self->dispatch('TEST', '/');
     }
 
     /**
@@ -42,11 +40,9 @@ class DispatcherTestCases extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Attempt to dispatch a non-existent route ---
-        $this->dispatcher->dispatch('GET', '/test');
-        // ---------------------------------------------
+        $this->self->dispatch('GET', '/test');
     }
 
     /**
@@ -54,11 +50,11 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_route_dispatched_as_callback()
     {
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Dispatch the callback-based route ---
-        $route = $this->dispatcher->dispatch('GET', '/hi');
-        // ------------------------------------------------
+        // Dispatch the callback-based route --------
+        $route = $this->self->dispatch('GET', '/hi');
+        // ------------------------------------------
 
         // Verify the callback result is correct ---
         $expect = 'Hi and this is a callback';
@@ -66,7 +62,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ------------------------------------------
+        // -----------------------------------------
     }
 
     /**
@@ -74,13 +70,13 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_route_dispatched_as_class()
     {
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Dispatch the class-based route ---
+        // Dispatch the class-based route ---------
         $controller = new NewClass;
 
-        $route = $this->dispatcher->dispatch('GET', '/');
-        // -----------------------------------------------
+        $route = $this->self->dispatch('GET', '/');
+        // ----------------------------------------
 
         // Verify the controller response is correct ---
         $expect = $controller->index();
@@ -88,7 +84,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------
+        // ---------------------------------------------
     }
 
     /**
@@ -96,13 +92,13 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_route_dispatched_as_post_class()
     {
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Dispatch the POST-based route ---
+        // Dispatch the POST-based route -----------
         $controller = new NewClass;
 
-        $route = $this->dispatcher->dispatch('POST', '/');
-        // -------------------------------------------------
+        $route = $this->self->dispatch('POST', '/');
+        // -----------------------------------------
 
         // Verify the controller response is correct ---
         $expect = $controller->store();
@@ -110,7 +106,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------
+        // ---------------------------------------------
     }
 
     /**
@@ -118,19 +114,21 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_route_dispatched_with_argument()
     {
-        $this->exists(get_class($this->dispatcher));
+        $this->exists(get_class($this->self));
 
-        // Dispatch the route with a URI argument ----
-        $route = $this->dispatcher->dispatch('GET', '/hi/Slytherin');
-        // ----------------------------------------------
+        // Dispatch the route with a URI argument ---
+        $uri = '/hi/Slytherin';
 
-        // Verify the dynamic argument is resolved correctly ---
+        $route = $this->self->dispatch('GET', $uri);
+        // ------------------------------------------
+
+        // Verify the dynamic argument is resolved ---
         $expect = 'Hi Slytherin!';
 
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ------------------------------------------------------
+        // -------------------------------------------
     }
 
     /**
@@ -144,16 +142,12 @@ class DispatcherTestCases extends Testcase
     {
         if ($dispatcher === 'Rougin\Slytherin\Routing\FastRouteDispatcher')
         {
-            // @codeCoverageIgnoreStart
             $this->checkIfFastRouteExists();
-            // @codeCoverageIgnoreEnd
         }
 
         if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher')
         {
-            // @codeCoverageIgnoreStart
             $this->checkIfPhrouteExists();
-            // @codeCoverageIgnoreEnd
         }
     }
 
@@ -166,8 +160,11 @@ class DispatcherTestCases extends Testcase
      */
     protected function getRouter($type = null)
     {
-        $routes = array(array('TEST', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index'));
+        $route = 'Rougin\Slytherin\Fixture\Classes\NewClass@index';
 
+        $routes = array(array('TEST', '/', $route));
+
+        // Specify the route to be used -----------
         $router = new Router($routes);
 
         if ($type === 'fastroute')
@@ -179,8 +176,11 @@ class DispatcherTestCases extends Testcase
         {
             $router = new PhrouteRouter($routes);
         }
+        // ----------------------------------------
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+        $class = 'Rougin\Slytherin\Fixture\Classes';
+
+        $router->prefix('', $class);
 
         $router->get('/', 'NewClass@index');
 

@@ -16,12 +16,10 @@ class StratigilityDispatcherTest extends DispatcherTestCases
      */
     protected function doSetUp()
     {
-        // @codeCoverageIgnoreStart
         $this->checkIfStratigilityExists();
-        // @codeCoverageIgnoreEnd
 
         $pipe = new MiddlewarePipe;
 
-        $this->dispatcher = new StratigilityDispatcher($pipe);
+        $this->self = new StratigilityDispatcher($pipe);
     }
 }

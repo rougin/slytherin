@@ -14,8 +14,8 @@ class PhrouteRouterTest extends RouterTestCases
      */
     protected function doSetUp()
     {
-        $this->exists('Rougin\Slytherin\Routing\PhrouteRouter');
+        $this->checkIfPhrouteExists();
 
-        $this->router = new PhrouteRouter($this->routes);
+        $this->self = new PhrouteRouter($this->routes);
     }
 }

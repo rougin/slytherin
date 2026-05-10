@@ -2,54 +2,38 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
+use Rougin\Slytherin\Dispatching\RouterTestCases;
 use Rougin\Slytherin\Routing\Route;
-use Rougin\Slytherin\Testcase;
 
 /**
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class RouterTest extends Testcase
+class RouterTest extends RouterTestCases
 {
-    /**
-     * @var \Rougin\Slytherin\Routing\Router
-     */
-    protected $router;
-
-    /**
-     * @var \Rougin\Slytherin\Routing\RouteInterface[]
-     */
-    protected $routes = array();
-
-    /**
-     * @return void
-     */
-    public function test_passed_if_empty_route_retrieved()
-    {
-        // Verify a non-existent route returns null ---
-        $this->assertNull($this->router->getRoute('GET', '/test'));
-        // ---------------------------------------------
-    }
-
     /**
      * @return void
      */
     public function test_passed_if_existing_route_checked()
     {
-        // Add a route to the router ---------
+        // Add a route to the router ----
         $route = $this->routes[0];
+
+        $handler = $route->getHandler();
 
         $uri = $route->getUri();
 
-        $this->router->get($uri, $route->getHandler());
-        // -----------------------------------
+        $method = $route->getMethod();
 
-        // Verify the route exists ---
-        $exists = $this->router->has($route->getMethod(), $uri);
+        $this->self->get($uri, $handler);
+        // ------------------------------
+
+        // Verify the route exists ---------------
+        $exists = $this->self->has($method, $uri);
 
         $this->assertTrue($exists);
-        // --------------------------
+        // ---------------------------------------
     }
 
     /**
@@ -57,9 +41,7 @@ class RouterTest extends Testcase
      */
     public function test_passed_if_parsed_routes_retrieved()
     {
-        // Verify parsed routes return null for vanilla router ---
-        $this->assertNull($this->router->parsed());
-        // -------------------------------------------------------
+        $this->assertNull($this->self->parsed());
     }
 
     /**
@@ -70,42 +52,16 @@ class RouterTest extends Testcase
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         // Add RESTful routes for the resource ---
-        $this->router->restful('new', $class);
+        $this->self->restful('new', $class);
         // ---------------------------------------
 
-        // Verify six routes were created (index, store, show, update, delete, new) ---
+        // Verify six routes were created ---
         $expect = 6;
 
-        $actual = $this->router->getRoutes();
+        $actual = $this->self->getRoutes();
 
         $this->assertCount($expect, $actual);
-        // ----------------------------------------------------------------------------
-    }
-
-    /**
-     * @return void
-     */
-    public function test_passed_if_route_added()
-    {
-        // Get details from the sample route ------------
-        $expect = $this->routes[0];
-
-        $method = $expect->getMethod();
-
-        $uri = $expect->getUri();
-
-        $handler = $expect->getHandler();
-        // ----------------------------------------------
-
-        // Add the route to the router -------------
-        $this->router->addRoute($method, $uri, $handler);
-        // -----------------------------------------
-
-        // Verify the route is returned correctly ---
-        $actual = $this->router->getRoute($method, $uri);
-
-        $this->assertEquals($expect, $actual);
-        // -------------------------------------------
+        // ----------------------------------
     }
 
     /**
@@ -113,38 +69,30 @@ class RouterTest extends Testcase
      */
     public function test_passed_if_route_added_with_prefix()
     {
-        // Set a URI prefix for the router ---
-        $this->router->setPrefix('/v1/slytherin');
-        // -----------------------------------
+        // Set a URI prefix for the router -----
+        $this->self->setPrefix('/v1/slytherin');
+        // -------------------------------------
 
         // Add a route using the magic get method ---
         $route = $this->routes[0];
 
-        $this->router->get($route->getUri(), $route->getHandler());
-        // -----------------------------------------------
+        $handler = $route->getHandler();
 
-        // Verify the route includes the prefix ---------------
+        $method = $route->getMethod();
+
+        $this->self->get($route->getUri(), $handler);
+        // ------------------------------------------
+
+        // Verify the route includes the prefix ------------
         $expect = '/v1/slytherin/';
 
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
-        $route = $this->router->getRoute($route->getMethod(), $expect);
+        $route = $this->self->getRoute($method, $expect);
 
         $actual = $route->getUri();
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------------
-    }
-
-    /**
-     * @return void
-     */
-    public function test_passed_if_router_interface_checked()
-    {
-        $interface = 'Rougin\Slytherin\Routing\RouterInterface';
-
-        // Verify the router implements the expected interface ---
-        $this->assertInstanceOf($interface, $this->router);
-        // -------------------------------------------------------
+        // -------------------------------------------------
     }
 
     /**
@@ -152,17 +100,17 @@ class RouterTest extends Testcase
      */
     public function test_passed_if_routes_added()
     {
-        // Add all sample routes at once ---
-        $this->router->addRoutes($this->routes);
-        // ---------------------------------
+        // Add all sample routes at once -------
+        $this->self->addRoutes($this->routes);
+        // -------------------------------------
 
-        // Verify the routes match the input ----
+        // Verify the routes match the input ---
         $expect = $this->routes;
 
-        $actual = $this->router->getRoutes();
+        $actual = $this->self->getRoutes();
 
         $this->assertEquals($expect, $actual);
-        // --------------------------------------
+        // -------------------------------------
     }
 
     /**
@@ -178,6 +126,6 @@ class RouterTest extends Testcase
         $this->routes[] = $route;
         // --------------------------------------------------
 
-        $this->router = new Router;
+        $this->self = new Router;
     }
 }

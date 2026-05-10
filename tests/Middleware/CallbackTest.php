@@ -23,15 +23,14 @@ class CallbackTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Prepare a server request ---------------
-        $server = array();
+        // Prepare a server request ----------
+        $server = array('REQUEST_URI' => '/');
         $server['REQUEST_METHOD'] = 'GET';
-        $server['REQUEST_URI'] = '/';
         $server['SERVER_NAME'] = 'localhost';
         $server['SERVER_PORT'] = '8000';
 
         $request = new ServerRequest($server);
-        // ----------------------------------------
+        // -----------------------------------
 
         // Create a callback with a non-callable class ---
         $response = new Response;
@@ -43,6 +42,6 @@ class CallbackTest extends Testcase
 
         // Attempt to process the non-callable middleware ---
         $callback->process($request, $handler);
-        // -------------------------------------------------
+        // --------------------------------------------------
     }
 }

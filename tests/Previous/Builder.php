@@ -11,8 +11,7 @@ use Rougin\Slytherin\IoC\Auryn;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
 use Rougin\Slytherin\System;
 use Rougin\Slytherin\Template\Twig;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
+use Rougin\Slytherin\Template\TwigLoader;
 use Zend\Diactoros\Response;
 use Zend\Diactoros\ServerRequestFactory;
 use Zend\Stratigility\MiddlewarePipe;
@@ -89,19 +88,19 @@ class Builder
      */
     protected function setContainer()
     {
-        // Initialize the RendererInterface ------------
-        $views = __DIR__ . '/Plates';
+        // Initialize the RendererInterface ------
+        $loader = new TwigLoader;
 
-        $loader = new Twig_Loader_Filesystem($views);
-
-        $twig = new Twig(new Twig_Environment($loader));
+        $env = $loader->load(__DIR__ . '/Plates');
 
         $renderer = System::TEMPLATE;
-        // ---------------------------------------------
+        // ---------------------------------------
 
         $auryn = new Auryn(new \Auryn\Injector);
 
         // Create an alias for the RendererInterface ---
+        $twig = new Twig($env);
+
         $auryn->share($twig);
 
         $auryn->alias($renderer, get_class($twig));
@@ -170,9 +169,7 @@ class Builder
      */
     protected function setRouting()
     {
-        $router = __DIR__ . '/Router.php';
-
-        $router = require realpath($router);
+        $router = require __DIR__ . '/Router.php';
 
         $dispatcher = new Dispatcher($router);
 

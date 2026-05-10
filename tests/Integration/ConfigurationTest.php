@@ -17,12 +17,14 @@ class ConfigurationTest extends Testcase
     public function test_passed_if_array_value_retrieved()
     {
         // Set configuration with array data ---
-        $data = array('names' => array('John Doe', 'Mary Doe'));
+        $names = array('John Doe', 'Mary Doe');
+
+        $data = array('names' => $names);
 
         $expect = $data['names'];
 
         $config = new Configuration($data);
-        // -----------------------------------
+        // ------------------------------------
 
         // Verify the array value is returned correctly ---
         $actual = $config->get('names');
@@ -36,19 +38,19 @@ class ConfigurationTest extends Testcase
      */
     public function test_passed_if_default_value_used()
     {
-        list($data, $default) = array(array('number' => 0), 1);
-
         // Set configuration with a numeric value ---
+        $data = array('number' => 0);
+
         $expect = $data['number'];
 
         $config = new Configuration($data);
         // ------------------------------------------
 
-        // Verify the numeric value is returned, not the default ---
-        $actual = $config->get('number', $default);
+        // Verify the numeric value is returned ---
+        $actual = $config->get('number', 1);
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------------------
+        // ----------------------------------------
     }
 
     /**
@@ -57,20 +59,22 @@ class ConfigurationTest extends Testcase
     public function test_passed_if_dot_notation_retrieved()
     {
         // Set configuration with nested array data ---
-        $data = array('database' => array());
+        $database = array('name' => 'test');
 
-        $data['database'] = array('name' => 'test', 'username' => 'root');
+        $database['username'] = 'root';
+
+        $data = array('database' => $database);
 
         $expect = $data['database']['username'];
 
         $config = new Configuration($data);
         // --------------------------------------------
 
-        // Verify the nested value is returned via dot notation ---
+        // Verify the value is returned via dot notation ---
         $actual = $config->get('database.username');
 
         $this->assertEquals($expect, $actual);
-        // ---------------------------------------------------------
+        // -------------------------------------------------
     }
 
     /**
@@ -78,23 +82,25 @@ class ConfigurationTest extends Testcase
      */
     public function test_passed_if_empty_directory_loaded()
     {
-        // Create an empty temporary directory ---
-        $path = sys_get_temp_dir() . '/slytherin_empty_' . uniqid('', true);
+        // Create an empty temporary directory ------
+        $temp = sys_get_temp_dir();
+
+        $path = $temp . '/slyth_' . uniqid('', true);
 
         mkdir($path);
-        // ---------------------------------------
+        // ------------------------------------------
 
         // Load configuration from the empty directory ---
         $config = new Configuration;
 
         $result = $config->load($path);
-        // ----------------------------------------------
-
-        rmdir($path);
+        // -----------------------------------------------
 
         // Verify the result is empty ---
+        rmdir($path);
+
         $this->assertEmpty($result);
-        // -----------------------------
+        // ------------------------------
     }
 
     /**
@@ -102,9 +108,9 @@ class ConfigurationTest extends Testcase
      */
     public function test_passed_if_empty_key_ignored()
     {
+        // Set a value with an empty key ---
         $config = new Configuration;
 
-        // Set a value with an empty key ---
         $config->set('', 'value');
         // --------------------------------
 
@@ -140,8 +146,6 @@ class ConfigurationTest extends Testcase
     {
         $config = new Configuration;
 
-        // Verify a missing key returns null ---
         $this->assertNull($config->get('name'));
-        // --------------------------------------
     }
 }

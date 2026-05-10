@@ -14,7 +14,7 @@ class ResponseTest extends Testcase
     /**
      * @var \Psr\Http\Message\ResponseInterface
      */
-    protected $response;
+    protected $self;
 
     /**
      * @return void
@@ -26,7 +26,7 @@ class ResponseTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set an invalid status code ---
-        $this->response->withStatus(600);
+        $this->self->withStatus(600);
         // -----------------------------------------
     }
 
@@ -37,12 +37,12 @@ class ResponseTest extends Testcase
     {
         $expect = 'Lorem ipsum dolor';
 
-        // Set the status with a custom reason phrase ----
-        $response = $this->response->withStatus(200, $expect);
-        // -----------------------------------------------
+        // Set the status with a custom reason phrase ---
+        $self = $this->self->withStatus(200, $expect);
+        // ----------------------------------------------
 
         // Verify the reason phrase is returned correctly ---
-        $actual = $response->getReasonPhrase();
+        $actual = $self->getReasonPhrase();
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------------
@@ -55,12 +55,12 @@ class ResponseTest extends Testcase
     {
         $expect = 500;
 
-        // Set the status code on the response -----
-        $response = $this->response->withStatus($expect);
-        // -----------------------------------------
+        // Set the status code on the response ---
+        $self = $this->self->withStatus($expect);
+        // ---------------------------------------
 
         // Verify the status code is returned correctly ---
-        $actual = $response->getStatusCode();
+        $actual = $self->getStatusCode();
 
         $this->assertEquals($expect, $actual);
         // ------------------------------------------------
@@ -71,6 +71,6 @@ class ResponseTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->response = new Response;
+        $this->self = new Response;
     }
 }

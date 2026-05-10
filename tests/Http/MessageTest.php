@@ -14,7 +14,7 @@ class MessageTest extends Testcase
     /**
      * @var \Psr\Http\Message\MessageInterface
      */
-    protected $message;
+    protected $self;
 
     /**
      * @return void
@@ -25,9 +25,7 @@ class MessageTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to add a header with an invalid name ---
-        $this->message->withAddedHeader("name\r\n", 'value');
-        // ------------------------------------------------
+        $this->self->withAddedHeader("name\r\n", 'value');
     }
 
     /**
@@ -39,9 +37,7 @@ class MessageTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to set a header with an invalid name ---
-        $this->message->withHeader("name\r\n", 'value');
-        // ------------------------------------------------
+        $this->self->withHeader("name\r\n", 'value');
     }
 
     /**
@@ -51,12 +47,10 @@ class MessageTest extends Testcase
     {
         $expect = array('Rougin', 'Royce', 'Gutib');
 
-        // Add multiple values to the header -----------
-        $message = $this->message->withAddedHeader('names', $expect);
-        // ---------------------------------------------
+        $self = $this->self->withAddedHeader('names', $expect);
 
         // Verify the header values are returned ---
-        $actual = $message->getHeader('names');
+        $actual = $self->getHeader('names');
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -67,13 +61,9 @@ class MessageTest extends Testcase
      */
     public function test_passed_if_header_exists()
     {
-        // Add a header to the message -----------
-        $message = $this->message->withAddedHeader('age', '18');
-        // ---------------------------------------
+        $self = $this->self->withAddedHeader('age', '18');
 
-        // Verify the header is present ---
-        $this->assertTrue($message->hasHeader('age'));
-        // --------------------------------
+        $this->assertTrue($self->hasHeader('age'));
     }
 
     /**
@@ -84,11 +74,11 @@ class MessageTest extends Testcase
         $expect = '18';
 
         // Set the header on the message ------------
-        $message = $this->message->withHeader('age', '18');
+        $self = $this->self->withHeader('age', '18');
         // ------------------------------------------
 
         // Verify the header line is returned correctly ---
-        $actual = $message->getHeaderLine('age');
+        $actual = $self->getHeaderLine('age');
 
         $this->assertEquals($expect, $actual);
         // ------------------------------------------------
@@ -101,16 +91,16 @@ class MessageTest extends Testcase
     {
         $expect = array('name' => array('John Doe'));
 
-        // Set multiple headers on the message ---------
-        $message = $this->message->withHeader('name', 'John Doe');
+        // Set multiple headers on the message -------------
+        $self = $this->self->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', '18');
+        $self = $self->withHeader('age', '18');
 
-        $message = $message->withoutHeader('age');
-        // --------------------------------------------
+        $self = $self->withoutHeader('age');
+        // -------------------------------------------------
 
         // Verify the header was excluded ---
-        $actual = $message->getHeaders();
+        $actual = $self->getHeaders();
 
         $this->assertEquals($expect, $actual);
         // ----------------------------------
@@ -123,12 +113,12 @@ class MessageTest extends Testcase
     {
         $expect = array('18');
 
-        // Set a header on the message ---------------
-        $message = $this->message->withHeader('age', '18');
-        // -------------------------------------------
+        // Set a header on the message --------------
+        $self = $this->self->withHeader('age', '18');
+        // ------------------------------------------
 
         // Verify the header value is returned correctly ---
-        $actual = $message->getHeader('age');
+        $actual = $self->getHeader('age');
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------------
@@ -143,14 +133,14 @@ class MessageTest extends Testcase
 
         $expect['age'] = array('18');
 
-        // Set multiple headers on the message ---------
-        $message = $this->message->withHeader('name', 'John Doe');
+        // Set multiple headers on the message -------------
+        $self = $this->self->withHeader('name', 'John Doe');
 
-        $message = $message->withHeader('age', '18');
-        // ---------------------------------------------
+        $self = $self->withHeader('age', '18');
+        // -------------------------------------------------
 
         // Verify all headers are returned correctly ---
-        $actual = $message->getHeaders();
+        $actual = $self->getHeaders();
 
         $this->assertEquals($expect, $actual);
         // ---------------------------------------------
@@ -163,12 +153,12 @@ class MessageTest extends Testcase
     {
         $expect = '1.2';
 
-        // Update the protocol version ---------------
-        $message = $this->message->withProtocolVersion($expect);
-        // -------------------------------------------
+        // Update the protocol version -------------------
+        $self = $this->self->withProtocolVersion($expect);
+        // -----------------------------------------------
 
         // Verify the version is returned correctly ---
-        $actual = $message->getProtocolVersion();
+        $actual = $self->getProtocolVersion();
 
         $this->assertEquals($expect, $actual);
         // --------------------------------------------
@@ -184,12 +174,12 @@ class MessageTest extends Testcase
 
         $expect = new Stream($file);
 
-        // Set the stream body on the message ----
-        $message = $this->message->withBody($expect);
-        // ---------------------------------------
+        // Set the stream body on the message ---
+        $self = $this->self->withBody($expect);
+        // --------------------------------------
 
         // Verify the body is returned correctly ---
-        $actual = $message->getBody();
+        $actual = $self->getBody();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -200,6 +190,6 @@ class MessageTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->message = new Message;
+        $this->self = new Message;
     }
 }

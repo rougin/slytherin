@@ -16,16 +16,16 @@ use Rougin\Slytherin\Testcase;
 class DispatcherTestCases extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Middleware\Dispatcher|\Rougin\Slytherin\Middleware\StratigilityDispatcher
+     * @var \Rougin\Slytherin\Middleware\Dispatcher
      */
-    protected $dispatcher;
+    protected $self;
 
     /**
      * @return void
      */
     public function test_passed_if_double_pass_processed()
     {
-        // Add a double-pass middleware to the stack ---
+        // Add a double-pass middleware to the stack ---------------
         $fn = function ($request, $response, $next)
         {
             $response = $next($request, $response)->withStatus(404);
@@ -33,8 +33,8 @@ class DispatcherTestCases extends Testcase
             return $response->withHeader('X-Slytherin', time());
         };
 
-        $this->dispatcher->push($fn);
-        // --------------------------------------
+        $this->self->push($fn);
+        // ---------------------------------------------------------
 
         // Verify the middleware modified the status code ---
         $expect = 404;
@@ -42,7 +42,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->process()->getStatusCode();
 
         $this->assertEquals($expect, $actual);
-        // -------------------------------------------------
+        // --------------------------------------------------
     }
 
     /**
@@ -57,11 +57,11 @@ class DispatcherTestCases extends Testcase
         // Add an interop middleware wrapped as an array ---
         $expect = array(new Wrapper($interop));
 
-        $this->dispatcher->push(array($interop));
-        // ------------------------------------------------
+        $this->self->push(array($interop));
+        // -------------------------------------------------
 
         // Verify the middleware was wrapped correctly ---
-        $actual = $this->dispatcher->stack();
+        $actual = $this->self->stack();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -74,20 +74,22 @@ class DispatcherTestCases extends Testcase
     {
         $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
-        if (is_a($this->dispatcher, $class))
+        if (is_a($this->self, $class))
         {
             /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
-            $zend = $this->dispatcher;
+            $zend = $this->self;
 
             // @codeCoverageIgnoreStart
             if (! $zend->hasPsr() && ! $zend->hasFactory())
             {
-                $this->markTestSkipped('Zend Stratigility does not support single pass callbacks.');
+                $text = 'Zend Stratigility does not support single pass callbacks.';
+
+                $this->markTestSkipped($text);
             }
             // @codeCoverageIgnoreEnd
         }
 
-        // Add a single-pass middleware that sets a content type header ---
+        // Add a single-pass middleware that sets a content type header -----
         $fn = function ($request, $next)
         {
             $response = $next($request);
@@ -95,8 +97,8 @@ class DispatcherTestCases extends Testcase
             return $response->withHeader('Content-Type', 'application/json');
         };
 
-        $this->dispatcher->push($fn);
-        // ---------------------------------------------------------------
+        $this->self->push($fn);
+        // ------------------------------------------------------------------
 
         // Verify the middleware set the Content-Type header ---
         $expect = array('application/json');
@@ -104,7 +106,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->process()->getHeader('Content-Type');
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------------
+        // -----------------------------------------------------
     }
 
     /**
@@ -114,11 +116,9 @@ class DispatcherTestCases extends Testcase
     {
         $this->checkIfInteropExists();
 
-        // Add an interop middleware as a class name string ----
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
-        $this->dispatcher->push($interop);
-        // ----------------------------------------------------
+        $this->self->push($interop);
 
         // Verify the middleware returned a 500 status ---
         $expect = 500;
@@ -134,7 +134,7 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_middlewares_pushed_as_array()
     {
-        // Create two single-pass middlewares ---
+        // Create two single-pass middlewares --------------
         $fn1 = function ($request, $next)
         {
             $response = $next($request);
@@ -148,18 +148,17 @@ class DispatcherTestCases extends Testcase
 
             return $response->withHeader('X-Second', 'two');
         };
-        // --------------------------------------
+        // -------------------------------------------------
 
-        // Push both middlewares as an array ---
-        $this->dispatcher->push(array($fn1, $fn2));
-        // -------------------------------------
+        $this->self->push(array($fn1, $fn2));
 
-        // Verify both headers were set ---
+        // Verify both headers were set ---------------
         $headers = $this->process()->getHeaders();
 
         $this->assertArrayHasKey('X-First', $headers);
+
         $this->assertArrayHasKey('X-Second', $headers);
-        // ---------------------------------------------
+        // --------------------------------------------
     }
 
     /**
@@ -169,12 +168,12 @@ class DispatcherTestCases extends Testcase
     {
         $this->checkIfInteropExists();
 
-        // Push an interop middleware class name ---
-        $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
-        // -----------------------------------------
+        $class = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
+
+        $this->self->push($class);
 
         // Verify one middleware was added to the stack ---
-        $actual = $this->dispatcher->stack();
+        $actual = $this->self->stack();
 
         $this->assertCount(1, $actual);
         // ------------------------------------------------
@@ -192,8 +191,8 @@ class DispatcherTestCases extends Testcase
 
         $items = array(new Slytherin, new Interop05);
 
-        $this->dispatcher->push($items);
-        // -----------------------------------------------
+        $this->self->push($items);
+        // ----------------------------------------------
 
         // Verify the middleware set the name header ---
         $actual = $this->process()->getHeader('name');
@@ -210,16 +209,16 @@ class DispatcherTestCases extends Testcase
         // Push a non-callable, non-middleware object ---
         $object = new \stdClass;
 
-        $this->dispatcher->push($object);
+        $this->self->push($object);
         // ----------------------------------------------
 
         // Verify the object was wrapped in a Wrapper ---
         $expect = 'Rougin\Slytherin\Middleware\Wrapper';
 
-        $actual = $this->dispatcher->stack();
+        $actual = $this->self->stack();
 
         $this->assertInstanceOf($expect, $actual[0]);
-        // -----------------------------------------------------------------------
+        // ----------------------------------------------
     }
 
     /**
@@ -229,20 +228,22 @@ class DispatcherTestCases extends Testcase
     {
         $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
-        if (is_a($this->dispatcher, $class))
+        if (is_a($this->self, $class))
         {
             /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
-            $zend = $this->dispatcher;
+            $zend = $this->self;
 
             // @codeCoverageIgnoreStart
             if (! $zend->hasPsr() && ! $zend->hasFactory())
             {
-                $this->markTestSkipped('Zend Stratigility does not support single pass callbacks.');
+                $text = 'Zend Stratigility does not support single pass callbacks.';
+
+                $this->markTestSkipped($text);
             }
             // @codeCoverageIgnoreEnd
         }
 
-        // Add a single-pass middleware that sets a timestamp header ----
+        // Add a single-pass middleware that sets a timestamp header ---
         $time = time();
 
         $fn = function ($request, $next) use ($time)
@@ -252,8 +253,8 @@ class DispatcherTestCases extends Testcase
             return $response->withHeader('X-Slytherin', $time);
         };
 
-        $this->dispatcher->push($fn);
-        // -------------------------------------------------------------
+        $this->self->push($fn);
+        // ------------------------------------------------------------
 
         // Verify the middleware set the X-Slytherin header ---
         $expect = array($time);
@@ -261,7 +262,7 @@ class DispatcherTestCases extends Testcase
         $actual = $this->process()->getHeader('X-Slytherin');
 
         $this->assertEquals($expect, $actual);
-        // ---------------------------------------------------
+        // ----------------------------------------------------
     }
 
     /**
@@ -275,11 +276,11 @@ class DispatcherTestCases extends Testcase
             return $next($request);
         };
 
-        $this->dispatcher->push($fn);
+        $this->self->push($fn);
         // -----------------------------------------
 
         // Verify one middleware was added to the stack ---
-        $actual = $this->dispatcher->stack();
+        $actual = $this->self->stack();
 
         $this->assertCount(1, $actual);
         // ------------------------------------------------
@@ -292,9 +293,9 @@ class DispatcherTestCases extends Testcase
      */
     protected function process()
     {
-        $server = array('REQUEST_METHOD' => 'GET');
+        $server = array('REQUEST_URI' => '/');
 
-        $server['REQUEST_URI'] = '/';
+        $server['REQUEST_METHOD'] = 'GET';
 
         $server['SERVER_NAME'] = 'localhost';
 
@@ -302,6 +303,8 @@ class DispatcherTestCases extends Testcase
 
         $request = new ServerRequest($server);
 
-        return $this->dispatcher->process($request, new Lastone);
+        $last = new Lastone;
+
+        return $this->self->process($request, $last);
     }
 }

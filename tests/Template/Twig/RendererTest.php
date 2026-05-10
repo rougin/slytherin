@@ -16,7 +16,7 @@ class RendererTest extends Testcase
     /**
      * @var \Rougin\Slytherin\Template\TwigRenderer
      */
-    protected $renderer;
+    protected $self;
 
     /**
      * @var \Twig\Environment
@@ -30,13 +30,9 @@ class RendererTest extends Testcase
     {
         $expect = 'This is a text from a template.';
 
-        // Render the test template with PHP extension ---
-        $actual = $this->renderer->render('test', array(), 'php');
-        // ------------------------------------------------------
+        $actual = $this->self->render('test', array(), 'php');
 
-        // Verify the rendered output matches ---
         $this->assertEquals($expect, $actual);
-        // --------------------------------------
     }
 
     /**
@@ -46,15 +42,15 @@ class RendererTest extends Testcase
     {
         $expect = 'This is a text from a template.';
 
-        // Render the Twig template with data ---
+        // Render the Twig template with data ------
         $data = array('name' => 'template');
 
-        $actual = $this->renderer->render('test-with-twig-data', $data);
+        $file = 'test-with-twig-data';
+
+        $actual = $this->self->render($file, $data);
         // -----------------------------------------
 
-        // Verify the rendered output matches ---
         $this->assertEquals($expect, $actual);
-        // --------------------------------------
     }
 
     /**
@@ -64,19 +60,17 @@ class RendererTest extends Testcase
     {
         $expect = 'This is a text from a template.';
 
-        // Render the Twig template using globals ---
+        // Render the Twig template using globals -----
         $globals = array('name' => 'template');
 
-        $renderer = new Renderer($this->twig, $globals);
+        $self = new Renderer($this->twig, $globals);
 
-        $renderer->addGlobal('test', 'wew');
+        $self->addGlobal('test', 'wew');
 
-        $actual = $renderer->render('test-with-twig-data');
-        // ------------------------------------------------
+        $actual = $self->render('test-with-twig-data');
+        // --------------------------------------------
 
-        // Verify the rendered output matches ---
         $this->assertEquals($expect, $actual);
-        // --------------------------------------
     }
 
     /**
@@ -84,19 +78,14 @@ class RendererTest extends Testcase
      */
     protected function doSetUp()
     {
-        $twig = new TwigLoader;
+        $this->checkIfTwigExists();
 
-        // @codeCoverageIgnoreStart
-        if (! $twig->exists())
-        {
-            $this->markTestSkipped('Twig is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $twig = new TwigLoader;
 
         $path = __DIR__ . '/../../Fixture/Templates';
 
         $this->twig = $twig->load($path);
 
-        $this->renderer = new TwigRenderer($this->twig);
+        $this->self = new TwigRenderer($this->twig);
     }
 }

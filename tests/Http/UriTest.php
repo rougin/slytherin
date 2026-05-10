@@ -14,7 +14,7 @@ class UriTest extends Testcase
     /**
      * @var \Psr\Http\Message\UriInterface
      */
-    protected $uri;
+    protected $self;
 
     /**
      * @return void
@@ -26,7 +26,7 @@ class UriTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set a non-string as the host ---
-        $this->uri->withHost(array());
+        $this->self->withHost(array());
         // -------------------------------------------
     }
 
@@ -40,7 +40,7 @@ class UriTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set a non-string as the path ---
-        $this->uri->withPath(array());
+        $this->self->withPath(array());
         // -------------------------------------------
     }
 
@@ -54,7 +54,7 @@ class UriTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set a port out of range ---
-        $this->uri->withPort(70000);
+        $this->self->withPort(70000);
         // --------------------------------------
     }
 
@@ -68,7 +68,7 @@ class UriTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set a non-string as the query ---
-        $this->uri->withQuery(array());
+        $this->self->withQuery(array());
         // --------------------------------------------
     }
 
@@ -82,7 +82,7 @@ class UriTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to set an invalid scheme ---
-        $this->uri->withScheme('123invalid');
+        $this->self->withScheme('123invalid');
         // ------------------------------------
     }
 
@@ -93,11 +93,11 @@ class UriTest extends Testcase
     {
         $expect = 'me@roug.in:400';
 
-        // Verify the authority string is returned correctly ---
-        $actual = $this->uri->getAuthority();
+        // Verify the authority string is returned ---
+        $actual = $this->self->getAuthority();
 
         $this->assertEquals($expect, $actual);
-        // -----------------------------------------------------
+        // -------------------------------------------
     }
 
     /**
@@ -105,14 +105,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_fragment_updated()
     {
+        // Update the fragment on the URI --------
         $expect = 'test';
 
-        // Update the fragment on the URI ---------
-        $uri = $this->uri->withFragment('test');
-        // ----------------------------------------
+        $self = $this->self->withFragment('test');
+        // ---------------------------------------
 
         // Verify the fragment is returned correctly ---
-        $actual = $uri->getFragment();
+        $actual = $self->getFragment();
 
         $this->assertEquals($expect, $actual);
         // ---------------------------------------------
@@ -123,14 +123,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_host_updated()
     {
+        // Update the host on the URI --------------
         $expect = 'google.com';
 
-        // Update the host on the URI ----------
-        $uri = $this->uri->withHost('google.com');
-        // -------------------------------------
+        $self = $this->self->withHost('google.com');
+        // -----------------------------------------
 
         // Verify the host is returned correctly ---
-        $actual = $uri->getHost();
+        $actual = $self->getHost();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -141,14 +141,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_path_updated()
     {
+        // Update the path on the URI ---------
         $expect = '/test';
 
-        // Update the path on the URI ------
-        $uri = $this->uri->withPath('/test');
-        // ---------------------------------
+        $self = $this->self->withPath('/test');
+        // ------------------------------------
 
         // Verify the path is returned correctly ---
-        $actual = $uri->getPath();
+        $actual = $self->getPath();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -159,14 +159,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_port_set()
     {
+        // Set the port on the URI --------
         $expect = 500;
 
-        // Set the port on the URI ----
-        $uri = $this->uri->withPort(500);
-        // ----------------------------
+        $self = $this->self->withPort(500);
+        // --------------------------------
 
         // Verify the port is returned correctly ---
-        $actual = $uri->getPort();
+        $actual = $self->getPort();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -177,14 +177,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_query_updated()
     {
+        // Update the query string on the URI ------
         $expect = 'type=user';
 
-        // Update the query string on the URI -------
-        $uri = $this->uri->withQuery('type=user');
-        // ------------------------------------------
+        $self = $this->self->withQuery('type=user');
+        // -----------------------------------------
 
         // Verify the query is returned correctly ---
-        $actual = $uri->getQuery();
+        $actual = $self->getQuery();
 
         $this->assertEquals($expect, $actual);
         // ------------------------------------------
@@ -195,14 +195,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_scheme_retrieved()
     {
+        // Update the scheme on the URI --------
         $expect = 'http';
 
-        // Update the scheme on the URI ----
-        $uri = $this->uri->withScheme('http');
-        // ----------------------------------
+        $self = $this->self->withScheme('http');
+        // -------------------------------------
 
         // Verify the scheme is returned correctly ---
-        $actual = $uri->getScheme();
+        $actual = $self->getScheme();
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------
@@ -216,7 +216,7 @@ class UriTest extends Testcase
         $expect = 'https://me@roug.in:400/about';
 
         // Verify the URI converts to string correctly ---
-        $actual = $this->uri->__toString();
+        $actual = $this->self->__toString();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -227,14 +227,14 @@ class UriTest extends Testcase
      */
     public function test_passed_if_user_info_set()
     {
+        // Set the user info on the URI ---
         $expect = 'username:password';
+        // --------------------------------
 
-        // Set the user info on the URI ------------------
-        $uri = $this->uri->withUserInfo('username', 'password');
-        // -----------------------------------------------------
+        $self = $this->self->withUserInfo('username', 'password');
 
         // Verify the user info is returned correctly ---
-        $actual = $uri->getUserInfo();
+        $actual = $self->getUserInfo();
 
         $this->assertEquals($expect, $actual);
         // ----------------------------------------------
@@ -245,6 +245,6 @@ class UriTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->uri = new Uri('https://me@roug.in:400/about');
+        $this->self = new Uri('https://me@roug.in:400/about');
     }
 }

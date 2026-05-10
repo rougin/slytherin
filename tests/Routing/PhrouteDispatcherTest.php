@@ -16,11 +16,11 @@ class PhrouteDispatcherTest extends DispatcherTestCases
      */
     protected function doSetUp()
     {
-        $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
+        $this->checkIfPhrouteExists();
 
         $router = $this->getRouter('phroute');
 
-        $this->dispatcher = new PhrouteDispatcher($router);
+        $this->self = new PhrouteDispatcher($router);
     }
 
     /**
@@ -28,19 +28,21 @@ class PhrouteDispatcherTest extends DispatcherTestCases
      */
     public function test_passed_if_fastroute_router_dispatched()
     {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+        $this->checkIfFastRouteExists();
 
-        // Set up a FastRoute router -----------------
+        // Set up a FastRoute router ---------------
         $router = new FastRouteRouter;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+        $class = 'Rougin\Slytherin\Fixture\Classes';
+
+        $router->prefix('', $class);
 
         $router->get('/', 'NewClass@index');
-        // -------------------------------------------
+        // -----------------------------------------
 
-        // Dispatch using the Phroute dispatcher ---
+        // Dispatch using the Phroute dispatcher ----
         $dispatcher = new PhrouteDispatcher($router);
-        // -------------------------------------------
+        // ------------------------------------------
 
         // Verify the route is dispatched correctly ---
         $controller = new NewClass;
@@ -52,7 +54,7 @@ class PhrouteDispatcherTest extends DispatcherTestCases
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ---------------------------------------------
+        // --------------------------------------------
     }
 
     /**
@@ -60,17 +62,17 @@ class PhrouteDispatcherTest extends DispatcherTestCases
      */
     public function test_passed_if_slytherin_router_dispatched()
     {
-        // Set up the vanilla Slytherin router -------
+        // Set up the vanilla Slytherin router -----
         $router = new Router;
 
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+        $class = 'Rougin\Slytherin\Fixture\Classes';
+
+        $router->prefix('', $class);
 
         $router->get('/', 'NewClass@index');
-        // -------------------------------------------
+        // -----------------------------------------
 
-        // Dispatch using the Phroute dispatcher ---
         $dispatcher = new PhrouteDispatcher($router);
-        // -------------------------------------------
 
         // Verify the route is dispatched correctly ---
         $route = $dispatcher->dispatch('GET', '/');
@@ -82,6 +84,6 @@ class PhrouteDispatcherTest extends DispatcherTestCases
         $actual = $this->resolve($route);
 
         $this->assertEquals($expect, $actual);
-        // ---------------------------------------------
+        // --------------------------------------------
     }
 }

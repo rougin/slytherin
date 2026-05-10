@@ -14,12 +14,12 @@ class StreamTest extends Testcase
     /**
      * @var string
      */
-    protected $filepath;
+    protected $file;
 
     /**
      * @var \Psr\Http\Message\StreamInterface
      */
-    protected $stream;
+    protected $self;
 
     /**
      * @return void
@@ -30,16 +30,16 @@ class StreamTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Create a write-only stream ---------------
+        // Create a write-only stream ---
         /** @var resource */
-        $file = fopen($this->filepath, 'w');
+        $file = fopen($this->file, 'w');
 
-        $stream = new Stream($file);
-        // ------------------------------------------
+        $self = new Stream($file);
+        // ------------------------------
 
         // Attempt to read from a non-readable stream ---
-        echo $stream->getContents();
-        // ---------------------------------------------
+        echo $self->getContents();
+        // ----------------------------------------------
     }
 
     /**
@@ -51,13 +51,13 @@ class StreamTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Close the stream first ----
-        $this->stream->close();
-        // ---------------------------
+        // Close the stream first ---
+        $this->self->close();
+        // --------------------------
 
         // Attempt to read after closing ---
-        $this->stream->getContents();
-        // --------------------------------
+        $this->self->getContents();
+        // ---------------------------------
     }
 
     /**
@@ -70,9 +70,9 @@ class StreamTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Detach the stream before seeking ---
-        $stream = new Stream($this->newFile());
+        $self = new Stream($this->newFile());
 
-        $stream->detach() && $stream->seek(2);
+        $self->detach() && $self->seek(2);
         // ------------------------------------
     }
 
@@ -86,9 +86,9 @@ class StreamTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to read beyond the stream size ---
-        $stream = new Stream($this->newFile());
+        $self = new Stream($this->newFile());
 
-        $stream->read(55);
+        $self->read(55);
         // ------------------------------------------
     }
 
@@ -102,10 +102,10 @@ class StreamTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Detach the stream before checking position ---
-        $stream = new Stream($this->newFile());
+        $self = new Stream($this->newFile());
 
-        $stream->detach() && $stream->tell();
-        // --------------------------------------------
+        $self->detach() && $self->tell();
+        // ----------------------------------------------
     }
 
     /**
@@ -117,12 +117,14 @@ class StreamTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Create a read-only stream --------
-        $stream = new Stream($this->newFile('r'));
-        // -----------------------------------
+        // Create a read-only stream -----------
+        $self = new Stream($this->newFile('r'));
+        // -------------------------------------
 
         // Attempt to write to it ---
-        $stream->write('Hello') && $stream->getContents();
+        $self->write('Hello');
+
+        $self->getContents();
         // --------------------------
     }
 
@@ -131,12 +133,12 @@ class StreamTest extends Testcase
      */
     public function test_passed_if_empty_stream_size_null()
     {
-        // Create an empty stream ------------------
-        $stream = new Stream;
-        // -----------------------------------------
+        // Create an empty stream ---
+        $self = new Stream;
+        // --------------------------
 
         // Verify the size is null ---
-        $actual = $stream->getSize();
+        $actual = $self->getSize();
 
         $this->assertNull($actual);
         // --------------------------
@@ -148,11 +150,11 @@ class StreamTest extends Testcase
     public function test_passed_if_end_of_file_returned()
     {
         // Create a stream from a new file ---
-        $stream = new Stream($this->newFile());
+        $self = new Stream($this->newFile());
         // -----------------------------------
 
         // Verify the end-of-file flag is false ---
-        $this->assertFalse($stream->eof());
+        $this->assertFalse($self->eof());
         // ----------------------------------------
     }
 
@@ -164,7 +166,7 @@ class StreamTest extends Testcase
         $expect = 'This is a text from a template.';
 
         // Verify the stream content is returned correctly ---
-        $resource = $this->stream->__toString();
+        $resource = $this->self->__toString();
 
         $this->assertEquals($expect, $resource);
         // ---------------------------------------------------
@@ -179,9 +181,9 @@ class StreamTest extends Testcase
 
         $actual = null;
 
-        // Detach the underlying resource ----
-        $resource = $this->stream->detach();
-        // -----------------------------------
+        // Detach the underlying resource ---
+        $resource = $this->self->detach();
+        // ----------------------------------
 
         // Verify the resource type is still valid ---
         if ($resource)
@@ -190,7 +192,7 @@ class StreamTest extends Testcase
         }
 
         $this->assertEquals($expect, $actual);
-        // ------------------------------------------
+        // -------------------------------------------
     }
 
     /**
@@ -198,16 +200,16 @@ class StreamTest extends Testcase
      */
     public function test_passed_if_stream_metadata_retrieved()
     {
-        // Create a stream from a new file -----
+        // Create a stream from a new file ---
         $file = $this->newFile();
 
-        $stream = new Stream($file);
-        // -------------------------------------
+        $self = new Stream($file);
+        // -----------------------------------
 
         // Verify the metadata matches the file's data ---
         $expect = stream_get_meta_data($file);
 
-        $actual = $stream->getMetadata();
+        $actual = $self->getMetadata();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -220,14 +222,14 @@ class StreamTest extends Testcase
     {
         $expect = 2;
 
-        // Create a stream and set its position ----
-        $stream = new Stream($this->newFile());
+        // Create a stream and set its position ---
+        $self = new Stream($this->newFile());
 
-        $stream->seek($expect);
-        // -----------------------------------------
+        $self->seek($expect);
+        // ----------------------------------------
 
         // Verify the position was set correctly ---
-        $actual = $stream->tell();
+        $actual = $self->tell();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
@@ -241,7 +243,7 @@ class StreamTest extends Testcase
         $expect = 'This';
 
         // Read the first four bytes of the stream ---
-        $actual = $this->stream->read(4);
+        $actual = $this->self->read(4);
         // -------------------------------------------
 
         // Verify the correct content was read ---
@@ -257,10 +259,10 @@ class StreamTest extends Testcase
         $expect = 31;
 
         // Verify the stream size matches the fixture file ---
-        $actual = $this->stream->getSize();
+        $actual = $this->self->getSize();
 
         $this->assertEquals($expect, $actual);
-        // --------------------------------------------------
+        // ---------------------------------------------------
     }
 
     /**
@@ -270,19 +272,19 @@ class StreamTest extends Testcase
     {
         $expect = 'Lorem ipsum dolor sit amet elit.';
 
-        // Write content to the stream ---------------
-        $stream = new Stream($this->newFile('w+'));
+        // Write content to the stream ----------
+        $self = new Stream($this->newFile('w+'));
 
-        $stream->write($expect);
-        // -------------------------------------------
+        $self->write($expect);
+        // --------------------------------------
 
-        // Verify the content was written correctly -----------------
-        $stream = new Stream($this->newFile('r'));
+        // Verify the content was written correctly ---
+        $self = new Stream($this->newFile('r'));
 
-        $actual = $stream->getContents();
+        $actual = $self->getContents();
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------------------
+        // --------------------------------------------
     }
 
     /**
@@ -295,9 +297,9 @@ class StreamTest extends Testcase
         /** @var resource */
         $file = fopen("$root/Templates/test.php", 'r');
 
-        $this->stream = new Stream($file);
+        $this->self = new Stream($file);
 
-        $this->filepath = "$root/Templates/new-test.php";
+        $this->file = "$root/Templates/new-test.php";
     }
 
     /**
@@ -308,6 +310,6 @@ class StreamTest extends Testcase
     protected function newFile($mode = 'w')
     {
         /** @var resource */
-        return fopen($this->filepath, $mode);
+        return fopen($this->file, $mode);
     }
 }

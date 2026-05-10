@@ -14,8 +14,8 @@ class FastRouteRouterTest extends RouterTestCases
      */
     protected function doSetUp()
     {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteRouter');
+        $this->checkIfFastRouteExists();
 
-        $this->router = new FastRouteRouter($this->routes);
+        $this->self = new FastRouteRouter($this->routes);
     }
 }

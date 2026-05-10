@@ -23,12 +23,13 @@ class ForwardTest extends Testcase
      */
     public function test_passed_if_callback_route_responded()
     {
-        // Set up a callback-based route ---
+        // Set up a callback-based route -------
         $this->builder->setUrl('GET', '/hello');
 
         $expect = 'Hello world!';
+
         $this->expectOutputString($expect);
-        // --------------------------------
+        // ------------------------------------
 
         // Run the built application ---
         $this->builder->make()->run();
@@ -42,12 +43,13 @@ class ForwardTest extends Testcase
      */
     public function test_passed_if_default_route_responded()
     {
-        // Set up the default route ---
+        // Set up the default route -------
         $this->builder->setUrl('GET', '/');
 
         $expect = 'Hello';
+
         $this->expectOutputString($expect);
-        // ----------------------------
+        // --------------------------------
 
         // Run the built application ---
         $this->builder->make()->run();

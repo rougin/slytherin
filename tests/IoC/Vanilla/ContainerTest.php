@@ -17,19 +17,19 @@ use Rougin\Slytherin\Testcase;
 class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\Vanilla\Container
+     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
      */
-    protected $container;
+    protected $class;
 
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
+    protected $name = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
     /**
-     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
+     * @var \Rougin\Slytherin\IoC\Vanilla\Container
      */
-    protected $instance;
+    protected $self;
 
     /**
      * @return void
@@ -40,9 +40,7 @@ class ContainerTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to get a non-existent class ---
-        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
-        // ----------------------------------------
+        $this->self->get('Rougin\Slytherin\Hello');
     }
 
     /**
@@ -54,11 +52,11 @@ class ContainerTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Set a non-class value and attempt to retrieve it ---
-        $this->container->set('Foo', array());
+        // Set a non-class value and retrieve it ---
+        $this->self->set('Foo', array());
 
-        $this->container->get('Foo');
-        // ----------------------------------------------------
+        $this->self->get('Foo');
+        // -----------------------------------------
     }
 
     /**
@@ -66,14 +64,14 @@ class ContainerTest extends Testcase
      */
     public function test_failed_if_reflection_container_error()
     {
-        $container = new ReflectionContainer($this->container);
+        $self = new ReflectionContainer($this->self);
 
         $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
+        // Attempt to get an unknown class via reflection ---
         $this->doSetExpectedException($expect);
 
-        // Attempt to get an unknown class via reflection ---
-        $container->get('Test');
+        $self->get('Test');
         // --------------------------------------------------
     }
 
@@ -87,14 +85,16 @@ class ContainerTest extends Testcase
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         // Register a class and create an alias ---
-        $this->container->add($class, new $class);
+        $this->self->add($class, new $class);
 
-        $this->container->alias($interface, $class);
+        $this->self->alias($interface, $class);
         // ----------------------------------------
 
         // Verify the alias resolves correctly ---
-        $this->assertTrue($this->container->has($interface));
-        // ------------------------------------------
+        $actual = $this->self->has($interface);
+
+        $this->assertTrue($actual);
+        // ---------------------------------------
     }
 
     /**
@@ -102,13 +102,9 @@ class ContainerTest extends Testcase
      */
     public function test_passed_if_class_added()
     {
-        // Add a class with parameters ---
-        $this->container->add($this->class, $this->instance);
-        // -------------------------------
+        $this->self->add($this->name, $this->class);
 
-        // Verify the class was added ---
-        $this->assertTrue($this->container->has($this->class));
-        // -------------------------------------
+        $this->assertTrue($this->self->has($this->name));
     }
 
     /**
@@ -118,13 +114,9 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Add a simple class ------------
-        $this->container->add($class, new $class);
-        // -------------------------------
+        $this->self->add($class, new $class);
 
-        // Verify the class exists ---
-        $this->assertTrue($this->container->has($class));
-        // --------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -134,13 +126,27 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithEmptyConstructor';
 
-        // Add a class with an empty constructor ---
-        $this->container->add($class, new $class);
+        $this->self->add($class, new $class);
+
+        $this->assertTrue($this->self->has($class));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_instance_retrieved()
+    {
+        // Add a class with parameters -------------
+        $this->self->add($this->name, $this->class);
         // -----------------------------------------
 
-        // Verify the class was added ---
-        $this->assertTrue($this->container->has($class));
-        // ---------------------------------
+        // Verify the retrieved instance matches ---
+        $expect = $this->class;
+
+        $actual = $this->self->get($this->name);
+
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------
     }
 
     /**
@@ -153,32 +159,16 @@ class ContainerTest extends Testcase
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
         // Resolve an interface and use it as a dependency ---
-        $this->container->add($interface, new WithInterface);
+        $this->self->add($interface, new WithInterface);
 
-        $this->container->add($withParam, $this->container->get($interface));
+        $class = $this->self->get($interface);
+
+        $this->self->add($withParam, $class);
         // ---------------------------------------------------
 
-        // Verify the dependent class was resolved ---
-        $this->assertTrue($this->container->has($withParam));
+        // Verify the dependent class was resolved -----
+        $this->assertTrue($this->self->has($withParam));
         // ---------------------------------------------
-    }
-
-    /**
-     * @return void
-     */
-    public function test_passed_if_instance_retrieved()
-    {
-        // Add a class with parameters ------
-        $this->container->add($this->class, $this->instance);
-        // ----------------------------------
-
-        // Verify the retrieved instance matches ---
-        $expect = $this->instance;
-
-        $actual = $this->container->get($this->class);
-
-        $this->assertEquals($expect, $actual);
-        // -------------------------------------------
     }
 
     /**
@@ -188,13 +178,9 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter';
 
-        // Add a class with an optional constructor parameter ---
-        $this->container->add($class, new $class);
-        // ------------------------------------------------------
+        $this->self->add($class, new $class);
 
-        // Verify the class was added ---
-        $this->assertTrue($this->container->has($class));
-        // ---------------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -204,13 +190,9 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Add a simple class without parameters ---
-        $this->container->add($class, new $class);
-        // -----------------------------------------
+        $this->self->add($class, new $class);
 
-        // Verify the class was added ---
-        $this->assertTrue($this->container->has($class));
-        // ---------------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -218,13 +200,9 @@ class ContainerTest extends Testcase
      */
     public function test_passed_if_simple_class_resolved()
     {
-        // Add a class with parameters ------
-        $this->container->add($this->class, $this->instance);
-        // ----------------------------------
+        $this->self->add($this->name, $this->class);
 
-        // Verify the class is resolvable ---
-        $this->assertTrue($this->container->has($this->class));
-        // -------------------------------------
+        $this->assertTrue($this->self->has($this->name));
     }
 
     /**
@@ -232,8 +210,10 @@ class ContainerTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->container = new Container;
+        $this->self = new Container;
 
-        $this->instance = new WithParameter(new NewClass, new AnotherClass);
+        $class = new WithParameter(new NewClass, new AnotherClass);
+
+        $this->class = $class;
     }
 }

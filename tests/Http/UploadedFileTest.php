@@ -14,7 +14,7 @@ class UploadedFileTest extends Testcase
     /**
      * @var \Psr\Http\Message\UploadedFileInterface
      */
-    protected $uploaded;
+    protected $self;
 
     /**
      * @return void
@@ -26,7 +26,7 @@ class UploadedFileTest extends Testcase
         $target = $root . '/Templates/new.php';
 
         // Move the file to the target path first ---
-        $this->uploaded->moveTo($target);
+        $this->self->moveTo($target);
 
         file_exists($target) && unlink($target);
         // ------------------------------------------
@@ -36,7 +36,7 @@ class UploadedFileTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to move the same file again ---
-        $this->uploaded->moveTo($target);
+        $this->self->moveTo($target);
         // ---------------------------------------
     }
 
@@ -50,7 +50,7 @@ class UploadedFileTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to move to an empty target path ---
-        $this->uploaded->moveTo('');
+        $this->self->moveTo('');
         // -------------------------------------------
     }
 
@@ -59,20 +59,20 @@ class UploadedFileTest extends Testcase
      */
     public function test_failed_if_move_upload_error()
     {
+        // Create an uploaded file with an error code ---
         $root = str_replace('Http', 'Fixture', __DIR__);
 
         $filepath = $root . '/Templates/file-test.php';
+        // ----------------------------------------------
 
-        // Create an uploaded file with an error code ----
-        $uploaded = new UploadedFile($filepath, 400, UPLOAD_ERR_NO_FILE, 'test.php', 'text/plain');
-        // -----------------------------------------------
+        $self = new UploadedFile($filepath, 400, UPLOAD_ERR_NO_FILE, 'test.php', 'text/plain');
 
+        // Attempt to move a file with an upload error ---
         $expect = 'RuntimeException';
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to move a file with an upload error ---
-        $uploaded->moveTo($root . '/Templates/test.php');
+        $self->moveTo($root . '/Templates/test.php');
         // -----------------------------------------------
     }
 
@@ -86,17 +86,17 @@ class UploadedFileTest extends Testcase
         $target = $root . '/Templates/new.php';
 
         // Move the file to the target path first ---
-        $this->uploaded->moveTo($target);
+        $this->self->moveTo($target);
 
         file_exists($target) && unlink($target);
         // ------------------------------------------
 
+        // Attempt to get the stream after moving ---
         $expect = 'RuntimeException';
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to get the stream after moving ---
-        $this->uploaded->getStream();
+        $this->self->getStream();
         // ------------------------------------------
     }
 
@@ -108,7 +108,7 @@ class UploadedFileTest extends Testcase
         $expect = UPLOAD_ERR_OK;
 
         // Verify the file error code is returned ---
-        $actual = $this->uploaded->getError();
+        $actual = $this->self->getError();
 
         $this->assertEquals($expect, $actual);
         // ------------------------------------------
@@ -121,10 +121,10 @@ class UploadedFileTest extends Testcase
     {
         $root = str_replace('Http', 'Fixture', __DIR__);
 
+        // Move the uploaded file to the target path ---
         $target = $root . '/Templates/new.php';
 
-        // Move the uploaded file to the target path ---
-        $this->uploaded->moveTo($target);
+        $this->self->moveTo($target);
         // ---------------------------------------------
 
         // Verify the file was moved successfully ---
@@ -141,11 +141,11 @@ class UploadedFileTest extends Testcase
     {
         $expect = 'file-test.php';
 
-        // Verify the client filename is returned correctly ---
-        $actual = $this->uploaded->getClientFilename();
+        // Verify the client filename is returned ---
+        $actual = $this->self->getClientFilename();
 
         $this->assertEquals($expect, $actual);
-        // ----------------------------------------------------
+        // ------------------------------------------
     }
 
     /**
@@ -156,7 +156,7 @@ class UploadedFileTest extends Testcase
         $expect = 400;
 
         // Verify the file size is returned correctly ---
-        $actual = $this->uploaded->getSize();
+        $actual = $this->self->getSize();
 
         $this->assertEquals($expect, $actual);
         // ----------------------------------------------
@@ -170,7 +170,7 @@ class UploadedFileTest extends Testcase
         $expect = 'text/plain';
 
         // Verify the media type is returned correctly ---
-        $actual = $this->uploaded->getClientMediaType();
+        $actual = $this->self->getClientMediaType();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -183,11 +183,11 @@ class UploadedFileTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Http\Stream';
 
-        // Verify the stream body is returned correctly ---
-        $actual = $this->uploaded->getStream();
+        // Verify the stream body is returned ----
+        $actual = $this->self->getStream();
 
         $this->assertInstanceOf($expect, $actual);
-        // -----------------------------------------------
+        // ---------------------------------------
     }
 
     /**
@@ -201,6 +201,6 @@ class UploadedFileTest extends Testcase
 
         file_put_contents($filepath, 'Hello world');
 
-        $this->uploaded = new UploadedFile($filepath, 400, 0, 'file-test.php', 'text/plain');
+        $this->self = new UploadedFile($filepath, 400, 0, 'file-test.php', 'text/plain');
     }
 }

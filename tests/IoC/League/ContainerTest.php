@@ -15,32 +15,28 @@ use Rougin\Slytherin\Testcase;
 class ContainerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\IoC\League\Container
+     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
      */
-    protected $container;
+    protected $class;
 
     /**
      * @var string
      */
-    protected $class = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
+    protected $name = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
     /**
-     * @var \Rougin\Slytherin\Fixture\Classes\WithParameter
+     * @var \Rougin\Slytherin\IoC\League\Container
      */
-    protected $instance;
+    protected $self;
 
     /**
      * @return void
      */
     public function test_passed_if_class_added()
     {
-        // Add a class instance ---
-        $this->container->add($this->class, $this->instance);
-        // ------------------------
+        $this->self->add($this->name, $this->class);
 
-        // Verify the class exists ---
-        $this->assertTrue($this->container->has($this->class));
-        // --------------------------
+        $this->assertTrue($this->self->has($this->name));
     }
 
     /**
@@ -50,13 +46,9 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Add a class without an instance ---
-        $this->container->add($class);
-        // ----------------------------------
+        $this->self->add($class);
 
-        // Verify the class exists ---
-        $this->assertTrue($this->container->has($class));
-        // --------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -64,17 +56,15 @@ class ContainerTest extends Testcase
      */
     public function test_passed_if_instance_retrieved()
     {
-        // Set a class instance ----------
-        $this->container->set($this->class, $this->instance);
-        // -------------------------------
+        $this->self->set($this->name, $this->class);
 
         // Verify the retrieved instance matches ---
-        $expect = $this->instance;
+        $expect = $this->class;
 
-        $actual = $this->container->get($this->class);
+        $actual = $this->self->get($this->name);
 
         $this->assertEquals($expect, $actual);
-        // -------------------------------------------
+        // -----------------------------------------
     }
 
     /**
@@ -82,13 +72,9 @@ class ContainerTest extends Testcase
      */
     public function test_passed_if_instance_set()
     {
-        // Set a class instance directly ---
-        $this->container->set($this->class, $this->instance);
-        // ----------------------------------
+        $this->self->set($this->name, $this->class);
 
-        // Verify the class exists ---
-        $this->assertTrue($this->container->has($this->class));
-        // --------------------------
+        $this->assertTrue($this->self->has($this->name));
     }
 
     /**
@@ -98,8 +84,10 @@ class ContainerTest extends Testcase
     {
         $this->checkIfLeagueExists();
 
-        $this->container = new Container;
+        $this->self = new Container;
 
-        $this->instance = new WithParameter(new NewClass, new AnotherClass);
+        $class = new WithParameter(new NewClass, new AnotherClass);
+
+        $this->class = $class;
     }
 }

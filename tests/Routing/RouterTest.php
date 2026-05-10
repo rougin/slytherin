@@ -14,6 +14,6 @@ class RouterTest extends RouterTestCases
      */
     protected function doSetUp()
     {
-        $this->router = new Router($this->routes);
+        $this->self = new Router($this->routes);
     }
 }

@@ -18,7 +18,9 @@ class Builder
     {
         $app = new Application;
 
-        $app->get('/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass@index';
+
+        $app->get('/', $class);
 
         $app->get('/hello', function ()
         {

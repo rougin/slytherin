@@ -6,5 +6,6 @@ build
 composer.lock
 docs
 GEMINI.md
+tests/Fixture/Templates/file-test.php
 tests/Fixture/Templates/new-test.php
 vendor
