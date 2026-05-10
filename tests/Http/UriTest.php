@@ -19,9 +19,25 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_converting_instance_to_string()
     {
-        $this->uri = new Uri('https://me@roug.in:400/about');
+        $expected = 'https://me@roug.in:400/about';
+
+        $actual = $this->uri->__toString();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_authority_link()
+    {
+        $expected = 'me@roug.in:400';
+
+        $actual = $this->uri->getAuthority();
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
@@ -41,11 +57,63 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_getting_authority_link()
+    public function test_setting_an_invalid_host_throws_exception()
     {
-        $expected = 'me@roug.in:400';
+        $this->doSetExpectedException('InvalidArgumentException');
 
-        $actual = $this->uri->getAuthority();
+        $this->uri->withHost(array());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_path_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->uri->withPath(array());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_port_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->uri->withPort(70000);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_query_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->uri->withQuery(array());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_scheme_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->uri->withScheme('123invalid');
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_the_url_port()
+    {
+        $expected = 500;
+
+        $uri = $this->uri->withPort(500);
+
+        $actual = $uri->getPort();
 
         $this->assertEquals($expected, $actual);
     }
@@ -81,13 +149,13 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_setting_the_url_port()
+    public function test_updating_the_fragment()
     {
-        $expected = 500;
+        $expected = 'test';
 
-        $uri = $this->uri->withPort(500);
+        $uri = $this->uri->withFragment('test');
 
-        $actual = $uri->getPort();
+        $actual = $uri->getFragment();
 
         $this->assertEquals($expected, $actual);
     }
@@ -109,20 +177,6 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_updating_the_fragment()
-    {
-        $expected = 'test';
-
-        $uri = $this->uri->withFragment('test');
-
-        $actual = $uri->getFragment();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
     public function test_updating_the_url_path()
     {
         $expected = '/test';
@@ -137,12 +191,8 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_converting_instance_to_string()
+    protected function doSetUp()
     {
-        $expected = 'https://me@roug.in:400/about';
-
-        $actual = $this->uri->__toString();
-
-        $this->assertEquals($expected, $actual);
+        $this->uri = new Uri('https://me@roug.in:400/about');
     }
 }

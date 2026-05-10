@@ -143,7 +143,7 @@ class Message implements MessageInterface
      */
     public function withAddedHeader($name, $value)
     {
-        // TODO: Add \InvalidArgumentException
+        $this->checkIfValidName($name);
 
         $static = clone $this;
 
@@ -191,7 +191,7 @@ class Message implements MessageInterface
      */
     public function withHeader($name, $value)
     {
-        // TODO: Add \InvalidArgumentException
+        $this->checkIfValidName($name);
 
         $static = clone $this;
 
@@ -203,6 +203,28 @@ class Message implements MessageInterface
         $static->headers[$name] = $value;
 
         return $static;
+    }
+
+    /**
+     * Validates the specified header name.
+     *
+     * @param string $name
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function checkIfValidName($name)
+    {
+        $pattern = '/^[a-zA-Z0-9!#$%&\'*+.^_`|~-]+$/';
+
+        if (preg_match($pattern, $name))
+        {
+            return;
+        }
+
+        $text = 'Header name is not a valid RFC 7230 name.';
+
+        throw new \InvalidArgumentException($text);
     }
 
     /**

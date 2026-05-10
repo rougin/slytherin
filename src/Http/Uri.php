@@ -69,6 +69,26 @@ class Uri implements UriInterface
     protected $user = '';
 
     /**
+     * Generates a \Psr\Http\Message\UriInterface from server variables.
+     *
+     * @param array<string, string> $server
+     *
+     * @return \Psr\Http\Message\UriInterface
+     */
+    public static function instance(array $server)
+    {
+        $secure = isset($server['HTTPS']) ? 'on' : 'off';
+
+        $http = $secure === 'off' ? 'http' : 'https';
+
+        $url = $http . '://' . $server['SERVER_NAME'];
+
+        $url .= $server['SERVER_PORT'];
+
+        return new Uri($url . $server['REQUEST_URI']);
+    }
+
+    /**
      * Initializes the URI instance.
      *
      * @param string $uri
@@ -212,7 +232,7 @@ class Uri implements UriInterface
      */
     public function withHost($host)
     {
-        // TODO: Add \InvalidArgumentException
+        $this->checkIfValidHost($host);
 
         $new = clone $this;
 
@@ -231,7 +251,7 @@ class Uri implements UriInterface
      */
     public function withPath($path)
     {
-        // TODO: Add \InvalidArgumentException
+        $this->checkIfValidPath($path);
 
         $new = clone $this;
 
@@ -250,7 +270,12 @@ class Uri implements UriInterface
      */
     public function withPort($port)
     {
-        // TODO: Add \InvalidArgumentException
+        if (! is_null($port) && ($port < 1 || $port > 65535))
+        {
+            $text = 'Port must be null or an integer between 1 and 65535.';
+
+            throw new \InvalidArgumentException($text);
+        }
 
         $new = clone $this;
 
@@ -269,7 +294,7 @@ class Uri implements UriInterface
      */
     public function withQuery($query)
     {
-        // TODO: Add \InvalidArgumentException
+        $this->checkIfValidQuery($query);
 
         $new = clone $this;
 
@@ -288,7 +313,14 @@ class Uri implements UriInterface
      */
     public function withScheme($scheme)
     {
-        // TODO: Add \InvalidArgumentException
+        $regex = '/^[a-zA-Z][a-zA-Z0-9+.-]*$/';
+
+        if ($scheme !== '' && ! preg_match($regex, $scheme))
+        {
+            $text = 'Scheme must be empty or start with a letter.';
+
+            throw new \InvalidArgumentException($text);
+        }
 
         $new = clone $this;
 
@@ -315,22 +347,62 @@ class Uri implements UriInterface
     }
 
     /**
-     * Generates a \Psr\Http\Message\UriInterface from server variables.
+     * Validates the specified host.
      *
-     * @param array<string, string> $server
+     * @param mixed $host
      *
-     * @return \Psr\Http\Message\UriInterface
+     * @return void
+     * @throws \InvalidArgumentException
      */
-    public static function instance(array $server)
+    protected function checkIfValidHost($host)
     {
-        $secure = isset($server['HTTPS']) ? 'on' : 'off';
+        if (is_string($host))
+        {
+            return;
+        }
 
-        $http = $secure === 'off' ? 'http' : 'https';
+        $text = 'Host must be a valid string.';
 
-        $url = $http . '://' . $server['SERVER_NAME'];
+        throw new \InvalidArgumentException($text);
+    }
 
-        $url .= $server['SERVER_PORT'];
+    /**
+     * Validates the specified path.
+     *
+     * @param mixed $path
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function checkIfValidPath($path)
+    {
+        if (is_string($path))
+        {
+            return;
+        }
 
-        return new Uri($url . $server['REQUEST_URI']);
+        $text = 'Path must be a valid string.';
+
+        throw new \InvalidArgumentException($text);
+    }
+
+    /**
+     * Validates the specified query string.
+     *
+     * @param mixed $query
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function checkIfValidQuery($query)
+    {
+        if (is_string($query))
+        {
+            return;
+        }
+
+        $text = 'Query must be a valid string.';
+
+        throw new \InvalidArgumentException($text);
     }
 }

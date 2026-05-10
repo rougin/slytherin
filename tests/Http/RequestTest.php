@@ -19,28 +19,6 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
-    {
-        $this->request = new Request;
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_a_http_method()
-    {
-        $expected = 'POST';
-
-        $request = $this->request->withMethod($expected);
-
-        $actual = $request->getMethod();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
     public function test_getting_a_request_target()
     {
         $expected = '/lorem-ipsum';
@@ -69,6 +47,20 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_setting_a_http_method()
+    {
+        $expected = 'POST';
+
+        $request = $this->request->withMethod($expected);
+
+        $actual = $request->getMethod();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_setting_a_uri_with_the_host_header_preserved()
     {
         $uri = new Uri('https://www.google.com');
@@ -82,5 +74,23 @@ class RequestTest extends Testcase
         $actual = $request->getHeader('Host');
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_http_method_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->request->withMethod('');
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->request = new Request;
     }
 }

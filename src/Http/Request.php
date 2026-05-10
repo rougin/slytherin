@@ -101,7 +101,12 @@ class Request extends Message implements RequestInterface
      */
     public function withMethod($method)
     {
-        // TODO: Add \InvalidArgumentException
+        if (empty($method))
+        {
+            $text = 'Method must be a non-empty string.';
+
+            throw new \InvalidArgumentException($text);
+        }
 
         $static = clone $this;
 

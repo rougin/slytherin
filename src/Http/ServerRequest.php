@@ -12,6 +12,7 @@
 namespace Rougin\Slytherin\Http;
 
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\UploadedFileInterface;
 
 /**
  * Server Request
@@ -206,7 +207,12 @@ class ServerRequest extends Request implements ServerRequestInterface
      */
     public function withParsedBody($data)
     {
-        // TODO: Add \InvalidArgumentException
+        if (! $this->isValidParsedBody($data))
+        {
+            $text = 'Parsed body must be null, an array, or an object.';
+
+            throw new \InvalidArgumentException($text);
+        }
 
         $static = clone $this;
 
@@ -241,7 +247,13 @@ class ServerRequest extends Request implements ServerRequestInterface
      */
     public function withUploadedFiles(array $uploaded)
     {
-        // TODO: Add \InvalidArgumentException
+        foreach ($uploaded as $items)
+        {
+            foreach ($items as $file)
+            {
+                $this->checkIfValidFile($file);
+            }
+        }
 
         $static = clone $this;
 
@@ -264,5 +276,39 @@ class ServerRequest extends Request implements ServerRequestInterface
         unset($static->attributes[$name]);
 
         return $static;
+    }
+
+    /**
+     * Validates the specified uploaded file.
+     *
+     * @param mixed $file
+     *
+     * @return void
+     * @throws \InvalidArgumentException
+     */
+    protected function checkIfValidFile($file)
+    {
+        if ($file instanceof UploadedFileInterface)
+        {
+            return;
+        }
+
+        $name = 'UploadedFileInterface';
+
+        $text = 'Each file must be implemented in "' . $name . '".';
+
+        throw new \InvalidArgumentException($text);
+    }
+
+    /**
+     * Checks if the specified data is a valid parsed body type.
+     *
+     * @param mixed $data
+     *
+     * @return boolean
+     */
+    protected function isValidParsedBody($data)
+    {
+        return is_null($data) || is_array($data) || is_object($data);
     }
 }

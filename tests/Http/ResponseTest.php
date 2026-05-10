@@ -19,14 +19,6 @@ class ResponseTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
-    {
-        $this->response = new Response;
-    }
-
-    /**
-     * @return void
-     */
     public function test_getting_the_reason_phrase()
     {
         $expected = 'Lorem ipsum dolor';
@@ -50,5 +42,23 @@ class ResponseTest extends Testcase
         $actual = $response->getStatusCode();
 
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_an_invalid_status_code_throws_exception()
+    {
+        $this->doSetExpectedException('InvalidArgumentException');
+
+        $this->response->withStatus(600);
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->response = new Response;
     }
 }

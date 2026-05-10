@@ -49,6 +49,11 @@ class UploadedFile implements UploadedFileInterface
     protected $media = null;
 
     /**
+     * @var boolean
+     */
+    protected $moved = false;
+
+    /**
      * Initializes the uploaded file instance.
      *
      * @param string       $file
@@ -118,7 +123,12 @@ class UploadedFile implements UploadedFileInterface
      */
     public function getStream()
     {
-        // TODO: Add \RuntimeException
+        if ($this->moved)
+        {
+            $text = 'Cannot retrieve stream after the file has been moved.';
+
+            throw new \RuntimeException($text);
+        }
 
         $stream = fopen($this->file, 'r+');
 
@@ -138,8 +148,28 @@ class UploadedFile implements UploadedFileInterface
      */
     public function moveTo($target)
     {
-        // TODO: Add \InvalidArgumentException
-        // TODO: Add \RuntimeException
+        if (empty($target))
+        {
+            $text = 'Target path must be a non-empty string.';
+
+            throw new \InvalidArgumentException($text);
+        }
+
+        if ($this->moved)
+        {
+            $text = 'Cannot move the file; it has already been moved.';
+
+            throw new \RuntimeException($text);
+        }
+
+        if ($this->error !== UPLOAD_ERR_OK)
+        {
+            $text = 'Cannot move the file; upload error code ' . $this->error . '.';
+
+            throw new \RuntimeException($text);
+        }
+
+        $this->moved = true;
 
         rename($this->file, $target);
     }

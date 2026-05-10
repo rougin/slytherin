@@ -150,7 +150,12 @@ class Response extends Message implements ResponseInterface
      */
     public function withStatus($code, $reason = '')
     {
-        // TODO: Add \InvalidArgumentException
+        if ($code < 100 || $code > 599)
+        {
+            $text = 'Status code must be an integer between 100 and 599.';
+
+            throw new \InvalidArgumentException($text);
+        }
 
         $static = clone $this;
 

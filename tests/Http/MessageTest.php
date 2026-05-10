@@ -19,21 +19,51 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_adding_a_header()
     {
-        $this->message = new Message;
+        $expected = array('Rougin', 'Royce', 'Gutib');
+
+        $message = $this->message->withAddedHeader('names', $expected);
+
+        $actual = $message->getHeader('names');
+
+        $this->assertEquals($expected, $actual);
     }
 
     /**
      * @return void
      */
-    public function test_getting_a_single_header_line()
+    public function test_adding_header_with_invalid_name_throws_exception()
     {
-        $expected = '18';
+        $this->doSetExpectedException('InvalidArgumentException');
 
-        $message = $this->message->withHeader('age', '18');
+        $this->message->withAddedHeader("name\r\n", 'value');
+    }
 
-        $actual = $message->getHeaderLine('age');
+    /**
+     * @return void
+     */
+    public function test_checking_a_header()
+    {
+        $message = $this->message->withAddedHeader('age', '18');
+
+        $this->assertTrue($message->hasHeader('age'));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_excluding_an_existing_header()
+    {
+        $expected = array('name' => array('John Doe'));
+
+        $message = $this->message->withHeader('name', 'John Doe');
+
+        $message = $message->withHeader('age', '18');
+
+        $message = $message->withoutHeader('age');
+
+        $actual = $message->getHeaders();
 
         $this->assertEquals($expected, $actual);
     }
@@ -48,6 +78,20 @@ class MessageTest extends Testcase
         $message = $this->message->withHeader('age', '18');
 
         $actual = $message->getHeader('age');
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_a_single_header_line()
+    {
+        $expected = '18';
+
+        $message = $this->message->withHeader('age', '18');
+
+        $actual = $message->getHeaderLine('age');
 
         $this->assertEquals($expected, $actual);
     }
@@ -87,30 +131,6 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_adding_a_header()
-    {
-        $expected = array('Rougin', 'Royce', 'Gutib');
-
-        $message = $this->message->withAddedHeader('names', $expected);
-
-        $actual = $message->getHeader('names');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_a_header()
-    {
-        $message = $this->message->withAddedHeader('age', '18');
-
-        $this->assertTrue($message->hasHeader('age'));
-    }
-
-    /**
-     * @return void
-     */
     public function test_setting_a_stream_body()
     {
         /** @var resource */
@@ -128,18 +148,18 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_excluding_an_existing_header()
+    public function test_setting_header_with_invalid_name_throws_exception()
     {
-        $expected = array('name' => array('John Doe'));
+        $this->doSetExpectedException('InvalidArgumentException');
 
-        $message = $this->message->withHeader('name', 'John Doe');
+        $this->message->withHeader("name\r\n", 'value');
+    }
 
-        $message = $message->withHeader('age', '18');
-
-        $message = $message->withoutHeader('age');
-
-        $actual = $message->getHeaders();
-
-        $this->assertEquals($expected, $actual);
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->message = new Message;
     }
 }

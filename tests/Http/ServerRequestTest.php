@@ -19,39 +19,29 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
-    {
-        /** @var array<string, string> */
-        $server = $_SERVER;
-
-        $server['REQUEST_METHOD'] = 'GET';
-        $server['REQUEST_URI'] = '/';
-        $server['SERVER_NAME'] = 'localhost';
-        $server['SERVER_PORT'] = '8000';
-
-        $_SERVER = $server;
-
-        $files = array('file' => array());
-
-        $files['file']['error'] = array('0');
-        $files['file']['name'] = array('test.txt');
-        $files['file']['size'] = array('617369');
-        $files['file']['tmp_name'] = array('/tmp/test.txt');
-        $files['file']['type'] = array('application/pdf');
-
-        $this->request = new ServerRequest($server, array(), array(), $files);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_request_attributes()
+    public function test_excluding_a_request_attribute()
     {
         $expected = array('user' => 'John Doe');
 
         $request = $this->request->withAttribute('user', 'John Doe');
 
+        $request = $request->withAttribute('age', 20);
+
+        $request = $request->withoutAttribute('age');
+
         $actual = $request->getAttributes();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_attribute_with_default_value()
+    {
+        $expected = 'fallback';
+
+        $actual = $this->request->getAttribute('nonexistent', $expected);
 
         $this->assertEquals($expected, $actual);
     }
@@ -66,6 +56,20 @@ class ServerRequestTest extends Testcase
         $request = $this->request->withCookieParams($expected);
 
         $actual = $request->getCookieParams();
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_request_attributes()
+    {
+        $expected = array('user' => 'John Doe');
+
+        $request = $this->request->withAttribute('user', 'John Doe');
+
+        $actual = $request->getAttributes();
 
         $this->assertEquals($expected, $actual);
     }
@@ -172,30 +176,48 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_getting_attribute_with_default_value()
+    public function test_setting_parsed_body_with_invalid_type_throws_exception()
     {
-        $expected = 'fallback';
+        $this->doSetExpectedException('InvalidArgumentException');
 
-        $actual = $this->request->getAttribute('nonexistent', $expected);
-
-        $this->assertEquals($expected, $actual);
+        $this->request->withParsedBody('string');
     }
 
     /**
      * @return void
      */
-    public function test_excluding_a_request_attribute()
+    public function test_setting_uploaded_files_with_invalid_type_throws_exception()
     {
-        $expected = array('user' => 'John Doe');
+        $this->doSetExpectedException('InvalidArgumentException');
 
-        $request = $this->request->withAttribute('user', 'John Doe');
+        $files = array('file' => array('not_a_uploaded_file'));
 
-        $request = $request->withAttribute('age', 20);
+        $this->request->withUploadedFiles($files);
+    }
 
-        $request = $request->withoutAttribute('age');
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        /** @var array<string, string> */
+        $server = $_SERVER;
 
-        $actual = $request->getAttributes();
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['REQUEST_URI'] = '/';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
-        $this->assertEquals($expected, $actual);
+        $_SERVER = $server;
+
+        $files = array('file' => array());
+
+        $files['file']['error'] = array('0');
+        $files['file']['name'] = array('test.txt');
+        $files['file']['size'] = array('617369');
+        $files['file']['tmp_name'] = array('/tmp/test.txt');
+        $files['file']['type'] = array('application/pdf');
+
+        $this->request = new ServerRequest($server, array(), array(), $files);
     }
 }
