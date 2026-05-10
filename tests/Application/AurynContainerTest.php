@@ -26,28 +26,43 @@ class AurynContainerTest extends ApplicationTestCases
      */
     protected function doSetUp()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('Auryn\Injector'))
-        {
-            $this->markTestSkipped('Auryn is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfAurynExists();
 
         $container = new AurynContainer(new Injector);
 
         $router = $this->router();
 
-        $container->share(new Dispatcher($router));
-        $container->alias(System::DISPATCHER, 'Rougin\Slytherin\Routing\Dispatcher');
+        // Add the dispatcher to the container --------
+        $class = 'Rougin\Slytherin\Routing\Dispatcher';
 
+        $container->share(new Dispatcher($router));
+
+        $container->alias(System::DISPATCHER, $class);
+        // --------------------------------------------
+
+        // Add the server request to the container ----
         $container->share($this->request('GET', '/'));
-        $container->alias(System::REQUEST, 'Rougin\Slytherin\Http\ServerRequest');
+
+        $class = 'Rougin\Slytherin\Http\ServerRequest';
+
+        $container->alias(System::REQUEST, $class);
+        // --------------------------------------------
+
+        // Add the HTTP response to the container ---
+        $class = 'Rougin\Slytherin\Http\Response';
 
         $container->share(new Response);
-        $container->alias(System::RESPONSE, 'Rougin\Slytherin\Http\Response');
+
+        $container->alias(System::RESPONSE, $class);
+        // ------------------------------------------
+
+        // Add the middleware to the container -----------
+        $class = 'Rougin\Slytherin\Middleware\Dispatcher';
 
         $container->share(new Middleware);
-        $container->alias(System::MIDDLEWARE, 'Rougin\Slytherin\Middleware\Dispatcher');
+
+        $container->alias(System::MIDDLEWARE, $class);
+        // -----------------------------------------------
 
         $this->system = new Application($container);
     }

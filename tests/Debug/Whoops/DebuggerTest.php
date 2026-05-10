@@ -26,54 +26,9 @@ class DebuggerTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_callback_handler_set()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('Whoops\Run'))
-        {
-            $this->markTestSkipped('Whoops is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->debugger = new Debugger(new \Whoops\Run);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_the_environment()
-    {
-        $this->debugger->setEnvironment($this->environment);
-
-        $expected = $this->environment;
-
-        $actual = $this->debugger->getEnvironment();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_the_handler()
-    {
-        $this->debugger->setHandler(new PrettyPageHandler);
-
-        $handlers = $this->debugger->getHandlers();
-
-        /** @var class-string<\Whoops\Handler\PrettyPageHandler> */
-        $expected = 'Whoops\Handler\PrettyPageHandler';
-
-        $actual = $handlers[0];
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_handler_as_a_callback()
-    {
+        // Set a callback as a Whoops handler -----
         $fn = function ()
         {
             return 'Hello';
@@ -82,13 +37,44 @@ class DebuggerTest extends Testcase
         $this->debugger->setHandler($fn);
 
         $handlers = $this->debugger->getHandlers();
+        // ----------------------------------------
 
         /** @var class-string<\Whoops\Handler\CallbackHandler> */
-        $expected = 'Whoops\Handler\CallbackHandler';
+        $expect = 'Whoops\Handler\CallbackHandler';
 
+        // Verify the handler is a CallbackHandler ---
         $actual = $handlers[0];
 
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertInstanceOf($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_debugger_instance_checked()
+    {
+        $expect = System::DEBUGGER;
+
+        $this->assertInstanceOf($expect, $this->debugger);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_environment_set()
+    {
+        // Set the environment on the debugger ---
+        $expect = $this->environment;
+
+        $this->debugger->setEnvironment($expect);
+        // ---------------------------------------
+
+        // Verify the environment was stored correctly ---
+        $actual = $this->debugger->getEnvironment();
+
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
     }
 
     /**
@@ -96,15 +82,19 @@ class DebuggerTest extends Testcase
      *
      * @return void
      */
-    public function test_setting_the_error_reporting()
+    public function test_passed_if_error_reporting_displayed()
     {
+        // Activate the Whoops debugger display ---
         $this->debugger->display();
+        // ---------------------------------------
 
-        $expected = E_ALL;
+        // Verify error reporting is set to E_ALL ---
+        $expect = E_ALL;
 
         $actual = error_reporting();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
 
         // [NOTE] Adding these as this was being ---
         // marked as risky starting in PHP 8.2 -----
@@ -117,8 +107,31 @@ class DebuggerTest extends Testcase
     /**
      * @return void
      */
-    public function test_checking_debugger_instance()
+    public function test_passed_if_pretty_page_handler_set()
     {
-        $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
+        // Set a PrettyPageHandler on the debugger --------
+        $this->debugger->setHandler(new PrettyPageHandler);
+
+        $handlers = $this->debugger->getHandlers();
+        // ------------------------------------------------
+
+        /** @var class-string<\Whoops\Handler\PrettyPageHandler> */
+        $expect = 'Whoops\Handler\PrettyPageHandler';
+
+        // Verify the handler is a PrettyPageHandler ---
+        $actual = $handlers[0];
+
+        $this->assertInstanceOf($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->checkIfWhoopsExists();
+
+        $this->debugger = new Debugger(new \Whoops\Run);
     }
 }

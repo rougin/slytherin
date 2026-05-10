@@ -28,14 +28,67 @@ class RouterTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_empty_route_retrieved()
+    {
+        $this->assertNull($this->router->getRoute('GET', '/test'));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_parsed_routes_as_closure()
+    {
+        $this->router = new Router;
+
+        // Verify parsed routes return a Closure ---
+        $actual = $this->router->parsed();
+
+        $this->assertInstanceOf('Closure', $actual);
+        // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_added()
+    {
+        // Get details from the sample route ---
+        $expect = $this->routes[0];
+
+        $method = $expect->getMethod();
+
+        $uri = $expect->getUri();
+
+        $handler = $expect->getHandler();
+        // -------------------------------------
+
+        // Add the route to the FastRoute router --------
+        $this->router->addRoute($method, $uri, $handler);
+        // ----------------------------------------------
+
+        // Verify the route is returned correctly -------
+        $actual = $this->router->getRoute($method, $uri);
+
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_router_interface_checked()
+    {
+        $expect = 'Rougin\Slytherin\Routing\RouterInterface';
+
+        $this->assertInstanceOf($expect, $this->router);
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('FastRoute\RouteCollector'))
-        {
-            $this->markTestSkipped('FastRoute is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfFastRouteExists();
 
         // Generate a sample route for testing --------------
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
@@ -45,60 +98,12 @@ class RouterTest extends Testcase
         $this->routes[] = $route;
         // --------------------------------------------------
 
-        $collector = new RouteCollector(new Std, new GroupCountBased);
+        $data = new GroupCountBased;
+
+        $collector = new RouteCollector(new Std, $data);
 
         $this->router = new Router;
 
         $this->router->setCollector($collector);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route()
-    {
-        // Returns details from the sample route ---
-        $expected = $this->routes[0];
-
-        $method = $expected->getMethod();
-
-        $uri = $expected->getUri();
-
-        $handler = $expected->getHandler();
-        // -----------------------------------------
-
-        $this->router->addRoute($method, $uri, $handler);
-
-        $actual = $this->router->getRoute($method, $uri);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_an_empty_route()
-    {
-        $this->assertNull($this->router->getRoute('GET', '/test'));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_parsed_routes()
-    {
-        $this->router = new Router;
-
-        $this->assertInstanceOf('Closure', $this->router->parsed());
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_the_router_interface()
-    {
-        $interface = 'Rougin\Slytherin\Routing\RouterInterface';
-
-        $this->assertInstanceOf($interface, $this->router);
     }
 }

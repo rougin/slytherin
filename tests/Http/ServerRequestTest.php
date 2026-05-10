@@ -19,128 +19,165 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_excluding_a_request_attribute()
+    public function test_failed_if_parsed_body_type_invalid()
     {
-        $expected = array('user' => 'John Doe');
+        $expect = 'InvalidArgumentException';
 
+        $this->doSetExpectedException($expect);
+
+        // Attempt to set a string as the parsed body ---
+        $this->request->withParsedBody('string');
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_uploaded_file_type_invalid()
+    {
+        $expect = 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        // Prepare invalid uploaded file data ---
+        $files = array('file' => array('not_a_uploaded_file'));
+        // --------------------------------------
+
+        // Attempt to set non-UploadedFileInterface items ---
+        $this->request->withUploadedFiles($files);
+        // -------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_attribute_fallback_used()
+    {
+        $expect = 'fallback';
+
+        // Retrieve a non-existent attribute with a default value ---
+        $actual = $this->request->getAttribute('nonexistent', $expect);
+        // ---------------------------------------------------------
+
+        // Verify the default value is returned ---
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_attribute_removed()
+    {
+        $expect = array('user' => 'John Doe');
+
+        // Set multiple request attributes ----------
         $request = $this->request->withAttribute('user', 'John Doe');
 
         $request = $request->withAttribute('age', 20);
 
         $request = $request->withoutAttribute('age');
+        // ------------------------------------------
 
+        // Verify the attribute was excluded ---
         $actual = $request->getAttributes();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_attribute_with_default_value()
+    public function test_passed_if_cookie_params_retrieved()
     {
-        $expected = 'fallback';
+        $expect = array('name' => 'John Doe', 'age' => '19');
 
-        $actual = $this->request->getAttribute('nonexistent', $expected);
+        // Set the cookie parameters ---------------
+        $request = $this->request->withCookieParams($expect);
+        // -----------------------------------------
 
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_cookie_params()
-    {
-        $expected = array('name' => 'John Doe', 'age' => '19');
-
-        $request = $this->request->withCookieParams($expected);
-
+        // Verify the cookies are returned correctly ---
         $actual = $request->getCookieParams();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_request_attributes()
+    public function test_passed_if_parsed_body_retrieved()
     {
-        $expected = array('user' => 'John Doe');
+        $expect = array('page' => 10, 'name' => 'users');
 
-        $request = $this->request->withAttribute('user', 'John Doe');
+        // Set the parsed body on the request -----------
+        $request = $this->request->withParsedBody($expect);
+        // ----------------------------------------------
 
-        $actual = $request->getAttributes();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_the_parsed_body()
-    {
-        $expected = array('page' => 10, 'name' => 'users');
-
-        $request = $this->request->withParsedBody($expected);
-
+        // Verify the body is returned correctly ---
         $actual = $request->getParsedBody();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_the_query_params()
+    public function test_passed_if_query_params_retrieved()
     {
-        $expected = array('page' => 10, 'name' => 'users');
+        $expect = array('page' => 10, 'name' => 'users');
 
-        $request = $this->request->withQueryParams($expected);
+        // Set the query string parameters ----------
+        $request = $this->request->withQueryParams($expect);
+        // ------------------------------------------
 
+        // Verify the query params are returned correctly ---
         $actual = $request->getQueryParams();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_the_server_params()
+    public function test_passed_if_request_attributes_retrieved()
     {
-        $expected = $_SERVER;
+        $expect = array('user' => 'John Doe');
 
+        // Set a request attribute ---------------
+        $request = $this->request->withAttribute('user', 'John Doe');
+        // ---------------------------------------
+
+        // Verify the attributes are returned correctly ---
+        $actual = $request->getAttributes();
+
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_server_params_retrieved()
+    {
+        $expect = $_SERVER;
+
+        // Verify the server parameters are returned correctly ---
         $actual = $this->request->getServerParams();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_the_uploaded_files()
+    public function test_passed_if_single_uploaded_file_parsed()
     {
-        $error = 0;
-        $name = 'test.txt';
-        $size = 617369;
-        $file = '/tmp/test.txt';
-        $type = 'application/pdf';
-
-        $uploaded = new UploadedFile($file, $size, $error, $name, $type);
-
-        $expected = array('file' => array($uploaded));
-
-        $request = $this->request->withUploadedFiles($expected);
-
-        $actual = $request->getUploadedFiles();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_the_uploaded_files_with_a_single_uploaded_file()
-    {
+        // Prepare a single uploaded file structure ------------
         $server = array('REQUEST_URI' => '/');
         $server['REQUEST_METHOD'] = 'GET';
         $server['SERVER_NAME'] = 'localhost';
@@ -148,51 +185,60 @@ class ServerRequestTest extends Testcase
 
         $uploaded = array('file' => array());
 
-        // Define the sample file ---
         $error = 0;
         $file = '/tmp/test.txt';
         $name = 'test.txt';
         $size = 617369;
         $type = 'application/pdf';
-        // --------------------------
 
         $uploaded['file']['error'] = $error;
         $uploaded['file']['name'] = $name;
         $uploaded['file']['size'] = $size;
         $uploaded['file']['tmp_name'] = $file;
         $uploaded['file']['type'] = $type;
+        // -----------------------------------------------------
 
+        // Create the server request with the uploaded file ----
         $request = new ServerRequest($server, array(), array(), $uploaded);
+        // -----------------------------------------------------
 
+        // Verify the file is parsed into an UploadedFile instance ---
         $uploaded = new UploadedFile($file, $size, $error, $name, $type);
 
-        $expected = array('file' => array($uploaded));
+        $expect = array('file' => array($uploaded));
 
         $actual = $request->getUploadedFiles();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_parsed_body_with_invalid_type_throws_exception()
+    public function test_passed_if_uploaded_files_retrieved()
     {
-        $this->doSetExpectedException('InvalidArgumentException');
+        // Create an UploadedFile instance ---------------
+        $error = 0;
+        $name = 'test.txt';
+        $size = 617369;
+        $file = '/tmp/test.txt';
+        $type = 'application/pdf';
 
-        $this->request->withParsedBody('string');
-    }
+        $uploaded = new UploadedFile($file, $size, $error, $name, $type);
+        // -----------------------------------------------
 
-    /**
-     * @return void
-     */
-    public function test_setting_uploaded_files_with_invalid_type_throws_exception()
-    {
-        $this->doSetExpectedException('InvalidArgumentException');
+        $expect = array('file' => array($uploaded));
 
-        $files = array('file' => array('not_a_uploaded_file'));
+        // Set the uploaded files on the request ---------
+        $request = $this->request->withUploadedFiles($expect);
+        // ------------------------------------------------
 
-        $this->request->withUploadedFiles($files);
+        // Verify the files are returned correctly ---
+        $actual = $request->getUploadedFiles();
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
     }
 
     /**

@@ -4,7 +4,6 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
-use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\System\Lastone;
 use Rougin\Slytherin\Testcase;
 
@@ -18,8 +17,9 @@ class MiddlewareTest extends Testcase
     /**
      * @return void
      */
-    public function test_processing_multiple_middlewares()
+    public function test_passed_if_multiple_middlewares_processed()
     {
+        // Prepare the server request -----------
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';
@@ -29,7 +29,9 @@ class MiddlewareTest extends Testcase
         $middleware = new Middleware;
         $request = new ServerRequest($server);
         $response = new Response;
+        // ---------------------------------------
 
+        // Push multiple middleware classes into the stack ---
         $fn = function ($request, $next)
         {
             return $next($request);
@@ -40,27 +42,26 @@ class MiddlewareTest extends Testcase
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\FirstMiddleware');
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\SecondMiddleware');
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\LastMiddleware');
+        // ----------------------------------------------------
 
-        $expected = 'First! Second! Last!';
+        // Verify the combined middleware output is correct ---
+        $expect = 'First! Second! Last!';
 
         $response = $middleware->process($request, new Lastone);
         $actual = $response->getBody();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_processing_one_middleware()
+    public function test_passed_if_single_middleware_processed()
     {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfInteropExists();
 
+        // Prepare the server request -----------
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';
@@ -69,13 +70,18 @@ class MiddlewareTest extends Testcase
 
         $middleware = new Middleware;
         $request = new ServerRequest($server);
+        // ---------------------------------------
 
+        // Push an interop middleware class ---
         $middleware->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        // -----------------------------------
 
-        $expected = 'Psr\Http\Message\ResponseInterface';
+        // Verify the response is a PSR-7 ResponseInterface ----
+        $expect = 'Psr\Http\Message\ResponseInterface';
 
         $actual = $middleware->process($request, new Lastone);
 
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertInstanceOf($expect, $actual);
+        // -----------------------------------------------------
     }
 }

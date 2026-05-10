@@ -26,178 +26,168 @@ class ApplicationTestCases extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_callback_responded()
     {
-        // @codeCoverageIgnoreStart
-        $this->markTestSkipped('No implementation style defined.');
-        // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_with_simple_route()
-    {
-        $request = $this->request('GET', '/store');
-
-        $expected = 'Store';
-
-        $response = $this->system->handle($request);
-
-        $actual = $response->getBody();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_with_callback()
-    {
+        // Handle a request to the callback route ----
         $request = $this->request('GET', '/callback');
 
-        $expected = 'Hello, this is a callback';
+        $expect = 'Hello, this is a callback';
 
         $response = $this->system->handle($request);
 
         $actual = $response->getBody();
+        // ------------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the callback returned the correct text ---
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_response_with_http_401_error()
+    public function test_passed_if_error_response_handled()
     {
+        // Handle a request to the error route ---
         $request = $this->request('GET', '/error');
 
-        $expected = 'Hello with error response';
+        $expect = 'Hello with error response';
 
         $response = $this->system->handle($request);
 
         $actual = $response->getBody();
+        // --------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the error handler returned the correct body ---
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_response_with_middleware()
+    public function test_passed_if_middleware_responded()
     {
+        // Handle a request to a middleware-protected route ---
         $request = $this->request('GET', '/middleware');
 
-        $expected = 'Loaded with middleware';
+        $expect = 'Loaded with middleware';
 
         $response = $this->system->handle($request);
 
         $actual = $response->getBody();
+        // ---------------------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the middleware modified the response correctly ---
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_response_with_optional_parameter()
-    {
-        $request = $this->request('GET', '/optional');
-
-        $expected = 'Hello';
-
-        $response = $this->system->handle($request);
-
-        $actual = $response->getBody();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_with_required_parameter()
-    {
-        $request = $this->request('GET', '/parameter');
-
-        $expected = 'Hello';
-
-        $response = $this->system->handle($request);
-
-        $actual = $response->getBody();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_with_put_http_method()
-    {
-        $request = $this->request('PUT', '/hello');
-
-        $expected = 'Hello from PUT HTTP method';
-
-        $response = $this->system->handle($request);
-
-        $actual = $response->getBody();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_using_response_interface()
-    {
-        $request = $this->request('GET', '/response');
-
-        $expected = 'Hello with response';
-
-        $response = $this->system->handle($request);
-
-        $actual = $response->getBody();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_response_with_mutated_server_request()
+    public function test_passed_if_mutated_request_handled()
     {
         if ($this->type === 'auryn')
         {
             $this->markTestSkipped('Dynamic request must be shared again if using Auryn.');
         }
 
+        // Handle a request with mutated server request data ---
         $data = array('test' => 'Hello with request');
 
         $request = $this->request('GET', '/request', $data);
 
-        $expected = 'Hello with request';
+        $expect = 'Hello with request';
 
         $response = $this->system->handle($request);
 
         $actual = $response->getBody();
+        // -----------------------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the request data was processed correctly ---
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_response_with_a_typehinted_parameter()
+    public function test_passed_if_optional_parameter_handled()
     {
-        $request = $this->request('GET', '/typehint/202');
+        // Handle a request with an optional route parameter ---
+        $request = $this->request('GET', '/optional');
 
-        $expected = 202;
+        $expect = 'Hello';
 
         $response = $this->system->handle($request);
 
-        $actual = $response->getStatusCode();
+        $actual = $response->getBody();
+        // -----------------------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the optional parameter was handled correctly ---
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_put_method_responded()
+    {
+        // Handle a request using the PUT HTTP method ---
+        $request = $this->request('PUT', '/hello');
+
+        $expect = 'Hello from PUT HTTP method';
+
+        $response = $this->system->handle($request);
+
+        $actual = $response->getBody();
+        // ----------------------------------------------
+
+        // Verify the PUT route was handled correctly ---
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_required_parameter_handled()
+    {
+        // Handle a request with a required route parameter ---
+        $request = $this->request('GET', '/parameter');
+
+        $expect = 'Hello';
+
+        $response = $this->system->handle($request);
+
+        $actual = $response->getBody();
+        // ----------------------------------------------------
+
+        // Verify the required parameter was resolved correctly ---
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_response_interface_used()
+    {
+        // Handle a request to the response interface route ---
+        $request = $this->request('GET', '/response');
+
+        $expect = 'Hello with response';
+
+        $response = $this->system->handle($request);
+
+        $actual = $response->getBody();
+        // ---------------------------------------------------
+
+        // Verify the response interface was handled correctly ---
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------------
     }
 
     /**
@@ -205,11 +195,64 @@ class ApplicationTestCases extends Testcase
      *
      * @return void
      */
-    public function test_response_in_run_method()
+    public function test_passed_if_run_method_responded()
     {
-        $this->expectOutputString('Hello');
+        $expect = 'Hello';
+        $this->expectOutputString($expect);
 
+        // Execute the application via the run method ---
         $this->system->run();
+        // -----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_simple_route_responded()
+    {
+        // Handle a request to the store route ---
+        $request = $this->request('GET', '/store');
+
+        $expect = 'Store';
+
+        $response = $this->system->handle($request);
+
+        $actual = $response->getBody();
+        // ---------------------------------------
+
+        // Verify the response body matches the expected text ---
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_typehinted_parameter_handled()
+    {
+        // Handle a request with a typehinted route parameter ---
+        $request = $this->request('GET', '/typehint/202');
+
+        $expect = 202;
+
+        $response = $this->system->handle($request);
+
+        $actual = $response->getStatusCode();
+        // -----------------------------------------------------
+
+        // Verify the typehinted parameter changed the status code ---
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     *
+     * @codeCoverageIgnore
+     */
+    protected function doSetUp()
+    {
+        $this->markTestSkipped('No implementation defined.');
     }
 
     /**

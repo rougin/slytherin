@@ -25,44 +25,54 @@ class DebuggerTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_debugger_instance_checked()
     {
-        $this->debugger = new Debugger;
+        $expect = System::DEBUGGER;
+
+        $this->assertInstanceOf($expect, $this->debugger);
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_environment()
+    public function test_passed_if_environment_set()
     {
-        $this->debugger->setEnvironment($this->environment);
+        // Set the environment on the debugger ---
+        $expect = $this->environment;
 
-        $expected = $this->environment;
+        $this->debugger->setEnvironment($expect);
+        // ---------------------------------------
 
+        // Verify the environment was stored correctly ---
         $actual = $this->debugger->getEnvironment();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_error_reporting()
+    public function test_passed_if_error_reporting_displayed()
     {
+        // Activate the debugger display ---
         $this->debugger->display();
+        // --------------------------------
 
-        $expected = E_ALL;
+        // Verify error reporting is set to E_ALL ---
+        $expect = E_ALL;
 
         $actual = error_reporting();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_checking_debugger_instance()
+    protected function doSetUp()
     {
-        $this->assertInstanceOf(System::DEBUGGER, $this->debugger);
+        $this->debugger = new Debugger;
     }
 }

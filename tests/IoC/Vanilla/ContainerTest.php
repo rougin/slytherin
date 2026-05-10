@@ -34,161 +34,206 @@ class ContainerTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_failed_if_class_does_not_exist()
     {
-        $this->container = new Container;
+        $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
-        $this->instance = new WithParameter(new NewClass, new AnotherClass);
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get a non-existent class ---
+        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
+        // ----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_a_simple_class()
+    public function test_failed_if_container_exception_raised()
     {
-        $this->container->add($this->class, $this->instance);
+        $expect = 'Rougin\Slytherin\Container\Exception\ContainerException';
 
-        $this->assertTrue($this->container->has($this->class));
+        $this->doSetExpectedException($expect);
+
+        // Set a non-class value and attempt to retrieve it ---
+        $this->container->set('Foo', array());
+
+        $this->container->get('Foo');
+        // ----------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_a_class_without_a_parameter()
+    public function test_failed_if_reflection_container_error()
     {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $container = new ReflectionContainer($this->container);
 
-        $this->container->add($class, new $class);
+        $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
-        $this->assertTrue($this->container->has($class));
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get an unknown class via reflection ---
+        $container->get('Test');
+        // --------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_a_class_with_an_optional_parameter()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter';
-
-        $this->container->add($class, new $class);
-
-        $this->assertTrue($this->container->has($class));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_class_with_a_parameter()
-    {
-        $this->container->add($this->class, $this->instance);
-
-        $this->assertTrue($this->container->has($this->class));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_alias_to_a_class()
+    public function test_passed_if_alias_set()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithInterface';
 
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
+        // Register a class and create an alias ---
         $this->container->add($class, new $class);
 
         $this->container->alias($interface, $class);
+        // ----------------------------------------
 
+        // Verify the alias resolves correctly ---
         $this->assertTrue($this->container->has($interface));
+        // ------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_a_simple_class()
+    public function test_passed_if_class_added()
     {
+        // Add a class with parameters ---
         $this->container->add($this->class, $this->instance);
+        // -------------------------------
 
-        $expected = $this->instance;
-
-        $actual = $this->container->get($this->class);
-
-        $this->assertEquals($expected, $actual);
+        // Verify the class was added ---
+        $this->assertTrue($this->container->has($this->class));
+        // -------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_checking_a_class_with_no_constructor()
+    public function test_passed_if_class_exists()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Add a simple class ------------
+        $this->container->add($class, new $class);
+        // -------------------------------
+
+        // Verify the class exists ---
+        $this->assertTrue($this->container->has($class));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_empty_constructor_added()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\WithEmptyConstructor';
 
+        // Add a class with an empty constructor ---
         $this->container->add($class, new $class);
+        // -----------------------------------------
 
+        // Verify the class was added ---
         $this->assertTrue($this->container->has($class));
+        // ---------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_class_that_doesnt_exists()
-    {
-        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
-
-        // NOTE: Remove ReflectionContainer as the default $extra in Container in v1.0.0.
-        // $this->container->get($this->class);
-
-        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentClass');
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_class_with_an_error()
-    {
-        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\ContainerException');
-
-        $this->container->set('Foo', array());
-
-        $this->container->get('Foo');
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_class_as_an_interface()
+    public function test_passed_if_interface_resolved()
     {
         $withParam = 'Rougin\Slytherin\Fixture\Classes\WithInterfaceParameter';
 
         $interface = 'Rougin\Slytherin\Fixture\Classes\NewInterface';
 
+        // Resolve an interface and use it as a dependency ---
         $this->container->add($interface, new WithInterface);
 
         $this->container->add($withParam, $this->container->get($interface));
+        // ---------------------------------------------------
 
+        // Verify the dependent class was resolved ---
         $this->assertTrue($this->container->has($withParam));
+        // ---------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_checking_class_exists()
+    public function test_passed_if_instance_retrieved()
+    {
+        // Add a class with parameters ------
+        $this->container->add($this->class, $this->instance);
+        // ----------------------------------
+
+        // Verify the retrieved instance matches ---
+        $expect = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_optional_parameter_added()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\WithOptionalParameter';
+
+        // Add a class with an optional constructor parameter ---
+        $this->container->add($class, new $class);
+        // ------------------------------------------------------
+
+        // Verify the class was added ---
+        $this->assertTrue($this->container->has($class));
+        // ---------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_simple_class_added()
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
+        // Add a simple class without parameters ---
         $this->container->add($class, new $class);
+        // -----------------------------------------
 
+        // Verify the class was added ---
         $this->assertTrue($this->container->has($class));
+        // ---------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_reflection_container_with_an_error()
+    public function test_passed_if_simple_class_resolved()
     {
-        $container = new ReflectionContainer($this->container);
+        // Add a class with parameters ------
+        $this->container->add($this->class, $this->instance);
+        // ----------------------------------
 
-        $this->doSetExpectedException('Rougin\Slytherin\Container\Exception\NotFoundException');
+        // Verify the class is resolvable ---
+        $this->assertTrue($this->container->has($this->class));
+        // -------------------------------------
+    }
 
-        $container->get('Test');
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->container = new Container;
+
+        $this->instance = new WithParameter(new NewClass, new AnotherClass);
     }
 }

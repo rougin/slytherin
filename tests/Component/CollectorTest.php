@@ -16,16 +16,22 @@ class CollectorTest extends Testcase
     /**
      * @return void
      */
-    public function test_making_with_middleware_component()
+    public function test_passed_if_middleware_collected()
     {
-        $items = array('Rougin\Slytherin\Fixture\Components\MiddlewareComponent');
+        $item = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
 
-        $collector = new Collector($items);
+        // Define a middleware component to collect ---
+        $collector = new Collector(array($item));
 
         $container = new Container;
+        // --------------------------------------------
 
+        // Make the collection from the container ---
         $collection = $collector->make($container);
+        // ------------------------------------------
 
+        // Verify the middleware component was registered ------
         $this->assertTrue($collection->has(System::MIDDLEWARE));
+        // -----------------------------------------------------
     }
 }

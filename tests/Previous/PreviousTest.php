@@ -17,33 +17,17 @@ class PreviousTest extends Testcase
     protected $builder;
 
     /**
+     * @runInSeparateProcess
+     *
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_middleware_responded()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('Auryn\Injector'))
-        {
-            $this->markTestSkipped('Auryn is not installed.');
-        }
+        $expect = 'Hello from middleware';
 
-        if (! class_exists('Zend\Stratigility\MiddlewarePipe'))
-        {
-            $this->markTestSkipped('Zend Stratigility is not installed.');
-        }
+        $this->expectOutputString($expect);
 
-        if (! class_exists('Zend\Diactoros\Response'))
-        {
-            $this->markTestSkipped('Zend Diactoros is not installed.');
-        }
-
-        if (! class_exists('Twig_Loader_Filesystem'))
-        {
-            $this->markTestSkipped('Twig v1.0~v2.0 is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->builder = new Builder;
+        $this->builder->set('GET', '/hello')->run();
     }
 
     /**
@@ -51,9 +35,11 @@ class PreviousTest extends Testcase
      *
      * @return void
      */
-    public function test_sample_text()
+    public function test_passed_if_sample_text_responded()
     {
-        $this->expectOutputString('Hello world!');
+        $expect = 'Hello world!';
+
+        $this->expectOutputString($expect);
 
         $this->builder->set('GET', '/')->run();
     }
@@ -63,22 +49,30 @@ class PreviousTest extends Testcase
      *
      * @return void
      */
-    public function test_arguments_in_uri()
+    public function test_passed_if_uri_arguments_responded()
     {
-        $this->expectOutputString('Hello Rougin!');
+        $expect = 'Hello Rougin!';
+
+        $this->expectOutputString($expect);
 
         $this->builder->set('GET', '/hi/Rougin')->run();
     }
 
     /**
-     * @runInSeparateProcess
-     *
      * @return void
+     *
+     * @codeCoverageIgnore
      */
-    public function test_middleware_changing_the_response_parameter()
+    protected function doSetUp()
     {
-        $this->expectOutputString('Hello from middleware');
+        $this->checkIfAurynExists();
 
-        $this->builder->set('GET', '/hello')->run();
+        $this->checkIfStratigilityExists();
+
+        $this->checkIfDiactorosExists();
+
+        $this->checkIfTwigExists();
+
+        $this->builder = new Builder;
     }
 }

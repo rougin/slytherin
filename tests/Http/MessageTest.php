@@ -19,140 +19,180 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_adding_a_header()
+    public function test_failed_if_added_header_name_invalid()
     {
-        $expected = array('Rougin', 'Royce', 'Gutib');
+        $expect = 'InvalidArgumentException';
 
-        $message = $this->message->withAddedHeader('names', $expected);
+        $this->doSetExpectedException($expect);
 
+        // Attempt to add a header with an invalid name ---
+        $this->message->withAddedHeader("name\r\n", 'value');
+        // ------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_header_name_invalid()
+    {
+        $expect = 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        // Attempt to set a header with an invalid name ---
+        $this->message->withHeader("name\r\n", 'value');
+        // ------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_header_added()
+    {
+        $expect = array('Rougin', 'Royce', 'Gutib');
+
+        // Add multiple values to the header -----------
+        $message = $this->message->withAddedHeader('names', $expect);
+        // ---------------------------------------------
+
+        // Verify the header values are returned ---
         $actual = $message->getHeader('names');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_header_with_invalid_name_throws_exception()
+    public function test_passed_if_header_exists()
     {
-        $this->doSetExpectedException('InvalidArgumentException');
-
-        $this->message->withAddedHeader("name\r\n", 'value');
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_a_header()
-    {
+        // Add a header to the message -----------
         $message = $this->message->withAddedHeader('age', '18');
+        // ---------------------------------------
 
+        // Verify the header is present ---
         $this->assertTrue($message->hasHeader('age'));
+        // --------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_excluding_an_existing_header()
+    public function test_passed_if_header_line_retrieved()
     {
-        $expected = array('name' => array('John Doe'));
+        $expect = '18';
 
+        // Set the header on the message ------------
+        $message = $this->message->withHeader('age', '18');
+        // ------------------------------------------
+
+        // Verify the header line is returned correctly ---
+        $actual = $message->getHeaderLine('age');
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_header_removed()
+    {
+        $expect = array('name' => array('John Doe'));
+
+        // Set multiple headers on the message ---------
         $message = $this->message->withHeader('name', 'John Doe');
 
         $message = $message->withHeader('age', '18');
 
         $message = $message->withoutHeader('age');
+        // --------------------------------------------
 
+        // Verify the header was excluded ---
         $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_a_single_header()
+    public function test_passed_if_header_retrieved()
     {
-        $expected = array('18');
+        $expect = array('18');
 
+        // Set a header on the message ---------------
         $message = $this->message->withHeader('age', '18');
+        // -------------------------------------------
 
+        // Verify the header value is returned correctly ---
         $actual = $message->getHeader('age');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_a_single_header_line()
+    public function test_passed_if_headers_retrieved()
     {
-        $expected = '18';
+        $expect = array('name' => array('John Doe'));
 
-        $message = $this->message->withHeader('age', '18');
+        $expect['age'] = array('18');
 
-        $actual = $message->getHeaderLine('age');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_multiple_headers()
-    {
-        $expected = array('name' => array('John Doe'));
-
-        $expected['age'] = array('18');
-
+        // Set multiple headers on the message ---------
         $message = $this->message->withHeader('name', 'John Doe');
 
         $message = $message->withHeader('age', '18');
+        // ---------------------------------------------
 
+        // Verify all headers are returned correctly ---
         $actual = $message->getHeaders();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_protocol_version()
+    public function test_passed_if_protocol_version_retrieved()
     {
-        $expected = '1.2';
+        $expect = '1.2';
 
-        $message = $this->message->withProtocolVersion($expected);
+        // Update the protocol version ---------------
+        $message = $this->message->withProtocolVersion($expect);
+        // -------------------------------------------
 
+        // Verify the version is returned correctly ---
         $actual = $message->getProtocolVersion();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_a_stream_body()
+    public function test_passed_if_stream_body_set()
     {
         /** @var resource */
         $file = fopen('php://temp', 'r+');
 
-        $expected = new Stream($file);
+        $expect = new Stream($file);
 
-        $message = $this->message->withBody($expected);
+        // Set the stream body on the message ----
+        $message = $this->message->withBody($expect);
+        // ---------------------------------------
 
+        // Verify the body is returned correctly ---
         $actual = $message->getBody();
 
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_header_with_invalid_name_throws_exception()
-    {
-        $this->doSetExpectedException('InvalidArgumentException');
-
-        $this->message->withHeader("name\r\n", 'value');
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------
     }
 
     /**

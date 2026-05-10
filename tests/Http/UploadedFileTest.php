@@ -19,139 +19,175 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_getting_file_error_if_any()
-    {
-        $actual = $this->uploaded->getError();
-
-        $expected = UPLOAD_ERR_OK;
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_file_size()
-    {
-        $actual = $this->uploaded->getSize();
-
-        $expected = 400;
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_stream_after_move_throws_exception()
+    public function test_failed_if_file_moved_twice()
     {
         $root = str_replace('Http', 'Fixture', __DIR__);
 
         $target = $root . '/Templates/new.php';
 
+        // Move the file to the target path first ---
         $this->uploaded->moveTo($target);
 
         file_exists($target) && unlink($target);
+        // ------------------------------------------
 
-        $this->doSetExpectedException('RuntimeException');
+        $expect = 'RuntimeException';
 
-        $this->uploaded->getStream();
-    }
+        $this->doSetExpectedException($expect);
 
-    /**
-     * @return void
-     */
-    public function test_getting_the_file_name()
-    {
-        $expected = 'file-test.php';
-
-        $actual = $this->uploaded->getClientFilename();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_the_media_type()
-    {
-        $expected = 'text/plain';
-
-        $actual = $this->uploaded->getClientMediaType();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_the_stream_body()
-    {
-        $expected = 'Rougin\Slytherin\Http\Stream';
-
-        $actual = $this->uploaded->getStream();
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_moving_file_twice_throws_exception()
-    {
-        $root = str_replace('Http', 'Fixture', __DIR__);
-
-        $target = $root . '/Templates/new.php';
-
+        // Attempt to move the same file again ---
         $this->uploaded->moveTo($target);
-
-        file_exists($target) && unlink($target);
-
-        $this->doSetExpectedException('RuntimeException');
-
-        $this->uploaded->moveTo($target);
+        // ---------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_moving_file_with_invalid_target_throws_exception()
+    public function test_failed_if_move_target_empty()
     {
-        $this->doSetExpectedException('InvalidArgumentException');
+        $expect = 'InvalidArgumentException';
 
+        $this->doSetExpectedException($expect);
+
+        // Attempt to move to an empty target path ---
         $this->uploaded->moveTo('');
+        // -------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_moving_file_with_upload_error_throws_exception()
+    public function test_failed_if_move_upload_error()
     {
         $root = str_replace('Http', 'Fixture', __DIR__);
 
         $filepath = $root . '/Templates/file-test.php';
 
+        // Create an uploaded file with an error code ----
         $uploaded = new UploadedFile($filepath, 400, UPLOAD_ERR_NO_FILE, 'test.php', 'text/plain');
+        // -----------------------------------------------
 
-        $this->doSetExpectedException('RuntimeException');
+        $expect = 'RuntimeException';
 
+        $this->doSetExpectedException($expect);
+
+        // Attempt to move a file with an upload error ---
         $uploaded->moveTo($root . '/Templates/test.php');
+        // -----------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_moving_the_uploaded_file()
+    public function test_failed_if_stream_after_move()
     {
         $root = str_replace('Http', 'Fixture', __DIR__);
 
         $target = $root . '/Templates/new.php';
 
+        // Move the file to the target path first ---
         $this->uploaded->moveTo($target);
 
+        file_exists($target) && unlink($target);
+        // ------------------------------------------
+
+        $expect = 'RuntimeException';
+
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get the stream after moving ---
+        $this->uploaded->getStream();
+        // ------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_error_retrieved()
+    {
+        $expect = UPLOAD_ERR_OK;
+
+        // Verify the file error code is returned ---
+        $actual = $this->uploaded->getError();
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_moved()
+    {
+        $root = str_replace('Http', 'Fixture', __DIR__);
+
+        $target = $root . '/Templates/new.php';
+
+        // Move the uploaded file to the target path ---
+        $this->uploaded->moveTo($target);
+        // ---------------------------------------------
+
+        // Verify the file was moved successfully ---
         $this->assertFileExists($target);
 
         file_exists($target) && unlink($target);
+        // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_name_retrieved()
+    {
+        $expect = 'file-test.php';
+
+        // Verify the client filename is returned correctly ---
+        $actual = $this->uploaded->getClientFilename();
+
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_size_retrieved()
+    {
+        $expect = 400;
+
+        // Verify the file size is returned correctly ---
+        $actual = $this->uploaded->getSize();
+
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_media_type_retrieved()
+    {
+        $expect = 'text/plain';
+
+        // Verify the media type is returned correctly ---
+        $actual = $this->uploaded->getClientMediaType();
+
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_stream_body_retrieved()
+    {
+        $expect = 'Rougin\Slytherin\Http\Stream';
+
+        // Verify the stream body is returned correctly ---
+        $actual = $this->uploaded->getStream();
+
+        $this->assertInstanceOf($expect, $actual);
+        // -----------------------------------------------
     }
 
     /**

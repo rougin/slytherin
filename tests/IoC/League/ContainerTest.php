@@ -32,69 +32,74 @@ class ContainerTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_class_added()
+    {
+        // Add a class instance ---
+        $this->container->add($this->class, $this->instance);
+        // ------------------------
+
+        // Verify the class exists ---
+        $this->assertTrue($this->container->has($this->class));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_class_exists()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Add a class without an instance ---
+        $this->container->add($class);
+        // ----------------------------------
+
+        // Verify the class exists ---
+        $this->assertTrue($this->container->has($class));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_instance_retrieved()
+    {
+        // Set a class instance ----------
+        $this->container->set($this->class, $this->instance);
+        // -------------------------------
+
+        // Verify the retrieved instance matches ---
+        $expect = $this->instance;
+
+        $actual = $this->container->get($this->class);
+
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_instance_set()
+    {
+        // Set a class instance directly ---
+        $this->container->set($this->class, $this->instance);
+        // ----------------------------------
+
+        // Verify the class exists ---
+        $this->assertTrue($this->container->has($this->class));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('League\Container\Container'))
-        {
-            $this->markTestSkipped('League Container is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfLeagueExists();
 
         $this->container = new Container;
 
         $this->instance = new WithParameter(new NewClass, new AnotherClass);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_simple_class()
-    {
-        $this->container->add($this->class, $this->instance);
-
-        $this->assertTrue($this->container->has($this->class));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_a_simple_class()
-    {
-        $this->container->set($this->class, $this->instance);
-
-        $this->assertTrue($this->container->has($this->class));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_a_simple_class()
-    {
-        // Should only use methods found in ContainerInterface ---
-        // $this->container->add($this->class)
-        //     ->withArgument(new NewClass)
-        //     ->withArgument(new AnotherClass);
-        // -------------------------------------------------------
-
-        $this->container->set($this->class, $this->instance);
-
-        $expected = $this->instance;
-
-        $actual = $this->container->get($this->class);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_class_exists()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->add($class);
-
-        $this->assertTrue($this->container->has($class));
     }
 }

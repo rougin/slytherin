@@ -23,8 +23,9 @@ class DispatcherTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_processing_middlewares_as_double_pass()
+    public function test_passed_if_double_pass_processed()
     {
+        // Add a double-pass middleware to the stack ---
         $fn = function ($request, $response, $next)
         {
             $response = $next($request, $response)->withStatus(404);
@@ -33,18 +34,43 @@ class DispatcherTestCases extends Testcase
         };
 
         $this->dispatcher->push($fn);
+        // --------------------------------------
 
-        $expected = 404;
+        // Verify the middleware modified the status code ---
+        $expect = 404;
 
         $actual = $this->process()->getStatusCode();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_processing_middlewares_as_single_pass()
+    public function test_passed_if_interop_middleware_added()
+    {
+        $this->checkIfInteropExists();
+
+        $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
+
+        // Add an interop middleware wrapped as an array ---
+        $expect = array(new Wrapper($interop));
+
+        $this->dispatcher->push(array($interop));
+        // ------------------------------------------------
+
+        // Verify the middleware was wrapped correctly ---
+        $actual = $this->dispatcher->stack();
+
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_interop_middleware_processed()
     {
         $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
 
@@ -61,44 +87,7 @@ class DispatcherTestCases extends Testcase
             // @codeCoverageIgnoreEnd
         }
 
-        $time = time();
-
-        $fn = function ($request, $next) use ($time)
-        {
-            $response = $next($request);
-
-            return $response->withHeader('X-Slytherin', $time);
-        };
-
-        $this->dispatcher->push($fn);
-
-        $expected = array($time);
-
-        $actual = $this->process()->getHeader('X-Slytherin');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_processing_middlewares_as_interop_middleware()
-    {
-        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
-
-        if (is_a($this->dispatcher, $class))
-        {
-            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
-            $zend = $this->dispatcher;
-
-            // @codeCoverageIgnoreStart
-            if (! $zend->hasPsr() && ! $zend->hasFactory())
-            {
-                $this->markTestSkipped('Zend Stratigility does not support single pass callbacks.');
-            }
-            // @codeCoverageIgnoreEnd
-        }
-
+        // Add a single-pass middleware that sets a content type header ---
         $fn = function ($request, $next)
         {
             $response = $next($request);
@@ -107,107 +96,45 @@ class DispatcherTestCases extends Testcase
         };
 
         $this->dispatcher->push($fn);
+        // ---------------------------------------------------------------
 
-        $expected = array('application/json');
+        // Verify the middleware set the Content-Type header ---
+        $expect = array('application/json');
 
         $actual = $this->process()->getHeader('Content-Type');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_processing_middlewares_as_string()
+    public function test_passed_if_middleware_string_processed()
     {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfInteropExists();
 
+        // Add an interop middleware as a class name string ----
         $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
 
         $this->dispatcher->push($interop);
+        // ----------------------------------------------------
 
-        $expected = 500;
+        // Verify the middleware returned a 500 status ---
+        $expect = 500;
 
         $actual = $this->process()->getStatusCode();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_middlewars_as_interop_middleware()
+    public function test_passed_if_middlewares_pushed_as_array()
     {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $interop = 'Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware';
-
-        $expected = array(new Wrapper($interop));
-
-        $this->dispatcher->push(array($interop));
-
-        $actual = $this->dispatcher->stack();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_middlewares()
-    {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
-
-        $actual = $this->dispatcher->stack();
-
-        $this->assertCount(1, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_different_middleware_interfaces()
-    {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $expected = array('Rougin Gutib');
-
-        $items = array(new Slytherin, new Interop05);
-
-        $this->dispatcher->push($items);
-
-        $actual = $this->process()->getHeader('name');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_pushing_an_array_of_middlewares()
-    {
+        // Create two single-pass middlewares ---
         $fn1 = function ($request, $next)
         {
             $response = $next($request);
@@ -221,44 +148,141 @@ class DispatcherTestCases extends Testcase
 
             return $response->withHeader('X-Second', 'two');
         };
+        // --------------------------------------
 
+        // Push both middlewares as an array ---
         $this->dispatcher->push(array($fn1, $fn2));
+        // -------------------------------------
 
+        // Verify both headers were set ---
         $headers = $this->process()->getHeaders();
 
         $this->assertArrayHasKey('X-First', $headers);
         $this->assertArrayHasKey('X-Second', $headers);
+        // ---------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_middlewares_via_stack_method()
+    public function test_passed_if_middlewares_retrieved()
     {
+        $this->checkIfInteropExists();
+
+        // Push an interop middleware class name ---
+        $this->dispatcher->push('Rougin\Slytherin\Fixture\Middlewares\InteropMiddleware');
+        // -----------------------------------------
+
+        // Verify one middleware was added to the stack ---
+        $actual = $this->dispatcher->stack();
+
+        $this->assertCount(1, $actual);
+        // ------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_mixed_middleware_interfaces()
+    {
+        $this->checkIfInteropExists();
+
+        // Push both Slytherin and Interop middleware ---
+        $expect = array('Rougin Gutib');
+
+        $items = array(new Slytherin, new Interop05);
+
+        $this->dispatcher->push($items);
+        // -----------------------------------------------
+
+        // Verify the middleware set the name header ---
+        $actual = $this->process()->getHeader('name');
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_non_callable_wrapped()
+    {
+        // Push a non-callable, non-middleware object ---
+        $object = new \stdClass;
+
+        $this->dispatcher->push($object);
+        // ----------------------------------------------
+
+        // Verify the object was wrapped in a Wrapper ---
+        $expect = 'Rougin\Slytherin\Middleware\Wrapper';
+
+        $actual = $this->dispatcher->stack();
+
+        $this->assertInstanceOf($expect, $actual[0]);
+        // -----------------------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_single_pass_processed()
+    {
+        $class = 'Rougin\Slytherin\Middleware\StratigilityDispatcher';
+
+        if (is_a($this->dispatcher, $class))
+        {
+            /** @var \Rougin\Slytherin\Middleware\StratigilityDispatcher */
+            $zend = $this->dispatcher;
+
+            // @codeCoverageIgnoreStart
+            if (! $zend->hasPsr() && ! $zend->hasFactory())
+            {
+                $this->markTestSkipped('Zend Stratigility does not support single pass callbacks.');
+            }
+            // @codeCoverageIgnoreEnd
+        }
+
+        // Add a single-pass middleware that sets a timestamp header ----
+        $time = time();
+
+        $fn = function ($request, $next) use ($time)
+        {
+            $response = $next($request);
+
+            return $response->withHeader('X-Slytherin', $time);
+        };
+
+        $this->dispatcher->push($fn);
+        // -------------------------------------------------------------
+
+        // Verify the middleware set the X-Slytherin header ---
+        $expect = array($time);
+
+        $actual = $this->process()->getHeader('X-Slytherin');
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_stack_method_retrieved()
+    {
+        // Push a simple pass-through middleware ---
         $fn = function ($request, $next)
         {
             return $next($request);
         };
 
         $this->dispatcher->push($fn);
+        // -----------------------------------------
 
+        // Verify one middleware was added to the stack ---
         $actual = $this->dispatcher->stack();
 
         $this->assertCount(1, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_pushing_non_callable_non_middleware_object()
-    {
-        $object = new \stdClass;
-
-        $this->dispatcher->push($object);
-
-        $actual = $this->dispatcher->stack();
-
-        $this->assertInstanceOf('Rougin\Slytherin\Middleware\Wrapper', $actual[0]);
+        // ------------------------------------------------
     }
 
     /**

@@ -20,6 +20,129 @@ class DispatcherTest extends Testcase
     /**
      * @return void
      */
+    public function test_failed_if_http_method_invalid()
+    {
+        $expect = 'BadMethodCallException';
+
+        $this->doSetExpectedException($expect);
+
+        // Attempt to dispatch with an invalid HTTP method ---
+        $this->dispatcher->dispatch('TEST', '/hello');
+        // ---------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_route_not_found()
+    {
+        $expect = 'BadMethodCallException';
+
+        $this->doSetExpectedException($expect);
+
+        // Attempt to dispatch a non-existent route ---
+        $this->dispatcher->dispatch('GET', '/test');
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_dispatcher_interface_checked()
+    {
+        $expect = 'Rougin\Slytherin\Routing\DispatcherInterface';
+
+        // Verify the dispatcher implements the expected interface ---
+        $this->assertInstanceOf($expect, $this->dispatcher);
+        // -----------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_dispatched_as_callback()
+    {
+        // Dispatch the callback-based route ---
+        $route = $this->dispatcher->dispatch('GET', '/hi');
+        // ------------------------------------------------
+
+        // Verify the callback result is correct -----------------
+        /** @var callable */
+        $callback = $route->getHandler();
+
+        $params = $route->getParams();
+
+        $actual = call_user_func($callback, $params);
+
+        $this->assertEquals('Hi', $actual);
+        // -------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_dispatched_as_class()
+    {
+        // Dispatch the class-based route -------------
+        $newClass = new NewClass;
+
+        $expect = $newClass->index();
+
+        $route = $this->dispatcher->dispatch('GET', '/');
+        // ---------------------------------------------
+
+        // Verify the controller response is correct ------------------
+        /** @var string */
+        $handler = $route->getHandler();
+
+        $class = $handler[0];
+        $method = $handler[1];
+
+        $params = $route->getParams();
+
+        /** @var callable */
+        $object = array(new $class, $method);
+
+        $actual = call_user_func_array($object, $params);
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_dispatched_as_post()
+    {
+        // Dispatch the POST-based route -------------
+        $newClass = new NewClass;
+
+        $expect = $newClass->store();
+
+        $route = $this->dispatcher->dispatch('POST', '/');
+        // -----------------------------------------------
+
+        // Verify the controller response is correct ------------------
+        /** @var string */
+        $handler = $route->getHandler();
+
+        $class = $handler[0];
+        $method = $handler[1];
+
+        $params = $route->getParams();
+
+        /** @var callable */
+        $object = array(new $class, $method);
+
+        $actual = call_user_func_array($object, $params);
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         $routes = array();
@@ -40,106 +163,5 @@ class DispatcherTest extends Testcase
         $dispatcher = new Dispatcher($router);
 
         $this->dispatcher = $dispatcher;
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_as_a_class()
-    {
-        $newClass = new NewClass;
-
-        $expected = $newClass->index();
-
-        $route = $this->dispatcher->dispatch('GET', '/');
-
-        /** @var string */
-        $handler = $route->getHandler();
-
-        $class = $handler[0];
-        $method = $handler[1];
-
-        $params = $route->getParams();
-
-        /** @var callable */
-        $object = array(new $class, $method);
-
-        $actual = call_user_func_array($object, $params);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_as_a_class_from_post_http_method()
-    {
-        $newClass = new NewClass;
-
-        $expected = $newClass->store();
-
-        $route = $this->dispatcher->dispatch('POST', '/');
-
-        /** @var string */
-        $handler = $route->getHandler();
-
-        $class = $handler[0];
-        $method = $handler[1];
-
-        $params = $route->getParams();
-
-        /** @var callable */
-        $object = array(new $class, $method);
-
-        $actual = call_user_func_array($object, $params);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_as_a_callback()
-    {
-        $route = $this->dispatcher->dispatch('GET', '/hi');
-
-        /** @var callable */
-        $callback = $route->getHandler();
-
-        $params = $route->getParams();
-
-        $actual = call_user_func($callback, $params);
-
-        $this->assertEquals('Hi', $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_with_an_error()
-    {
-        $this->doSetExpectedException('BadMethodCallException');
-
-        $this->dispatcher->dispatch('GET', '/test');
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_with_an_invalid_http_method()
-    {
-        $this->doSetExpectedException('BadMethodCallException');
-
-        $this->dispatcher->dispatch('TEST', '/hello');
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_route_dispatcher_interace()
-    {
-        $interface = 'Rougin\Slytherin\Routing\DispatcherInterface';
-
-        $this->assertInstanceOf($interface, $this->dispatcher);
     }
 }

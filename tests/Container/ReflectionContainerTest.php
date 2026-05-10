@@ -19,61 +19,79 @@ class ReflectionContainerTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_failed_if_not_found_exception_thrown()
     {
-        $delegate = new Container;
+        $expect = 'Psr\Container\NotFoundExceptionInterface';
 
-        $this->container = new ReflectionContainer($delegate);
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get a non-existent class ---
+        $class = 'Rougin\Slytherin\HelloWorld';
+
+        $this->container->get($class);
+        // ---------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_a_simple_class()
+    public function test_passed_if_multiple_params_resolved()
     {
-        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $actual = $this->container->get($expected);
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_a_class_with_parameter()
-    {
-        $expected = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
-
-        $actual = $this->container->get($expected);
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_a_class_with_multiple_parameters()
-    {
+        // Resolve a class with multiple constructor parameters ----
         $class = 'Rougin\Slytherin\Fixture\Classes\ParameterClass';
 
-        $expected = 'With multiple parameters';
+        $expect = 'With multiple parameters';
 
         /** @var \Rougin\Slytherin\Fixture\Classes\ParameterClass */
         $object = $this->container->get($class);
 
         $actual = $object->index();
+        // ---------------------------------------------------------
 
-        $this->assertEquals($expected, $actual);
+        // Verify the parameters were correctly resolved ---
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_instance_with_not_found_exception()
+    public function test_passed_if_parameter_class_retrieved()
     {
-        $this->doSetExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $expect = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
-        $this->container->get('Rougin\Slytherin\Fixture\Classes\NonexistentCl');
+        // Resolve a class with a constructor parameter ---
+        $actual = $this->container->get($expect);
+        // ------------------------------------------------
+
+        // Verify the class was resolved via reflection ---
+        $this->assertInstanceOf($expect, $actual);
+        // ------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_simple_class_retrieved()
+    {
+        $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Resolve a simple class via reflection ---
+        $actual = $this->container->get($expect);
+        // -----------------------------------------
+
+        // Verify the class was resolved correctly ---
+        $this->assertInstanceOf($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $delegate = new Container;
+
+        $this->container = new ReflectionContainer($delegate);
     }
 }

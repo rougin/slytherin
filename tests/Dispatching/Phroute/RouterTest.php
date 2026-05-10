@@ -26,13 +26,77 @@ class RouterTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_empty_route_retrieved()
+    {
+        // Verify a non-existent route returns null ---
+        $this->assertNull($this->router->getRoute('GET', '/test'));
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_parsed_routes_retrieved()
+    {
+        // Create a fresh router without a collector ---
+        $this->router = new Router;
+        // ---------------------------------------------
+
+        // Verify parsed routes return the Phroute data array ---
+        /** @var class-string<\Phroute\Phroute\RouteDataArray> */
+        $expect = 'Phroute\Phroute\RouteDataArray';
+
+        $actual = $this->router->parsed();
+
+        $this->assertInstanceOf($expect, $actual);
+        // -------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_added()
+    {
+        // Get details from the sample route ------------
+        $expect = $this->routes[0];
+
+        $method = $expect->getMethod();
+
+        $uri = $expect->getUri();
+
+        $handler = $expect->getHandler();
+        // ----------------------------------------------
+
+        // Add the route to the Phroute router -----
+        $this->router->addRoute($method, $uri, $handler);
+        // -----------------------------------------
+
+        // Verify the route is returned correctly ---
+        $actual = $this->router->getRoute($method, $uri);
+
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_router_interface_checked()
+    {
+        $interface = 'Rougin\Slytherin\Routing\RouterInterface';
+
+        // Verify the router implements the expected interface ---
+        $this->assertInstanceOf($interface, $this->router);
+        // -------------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         // @codeCoverageIgnoreStart
-        if (! class_exists('Phroute\Phroute\RouteCollector'))
-        {
-            $this->markTestSkipped('Phroute is not installed.');
-        }
+        $this->checkIfPhrouteExists();
         // @codeCoverageIgnoreEnd
 
         // Generate a sample route for testing --------------
@@ -46,60 +110,5 @@ class RouterTest extends Testcase
         $this->router = new Router;
 
         $this->router->setCollector(new RouteCollector);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route()
-    {
-        // Returns details from the sample route ---
-        $expected = $this->routes[0];
-
-        $method = $expected->getMethod();
-
-        $uri = $expected->getUri();
-
-        $handler = $expected->getHandler();
-        // -----------------------------------------
-
-        $this->router->addRoute($method, $uri, $handler);
-
-        $actual = $this->router->getRoute($method, $uri);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_an_empty_route()
-    {
-        $this->assertNull($this->router->getRoute('GET', '/test'));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_parsed_routes()
-    {
-        /** @var class-string<\Phroute\Phroute\RouteDataArray> */
-        $expected = 'Phroute\Phroute\RouteDataArray';
-
-        $this->router = new Router;
-
-        $actual = $this->router->parsed();
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_the_router_interface()
-    {
-        $interface = 'Rougin\Slytherin\Routing\RouterInterface';
-
-        $this->assertInstanceOf($interface, $this->router);
     }
 }

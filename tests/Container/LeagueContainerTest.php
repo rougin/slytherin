@@ -19,57 +19,60 @@ class LeagueContainerTest extends Testcase
     /**
      * @return void
      */
+    public function test_failed_if_not_found_exception_thrown()
+    {
+        $expect = 'Psr\Container\NotFoundExceptionInterface';
+
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get a non-existent class ---
+        $class = 'Rougin\Slytherin\HelloWorld';
+
+        $this->container->get($class);
+        // ---------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_instance_set()
+    {
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Set a class instance in the container ---
+        $this->container->set($class, new $class);
+        // -----------------------------------------
+
+        // Verify the instance is available -------------
+        $this->assertTrue($this->container->has($class));
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_simple_class_retrieved()
+    {
+        $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Register the class as a shared instance -------
+        $this->container->set($expect, new $expect, true);
+        // -----------------------------------------------
+
+        // Verify the object is of the expected class ---
+        $actual = $this->container->get($expect);
+
+        $this->assertInstanceOf($expect, $actual);
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('League\Container\Container'))
-        {
-            $this->markTestSkipped('League Container is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfLeagueExists();
 
         $this->container = new LeagueContainer;
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_a_simple_class()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $expected = $class;
-
-        // Added "$shared" to true in the unit test ----
-        $this->container->set($class, new $class, true);
-        // ---------------------------------------------
-
-        $actual = $this->container->get($class);
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_instance_with_not_found_exception()
-    {
-        $this->doSetExpectedException('Psr\Container\NotFoundExceptionInterface');
-
-        $this->container->get('Rougin\Slytherin\Fixture\Classes\NewClass');
-    }
-
-    /**
-     * Tests ContainerInterface::set.
-     *
-     * @return void
-     */
-    public function test_setting_instance()
-    {
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->set($class, new $class);
-
-        $this->assertTrue($this->container->has($class));
     }
 }

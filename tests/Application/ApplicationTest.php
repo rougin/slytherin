@@ -23,6 +23,177 @@ class ApplicationTest extends Testcase
     protected $components;
 
     /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_callback_route_responded()
+    {
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        $this->setUrl('GET', '/callback')->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_default_route_responded()
+    {
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        $this->setUrl('GET', '/')->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_integrations_loaded()
+    {
+        $slash = DIRECTORY_SEPARATOR;
+
+        $root = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
+
+        // Set up integrations with configuration -----------
+        header('X-SLYTHERIN-HEADER: foobar');
+
+        $router = new Router;
+
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        $router->get('/', array($class, 'index'));
+
+        $application = new Application;
+
+        $config = __DIR__ . '/../Fixture/Configurations';
+
+        $config = new Configuration($config);
+
+        $config->set('app.environment', 'development');
+        $config->set('app.router', $router);
+        $config->set('app.views', $root);
+        // --------------------------------------------------
+
+        $items = array('Rougin\Slytherin\Http\HttpIntegration');
+
+        $items[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
+        $items[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
+        $items[] = 'Rougin\Slytherin\Template\RendererIntegration';
+        $items[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
+        $items[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
+
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        $application->integrate($items, $config)->run();
+
+        // [NOTE] Adding these as this was being ---
+        // marked as risky starting in PHP 8.2 -----
+        restore_error_handler();
+
+        restore_exception_handler();
+        // -----------------------------------------
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_optional_parameter_route_responded()
+    {
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        $this->setUrl('GET', '/optional')->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_parameter_route_responded()
+    {
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        $this->setUrl('GET', '/parameter')->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_phroute_dispatcher_used()
+    {
+        // @codeCoverageIgnoreStart
+        $this->checkIfPhrouteExists();
+        // @codeCoverageIgnoreEnd
+
+        $expect = 'Hello';
+
+        $this->expectOutputString($expect);
+
+        // Set up the Phroute dispatcher --------------------------
+        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        $routes = array(array('GET', '/', array($class, 'index')));
+
+        $router = new PhrouteRouter($routes);
+
+        $dispatcher = new PhrouteDispatcher($router);
+
+        $this->components->setDispatcher($dispatcher);
+        // --------------------------------------------------------
+
+        // Execute the route via Phroute ---
+        $this->setUrl('GET', '/')->run();
+        // ---------------------------------
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_put_method_route_responded()
+    {
+        $expect = 'Hello from PUT HTTP method';
+
+        $this->expectOutputString($expect);
+
+        $data = array('_method' => 'PUT');
+
+        $this->setUrl('PUT', '/hello', $data)->run();
+    }
+
+    /**
+     * @runInSeparateProcess
+     *
+     * @return void
+     */
+    public function test_passed_if_response_route_responded()
+    {
+        $expect = 'Hello with response';
+
+        $this->expectOutputString($expect);
+
+        $this->setUrl('GET', '/hello')->run();
+    }
+
+    /**
      * @return void
      */
     protected function doSetUp()
@@ -44,152 +215,6 @@ class ApplicationTest extends Testcase
     }
 
     /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_default_route()
-    {
-        $this->expectOutputString('Hello');
-
-        $this->setUrl('GET', '/')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_route_with_http_response()
-    {
-        $this->expectOutputString('Hello with response');
-
-        $this->setUrl('GET', '/hello')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_route_with_parameter()
-    {
-        $this->expectOutputString('Hello');
-
-        $this->setUrl('GET', '/parameter')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_route_with_optional_parameter()
-    {
-        $this->expectOutputString('Hello');
-
-        $this->setUrl('GET', '/optional')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_route_with_callback()
-    {
-        $this->expectOutputString('Hello');
-
-        $this->setUrl('GET', '/callback')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_route_with_put_http_method()
-    {
-        $this->expectOutputString('Hello from PUT HTTP method');
-
-        $this->setUrl('PUT', '/hello', array('_method' => 'PUT'))->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_default_route_with_phroute_dispatcher()
-    {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('Phroute\Phroute\RouteCollector'))
-        {
-            $this->markTestSkipped('Phroute is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->expectOutputString('Hello');
-
-        $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $routes = array(array('GET', '/', array($class, 'index')));
-
-        $router = new PhrouteRouter($routes);
-
-        $dispatcher = new PhrouteDispatcher($router);
-
-        $this->components->setDispatcher($dispatcher);
-
-        $this->setUrl('GET', '/')->run();
-    }
-
-    /**
-     * @runInSeparateProcess
-     *
-     * @return void
-     */
-    public function test_default_route_with_integrations()
-    {
-        $slash = DIRECTORY_SEPARATOR;
-
-        $root = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
-
-        header('X-SLYTHERIN-HEADER: foobar');
-
-        $router = new Router;
-
-        $router->get('/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
-
-        $application = new Application;
-
-        $config = new Configuration(__DIR__ . '/../Fixture/Configurations');
-
-        $config->set('app.environment', 'development');
-        $config->set('app.router', $router);
-        $config->set('app.views', $root);
-
-        $items = array('Rougin\Slytherin\Http\HttpIntegration');
-
-        $items[] = 'Rougin\Slytherin\Routing\RoutingIntegration';
-        $items[] = 'Rougin\Slytherin\Integration\ConfigurationIntegration';
-        $items[] = 'Rougin\Slytherin\Template\RendererIntegration';
-        $items[] = 'Rougin\Slytherin\Debug\ErrorHandlerIntegration';
-        $items[] = 'Rougin\Slytherin\Middleware\MiddlewareIntegration';
-
-        $this->expectOutputString('Hello');
-
-        $application->integrate($items, $config)->run();
-
-        // [NOTE] Adding these as this was being ---
-        // marked as risky starting in PHP 8.2 -----
-        restore_error_handler();
-
-        restore_exception_handler();
-        // -----------------------------------------
-    }
-
-    /**
      * Changes the HTTP method and the uri of the request.
      *
      * @param string                $method
@@ -198,7 +223,7 @@ class ApplicationTest extends Testcase
      *
      * @return \Rougin\Slytherin\Application
      */
-    private function setUrl($method, $uri, $data = array())
+    protected function setUrl($method, $uri, $data = array())
     {
         $result = $this->components->getHttp();
 

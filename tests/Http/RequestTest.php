@@ -19,71 +19,93 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_getting_a_request_target()
+    public function test_failed_if_http_method_empty()
     {
-        $expected = '/lorem-ipsum';
+        $expect = 'InvalidArgumentException';
 
-        $request = $this->request->withRequestTarget($expected);
+        $this->doSetExpectedException($expect);
 
-        $actual = $request->getRequestTarget();
-
-        $this->assertEquals($expected, $actual);
+        // Attempt to set an empty HTTP method ---
+        $this->request->withMethod('');
+        // ---------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_an_uri_instance()
+    public function test_passed_if_host_header_preserved()
     {
-        $expected = new Uri('https://www.google.com');
+        $expect = array('localhost');
 
-        $request = $this->request->withUri($expected);
+        // Set a custom Host header first ---------
+        $request = $this->request->withHeader('Host', $expect);
+        // ----------------------------------------
 
-        $actual = $request->getUri();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_a_http_method()
-    {
-        $expected = 'POST';
-
-        $request = $this->request->withMethod($expected);
-
-        $actual = $request->getMethod();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_a_uri_with_the_host_header_preserved()
-    {
+        // Update the URI while preserving the host ----------
         $uri = new Uri('https://www.google.com');
 
-        $expected = array('localhost');
-
-        $request = $this->request->withHeader('Host', $expected);
-
         $request = $request->withUri($uri, true);
+        // ---------------------------------------------------
 
+        // Verify the original host header was kept ---
         $actual = $request->getHeader('Host');
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_an_invalid_http_method_throws_exception()
+    public function test_passed_if_http_method_set()
     {
-        $this->doSetExpectedException('InvalidArgumentException');
+        $expect = 'POST';
 
-        $this->request->withMethod('');
+        // Set the HTTP method on the request ------
+        $request = $this->request->withMethod($expect);
+        // -----------------------------------------
+
+        // Verify the method is returned correctly ---
+        $actual = $request->getMethod();
+
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_request_target_retrieved()
+    {
+        $expect = '/lorem-ipsum';
+
+        // Set the request target ---------------
+        $request = $this->request->withRequestTarget($expect);
+        // --------------------------------------
+
+        // Verify the target is returned correctly ---
+        $actual = $request->getRequestTarget();
+
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_uri_retrieved()
+    {
+        $expect = new Uri('https://www.google.com');
+
+        // Set the URI on the request ------
+        $request = $this->request->withUri($expect);
+        // ---------------------------------
+
+        // Verify the URI is returned correctly ---
+        $actual = $request->getUri();
+
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------
     }
 
     /**

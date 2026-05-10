@@ -22,52 +22,64 @@ class DispatcherTest extends DispatcherTestCases
     /**
      * @return void
      */
-    public function test_dispatching_a_route_with_a_fastroute_router()
+    public function test_passed_if_fastroute_router_dispatched()
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
+        // Set up a FastRoute router -----------------
         $router = new FastRouteRouter;
 
         $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
         $router->get('/', 'NewClass@index');
+        // -------------------------------------------
 
+        // Dispatch using the generic dispatcher -----
         $dispatcher = new Dispatcher($router);
+        // -------------------------------------------
 
+        // Verify the route is dispatched correctly ---
         $controller = new NewClass;
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        $expected = $controller->index();
+        $expect = $controller->index();
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_dispatching_a_route_with_a_phroute_router()
+    public function test_passed_if_phroute_router_dispatched()
     {
         $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
 
+        // Set up a Phroute router -------------------
         $router = new PhrouteRouter;
 
         $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
 
         $router->get('/', 'NewClass@index');
+        // -------------------------------------------
 
+        // Dispatch using the generic dispatcher -----
         $dispatcher = new Dispatcher($router);
+        // -------------------------------------------
 
+        // Verify the route is dispatched correctly ---
         $controller = new NewClass;
 
         $route = $dispatcher->dispatch('GET', '/');
 
-        $expected = $controller->index();
+        $expect = $controller->index();
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
     }
 }

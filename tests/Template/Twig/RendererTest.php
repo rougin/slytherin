@@ -26,6 +26,62 @@ class RendererTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_template_rendered()
+    {
+        $expect = 'This is a text from a template.';
+
+        // Render the test template with PHP extension ---
+        $actual = $this->renderer->render('test', array(), 'php');
+        // ------------------------------------------------------
+
+        // Verify the rendered output matches ---
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_template_rendered_with_data()
+    {
+        $expect = 'This is a text from a template.';
+
+        // Render the Twig template with data ---
+        $data = array('name' => 'template');
+
+        $actual = $this->renderer->render('test-with-twig-data', $data);
+        // -----------------------------------------
+
+        // Verify the rendered output matches ---
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_template_rendered_with_globals()
+    {
+        $expect = 'This is a text from a template.';
+
+        // Render the Twig template using globals ---
+        $globals = array('name' => 'template');
+
+        $renderer = new Renderer($this->twig, $globals);
+
+        $renderer->addGlobal('test', 'wew');
+
+        $actual = $renderer->render('test-with-twig-data');
+        // ------------------------------------------------
+
+        // Verify the rendered output matches ---
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
         $twig = new TwigLoader;
@@ -42,49 +98,5 @@ class RendererTest extends Testcase
         $this->twig = $twig->load($path);
 
         $this->renderer = new TwigRenderer($this->twig);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_rendering_a_text_from_file()
-    {
-        $expected = 'This is a text from a template.';
-
-        $actual = $this->renderer->render('test', array(), 'php');
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_rendering_a_text_from_file_with_data()
-    {
-        $expected = 'This is a text from a template.';
-
-        $data = array('name' => 'template');
-
-        $actual = $this->renderer->render('test-with-twig-data', $data);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_rendering_a_text_from_file_with_globals()
-    {
-        $expected = 'This is a text from a template.';
-
-        $globals  = array('name' => 'template');
-
-        $renderer = new Renderer($this->twig, $globals);
-
-        $renderer->addGlobal('test', 'wew');
-
-        $actual = $renderer->render('test-with-twig-data');
-
-        $this->assertEquals($expected, $actual);
     }
 }

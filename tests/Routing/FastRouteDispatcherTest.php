@@ -26,10 +26,45 @@ class FastRouteDispatcherTest extends DispatcherTestCases
     /**
      * @return void
      */
-    public function test_dispatching_a_route_with_a_slytherin_router()
+    public function test_passed_if_phroute_router_dispatched()
     {
         $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
 
+        $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
+
+        // Set up a Phroute router -------------------
+        $router = new PhrouteRouter;
+
+        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $router->get('/', 'NewClass@index');
+        // -------------------------------------------
+
+        // Dispatch using the FastRoute dispatcher ---
+        $dispatcher = new FastRouteDispatcher($router);
+        // -------------------------------------------
+
+        // Verify the route is dispatched correctly ---
+        $controller = new NewClass;
+
+        $route = $dispatcher->dispatch('GET', '/');
+
+        $expect = $controller->index();
+
+        $actual = $this->resolve($route);
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_slytherin_router_dispatched()
+    {
+        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
+
+        // Set up the vanilla Slytherin router -------
         $router = new Router;
 
         $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
@@ -38,43 +73,20 @@ class FastRouteDispatcherTest extends DispatcherTestCases
         {
             return 'Hello ' . $name . '!';
         });
+        // -------------------------------------------
 
+        // Dispatch using the FastRoute dispatcher ---
         $dispatcher = new FastRouteDispatcher($router);
+        // -------------------------------------------
 
+        // Verify the route is dispatched correctly -----------------
         $route = $dispatcher->dispatch('GET', '/hi/Slytherin');
 
-        $expected = 'Hello Slytherin!';
+        $expect = 'Hello Slytherin!';
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_with_a_phroute_router()
-    {
-        $this->exists('Rougin\Slytherin\Routing\FastRouteDispatcher');
-
-        $this->exists('Rougin\Slytherin\Routing\PhrouteDispatcher');
-
-        $router = new PhrouteRouter;
-
-        $router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $router->get('/', 'NewClass@index');
-
-        $dispatcher = new FastRouteDispatcher($router);
-
-        $controller = new NewClass;
-
-        $route = $dispatcher->dispatch('GET', '/');
-
-        $expected = $controller->index();
-
-        $actual = $this->resolve($route);
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------------------
     }
 }

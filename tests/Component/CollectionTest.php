@@ -8,7 +8,6 @@ use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\IoC\Vanilla\Container;
-use Rougin\Slytherin\Middleware\Interop;
 use Rougin\Slytherin\Middleware\VanillaMiddleware;
 use Rougin\Slytherin\System;
 use Rougin\Slytherin\Template\TwigLoader;
@@ -30,86 +29,107 @@ class CollectionTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_passed_if_components_not_set()
     {
-        $this->components = new Collection;
+        $this->assertFalse($this->components->has(System::TEMPLATE));
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_container()
+    public function test_passed_if_container_set()
     {
-        $expected = new Container;
+        // Set the container component ----------
+        $expect = new Container;
 
-        $this->components->setContainer($expected);
+        $this->components->setContainer($expect);
+        // --------------------------------------
 
+        // Verify the container was stored ---------
         $actual = $this->components->getContainer();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_dependency_injector()
+    public function test_passed_if_debugger_set()
     {
-        $expected = new Container;
+        // Set the debugger component ----------
+        $expect = new Debugger;
 
-        $this->components->setDependencyInjector($expected);
+        $this->components->setDebugger($expect);
+        // -------------------------------------
 
-        $actual = $this->components->getDependencyInjector();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_the_routing_dispatcher()
-    {
-        $expected = new Dispatcher(new Router);
-
-        $this->components->setDispatcher($expected);
-
-        $actual = $this->components->getDispatcher();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_setting_the_debugger()
-    {
-        $expected = new Debugger;
-
-        $this->components->setDebugger($expected);
-
+        // Verify the debugger was stored ---------
         $actual = $this->components->getDebugger();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_error_handler()
+    public function test_passed_if_dependency_injector_set()
     {
-        $expected = new Debugger;
+        // Set the dependency injector component ---------
+        $expect = new Container;
 
-        $this->components->setErrorHandler($expected);
+        $this->components->setDependencyInjector($expect);
+        // -----------------------------------------------
 
+        // Verify the injector was stored -------------------
+        $actual = $this->components->getDependencyInjector();
+
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_dispatcher_set()
+    {
+        // Set the dispatcher component ----------
+        $expect = new Dispatcher(new Router);
+
+        $this->components->setDispatcher($expect);
+        // ---------------------------------------
+
+        // Verify the dispatcher was stored ---------
+        $actual = $this->components->getDispatcher();
+
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_error_handler_set()
+    {
+        // Set the error handler component ---------
+        $expect = new Debugger;
+
+        $this->components->setErrorHandler($expect);
+        // -----------------------------------------
+
+        // Verify the handler was stored --------------
         $actual = $this->components->getErrorHandler();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_http_interface()
+    public function test_passed_if_http_interface_set()
     {
+        // Create a server request and response ---
         $server = array();
         $server['REQUEST_METHOD'] = 'GET';
         $server['REQUEST_URI'] = '/';
@@ -120,102 +140,116 @@ class CollectionTest extends Testcase
 
         $response = new Response;
 
-        $expected = array($request, $response);
+        $expect = array($request, $response);
+        // ----------------------------------------
 
+        // Set the HTTP interface components -----------
         $this->components->setHttp($request, $response);
+        // ---------------------------------------------
 
+        // Verify the HTTP components were stored ---
         $actual = $this->components->getHttp();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_http_request()
+    public function test_passed_if_http_request_set()
     {
-        $server = array();
+        // Create a server request -----------
+        $server = array('REQUEST_URI' => '/');
         $server['REQUEST_METHOD'] = 'GET';
-        $server['REQUEST_URI'] = '/';
         $server['SERVER_NAME'] = 'localhost';
         $server['SERVER_PORT'] = '8000';
 
-        $expected = new ServerRequest($server);
+        $expect = new ServerRequest($server);
+        // -----------------------------------
 
-        $this->components->setHttpRequest($expected);
+        // Set the HTTP request component ---------
+        $this->components->setHttpRequest($expect);
+        // ----------------------------------------
 
+        // Verify the request was stored -------------
         $actual = $this->components->getHttpRequest();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_http_response()
+    public function test_passed_if_http_response_set()
     {
-        $expected = new Response;
+        // Set the HTTP response component ---------
+        $expect = new Response;
 
-        $this->components->setHttpResponse($expected);
+        $this->components->setHttpResponse($expect);
+        // -----------------------------------------
 
+        // Verify the response was stored -------------
         $actual = $this->components->getHttpResponse();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // --------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_middleware()
+    public function test_passed_if_middleware_set()
     {
-        // @codeCoverageIgnoreStart
-        if (! Interop::exists())
-        {
-            $this->markTestSkipped('Interop middleware/s not yet installed');
-        }
-        // @codeCoverageIgnoreEnd
+        $this->checkIfInteropExists();
 
-        $expected = new VanillaMiddleware;
+        // Set the middleware component ----------
+        $expect = new VanillaMiddleware;
 
-        $this->components->setMiddleware($expected);
+        $this->components->setMiddleware($expect);
+        // ---------------------------------------
 
+        // Verify the middleware was stored ---------
         $actual = $this->components->getMiddleware();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_the_template()
+    public function test_passed_if_template_set()
     {
+        $this->checkIfTwigExists();
+
         $twig = new TwigLoader;
 
-        // @codeCoverageIgnoreStart
-        if (! $twig->exists())
-        {
-            $this->markTestSkipped('Twig is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
-
+        // Load the Twig environment -------------
         $path = __DIR__ . '/../Fixture/Templates';
 
         $env = $twig->load($path);
 
-        $expected = new TwigRenderer($env);
+        $expect = new TwigRenderer($env);
+        // ---------------------------------------
 
-        $this->components->setTemplate($expected);
+        // Set the template component ----------
+        $this->components->setTemplate($expect);
+        // -------------------------------------
 
+        // Verify the template was stored ---------
         $actual = $this->components->getTemplate();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_checking_existing_components()
+    protected function doSetUp()
     {
-        $this->assertFalse($this->components->has(System::TEMPLATE));
+        $this->components = new Collection;
     }
 }

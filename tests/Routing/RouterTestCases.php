@@ -24,159 +24,27 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_adding_a_route()
+    public function test_passed_if_empty_route_retrieved()
     {
         $this->exists(get_class($this->router));
 
-        $this->router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
-
-        $this->router->add('POST', '/store', 'NewClass@store');
-
-        $this->assertTrue($this->router->has('POST', '/store'));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route_from_call_magic_method()
-    {
-        $this->exists(get_class($this->router));
-
-        $this->router->post('/posts', 'PostsController@store');
-
-        $this->assertTrue($this->router->has('POST', '/posts'));
-    }
-
-    /**
-     * @return void
-     */
-    public function test_checking_existing_route()
-    {
-        $this->exists(get_class($this->router));
-
-        $actual = $this->router->has('GET', '/');
-
-        $this->assertTrue($actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_a_route()
-    {
-        $this->exists(get_class($this->router));
-
-        $expected = array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index');
-
-        /** @var \Rougin\Slytherin\Routing\RouteInterface */
-        $route = $this->router->retrieve('GET', '/');
-
-        $actual = $route->getHandler();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_an_empty_route()
-    {
-        $this->exists(get_class($this->router));
-
+        // Retrieve a non-existent route ---
         $route = $this->router->retrieve('GET', '/test');
+        // ----------------------------------------------
 
+        // Verify the route is null ---
         $this->assertNull($route);
+        // ---------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_routes()
+    public function test_passed_if_multiple_prefixes_used()
     {
         $this->exists(get_class($this->router));
 
-        $route = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-
-        $expected = array($route);
-
-        $actual = $this->router->routes();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route_as_a_restful()
-    {
-        $this->exists(get_class($this->router));
-
-        $expected = array();
-
-        $expected[] = new Route('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
-        $expected[] = new Route('GET', '/posts', array('PostsController', 'index'));
-        $expected[] = new Route('POST', '/posts', array('PostsController', 'store'));
-        $expected[] = new Route('DELETE', '/posts/:id', array('PostsController', 'delete'));
-        $expected[] = new Route('GET', '/posts/:id', array('PostsController', 'show'));
-        $expected[] = new Route('PATCH', '/posts/:id', array('PostsController', 'update'));
-        $expected[] = new Route('PUT', '/posts/:id', array('PostsController', 'update'));
-
-        $this->router->restful('posts', 'PostsController');
-
-        $actual = $this->router->routes();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route_as_a_restful_with_a_middleware()
-    {
-        $this->exists(get_class($this->router));
-
-        $expected = array();
-
-        $middleware = 'Rougin\Slytherin\Sample\Handlers\Cors';
-
-        $expected[] = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
-        $expected[] = new Route('GET', '/news', 'NewsController@index', $middleware);
-        $expected[] = new Route('POST', '/news', 'NewsController@store', $middleware);
-        $expected[] = new Route('DELETE', '/news/:id', 'NewsController@delete', $middleware);
-        $expected[] = new Route('GET', '/news/:id', 'NewsController@show', $middleware);
-        $expected[] = new Route('PATCH', '/news/:id', 'NewsController@update', $middleware);
-        $expected[] = new Route('PUT', '/news/:id', 'NewsController@update', $middleware);
-
-        $this->router->restful('news', 'NewsController', $middleware);
-
-        $actual = $this->router->routes();
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route_with_a_prefix()
-    {
-        $this->exists(get_class($this->router));
-
-        $this->router->prefix('/v1/slytherin');
-
-        $this->router->get('/hello', 'HelloController@hello');
-
-        $exists = $this->router->has('GET', '/v1/slytherin/hello');
-
-        $this->assertTrue($exists);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_adding_a_route_with_multiple_prefixes()
-    {
-        $this->exists(get_class($this->router));
-
+        // Set multiple prefixes for different route groups ---
         $this->router->prefix('', 'Acme\Http\Controllers');
 
         $this->router->get('/home', 'HomeController@index');
@@ -192,7 +60,9 @@ class RouterTestCases extends Testcase
         $this->router->get('/hello', 'TestController@hello');
 
         $this->router->get('/test', 'TestController@test');
+        // ---------------------------------------------------
 
+        // Verify routes resolve with correct class prefixes ---
         /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->router->retrieve('GET', '/home');
 
@@ -224,41 +94,225 @@ class RouterTestCases extends Testcase
         }
 
         $this->assertTrue($home && $login && $hello);
+        // ---------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_merging_existing_routes()
+    public function test_passed_if_restful_routes_added()
     {
         $this->exists(get_class($this->router));
 
-        $router = new Router;
+        // Define the expected RESTful routes -----------------
+        $expect = array();
 
-        $router->get('/test', 'TestController@test');
+        $expect[] = new Route('GET', '/', array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index'));
+        $expect[] = new Route('GET', '/posts', array('PostsController', 'index'));
+        $expect[] = new Route('POST', '/posts', array('PostsController', 'store'));
+        $expect[] = new Route('DELETE', '/posts/:id', array('PostsController', 'delete'));
+        $expect[] = new Route('GET', '/posts/:id', array('PostsController', 'show'));
+        $expect[] = new Route('PATCH', '/posts/:id', array('PostsController', 'update'));
+        $expect[] = new Route('PUT', '/posts/:id', array('PostsController', 'update'));
+        // ----------------------------------------------------
 
-        $this->router->merge($router->routes());
+        // Add the RESTful routes ---------------
+        $this->router->restful('posts', 'PostsController');
+        // --------------------------------------
 
-        $exists = $this->router->has('GET', '/test');
+        // Verify all expected routes were created ---
+        $actual = $this->router->routes();
 
-        $this->assertTrue($exists);
+        $this->assertEquals($expect, $actual);
+        // -------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_adding_routes_as_argument_to_router()
+    public function test_passed_if_restful_with_middleware_added()
     {
-        $expected = array();
+        $this->exists(get_class($this->router));
 
-        $expected[] = new Route('GET', '/news', 'NewsController@index');
-        $expected[] = new Route('POST', '/news', 'NewsController@store');
+        // Define the expected routes with middleware -----------------
+        $expect = array();
 
-        $router = new Router($expected);
+        $middleware = 'Rougin\Slytherin\Sample\Handlers\Cors';
 
+        $expect[] = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+        $expect[] = new Route('GET', '/news', 'NewsController@index', $middleware);
+        $expect[] = new Route('POST', '/news', 'NewsController@store', $middleware);
+        $expect[] = new Route('DELETE', '/news/:id', 'NewsController@delete', $middleware);
+        $expect[] = new Route('GET', '/news/:id', 'NewsController@show', $middleware);
+        $expect[] = new Route('PATCH', '/news/:id', 'NewsController@update', $middleware);
+        $expect[] = new Route('PUT', '/news/:id', 'NewsController@update', $middleware);
+        // -------------------------------------------------------------
+
+        // Add the RESTful routes with middleware -----------
+        $this->router->restful('news', 'NewsController', $middleware);
+        // --------------------------------------------------
+
+        // Verify the routes include the middleware ---
+        $actual = $this->router->routes();
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_added()
+    {
+        $this->exists(get_class($this->router));
+
+        // Set the class prefix and add a route ----------
+        $this->router->prefix('', 'Rougin\Slytherin\Fixture\Classes');
+
+        $this->router->add('POST', '/store', 'NewClass@store');
+        // ------------------------------------------------
+
+        // Verify the route exists ---
+        $this->assertTrue($this->router->has('POST', '/store'));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_added_via_magic()
+    {
+        $this->exists(get_class($this->router));
+
+        // Add a route using the magic __call method ---
+        $this->router->post('/posts', 'PostsController@store');
+        // -----------------------------------------------
+
+        // Verify the route exists ---
+        $this->assertTrue($this->router->has('POST', '/posts'));
+        // --------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_added_with_prefix()
+    {
+        $this->exists(get_class($this->router));
+
+        // Set a URI prefix for the route group ---
+        $this->router->prefix('/v1/slytherin');
+
+        $this->router->get('/hello', 'HelloController@hello');
+        // ----------------------------------------------
+
+        // Verify the route includes the prefix ---
+        $exists = $this->router->has('GET', '/v1/slytherin/hello');
+
+        $this->assertTrue($exists);
+        // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_exists()
+    {
+        $this->exists(get_class($this->router));
+
+        // Verify the default route exists ---
+        $actual = $this->router->has('GET', '/');
+
+        $this->assertTrue($actual);
+        // -----------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_retrieved()
+    {
+        $this->exists(get_class($this->router));
+
+        $expect = array('Rougin\Slytherin\Fixture\Classes\NewClass', 'index');
+
+        // Retrieve the route from the router -------------
+        /** @var \Rougin\Slytherin\Routing\RouteInterface */
+        $route = $this->router->retrieve('GET', '/');
+        // ------------------------------------------------
+
+        // Verify the handler is returned correctly ---
+        $actual = $route->getHandler();
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_routes_added_via_constructor()
+    {
+        // Define routes to pass as constructor argument ----
+        $expect = array();
+
+        $expect[] = new Route('GET', '/news', 'NewsController@index');
+        $expect[] = new Route('POST', '/news', 'NewsController@store');
+        // ---------------------------------------------------
+
+        // Create the router with pre-defined routes ---
+        $router = new Router($expect);
+        // ---------------------------------------------
+
+        // Verify the routes match ---
         $actual = $router->routes();
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_routes_merged()
+    {
+        $this->exists(get_class($this->router));
+
+        // Create a separate router with its own routes ---
+        $router = new Router;
+
+        $router->get('/test', 'TestController@test');
+        // -----------------------------------------------
+
+        // Merge the routes into the main router ----------
+        $this->router->merge($router->routes());
+        // ------------------------------------------------
+
+        // Verify the merged route exists ---
+        $exists = $this->router->has('GET', '/test');
+
+        $this->assertTrue($exists);
+        // ----------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_routes_retrieved()
+    {
+        $this->exists(get_class($this->router));
+
+        // Define the expected route list ---
+        $route = new Route('GET', '/', 'Rougin\Slytherin\Fixture\Classes\NewClass@index');
+
+        $expect = array($route);
+        // ---------------------------------
+
+        // Verify the routes are returned correctly ---
+        $actual = $this->router->routes();
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
     }
 
     /**
@@ -273,20 +327,14 @@ class RouterTestCases extends Testcase
         if ($router === 'Rougin\Slytherin\Routing\FastRouteRouter')
         {
             // @codeCoverageIgnoreStart
-            if (! class_exists('FastRoute\RouteCollector'))
-            {
-                $this->markTestSkipped('FastRoute is not installed.');
-            }
+            $this->checkIfFastRouteExists();
             // @codeCoverageIgnoreEnd
         }
 
         if ($router === 'Rougin\Slytherin\Routing\PhrouteRouter')
         {
             // @codeCoverageIgnoreStart
-            if (! class_exists('Phroute\Phroute\RouteCollector'))
-            {
-                $this->markTestSkipped('Phroute is not installed.');
-            }
+            $this->checkIfPhrouteExists();
             // @codeCoverageIgnoreEnd
         }
     }

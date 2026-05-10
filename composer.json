@@ -21,8 +21,15 @@
   },
   "require-dev":
   {
+    "filp/whoops": "*",
+    "http-interop/http-middleware": "0.4.1",
+    "league/container": "*",
+    "nikic/fast-route": "*",
     "phpunit/phpunit": "*",
-    "sanmai/phpunit-legacy-adapter": "*"
+    "rdlowrey/auryn": "*",
+    "sanmai/phpunit-legacy-adapter": "*",
+    "twig/twig": "*",
+    "zendframework/zend-diactoros": "*"
   },
   "autoload":
   {

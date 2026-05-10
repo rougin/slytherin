@@ -20,93 +20,117 @@ class DispatcherTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_dispatching_a_route_as_a_callback()
+    public function test_failed_if_http_method_invalid()
+    {
+        $expect = 'BadMethodCallException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->exists(get_class($this->dispatcher));
+
+        // Attempt to dispatch with an invalid HTTP method ---
+        $this->dispatcher->dispatch('TEST', '/');
+        // ---------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_route_not_found()
+    {
+        $expect = 'BadMethodCallException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->exists(get_class($this->dispatcher));
+
+        // Attempt to dispatch a non-existent route ---
+        $this->dispatcher->dispatch('GET', '/test');
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_dispatched_as_callback()
     {
         $this->exists(get_class($this->dispatcher));
 
+        // Dispatch the callback-based route ---
         $route = $this->dispatcher->dispatch('GET', '/hi');
+        // ------------------------------------------------
 
-        $expected = 'Hi and this is a callback';
+        // Verify the callback result is correct ---
+        $expect = 'Hi and this is a callback';
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_dispatching_a_route_as_a_callback_with_argument()
+    public function test_passed_if_route_dispatched_as_class()
     {
         $this->exists(get_class($this->dispatcher));
 
-        $route = $this->dispatcher->dispatch('GET', '/hi/Slytherin');
-
-        $expected = 'Hi Slytherin!';
-
-        $actual = $this->resolve($route);
-
-        $this->assertEquals($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_as_a_class()
-    {
-        $this->exists(get_class($this->dispatcher));
-
+        // Dispatch the class-based route ---
         $controller = new NewClass;
 
         $route = $this->dispatcher->dispatch('GET', '/');
+        // -----------------------------------------------
 
-        $expected = $controller->index();
+        // Verify the controller response is correct ---
+        $expect = $controller->index();
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_dispatching_a_route_as_a_class_from_put_http_method()
+    public function test_passed_if_route_dispatched_as_post_class()
     {
         $this->exists(get_class($this->dispatcher));
 
+        // Dispatch the POST-based route ---
         $controller = new NewClass;
 
         $route = $this->dispatcher->dispatch('POST', '/');
+        // -------------------------------------------------
 
-        $expected = $controller->store();
+        // Verify the controller response is correct ---
+        $expect = $controller->store();
 
         $actual = $this->resolve($route);
 
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals($expect, $actual);
+        // ----------------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_dispatching_a_route_with_an_error()
+    public function test_passed_if_route_dispatched_with_argument()
     {
-        $this->doSetExpectedException('BadMethodCallException');
-
         $this->exists(get_class($this->dispatcher));
 
-        $this->dispatcher->dispatch('GET', '/test');
-    }
+        // Dispatch the route with a URI argument ----
+        $route = $this->dispatcher->dispatch('GET', '/hi/Slytherin');
+        // ----------------------------------------------
 
-    /**
-     * @return void
-     */
-    public function test_dispatching_a_route_with_an_invalid_http_method()
-    {
-        $this->doSetExpectedException('BadMethodCallException');
+        // Verify the dynamic argument is resolved correctly ---
+        $expect = 'Hi Slytherin!';
 
-        $this->exists(get_class($this->dispatcher));
+        $actual = $this->resolve($route);
 
-        $this->dispatcher->dispatch('TEST', '/');
+        $this->assertEquals($expect, $actual);
+        // ------------------------------------------------------
     }
 
     /**
@@ -121,20 +145,14 @@ class DispatcherTestCases extends Testcase
         if ($dispatcher === 'Rougin\Slytherin\Routing\FastRouteDispatcher')
         {
             // @codeCoverageIgnoreStart
-            if (! interface_exists('FastRoute\Dispatcher'))
-            {
-                $this->markTestSkipped('FastRoute is not installed.');
-            }
+            $this->checkIfFastRouteExists();
             // @codeCoverageIgnoreEnd
         }
 
         if ($dispatcher === 'Rougin\Slytherin\Routing\PhrouteDispatcher')
         {
             // @codeCoverageIgnoreStart
-            if (! class_exists('Phroute\Phroute\Dispatcher'))
-            {
-                $this->markTestSkipped('Phroute is not installed.');
-            }
+            $this->checkIfPhrouteExists();
             // @codeCoverageIgnoreEnd
         }
     }

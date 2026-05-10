@@ -20,65 +20,76 @@ class AurynContainerTest extends Testcase
     /**
      * @return void
      */
-    protected function doSetUp()
+    public function test_failed_if_container_exception_thrown()
     {
-        // @codeCoverageIgnoreStart
-        if (! class_exists('Auryn\Injector'))
-        {
-            $this->markTestSkipped('Auryn is not installed.');
-        }
-        // @codeCoverageIgnoreEnd
+        $expect = 'Psr\Container\ContainerExceptionInterface';
 
-        $this->container = new AurynContainer(new Injector);
-    }
+        $this->doSetExpectedException($expect);
 
-    /**
-     * @return void
-     */
-    public function test_getting_a_simple_class()
-    {
-        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
-
-        $this->container->set($expected, new $expected);
-
-        $actual = $this->container->get($expected);
-
-        $this->assertInstanceOf($expected, $actual);
-    }
-
-    /**
-     * @return void
-     */
-    public function test_getting_instance_with_container_exception()
-    {
-        $this->doSetExpectedException('Psr\Container\ContainerExceptionInterface');
-
+        // Attempt to get an unregistered class ---
         $this->container->get('Test');
+        // ----------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_getting_instance_with_not_found_exception()
+    public function test_failed_if_not_found_exception_thrown()
     {
-        $this->doSetExpectedException('Psr\Container\NotFoundExceptionInterface');
+        $expect = 'Psr\Container\NotFoundExceptionInterface';
 
-        $class = 'Rougin\Slytherin\Fixture\Classes\NonexistentClass';
+        $this->doSetExpectedException($expect);
+
+        // Attempt to get a non-existent class ---
+        $class = 'Rougin\Slytherin\HelloWorld';
 
         $this->container->get($class);
+        // ---------------------------------------
     }
 
     /**
      * @return void
      */
-    public function test_setting_instance()
+    public function test_passed_if_instance_set()
     {
-        $expected = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+        $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        $this->container->set($expected, new $expected);
+        // Set a class instance in the container ---
+        $this->container->set($expect, new $expect);
+        // -----------------------------------------
 
-        $actual = $this->container->get($expected);
+        // Verify the instance is retrievable ----
+        $actual = $this->container->get($expect);
 
-        $this->assertInstanceOf($expected, $actual);
+        $this->assertInstanceOf($expect, $actual);
+        // ---------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_simple_class_retrieved()
+    {
+        $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
+
+        // Register the class instance -------------
+        $this->container->set($expect, new $expect);
+        // -----------------------------------------
+
+        // Verify the object is of the expected class ---
+        $actual = $this->container->get($expect);
+
+        $this->assertInstanceOf($expect, $actual);
+        // ----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    protected function doSetUp()
+    {
+        $this->checkIfAurynExists();
+
+        $this->container = new AurynContainer(new Injector);
     }
 }
