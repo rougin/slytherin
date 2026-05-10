@@ -204,6 +204,64 @@ class DispatcherTestCases extends Testcase
     }
 
     /**
+     * @return void
+     */
+    public function test_pushing_an_array_of_middlewares()
+    {
+        $fn1 = function ($request, $next)
+        {
+            $response = $next($request);
+
+            return $response->withHeader('X-First', 'one');
+        };
+
+        $fn2 = function ($request, $next)
+        {
+            $response = $next($request);
+
+            return $response->withHeader('X-Second', 'two');
+        };
+
+        $this->dispatcher->push(array($fn1, $fn2));
+
+        $headers = $this->process()->getHeaders();
+
+        $this->assertArrayHasKey('X-First', $headers);
+        $this->assertArrayHasKey('X-Second', $headers);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_getting_middlewares_via_stack_method()
+    {
+        $fn = function ($request, $next)
+        {
+            return $next($request);
+        };
+
+        $this->dispatcher->push($fn);
+
+        $actual = $this->dispatcher->stack();
+
+        $this->assertCount(1, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_pushing_non_callable_non_middleware_object()
+    {
+        $object = new \stdClass;
+
+        $this->dispatcher->push($object);
+
+        $actual = $this->dispatcher->stack();
+
+        $this->assertInstanceOf('Rougin\Slytherin\Middleware\Wrapper', $actual[0]);
+    }
+
+    /**
      * Processes the defined middleware dispatcher and return its response.
      *
      * @return \Psr\Http\Message\ResponseInterface

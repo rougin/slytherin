@@ -172,6 +172,18 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_getting_attribute_with_default_value()
+    {
+        $expected = 'fallback';
+
+        $actual = $this->request->getAttribute('nonexistent', $expected);
+
+        $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_excluding_a_request_attribute()
     {
         $expected = array('user' => 'John Doe');

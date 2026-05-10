@@ -74,6 +74,36 @@ class ConfigurationTest extends Testcase
     /**
      * @return void
      */
+    public function test_loading_from_empty_directory()
+    {
+        $path = sys_get_temp_dir() . '/slytherin_empty_' . uniqid('', true);
+
+        mkdir($path);
+
+        $config = new Configuration;
+
+        $result = $config->load($path);
+
+        rmdir($path);
+
+        $this->assertEmpty($result);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_setting_value_with_empty_key()
+    {
+        $config = new Configuration;
+
+        $config->set('', 'value');
+
+        $this->assertEmpty($config->get(''));
+    }
+
+    /**
+     * @return void
+     */
     public function test_getting_keyword_as_a_string()
     {
         $data = array('name' => 'John Doe');

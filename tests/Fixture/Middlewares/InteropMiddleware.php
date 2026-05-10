@@ -7,6 +7,9 @@ use Interop\Http\ServerMiddleware\MiddlewareInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
+ * [NOTE] When running the unit test for this fixture,
+ * only use the "0.4.1" version of the "http-interop".
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

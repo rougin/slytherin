@@ -72,10 +72,7 @@ class Configuration
     {
         $items = glob($directory . '/*.php');
 
-        if (! is_array($items))
-        {
-            return $this->data;
-        }
+        $items = is_array($items) ? $items : array();
 
         foreach ($items as $item)
         {
