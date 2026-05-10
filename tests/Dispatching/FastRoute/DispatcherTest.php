@@ -17,7 +17,7 @@ class DispatcherTest extends DispatcherTestCases
     /**
      * @return void
      */
-    public function test_failed_if_bad_method_exception_raised()
+    public function test_failed_if_unmatched_http_method()
     {
         $expect = 'BadMethodCallException';
 

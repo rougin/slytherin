@@ -108,7 +108,7 @@ class ApplicationTest extends Testcase
      *
      * @return void
      */
-    public function test_passed_if_optional_parameter_route_responded()
+    public function test_passed_if_optional_route_responded()
     {
         $expect = 'Hello';
 

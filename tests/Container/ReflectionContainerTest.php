@@ -14,7 +14,7 @@ class ReflectionContainerTest extends Testcase
     /**
      * @var \Psr\Container\ContainerInterface
      */
-    protected $container;
+    protected $self;
 
     /**
      * @return void
@@ -25,11 +25,7 @@ class ReflectionContainerTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to get a non-existent class ---
-        $class = 'Rougin\Slytherin\HelloWorld';
-
-        $this->container->get($class);
-        // ---------------------------------------
+        $this->self->get('Rougin\Slytherin\HelloWorld');
     }
 
     /**
@@ -43,7 +39,7 @@ class ReflectionContainerTest extends Testcase
         $expect = 'With multiple parameters';
 
         /** @var \Rougin\Slytherin\Fixture\Classes\ParameterClass */
-        $object = $this->container->get($class);
+        $object = $this->self->get($class);
 
         $actual = $object->index();
         // ---------------------------------------------------------
@@ -60,13 +56,9 @@ class ReflectionContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
-        // Resolve a class with a constructor parameter ---
-        $actual = $this->container->get($expect);
-        // ------------------------------------------------
+        $actual = $this->self->get($expect);
 
-        // Verify the class was resolved via reflection ---
         $this->assertInstanceOf($expect, $actual);
-        // ------------------------------------------------
     }
 
     /**
@@ -77,7 +69,7 @@ class ReflectionContainerTest extends Testcase
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         // Resolve a simple class via reflection ---
-        $actual = $this->container->get($expect);
+        $actual = $this->self->get($expect);
         // -----------------------------------------
 
         // Verify the class was resolved correctly ---
@@ -92,6 +84,6 @@ class ReflectionContainerTest extends Testcase
     {
         $delegate = new Container;
 
-        $this->container = new ReflectionContainer($delegate);
+        $this->self = new ReflectionContainer($delegate);
     }
 }

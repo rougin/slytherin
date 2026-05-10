@@ -29,14 +29,6 @@ class CollectionTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_components_not_set()
-    {
-        $this->assertFalse($this->components->has(System::TEMPLATE));
-    }
-
-    /**
-     * @return void
-     */
     public function test_passed_if_container_set()
     {
         // Set the container component ----------
@@ -215,6 +207,14 @@ class CollectionTest extends Testcase
 
         $this->assertEquals($expect, $actual);
         // ------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_no_components_set()
+    {
+        $this->assertFalse($this->components->has(System::TEMPLATE));
     }
 
     /**

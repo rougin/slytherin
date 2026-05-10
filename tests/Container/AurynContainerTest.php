@@ -15,7 +15,7 @@ class AurynContainerTest extends Testcase
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface
      */
-    protected $container;
+    protected $self;
 
     /**
      * @return void
@@ -27,7 +27,7 @@ class AurynContainerTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Attempt to get an unregistered class ---
-        $this->container->get('Test');
+        $this->self->get('Test');
         // ----------------------------------------
     }
 
@@ -43,7 +43,7 @@ class AurynContainerTest extends Testcase
         // Attempt to get a non-existent class ---
         $class = 'Rougin\Slytherin\HelloWorld';
 
-        $this->container->get($class);
+        $this->self->get($class);
         // ---------------------------------------
     }
 
@@ -55,11 +55,11 @@ class AurynContainerTest extends Testcase
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         // Set a class instance in the container ---
-        $this->container->set($expect, new $expect);
+        $this->self->set($expect, new $expect);
         // -----------------------------------------
 
         // Verify the instance is retrievable ----
-        $actual = $this->container->get($expect);
+        $actual = $this->self->get($expect);
 
         $this->assertInstanceOf($expect, $actual);
         // ---------------------------------------
@@ -72,12 +72,10 @@ class AurynContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Register the class instance -------------
-        $this->container->set($expect, new $expect);
-        // -----------------------------------------
+        $this->self->set($expect, new $expect);
 
         // Verify the object is of the expected class ---
-        $actual = $this->container->get($expect);
+        $actual = $this->self->get($expect);
 
         $this->assertInstanceOf($expect, $actual);
         // ----------------------------------------------
@@ -90,6 +88,6 @@ class AurynContainerTest extends Testcase
     {
         $this->checkIfAurynExists();
 
-        $this->container = new AurynContainer(new Injector);
+        $this->self = new AurynContainer(new Injector);
     }
 }

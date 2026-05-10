@@ -43,7 +43,7 @@ class DispatcherTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_dispatcher_interface_checked()
+    public function test_passed_if_dispatcher_exists()
     {
         $expect = 'Rougin\Slytherin\Routing\DispatcherInterface';
 

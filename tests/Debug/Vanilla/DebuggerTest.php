@@ -13,23 +13,23 @@ use Rougin\Slytherin\Testcase;
 class DebuggerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Debug\Vanilla\Debugger
-     */
-    protected $debugger;
-
-    /**
      * @var string
      */
     protected $environment = 'production';
 
     /**
+     * @var \Rougin\Slytherin\Debug\Vanilla\Debugger
+     */
+    protected $self;
+
+    /**
      * @return void
      */
-    public function test_passed_if_debugger_instance_checked()
+    public function test_passed_if_debugger_exists()
     {
         $expect = System::DEBUGGER;
 
-        $this->assertInstanceOf($expect, $this->debugger);
+        $this->assertInstanceOf($expect, $this->self);
     }
 
     /**
@@ -40,11 +40,11 @@ class DebuggerTest extends Testcase
         // Set the environment on the debugger ---
         $expect = $this->environment;
 
-        $this->debugger->setEnvironment($expect);
+        $this->self->setEnvironment($expect);
         // ---------------------------------------
 
         // Verify the environment was stored correctly ---
-        $actual = $this->debugger->getEnvironment();
+        $actual = $this->self->getEnvironment();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -56,7 +56,7 @@ class DebuggerTest extends Testcase
     public function test_passed_if_error_reporting_displayed()
     {
         // Activate the debugger display ---
-        $this->debugger->display();
+        $this->self->display();
         // --------------------------------
 
         // Verify error reporting is set to E_ALL ---
@@ -73,6 +73,6 @@ class DebuggerTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->debugger = new Debugger;
+        $this->self = new Debugger;
     }
 }

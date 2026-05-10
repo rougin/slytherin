@@ -15,30 +15,6 @@ class RouterTest extends RouterTestCases
     /**
      * @return void
      */
-    public function test_passed_if_existing_route_checked()
-    {
-        // Add a route to the router ----
-        $route = $this->routes[0];
-
-        $handler = $route->getHandler();
-
-        $uri = $route->getUri();
-
-        $method = $route->getMethod();
-
-        $this->self->get($uri, $handler);
-        // ------------------------------
-
-        // Verify the route exists ---------------
-        $exists = $this->self->has($method, $uri);
-
-        $this->assertTrue($exists);
-        // ---------------------------------------
-    }
-
-    /**
-     * @return void
-     */
     public function test_passed_if_parsed_routes_retrieved()
     {
         $this->assertNull($this->self->parsed());
@@ -93,6 +69,30 @@ class RouterTest extends RouterTestCases
 
         $this->assertEquals($expect, $actual);
         // -------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_route_found()
+    {
+        // Add a route to the router ----
+        $route = $this->routes[0];
+
+        $handler = $route->getHandler();
+
+        $uri = $route->getUri();
+
+        $method = $route->getMethod();
+
+        $this->self->get($uri, $handler);
+        // ------------------------------
+
+        // Verify the route exists ---------------
+        $exists = $this->self->has($method, $uri);
+
+        $this->assertTrue($exists);
+        // ---------------------------------------
     }
 
     /**

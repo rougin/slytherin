@@ -157,7 +157,7 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_port_set()
+    public function test_passed_if_port_updated()
     {
         // Set the port on the URI --------
         $expect = 500;
@@ -225,7 +225,7 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_user_info_set()
+    public function test_passed_if_user_info_updated()
     {
         // Set the user info on the URI ---
         $expect = 'username:password';

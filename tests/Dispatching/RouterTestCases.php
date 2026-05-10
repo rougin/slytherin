@@ -60,7 +60,7 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_router_interface_checked()
+    public function test_passed_if_router_exists()
     {
         $expect = 'Rougin\Slytherin\Routing\RouterInterface';
 

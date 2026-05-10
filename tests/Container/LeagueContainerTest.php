@@ -14,7 +14,7 @@ class LeagueContainerTest extends Testcase
     /**
      * @var \Rougin\Slytherin\Container\LeagueContainer
      */
-    protected $container;
+    protected $self;
 
     /**
      * @return void
@@ -25,11 +25,7 @@ class LeagueContainerTest extends Testcase
 
         $this->doSetExpectedException($expect);
 
-        // Attempt to get a non-existent class ---
-        $class = 'Rougin\Slytherin\HelloWorld';
-
-        $this->container->get($class);
-        // ---------------------------------------
+        $this->self->get('Rougin\Slytherin\HelloWorld');
     }
 
     /**
@@ -39,13 +35,9 @@ class LeagueContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Set a class instance in the container ---
-        $this->container->set($class, new $class);
-        // -----------------------------------------
+        $this->self->set($class, new $class);
 
-        // Verify the instance is available -------------
-        $this->assertTrue($this->container->has($class));
-        // ----------------------------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -55,12 +47,12 @@ class LeagueContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Register the class as a shared instance -------
-        $this->container->set($expect, new $expect, true);
-        // -----------------------------------------------
+        // Register the class as a shared instance --
+        $this->self->set($expect, new $expect, true);
+        // ------------------------------------------
 
         // Verify the object is of the expected class ---
-        $actual = $this->container->get($expect);
+        $actual = $this->self->get($expect);
 
         $this->assertInstanceOf($expect, $actual);
         // ----------------------------------------------
@@ -73,6 +65,6 @@ class LeagueContainerTest extends Testcase
     {
         $this->checkIfLeagueExists();
 
-        $this->container = new LeagueContainer;
+        $this->self = new LeagueContainer;
     }
 }

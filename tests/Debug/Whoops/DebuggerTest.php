@@ -14,14 +14,14 @@ use Whoops\Handler\PrettyPageHandler;
 class DebuggerTest extends Testcase
 {
     /**
-     * @var \Rougin\Slytherin\Debug\Whoops\Debugger
-     */
-    protected $debugger;
-
-    /**
      * @var string
      */
     protected $environment = 'production';
+
+    /**
+     * @var \Rougin\Slytherin\Debug\Whoops\Debugger
+     */
+    protected $self;
 
     /**
      * @return void
@@ -34,9 +34,9 @@ class DebuggerTest extends Testcase
             return 'Hello';
         };
 
-        $this->debugger->setHandler($fn);
+        $this->self->setHandler($fn);
 
-        $handlers = $this->debugger->getHandlers();
+        $handlers = $this->self->getHandlers();
         // ----------------------------------------
 
         /** @var class-string<\Whoops\Handler\CallbackHandler> */
@@ -52,11 +52,11 @@ class DebuggerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_debugger_instance_checked()
+    public function test_passed_if_debugger_exists()
     {
         $expect = System::DEBUGGER;
 
-        $this->assertInstanceOf($expect, $this->debugger);
+        $this->assertInstanceOf($expect, $this->self);
     }
 
     /**
@@ -67,11 +67,11 @@ class DebuggerTest extends Testcase
         // Set the environment on the debugger ---
         $expect = $this->environment;
 
-        $this->debugger->setEnvironment($expect);
+        $this->self->setEnvironment($expect);
         // ---------------------------------------
 
         // Verify the environment was stored correctly ---
-        $actual = $this->debugger->getEnvironment();
+        $actual = $this->self->getEnvironment();
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
@@ -85,7 +85,7 @@ class DebuggerTest extends Testcase
     public function test_passed_if_error_reporting_displayed()
     {
         // Activate the Whoops debugger display ---
-        $this->debugger->display();
+        $this->self->display();
         // ---------------------------------------
 
         // Verify error reporting is set to E_ALL ---
@@ -110,9 +110,9 @@ class DebuggerTest extends Testcase
     public function test_passed_if_pretty_page_handler_set()
     {
         // Set a PrettyPageHandler on the debugger --------
-        $this->debugger->setHandler(new PrettyPageHandler);
+        $this->self->setHandler(new PrettyPageHandler);
 
-        $handlers = $this->debugger->getHandlers();
+        $handlers = $this->self->getHandlers();
         // ------------------------------------------------
 
         /** @var class-string<\Whoops\Handler\PrettyPageHandler> */
@@ -132,6 +132,6 @@ class DebuggerTest extends Testcase
     {
         $this->checkIfWhoopsExists();
 
-        $this->debugger = new Debugger(new \Whoops\Run);
+        $this->self = new Debugger(new \Whoops\Run);
     }
 }

@@ -14,7 +14,7 @@ class ContainerTest extends Testcase
     /**
      * @var \Rougin\Slytherin\Container\Container
      */
-    protected $container;
+    protected $self;
 
     /**
      * @return void
@@ -26,11 +26,11 @@ class ContainerTest extends Testcase
         $this->doSetExpectedException($expect);
 
         // Set a non-class value as an instance ---
-        $this->container->set('Test', array());
+        $this->self->set('Test', array());
         // ----------------------------------------
 
         // Attempt to retrieve the invalid entry ---
-        $this->container->get('Test');
+        $this->self->get('Test');
         // -----------------------------------------
     }
 
@@ -46,7 +46,7 @@ class ContainerTest extends Testcase
         // Attempt to get a non-existent class ---
         $class = 'Rougin\Slytherin\HelloWorld';
 
-        $this->container->get($class);
+        $this->self->get($class);
         // ---------------------------------------
     }
 
@@ -58,14 +58,14 @@ class ContainerTest extends Testcase
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
         // Register a class and create an alias ---
-        $this->container->set($class, new $class);
+        $this->self->set($class, new $class);
 
-        $this->container->alias('test', $class);
+        $this->self->alias('test', $class);
         // ----------------------------------------
 
-        // Verify the alias resolves to the class -------
-        $this->assertTrue($this->container->has('test'));
-        // ----------------------------------------------
+        // Verify the alias resolves to the class ---
+        $this->assertTrue($this->self->has('test'));
+        // ------------------------------------------
     }
 
     /**
@@ -75,13 +75,9 @@ class ContainerTest extends Testcase
     {
         $class = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Set a class instance in the container ---
-        $this->container->set($class, new $class);
-        // -----------------------------------------
+        $this->self->set($class, new $class);
 
-        // Verify the instance is available -------------
-        $this->assertTrue($this->container->has($class));
-        // ----------------------------------------------
+        $this->assertTrue($this->self->has($class));
     }
 
     /**
@@ -91,12 +87,10 @@ class ContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
-        // Register the class instance -------------
-        $this->container->set($expect, new $expect);
-        // -----------------------------------------
+        $this->self->set($expect, new $expect);
 
         // Verify the object is of the expected class ---
-        $actual = $this->container->get($expect);
+        $actual = $this->self->get($expect);
 
         $this->assertInstanceOf($expect, $actual);
         // ----------------------------------------------
@@ -107,6 +101,6 @@ class ContainerTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->container = new Container;
+        $this->self = new Container;
     }
 }

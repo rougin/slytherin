@@ -24,7 +24,25 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
-    public function test_failed_if_stream_content_readable()
+    public function test_failed_if_stream_is_closed()
+    {
+        $expect = 'RuntimeException';
+
+        $this->doSetExpectedException($expect);
+
+        // Close the stream first ---
+        $this->self->close();
+        // --------------------------
+
+        // Attempt to read after closing ---
+        $this->self->getContents();
+        // ---------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_stream_not_readable()
     {
         $expect = 'RuntimeException';
 
@@ -40,24 +58,6 @@ class StreamTest extends Testcase
         // Attempt to read from a non-readable stream ---
         echo $self->getContents();
         // ----------------------------------------------
-    }
-
-    /**
-     * @return void
-     */
-    public function test_failed_if_stream_is_closed()
-    {
-        $expect = 'RuntimeException';
-
-        $this->doSetExpectedException($expect);
-
-        // Close the stream first ---
-        $this->self->close();
-        // --------------------------
-
-        // Attempt to read after closing ---
-        $this->self->getContents();
-        // ---------------------------------
     }
 
     /**
@@ -131,7 +131,7 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_empty_stream_size_null()
+    public function test_passed_if_empty_stream_has_null_size()
     {
         // Create an empty stream ---
         $self = new Stream;
