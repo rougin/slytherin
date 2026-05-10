@@ -83,6 +83,7 @@ class RouterTest extends Testcase
      */
     public function test_getting_parsed_routes()
     {
+        /** @var class-string<\Phroute\Phroute\RouteDataArray> */
         $expected = 'Phroute\Phroute\RouteDataArray';
 
         $this->router = new Router;

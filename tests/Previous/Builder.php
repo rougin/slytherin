@@ -9,6 +9,7 @@ use Rougin\Slytherin\ErrorHandler\Whoops;
 use Rougin\Slytherin\Http\Uri;
 use Rougin\Slytherin\IoC\Auryn;
 use Rougin\Slytherin\Middleware\StratigilityMiddleware;
+use Rougin\Slytherin\System;
 use Rougin\Slytherin\Template\Twig;
 use Twig_Environment;
 use Twig_Loader_Filesystem;
@@ -26,42 +27,61 @@ class Builder
     /**
      * @var \Rougin\Slytherin\ComponentCollection
      */
-    protected $collection;
+    protected $collect;
 
-    public function __construct()
+    /**
+     * @var string|null
+     */
+    protected $method = null;
+
+    /**
+     * @var string|null
+     */
+    protected $uri = null;
+
+    /**
+     * @return \Rougin\Slytherin\Application
+     */
+    public function make()
     {
-        $this->collection = new ComponentCollection;
+        $this->collect = new ComponentCollection;
+
+        // Initialize the container interface ---
+        $this->setContainer();
+        // --------------------------------------
+
+        // Initialize the debugger interface ---
+        $this->setDebugger();
+        // -------------------------------------
+
+        // Initialize the HTTP interfaces ---
+        $this->setHttp();
+        // ----------------------------------
+
+        // Initialize the routing dispatcher interface ---
+        $this->setRouting();
+        // -----------------------------------------------
+
+        // Initialize the middleware ---
+        $this->setMiddleware();
+        // -----------------------------
+
+        return new Application($this->collect);
     }
 
     /**
      * @param string $method
      * @param string $uri
      *
-     * @return \Rougin\Slytherin\Application
+     * @return self
      */
-    public function make($method = null, $uri = null)
+    public function set($method, $uri)
     {
-        // Initialize the DependencyInjectorInterface ---
-        $this->setContainer();
-        // ----------------------------------------------
+        $this->method = $method;
 
-        // Initialize the ErrorHandlerInterface ---
-        $this->setDebugger();
-        // ----------------------------------------
+        $this->method = $uri;
 
-        // Initialize the ServerRequestInterface and ResponseInterface ---
-        $this->setHttp($method, $uri);
-        // ---------------------------------------------------------------
-
-        // Initialize the routing dispatcher interface -----
-        $this->setRouting();
-        // -------------------------------------------------
-
-        // Initialize the middleware ---
-        $this->setMiddleware();
-        // -----------------------------
-
-        return new Application($this->collection);
+        return $this;
     }
 
     /**
@@ -69,21 +89,25 @@ class Builder
      */
     protected function setContainer()
     {
-        // Initialize the RendererInterface ----------------------
-        $views = realpath(__DIR__ . '/Plates');
+        // Initialize the RendererInterface ------------
+        $views = __DIR__ . '/Plates';
+
         $loader = new Twig_Loader_Filesystem($views);
+
         $twig = new Twig(new Twig_Environment($loader));
-        $renderer = 'Rougin\Slytherin\Template\RendererInterface';
-        // -------------------------------------------------------
+
+        $renderer = System::TEMPLATE;
+        // ---------------------------------------------
 
         $auryn = new Auryn(new \Auryn\Injector);
 
         // Create an alias for the RendererInterface ---
         $auryn->share($twig);
+
         $auryn->alias($renderer, get_class($twig));
         // ---------------------------------------------
 
-        $this->collection->setDependencyInjector($auryn);
+        $this->collect->setDependencyInjector($auryn);
 
         return $this;
     }
@@ -95,22 +119,21 @@ class Builder
     {
         $whoops = new Whoops;
 
-        $this->collection->setErrorHandler($whoops);
+        $this->collect->setErrorHandler($whoops);
 
         return $this;
     }
 
     /**
-     * @param string $method
-     * @param string $uri
-     *
      * @return self
      */
-    protected function setHttp($method = null, $uri = null)
+    protected function setHttp()
     {
         $request = ServerRequestFactory::fromGlobals();
 
-        if ($method && $uri)
+        $method = $this->method;
+
+        if ($method && $uri = $this->uri)
         {
             $uri = new Uri('http://localhost:8000' . $uri);
 
@@ -121,7 +144,7 @@ class Builder
 
         $response = new Response;
 
-        $this->collection->setHttp($request, $response);
+        $this->collect->setHttp($request, $response);
 
         return $this;
     }
@@ -135,7 +158,7 @@ class Builder
 
         $middleware = new StratigilityMiddleware($pipe);
 
-        $this->collection->setMiddleware($middleware);
+        $this->collect->setMiddleware($middleware);
 
         return $this;
     }
@@ -151,7 +174,7 @@ class Builder
 
         $dispatcher = new Dispatcher($router);
 
-        $this->collection->setDispatcher($dispatcher);
+        $this->collect->setDispatcher($dispatcher);
 
         return $this;
     }

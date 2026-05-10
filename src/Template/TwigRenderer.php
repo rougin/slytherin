@@ -17,13 +17,13 @@ namespace Rougin\Slytherin\Template;
 class TwigRenderer implements RendererInterface
 {
     /**
-     * @var \Twig\Environment
+     * @var \Twig\Environment|\Twig_Environment
      */
     protected $twig;
 
     /**
-     * @param \Twig\Environment     $twig
-     * @param array<string, string> $globals (NOTE: To be removed in v1.0.0).
+     * @param \Twig\Environment|\Twig_Environment $twig
+     * @param array<string, string>               $globals (NOTE: To be removed in v1.0.0).
      */
     public function __construct($twig, array $globals = array())
     {

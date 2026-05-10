@@ -61,6 +61,7 @@ class DebuggerTest extends Testcase
 
         $handlers = $this->debugger->getHandlers();
 
+        /** @var class-string<\Whoops\Handler\PrettyPageHandler> */
         $expected = 'Whoops\Handler\PrettyPageHandler';
 
         $actual = $handlers[0];
@@ -82,6 +83,7 @@ class DebuggerTest extends Testcase
 
         $handlers = $this->debugger->getHandlers();
 
+        /** @var class-string<\Whoops\Handler\CallbackHandler> */
         $expected = 'Whoops\Handler\CallbackHandler';
 
         $actual = $handlers[0];
