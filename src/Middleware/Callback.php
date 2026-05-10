@@ -55,6 +55,15 @@ class Callback implements MiddlewareInterface
             $middleware = new $middleware;
         }
 
+        // [TODO] Add unit test for this condition -----
+        if (! is_callable($middleware))
+        {
+            $text = 'Middleware might not be callable.';
+
+            throw new \Exception($text);
+        }
+        // ---------------------------------------------
+
         if ($this->isSinglePass($middleware))
         {
             return $middleware($request, $handler);

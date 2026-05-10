@@ -44,7 +44,7 @@ class Router implements RouterInterface
             // Add it directly to list of routes if it's already a RouteInterface ---
             if ($route instanceof RouteInterface)
             {
-                array_push($this->routes, $route);
+                $this->routes[] = $route;
 
                 continue;
             }
@@ -93,7 +93,7 @@ class Router implements RouterInterface
             $handler = explode('@', $handler);
         }
 
-        if (is_array($handler))
+        if (is_array($handler) && is_string($handler[0]))
         {
             $handler[0] = $this->namespace . $handler[0];
         }
@@ -105,7 +105,7 @@ class Router implements RouterInterface
 
         $route = new Route($method, $uri, $handler, $middlewares);
 
-        array_push($this->routes, $route);
+        $this->routes[] = $route;
 
         return $this;
     }

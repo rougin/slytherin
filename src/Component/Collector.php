@@ -34,7 +34,7 @@ class Collector
                 $item = new $item;
             }
 
-            array_push($this->items, $item);
+            $this->items[] = $item;
         }
     }
 

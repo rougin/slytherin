@@ -36,22 +36,24 @@ class TwigLoader
         $loader = 'Twig_Loader_Filesystem';
 
         /** @var class-string */
-        $environment = 'Twig_Environment';
+        $env = 'Twig_Environment';
 
         if (class_exists('Twig\Environment'))
         {
+            /** @var class-string<\Twig\Loader\FilesystemLoader> */
             $loader = 'Twig\Loader\FilesystemLoader';
 
-            $environment = 'Twig\Environment';
+            /** @var class-string<\Twig\Environment> */
+            $env = 'Twig\Environment';
         }
 
         $loader = new \ReflectionClass($loader);
 
         $loader = $loader->newInstance($path);
 
-        $environment = new \ReflectionClass($environment);
+        $env = new \ReflectionClass($env);
 
         /** @var \Twig\Environment */
-        return $environment->newInstance($loader);
+        return $env->newInstance($loader);
     }
 }

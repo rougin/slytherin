@@ -35,9 +35,10 @@ class RoutingIntegration implements IntegrationInterface
     {
         $router = new Router;
 
-        $dispatcher = new Dispatcher($router);
-
+        /** @var \Rougin\Slytherin\Routing\RouterInterface */
         $router = $config->get('app.router', $router);
+
+        $dispatcher = new Dispatcher($router);
 
         if ($this->wants('fastroute'))
         {

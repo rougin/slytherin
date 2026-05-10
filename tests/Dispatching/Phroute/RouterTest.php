@@ -40,7 +40,7 @@ class RouterTest extends Testcase
 
         $route = new Route('GET', '/', $class . '@index');
 
-        array_push($this->routes, $route);
+        $this->routes[] = $route;
         // --------------------------------------------------
 
         $this->router = new Router;

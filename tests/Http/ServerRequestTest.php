@@ -146,26 +146,28 @@ class ServerRequestTest extends Testcase
      */
     public function test_getting_the_uploaded_files_with_a_single_uploaded_file()
     {
-        $_SERVER['REQUEST_METHOD'] = 'GET';
-        $_SERVER['REQUEST_URI'] = '/';
-        $_SERVER['SERVER_NAME'] = 'localhost';
-        $_SERVER['SERVER_PORT'] = '8000';
+        $server = array('REQUEST_URI' => '/');
+        $server['REQUEST_METHOD'] = 'GET';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
 
         $uploaded = array('file' => array());
 
-        $uploaded['file']['error'] = '0';
-        $uploaded['file']['name'] = 'test.txt';
-        $uploaded['file']['size'] = '617369';
-        $uploaded['file']['tmp_name'] = '/tmp/test.txt';
-        $uploaded['file']['type'] = 'application/pdf';
+        // Define the sample file ---
+        $error = 0;
+        $file = '/tmp/test.txt';
+        $name = 'test.txt';
+        $size = 617369;
+        $type = 'application/pdf';
+        // --------------------------
 
-        $request = new ServerRequest($_SERVER, array(), array(), $uploaded);
+        $uploaded['file']['error'] = $error;
+        $uploaded['file']['name'] = $name;
+        $uploaded['file']['size'] = $size;
+        $uploaded['file']['tmp_name'] = $file;
+        $uploaded['file']['type'] = $type;
 
-        $error = $uploaded['file']['error'];
-        $file = $uploaded['file']['tmp_name'];
-        $name = $uploaded['file']['name'];
-        $size = $uploaded['file']['size'];
-        $type = $uploaded['file']['type'];
+        $request = new ServerRequest($server, array(), array(), $uploaded);
 
         $uploaded = new UploadedFile($file, $size, $error, $name, $type);
 

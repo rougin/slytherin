@@ -76,9 +76,7 @@ class Dispatcher implements DispatcherInterface
     {
         if (! is_array($middleware))
         {
-            $item = $this->transform($middleware);
-
-            array_push($this->stack, $item);
+            $this->stack[] = $this->transform($middleware);
 
             return $this;
         }

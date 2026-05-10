@@ -27,6 +27,8 @@ class Dispatcher implements DispatcherInterface
      * Initializes the route dispatcher instance.
      *
      * @param \Rougin\Slytherin\Routing\RouterInterface $router
+     *
+     * @todo Remove "$router" as parameter in "Dispatcher"
      */
     public function __construct($router)
     {

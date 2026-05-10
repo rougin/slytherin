@@ -310,10 +310,11 @@ class SampleTest extends Testcase
      */
     public function test_uploaded_file_from_request()
     {
-        /** @var string */
-        $file = realpath(__DIR__ . '/EMDAER.txt');
+        // Add a sample file to the builder ----
+        $file = __DIR__ . '/EMDAER.txt';
 
         $this->builder->addFile('files', $file);
+        // -------------------------------------
 
         $this->builder->addPackage(new SamplePackage);
 
