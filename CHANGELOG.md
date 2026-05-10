@@ -6,6 +6,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Changed
 - Do not override `System` implementations if already defined from `ContainerInterface`
+- Code structure of the test suite (e.g., renamed test cases)
 
 ### Fixed
 - [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
