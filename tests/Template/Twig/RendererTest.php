@@ -61,11 +61,9 @@ class RendererTest extends Testcase
         $expect = 'This is a text from a template.';
 
         // Render the Twig template using globals -----
-        $globals = array('name' => 'template');
+        $self = new Renderer($this->twig);
 
-        $self = new Renderer($this->twig, $globals);
-
-        $self->addGlobal('test', 'wew');
+        $self->addGlobal('name', 'template');
 
         $actual = $self->render('test-with-twig-data');
         // --------------------------------------------
