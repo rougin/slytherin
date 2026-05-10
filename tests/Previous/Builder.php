@@ -73,15 +73,15 @@ class Builder
      * @param string $method
      * @param string $uri
      *
-     * @return self
+     * @return \Rougin\Slytherin\Application
      */
     public function set($method, $uri)
     {
         $this->method = $method;
 
-        $this->method = $uri;
+        $this->uri = $uri;
 
-        return $this;
+        return $this->make();
     }
 
     /**

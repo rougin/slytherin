@@ -55,9 +55,7 @@ class PreviousTest extends Testcase
     {
         $this->expectOutputString('Hello world!');
 
-        $this->builder->set('GET', '/');
-
-        $this->builder->make()->run();
+        $this->builder->set('GET', '/')->run();
     }
 
     /**
@@ -69,9 +67,7 @@ class PreviousTest extends Testcase
     {
         $this->expectOutputString('Hello Rougin!');
 
-        $this->builder->set('GET', '/hi/Rougin');
-
-        $this->builder->make()->run();
+        $this->builder->set('GET', '/hi/Rougin')->run();
     }
 
     /**
@@ -83,8 +79,6 @@ class PreviousTest extends Testcase
     {
         $this->expectOutputString('Hello from middleware');
 
-        $this->builder->set('GET', '/hello');
-
-        $this->builder->make()->run();
+        $this->builder->set('GET', '/hello')->run();
     }
 }
