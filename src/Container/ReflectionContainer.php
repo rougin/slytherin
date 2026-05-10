@@ -109,14 +109,9 @@ class ReflectionContainer implements PsrContainer
      */
     public function has($id)
     {
-        $fromContainer = false;
+        $inContainer = $this->container->has($id);
 
-        if ($this->container)
-        {
-            $fromContainer = $this->container->has($id);
-        }
-
-        return class_exists($id) || $fromContainer;
+        return class_exists($id) || $inContainer;
     }
 
     /**

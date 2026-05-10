@@ -1,6 +1,7 @@
 .gemini
 .php-cs-fixer.cache
 .phpunit.result.cache
+AGENTS.md
 build
 composer.lock
 docs

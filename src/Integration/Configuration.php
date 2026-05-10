@@ -44,13 +44,14 @@ class Configuration
      */
     public function get($key, $default = null)
     {
+        $data = $this->data;
+
         $keys = array_filter(explode('.', $key));
 
-        $data = $this->data;
+        $keys = array_values($keys);
 
         for ($i = 0; $i < count($keys); $i++)
         {
-            /** @var string */
             $index = $keys[$i];
 
             /** @phpstan-ignore-next-line */
@@ -69,18 +70,24 @@ class Configuration
      */
     public function load($directory)
     {
-        /** @var array<integer, string> */
-        $configurations = glob($directory . '/*.php');
+        $items = glob($directory . '/*.php');
 
-        foreach ($configurations as $item)
+        if (! is_array($items))
         {
-            $items = require $item;
+            return $this->data;
+        }
 
+        foreach ($items as $item)
+        {
             $name = basename($item, '.php');
+
+            $items = require $item;
 
             $name = array($name => $items);
 
-            $this->data = array_merge($this->data, $name);
+            $data = array_merge($this->data, $name);
+
+            $this->data = $data;
         }
 
         return $this->data;
@@ -99,6 +106,8 @@ class Configuration
     {
         $keys = array_filter(explode('.', $key));
 
+        $keys = array_values($keys);
+
         $value = $fromFile ? require $value : $value;
 
         $this->save($keys, $this->data, $value);
@@ -109,7 +118,7 @@ class Configuration
     /**
      * Saves the specified key in the list of data.
      *
-     * @param array<string, mixed> &$keys
+     * @param string[]             &$keys
      * @param array<string, mixed> &$data
      * @param mixed                $value
      *
@@ -118,6 +127,11 @@ class Configuration
     protected function save(array &$keys, &$data, $value)
     {
         $key = array_shift($keys);
+
+        if ($key === null)
+        {
+            return;
+        }
 
         if (empty($keys))
         {
@@ -131,6 +145,7 @@ class Configuration
             $data[$key] = array();
         }
 
+        /** @phpstan-ignore argument.type */
         return $this->save($keys, $data[$key], $value);
     }
 }

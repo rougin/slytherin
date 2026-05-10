@@ -6,6 +6,8 @@ parameters:
   excludePaths:
     analyse:
       - src/Container/LeagueContainer.php
+      - src/IoC/LeagueContainer.php
+      - src/IoC/League/Container.php
       - src/Middleware/Handlers
       - src/Middleware/Interop.php
       - src/Routing/PhrouteResolver.php
@@ -88,3 +90,4 @@ parameters:
     - '#^Call to static method fromGlobals\(\) on an unknown class Zend\\Diactoros\\ServerRequestFactory\.$#'
     - '#^Parameter \#2 \$response of method Rougin\\Slytherin\\Component\\Collection\:\:setHttp\(\) expects Psr\\Http\\Message\\ResponseInterface, Zend\\Diactoros\\Response given\.$#'
     - '#^Instantiated class Zend\\Stratigility\\MiddlewarePipe not found\.$#'
+    - '#^Parameter \#1 \$callback of function call_user_func expects callable\(\): mixed, array\{ReflectionType, ''isBuiltin''\} given\.$#'

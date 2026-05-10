@@ -103,6 +103,7 @@ class Router implements RouterInterface
             $middlewares = array($middlewares);
         }
 
+        /** @var callable|string[] $handler */
         $route = new Route($method, $uri, $handler, $middlewares);
 
         $this->routes[] = $route;
