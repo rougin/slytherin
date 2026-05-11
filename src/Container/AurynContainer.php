@@ -13,7 +13,7 @@ Interop::register('AurynContainer');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class AurynContainer extends PsrAurynContainer
+class AurynContainer extends PsrAurynContainer implements ContainerInterface
 {
     /**
      * @param \Auryn\Injector $injector

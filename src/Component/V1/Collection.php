@@ -2,8 +2,6 @@
 
 namespace Rougin\Slytherin\Component\V1;
 
-use Rougin\Slytherin\Container\ContainerInterface;
-
 /**
  * Contains all the required components for Slytherin.
  *
@@ -11,7 +9,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Collection implements ContainerInterface
+class Collection
 {
     /**
      * @var \Rougin\Slytherin\Container\ContainerInterface

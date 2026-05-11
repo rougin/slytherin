@@ -23,7 +23,7 @@ Interop::register('Collection');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Collection extends PsrCollection
+class Collection extends PsrCollection implements ContainerInterface
 {
     public function __construct()
     {

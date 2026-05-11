@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Container\V1;
 
 use League\Container\Container as League;
-use Rougin\Slytherin\Container\ContainerInterface;
 
 /**
  * A simple implementation of a container that is based on League\Container.
@@ -14,7 +13,7 @@ use Rougin\Slytherin\Container\ContainerInterface;
  *
  * @link https://container.thephpleague.com
  */
-class LeagueContainer extends League implements ContainerInterface
+class LeagueContainer extends League
 {
     /**
      * Sets a new instance to the container.

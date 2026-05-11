@@ -9,6 +9,6 @@ Interop::register('LeagueContainer');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class LeagueContainer extends PsrLeagueContainer
+class LeagueContainer extends PsrLeagueContainer implements ContainerInterface
 {
 }

@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Psr\Container\ContainerInterface;
+
 Interop::register('ReflectionContainer');
 
 /**
@@ -12,7 +14,7 @@ Interop::register('ReflectionContainer');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer extends PsrReflectionContainer
+class ReflectionContainer extends PsrReflectionContainer implements ContainerInterface
 {
     /**
      * @param \Psr\Container\ContainerInterface $container

@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Container\V2;
 
-use Psr\Container\ContainerInterface as PsrContainer;
 use Rougin\Slytherin\Container\Exception\NotFoundException;
 use Rougin\Slytherin\Container\Parameter;
 
@@ -13,7 +12,7 @@ use Rougin\Slytherin\Container\Parameter;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class ReflectionContainer implements PsrContainer
+class ReflectionContainer
 {
     /**
      * @var \Psr\Container\ContainerInterface

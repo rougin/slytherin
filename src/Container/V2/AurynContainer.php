@@ -3,7 +3,6 @@
 namespace Rougin\Slytherin\Container\V2;
 
 use Auryn\Injector;
-use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Container\Exception\NotFoundException;
 
 /**
@@ -21,7 +20,7 @@ use Rougin\Slytherin\Container\Exception\NotFoundException;
  * @method alias($original, $alias)
  * @method share($nameOrInstance)
  */
-class AurynContainer implements ContainerInterface
+class AurynContainer
 {
     /**
      * @var array<string, boolean>

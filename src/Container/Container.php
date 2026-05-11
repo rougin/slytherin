@@ -13,7 +13,7 @@ Interop::register('Container');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Container extends PsrContainer
+class Container extends PsrContainer implements ContainerInterface
 {
     /**
      * Initializes the container instance.

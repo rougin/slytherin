@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Container\V2;
 
-use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Container\Exception\ContainerException;
 use Rougin\Slytherin\Container\Exception\NotFoundException;
 
@@ -13,7 +12,7 @@ use Rougin\Slytherin\Container\Exception\NotFoundException;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Container implements ContainerInterface
+class Container
 {
     /**
      * @var array<string, mixed>
