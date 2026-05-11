@@ -12,8 +12,6 @@ use Zend\Diactoros\Response as ZendResponse;
 use Zend\Diactoros\ServerRequestFactory;
 
 /**
- * HTTP Integration
- *
  * An integration for Slytherin's simple HTTP package.
  *
  * @package Slytherin

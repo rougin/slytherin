@@ -14,8 +14,6 @@ namespace Rougin\Slytherin\Http\V2;
 use Psr\Http\Message\StreamInterface;
 
 /**
- * Stream
- *
  * @package Slytherin
  *
  * @author Kévin Dunglas <dunglas@gmail.com>

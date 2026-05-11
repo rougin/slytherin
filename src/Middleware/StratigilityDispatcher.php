@@ -8,9 +8,8 @@ use Rougin\Slytherin\Http\Response;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
- * Stratigility Dispatcher
- *
- * A simple implementation of middleware dispatcher that is built on top of Zend's Stratigility.
+ * An implementation of a middleware dispatcher
+ * based on "Stratigility" package by Zend.
  *
  * @package Slytherin
  *

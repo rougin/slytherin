@@ -6,8 +6,6 @@ use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
 
 /**
- * Component Collector
- *
  * Collects all defined components into a Collection.
  *
  * @package Slytherin

@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Phroute Wrapper
- *
  * A simple class wrapper for resolving routes in Phroute.
  *
  * @package Slytherin

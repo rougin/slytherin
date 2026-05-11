@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Router Interface
- *
  * An interface for handling third-party routers.
  *
  * @package Slytherin

@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Route
- *
  * A simple class for handling routes.
  *
  * @package Slytherin

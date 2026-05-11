@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Handler Interface
- *
  * An interface for handling delegate instances.
  *
  * @package Slytherin

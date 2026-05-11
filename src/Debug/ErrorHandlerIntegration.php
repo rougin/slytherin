@@ -8,9 +8,8 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\System;
 
 /**
- * Error Handler Integration
- *
- * An integration for defined error handlers to be included in Slytherin.
+ * An integration for the third-party error handlers
+ * that can be used for handling errors in Slytherin.
  *
  * @package Slytherin
  *

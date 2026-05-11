@@ -7,8 +7,6 @@ use Rougin\Slytherin\Debug\VanillaErrorHandler;
 /**
  * @deprecated since ~0.9, use "VanillaErrorHandler" instead.
  *
- * Debugger
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

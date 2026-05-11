@@ -7,9 +7,7 @@ use FastRoute\RouteCollector;
 use FastRoute\RouteParser\Std;
 
 /**
- * FastRoute Router
- *
- * A simple implementation of router that is built on top of FastRoute.
+ * A router built on top of "FastRoute".
  *
  * @package Slytherin
  *

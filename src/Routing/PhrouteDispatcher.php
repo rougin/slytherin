@@ -7,9 +7,7 @@ use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\RouteDataArray;
 
 /**
- * Phroute Dispatcher
- *
- * A simple implementation of dispatcher that is built on top of Phroute.
+ * A route dispatcher built on top of Phroute.
  *
  * @package Slytherin
  *

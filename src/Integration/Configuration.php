@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Integration;
 
 /**
- * Configuration
- *
  * Serves as a storage for configuration data.
  *
  * @package Slytherin

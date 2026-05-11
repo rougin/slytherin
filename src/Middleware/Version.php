@@ -3,9 +3,7 @@
 namespace Rougin\Slytherin\Middleware;
 
 /**
- * Version
- *
- * A simple class for getting the current installed version of "http-interop".
+ * Gets the installed version of a PSR-15 package.
  *
  * @package Slytherin
  *

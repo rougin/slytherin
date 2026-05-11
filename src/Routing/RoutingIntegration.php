@@ -8,8 +8,6 @@ use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\System;
 
 /**
- * Routing Integration
- *
  * An integration for Slytherin's Routing packages.
  *
  * @package Slytherin

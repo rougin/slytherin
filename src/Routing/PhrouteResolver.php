@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Routing;
 use Phroute\Phroute\HandlerResolverInterface;
 
 /**
- * Phroute Resolver
- *
  * A handler resolver that wraps the route as the result.
  *
  * @package Slytherin

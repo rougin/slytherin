@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Template;
 
 /**
- * Renderer
- *
  * A simple implementation of a template renderer.
  *
  * @package Slytherin

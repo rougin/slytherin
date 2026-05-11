@@ -16,8 +16,6 @@ use Rougin\Slytherin\Http\Stream as HttpStream;
 use Rougin\Slytherin\Http\UploadedFile as HttpUploadedFile;
 
 /**
- * Uploaded File
- *
  * @package Slytherin
  *
  * @author Kévin Dunglas <dunglas@gmail.com>

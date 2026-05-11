@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Template;
 
 /**
- * Twig Loader
- *
  * A backward compatibility class for the Twig package.
  *
  * @package Slytherin

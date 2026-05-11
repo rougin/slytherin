@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Component;
 
 /**
- * Component Abstract
- *
  * Methods used for integrating a component to Slytherin.
  *
  * @package Slytherin

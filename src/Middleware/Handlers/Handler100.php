@@ -8,9 +8,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
- * PSR-15 Handler (v1.0.0)
- *
- * A handler that is backward compatible for the official implementation of PSR-15.
+ * Backward compatible handler for "psr/http-server-middleware".
  *
  * @package Slytherin
  *

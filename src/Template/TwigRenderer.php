@@ -3,10 +3,8 @@
 namespace Rougin\Slytherin\Template;
 
 /**
- * Twig Renderer
- *
- * A simple implementation of a template renderer that is based on top of
- * Sensiolab's Twig - a flexible, fast, and secure template engine for PHP.
+ * A template renderer built on top of
+ * Sensiolabs' Twig template engine.
  *
  * @package Slytherin
  *

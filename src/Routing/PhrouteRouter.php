@@ -5,9 +5,7 @@ namespace Rougin\Slytherin\Routing;
 use Phroute\Phroute\RouteCollector;
 
 /**
- * Phroute Router
- *
- * A simple implementation of router that is built on top of Phroute.
+ * A router built on top of Phroute.
  *
  * @package Slytherin
  *

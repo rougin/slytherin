@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Debug;
 
 /**
- * Error Handler
- *
  * A simple implementation of an error handler.
  *
  * @package Slytherin

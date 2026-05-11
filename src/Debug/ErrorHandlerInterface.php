@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Debug;
 
 /**
- * Error Handler Interface
- *
  * An interface for handling third-party error handlers.
  *
  * @package Slytherin

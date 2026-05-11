@@ -3,9 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Router
- *
- * A simple implementation of a router that is based on RouterInterface.
+ * A router implementation based on "RouterInterface".
  *
  * @package Slytherin
  *

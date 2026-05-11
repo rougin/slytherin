@@ -16,8 +16,6 @@ use Psr\Http\Message\MessageInterface;
 use Rougin\Slytherin\Http\Stream;
 
 /**
- * Message
- *
  * @package Slytherin
  *
  * @author Kévin Dunglas <dunglas@gmail.com>

@@ -14,8 +14,6 @@ namespace Rougin\Slytherin\Http\V1;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Response
- *
  * @package Slytherin
  *
  * @author Kévin Dunglas <dunglas@gmail.com>

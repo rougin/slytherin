@@ -7,8 +7,8 @@ Interop::register('AurynContainer');
 /**
  * @package Slytherin
  *
- * @method mixed   get(string $id)
- * @method boolean has(string $id)
+ * @method mixed                                          get(string $id)
+ * @method boolean                                        has(string $id)
  * @method \Rougin\Slytherin\Container\ContainerInterface set(string $id, $concrete)
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

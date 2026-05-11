@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Middleware Interface
- *
  * An interface for handling middlewares to Slytherin.
  *
  * @package Slytherin

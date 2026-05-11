@@ -8,8 +8,6 @@ use Rougin\Slytherin\Routing\RoutingIntegration;
 use Rougin\Slytherin\System;
 
 /**
- * Routing
- *
  * A routing utility for defining HTTP routes directly.
  *
  * @package Slytherin

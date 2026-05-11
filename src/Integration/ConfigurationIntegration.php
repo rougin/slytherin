@@ -6,8 +6,6 @@ use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\System;
 
 /**
- * Configuration Integration
- *
  * Integrates Configuration inside the specified container.
  *
  * @package Slytherin

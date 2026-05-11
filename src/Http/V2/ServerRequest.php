@@ -15,8 +15,6 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
 
 /**
- * Server Request
- *
  * @package Slytherin
  *
  * @author Kévin Dunglas <dunglas@gmail.com>

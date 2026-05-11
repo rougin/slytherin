@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Component\V2;
 use Rougin\Slytherin\Container\ContainerInterface;
 
 /**
- * Component Collection
- *
  * Contains all the required components for Slytherin.
  *
  * @package Slytherin

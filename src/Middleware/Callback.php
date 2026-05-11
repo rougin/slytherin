@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Middleware;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
- * Callback
- *
  * A class that converts callables into Slytherin middlewares.
  *
  * @package Slytherin

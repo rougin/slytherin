@@ -7,8 +7,6 @@ use Rougin\Slytherin\Container\Exception\NotFoundException as Slytherin;
 /**
  * @deprecated since ~0.9, use "Container\Exception\NotFoundException" instead.
  *
- * Not Found Exception
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

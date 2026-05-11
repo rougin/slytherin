@@ -9,8 +9,6 @@ use Rougin\Slytherin\System;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
- * Middleware Integration
- *
  * An integration for Slytherin's Middleware packages.
  *
  * @package Slytherin

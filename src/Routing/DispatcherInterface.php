@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * Dispatcher Interface
- *
  * An interface for handling third-party route dispatchers.
  *
  * @package Slytherin

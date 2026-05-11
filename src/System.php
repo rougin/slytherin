@@ -8,9 +8,7 @@ use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\System\Handler;
 
 /**
- * System Application
- *
- * Integrates all specified components into the application.
+ * Integrates all specified components for Slytherin.
  *
  * @package Slytherin
  *

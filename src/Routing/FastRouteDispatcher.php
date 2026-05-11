@@ -3,9 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 /**
- * FastRoute Dispatcher
- *
- * A simple implementation of dispatcher that is built on top of FastRoute.
+ * A route dispatcher built on top of "FastRoute".
  *
  * @package Slytherin
  *

@@ -7,8 +7,6 @@ use Rougin\Slytherin\Middleware\Middleware as Slytherin;
 /**
  * @deprecated since ~0.9, use "Middleware" instead.
  *
- * Middleware
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

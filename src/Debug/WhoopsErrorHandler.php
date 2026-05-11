@@ -6,9 +6,8 @@ use Whoops\Handler\PrettyPageHandler;
 use Whoops\Run;
 
 /**
- * Whoops Error Handler
- *
- * A simple implementation of an error handler built on top of Whoops.
+ * An implementation of an error handler based on
+ * top of the "Whoops" package by Filipe Dobreira.
  *
  * @package Slytherin
  *

@@ -8,9 +8,7 @@ use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 
 /**
- * Renderer Integration
- *
- * An integration for template renderers to be included in Slytherin.
+ * An integration for template renderers in Slytherin.
  *
  * @package Slytherin
  *

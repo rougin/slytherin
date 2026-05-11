@@ -7,9 +7,7 @@ use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 
 /**
- * Last One
- *
- * A handler that only returns an empty HTTP response.
+ * A handler that only returns empty HTTP response.
  *
  * @package Slytherin
  *

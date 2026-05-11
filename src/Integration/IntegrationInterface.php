@@ -5,8 +5,6 @@ namespace Rougin\Slytherin\Integration;
 use Rougin\Slytherin\Container\ContainerInterface;
 
 /**
- * Integration Interface
- *
  * An interface for handling integrations to Slytherin.
  *
  * @package Slytherin

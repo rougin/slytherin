@@ -16,8 +16,6 @@ use Psr\Http\Message\UriInterface;
 use Rougin\Slytherin\Http\Uri as HttpUri;
 
 /**
- * Request
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

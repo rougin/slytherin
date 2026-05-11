@@ -3,8 +3,6 @@
 namespace Rougin\Slytherin\Component;
 
 /**
- * Component Interface
- *
  * An interface for handling components.
  *
  * @package Slytherin
