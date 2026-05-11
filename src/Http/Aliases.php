@@ -5,6 +5,7 @@
  * For its autoloading, kindly see "Interop".
  */
 
+// @codeCoverageIgnoreStart
 $class = 'Psr\Http\Message\MessageInterface';
 
 $method = 'getProtocolVersion';
@@ -38,3 +39,4 @@ class_alias($orig, $http . '\PsrUploadedFile');
 
 $orig = $http . $number . '\Uri';
 class_alias($orig, $http . '\PsrUri');
+// @codeCoverageIgnoreEnd
