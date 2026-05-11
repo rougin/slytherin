@@ -27,6 +27,20 @@ class LeagueContainer extends League implements ContainerInterface
      */
     public function set($id, $concrete, $shared = false)
     {
+        // Backward compatibility on versions >=3.0 ---
+        $exists = method_exists($this, 'addShared');
+
+        if ($shared && $exists)
+        {
+            /** @var callable */
+            $class = array($this, 'addShared');
+
+            $params = array($id, $concrete);
+
+            call_user_func_array($class, $params);
+        }
+        // --------------------------------------------
+
         // Added $shared for backward compatibility ---
         /** @phpstan-ignore-next-line */
         $this->add($id, $concrete, $shared);
