@@ -2,11 +2,14 @@
 
 namespace Rougin\Slytherin\Container;
 
-// [NOTE] PHP 5.3–5.6 forbids importing a class -----
-// with the same short name as one already defined --
-// in the current namespace.
+/**
+ * [NOTE] The reason that this was renamed below
+ * as "PsrInterface" because PHP 5.3–5.6 forbids
+ * importing a class with the same short name as
+ * one already defined in the current namespace.
+ */
+
 use Psr\Container\ContainerInterface as PsrInterface;
-// --------------------------------------------------
 
 Interop::register('ReflectionContainer');
 
