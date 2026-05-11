@@ -39,7 +39,7 @@ class ReflectionContainer implements PsrContainer
      *
      * @link https://petersuhm.com/recursively-resolving-dependencies-with-phps-reflection-api-part-1
      */
-    public function get(string $id): mixed
+    public function get(string $id)
     {
         if (! $this->has($id))
         {

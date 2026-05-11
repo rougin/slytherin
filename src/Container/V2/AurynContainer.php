@@ -70,7 +70,7 @@ class AurynContainer implements ContainerInterface
      * @throws \Psr\Container\NotFoundExceptionInterface
      * @throws \Psr\Container\ContainerExceptionInterface
      */
-    public function get(string $id): mixed
+    public function get(string $id)
     {
         if (! $this->has($id))
         {

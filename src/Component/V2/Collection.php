@@ -55,7 +55,7 @@ class Collection implements ContainerInterface
      *
      * @return object
      */
-    public function get(string $id): mixed
+    public function get(string $id)
     {
         /** @var object */
         return $this->container->get($id);
