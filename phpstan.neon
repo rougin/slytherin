@@ -2,13 +2,13 @@ parameters:
   reportUnmatchedIgnoredErrors: false
   bootstrapFiles:
     - src/Http/Aliases.php
+    - src/Container/Aliases.php
   level: 9
   paths:
     - src
     - tests
   excludePaths:
     analyse:
-      - src/Container/LeagueContainer.php
       - src/IoC/LeagueContainer.php
       - src/IoC/League/Container.php
       - src/Middleware/Handlers
@@ -25,6 +25,9 @@ parameters:
     - '#^Access to constant I_SHARES on an unknown class Auryn\\Injector\.$#'
     - '#^Access to constant NOT_FOUND on an unknown class FastRoute\\Dispatcher\.$#'
     - '#^Call to an undefined method Rougin\\Slytherin\\IoC\\League\\Container\:\:add\(\)\.$#'
+    - '#^Call to function method_exists\(\) with \$this\(Rougin\\Slytherin\\Container\\V1\\LeagueContainer\) and ''addShared'' will always evaluate to true\.$#'
+    - '#^Call to function method_exists\(\) with \$this\(Rougin\\Slytherin\\Container\\V2\\LeagueContainer\) and ''addShared'' will always evaluate to true\.$#'
+    - '#^Call to function method_exists\(\) with ReflectionMethod and ''hasReturnType'' will always evaluate to true\.$#'
     - '#^Call to method addGlobal\(\) on an unknown class Twig\\Environment\.$#'
     - '#^Call to method addGlobal\(\) on an unknown class Twig_Environment\.$#'
     - '#^Call to method addRoute\(\) on an unknown class FastRoute\\RouteCollector\.$#'
@@ -95,11 +98,3 @@ parameters:
     - '#^Property Rougin\\Slytherin\\Template\\Twig\\RendererTest\:\:\$twig has unknown class Twig\\Environment as its type\.$#'
     - '#^Property Rougin\\Slytherin\\Template\\TwigRenderer\:\:\$twig has unknown class Twig\\Environment as its type\.$#'
     - '#^Property Rougin\\Slytherin\\Template\\TwigRenderer\:\:\$twig has unknown class Twig_Environment as its type\.$#'
-    - '#^Call to function method_exists\(\) with ReflectionMethod and ''hasReturnType'' will always evaluate to true\.$#'
-    - '#^Call to method \w+\(\) on an unknown class Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile)\.$#'
-    - '#^Instantiated class Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile) not found\.$#'
-    - '#^Method Rougin\\Slytherin\\System\\Lastone\:\:handle\(\) should return Psr\\Http\\Message\\ResponseInterface but returns Rougin\\Slytherin\\Http\\Response\.$#'
-    - '#^Parameter \#\d+ \$\w+ of .* expects .*, Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile) given\.$#'
-    - '#^Property .* does not accept Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile)\.$#'
-    - '#Rougin\\Slytherin\\Http\\Response given\.$#'
-    - '#expects class-string<Rougin\\Slytherin\\Http\\\w+.*>, string given\.$#'

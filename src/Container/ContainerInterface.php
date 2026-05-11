@@ -5,10 +5,6 @@ namespace Rougin\Slytherin\Container;
 use Psr\Container\ContainerInterface as PsrContainerInterface;
 
 /**
- * Container Interface
- *
- * An interface for handling PSR-11 containers.
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
