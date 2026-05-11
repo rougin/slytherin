@@ -108,11 +108,17 @@ class Message implements MessageInterface
     {
         $key = $this->getHeaderKey($name);
 
-        return $key !== null ? $this->headers[$key] : array();
+        if ($key === null)
+        {
+            return array();
+        }
+
+        return $this->headers[$key];
     }
 
     /**
-     * Retrieves a comma-separated string of the values for a single header.
+     * Retrieves a comma-separated string of the values
+     * for a single header.
      *
      * @param string $name
      *
@@ -122,7 +128,12 @@ class Message implements MessageInterface
     {
         $key = $this->getHeaderKey($name);
 
-        return $key !== null ? implode(',', $this->headers[$key]) : '';
+        if ($key === null)
+        {
+            return '';
+        }
+
+        return implode(',', $this->headers[$key]);
     }
 
     /**

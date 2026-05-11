@@ -108,7 +108,12 @@ class Message implements MessageInterface
     {
         $key = $this->getHeaderKey($name);
 
-        return $key !== null ? $this->headers[$key] : array();
+        if ($key === null)
+        {
+            return array();
+        }
+
+        return $this->headers[$key];
     }
 
     /**
@@ -122,7 +127,12 @@ class Message implements MessageInterface
     {
         $key = $this->getHeaderKey($name);
 
-        return $key !== null ? implode(',', $this->headers[$key]) : '';
+        if ($key === null)
+        {
+            return '';
+        }
+
+        return implode(',', $this->headers[$key]);
     }
 
     /**

@@ -262,8 +262,9 @@ class UriTest extends Testcase
     {
         $expect = 'https://0:0@0:1/0?0#0';
 
-        $uri = (new Uri(''))
-            ->withHost('0')
+        $uri = new Uri('');
+
+        $uri = $uri->withHost('0')
             ->withPort(1)
             ->withUserInfo('0', '0')
             ->withScheme('https')
