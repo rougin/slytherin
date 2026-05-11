@@ -100,11 +100,7 @@ class ResponseTest extends Testcase
      */
     protected function doSetUp()
     {
-        $class = 'Psr\Http\Message\MessageInterface';
-
-        $class = new \ReflectionMethod($class, 'getProtocolVersion');
-
-        $this->isV2 = method_exists($class, 'hasReturnType') && $class->hasReturnType();
+        $this->isV2 = Interop::isVersion2();
 
         $this->self = new Response;
     }
