@@ -1,5 +1,7 @@
 parameters:
   reportUnmatchedIgnoredErrors: false
+  bootstrapFiles:
+    - src/Http/Aliases.php
   level: 9
   paths:
     - src
@@ -93,3 +95,11 @@ parameters:
     - '#^Property Rougin\\Slytherin\\Template\\Twig\\RendererTest\:\:\$twig has unknown class Twig\\Environment as its type\.$#'
     - '#^Property Rougin\\Slytherin\\Template\\TwigRenderer\:\:\$twig has unknown class Twig\\Environment as its type\.$#'
     - '#^Property Rougin\\Slytherin\\Template\\TwigRenderer\:\:\$twig has unknown class Twig_Environment as its type\.$#'
+    - '#^Call to function method_exists\(\) with ReflectionMethod and ''hasReturnType'' will always evaluate to true\.$#'
+    - '#^Call to method \w+\(\) on an unknown class Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile)\.$#'
+    - '#^Instantiated class Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile) not found\.$#'
+    - '#^Method Rougin\\Slytherin\\System\\Lastone\:\:handle\(\) should return Psr\\Http\\Message\\ResponseInterface but returns Rougin\\Slytherin\\Http\\Response\.$#'
+    - '#^Parameter \#\d+ \$\w+ of .* expects .*, Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile) given\.$#'
+    - '#^Property .* does not accept Rougin\\Slytherin\\Http\\(Message|Stream|Uri|Request|Response|ServerRequest|UploadedFile)\.$#'
+    - '#Rougin\\Slytherin\\Http\\Response given\.$#'
+    - '#expects class-string<Rougin\\Slytherin\\Http\\\w+.*>, string given\.$#'
