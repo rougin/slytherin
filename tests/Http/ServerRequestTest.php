@@ -19,6 +19,18 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_failed_if_parsed_body_is_not_array_or_object()
+    {
+        $expect = 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->self->withParsedBody(4711);
+    }
+
+    /**
+     * @return void
+     */
     public function test_failed_if_parsed_body_type_invalid()
     {
         $expect = 'InvalidArgumentException';
@@ -91,6 +103,18 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_cookie_params_default_to_superglobal()
+    {
+        $expect = $_COOKIE;
+
+        $actual = $this->self->getCookieParams();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_cookie_params_retrieved()
     {
         // Set the cookie parameters ------------------------
@@ -104,6 +128,16 @@ class ServerRequestTest extends Testcase
 
         $this->assertEquals($expect, $actual);
         // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_missing_attribute_returns_null()
+    {
+        $actual = $this->self->getAttribute('not_found');
+
+        $this->assertNull($actual);
     }
 
     /**

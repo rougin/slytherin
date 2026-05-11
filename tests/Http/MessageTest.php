@@ -59,11 +59,35 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_header_check_is_case_insensitive()
+    {
+        $self = $this->self->withAddedHeader('age', '18');
+
+        $this->assertTrue($self->hasHeader('Age'));
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_header_exists()
     {
         $self = $this->self->withAddedHeader('age', '18');
 
         $this->assertTrue($self->hasHeader('age'));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_header_line_ignores_case()
+    {
+        $expect = 'test';
+
+        $self = $this->self->withHeader('names', 'test');
+
+        $actual = $self->getHeaderLine('NAMES');
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**

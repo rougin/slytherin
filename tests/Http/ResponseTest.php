@@ -12,6 +12,11 @@ use Rougin\Slytherin\Testcase;
 class ResponseTest extends Testcase
 {
     /**
+     * @var boolean
+     */
+    protected $isV2 = false;
+
+    /**
      * @var \Psr\Http\Message\ResponseInterface
      */
     protected $self;
@@ -28,6 +33,30 @@ class ResponseTest extends Testcase
         // Attempt to set an invalid status code ---
         $this->self->withStatus(600);
         // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_status_code_is_below_100()
+    {
+        $expect = 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->self->withStatus(99);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_status_code_is_not_integer()
+    {
+        $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->self->withStatus('foobar');
     }
 
     /**
@@ -71,6 +100,12 @@ class ResponseTest extends Testcase
      */
     protected function doSetUp()
     {
+        $class = 'Psr\Http\Message\MessageInterface';
+
+        $class = new \ReflectionMethod($class, 'getProtocolVersion');
+
+        $this->isV2 = method_exists($class, 'hasReturnType') && $class->hasReturnType();
+
         $this->self = new Response;
     }
 }

@@ -146,7 +146,9 @@ class Request extends Message implements RequestInterface
 
         $static->uri = $uri;
 
-        if ($preserveHost || ! $host = $uri->getHost())
+        $host = $uri->getHost();
+
+        if ($preserveHost || $host === '')
         {
             return $static;
         }

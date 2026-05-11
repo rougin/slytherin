@@ -126,6 +126,20 @@ class UriTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_host_is_lowercased()
+    {
+        $expect = 'foobar.com';
+
+        $uri = new Uri('http://FOOBAR.COM/');
+
+        $actual = $uri->getHost();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_host_updated()
     {
         // Update the host on the URI --------------
@@ -139,6 +153,20 @@ class UriTest extends Testcase
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_path_normalizes_leading_slashes()
+    {
+        $expect = '/valid///path';
+
+        $uri = new Uri('http://example.org//valid///path');
+
+        $actual = $uri->getPath();
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -180,6 +208,20 @@ class UriTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_query_preserves_encoded_characters()
+    {
+        $expect = 'foo=bar%26baz';
+
+        $uri = new Uri('http://www.foo.com?foo=bar%26baz');
+
+        $actual = $uri->getQuery();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_query_updated()
     {
         // Update the query string on the URI ------
@@ -216,6 +258,27 @@ class UriTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_uri_built_from_chained_methods()
+    {
+        $expect = 'https://0:0@0:1/0?0#0';
+
+        $uri = (new Uri(''))
+            ->withHost('0')
+            ->withPort(1)
+            ->withUserInfo('0', '0')
+            ->withScheme('https')
+            ->withPath('/0')
+            ->withQuery('0')
+            ->withFragment('0');
+
+        $actual = $uri->__toString();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_uri_converted_to_string()
     {
         $expect = 'https://me@roug.in:400/about';
@@ -225,6 +288,38 @@ class UriTest extends Testcase
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_user_info_not_double_encoded()
+    {
+        $expect = 'foo%40bar.com:pass%23word';
+
+        $uri = new Uri('http://example.com');
+
+        $self = $uri->withUserInfo('foo%40bar.com', 'pass%23word');
+
+        $actual = $self->getUserInfo();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_user_info_special_chars_are_encoded()
+    {
+        $expect = 'foo%40bar.com:pass%23word';
+
+        $uri = new Uri('http://example.com');
+
+        $self = $uri->withUserInfo('foo@bar.com', 'pass#word');
+
+        $actual = $self->getUserInfo();
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**

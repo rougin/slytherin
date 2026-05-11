@@ -102,10 +102,15 @@ class Uri implements UriInterface
         {
             $key === 'user' && $this->user = $value;
 
+            $key === 'host' && $value = strtolower($value);
+
+            if ($key === 'path' && $value !== '')
+            {
+                $value = preg_replace('#^/+#', '/', $value);
+            }
+
             $this->$key = $value;
         }
-
-        $this->uri = $uri;
     }
 
     /**
@@ -115,7 +120,53 @@ class Uri implements UriInterface
      */
     public function __toString(): string
     {
-        return $this->uri;
+        $uri = '';
+
+        $scheme = $this->scheme;
+
+        if ($scheme !== '')
+        {
+            $uri .= $scheme . ':';
+        }
+
+        $authority = $this->getAuthority();
+
+        if ($authority !== '')
+        {
+            $uri .= '//' . $authority;
+        }
+
+        $path = $this->path;
+
+        if ($path !== '')
+        {
+            if ($path[0] !== '/' && $authority !== '')
+            {
+                $path = '/' . $path;
+            }
+            elseif (strlen($path) > 1 && $path[0] === '/' && $path[1] === '/' && $authority === '')
+            {
+                $path = '/' . ltrim($path, '/');
+            }
+
+            $uri .= $path;
+        }
+
+        $query = $this->query;
+
+        if ($query !== '')
+        {
+            $uri .= '?' . $query;
+        }
+
+        $fragment = $this->fragment;
+
+        if ($fragment !== '')
+        {
+            $uri .= '#' . $fragment;
+        }
+
+        return $uri;
     }
 
     /**
@@ -235,7 +286,7 @@ class Uri implements UriInterface
     {
         $new = clone $this;
 
-        $new->host = $host;
+        $new->host = strtolower($host);
 
         return $new;
     }
@@ -251,6 +302,11 @@ class Uri implements UriInterface
     public function withPath(string $path): UriInterface
     {
         $new = clone $this;
+
+        if ($path !== '')
+        {
+            $path = preg_replace('#^/+#', '/', $path);
+        }
 
         $new->path = $path;
 
@@ -336,8 +392,31 @@ class Uri implements UriInterface
     {
         $new = clone $this;
 
-        $new->user = $user . ':' . $password;
+        $new->user = $this->filterUserInfo($user);
+
+        if ($password !== null && $password !== '')
+        {
+            $new->user .= ':' . $this->filterUserInfo($password);
+        }
 
         return $new;
+    }
+
+    /**
+     * Encodes special characters in the user info part.
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    protected function filterUserInfo(string $value): string
+    {
+        $value = rawurldecode($value);
+
+        $search = array('@', ':', '#', '/', '?', '[', ']');
+
+        $replace = array('%40', '%3A', '%23', '%2F', '%3F', '%5B', '%5D');
+
+        return str_replace($search, $replace, $value);
     }
 }

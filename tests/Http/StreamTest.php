@@ -147,6 +147,22 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_eof_detected_after_full_read()
+    {
+        $self = new Stream($this->newFile('w+'));
+
+        $self->write('Hello');
+
+        $self->seek(0);
+
+        $self->getContents();
+
+        $this->assertTrue($self->eof());
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_end_of_file_returned()
     {
         // Create a stream from a new file ---
@@ -156,6 +172,72 @@ class StreamTest extends Testcase
         // Verify the end-of-file flag is false ---
         $this->assertFalse($self->eof());
         // ----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_readable_is_detected()
+    {
+        $self = new Stream($this->newFile('r'));
+
+        $this->assertTrue($self->isReadable());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_rewind_resets_position()
+    {
+        $expect = 0;
+
+        $self = new Stream($this->newFile());
+
+        $self->seek(4);
+
+        $self->rewind();
+
+        $actual = $self->tell();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_seekable_is_detected()
+    {
+        $self = new Stream($this->newFile('r'));
+
+        $this->assertTrue($self->isSeekable());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_to_string_rewinds_stream()
+    {
+        $expect = 'This is a text from a template.';
+
+        $self = new Stream($this->newFile('w+'));
+
+        $self->write($expect);
+
+        $self->seek(4);
+
+        $actual = $self->__toString();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_writable_is_detected()
+    {
+        $self = new Stream($this->newFile());
+
+        $this->assertTrue($self->isWritable());
     }
 
     /**

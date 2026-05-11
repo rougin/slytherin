@@ -78,6 +78,28 @@ class Message implements MessageInterface
     }
 
     /**
+     * Returns the actual header key matching the given case-insensitive name.
+     *
+     * @param string $name
+     *
+     * @return string|null
+     */
+    protected function getHeaderKey($name)
+    {
+        $name = strtolower($name);
+
+        foreach (array_keys($this->headers) as $key)
+        {
+            if (strtolower($key) === $name)
+            {
+                return $key;
+            }
+        }
+
+        return null;
+    }
+
+    /**
      * Retrieves a message header value by the given case-insensitive name.
      *
      * @param string $name
@@ -86,7 +108,9 @@ class Message implements MessageInterface
      */
     public function getHeader($name)
     {
-        return $this->hasHeader($name) ? $this->headers[$name] : array();
+        $key = $this->getHeaderKey($name);
+
+        return $key !== null ? $this->headers[$key] : array();
     }
 
     /**
@@ -98,7 +122,9 @@ class Message implements MessageInterface
      */
     public function getHeaderLine($name)
     {
-        return $this->hasHeader($name) ? implode(',', $this->headers[$name]) : '';
+        $key = $this->getHeaderKey($name);
+
+        return $key !== null ? implode(',', $this->headers[$key]) : '';
     }
 
     /**
@@ -130,7 +156,7 @@ class Message implements MessageInterface
      */
     public function hasHeader($name)
     {
-        return isset($this->headers[$name]);
+        return $this->getHeaderKey($name) !== null;
     }
 
     /**
@@ -255,9 +281,11 @@ class Message implements MessageInterface
     {
         $static = clone $this;
 
-        if ($this->hasHeader($name))
+        $key = $this->getHeaderKey($name);
+
+        if ($key !== null)
         {
-            unset($static->headers[$name]);
+            unset($static->headers[$key]);
         }
 
         return $static;

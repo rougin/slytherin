@@ -179,6 +179,28 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_move_to_accepts_relative_path()
+    {
+        $root = str_replace('Http', 'Fixture', __DIR__);
+
+        chdir($root . '/Templates');
+
+        $target = 'new.php';
+
+        $this->self->moveTo($target);
+
+        chdir(__DIR__);
+
+        $targetPath = $root . '/Templates/' . $target;
+
+        $this->assertFileExists($targetPath);
+
+        file_exists($targetPath) && unlink($targetPath);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_stream_body_retrieved()
     {
         $expect = 'Rougin\Slytherin\Http\Stream';

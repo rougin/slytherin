@@ -12,6 +12,11 @@ use Rougin\Slytherin\Testcase;
 class RequestTest extends Testcase
 {
     /**
+     * @var boolean
+     */
+    protected $isV2 = false;
+
+    /**
      * @var \Psr\Http\Message\RequestInterface
      */
     protected $self;
@@ -26,6 +31,32 @@ class RequestTest extends Testcase
         $this->doSetExpectedException($expect);
 
         $this->self->withMethod('');
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_method_is_not_a_string()
+    {
+        $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->self->withMethod(array());
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_custom_method_is_accepted()
+    {
+        $expect = 'CUSTOM';
+
+        $self = $this->self->withMethod($expect);
+
+        $actual = $self->getMethod();
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**
@@ -71,6 +102,20 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_method_preserves_case()
+    {
+        $expect = 'head';
+
+        $self = $this->self->withMethod($expect);
+
+        $actual = $self->getMethod();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_request_target_retrieved()
     {
         $expect = '/lorem-ipsum';
@@ -107,8 +152,28 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_uri_sets_host_as_header()
+    {
+        $uri = new Uri('https://www.foo.com/bar');
+
+        $self = $this->self->withUri($uri);
+
+        $actual = $self->getHeaderLine('host');
+
+        $this->assertEquals('www.foo.com', $actual);
+    }
+
+    /**
+     * @return void
+     */
     protected function doSetUp()
     {
+        $class = 'Psr\Http\Message\MessageInterface';
+
+        $class = new \ReflectionMethod($class, 'getProtocolVersion');
+
+        $this->isV2 = method_exists($class, 'hasReturnType') && $class->hasReturnType();
+
         $this->self = new Request;
     }
 }
