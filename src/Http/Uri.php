@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\UriInterface;
+
 Interop::register('Uri');
 
 /**
@@ -26,6 +28,6 @@ Interop::register('Uri');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Uri extends PsrUri
+class Uri extends PsrUri implements UriInterface
 {
 }

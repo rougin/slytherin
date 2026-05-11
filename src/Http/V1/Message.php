@@ -11,8 +11,8 @@
 
 namespace Rougin\Slytherin\Http\V1;
 
-use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\MessageInterface;
+use Psr\Http\Message\StreamInterface;
 use Rougin\Slytherin\Http\Stream;
 
 /**

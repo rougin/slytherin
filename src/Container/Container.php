@@ -7,6 +7,8 @@ Interop::register('Container');
 /**
  * @package Slytherin
  *
+ * @property array<string, mixed> $items
+ *
  * @method mixed                                          get(string $id)
  * @method boolean                                        has(string $id)
  * @method \Rougin\Slytherin\Container\ContainerInterface set(string $id, $concrete)

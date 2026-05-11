@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\UploadedFileInterface;
+
 Interop::register('UploadedFile');
 
 /**
@@ -16,6 +18,6 @@ Interop::register('UploadedFile');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class UploadedFile extends PsrUploadedFile
+class UploadedFile extends PsrUploadedFile implements UploadedFileInterface
 {
 }

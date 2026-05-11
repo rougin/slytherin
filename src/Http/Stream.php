@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\StreamInterface;
+
 Interop::register('Stream');
 
 /**
@@ -25,7 +27,7 @@ Interop::register('Stream');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Stream extends PsrStream
+class Stream extends PsrStream implements StreamInterface
 {
     /**
      * Initializes the stream instance.

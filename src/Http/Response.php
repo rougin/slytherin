@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\ResponseInterface;
+
 Interop::register('Response');
 
 /**
@@ -13,6 +15,6 @@ Interop::register('Response');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Response extends PsrResponse
+class Response extends PsrResponse implements ResponseInterface
 {
 }

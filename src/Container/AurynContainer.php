@@ -7,6 +7,8 @@ Interop::register('AurynContainer');
 /**
  * @package Slytherin
  *
+ * @property \Auryn\Injector $injector
+ *
  * @method mixed                                          get(string $id)
  * @method boolean                                        has(string $id)
  * @method \Rougin\Slytherin\Container\ContainerInterface set(string $id, $concrete)

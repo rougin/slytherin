@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\MessageInterface;
+
 Interop::register('Message');
 
 /**
@@ -21,6 +23,6 @@ Interop::register('Message');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Message extends PsrMessage
+class Message extends PsrMessage implements MessageInterface
 {
 }

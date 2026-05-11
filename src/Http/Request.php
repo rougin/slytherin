@@ -2,6 +2,8 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Psr\Http\Message\RequestInterface;
+
 Interop::register('Request');
 
 /**
@@ -16,6 +18,6 @@ Interop::register('Request');
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Request extends PsrRequest
+class Request extends PsrRequest implements RequestInterface
 {
 }
