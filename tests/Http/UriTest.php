@@ -213,7 +213,7 @@ class UriTest extends Testcase
 
         $actual = $uri->withPath('foo')->__toString();
 
-        $this->assertStringContainsString('/foo', $actual);
+        $this->doAssertStringContainsString('/foo', $actual);
         // --------------------------------------------------
     }
 

@@ -153,6 +153,28 @@ class Testcase extends Legacy
     }
 
     /**
+     * @param string $needle
+     * @param string $haystack
+     * @param string $message
+     *
+     * @return void
+     */
+    public function doAssertStringContainsString($needle, $haystack, $message = '')
+    {
+        /** @phpstan-ignore-next-line */
+        if (method_exists($this, 'assertStringContainsString'))
+        {
+            /** @phpstan-ignore-next-line */
+            $this->assertStringContainsString($needle, $haystack, $message);
+
+            return;
+        }
+
+        /** @phpstan-ignore-next-line */
+        $this->assertContains($needle, $haystack, $message);
+    }
+
+    /**
      * @param class-string $exception
      *
      * @return void
