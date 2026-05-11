@@ -39,29 +39,6 @@ class AurynContainer implements ContainerInterface
     protected $items = array();
 
     /**
-     * @param \Auryn\Injector $injector
-     */
-    public function __construct(Injector $injector)
-    {
-        $this->injector = $injector;
-    }
-
-    /**
-     * @deprecated since ~0.9, use "set" instead.
-     *
-     * Adds a new instance to the container.
-     *
-     * @param string     $id
-     * @param mixed|null $concrete
-     *
-     * @return self
-     */
-    public function add($id, $concrete = null)
-    {
-        return $this->set($id, $concrete);
-    }
-
-    /**
      * Finds an entry of the container by its identifier and returns it.
      *
      * @param string $id
@@ -134,21 +111,5 @@ class AurynContainer implements ContainerInterface
         $this->items[$id] = $concrete;
 
         return $this;
-    }
-
-    /**
-     * Calls methods from the \Auryn\Injector instance.
-     *
-     * @param string  $method
-     * @param mixed[] $params
-     *
-     * @return mixed
-     */
-    public function __call($method, $params)
-    {
-        /** @var callable $class */
-        $class = array($this->injector, $method);
-
-        return call_user_func_array($class, $params);
     }
 }

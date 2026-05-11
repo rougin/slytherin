@@ -50,16 +50,6 @@ class Stream implements StreamInterface
     protected $writable = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b');
 
     /**
-     * Initializes the stream instance.
-     *
-     * @param resource|null $stream
-     */
-    public function __construct($stream = null)
-    {
-        $this->stream = $stream;
-    }
-
-    /**
      * Reads all data from the stream into a string, from the beginning to end.
      *
      * @return string

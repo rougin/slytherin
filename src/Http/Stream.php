@@ -27,4 +27,13 @@ Interop::register('Stream');
  */
 class Stream extends PsrStream
 {
+    /**
+     * Initializes the stream instance.
+     *
+     * @param resource|null $stream
+     */
+    public function __construct($stream = null)
+    {
+        $this->stream = $stream;
+    }
 }
