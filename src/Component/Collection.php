@@ -12,22 +12,19 @@ use Rougin\Slytherin\Routing\DispatcherInterface as Routing;
 use Rougin\Slytherin\System;
 use Rougin\Slytherin\Template\RendererInterface;
 
+Interop::register('Collection');
+
 /**
- * Component Collection
- *
- * Contains all the required components for Slytherin.
- *
  * @package Slytherin
+ *
+ * @method mixed                                  get(string $id)
+ * @method boolean                                has(string $id)
+ * @method \Rougin\Slytherin\Component\Collection set(string $id, $concrete = null)
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Collection implements ContainerInterface
+class Collection extends PsrCollection
 {
-    /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
-     */
-    protected $container;
-
     public function __construct()
     {
         $this->container = new Container;
@@ -46,19 +43,6 @@ class Collection implements ContainerInterface
     public function add($id, $concrete)
     {
         return $this->set($id, $concrete);
-    }
-
-    /**
-     * Returns the specified component.
-     *
-     * @param string $id
-     *
-     * @return object
-     */
-    public function get($id)
-    {
-        /** @var object */
-        return $this->container->get($id);
     }
 
     /**
@@ -169,33 +153,6 @@ class Collection implements ContainerInterface
     {
         /** @var \Rougin\Slytherin\Template\RendererInterface */
         return $this->get(System::TEMPLATE);
-    }
-
-    /**
-     * Checks if a specified component exists.
-     *
-     * @param string $id
-     *
-     * @return boolean
-     */
-    public function has($id)
-    {
-        return $this->container->has($id);
-    }
-
-    /**
-     * Sets an instance to the collection.
-     *
-     * @param string $id
-     * @param mixed  $concrete
-     *
-     * @return self
-     */
-    public function set($id, $concrete = null)
-    {
-        $this->container->set($id, $concrete);
-
-        return $this;
     }
 
     /**

@@ -12,6 +12,11 @@ use Rougin\Slytherin\Testcase;
 class UriTest extends Testcase
 {
     /**
+     * @var boolean
+     */
+    protected $isV2 = false;
+
+    /**
      * @var \Psr\Http\Message\UriInterface
      */
     protected $self;
@@ -21,7 +26,7 @@ class UriTest extends Testcase
      */
     public function test_failed_if_host_invalid()
     {
-        $expect = 'InvalidArgumentException';
+        $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
         $this->doSetExpectedException($expect);
 
@@ -35,7 +40,7 @@ class UriTest extends Testcase
      */
     public function test_failed_if_path_invalid()
     {
-        $expect = 'InvalidArgumentException';
+        $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
         $this->doSetExpectedException($expect);
 
@@ -63,7 +68,7 @@ class UriTest extends Testcase
      */
     public function test_failed_if_query_invalid()
     {
-        $expect = 'InvalidArgumentException';
+        $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
         $this->doSetExpectedException($expect);
 
@@ -245,6 +250,10 @@ class UriTest extends Testcase
      */
     protected function doSetUp()
     {
-        $this->self = new Uri('https://me@roug.in:400/about');
+        $this->isV2 = Interop::isVersion2();
+
+        $link = 'https://me@roug.in:400/about';
+
+        $this->self = new Uri($link);
     }
 }

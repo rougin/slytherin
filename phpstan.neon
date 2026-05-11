@@ -1,12 +1,15 @@
 parameters:
   reportUnmatchedIgnoredErrors: false
+  bootstrapFiles:
+    - src/Component/Aliases.php
+    - src/Http/Aliases.php
+    - src/Container/Aliases.php
   level: 9
   paths:
     - src
     - tests
   excludePaths:
     analyse:
-      - src/Container/LeagueContainer.php
       - src/IoC/LeagueContainer.php
       - src/IoC/League/Container.php
       - src/Middleware/Handlers
@@ -23,6 +26,9 @@ parameters:
     - '#^Access to constant I_SHARES on an unknown class Auryn\\Injector\.$#'
     - '#^Access to constant NOT_FOUND on an unknown class FastRoute\\Dispatcher\.$#'
     - '#^Call to an undefined method Rougin\\Slytherin\\IoC\\League\\Container\:\:add\(\)\.$#'
+    - '#^Call to function method_exists\(\) with \$this\(Rougin\\Slytherin\\Container\\V1\\LeagueContainer\) and ''addShared'' will always evaluate to true\.$#'
+    - '#^Call to function method_exists\(\) with \$this\(Rougin\\Slytherin\\Container\\V2\\LeagueContainer\) and ''addShared'' will always evaluate to true\.$#'
+    - '#^Call to function method_exists\(\) with ReflectionMethod and ''hasReturnType'' will always evaluate to true\.$#'
     - '#^Call to method addGlobal\(\) on an unknown class Twig\\Environment\.$#'
     - '#^Call to method addGlobal\(\) on an unknown class Twig_Environment\.$#'
     - '#^Call to method addRoute\(\) on an unknown class FastRoute\\RouteCollector\.$#'
@@ -61,9 +67,11 @@ parameters:
     - '#^Parameter \#1 \$data of method Psr\\Http\\Message\\ServerRequestInterface\:\:withParsedBody\(\) expects array\|object\|null, string given\.$#'
     - '#^Parameter \#1 \$handler of method Rougin\\Slytherin\\Debug\\WhoopsErrorHandler\:\:setHandler\(\) expects \(callable\(\)\: mixed\)\|Whoops\\Handler\\HandlerInterface, Whoops\\Handler\\PrettyPageHandler given\.$#'
     - '#^Parameter \#1 \$host of method Psr\\Http\\Message\\UriInterface\:\:withHost\(\) expects string, array given\.$#'
+    - '#^Parameter \#1 \$middleware of class Rougin\\Slytherin\\Middleware\\Callback constructor expects callable\(\)\: mixed, ''stdClass'' given\.$#'
     - '#^Parameter \#1 \$path of method Psr\\Http\\Message\\UriInterface\:\:withPath\(\) expects string, array given\.$#'
     - '#^Parameter \#1 \$query of method Psr\\Http\\Message\\UriInterface\:\:withQuery\(\) expects string, array given\.$#'
     - '#^Parameter \#2 \$response of method Rougin\\Slytherin\\Component\\Collection\:\:setHttp\(\) expects Psr\\Http\\Message\\ResponseInterface, Zend\\Diactoros\\Response given\.$#'
+    - '#^Parameter \#2 \$response of method Rougin\\Slytherin\\Component\\V2\\Collection\:\:setHttp\(\) expects Psr\\Http\\Message\\ResponseInterface, Zend\\Diactoros\\Response given\.$#'
     - '#^Parameter \$collector of anonymous function has invalid type FastRoute\\RouteCollector\.$#'
     - '#^Parameter \$collector of method Rougin\\Slytherin\\Routing\\FastRouteRouter\:\:setCollector\(\) has invalid type FastRoute\\RouteCollector\.$#'
     - '#^Parameter \$collector of method Rougin\\Slytherin\\Routing\\PhrouteRouter\:\:setCollector\(\) has invalid type Phroute\\Phroute\\RouteCollector\.$#'

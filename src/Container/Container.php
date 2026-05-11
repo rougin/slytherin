@@ -2,22 +2,19 @@
 
 namespace Rougin\Slytherin\Container;
 
+Interop::register('Container');
+
 /**
- * Container
- *
- * A simple container that is implemented on PSR-11.
- *
  * @package Slytherin
+ *
+ * @method mixed   get(string $id)
+ * @method boolean has(string $id)
+ * @method \Rougin\Slytherin\Container\ContainerInterface set(string $id, $concrete)
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Container implements ContainerInterface
+class Container extends PsrContainer
 {
-    /**
-     * @var array<string, mixed>
-     */
-    protected $items = array();
-
     /**
      * Initializes the container instance.
      *
@@ -40,7 +37,9 @@ class Container implements ContainerInterface
      */
     public function add($id, $concrete)
     {
-        return $this->set($id, $concrete);
+        $this->set($id, $concrete);
+
+        return $this;
     }
 
     /**
@@ -54,63 +53,6 @@ class Container implements ContainerInterface
     public function alias($id, $original)
     {
         $this->items[$id] = $this->get($original);
-
-        return $this;
-    }
-
-    /**
-     * Finds an entry of the container by its identifier and returns it.
-     *
-     * @param string $id
-     *
-     * @return mixed
-     * @throws \Psr\Container\NotFoundExceptionInterface
-     * @throws \Psr\Container\ContainerExceptionInterface
-     */
-    public function get($id)
-    {
-        if (! $this->has($id))
-        {
-            $message = 'Alias (%s) is not being managed by the container';
-
-            throw new Exception\NotFoundException(sprintf($message, $id));
-        }
-
-        $entry = $this->items[$id];
-
-        if (is_object($entry))
-        {
-            return $entry;
-        }
-
-        $message = sprintf('Alias (%s) is not an object', $id);
-
-        throw new Exception\ContainerException($message);
-    }
-
-    /**
-     * Returns true if the container can return an entry for the given identifier.
-     *
-     * @param string $id
-     *
-     * @return boolean
-     */
-    public function has($id)
-    {
-        return isset($this->items[$id]);
-    }
-
-    /**
-     * Sets a new instance to the container.
-     *
-     * @param string $id
-     * @param mixed  $concrete
-     *
-     * @return self
-     */
-    public function set($id, $concrete)
-    {
-        $this->items[$id] = $concrete;
 
         return $this;
     }

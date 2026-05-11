@@ -3,10 +3,6 @@
 namespace Rougin\Slytherin\Container;
 
 /**
- * Parameter
- *
- * A backward compatible class for handling ReflectionParameter.
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
