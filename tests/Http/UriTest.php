@@ -108,6 +108,22 @@ class UriTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_double_slash_path_collapsed()
+    {
+        $expect = '/foo';
+
+        // Verify the double slash path is collapsed ---
+        $uri = new Uri('');
+
+        $actual = $uri->withPath('//foo')->__toString();
+
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_fragment_updated()
     {
         // Update the fragment on the URI --------
@@ -185,6 +201,20 @@ class UriTest extends Testcase
 
         $this->assertEquals($expect, $actual);
         // -----------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_path_with_host_prepends_slash()
+    {
+        // Verify the slash is prepended when host exists ---
+        $uri = new Uri('http://example.com');
+
+        $actual = $uri->withPath('foo')->__toString();
+
+        $this->assertStringContainsString('/foo', $actual);
+        // --------------------------------------------------
     }
 
     /**
