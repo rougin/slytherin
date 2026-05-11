@@ -146,10 +146,6 @@ class Uri implements UriInterface
             {
                 $path = '/' . $path;
             }
-            elseif (strlen($path) > 1 && $path[0] === '/' && $path[1] === '/' && $authority === '')
-            {
-                $path = '/' . ltrim($path, '/');
-            }
 
             $uri .= $path;
         }
