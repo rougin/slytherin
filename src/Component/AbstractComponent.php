@@ -13,7 +13,8 @@ abstract class AbstractComponent implements ComponentInterface
 {
     /**
      * Type of the component:
-     * container, dispatcher, debugger, http, middleware, template
+     * "container", "dispatcher", "debugger",
+     * "http", "middleware", and "template"
      *
      * @var string
      */

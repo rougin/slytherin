@@ -48,7 +48,8 @@ class Stream implements StreamInterface
     protected $writable = array('r+', 'w', 'w+', 'a', 'a+', 'x', 'x+', 'c', 'c+', 'w+b');
 
     /**
-     * Reads all data from the stream into a string, from the beginning to end.
+     * Reads all data from the stream into a string,
+     * from the beginning to end.
      *
      * @return string
      */
@@ -72,7 +73,8 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Separates any underlying resources from the stream.
+     * Separates any underlying resources from the
+     * stream.
      *
      * @return resource|null
      */
@@ -90,7 +92,8 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Returns true if the stream is at the end of the stream.
+     * Returns true if the stream is at the end of
+     * the stream.
      *
      * @return boolean
      */
@@ -120,7 +123,8 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Returns stream metadata as an associative array or retrieve a specific key.
+     * Returns stream metadata as an associative array
+     * or retrieve a specific key.
      *
      * @param string|null $key
      *
@@ -263,7 +267,8 @@ class Stream implements StreamInterface
     }
 
     /**
-     * Returns the current position of the file read/write pointer.
+     * Returns the current position of the file
+     * read/write pointer.
      *
      * @return integer
      * @throws \RuntimeException

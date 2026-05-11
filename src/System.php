@@ -70,7 +70,8 @@ class System
     }
 
     /**
-     * Handles the ServerRequestInterface to convert it to a ResponseInterface.
+     * Handles the ServerRequestInterface to convert
+     * it to a ResponseInterface.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
@@ -156,7 +157,8 @@ class System
     }
 
     /**
-     * Emits the headers from response and runs the application.
+     * Emits the headers from response and runs
+     * the application.
      *
      * @return void
      */

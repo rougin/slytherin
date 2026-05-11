@@ -37,7 +37,8 @@ class Callback implements MiddlewareInterface
     }
 
     /**
-     * Processes an incoming server request and return a response.
+     * Processes an incoming server request and
+     * return a response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface      $request
      * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler
@@ -80,7 +81,8 @@ class Callback implements MiddlewareInterface
     }
 
     /**
-     * Checks if the middleware is a single-pass or a double-pass implementation.
+     * Checks if the middleware is a single-pass or
+     * a double-pass implementation.
      *
      * @param mixed $item
      *

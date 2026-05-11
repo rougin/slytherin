@@ -40,7 +40,8 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * Dispatches the next available middleware and return the response.
+     * Dispatches the next available middleware and
+     * return the response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
@@ -52,7 +53,8 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * Dispatches the next available middleware and return the response.
+     * Dispatches the next available middleware and
+     * return the response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *

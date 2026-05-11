@@ -87,7 +87,8 @@ class HttpIntegration implements IntegrationInterface
     }
 
     /**
-     * Converts $_SERVER parameters to message header values.
+     * Converts $_SERVER parameters to message
+     * header values.
      *
      * @param array<string, string> $server
      *
@@ -116,7 +117,8 @@ class HttpIntegration implements IntegrationInterface
     }
 
     /**
-     * Checks on what object will be defined to container.
+     * Checks on what object will be defined to
+     * container.
      *
      * @param \Rougin\Slytherin\Container\ContainerInterface $container
      * @param \Psr\Http\Message\ServerRequestInterface       $request

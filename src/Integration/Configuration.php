@@ -60,7 +60,8 @@ class Configuration
     }
 
     /**
-     * Loads the configuration from a specified directory.
+     * Loads the configuration from a specified
+     * directory.
      *
      * @param string $directory
      *

@@ -21,7 +21,8 @@ class Container implements ContainerInterface
     protected $items = array();
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     * Finds an entry of the container by its identifier
+     * and returns it.
      *
      * @param string $id
      *
@@ -51,7 +52,8 @@ class Container implements ContainerInterface
     }
 
     /**
-     * Returns true if the container can return an entry for the given identifier.
+     * Returns true if the container can return an entry
+     * for the given identifier.
      *
      * @param string $id
      *

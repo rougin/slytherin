@@ -14,8 +14,9 @@ use Psr\Http\Message\ServerRequestInterface;
 interface MiddlewareInterface
 {
     /**
-     * Processes an incoming server request and return a response, optionally
-     * delegating to the next middleware component to create the response.
+     * Processes an incoming server request and return
+     * a response, optionally delegating to the next
+     * middleware component to create the response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface      $request
      * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler

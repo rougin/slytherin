@@ -123,7 +123,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Retrieve any parameters provided in the request body.
+     * Retrieve any parameters provided in the
+     * request body.
      *
      * @return array<string, mixed>|object|null
      */
@@ -163,7 +164,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Returns an instance with the specified derived request attribute.
+     * Returns an instance with the specified
+     * derived request attribute.
      *
      * @param string $name
      * @param string $value
@@ -196,7 +198,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Returns an instance with the specified body parameters.
+     * Returns an instance with the specified
+     * body parameters.
      *
      * @param array<string, mixed>|object|null $data
      *
@@ -220,7 +223,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Returns an instance with the specified query string arguments.
+     * Returns an instance with the specified
+     * query string arguments.
      *
      * @param array<string, string> $query
      *
@@ -236,7 +240,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Create a new instance with the specified uploaded files.
+     * Create a new instance with the specified
+     * uploaded files.
      *
      * @param array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
      *
@@ -261,7 +266,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Returns an instance that removes the specified derived request attribute.
+     * Returns an instance that removes the specified
+     * derived request attribute.
      *
      * @param string $name
      *
@@ -299,7 +305,8 @@ class ServerRequest extends Request implements ServerRequestInterface
     }
 
     /**
-     * Checks if the specified data is a valid parsed body type.
+     * Checks if the specified data is a valid
+     * parsed body type.
      *
      * @param mixed $data
      *

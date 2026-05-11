@@ -34,7 +34,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * Dispatches against the provided HTTP method verb and URI.
+     * Dispatches against the provided HTTP method
+     * verb and URI.
      *
      * @param string $method
      * @param string $uri
@@ -76,7 +77,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * Sets the router and parse its available routes if needed.
+     * Sets the router and parse its available
+     * routes if needed.
      *
      * @param \Rougin\Slytherin\Routing\RouterInterface $router
      *
@@ -91,7 +93,8 @@ class Dispatcher implements DispatcherInterface
     }
 
     /**
-     * Checks if the specified method is a valid HTTP method.
+     * Checks if the given method is a valid
+     * HTTP method.
      *
      * @param string $method
      *

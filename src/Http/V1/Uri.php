@@ -70,7 +70,8 @@ class Uri implements UriInterface
     protected $user = '';
 
     /**
-     * Generates a \Psr\Http\Message\UriInterface from server variables.
+     * Generates a \Psr\Http\Message\UriInterface from
+     * server variables.
      *
      * @param array<string, string> $server
      *
@@ -114,7 +115,8 @@ class Uri implements UriInterface
     }
 
     /**
-     * Return the string representation as a URI reference.
+     * Return the string representation as a
+     * URI reference.
      *
      * @return string
      */
@@ -249,7 +251,8 @@ class Uri implements UriInterface
     }
 
     /**
-     * Retrieves the user information component of the URI.
+     * Retrieves the user information component of
+     * the URI.
      *
      * @return string
      */
@@ -259,7 +262,8 @@ class Uri implements UriInterface
     }
 
     /**
-     * Returns an instance with the specified URI fragment.
+     * Returns an instance with the specified
+     * URI fragment.
      *
      * @param string $fragment
      *
@@ -342,7 +346,8 @@ class Uri implements UriInterface
     }
 
     /**
-     * Returns an instance with the specified query string.
+     * Returns an instance with the specified
+     * query string.
      *
      * @param string $query
      *
@@ -387,7 +392,8 @@ class Uri implements UriInterface
     }
 
     /**
-     * Returns an instance with the specified user information.
+     * Returns an instance with the specified
+     * user information.
      *
      * @param string      $user
      * @param string|null $password

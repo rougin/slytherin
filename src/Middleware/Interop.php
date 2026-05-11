@@ -42,7 +42,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Dispatches the next available middleware and return the response.
+     * Dispatches the next available middleware and
+     * return the response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
@@ -54,7 +55,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Dispatches the next available middleware and return the response.
+     * Dispatches the next available middleware and
+     * return the response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
      *
@@ -77,7 +79,7 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Checks if one of the supported versions are installed.
+     * Checks if any supported version is installed.
      *
      * @return boolean
      */
@@ -89,7 +91,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Converts the handler into the currently installed PSR-15 implementation.
+     * Converts the handler into the currently
+     * installed PSR-15 implementation.
      *
      * @param mixed       $handler
      * @param string|null $version
@@ -137,7 +140,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Checks if the handler is installed in the supported PSR-15 version.
+     * Checks if the handler is installed in the
+     * supported PSR-15 version.
      *
      * @param mixed  $handler
      * @param string $version
@@ -150,7 +154,8 @@ class Interop implements HandlerInterface
     }
 
     /**
-     * Checks if the official PSR-15 is currently installed.
+     * Checks if the official PSR-15 is
+     * currently installed.
      *
      * @return boolean
      */

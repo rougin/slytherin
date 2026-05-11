@@ -33,7 +33,8 @@ class PhrouteDispatcher extends Dispatcher
     protected $items;
 
     /**
-     * Dispatches against the provided HTTP method verb and URI.
+     * Dispatches against the provided HTTP method
+     * verb and URI.
      *
      * @param string $method
      * @param string $uri
@@ -81,7 +82,8 @@ class PhrouteDispatcher extends Dispatcher
     }
 
     /**
-     * Sets the router and parse its available routes if needed.
+     * Sets the router and parse its available
+     * routes if needed.
      *
      * @param \Rougin\Slytherin\Routing\RouterInterface $router
      *

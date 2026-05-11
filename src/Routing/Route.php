@@ -105,7 +105,8 @@ class Route implements RouteInterface
     }
 
     /**
-     * Returns a regular expression pattern from the given URI.
+     * Returns a regular expression pattern from the
+     * given URI.
      *
      * @return string
      *

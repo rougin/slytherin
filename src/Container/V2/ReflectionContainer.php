@@ -21,7 +21,8 @@ class ReflectionContainer implements PsrContainer
     protected $container;
 
     /**
-     * Finds an entry of the container by its identifier and returns it.
+     * Finds an entry of the container by its identifier
+     * and returns it.
      *
      * @param string $id
      *
@@ -59,7 +60,8 @@ class ReflectionContainer implements PsrContainer
     }
 
     /**
-     * Returns true if the container can return an entry for the given identifier.
+     * Returns true if the container can return an entry
+     * for the given identifier.
      *
      * @param string $id
      *
@@ -103,7 +105,8 @@ class ReflectionContainer implements PsrContainer
     }
 
     /**
-     * Resolves the specified parameters from a container.
+     * Resolves the specified parameters from
+     * a container.
      *
      * @param \ReflectionFunction|\ReflectionMethod $reflection
      *

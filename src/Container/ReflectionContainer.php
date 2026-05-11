@@ -23,7 +23,8 @@ class ReflectionContainer extends PsrReflectionContainer
     }
 
     /**
-     * Resolves the specified parameters from a container.
+     * Resolves the specified parameters from
+     * a container.
      *
      * @param \ReflectionFunctionAbstract $reflector
      * @param array<string, mixed>        $parameters

@@ -97,7 +97,8 @@ class UploadedFile implements UploadedFileInterface
     }
 
     /**
-     * Retrieves the error associated with the uploaded file.
+     * Retrieves the error associated with the
+     * uploaded file.
      *
      * @return integer
      */

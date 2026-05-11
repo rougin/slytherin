@@ -155,7 +155,8 @@ class Router implements RouterInterface
     }
 
     /**
-     * Finds a specific route based on the specified HTTP method and URI.
+     * Finds a route matching the specified HTTP
+     * method and URI.
      *
      * @param string $method
      * @param string $uri
@@ -223,7 +224,8 @@ class Router implements RouterInterface
     }
 
     /**
-     * Checks if the specified route is available in the router.
+     * Checks if the given route is available in
+     * the router.
      *
      * @param string $method
      * @param string $uri
@@ -328,7 +330,7 @@ class Router implements RouterInterface
     }
 
     /**
-     * Adds a listing of routes specified for RESTful approach.
+     * Adds a set of RESTful routes for a resource.
      *
      * @param string         $uri
      * @param string         $class

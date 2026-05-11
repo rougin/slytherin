@@ -138,7 +138,8 @@ class Response extends Message implements ResponseInterface
     }
 
     /**
-     * Returns an instance with the specified status code and, optionally, reason phrase.
+     * Returns an instance with the specified status
+     * code and, optionally, reason phrase.
      *
      * @param integer $code
      * @param string  $reasonPhrase

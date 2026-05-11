@@ -29,7 +29,8 @@ class Wrapper implements MiddlewareInterface
     }
 
     /**
-     * Processes an incoming server request and return a response.
+     * Processes an incoming server request and
+     * return a response.
      *
      * @param \Psr\Http\Message\ServerRequestInterface      $request
      * @param \Rougin\Slytherin\Middleware\HandlerInterface $handler

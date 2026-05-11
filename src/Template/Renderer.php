@@ -126,7 +126,8 @@ class Renderer implements RendererInterface
     }
 
     /**
-     * Returns an array of filepaths from a specified directory.
+     * Returns an array of filepaths from
+     * a specified directory.
      *
      * @param string $path
      *

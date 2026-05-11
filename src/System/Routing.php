@@ -34,7 +34,8 @@ class Routing extends System
     protected $router = null;
 
     /**
-     * Emits the headers from response and runs the application.
+     * Emits the headers from response and runs
+     * the application.
      *
      * @return void
      */

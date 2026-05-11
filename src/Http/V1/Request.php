@@ -115,7 +115,8 @@ class Request extends Message implements RequestInterface
     }
 
     /**
-     * Returns an instance with the specific request-target.
+     * Returns an instance with the specific
+     * request-target.
      *
      * @param string $target
      *

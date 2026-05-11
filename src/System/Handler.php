@@ -90,7 +90,8 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * Parses the reflection parameters against the result parameters.
+     * Parses the reflection parameters against the
+     * result parameters.
      *
      * @param \ReflectionFunctionAbstract $reflector
      *
@@ -124,7 +125,8 @@ class Handler implements HandlerInterface
     }
 
     /**
-     * Converts the result into a \Psr\Http\Message\ResponseInterface instance.
+     * Converts the result into a
+     * \Psr\Http\Message\ResponseInterface instance.
      *
      * @param \Psr\Http\Message\ResponseInterface|mixed $function
      *

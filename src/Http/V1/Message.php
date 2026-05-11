@@ -76,7 +76,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Returns the actual header key matching the given case-insensitive name.
+     * Returns the actual header key matching the given
+     * case-insensitive name.
      *
      * @param string $name
      *
@@ -98,7 +99,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Retrieves a message header value by the given case-insensitive name.
+     * Retrieves a message header value by the given
+     * case-insensitive name.
      *
      * @param string $name
      *
@@ -157,7 +159,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Retrieves a message header value by the given case-insensitive name.
+     * Retrieves a message header value by the given
+     * case-insensitive name.
      *
      * @param string $name
      *
@@ -169,7 +172,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Returns an instance with the specified header appended with the given value.
+     * Returns an instance with the specified header
+     * appended with the given value.
      *
      * @param string          $name
      * @param string|string[] $value
@@ -200,7 +204,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Returns an instance with the specified message body.
+     * Returns an instance with the specified
+     * message body.
      *
      * @param \Psr\Http\Message\StreamInterface $body
      *
@@ -217,7 +222,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Returns an instance with the provided value replacing the specified header.
+     * Returns an instance with the provided value
+     * replacing the specified header.
      *
      * @param string          $name
      * @param string|string[] $value
@@ -264,7 +270,8 @@ class Message implements MessageInterface
     }
 
     /**
-     * Returns an instance with the specified HTTP protocol version.
+     * Returns an instance with the specified HTTP
+     * protocol version.
      *
      * @param string $version
      *

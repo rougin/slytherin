@@ -42,7 +42,8 @@ interface RouteInterface
     public function getParams();
 
     /**
-     * Returns a regular expression pattern from the given URI.
+     * Returns a regular expression pattern from the
+     * given URI.
      *
      * @return string
      */
