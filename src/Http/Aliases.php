@@ -6,18 +6,11 @@
  */
 
 // @codeCoverageIgnoreStart
-$class = 'Psr\Http\Message\MessageInterface';
-
-$method = 'getProtocolVersion';
-
-$class = new ReflectionMethod($class, $method);
-
-$isV2 = method_exists($class, 'hasReturnType')
-    && $class->hasReturnType();
+use Rougin\Slytherin\Http\Interop;
 
 $http = 'Rougin\Slytherin\Http';
 
-$number = $isV2 ? '\V2' : '\V1';
+$number = Interop::isVersion2() ? '\V2' : '\V1';
 
 $orig = $http . $number . '\Message';
 class_alias($orig, $http . '\PsrMessage');

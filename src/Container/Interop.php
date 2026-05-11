@@ -10,26 +10,32 @@ namespace Rougin\Slytherin\Container;
 class Interop
 {
     /**
+     * @return boolean
+     */
+    public static function isVersion2()
+    {
+        $class = 'Psr\Container\ContainerInterface';
+
+        $method = 'has';
+
+        $class = new \ReflectionMethod($class, $method);
+
+        return method_exists($class, 'hasReturnType')
+            && $class->hasReturnType();
+    }
+
+    /**
      * @param string $name
      *
      * @return void
      */
     public static function register($name)
     {
-        $class = 'Psr\Container\ContainerInterface';
-
-        $method = 'get';
-
-        $class = new \ReflectionMethod($class, $method);
-
-        $isV2 = method_exists($class, 'hasReturnType')
-            && $class->hasReturnType();
+        $num = self::isVersion2() ? '\V2' : '\V1';
 
         $container = 'Rougin\Slytherin\Container';
 
-        $number = $isV2 ? '\V2' : '\V1';
-
-        $orig = $container . $number . '\\' . $name;
+        $orig = $container . $num . '\\' . $name;
 
         class_alias($orig, $container . '\Psr' . $name);
     }

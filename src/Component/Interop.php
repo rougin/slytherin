@@ -1,6 +1,6 @@
 <?php
 
-namespace Rougin\Slytherin\Http;
+namespace Rougin\Slytherin\Component;
 
 /**
  * @package Slytherin
@@ -14,9 +14,9 @@ class Interop
      */
     public static function isVersion2()
     {
-        $class = 'Psr\Http\Message\MessageInterface';
+        $class = 'Psr\Container\ContainerInterface';
 
-        $method = 'getProtocolVersion';
+        $method = 'has';
 
         $class = new \ReflectionMethod($class, $method);
 
@@ -31,12 +31,12 @@ class Interop
      */
     public static function register($name)
     {
-        $http = 'Rougin\Slytherin\Http';
+        $num = self::isVersion2() ? '\V2' : '\V1';
 
-        $isV2 = self::isVersion2() ? '\V2' : '\V1';
+        $container = 'Rougin\Slytherin\Component';
 
-        $orig = $http . $isV2 . '\\' . $name;
+        $orig = $container . $num . '\\' . $name;
 
-        class_alias($orig, $http . '\Psr' . $name);
+        class_alias($orig, $container . '\Psr' . $name);
     }
 }

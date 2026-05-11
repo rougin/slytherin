@@ -6,19 +6,27 @@
  */
 
 // @codeCoverageIgnoreStart
-$container = 'Rougin\Slytherin\Container';
+use Rougin\Slytherin\Container\Interop;
 
-$number = '\V2';
+$base = 'Rougin\Slytherin\Container';
 
-$orig = $container . $number . '\Container';
-class_alias($orig, $container . '\PsrContainer');
+$number = Interop::isVersion2() ? '\V2' : '\V1';
 
-$orig = $container . $number . '\ReflectionContainer';
-class_alias($orig, $container . '\PsrReflectionContainer');
+$orig = $base . $number . '\ReflectionContainer';
+class_alias($orig, $base . '\PsrReflectionContainer');
 
-$orig = $container . $number . '\AurynContainer';
-class_alias($orig, $container . '\PsrAurynContainer');
+$orig = $base . $number . '\Container';
+class_alias($orig, $base . '\PsrContainer');
 
-$orig = $container . $number . '\LeagueContainer';
-class_alias($orig, $container . '\PsrLeagueContainer');
+if (class_exists('League\Container\Container'))
+{
+    $orig = $base . $number . '\LeagueContainer';
+    class_alias($orig, $base . '\PsrLeagueContainer');
+}
+
+if (class_exists('Auryn\Injector'))
+{
+    $orig = $base . $number . '\AurynContainer';
+    class_alias($orig, $base . '\PsrAurynContainer');
+}
 // @codeCoverageIgnoreEnd

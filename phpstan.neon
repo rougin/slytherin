@@ -1,6 +1,7 @@
 parameters:
   reportUnmatchedIgnoredErrors: false
   bootstrapFiles:
+    - src/Component/Aliases.php
     - src/Http/Aliases.php
     - src/Container/Aliases.php
   level: 9
@@ -66,9 +67,11 @@ parameters:
     - '#^Parameter \#1 \$data of method Psr\\Http\\Message\\ServerRequestInterface\:\:withParsedBody\(\) expects array\|object\|null, string given\.$#'
     - '#^Parameter \#1 \$handler of method Rougin\\Slytherin\\Debug\\WhoopsErrorHandler\:\:setHandler\(\) expects \(callable\(\)\: mixed\)\|Whoops\\Handler\\HandlerInterface, Whoops\\Handler\\PrettyPageHandler given\.$#'
     - '#^Parameter \#1 \$host of method Psr\\Http\\Message\\UriInterface\:\:withHost\(\) expects string, array given\.$#'
+    - '#^Parameter \#1 \$middleware of class Rougin\\Slytherin\\Middleware\\Callback constructor expects callable\(\)\: mixed, ''stdClass'' given\.$#'
     - '#^Parameter \#1 \$path of method Psr\\Http\\Message\\UriInterface\:\:withPath\(\) expects string, array given\.$#'
     - '#^Parameter \#1 \$query of method Psr\\Http\\Message\\UriInterface\:\:withQuery\(\) expects string, array given\.$#'
     - '#^Parameter \#2 \$response of method Rougin\\Slytherin\\Component\\Collection\:\:setHttp\(\) expects Psr\\Http\\Message\\ResponseInterface, Zend\\Diactoros\\Response given\.$#'
+    - '#^Parameter \#2 \$response of method Rougin\\Slytherin\\Component\\V2\\Collection\:\:setHttp\(\) expects Psr\\Http\\Message\\ResponseInterface, Zend\\Diactoros\\Response given\.$#'
     - '#^Parameter \$collector of anonymous function has invalid type FastRoute\\RouteCollector\.$#'
     - '#^Parameter \$collector of method Rougin\\Slytherin\\Routing\\FastRouteRouter\:\:setCollector\(\) has invalid type FastRoute\\RouteCollector\.$#'
     - '#^Parameter \$collector of method Rougin\\Slytherin\\Routing\\PhrouteRouter\:\:setCollector\(\) has invalid type Phroute\\Phroute\\RouteCollector\.$#'
