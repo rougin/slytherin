@@ -18,10 +18,12 @@ class Hello
      */
     public function __invoke($request, $response, $next = null)
     {
+        // @codeCoverageIgnoreStart
         if (! $next)
         {
             return $response;
         }
+        // @codeCoverageIgnoreEnd
 
         $response = $next($request, $response);
 

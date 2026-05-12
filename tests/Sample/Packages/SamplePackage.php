@@ -34,12 +34,14 @@ class SamplePackage implements IntegrationInterface
 
         $router = $container->get(System::ROUTER);
 
+        // @codeCoverageIgnoreStart
         if (! $router instanceof RouterInterface)
         {
             $error = System::routerNotFound($router);
 
             throw new NotFoundException($error);
         }
+        // @codeCoverageIgnoreEnd
 
         // Merge new routes to existing ---
         $new = new Retuor;
