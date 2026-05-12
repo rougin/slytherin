@@ -14,7 +14,7 @@ class ConfigurationTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_array_value_retrieved()
+    public function test_passed_if_array_value_found()
     {
         // Set configuration with array data ---
         $names = array('John Doe', 'Mary Doe');
@@ -56,7 +56,7 @@ class ConfigurationTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_dot_notation_retrieved()
+    public function test_passed_if_dot_notation_found()
     {
         // Set configuration with nested array data ---
         $database = array('name' => 'test');
@@ -122,7 +122,7 @@ class ConfigurationTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_keyword_retrieved()
+    public function test_passed_if_keyword_found()
     {
         // Set configuration with string data ---
         $data = array('name' => 'John Doe');

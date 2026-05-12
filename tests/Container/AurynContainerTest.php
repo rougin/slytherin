@@ -68,7 +68,7 @@ class AurynContainerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_simple_class_retrieved()
+    public function test_passed_if_simple_class_found()
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

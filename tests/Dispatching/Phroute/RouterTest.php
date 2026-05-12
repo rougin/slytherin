@@ -16,7 +16,7 @@ class RouterTest extends RouterTestCases
     /**
      * @return void
      */
-    public function test_passed_if_parsed_routes_retrieved()
+    public function test_passed_if_parsed_routes_found()
     {
         // Create a fresh router without a collector ---
         $this->self = new Router;

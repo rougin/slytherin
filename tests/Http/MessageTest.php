@@ -93,7 +93,7 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_header_line_retrieved()
+    public function test_passed_if_header_line_found()
     {
         $expect = '18';
 
@@ -133,7 +133,7 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_header_retrieved()
+    public function test_passed_if_header_found()
     {
         $expect = array('18');
 
@@ -151,7 +151,7 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_headers_retrieved()
+    public function test_passed_if_headers_found()
     {
         $expect = array('name' => array('John Doe'));
 
@@ -173,7 +173,7 @@ class MessageTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_protocol_version_retrieved()
+    public function test_passed_if_protocol_version_found()
     {
         $expect = '1.2';
 

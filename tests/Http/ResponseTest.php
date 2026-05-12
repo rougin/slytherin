@@ -62,7 +62,7 @@ class ResponseTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_reason_phrase_retrieved()
+    public function test_passed_if_reason_phrase_found()
     {
         $expect = 'Lorem ipsum dolor';
 
@@ -80,7 +80,7 @@ class ResponseTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_status_code_retrieved()
+    public function test_passed_if_status_code_found()
     {
         $expect = 500;
 

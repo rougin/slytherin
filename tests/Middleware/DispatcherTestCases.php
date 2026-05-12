@@ -164,7 +164,7 @@ class DispatcherTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_middlewares_retrieved()
+    public function test_passed_if_middlewares_found()
     {
         $this->checkIfInteropExists();
 
@@ -268,7 +268,7 @@ class DispatcherTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_stack_method_retrieved()
+    public function test_passed_if_stack_method_found()
     {
         // Push a simple pass-through middleware ---
         $fn = function ($request, $next)

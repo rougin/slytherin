@@ -24,7 +24,7 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_empty_route_retrieved()
+    public function test_passed_if_empty_route_found()
     {
         $actual = $this->self->getRoute('GET', '/test');
 

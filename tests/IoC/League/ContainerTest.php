@@ -54,7 +54,7 @@ class ContainerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_instance_retrieved()
+    public function test_passed_if_instance_found()
     {
         $this->self->set($this->name, $this->class);
 

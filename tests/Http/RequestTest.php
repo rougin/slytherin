@@ -116,7 +116,7 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_request_target_retrieved()
+    public function test_passed_if_request_target_found()
     {
         $expect = '/lorem-ipsum';
 
@@ -134,7 +134,7 @@ class RequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_uri_retrieved()
+    public function test_passed_if_uri_found()
     {
         $expect = new Uri('https://www.google.com');
 

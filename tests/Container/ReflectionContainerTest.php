@@ -52,7 +52,7 @@ class ReflectionContainerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_parameter_class_retrieved()
+    public function test_passed_if_parameter_class_found()
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\WithParameter';
 
@@ -64,7 +64,7 @@ class ReflectionContainerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_simple_class_retrieved()
+    public function test_passed_if_simple_class_found()
     {
         $expect = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 

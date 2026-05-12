@@ -243,7 +243,7 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_stream_content_retrieved()
+    public function test_passed_if_stream_content_found()
     {
         $expect = 'This is a text from a template.';
 
@@ -280,7 +280,7 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_stream_metadata_retrieved()
+    public function test_passed_if_stream_metadata_found()
     {
         // Create a stream from a new file ---
         $file = $this->newFile();
@@ -336,7 +336,7 @@ class StreamTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_stream_size_retrieved()
+    public function test_passed_if_stream_size_found()
     {
         $expect = 31;
 

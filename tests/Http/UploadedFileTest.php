@@ -103,7 +103,7 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_file_error_retrieved()
+    public function test_passed_if_file_error_found()
     {
         $expect = UPLOAD_ERR_OK;
 
@@ -137,7 +137,7 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_file_name_retrieved()
+    public function test_passed_if_file_name_found()
     {
         $expect = 'file-test.php';
 
@@ -151,7 +151,7 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_file_size_retrieved()
+    public function test_passed_if_file_size_found()
     {
         $expect = 400;
 
@@ -165,7 +165,7 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_media_type_retrieved()
+    public function test_passed_if_media_type_found()
     {
         $expect = 'text/plain';
 
@@ -201,7 +201,7 @@ class UploadedFileTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_stream_body_retrieved()
+    public function test_passed_if_stream_body_found()
     {
         $expect = 'Rougin\Slytherin\Http\Stream';
 

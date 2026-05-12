@@ -94,7 +94,7 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_authority_retrieved()
+    public function test_passed_if_authority_found()
     {
         $expect = 'me@roug.in:400';
 
@@ -270,7 +270,7 @@ class UriTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_scheme_retrieved()
+    public function test_passed_if_scheme_found()
     {
         // Update the scheme on the URI --------
         $expect = 'http';

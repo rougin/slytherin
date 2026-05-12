@@ -28,7 +28,7 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_empty_route_retrieved()
+    public function test_passed_if_empty_route_found()
     {
         $this->exists(get_class($this->self));
 
@@ -243,7 +243,7 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_route_retrieved()
+    public function test_passed_if_route_found()
     {
         $this->exists(get_class($this->self));
 
@@ -313,7 +313,7 @@ class RouterTestCases extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_routes_retrieved()
+    public function test_passed_if_routes_found()
     {
         $this->exists(get_class($this->self));
 

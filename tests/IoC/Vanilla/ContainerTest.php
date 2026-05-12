@@ -134,7 +134,7 @@ class ContainerTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_instance_retrieved()
+    public function test_passed_if_instance_found()
     {
         // Add a class with parameters -------------
         $this->self->add($this->name, $this->class);

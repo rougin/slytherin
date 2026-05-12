@@ -115,7 +115,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_cookie_params_retrieved()
+    public function test_passed_if_cookie_params_found()
     {
         // Set the cookie parameters ------------------------
         $expect = array('name' => 'John Doe', 'age' => '19');
@@ -143,7 +143,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_parsed_body_retrieved()
+    public function test_passed_if_parsed_body_found()
     {
         // Set the parsed body on the request -----------
         $expect = array('page' => 10, 'name' => 'users');
@@ -161,7 +161,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_query_params_retrieved()
+    public function test_passed_if_query_params_found()
     {
         // Set the query string parameters --------------
         $expect = array('page' => 10, 'name' => 'users');
@@ -179,7 +179,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_request_attributes_retrieved()
+    public function test_passed_if_request_attributes_found()
     {
         // Set a request attribute ----------------------------
         $expect = array('user' => 'John Doe');
@@ -197,7 +197,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_server_params_retrieved()
+    public function test_passed_if_server_params_found()
     {
         $expect = $_SERVER;
 
@@ -250,7 +250,7 @@ class ServerRequestTest extends Testcase
     /**
      * @return void
      */
-    public function test_passed_if_uploaded_files_retrieved()
+    public function test_passed_if_uploaded_files_found()
     {
         // Create an "UploadedFile" instance ---
         $error = 0;
