@@ -6,6 +6,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as Middleware;
 use Rougin\Slytherin\Routing\DispatcherInterface as Routing;
@@ -16,6 +17,8 @@ Interop::register('Collection');
 
 /**
  * @package Slytherin
+ *
+ * @property \Rougin\Slytherin\Container\ContainerInterface $container
  *
  * @method mixed                                  get(string $id)
  * @method boolean                                has(string $id)
@@ -62,8 +65,16 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getDebugger()
     {
-        /** @var \Rougin\Slytherin\Debug\ErrorHandlerInterface */
-        return $this->get(System::DEBUGGER);
+        $debugger = $this->get(System::DEBUGGER);
+
+        if (! $debugger instanceof ErrorHandlerInterface)
+        {
+            $error = System::debuggerNotFound($debugger);
+
+            throw new NotFoundException($error);
+        }
+
+        return $debugger;
     }
 
     /**
@@ -79,14 +90,22 @@ class Collection extends PsrCollection implements ContainerInterface
     }
 
     /**
-     * Returns the dispatcher.
+     * Returns the routing dispatcher.
      *
      * @return \Rougin\Slytherin\Routing\DispatcherInterface
      */
     public function getDispatcher()
     {
-        /** @var \Rougin\Slytherin\Routing\DispatcherInterface */
-        return $this->get(System::DISPATCHER);
+        $dispatcher = $this->get(System::DISPATCHER);
+
+        if (! $dispatcher instanceof Routing)
+        {
+            $error = System::dispatcherNotFound($dispatcher);
+
+            throw new NotFoundException($error);
+        }
+
+        return $dispatcher;
     }
 
     /**
@@ -108,7 +127,12 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getHttp()
     {
-        return array($this->getHttpRequest(), $this->getHttpResponse());
+        $items = array();
+
+        $items[] = $this->getHttpRequest();
+        $items[] = $this->getHttpResponse();
+
+        return $items;
     }
 
     /**
@@ -118,8 +142,16 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getHttpRequest()
     {
-        /** @var \Psr\Http\Message\ServerRequestInterface */
-        return $this->get(System::REQUEST);
+        $request = $this->get(System::REQUEST);
+
+        if (! $request instanceof ServerRequestInterface)
+        {
+            $error = System::requestNotFound($request);
+
+            throw new NotFoundException($error);
+        }
+
+        return $request;
     }
 
     /**
@@ -129,8 +161,16 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getHttpResponse()
     {
-        /** @var \Psr\Http\Message\ResponseInterface */
-        return $this->get(System::RESPONSE);
+        $response = $this->get(System::RESPONSE);
+
+        if (! $response instanceof ResponseInterface)
+        {
+            $error = System::responseNotFound($response);
+
+            throw new NotFoundException($error);
+        }
+
+        return $response;
     }
 
     /**
@@ -140,8 +180,16 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getMiddleware()
     {
-        /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
-        return $this->get(System::MIDDLEWARE);
+        $middleware = $this->get(System::MIDDLEWARE);
+
+        if (! $middleware instanceof Middleware)
+        {
+            $error = System::middlewareNotFound($middleware);
+
+            throw new NotFoundException($error);
+        }
+
+        return $middleware;
     }
 
     /**
@@ -151,8 +199,16 @@ class Collection extends PsrCollection implements ContainerInterface
      */
     public function getTemplate()
     {
-        /** @var \Rougin\Slytherin\Template\RendererInterface */
-        return $this->get(System::TEMPLATE);
+        $template = $this->get(System::TEMPLATE);
+
+        if (! $template instanceof RendererInterface)
+        {
+            $error = System::templateNotFound($template);
+
+            throw new NotFoundException($error);
+        }
+
+        return $template;
     }
 
     /**
@@ -196,7 +252,7 @@ class Collection extends PsrCollection implements ContainerInterface
     }
 
     /**
-     * Sets the dispatcher.
+     * Sets the routing dispatcher.
      *
      * @param \Rougin\Slytherin\Routing\DispatcherInterface $dispatcher
      *
@@ -233,7 +289,9 @@ class Collection extends PsrCollection implements ContainerInterface
     {
         $this->add(System::REQUEST, $request);
 
-        return $this->add(System::RESPONSE, $response);
+        $this->add(System::RESPONSE, $response);
+
+        return $this;
     }
 
     /**

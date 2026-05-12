@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\System;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 use Rougin\Slytherin\Routing\RouteInterface;
@@ -134,8 +135,14 @@ class Handler implements HandlerInterface
      */
     protected function setResponse($function)
     {
-        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $this->container->get(System::RESPONSE);
+
+        if (! $response instanceof ResponseInterface)
+        {
+            $error = System::responseNotFound($response);
+
+            throw new NotFoundException($error);
+        }
 
         if (is_string($function))
         {

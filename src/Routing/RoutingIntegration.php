@@ -3,6 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\System;
@@ -33,8 +34,14 @@ class RoutingIntegration implements IntegrationInterface
     {
         $router = new Router;
 
-        /** @var \Rougin\Slytherin\Routing\RouterInterface */
         $router = $config->get('app.router', $router);
+
+        if (! $router instanceof RouterInterface)
+        {
+            $error = System::routerNotFound($router);
+
+            throw new NotFoundException($error);
+        }
 
         $dispatcher = new Dispatcher($router);
 

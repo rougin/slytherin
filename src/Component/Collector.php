@@ -2,8 +2,16 @@
 
 namespace Rougin\Slytherin\Component;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\Container\NotFoundException;
+use Rougin\Slytherin\Debug\ErrorHandlerInterface;
+use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareInterface;
+use Rougin\Slytherin\Routing\DispatcherInterface as RoutingInterface;
+use Rougin\Slytherin\System;
+use Rougin\Slytherin\Template\RendererInterface;
 
 /**
  * Collects all defined components into a Collection.
@@ -28,8 +36,14 @@ class Collector
         {
             if (is_string($item))
             {
-                /** @var \Rougin\Slytherin\Component\ComponentInterface */
                 $item = new $item;
+            }
+
+            if (! $item instanceof ComponentInterface)
+            {
+                $error = System::componentNotFound($item);
+
+                throw new NotFoundException($error);
             }
 
             $this->items[] = $item;
@@ -52,13 +66,21 @@ class Collector
         // If there is a defined container, set it first -----------------
         foreach ($this->items as $item)
         {
-            if ($item->getType() === 'container')
+            if ($item->getType() !== 'container')
             {
-                /** @var \Rougin\Slytherin\Container\ContainerInterface */
-                $result = $item->get();
-
-                $collection->setDependencyInjector($result);
+                continue;
             }
+
+            $result = $item->get();
+
+            if (! $result instanceof ContainerInterface)
+            {
+                $error = System::containerNotFound($result);
+
+                throw new NotFoundException($error);
+            }
+
+            $collection->setDependencyInjector($result);
         }
         // ---------------------------------------------------------------
 
@@ -66,46 +88,86 @@ class Collector
         {
             if ($item->getType() === 'dispatcher')
             {
-                /** @var \Rougin\Slytherin\Dispatching\DispatcherInterface */
                 $result = $item->get();
+
+                if (! $result instanceof RoutingInterface)
+                {
+                    $error = System::dispatcherNotFound($result);
+
+                    throw new NotFoundException($error);
+                }
 
                 $collection->setDispatcher($result);
             }
 
             if (in_array($item->getType(), array('debugger', 'error_handler')))
             {
-                /** @var \Rougin\Slytherin\Debug\DebuggerInterface */
                 $result = $item->get();
+
+                if (! $result instanceof ErrorHandlerInterface)
+                {
+                    $error = System::debuggerNotFound($result);
+
+                    throw new NotFoundException($error);
+                }
 
                 $collection->setErrorHandler($result);
             }
 
             if ($item->getType() === 'http')
             {
-                /** @var array<integer, mixed> */
                 $result = $item->get();
 
-                /** @var \Psr\Http\Message\ServerRequestInterface */
+                if (! is_array($result))
+                {
+                    throw new NotFoundException('Component is not an array');
+                }
+
                 $request = $result[0];
 
-                /** @var \Psr\Http\Message\ResponseInterface */
+                if (! $request instanceof ServerRequestInterface)
+                {
+                    $error = System::requestNotFound($request);
+
+                    throw new NotFoundException($error);
+                }
+
                 $response = $result[1];
+
+                if (! $response instanceof ResponseInterface)
+                {
+                    $error = System::responseNotFound($response);
+
+                    throw new NotFoundException($error);
+                }
 
                 $collection->setHttp($request, $response);
             }
 
             if ($item->getType() === 'middleware')
             {
-                /** @var \Rougin\Slytherin\Middleware\DispatcherInterface */
                 $result = $item->get();
+
+                if (! $result instanceof MiddlewareInterface)
+                {
+                    $error = System::middlewareNotFound($result);
+
+                    throw new NotFoundException($error);
+                }
 
                 $collection->setMiddleware($result);
             }
 
             if ($item->getType() === 'template')
             {
-                /** @var \Rougin\Slytherin\Template\RendererInterface */
                 $result = $item->get();
+
+                if (! $result instanceof RendererInterface)
+                {
+                    $error = System::templateNotFound($result);
+
+                    throw new NotFoundException($error);
+                }
 
                 $collection->setTemplate($result);
             }

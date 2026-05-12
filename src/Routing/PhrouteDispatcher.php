@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Routing;
 use Phroute\Phroute\Dispatcher as Phroute;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\RouteDataArray;
+use Rougin\Slytherin\Container\NotFoundException;
+use Rougin\Slytherin\System;
 
 /**
  * A route dispatcher built on top of Phroute.
@@ -52,8 +54,14 @@ class PhrouteDispatcher extends Dispatcher
 
         try
         {
-            /** @var \Rougin\Slytherin\Routing\RouteInterface */
             $route = $phroute->dispatch($method, $uri);
+
+            if (! $route instanceof RouteInterface)
+            {
+                $error = System::routeNotFound($route);
+
+                throw new NotFoundException($error);
+            }
 
             // Combine values from resolver and the current parameters -------------
             $regex = '/\{([a-zA-Z0-9\_\-]+)\}/i';

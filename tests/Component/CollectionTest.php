@@ -5,6 +5,7 @@ namespace Rougin\Slytherin\Component;
 use Rougin\Slytherin\Debug\Vanilla\Debugger;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
+use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\IoC\Vanilla\Container;
@@ -25,6 +26,90 @@ class CollectionTest extends Testcase
      * @var \Rougin\Slytherin\Component\Collection
      */
     protected $components;
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_debugger_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::DEBUGGER, new NewClass);
+
+        $this->components->getDebugger();
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_dispatcher_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::DISPATCHER, new NewClass);
+
+        $this->components->getDispatcher();
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_http_request_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::REQUEST, new NewClass);
+
+        $this->components->getHttpRequest();
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_http_response_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::RESPONSE, new NewClass);
+
+        $this->components->getHttpResponse();
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_middleware_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::MIDDLEWARE, new NewClass);
+
+        $this->components->getMiddleware();
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_template_not_found()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $this->components->set(System::TEMPLATE, new NewClass);
+
+        $this->components->getTemplate();
+    }
 
     /**
      * @return void

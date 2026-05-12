@@ -2,6 +2,10 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use FastRoute\Dispatcher as FastRoute;
+use Rougin\Slytherin\Container\NotFoundException;
+use Rougin\Slytherin\System;
+
 /**
  * A route dispatcher built on top of "FastRoute".
  *
@@ -32,10 +36,9 @@ class FastRouteDispatcher extends Dispatcher
     {
         $this->validMethod($method);
 
-        /** @var array<integer, int|string> */
         $result = $this->fastroute->dispatch($method, $uri);
 
-        if ($result[0] === \FastRoute\Dispatcher::NOT_FOUND)
+        if ($result[0] === FastRoute::NOT_FOUND)
         {
             $text = 'Route "%s %s" not found';
 
@@ -44,8 +47,14 @@ class FastRouteDispatcher extends Dispatcher
             throw new \BadMethodCallException($error);
         }
 
-        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $result[1];
+
+        if (! $route instanceof RouteInterface)
+        {
+            $error = System::routeNotFound($route);
+
+            throw new NotFoundException($error);
+        }
 
         /** @var array<string, string> */
         $params = $result[2];
