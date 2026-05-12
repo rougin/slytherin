@@ -23,6 +23,7 @@
     <!-- Used for PHP versions 7.3-8.0 only -->
     <include>
       <directory suffix=".php">src</directory>
+      <directory suffix=".php">tests</directory>
     </include>
 
     <!-- Used for PHP versions 5.3-5.5, 7.3-present -->
@@ -37,6 +38,7 @@
   <source>
     <include>
       <directory suffix=".php">src</directory>
+      <directory suffix=".php">tests</directory>
     </include>
   </source>
 </phpunit>
