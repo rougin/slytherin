@@ -185,9 +185,9 @@ class ApplicationTestCases extends Testcase
         $actual = $response->getBody();
         // ---------------------------------------------------
 
-        // Verify the response interface was handled correctly ---
+        // Verify the response interface was handled ---
         $this->assertEquals($expect, $actual);
-        // -------------------------------------------------------
+        // ---------------------------------------------
     }
 
     /**
@@ -198,6 +198,7 @@ class ApplicationTestCases extends Testcase
     public function test_passed_if_run_method_responded()
     {
         $expect = 'Hello';
+
         $this->expectOutputString($expect);
 
         // Execute the application via the run method ---

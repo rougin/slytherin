@@ -33,6 +33,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/middleware');
 
         $expect = 'From callable middleware!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -48,6 +49,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/callable');
 
         $expect = 'Welcome call!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -63,6 +65,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/call/Slytherin/18');
 
         $expect = 'Welcome Slytherin, 18!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -78,6 +81,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/call/Slytherin');
 
         $expect = 'Welcome Slytherin!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -93,6 +97,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/param');
 
         $expect = 'Welcome param!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -108,6 +113,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/');
 
         $expect = 'Welcome home!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -127,6 +133,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/interop');
 
         $expect = 'From interop!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -148,6 +155,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/handler/conts');
 
         $expect = 'Hello, Slytherin!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -169,6 +177,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/handler/param');
 
         $expect = 'Hello, Slytherin!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -190,6 +199,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/response');
 
         $expect = 'From middleware!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -205,6 +215,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/without-slash');
 
         $expect = 'This is a simple string.';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -222,17 +233,18 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/');
 
         $expect = 'Welcome home!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
 
         // Verify the package set the timezone ---
-        $timezone = date_default_timezone_get();
+        $actual = date_default_timezone_get();
 
         $expect = 'Asia/Manila';
 
-        $this->assertEquals($expect, $timezone);
-        // ----------------------------------------
+        $this->assertEquals($expect, $actual);
+        // ---------------------------------------
     }
 
     /**
@@ -247,6 +259,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/encoded');
 
         $expect = '"Encoded world!"';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -262,6 +275,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/hello');
 
         $expect = 'Hello world!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -277,6 +291,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/string');
 
         $expect = 'This is a simple string.';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -289,17 +304,18 @@ class SampleTest extends Testcase
      */
     public function test_passed_if_uploaded_file_responded()
     {
-        // Add a sample file to the builder ---
+        // Add a sample file to the builder ----
         $file = __DIR__ . '/EMDAER.txt';
 
         $this->builder->addFile('files', $file);
-        // ------------------------------------
+        // -------------------------------------
 
         $this->builder->addPackage(new SamplePackage);
 
         $this->builder->setUrl('POST', '/upload');
 
         $expect = 'The file is EMDAER.txt!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -315,6 +331,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/hi/Rougin');
 
         $expect = 'Hello, Rougin!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
@@ -332,6 +349,7 @@ class SampleTest extends Testcase
         $this->builder->setUrl('GET', '/world');
 
         $expect = 'Hello string world!';
+
         $this->expectOutputString($expect);
 
         $this->builder->make()->run();
