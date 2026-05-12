@@ -3,6 +3,8 @@
 namespace Rougin\Slytherin\Routing;
 
 use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Routing\FakeFastRoute;
+use Rougin\Slytherin\Fixture\Routing\TestableFastRoute;
 
 /**
  * @package Slytherin
@@ -11,6 +13,26 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
  */
 class FastRouteDispatcherTest extends DispatcherTestCases
 {
+    /**
+     * @return void
+     */
+    public function test_failed_if_route_not_route_interface()
+    {
+        $this->checkIfFastRouteExists();
+
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $router = new Router;
+
+        $dispatcher = new TestableFastRoute($router);
+
+        $dispatcher->setFastRoute(new FakeFastRoute);
+
+        $dispatcher->dispatch('GET', '/');
+    }
+
     /**
      * @return void
      */

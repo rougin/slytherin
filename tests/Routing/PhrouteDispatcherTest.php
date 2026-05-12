@@ -2,7 +2,10 @@
 
 namespace Rougin\Slytherin\Routing;
 
+use Phroute\Phroute\RouteDataArray;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Routing\TestablePhroute;
+use Rougin\Slytherin\Fixture\Routing\WeirdRoute;
 
 /**
  * @package Slytherin
@@ -21,6 +24,32 @@ class PhrouteDispatcherTest extends DispatcherTestCases
         $router = $this->getRouter('phroute');
 
         $this->self = new PhrouteDispatcher($router);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_route_not_route_interface()
+    {
+        $this->checkIfPhrouteExists();
+
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $data = new RouteDataArray(
+            array('' => array('GET' => array(new WeirdRoute, array(), array()))),
+            array(),
+            array()
+        );
+
+        $router = new Router;
+
+        $dispatcher = new TestablePhroute($router);
+
+        $dispatcher->setItems($data);
+
+        $dispatcher->dispatch('GET', '/');
     }
 
     /**

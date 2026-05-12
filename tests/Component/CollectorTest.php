@@ -82,6 +82,22 @@ class CollectorTest extends Testcase
     /**
      * @return void
      */
+    public function test_failed_if_http_component_not_an_array()
+    {
+        $expect = 'Rougin\Slytherin\Container\NotFoundException';
+
+        $this->doSetExpectedException($expect);
+
+        $sample = new SampleComponent('http', new NewClass);
+
+        $self = new Collector(array($sample));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
     public function test_failed_if_http_request_not_found()
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';

@@ -13,7 +13,9 @@ namespace Rougin\Slytherin\Routing;
  */
 class PhrouteWrapper
 {
-    /** @var \Rougin\Slytherin\Routing\RouteInterface */
+    /**
+     * @var \Rougin\Slytherin\Routing\RouteInterface
+     */
     protected $route;
 
     /**

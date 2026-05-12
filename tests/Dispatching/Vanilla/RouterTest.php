@@ -2,8 +2,10 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
+use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Dispatching\RouterTestCases;
 use Rougin\Slytherin\Routing\Route;
+use Rougin\Slytherin\System;
 
 /**
  * @package Slytherin
@@ -59,16 +61,22 @@ class RouterTest extends RouterTestCases
         $this->self->get($route->getUri(), $handler);
         // ------------------------------------------
 
-        // Verify the route includes the prefix ------------
+        // Verify the route includes the prefix ---------
         $expect = '/v1/slytherin/';
 
-        /** @var \Rougin\Slytherin\Routing\RouteInterface */
         $route = $this->self->getRoute($method, $expect);
+
+        if (! $route)
+        {
+            $error = System::routeNotFound($route);
+
+            throw new NotFoundException($error);
+        }
 
         $actual = $route->getUri();
 
         $this->assertEquals($expect, $actual);
-        // -------------------------------------------------
+        // ----------------------------------------------
     }
 
     /**

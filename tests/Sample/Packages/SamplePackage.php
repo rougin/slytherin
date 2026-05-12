@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Sample\Packages;
 
-use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Integration\Configuration;
@@ -33,7 +32,7 @@ class SamplePackage implements IntegrationInterface
         date_default_timezone_set($timezone);
         // --------------------------------------
 
-        $router = $container->get(Application::ROUTER);
+        $router = $container->get(System::ROUTER);
 
         if (! $router instanceof RouterInterface)
         {
@@ -48,7 +47,7 @@ class SamplePackage implements IntegrationInterface
         $router->merge($new->routes());
         // --------------------------------
 
-        $container->set(Application::ROUTER, $router);
+        $container->set(System::ROUTER, $router);
 
         return $container;
     }

@@ -124,14 +124,9 @@ class System
      */
     public static function notFound($item, $class)
     {
-        if (is_object($item))
-        {
-            $item = get_class($item);
-        }
-        else
-        {
-            $item = is_string($item) ? $item : gettype($item);
-        }
+        $item = is_object($item) ? get_class($item) : $item;
+
+        $item = is_string($item) ? $item : gettype($item);
 
         return '"' . $item . '" is not under "' . $class . '"';
     }
