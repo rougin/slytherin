@@ -46,16 +46,16 @@ class ReflectionContainer
         }
 
         /** @var class-string $id */
-        $reflection = new \ReflectionClass($id);
+        $reflect = new \ReflectionClass($id);
 
-        if ($constructor = $reflection->getConstructor())
+        if (! $const = $reflect->getConstructor())
         {
-            $arguments = $this->resolve($constructor);
-
-            return $reflection->newInstanceArgs($arguments);
+            return new $id;
         }
 
-        return new $id;
+        $args = $this->resolve($const);
+
+        return $reflect->newInstanceArgs($args);
     }
 
     /**

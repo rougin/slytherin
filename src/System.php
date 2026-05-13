@@ -294,19 +294,18 @@ class System
 
         $container = $this->container;
 
-        /** @var \Rougin\Slytherin\Integration\IntegrationInterface|string $item */
         foreach ($items as $item)
         {
             if (is_string($item))
             {
                 $item = new $item;
+            }
 
-                if (! $item instanceof IntegrationInterface)
-                {
-                    $error = self::integrationNotFound($item);
+            if (! $item instanceof IntegrationInterface)
+            {
+                $error = self::integrationNotFound($item);
 
-                    throw new NotFoundException($error);
-                }
+                throw new NotFoundException($error);
             }
 
             $container = $item->define($container, $config);
