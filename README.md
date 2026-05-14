@@ -60,14 +60,14 @@ Please see [CHANGELOG][link-changelog] for more information what has changed rec
 To check all written test cases, kindly install the specified third-party packages first:
 
 ``` bash
-$ composer request filp/whoops --dev
-$ composer request league/container --dev
-$ composer request nikic/fast-route --dev
-$ composer request phroute/phroute --dev
-$ composer request rdlowrey/auryn --dev
-$ composer request twig/twig --dev
-$ composer request zendframework/zend-diactoros --dev
-$ composer request zendframework/zend-stratigility --dev
+$ composer require filp/whoops --dev
+$ composer require league/container --dev
+$ composer require nikic/fast-route --dev
+$ composer require phroute/phroute --dev
+$ composer require rdlowrey/auryn --dev
+$ composer require twig/twig --dev
+$ composer require zendframework/zend-diactoros --dev
+$ composer require zendframework/zend-stratigility --dev
 $ composer test
 ```
 
