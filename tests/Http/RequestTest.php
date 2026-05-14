@@ -28,7 +28,7 @@ class RequestTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withMethod('');
     }
@@ -40,7 +40,7 @@ class RequestTest extends Testcase
     {
         $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withMethod(array());
     }

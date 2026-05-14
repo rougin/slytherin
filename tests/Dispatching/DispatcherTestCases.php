@@ -23,7 +23,7 @@ class DispatcherTestCases extends Testcase
     {
         $expect = 'BadMethodCallException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->dispatch('TEST', '/test-method');
     }
@@ -35,7 +35,7 @@ class DispatcherTestCases extends Testcase
     {
         $expect = 'BadMethodCallException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->dispatch('GET', '/test');
     }

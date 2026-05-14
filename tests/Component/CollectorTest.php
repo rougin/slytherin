@@ -24,7 +24,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = 'Rougin\Slytherin\Fixture\Classes\NewClass';
 
@@ -38,7 +38,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('container', new NewClass);
 
@@ -54,7 +54,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('debugger', new NewClass);
 
@@ -70,7 +70,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('dispatcher', new NewClass);
 
@@ -86,7 +86,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('http', new NewClass);
 
@@ -102,7 +102,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $values = array(new NewClass, new Response);
 
@@ -120,7 +120,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $server = array('REQUEST_METHOD' => 'GET', 'REQUEST_URI' => '/', 'SERVER_NAME' => 'localhost', 'SERVER_PORT' => '8000');
 
@@ -140,7 +140,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('middleware', new NewClass);
 
@@ -156,7 +156,7 @@ class CollectorTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $sample = new SampleComponent('template', new NewClass);
 

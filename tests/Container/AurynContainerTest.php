@@ -24,7 +24,7 @@ class AurynContainerTest extends Testcase
     {
         $expect = 'Psr\Container\ContainerExceptionInterface';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to get an unregistered class ---
         $this->self->get('Test');
@@ -38,7 +38,7 @@ class AurynContainerTest extends Testcase
     {
         $expect = 'Psr\Container\NotFoundExceptionInterface';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to get a non-existent class ---
         $class = 'Rougin\Slytherin\HelloWorld';

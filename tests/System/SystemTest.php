@@ -29,7 +29,7 @@ class SystemTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->container->set(System::DEBUGGER, new NewClass);
 
@@ -45,7 +45,7 @@ class SystemTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->container->set(System::DISPATCHER, new NewClass);
         $system = new System($this->container);
@@ -67,7 +67,7 @@ class SystemTest extends Testcase
     public function test_failed_if_integration_not_found()
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $system = new System($this->container);
 
@@ -83,7 +83,7 @@ class SystemTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $router = new Router;
 
@@ -118,7 +118,7 @@ class SystemTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->container->set(System::REQUEST, new NewClass);
 
@@ -134,7 +134,7 @@ class SystemTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $router = new Router;
 

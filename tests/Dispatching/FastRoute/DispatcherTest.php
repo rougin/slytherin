@@ -21,7 +21,7 @@ class DispatcherTest extends DispatcherTestCases
     {
         $expect = 'BadMethodCallException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Verify against a non-matching HTTP method ---
         $this->self->dispatch('TEST', '/hi');

@@ -23,7 +23,7 @@ class ReflectionContainerTest extends Testcase
     {
         $expect = 'Psr\Container\NotFoundExceptionInterface';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->get('Rougin\Slytherin\HelloWorld');
     }

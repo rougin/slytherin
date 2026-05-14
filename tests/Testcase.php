@@ -179,7 +179,7 @@ class Testcase extends Legacy
      *
      * @return void
      */
-    public function doSetExpectedException($exception)
+    public function doExpectException($exception)
     {
         /** @phpstan-ignore-next-line */
         if (method_exists($this, 'expectException'))

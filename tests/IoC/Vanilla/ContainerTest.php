@@ -38,7 +38,7 @@ class ContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->get('Rougin\Slytherin\Hello');
     }
@@ -50,7 +50,7 @@ class ContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\Exception\ContainerException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Set a non-class value and retrieve it ---
         $this->self->set('Foo', array());
@@ -69,7 +69,7 @@ class ContainerTest extends Testcase
         $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
         // Attempt to get an unknown class via reflection ---
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $self->get('Test');
         // --------------------------------------------------

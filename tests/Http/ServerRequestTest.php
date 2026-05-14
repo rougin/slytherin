@@ -23,7 +23,7 @@ class ServerRequestTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withParsedBody(4711);
     }
@@ -35,7 +35,7 @@ class ServerRequestTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set a string as the parsed body ---
         $this->self->withParsedBody('string');
@@ -49,7 +49,7 @@ class ServerRequestTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Prepare invalid uploaded file data ---
         $file = array('not_a_uploaded_file');

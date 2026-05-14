@@ -23,7 +23,7 @@ class MessageTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withAddedHeader("name\r\n", 'value');
     }
@@ -35,7 +35,7 @@ class MessageTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withHeader("name\r\n", 'value');
     }

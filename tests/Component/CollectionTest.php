@@ -34,7 +34,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::DEBUGGER, new NewClass);
 
@@ -48,7 +48,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::DISPATCHER, new NewClass);
 
@@ -62,7 +62,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::REQUEST, new NewClass);
 
@@ -76,7 +76,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::RESPONSE, new NewClass);
 
@@ -90,7 +90,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::MIDDLEWARE, new NewClass);
 
@@ -104,7 +104,7 @@ class CollectionTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->components->set(System::TEMPLATE, new NewClass);
 

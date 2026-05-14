@@ -28,7 +28,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Close the stream first ---
         $this->self->close();
@@ -46,7 +46,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Create a write-only stream ---
         /** @var resource */
@@ -67,7 +67,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Detach the stream before seeking ---
         $self = new Stream($this->newFile());
@@ -83,7 +83,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to read beyond the stream size ---
         $self = new Stream($this->newFile());
@@ -99,7 +99,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Detach the stream before checking position ---
         $self = new Stream($this->newFile());
@@ -115,7 +115,7 @@ class StreamTest extends Testcase
     {
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Create a read-only stream -----------
         $self = new Stream($this->newFile('r'));

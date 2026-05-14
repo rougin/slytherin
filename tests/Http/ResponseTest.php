@@ -28,7 +28,7 @@ class ResponseTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set an invalid status code ---
         $this->self->withStatus(600);
@@ -42,7 +42,7 @@ class ResponseTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withStatus(99);
     }
@@ -54,7 +54,7 @@ class ResponseTest extends Testcase
     {
         $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->withStatus('foobar');
     }

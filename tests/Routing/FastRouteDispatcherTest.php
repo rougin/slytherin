@@ -22,7 +22,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $router = new Router;
 

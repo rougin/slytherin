@@ -26,7 +26,7 @@ class RoutingIntegrationTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $config = new Configuration;
 

@@ -33,7 +33,7 @@ class UploadedFileTest extends Testcase
 
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to move the same file again ---
         $this->self->moveTo($target);
@@ -47,7 +47,7 @@ class UploadedFileTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to move to an empty target path ---
         $this->self->moveTo('');
@@ -70,7 +70,7 @@ class UploadedFileTest extends Testcase
         // Attempt to move a file with an upload error ---
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $self->moveTo($root . '/Templates/test.php');
         // -----------------------------------------------
@@ -94,7 +94,7 @@ class UploadedFileTest extends Testcase
         // Attempt to get the stream after moving ---
         $expect = 'RuntimeException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->getStream();
         // ------------------------------------------

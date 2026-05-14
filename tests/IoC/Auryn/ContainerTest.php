@@ -37,7 +37,7 @@ class ContainerTest extends Testcase
     {
         $expect = 'Rougin\Slytherin\Container\Exception\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->get('Rougin\HelloWorld');
     }

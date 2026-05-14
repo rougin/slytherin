@@ -27,7 +27,7 @@ class HandlerTest extends Testcase
     public function test_failed_if_response_not_found()
     {
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->container->set(System::RESPONSE, new NewClass);
 

@@ -28,7 +28,7 @@ class UriTest extends Testcase
     {
         $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set a non-string as the host ---
         $this->self->withHost(array());
@@ -42,7 +42,7 @@ class UriTest extends Testcase
     {
         $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set a non-string as the path ---
         $this->self->withPath(array());
@@ -56,7 +56,7 @@ class UriTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set a port out of range ---
         $this->self->withPort(70000);
@@ -70,7 +70,7 @@ class UriTest extends Testcase
     {
         $expect = $this->isV2 ? 'TypeError' : 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set a non-string as the query ---
         $this->self->withQuery(array());
@@ -84,7 +84,7 @@ class UriTest extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to set an invalid scheme ---
         $this->self->withScheme('123invalid');

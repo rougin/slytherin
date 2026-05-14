@@ -21,7 +21,7 @@ class CallbackTest extends Testcase
     {
         $expect = 'Exception';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Prepare a server request ----------
         $server = array('REQUEST_URI' => '/');

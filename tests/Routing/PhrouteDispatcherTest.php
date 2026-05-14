@@ -35,7 +35,7 @@ class PhrouteDispatcherTest extends DispatcherTestCases
 
         $expect = 'Rougin\Slytherin\Container\NotFoundException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $data = new RouteDataArray(
             array('' => array('GET' => array(new WeirdRoute, array(), array()))),

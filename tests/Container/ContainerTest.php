@@ -23,7 +23,7 @@ class ContainerTest extends Testcase
     {
         $expect = 'Psr\Container\ContainerExceptionInterface';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Set a non-class value as an instance ---
         $this->self->set('Test', array());
@@ -41,7 +41,7 @@ class ContainerTest extends Testcase
     {
         $expect = 'Psr\Container\NotFoundExceptionInterface';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         // Attempt to get a non-existent class ---
         $class = 'Rougin\Slytherin\HelloWorld';

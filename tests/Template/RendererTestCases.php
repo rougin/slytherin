@@ -23,7 +23,7 @@ class RendererTestCases extends Testcase
     {
         $expect = 'InvalidArgumentException';
 
-        $this->doSetExpectedException($expect);
+        $this->doExpectException($expect);
 
         $this->self->render('hello');
     }
