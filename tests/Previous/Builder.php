@@ -130,6 +130,7 @@ class Builder
     {
         $method = $this->method;
 
+        /** @var \Psr\Http\Message\ServerRequestInterface */
         $request = ServerRequestFactory::fromGlobals();
 
         $uri = $this->uri;
@@ -169,6 +170,7 @@ class Builder
      */
     protected function setRouting()
     {
+        /** @var \Rougin\Slytherin\Routing\RouterInterface */
         $router = require __DIR__ . '/Router.php';
 
         $dispatcher = new Dispatcher($router);

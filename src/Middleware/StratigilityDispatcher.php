@@ -152,13 +152,13 @@ class StratigilityDispatcher extends Dispatcher
     {
         if ($this->hasPsr())
         {
-            return function ($request, $handler) use ($item)
+            return function (ServerRequestInterface $request, $handler) use ($item)
             {
                 return $item->process($request, new Interop($handler));
             };
         }
 
-        return function ($request, $response, $next) use ($item)
+        return function (ServerRequestInterface $request, ResponseInterface $response, $next) use ($item)
         {
             /** @var callable $next */
             $handle = new Doublepass($next, $response);

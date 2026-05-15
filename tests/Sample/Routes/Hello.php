@@ -77,6 +77,7 @@ class Hello extends Route
      */
     public function upload(ServerRequestInterface $request)
     {
+        /** @var array<string, \Psr\Http\Message\UploadedFileInterface[]> */
         $files = $request->getUploadedFiles();
 
         /** @var \Psr\Http\Message\UploadedFileInterface */

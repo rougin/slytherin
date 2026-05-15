@@ -41,6 +41,10 @@ class MiddlewareTestCases extends Testcase
         // Push multiple middleware classes into the stack -------------
         $fn = function ($request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             return $next($request);
         };
 

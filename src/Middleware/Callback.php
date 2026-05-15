@@ -65,18 +65,20 @@ class Callback implements MiddlewareInterface
 
         if ($this->isSinglePass($middleware))
         {
+            /** @var \Psr\Http\Message\ResponseInterface */
             return $middleware($request, $handler);
         }
 
         // Process the double pass middlewares ---
         $response = $this->response;
 
-        $fn = function ($request) use ($handler)
+        $fn = function (ServerRequestInterface $request) use ($handler)
         {
             return $handler->handle($request);
         };
         // ---------------------------------------
 
+        /** @var \Psr\Http\Message\ResponseInterface */
         return $middleware($request, $response, $fn);
     }
 

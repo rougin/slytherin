@@ -25,10 +25,12 @@ class Hello
         }
         // @codeCoverageIgnoreEnd
 
+        /** @var \Psr\Http\Message\ResponseInterface */
         $response = $next($request, $response);
 
         $response->getBody()->write('Hello from middleware');
 
+        /** @var \Psr\Http\Message\ResponseInterface */
         return $response;
     }
 }

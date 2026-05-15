@@ -188,6 +188,7 @@ class DispatcherTestCases extends Testcase
 
         $router->get('/hi/{name}', function ($name)
         {
+            /** @var string $name */
             return 'Hi ' . $name . '!';
         });
 

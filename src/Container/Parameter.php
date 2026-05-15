@@ -58,7 +58,10 @@ class Parameter
         /** @var callable */
         $class = array($type, 'getName');
 
-        return new \ReflectionClass(call_user_func($class));
+        /** @var class-string */
+        $fn = call_user_func($class);
+
+        return new \ReflectionClass($fn);
     }
 
     /**

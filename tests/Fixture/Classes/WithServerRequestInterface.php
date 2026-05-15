@@ -35,6 +35,7 @@ class WithServerRequestInterface
     {
         $query = $this->request->getQueryParams();
 
+        /** @var \Psr\Http\Message\ServerRequestInterface */
         return $query['test'];
     }
 }

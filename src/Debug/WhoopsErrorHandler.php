@@ -75,6 +75,7 @@ class WhoopsErrorHandler implements ErrorHandlerInterface
      */
     public function getHandlers()
     {
+        /** @var \Whoops\Handler\HandlerInterface[] */
         return $this->whoops->getHandlers();
     }
 

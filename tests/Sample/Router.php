@@ -2,6 +2,7 @@
 
 namespace Rougin\Slytherin\Sample;
 
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Routing\Router as Slytherin;
 
 /**
@@ -38,8 +39,12 @@ class Router extends Slytherin
 
         $this->get('without-slash', 'Hello@string');
 
-        $fn = function ($request, $next)
+        $fn = function (ServerRequestInterface $request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             $response = $next($request);
 
             $response->getBody()->write('From callable middleware!');
@@ -58,11 +63,14 @@ class Router extends Slytherin
 
         $this->get('/call/{name}/{age}', function ($name, $age)
         {
+            /** @var string $name */
+            /** @var string $age */
             return 'Welcome ' . $name . ', ' . $age . '!';
         });
 
         $this->get('/call/:name', function ($name)
         {
+            /** @var string $name */
             return 'Welcome ' . $name . '!';
         });
 

@@ -83,6 +83,7 @@ class FastRouteDispatcherTest extends DispatcherTestCases
 
         $router->get('/hi/:name', function ($name)
         {
+            /** @var string $name */
             return 'Hello ' . $name . '!';
         });
         // -----------------------------------------

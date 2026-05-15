@@ -5,6 +5,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ## [0.9.9](https://github.com/rougin/slytherin/compare/v0.9.8...v0.9.9) - Unreleased
 
 ### Added
+- Conformed to `Level 10` of `PHPStan`
 - Conformed test cases from `php-http/psr7-integration-tests`
 - Support for `2.0` of `psr/container`
 - Support for `2.0` of `psr/http-message`

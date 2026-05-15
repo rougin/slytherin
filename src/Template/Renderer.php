@@ -69,10 +69,10 @@ class Renderer implements RendererInterface
     /**
      * Checks if the specified file exists.
      *
-     * @param array<string, string> $files
-     * @param string                $path
-     * @param string                $source
-     * @param string                $template
+     * @param string[] $files
+     * @param string   $path
+     * @param string   $source
+     * @param string   $template
      *
      * @return string|null
      */

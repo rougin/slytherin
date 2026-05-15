@@ -38,7 +38,7 @@ class ReflectionContainer extends PsrReflectionContainer implements PsrInterface
      * a container.
      *
      * @param \ReflectionFunctionAbstract $reflector
-     * @param array<string, mixed>        $parameters
+     * @param mixed[]                     $parameters
      *
      * @return array<integer, mixed>
      */

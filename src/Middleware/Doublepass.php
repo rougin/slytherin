@@ -54,6 +54,7 @@ class Doublepass implements HandlerInterface
      */
     public function handle(ServerRequestInterface $request)
     {
+        /** @var \Psr\Http\Message\ResponseInterface */
         return call_user_func($this->handler, $request, $this->response);
     }
 }

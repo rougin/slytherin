@@ -25,16 +25,24 @@ class DispatcherTestCases extends Testcase
      */
     public function test_passed_if_double_pass_processed()
     {
-        // Add a double-pass middleware to the stack ---------------
+        // Add a double-pass middleware to the stack ----------
         $fn = function ($request, $response, $next)
         {
-            $response = $next($request, $response)->withStatus(404);
+            /** @var callable $next */
+            $next = $next;
 
-            return $response->withHeader('X-Slytherin', time());
+            /** @var \Psr\Http\Message\ResponseInterface */
+            $response = $next($request, $response);
+
+            $response = $response->withStatus(404);
+
+            $ts = time();
+
+            return $response->withHeader('X-Slytherin', "$ts");
         };
 
         $this->self->push($fn);
-        // ---------------------------------------------------------
+        // ----------------------------------------------------
 
         // Verify the middleware modified the status code ---
         $expect = 404;
@@ -92,6 +100,10 @@ class DispatcherTestCases extends Testcase
         // Add a single-pass middleware that sets a content type header -----
         $fn = function ($request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             $response = $next($request);
 
             return $response->withHeader('Content-Type', 'application/json');
@@ -137,6 +149,10 @@ class DispatcherTestCases extends Testcase
         // Create two single-pass middlewares --------------
         $fn1 = function ($request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             $response = $next($request);
 
             return $response->withHeader('X-First', 'one');
@@ -144,6 +160,10 @@ class DispatcherTestCases extends Testcase
 
         $fn2 = function ($request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             $response = $next($request);
 
             return $response->withHeader('X-Second', 'two');
@@ -248,9 +268,13 @@ class DispatcherTestCases extends Testcase
 
         $fn = function ($request, $next) use ($time)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             $response = $next($request);
 
-            return $response->withHeader('X-Slytherin', $time);
+            return $response->withHeader('X-Slytherin', "$time");
         };
 
         $this->self->push($fn);
@@ -273,6 +297,10 @@ class DispatcherTestCases extends Testcase
         // Push a simple pass-through middleware ---
         $fn = function ($request, $next)
         {
+            /** @var callable $next */
+            $next = $next;
+
+            /** @var \Psr\Http\Message\ResponseInterface */
             return $next($request);
         };
 
