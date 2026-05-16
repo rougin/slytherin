@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Previous\Routes;
 use Rougin\Slytherin\Template\RendererInterface;
 
 /**
+ * @deprecated since ~0.9, part of the "Previous" legacy test infrastructure.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

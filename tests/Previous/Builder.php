@@ -17,6 +17,8 @@ use Zend\Diactoros\ServerRequestFactory;
 use Zend\Stratigility\MiddlewarePipe;
 
 /**
+ * @deprecated since ~0.9, legacy builder using deprecated classes (Application, ComponentCollection, Dispatching, IoC, etc.).
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

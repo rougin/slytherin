@@ -10,6 +10,8 @@ use Rougin\Slytherin\Sample\Packages\SamplePackage;
 use Rougin\Slytherin\Testcase;
 
 /**
+ * @deprecated since ~0.9, uses deprecated "Application" via "Sample\Builder".
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

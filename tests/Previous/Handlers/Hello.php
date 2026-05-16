@@ -3,6 +3,8 @@
 namespace Rougin\Slytherin\Previous\Handlers;
 
 /**
+ * @deprecated since ~0.9, part of the "Previous" legacy test infrastructure.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

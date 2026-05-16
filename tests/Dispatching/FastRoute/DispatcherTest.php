@@ -8,6 +8,8 @@ use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Routing\Route;
 
 /**
+ * @deprecated since ~0.9, use "Routing\FastRouteDispatcherTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

@@ -10,6 +10,8 @@ use Rougin\Slytherin\Routing\Dispatcher;
 use Rougin\Slytherin\System;
 
 /**
+ * @deprecated since ~0.9, use "System\Routing" instead of "Application".
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

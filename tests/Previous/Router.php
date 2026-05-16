@@ -1,5 +1,7 @@
 <?php
 
+/** @deprecated since ~0.9, use "Routing\Router" instead of "Dispatching\Router". */
+
 use Rougin\Slytherin\Dispatching\Router;
 
 $name = 'Rougin\Slytherin\Previous\Routes';

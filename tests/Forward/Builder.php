@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Forward;
 use Rougin\Slytherin\Application;
 
 /**
+ * @deprecated since ~0.9, uses deprecated "Application"; use "System\Routing" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

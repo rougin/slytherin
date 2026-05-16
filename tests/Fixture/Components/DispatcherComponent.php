@@ -7,6 +7,8 @@ use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 
 /**
+ * @deprecated since ~0.9, uses deprecated "Dispatching\Vanilla\Router" and "Dispatching\Vanilla\Dispatcher".
+ *
  * Dispatcher Component
  *
  * @package Slytherin

@@ -1,5 +1,7 @@
 <?php
 
+/** @deprecated since ~0.9, uses deprecated "Application"; use "System\Routing" instead. */
+
 // @codeCoverageIgnoreStart
 use Rougin\Slytherin\Application;
 use Rougin\Slytherin\Component\Collector;

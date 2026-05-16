@@ -7,6 +7,8 @@ use Rougin\Slytherin\Dispatching\Vanilla\Router as Vanilla;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
+ * @deprecated since ~0.9, use "Routing\PhrouteDispatcherTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

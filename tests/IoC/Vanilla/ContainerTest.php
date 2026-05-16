@@ -10,6 +10,8 @@ use Rougin\Slytherin\Fixture\Classes\WithParameter;
 use Rougin\Slytherin\Testcase;
 
 /**
+ * @deprecated since ~0.9, use "Container\ContainerTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

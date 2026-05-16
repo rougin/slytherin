@@ -7,6 +7,8 @@ use Rougin\Slytherin\Routing\Router;
 use Rougin\Slytherin\Testcase;
 
 /**
+ * @deprecated since ~0.9, use "Dispatching\RouterTestCases" or "System\SystemTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

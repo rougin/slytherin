@@ -9,6 +9,8 @@ use Rougin\Slytherin\Dispatching\RouterTestCases;
 use Rougin\Slytherin\Routing\Route;
 
 /**
+ * @deprecated since ~0.9, use "Routing\FastRouteRouterTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

@@ -11,6 +11,8 @@ use Rougin\Slytherin\Http\Uri;
 use Rougin\Slytherin\Testcase;
 
 /**
+ * @deprecated since ~0.9, use "System\SystemTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

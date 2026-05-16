@@ -27,6 +27,8 @@ class RouterTestCases extends Testcase
 
     /**
      * @return void
+     *
+     * @deprecated since ~0.9, calls deprecated "retrieve()"; use "find()" instead.
      */
     public function test_passed_if_empty_route_found()
     {
@@ -43,6 +45,8 @@ class RouterTestCases extends Testcase
 
     /**
      * @return void
+     *
+     * @deprecated since ~0.9, calls deprecated "retrieve()"; use "find()" instead.
      */
     public function test_passed_if_multiple_prefixes_used()
     {
@@ -242,6 +246,8 @@ class RouterTestCases extends Testcase
 
     /**
      * @return void
+     *
+     * @deprecated since ~0.9, calls deprecated "retrieve()"; use "find()" instead.
      */
     public function test_passed_if_route_found()
     {

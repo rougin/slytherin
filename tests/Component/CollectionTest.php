@@ -149,6 +149,8 @@ class CollectionTest extends Testcase
 
     /**
      * @return void
+     *
+     * @deprecated since ~0.4, use "test_passed_if_container_set" instead.
      */
     public function test_passed_if_dependency_injector_set()
     {
@@ -185,6 +187,8 @@ class CollectionTest extends Testcase
 
     /**
      * @return void
+     *
+     * @deprecated since ~0.4, use "test_passed_if_debugger_set" instead.
      */
     public function test_passed_if_error_handler_set()
     {

@@ -7,6 +7,8 @@ use Rougin\Slytherin\Configuration;
 use Rougin\Slytherin\Container\Container;
 
 /**
+ * @deprecated since ~0.9, uses deprecated "Application"; use "System\Routing" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

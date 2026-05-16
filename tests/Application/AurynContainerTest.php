@@ -10,6 +10,8 @@ use Rougin\Slytherin\Routing\Dispatcher;
 use Rougin\Slytherin\System;
 
 /**
+ * @deprecated since ~0.9, use "Container\AurynContainerTest" and "System\Routing" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

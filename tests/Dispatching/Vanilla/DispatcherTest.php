@@ -6,6 +6,8 @@ use Rougin\Slytherin\Dispatching\DispatcherTestCases;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 
 /**
+ * @deprecated since ~0.9, use "Routing\DispatcherTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

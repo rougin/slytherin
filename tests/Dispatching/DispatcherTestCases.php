@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Dispatching;
 use Rougin\Slytherin\Testcase;
 
 /**
+ * @deprecated since ~0.9, use "Routing\DispatcherTestCases" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

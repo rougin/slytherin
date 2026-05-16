@@ -1,5 +1,7 @@
 <?php
 
+/** @deprecated since ~0.9, uses deprecated "Previous\Builder"; use "System\Routing" instead. */
+
 // @codeCoverageIgnoreStart
 use Rougin\Slytherin\Previous\Builder;
 

@@ -8,6 +8,8 @@ use Rougin\Slytherin\Routing\Route;
 use Rougin\Slytherin\System;
 
 /**
+ * @deprecated since ~0.9, use "Routing\RouterTest" instead.
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

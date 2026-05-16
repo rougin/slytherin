@@ -5,6 +5,8 @@ namespace Rougin\Slytherin\Application;
 use Rougin\Slytherin\Integration\Configuration;
 
 /**
+ * @deprecated since ~0.9, use "System\Routing" instead of "Application".
+ *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>

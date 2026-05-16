@@ -6,6 +6,8 @@ use Rougin\Slytherin\Component\AbstractComponent;
 use Rougin\Slytherin\Debug\Vanilla\Debugger;
 
 /**
+ * @deprecated since ~0.9, uses deprecated "Debug\Vanilla\Debugger"; use "ErrorHandler" instead.
+ *
  * Debugger Component
  *
  * @package Slytherin
