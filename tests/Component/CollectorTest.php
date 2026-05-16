@@ -168,6 +168,42 @@ class CollectorTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_collected_with_custom_container()
+    {
+        $item = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
+
+        // Create a custom container with an entry ---
+        $container = new Container;
+
+        $container->set('test', new NewClass);
+        // -------------------------------------------
+
+        $collection = Collector::get(array($item), $container);
+
+        // Verify the custom container was used ---
+        $result = $collection->getContainer();
+
+        $this->assertTrue($result->has('test'));
+        // ----------------------------------------
+
+        $this->assertTrue($collection->has(System::MIDDLEWARE));
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_collected_without_container()
+    {
+        $item = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
+
+        $collection = Collector::get(array($item));
+
+        $this->assertTrue($collection->has(System::MIDDLEWARE));
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_middleware_collected()
     {
         $item = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';

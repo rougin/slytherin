@@ -31,6 +31,47 @@ class ReflectionContainerTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_arguments_resolved_without_container()
+    {
+        $container = new ReflectionContainer;
+
+        // Define a closure with default parameter values ------
+        $fn = function ($name = 'Slytherin', $message = 'Hello')
+        {
+            /** @var string $name */
+            /** @var string $message */
+            return "$message $name";
+        };
+        // -----------------------------------------------------
+
+        // Resolve the closure's arguments ----------
+        $reflector = new \ReflectionFunction($fn);
+
+        $args = $container->getArguments($reflector);
+        // ------------------------------------------
+
+        // Verify default values were resolved correctly ---
+        $expect = array('Slytherin', 'Hello');
+
+        $this->assertEquals($expect, $args);
+        // -------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_constructed_without_container()
+    {
+        $container = new ReflectionContainer;
+
+        $expect = 'Rougin\Slytherin\Container\ReflectionContainer';
+
+        $this->assertInstanceOf($expect, $container);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_multiple_params_resolved()
     {
         // Resolve a class with multiple constructor parameters ----

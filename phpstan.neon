@@ -10,6 +10,8 @@ parameters:
     - tests
   excludePaths:
     analyse:
+      - src/Http/V1
+      - src/Http/V2
       - src/Middleware/Handlers
       - src/Middleware/Interop.php
       - src/Routing/PhrouteResolver.php

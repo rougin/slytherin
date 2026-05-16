@@ -26,11 +26,11 @@ Interop::register('ReflectionContainer');
 class ReflectionContainer extends PsrReflectionContainer implements PsrInterface
 {
     /**
-     * @param \Psr\Container\ContainerInterface $container
+     * @param \Psr\Container\ContainerInterface|null $container
      */
-    public function __construct(PsrInterface $container)
+    public function __construct($container = null)
     {
-        $this->container = $container;
+        $this->container = $container ? $container : new Container;
     }
 
     /**
