@@ -2,41 +2,28 @@
 
 namespace Rougin\Slytherin\Container;
 
+use Rougin\Slytherin\Interop as Slytherin;
+
 /**
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Interop
+class Interop extends Slytherin
 {
     /**
-     * @return boolean
+     * @return string
      */
-    public static function isVersion2()
+    protected static function psrClass()
     {
-        $class = 'Psr\Container\ContainerInterface';
-
-        $method = 'has';
-
-        $class = new \ReflectionMethod($class, $method);
-
-        return method_exists($class, 'hasReturnType')
-            && $class->hasReturnType();
+        return 'Psr\Container\ContainerInterface';
     }
 
     /**
-     * @param string $name
-     *
-     * @return void
+     * @return string
      */
-    public static function register($name)
+    protected static function psrMethod()
     {
-        $num = self::isVersion2() ? '\V2' : '\V1';
-
-        $container = 'Rougin\Slytherin\Container';
-
-        $orig = $container . $num . '\\' . $name;
-
-        class_alias($orig, $container . '\Psr' . $name);
+        return 'has';
     }
 }

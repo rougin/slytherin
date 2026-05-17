@@ -24,7 +24,7 @@ class ConfigurationTest extends Testcase
         $expect = $data['names'];
 
         $config = new Configuration($data);
-        // ------------------------------------
+        // -------------------------------------
 
         // Verify the array value is returned correctly ---
         $actual = $config->get('names');

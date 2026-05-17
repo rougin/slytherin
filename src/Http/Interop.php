@@ -2,41 +2,28 @@
 
 namespace Rougin\Slytherin\Http;
 
+use Rougin\Slytherin\Interop as Slytherin;
+
 /**
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Interop
+class Interop extends Slytherin
 {
     /**
-     * @return boolean
+     * @return string
      */
-    public static function isVersion2()
+    protected static function psrClass()
     {
-        $class = 'Psr\Http\Message\MessageInterface';
-
-        $method = 'getProtocolVersion';
-
-        $class = new \ReflectionMethod($class, $method);
-
-        return method_exists($class, 'hasReturnType')
-            && $class->hasReturnType();
+        return 'Psr\Http\Message\MessageInterface';
     }
 
     /**
-     * @param string $name
-     *
-     * @return void
+     * @return string
      */
-    public static function register($name)
+    protected static function psrMethod()
     {
-        $http = 'Rougin\Slytherin\Http';
-
-        $isV2 = self::isVersion2() ? '\V2' : '\V1';
-
-        $orig = $http . $isV2 . '\\' . $name;
-
-        class_alias($orig, $http . '\Psr' . $name);
+        return 'getProtocolVersion';
     }
 }
