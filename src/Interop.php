@@ -10,17 +10,21 @@ namespace Rougin\Slytherin;
 abstract class Interop
 {
     /**
+     * @codeCoverageIgnore
+     *
      * @return string
      */
-    protected static function psrClass()
+    protected static function getClass()
     {
         return '';
     }
 
     /**
+     * @codeCoverageIgnore
+     *
      * @return string
      */
-    protected static function psrMethod()
+    protected static function getMethod()
     {
         return '';
     }
@@ -30,9 +34,9 @@ abstract class Interop
      */
     public static function isVersion2()
     {
-        $class = static::psrClass();
+        $class = static::getClass();
 
-        $method = static::psrMethod();
+        $method = static::getMethod();
 
         $class = new \ReflectionMethod($class, $method);
 

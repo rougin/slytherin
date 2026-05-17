@@ -14,7 +14,7 @@ class Interop extends Slytherin
     /**
      * @return string
      */
-    protected static function psrClass()
+    protected static function getClass()
     {
         return 'Psr\Container\ContainerInterface';
     }
@@ -22,7 +22,7 @@ class Interop extends Slytherin
     /**
      * @return string
      */
-    protected static function psrMethod()
+    protected static function getMethod()
     {
         return 'has';
     }
