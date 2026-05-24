@@ -40,55 +40,55 @@ jobs:
 
     - name: Install third-party packages not for PHP 5.3
       if: ${{ matrix.php-versions != '5.3' }}
-      run: composer require filp/whoops league/container nikic/fast-route rdlowrey/auryn twig/twig --dev
+      run: composer require filp/whoops league/container nikic/fast-route rdlowrey/auryn --dev
 
     - name: Install third-party packages for PHP 5.4
       if: ${{ matrix.php-versions == '5.4' }}
-      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev
+      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute twig/twig zendframework/zend-diactoros zendframework/zend-stratigility --dev
 
     - name: Install third-party packages for PHP 5.5
       if: ${{ matrix.php-versions == '5.5' }}
-      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev
+      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute twig/twig zendframework/zend-diactoros zendframework/zend-stratigility --dev
 
     - name: Install third-party packages for PHP 5.6
       if: ${{ matrix.php-versions == '5.6' }}
-      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute --dev
+      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute twig/twig --dev
 
     - name: Install third-party packages for PHP 7.0
       if: ${{ matrix.php-versions == '7.0' }}
-      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute --dev
+      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute twig/twig --dev
 
     - name: Install third-party packages for PHP 7.1
       if: ${{ matrix.php-versions == '7.1' }}
-      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute zendframework/zend-diactoros zendframework/zend-stratigility --dev
+      run: composer require http-interop/http-middleware:^0.4.1 phroute/phroute twig/twig zendframework/zend-diactoros zendframework/zend-stratigility --dev
 
     - name: Install third-party packages for PHP 7.2
       if: ${{ matrix.php-versions == '7.2' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig:^3.11 --dev
 
     - name: Install third-party packages for PHP 7.3
       if: ${{ matrix.php-versions == '7.3' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig:^3.11 --dev
 
     - name: Install third-party packages for PHP 7.4
       if: ${{ matrix.php-versions == '7.4' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig:^3.11 --dev
 
     - name: Install third-party packages for PHP 8.0
       if: ${{ matrix.php-versions == '8.0' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig:^3.19 --dev
 
     - name: Install third-party packages for PHP 8.1
       if: ${{ matrix.php-versions == '8.1' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig --dev
 
     - name: Install third-party packages for PHP 8.2
       if: ${{ matrix.php-versions == '8.2' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig --dev
 
     - name: Install third-party packages for PHP 8.3
       if: ${{ matrix.php-versions == '8.3' }}
-      run: composer require phroute/phroute --dev
+      run: composer require phroute/phroute twig/twig --dev
 
     - name: Run test suite
       run: vendor/bin/phpunit --coverage-clover=coverage.clover
