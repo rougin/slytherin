@@ -17,10 +17,17 @@ class Configuration
     protected $data = array();
 
     /**
+     * @var \Rougin\Slytherin\Integration\FileLoader
+     */
+    protected $loader;
+
+    /**
      * @param array<string, mixed>|string|null $data
      */
     public function __construct($data = null)
     {
+        $this->loader = new FileLoader;
+
         if (is_array($data))
         {
             $this->data = $data;
@@ -28,7 +35,7 @@ class Configuration
 
         if (is_string($data))
         {
-            $this->data = $this->load($data);
+            $this->data = $this->loader->load($data);
         }
     }
 
@@ -69,22 +76,7 @@ class Configuration
      */
     public function load($directory)
     {
-        $items = glob($directory . '/*.php');
-
-        $items = is_array($items) ? $items : array();
-
-        foreach ($items as $item)
-        {
-            $name = basename($item, '.php');
-
-            $items = require $item;
-
-            $name = array($name => $items);
-
-            $data = array_merge($this->data, $name);
-
-            $this->data = $data;
-        }
+        $this->data = $this->loader->load($directory, $this->data);
 
         return $this->data;
     }
@@ -94,17 +86,21 @@ class Configuration
      *
      * @param string  $key
      * @param mixed   $value
-     * @param boolean $fromFile
+     * @param boolean $file
      *
      * @return self
      */
-    public function set($key, $value, $fromFile = false)
+    public function set($key, $value, $file = false)
     {
         $keys = array_filter(explode('.', $key));
 
         $keys = array_values($keys);
 
-        $value = $fromFile ? require $value : $value;
+        if ($file)
+        {
+            /** @phpstan-ignore-next-line */
+            $value = $this->loader->loadFile($value);
+        }
 
         $this->save($keys, $this->data, $value);
 

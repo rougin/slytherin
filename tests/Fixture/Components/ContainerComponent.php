@@ -3,7 +3,10 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ContainerInterface;
+use Rougin\Slytherin\System\Errors\ContainerNotFound;
 
 /**
  * Container Component
@@ -31,5 +34,22 @@ class ContainerComponent extends AbstractComponent
     public function get()
     {
         return new Container;
+    }
+
+    /**
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection)
+    {
+        $result = $this->get();
+
+        if (! $result instanceof ContainerInterface)
+        {
+            throw new ContainerNotFound($result);
+        }
+
+        $collection->setDependencyInjector($result);
     }
 }

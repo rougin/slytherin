@@ -3,7 +3,10 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Component\Collection;
+use Rougin\Slytherin\Middleware\DispatcherInterface;
 use Rougin\Slytherin\Middleware\Middleware;
+use Rougin\Slytherin\System\Errors\MiddlewareNotFound;
 
 /**
  * Middleware Component
@@ -31,5 +34,22 @@ class MiddlewareComponent extends AbstractComponent
     public function get()
     {
         return new Middleware;
+    }
+
+    /**
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection)
+    {
+        $result = $this->get();
+
+        if (! $result instanceof DispatcherInterface)
+        {
+            throw new MiddlewareNotFound($result);
+        }
+
+        $collection->setMiddleware($result);
     }
 }

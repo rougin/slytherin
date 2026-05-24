@@ -3,8 +3,7 @@
 namespace Rougin\Slytherin\Routing;
 
 use FastRoute\Dispatcher as FastRoute;
-use Rougin\Slytherin\Container\NotFoundException;
-use Rougin\Slytherin\System;
+use Rougin\Slytherin\System\Errors\RouteNotFound;
 
 /**
  * A route dispatcher built on top of "FastRoute".
@@ -51,9 +50,7 @@ class FastRouteDispatcher extends Dispatcher
 
         if (! $route instanceof RouteInterface)
         {
-            $error = System::routeNotFound($route);
-
-            throw new NotFoundException($error);
+            throw new RouteNotFound($route);
         }
 
         /** @var array<string, string> */

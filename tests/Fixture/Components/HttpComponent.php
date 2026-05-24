@@ -2,9 +2,15 @@
 
 namespace Rougin\Slytherin\Fixture\Components;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\System\Errors\ComponentNotArray;
+use Rougin\Slytherin\System\Errors\RequestNotFound;
+use Rougin\Slytherin\System\Errors\ResponseNotFound;
 
 /**
  * HTTP Component
@@ -59,5 +65,36 @@ class HttpComponent extends AbstractComponent
         $this->response = new Response;
 
         return array($this->request, $this->response);
+    }
+
+    /**
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection)
+    {
+        $result = $this->get();
+
+        if (! is_array($result))
+        {
+            throw new ComponentNotArray;
+        }
+
+        $request = $result[0];
+
+        if (! $request instanceof ServerRequestInterface)
+        {
+            throw new RequestNotFound($request);
+        }
+
+        $response = $result[1];
+
+        if (! $response instanceof ResponseInterface)
+        {
+            throw new ResponseNotFound($response);
+        }
+
+        $collection->setHttp($request, $response);
     }
 }

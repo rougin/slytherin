@@ -14,17 +14,17 @@ use Rougin\Slytherin\System;
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  *
- * @method add($method, $uri, $handler, $middlewares = array())
- * @method delete($uri, $handler, $middlewares = array())
- * @method get($uri, $handler, $middlewares = array())
- * @method merge(\Rougin\Slytherin\Routing\RouteInterface[] $routes)
- * @method parsed(\Rougin\Slytherin\Routing\RouteInterface[] $routes = array())
- * @method patch($uri, $handler, $middlewares = array())
- * @method post($uri, $handler, $middlewares = array())
- * @method prefix($prefix = '', $namespace = null)
- * @method put($uri, $handler, $middlewares = array())
- * @method restful($uri, $class, $middlewares = array())
- * @method routes()
+ * @method self add($method, $uri, $handler, $middlewares = array())
+ * @method self delete($uri, $handler, $middlewares = array())
+ * @method self get($uri, $handler, $middlewares = array())
+ * @method self merge(\Rougin\Slytherin\Routing\RouteInterface[] $routes)
+ * @method self parsed(\Rougin\Slytherin\Routing\RouteInterface[] $routes = array())
+ * @method self patch($uri, $handler, $middlewares = array())
+ * @method self post($uri, $handler, $middlewares = array())
+ * @method self prefix($prefix = '', $namespace = null)
+ * @method self put($uri, $handler, $middlewares = array())
+ * @method self restful($uri, $class, $middlewares = array())
+ * @method self routes()
  */
 class Routing extends System
 {

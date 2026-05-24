@@ -5,12 +5,17 @@ namespace Rougin\Slytherin;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
-use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareInterface;
 use Rougin\Slytherin\Routing\DispatcherInterface as RoutingInterface;
 use Rougin\Slytherin\Routing\RouterInterface;
+use Rougin\Slytherin\System\Errors\DebuggerNotFound;
+use Rougin\Slytherin\System\Errors\DispatcherNotFound;
+use Rougin\Slytherin\System\Errors\IntegrationNotFound;
+use Rougin\Slytherin\System\Errors\MiddlewareNotFound;
+use Rougin\Slytherin\System\Errors\RequestNotFound;
+use Rougin\Slytherin\System\Errors\RouterNotFound;
 use Rougin\Slytherin\System\Handler;
 
 /**
@@ -57,131 +62,6 @@ class System
     protected $container;
 
     /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function componentNotFound($item)
-    {
-        return self::notFound($item, self::COMPONENT);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function containerNotFound($item)
-    {
-        return self::notFound($item, self::CONTAINER);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function debuggerNotFound($item)
-    {
-        return self::notFound($item, self::DEBUGGER);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function dispatcherNotFound($item)
-    {
-        return self::notFound($item, self::DISPATCHER);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function integrationNotFound($item)
-    {
-        return self::notFound($item, self::INTEGRATION);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function middlewareNotFound($item)
-    {
-        return self::notFound($item, self::MIDDLEWARE);
-    }
-
-    /**
-     * @param mixed  $item
-     * @param string $class
-     *
-     * @return string
-     */
-    public static function notFound($item, $class)
-    {
-        $item = is_object($item) ? get_class($item) : $item;
-
-        $item = is_string($item) ? $item : gettype($item);
-
-        return '"' . $item . '" is not under "' . $class . '"';
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function requestNotFound($item)
-    {
-        return self::notFound($item, self::REQUEST);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function responseNotFound($item)
-    {
-        return self::notFound($item, self::RESPONSE);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function routeNotFound($item)
-    {
-        return self::notFound($item, self::ROUTE);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function routerNotFound($item)
-    {
-        return self::notFound($item, self::ROUTER);
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return string
-     */
-    public static function templateNotFound($item)
-    {
-        return self::notFound($item, self::TEMPLATE);
-    }
-
-    /**
      * Initializes the application instance.
      *
      * @param \Rougin\Slytherin\Container\ContainerInterface|null $container
@@ -224,9 +104,7 @@ class System
 
         if (! $dispatcher instanceof RoutingInterface)
         {
-            $error = self::dispatcherNotFound($dispatcher);
-
-            throw new NotFoundException($error);
+            throw new DispatcherNotFound($dispatcher);
         }
 
         if ($this->container->has(self::ROUTER))
@@ -235,9 +113,7 @@ class System
 
             if (! $router instanceof RouterInterface)
             {
-                $error = self::routerNotFound($router);
-
-                throw new NotFoundException($error);
+                throw new RouterNotFound($router);
             }
 
             $dispatcher = $dispatcher->setRouter($router);
@@ -258,9 +134,7 @@ class System
 
         if (! $middleware instanceof MiddlewareInterface)
         {
-            $error = self::middlewareNotFound($middleware);
-
-            throw new NotFoundException($error);
+            throw new MiddlewareNotFound($middleware);
         }
 
         $stack = $middleware->getStack();
@@ -303,9 +177,7 @@ class System
 
             if (! $item instanceof IntegrationInterface)
             {
-                $error = self::integrationNotFound($item);
-
-                throw new NotFoundException($error);
+                throw new IntegrationNotFound($item);
             }
 
             $container = $item->define($container, $config);
@@ -330,9 +202,7 @@ class System
 
             if (! $debugger instanceof ErrorHandlerInterface)
             {
-                $error = self::debuggerNotFound($debugger);
-
-                throw new NotFoundException($error);
+                throw new DebuggerNotFound($debugger);
             }
 
             $debugger->display();
@@ -342,9 +212,7 @@ class System
 
         if (! $request instanceof ServerRequestInterface)
         {
-            $error = self::requestNotFound($request);
-
-            throw new NotFoundException($error);
+            throw new RequestNotFound($request);
         }
 
         echo $this->emit($request)->getBody();

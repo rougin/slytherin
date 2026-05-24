@@ -3,7 +3,10 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Component\Collection;
+use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Debug\Vanilla\Debugger;
+use Rougin\Slytherin\System\Errors\DebuggerNotFound;
 
 /**
  * @deprecated since ~0.9, uses deprecated "Debug\Vanilla\Debugger"; use "ErrorHandler" instead.
@@ -37,5 +40,22 @@ class DebuggerComponent extends AbstractComponent
         $debugger->setEnvironment('development');
 
         return $debugger;
+    }
+
+    /**
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection)
+    {
+        $result = $this->get();
+
+        if (! $result instanceof ErrorHandlerInterface)
+        {
+            throw new DebuggerNotFound($result);
+        }
+
+        $collection->setErrorHandler($result);
     }
 }

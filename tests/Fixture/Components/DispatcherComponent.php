@@ -3,8 +3,11 @@
 namespace Rougin\Slytherin\Fixture\Components;
 
 use Rougin\Slytherin\Component\AbstractComponent;
+use Rougin\Slytherin\Component\Collection;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
+use Rougin\Slytherin\Routing\DispatcherInterface;
+use Rougin\Slytherin\System\Errors\DispatcherNotFound;
 
 /**
  * @deprecated since ~0.9, uses deprecated "Dispatching\Vanilla\Router" and "Dispatching\Vanilla\Dispatcher".
@@ -50,5 +53,22 @@ class DispatcherComponent extends AbstractComponent
         });
 
         return new Dispatcher(new Router($routes));
+    }
+
+    /**
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection)
+    {
+        $result = $this->get();
+
+        if (! $result instanceof DispatcherInterface)
+        {
+            throw new DispatcherNotFound($result);
+        }
+
+        $collection->setDispatcher($result);
     }
 }

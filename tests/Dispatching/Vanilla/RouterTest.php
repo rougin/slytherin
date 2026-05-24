@@ -2,10 +2,9 @@
 
 namespace Rougin\Slytherin\Dispatching\Vanilla;
 
-use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Dispatching\RouterTestCases;
 use Rougin\Slytherin\Routing\Route;
-use Rougin\Slytherin\System;
+use Rougin\Slytherin\System\Errors\RouteNotFound;
 
 /**
  * @deprecated since ~0.9, use "Routing\RouterTest" instead.
@@ -70,9 +69,7 @@ class RouterTest extends RouterTestCases
 
         if (! $route)
         {
-            $error = System::routeNotFound($route);
-
-            throw new NotFoundException($error);
+            throw new RouteNotFound($route);
         }
 
         $actual = $route->getUri();

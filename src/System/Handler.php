@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\System;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Container\NotFoundException;
+use Rougin\Slytherin\System\Errors\ResponseNotFound;
 use Rougin\Slytherin\Container\ReflectionContainer;
 use Rougin\Slytherin\Middleware\HandlerInterface;
 use Rougin\Slytherin\Routing\RouteInterface;
@@ -44,6 +44,16 @@ class Handler implements HandlerInterface
     }
 
     /**
+     * Returns a ReflectionContainer for resolving unregistered dependencies.
+     *
+     * @return \Rougin\Slytherin\Container\ReflectionContainer
+     */
+    protected function getContainer()
+    {
+        return new ReflectionContainer($this->container);
+    }
+
+    /**
      * Returns a callback for handling the application.
      *
      * @param \Psr\Http\Message\ServerRequestInterface $request
@@ -56,7 +66,7 @@ class Handler implements HandlerInterface
         $this->container->set(System::REQUEST, $request);
         // -------------------------------------------------------------------
 
-        $container = new ReflectionContainer($this->container);
+        $container = $this->getContainer();
 
         $handler = $this->route->getHandler();
 
@@ -100,7 +110,7 @@ class Handler implements HandlerInterface
      */
     protected function setParams(\ReflectionFunctionAbstract $reflector)
     {
-        $container = new ReflectionContainer($this->container);
+        $container = $this->getContainer();
 
         $params = $this->route->getParams();
 
@@ -139,9 +149,7 @@ class Handler implements HandlerInterface
 
         if (! $response instanceof ResponseInterface)
         {
-            $error = System::responseNotFound($response);
-
-            throw new NotFoundException($error);
+            throw new ResponseNotFound($response);
         }
 
         if (is_string($function))

@@ -3,12 +3,12 @@
 namespace Rougin\Slytherin\Sample\Packages;
 
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\Routing\RouterInterface;
 use Rougin\Slytherin\Sample\Retuor;
 use Rougin\Slytherin\System;
+use Rougin\Slytherin\System\Errors\RouterNotFound;
 
 /**
  * @package Slytherin
@@ -37,9 +37,7 @@ class SamplePackage implements IntegrationInterface
         // @codeCoverageIgnoreStart
         if (! $router instanceof RouterInterface)
         {
-            $error = System::routerNotFound($router);
-
-            throw new NotFoundException($error);
+            throw new RouterNotFound($router);
         }
         // @codeCoverageIgnoreEnd
 

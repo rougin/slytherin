@@ -15,20 +15,24 @@ use Rougin\Slytherin\Http\Response;
 class Dispatcher implements DispatcherInterface
 {
     /**
+     * @var \Rougin\Slytherin\Middleware\Resolver
+     */
+    protected $resolver;
+
+    /**
      * @var \Rougin\Slytherin\Middleware\MiddlewareInterface[]
      */
     protected $stack = array();
-
-    /**
-     * @var \Psr\Http\Message\ResponseInterface|null
-     */
-    protected $response = null;
 
     /**
      * @param mixed[] $stack
      */
     public function __construct($stack = array())
     {
+        $resolver = new Resolver(new Response);
+
+        $this->resolver = $resolver;
+
         if ($stack)
         {
             $this->setStack($stack);
@@ -75,7 +79,9 @@ class Dispatcher implements DispatcherInterface
     {
         if (! is_array($middleware))
         {
-            $this->stack[] = $this->transform($middleware);
+            $item = $this->resolver->resolve($middleware);
+
+            $this->stack[] = $item;
 
             return $this;
         }
@@ -101,7 +107,9 @@ class Dispatcher implements DispatcherInterface
 
         foreach ($stack as $item)
         {
-            $result[] = $this->transform($item);
+            $item = $this->resolver->resolve($item);
+
+            $result[] = $item;
         }
 
         $this->stack = $result;
@@ -119,57 +127,5 @@ class Dispatcher implements DispatcherInterface
     public function stack()
     {
         return $this->getStack();
-    }
-
-    /**
-     * Transforms the middleware into a Slytherin
-     * counterpart.
-     *
-     * @param mixed $middleware
-     *
-     * @return \Rougin\Slytherin\Middleware\MiddlewareInterface
-     */
-    protected function transform($middleware)
-    {
-        if ($middleware instanceof MiddlewareInterface)
-        {
-            return $middleware;
-        }
-
-        // Set empty response for double pass middlewares ---
-        if (! $this->response)
-        {
-            $this->response = new Response;
-        }
-        // --------------------------------------------------
-
-        if ($this->isCallable($middleware))
-        {
-            /** @var callable $middleware */
-            return new Callback($middleware, $this->response);
-        }
-
-        return new Wrapper($middleware);
-    }
-
-    /**
-     * Checks if the middleware is a callable.
-     *
-     * @param mixed $item
-     *
-     * @return boolean
-     */
-    protected function isCallable($item)
-    {
-        /** @var object|string $item */
-        $method = method_exists($item, '__invoke');
-
-        $callable = is_callable($item);
-
-        $object = is_object($item);
-
-        $closure = (! $object) || $item instanceof \Closure;
-
-        return ($method || $callable) && $closure;
     }
 }

@@ -28,4 +28,13 @@ interface ComponentInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Registers the component to the specified collection.
+     *
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    public function register(Collection $collection);
 }

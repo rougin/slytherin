@@ -21,6 +21,15 @@ abstract class AbstractComponent implements ComponentInterface
     protected $type = '';
 
     /**
+     * Registers the component to the specified collection.
+     *
+     * @param \Rougin\Slytherin\Component\Collection $collection
+     *
+     * @return void
+     */
+    abstract public function register(Collection $collection);
+
+    /**
      * Returns the type of the component.
      *
      * @return string

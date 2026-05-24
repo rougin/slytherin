@@ -6,11 +6,16 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Container\ContainerInterface;
-use Rougin\Slytherin\Container\NotFoundException;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as Middleware;
 use Rougin\Slytherin\Routing\DispatcherInterface as Routing;
 use Rougin\Slytherin\System;
+use Rougin\Slytherin\System\Errors\DebuggerNotFound;
+use Rougin\Slytherin\System\Errors\DispatcherNotFound;
+use Rougin\Slytherin\System\Errors\MiddlewareNotFound;
+use Rougin\Slytherin\System\Errors\RequestNotFound;
+use Rougin\Slytherin\System\Errors\ResponseNotFound;
+use Rougin\Slytherin\System\Errors\TemplateNotFound;
 use Rougin\Slytherin\Template\RendererInterface;
 
 Interop::register('Collection');
@@ -69,9 +74,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $debugger instanceof ErrorHandlerInterface)
         {
-            $error = System::debuggerNotFound($debugger);
-
-            throw new NotFoundException($error);
+            throw new DebuggerNotFound($debugger);
         }
 
         return $debugger;
@@ -100,9 +103,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $dispatcher instanceof Routing)
         {
-            $error = System::dispatcherNotFound($dispatcher);
-
-            throw new NotFoundException($error);
+            throw new DispatcherNotFound($dispatcher);
         }
 
         return $dispatcher;
@@ -146,9 +147,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $request instanceof ServerRequestInterface)
         {
-            $error = System::requestNotFound($request);
-
-            throw new NotFoundException($error);
+            throw new RequestNotFound($request);
         }
 
         return $request;
@@ -165,9 +164,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $response instanceof ResponseInterface)
         {
-            $error = System::responseNotFound($response);
-
-            throw new NotFoundException($error);
+            throw new ResponseNotFound($response);
         }
 
         return $response;
@@ -184,9 +181,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $middleware instanceof Middleware)
         {
-            $error = System::middlewareNotFound($middleware);
-
-            throw new NotFoundException($error);
+            throw new MiddlewareNotFound($middleware);
         }
 
         return $middleware;
@@ -203,9 +198,7 @@ class Collection extends PsrCollection implements ContainerInterface
 
         if (! $template instanceof RendererInterface)
         {
-            $error = System::templateNotFound($template);
-
-            throw new NotFoundException($error);
+            throw new TemplateNotFound($template);
         }
 
         return $template;
