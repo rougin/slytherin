@@ -7,6 +7,12 @@ use Rougin\Slytherin\Debug\ErrorHandler;
 use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
 use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Fixture\Components\InvalidContainerComponent;
+use Rougin\Slytherin\Fixture\Components\InvalidHttpNotArray;
+use Rougin\Slytherin\Fixture\Components\InvalidHttpRequest;
+use Rougin\Slytherin\Fixture\Components\InvalidHttpResponse;
+use Rougin\Slytherin\Fixture\Components\InvalidMiddlewareComponent;
+use Rougin\Slytherin\Fixture\Components\InvalidTemplateComponent;
 use Rougin\Slytherin\Fixture\Components\SampleComponent;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
@@ -22,6 +28,18 @@ use Rougin\Slytherin\Testcase;
  */
 class CollectorTest extends Testcase
 {
+    const COMPONENT_NOT_ARRAY = 'Rougin\Slytherin\System\Errors\ComponentNotArray';
+
+    const CONTAINER_NOT_FOUND = 'Rougin\Slytherin\System\Errors\ContainerNotFound';
+
+    const MIDDLEWARE_NOT_FOUND = 'Rougin\Slytherin\System\Errors\MiddlewareNotFound';
+
+    const REQUEST_NOT_FOUND = 'Rougin\Slytherin\System\Errors\RequestNotFound';
+
+    const RESPONSE_NOT_FOUND = 'Rougin\Slytherin\System\Errors\ResponseNotFound';
+
+    const TEMPLATE_NOT_FOUND = 'Rougin\Slytherin\System\Errors\TemplateNotFound';
+
     /**
      * @return void
      */
@@ -328,6 +346,93 @@ class CollectorTest extends Testcase
         $actual = $collection->has(System::MIDDLEWARE);
 
         $this->assertTrue($actual);
+    }
+
+    /**
+     * @return void
+     */
+    /**
+     * @return void
+     */
+    public function test_failed_if_container_invalid_in_component()
+    {
+        $this->doExpectException(self::CONTAINER_NOT_FOUND);
+
+        $item = new InvalidContainerComponent;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_http_not_array_in_component()
+    {
+        $this->doExpectException(self::COMPONENT_NOT_ARRAY);
+
+        $item = new InvalidHttpNotArray;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_http_request_invalid_in_component()
+    {
+        $this->doExpectException(self::REQUEST_NOT_FOUND);
+
+        $item = new InvalidHttpRequest;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_http_response_invalid_in_component()
+    {
+        $this->doExpectException(self::RESPONSE_NOT_FOUND);
+
+        $item = new InvalidHttpResponse;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_middleware_invalid_in_component()
+    {
+        $this->doExpectException(self::MIDDLEWARE_NOT_FOUND);
+
+        $item = new InvalidMiddlewareComponent;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_failed_if_template_invalid_in_component()
+    {
+        $this->doExpectException(self::TEMPLATE_NOT_FOUND);
+
+        $item = new InvalidTemplateComponent;
+
+        $self = new Collector(array($item));
+
+        $self->make(new Container);
     }
 
     /**
