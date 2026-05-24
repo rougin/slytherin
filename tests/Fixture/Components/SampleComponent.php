@@ -58,7 +58,7 @@ class SampleComponent extends AbstractComponent
      */
     public function register(Collection $collection)
     {
-        if ($this->type === 'container')
+        if ($this->getType() === 'container')
         {
             $result = $this->get();
 
@@ -72,7 +72,7 @@ class SampleComponent extends AbstractComponent
             return;
         }
 
-        if ($this->type === 'dispatcher')
+        if ($this->getType() === 'dispatcher')
         {
             $result = $this->get();
 
@@ -86,7 +86,7 @@ class SampleComponent extends AbstractComponent
             return;
         }
 
-        if (in_array($this->type, array('debugger', 'error_handler')))
+        if (in_array($this->getType(), array('debugger', 'error_handler')))
         {
             $result = $this->get();
 
@@ -100,7 +100,7 @@ class SampleComponent extends AbstractComponent
             return;
         }
 
-        if ($this->type === 'http')
+        if ($this->getType() === 'http')
         {
             $result = $this->get();
 
@@ -128,7 +128,7 @@ class SampleComponent extends AbstractComponent
             return;
         }
 
-        if ($this->type === 'middleware')
+        if ($this->getType() === 'middleware')
         {
             $result = $this->get();
 
@@ -142,7 +142,7 @@ class SampleComponent extends AbstractComponent
             return;
         }
 
-        if ($this->type === 'template')
+        if ($this->getType() === 'template')
         {
             $result = $this->get();
 

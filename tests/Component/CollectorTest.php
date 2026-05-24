@@ -3,11 +3,16 @@
 namespace Rougin\Slytherin\Component;
 
 use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Debug\ErrorHandler;
+use Rougin\Slytherin\Dispatching\Vanilla\Dispatcher;
+use Rougin\Slytherin\Dispatching\Vanilla\Router;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
 use Rougin\Slytherin\Fixture\Components\SampleComponent;
 use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Middleware;
 use Rougin\Slytherin\System;
+use Rougin\Slytherin\Template\Renderer;
 use Rougin\Slytherin\Testcase;
 
 /**
@@ -204,6 +209,90 @@ class CollectorTest extends Testcase
     /**
      * @return void
      */
+    public function test_passed_if_container_sample_valid()
+    {
+        $container = new Container;
+
+        $sample = new SampleComponent('container', $container);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $expect = $container;
+
+        $actual = $collection->getContainer();
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_debugger_sample_valid()
+    {
+        $debugger = new ErrorHandler('development');
+
+        $sample = new SampleComponent('debugger', $debugger);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $actual = $collection->has(System::DEBUGGER);
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_dispatcher_sample_valid()
+    {
+        $dispatcher = new Dispatcher(new Router);
+
+        $sample = new SampleComponent('dispatcher', $dispatcher);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $actual = $collection->has(System::DISPATCHER);
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_http_sample_valid()
+    {
+        $server = array('REQUEST_METHOD' => 'GET', 'REQUEST_URI' => '/', 'SERVER_NAME' => 'localhost', 'SERVER_PORT' => '8000');
+
+        $request = new ServerRequest($server);
+
+        $response = new Response;
+
+        $values = array($request, $response);
+
+        $sample = new SampleComponent('http', $values);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $actual = $collection->has(System::REQUEST);
+
+        $this->assertTrue($actual);
+
+        $actual = $collection->has(System::RESPONSE);
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @return void
+     */
     public function test_passed_if_middleware_collected()
     {
         $item = 'Rougin\Slytherin\Fixture\Components\MiddlewareComponent';
@@ -221,5 +310,41 @@ class CollectorTest extends Testcase
         // Verify the middleware component was registered ------
         $this->assertTrue($collection->has(System::MIDDLEWARE));
         // -----------------------------------------------------
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_middleware_sample_valid()
+    {
+        $middleware = new Middleware;
+
+        $sample = new SampleComponent('middleware', $middleware);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $actual = $collection->has(System::MIDDLEWARE);
+
+        $this->assertTrue($actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_template_sample_valid()
+    {
+        $renderer = new Renderer(array());
+
+        $sample = new SampleComponent('template', $renderer);
+
+        $self = new Collector(array($sample));
+
+        $collection = $self->make(new Container);
+
+        $actual = $collection->has(System::TEMPLATE);
+
+        $this->assertTrue($actual);
     }
 }

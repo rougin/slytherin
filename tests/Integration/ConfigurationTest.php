@@ -148,4 +148,50 @@ class ConfigurationTest extends Testcase
 
         $this->assertNull($config->get('name'));
     }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_loaded()
+    {
+        $temp = sys_get_temp_dir();
+
+        $path = $temp . '/slyth_' . uniqid('', true) . '.php';
+
+        $expect = array('loaded' => true);
+
+        file_put_contents($path, '<?php return ' . var_export($expect, true) . ';');
+
+        $config = new Configuration;
+
+        $config->set('app', $path, true);
+
+        $actual = $config->get('app');
+
+        unlink($path);
+
+        $this->assertEquals($expect, $actual);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_file_loader_used()
+    {
+        $temp = sys_get_temp_dir();
+
+        $path = $temp . '/slyth_' . uniqid('', true) . '.php';
+
+        $expect = array('key' => 'value');
+
+        file_put_contents($path, '<?php return ' . var_export($expect, true) . ';');
+
+        $loader = new FileLoader;
+
+        $actual = $loader->loadFile($path);
+
+        unlink($path);
+
+        $this->assertEquals($expect, $actual);
+    }
 }
