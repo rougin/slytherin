@@ -18,6 +18,16 @@ class IntegrationInterfaceTest extends ApplicationTestCases
      */
     protected function doSetUp()
     {
+        // Add sample data for "$_SERVER" -----
+        $_SERVER = array('REQUEST_URI' => '/');
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $_SERVER['SERVER_NAME'] = 'localhost';
+
+        $_SERVER['SERVER_PORT'] = '8000';
+        // ------------------------------------
+
         $config = new Configuration;
 
         $config->set('app.environment', 'production');
