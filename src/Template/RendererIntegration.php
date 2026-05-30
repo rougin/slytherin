@@ -2,7 +2,7 @@
 
 namespace Rougin\Slytherin\Template;
 
-use Rougin\Slytherin\Application;
+use Rougin\Slytherin\System;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
@@ -52,7 +52,7 @@ class RendererIntegration implements IntegrationInterface
             $renderer = $twig->load($path);
         }
 
-        $container->set(Application::TEMPLATE, $renderer);
+        $container->set(System::TEMPLATE, $renderer);
 
         return $container;
     }
