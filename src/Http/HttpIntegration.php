@@ -2,7 +2,6 @@
 
 namespace Rougin\Slytherin\Http;
 
-use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Integration\Configuration;
@@ -35,22 +34,20 @@ class HttpIntegration implements IntegrationInterface
      */
     public function define(ContainerInterface $container, Configuration $config)
     {
-        $globals = $this->globals($config);
+        /** @var array<string, string> */
+        $server = $config->get('app.http.server', $_SERVER);
 
         /** @var array<string, string> */
-        $server = $globals[0];
+        $cookies = $config->get('app.http.cookies', $_COOKIE);
 
         /** @var array<string, string> */
-        $cookies = $globals[1];
-
-        /** @var array<string, string> */
-        $query = $globals[2];
+        $query = $config->get('app.http.get', $_GET);
 
         /** @var array<string, array<string, string[]>> */
-        $files = $globals[3];
+        $files = $config->get('app.http.files', $_FILES);
 
         /** @var array<string, mixed>|object|null */
-        $parsed = $globals[4];
+        $parsed = $config->get('app.http.post', $_POST);
 
         $headers = $this->headers($server);
 
@@ -61,29 +58,7 @@ class HttpIntegration implements IntegrationInterface
             $request = $request->withHeader($key, $value);
         }
 
-        return $this->resolve($container, $request, new Response);
-    }
-
-    /**
-     * Returns the PHP's global variables.
-     *
-     * @param \Rougin\Slytherin\Integration\Configuration $config
-     *
-     * @return array<integer, mixed>
-     */
-    protected function globals(Configuration $config)
-    {
-        $cookies = $config->get('app.http.cookies', array());
-
-        $files = $config->get('app.http.files', array());
-
-        $get = $config->get('app.http.get', array());
-
-        $post = $config->get('app.http.post', array());
-
-        $server = $config->get('app.http.server', $this->server());
-
-        return array($server, $cookies, $get, $files, $post);
+        return $this->resolve($container, $request);
     }
 
     /**
@@ -122,12 +97,13 @@ class HttpIntegration implements IntegrationInterface
      *
      * @param \Rougin\Slytherin\Container\ContainerInterface $container
      * @param \Psr\Http\Message\ServerRequestInterface       $request
-     * @param \Psr\Http\Message\ResponseInterface            $response
      *
      * @return \Rougin\Slytherin\Container\ContainerInterface
      */
-    protected function resolve(ContainerInterface $container, ServerRequestInterface $request, ResponseInterface $response)
+    protected function resolve(ContainerInterface $container, ServerRequestInterface $request)
     {
+        $response = new Response;
+
         $class = 'Zend\Diactoros\ServerRequestFactory';
 
         $empty = $this->preferred === null;
@@ -154,23 +130,4 @@ class HttpIntegration implements IntegrationInterface
         return $container;
     }
 
-    /**
-     * Returns a sample of $_SERVER values.
-     *
-     * @return array<string, string>
-     */
-    protected function server()
-    {
-        $server = array('SERVER_PORT' => '8000');
-
-        $server['REQUEST_METHOD'] = 'GET';
-
-        $server['REQUEST_URI'] = '/';
-
-        $server['SERVER_NAME'] = 'localhost';
-
-        $server['HTTP_CONTENT_TYPE'] = 'text/plain';
-
-        return $server;
-    }
 }
