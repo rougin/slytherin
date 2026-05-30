@@ -5,7 +5,7 @@ namespace Rougin\Slytherin\ErrorHandler;
 use Rougin\Slytherin\Debug\Debugger;
 
 /**
- * @deprecated since ~0.4, use "Debug\Debugger" instead.
+ * @deprecated since ~0.4, use "Debug\WhoopsErrorHandler" instead.
  *
  * @package Slytherin
  *
