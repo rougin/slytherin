@@ -59,6 +59,16 @@ class ApplicationTest extends Testcase
      */
     public function test_passed_if_integrations_loaded()
     {
+        // Add sample data for "$_SERVER" -----
+        $_SERVER = array('REQUEST_URI' => '/');
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $_SERVER['SERVER_NAME'] = 'localhost';
+
+        $_SERVER['SERVER_PORT'] = '8000';
+        // ------------------------------------
+
         $slash = DIRECTORY_SEPARATOR;
 
         $root = str_replace($slash . 'tests' . $slash . 'Application', '', __DIR__);
