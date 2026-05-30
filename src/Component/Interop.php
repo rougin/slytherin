@@ -2,28 +2,13 @@
 
 namespace Rougin\Slytherin\Component;
 
-use Rougin\Slytherin\Interop as Slytherin;
+use Rougin\Slytherin\Container\Interop as Base;
 
 /**
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
-class Interop extends Slytherin
+class Interop extends Base
 {
-    /**
-     * @return string
-     */
-    protected static function getClass()
-    {
-        return 'Psr\Container\ContainerInterface';
-    }
-
-    /**
-     * @return string
-     */
-    protected static function getMethod()
-    {
-        return 'has';
-    }
 }
