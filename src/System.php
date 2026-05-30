@@ -4,6 +4,7 @@ namespace Rougin\Slytherin;
 
 use Psr\Http\Message\ServerRequestInterface;
 use Rougin\Slytherin\Container\Container;
+use Rougin\Slytherin\Container\ContainerInterface;
 use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
@@ -19,8 +20,6 @@ use Rougin\Slytherin\System\Errors\RouterNotFound;
 use Rougin\Slytherin\System\Handler;
 
 /**
- * Integrates all specified components for Slytherin.
- *
  * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
@@ -52,14 +51,14 @@ class System
     const TEMPLATE = 'Rougin\Slytherin\Template\RendererInterface';
 
     /**
-     * @var \Rougin\Slytherin\Integration\Configuration
+     * @var \Rougin\Slytherin\Integration\Configuration|null
      */
-    protected $config;
+    protected $config = null;
 
     /**
-     * @var \Rougin\Slytherin\Container\ContainerInterface
+     * @var \Rougin\Slytherin\Container\ContainerInterface|null
      */
-    protected $container;
+    protected $container = null;
 
     /**
      * Initializes the application instance.
@@ -71,19 +70,39 @@ class System
      */
     public function __construct($container = null, $config = null)
     {
-        if (! $config)
-        {
-            $config = new Configuration;
-        }
-
         $this->config = $config;
 
-        if (! $container)
+        $this->container = $container;
+    }
+
+    /**
+     * Returns the configuration.
+     *
+     * @return \Rougin\Slytherin\Integration\Configuration
+     */
+    public function getConfig()
+    {
+        if (! $this->config)
         {
-            $container = new Container;
+            $this->config = new Configuration;
         }
 
-        $this->container = $container;
+        return $this->config;
+    }
+
+    /**
+     * Returns the container.
+     *
+     * @return \Rougin\Slytherin\Container\ContainerInterface
+     */
+    public function getContainer()
+    {
+        if (! $this->container)
+        {
+            $this->container = new Container;
+        }
+
+        return $this->container;
     }
 
     /**
@@ -98,18 +117,20 @@ class System
     {
         $uri = $request->getUri()->getPath();
 
+        $app = $this->getContainer();
+
         $method = $request->getMethod();
 
-        $dispatcher = $this->container->get(self::DISPATCHER);
+        $dispatcher = $app->get(self::DISPATCHER);
 
         if (! $dispatcher instanceof RoutingInterface)
         {
             throw new DispatcherNotFound($dispatcher);
         }
 
-        if ($this->container->has(self::ROUTER))
+        if ($app->has(self::ROUTER))
         {
-            $router = $this->container->get(self::ROUTER);
+            $router = $app->get(self::ROUTER);
 
             if (! $router instanceof RouterInterface)
             {
@@ -123,14 +144,14 @@ class System
 
         $items = $route->getMiddlewares();
 
-        $handler = new Handler($route, $this->container);
+        $handler = new Handler($route, $app);
 
-        if (! $this->container->has(self::MIDDLEWARE))
+        if (! $app->has(self::MIDDLEWARE))
         {
             return $handler->handle($request);
         }
 
-        $middleware = $this->container->get(self::MIDDLEWARE);
+        $middleware = $app->get(self::MIDDLEWARE);
 
         if (! $middleware instanceof MiddlewareInterface)
         {
@@ -139,7 +160,12 @@ class System
 
         $stack = $middleware->getStack();
 
-        $middleware->setStack(array_merge($items, $stack));
+        foreach ($items as $item)
+        {
+            $stack[] = $item;
+        }
+
+        $middleware->setStack($stack);
 
         return $middleware->process($request, $handler);
     }
@@ -158,7 +184,7 @@ class System
     {
         if (! $config)
         {
-            $config = $this->config;
+            $config = $this->getConfig();
         }
 
         if (! is_array($items))
@@ -166,7 +192,7 @@ class System
             $items = array($items);
         }
 
-        $container = $this->container;
+        $app = $this->getContainer();
 
         foreach ($items as $item)
         {
@@ -180,10 +206,10 @@ class System
                 throw new IntegrationNotFound($item);
             }
 
-            $container = $item->define($container, $config);
+            $app = $item->define($app, $config);
         }
 
-        $this->container = $container;
+        $this->setContainer($app);
 
         return $this;
     }
@@ -196,9 +222,11 @@ class System
      */
     public function run()
     {
-        if ($this->container->has(self::DEBUGGER))
+        $app = $this->getContainer();
+
+        if ($this->getContainer()->has(self::DEBUGGER))
         {
-            $debugger = $this->container->get(self::DEBUGGER);
+            $debugger = $app->get(self::DEBUGGER);
 
             if (! $debugger instanceof ErrorHandlerInterface)
             {
@@ -208,7 +236,7 @@ class System
             $debugger->display();
         }
 
-        $request = $this->container->get(self::REQUEST);
+        $request = $app->get(self::REQUEST);
 
         if (! $request instanceof ServerRequestInterface)
         {
@@ -216,6 +244,20 @@ class System
         }
 
         echo $this->emit($request)->getBody();
+    }
+
+    /**
+     * Sets the container.
+     *
+     * @param \Rougin\Slytherin\Container\ContainerInterface $container
+     *
+     * @return self
+     */
+    public function setContainer(ContainerInterface $container)
+    {
+        $this->container = $container;
+
+        return $this;
     }
 
     /**
