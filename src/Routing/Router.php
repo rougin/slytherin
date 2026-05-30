@@ -27,6 +27,30 @@ class Router implements RouterInterface
     protected $routes = array();
 
     /**
+     * Converts ":name" URI patterns into "{name}" format.
+     *
+     * @param string $uri
+     *
+     * @return string
+     */
+    public static function parseUri($uri)
+    {
+        $pattern = '/\:([a-zA-Z0-9\_\-]+)/i';
+
+        $matched = preg_match_all($pattern, $uri, $matches);
+
+        if ($matched)
+        {
+            foreach ($matches[0] as $key => $item)
+            {
+                $uri = str_replace($item, '{' . $matches[1][$key] . '}', $uri);
+            }
+        }
+
+        return $uri;
+    }
+
+    /**
      * Initializes the router instance.
      *
      * @param array<integer, \Rougin\Slytherin\Routing\RouteInterface|mixed[]> $routes

@@ -45,15 +45,15 @@ class PhrouteDispatcher extends Dispatcher
      */
     public function dispatch($method, $uri)
     {
-        $this->validMethod($method);
-
         $resolver = new PhrouteResolver;
 
-        $phroute = new Phroute($this->items, $resolver);
+        $this->validMethod($method);
+
+        $this->dispatcher = new Phroute($this->items, $resolver);
 
         try
         {
-            $route = $phroute->dispatch($method, $uri);
+            $route = $this->dispatcher->dispatch($method, $uri);
 
             if (! $route instanceof RouteInterface)
             {
@@ -113,6 +113,10 @@ class PhrouteDispatcher extends Dispatcher
         $this->router = $router;
 
         $this->items = $parsed;
+
+        $resolver = new PhrouteResolver;
+
+        $this->dispatcher = new Phroute($parsed, $resolver);
 
         return $this;
     }

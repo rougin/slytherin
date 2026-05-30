@@ -58,21 +58,13 @@ class FastRouteRouter extends Router
         {
             foreach ($routes as $route)
             {
-                // Convert the ":name" pattern into "{name}" pattern ------------------
+                $method = $route->getMethod();
+
                 $uri = $route->getUri();
 
-                $matched = preg_match_all('/\:([a-zA-Z0-9\_\-]+)/i', $uri, $matches);
+                $uri = Router::parseUri($uri);
 
-                if ($matched)
-                {
-                    foreach ($matches[0] as $key => $item)
-                    {
-                        $uri = str_replace($item, '{' . $matches[1][$key] . '}', $uri);
-                    }
-                }
-                // --------------------------------------------------------------------
-
-                $collector->addRoute($route->getMethod(), $uri, $route);
+                $collector->addRoute($method, $uri, $route);
             }
         };
 
