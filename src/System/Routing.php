@@ -41,32 +41,24 @@ class Routing extends System
      */
     public function run()
     {
+        // If no router defined, run directly ---
         if ($this->router === null)
         {
             parent::run();
 
             return;
         }
-
-        // Prepare the HttpIntegration -------------------
-        $this->config->set('app.http.cookies', $_COOKIE);
-
-        $this->config->set('app.http.files', $_FILES);
-
-        $this->config->set('app.http.get', $_GET);
-
-        $this->config->set('app.http.post', $_POST);
-
-        $this->config->set('app.http.server', $_SERVER);
+        // --------------------------------------
 
         $this->integrate(new HttpIntegration);
-        // -----------------------------------------------
 
-        // Prepare the RoutingIntegration -------------------
+        $app = $this->getContainer();
+
+        // Prepare the RoutingIntegration -------
         $this->integrate(new RoutingIntegration);
 
-        $this->container->set(System::ROUTER, $this->router);
-        // --------------------------------------------------
+        $app->set(System::ROUTER, $this->router);
+        // --------------------------------------
 
         parent::run();
     }
