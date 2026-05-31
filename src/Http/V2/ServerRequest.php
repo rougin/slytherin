@@ -53,43 +53,6 @@ class ServerRequest extends Request implements ServerRequestInterface
     protected $uploaded = array();
 
     /**
-     * Initializes the server request instance.
-     *
-     * @param array<string, string>                                 $server
-     * @param array<string, string>                                 $cookies
-     * @param array<string, string>                                 $query
-     * @param array<string, array<string, integer|string|string[]>> $uploaded
-     * @param array<string, mixed>|object|null                      $data
-     * @param array<string, string>                                 $attributes
-     * @param \Psr\Http\Message\UriInterface|null                   $uri
-     * @param \Psr\Http\Message\StreamInterface|null                $body
-     * @param array<string, string[]>                               $headers
-     * @param string                                                $version
-     */
-    public function __construct(array $server, array $cookies = array(), array $query = array(), array $uploaded = array(), $data = null, array $attributes = array(), $uri = null, $body = null, array $headers = array(), $version = '1.1')
-    {
-        $uri = $uri === null ? Uri::instance($server) : $uri;
-
-        $method = $server['REQUEST_METHOD'];
-
-        $target = $server['REQUEST_URI'];
-
-        parent::__construct($method, $target, $uri, $body, $headers, $version);
-
-        $this->cookies = $cookies;
-
-        $this->data = $data;
-
-        $this->query = $query;
-
-        $this->server = $server;
-
-        $this->uploaded = UploadedFile::normalize($uploaded);
-
-        $this->attributes = $attributes;
-    }
-
-    /**
      * Retrieves a single derived request attribute.
      *
      * @param string $name

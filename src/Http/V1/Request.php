@@ -38,29 +38,6 @@ class Request extends Message implements RequestInterface
     protected $uri;
 
     /**
-     * Initializes the request instance.
-     *
-     * @param string                                 $method
-     * @param string                                 $target
-     * @param \Psr\Http\Message\UriInterface|null    $uri
-     * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array<string, string[]>                $headers
-     * @param string                                 $version
-     *
-     * @todo Remove usage of "null" in this method.
-     */
-    public function __construct($method = 'GET', $target = '/', $uri = null, $body = null, array $headers = array(), $version = '1.1')
-    {
-        parent::__construct($body, $headers, $version);
-
-        $this->method = $method;
-
-        $this->target = $target;
-
-        $this->uri = $uri === null ? new HttpUri : $uri;
-    }
-
-    /**
      * Retrieves the HTTP method of the request.
      *
      * @return string

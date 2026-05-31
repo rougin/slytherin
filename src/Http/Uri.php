@@ -30,4 +30,27 @@ Interop::register('Uri');
  */
 class Uri extends PsrUri implements UriInterface
 {
+    /**
+     * Initializes the URI instance.
+     *
+     * @param string $uri
+     */
+    public function __construct($uri = '')
+    {
+        $parts = parse_url($uri) ?: array();
+
+        foreach ($parts as $key => $value)
+        {
+            $key === 'user' && $this->user = $value;
+
+            $key === 'host' && $value = strtolower($value);
+
+            if ($key === 'path' && $value !== '')
+            {
+                $value = preg_replace('#^/+#', '/', $value);
+            }
+
+            $this->$key = $value;
+        }
+    }
 }

@@ -99,25 +99,6 @@ class Response extends Message implements ResponseInterface
     protected $reason = 'OK';
 
     /**
-     * Initializes the response instance.
-     *
-     * @param integer                                $code
-     * @param \Psr\Http\Message\StreamInterface|null $body
-     * @param array<string, string[]>                $headers
-     * @param string                                 $version
-     *
-     * @todo Remove usage of "null" in this method.
-     */
-    public function __construct($code = 200, $body = null, array $headers = array(), $version = '1.1')
-    {
-        parent::__construct($body, $headers, $version);
-
-        $this->code = $code;
-
-        $this->reason = $this->codes[$code];
-    }
-
-    /**
      * Returns the response reason phrase associated with the status code.
      *
      * @return string

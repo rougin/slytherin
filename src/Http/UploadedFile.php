@@ -20,4 +20,25 @@ Interop::register('UploadedFile');
  */
 class UploadedFile extends PsrUploadedFile implements UploadedFileInterface
 {
+    /**
+     * Initializes the uploaded file instance.
+     *
+     * @param string       $file
+     * @param integer|null $size
+     * @param integer      $error
+     * @param string|null  $name
+     * @param string|null  $media
+     */
+    public function __construct($file, $size = null, $error = UPLOAD_ERR_OK, $name = null, $media = null)
+    {
+        $this->error = $error;
+
+        $this->file = $file;
+
+        $this->media = $media;
+
+        $this->name = $name;
+
+        $this->size = $size;
+    }
 }
