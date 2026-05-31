@@ -7,7 +7,7 @@ use Psr\Http\Message\StreamInterface;
 Interop::register('Stream');
 
 /**
- * @package Slytherin
+ * @property resource|null $stream
  *
  * @method string           __toString()
  * @method void             close()
@@ -24,6 +24,8 @@ Interop::register('Stream');
  * @method void             seek(integer $offset, integer $whence = 0)
  * @method integer          tell()
  * @method integer          write(string $string)
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */

@@ -7,7 +7,15 @@ use Psr\Http\Message\UriInterface;
 Interop::register('Uri');
 
 /**
- * @package Slytherin
+ * @property string       $fragment
+ * @property string       $host
+ * @property string       $pass
+ * @property string       $path
+ * @property integer|null $port
+ * @property string       $query
+ * @property string       $scheme
+ * @property string       $uri
+ * @property string       $user
  *
  * @method string                         __toString()
  * @method string                         getAuthority()
@@ -26,6 +34,8 @@ Interop::register('Uri');
  * @method \Psr\Http\Message\UriInterface withScheme(string $scheme)
  * @method \Psr\Http\Message\UriInterface withUserInfo(string $user, ?string $password = null)
  *
+ * @package Slytherin
+ *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
 class Uri extends PsrUri implements UriInterface
@@ -41,13 +51,28 @@ class Uri extends PsrUri implements UriInterface
 
         foreach ($parts as $key => $value)
         {
-            $key === 'user' && $this->user = $value;
-
-            $key === 'host' && $value = strtolower($value);
-
-            if ($key === 'path' && $value !== '')
+            if ($key === 'user')
             {
+                $this->user = $value;
+
+                continue;
+            }
+
+            if ($key === 'host')
+            {
+                $this->host = strtolower($value);
+
+                continue;
+            }
+
+            if ($key === 'path')
+            {
+                /** @var string */
                 $value = preg_replace('#^/+#', '/', $value);
+
+                $this->path = $value;
+
+                continue;
             }
 
             $this->$key = $value;

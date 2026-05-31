@@ -7,11 +7,15 @@ use Psr\Http\Message\ResponseInterface;
 Interop::register('Response');
 
 /**
- * @package Slytherin
+ * @property integer                $code
+ * @property array<integer, string> $codes
+ * @property string                 $reason
  *
  * @method string                              getReasonPhrase()
  * @method integer                             getStatusCode()
  * @method \Psr\Http\Message\ResponseInterface withStatus(integer $code, string $reasonPhrase = '')
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */

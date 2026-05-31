@@ -7,7 +7,11 @@ use Psr\Http\Message\UploadedFileInterface;
 Interop::register('UploadedFile');
 
 /**
- * @package Slytherin
+ * @property string       $file
+ * @property integer|null $size
+ * @property integer      $error
+ * @property string|null  $name
+ * @property string|null  $media
  *
  * @method string|null                       getClientFilename()
  * @method string|null                       getClientMediaType()
@@ -15,6 +19,8 @@ Interop::register('UploadedFile');
  * @method integer|null                      getSize()
  * @method \Psr\Http\Message\StreamInterface getStream()
  * @method void                              moveTo(string $targetPath)
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */

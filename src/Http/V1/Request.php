@@ -13,7 +13,6 @@ namespace Rougin\Slytherin\Http\V1;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\UriInterface;
-use Rougin\Slytherin\Http\Uri as HttpUri;
 
 /**
  * @package Slytherin

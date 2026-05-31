@@ -7,7 +7,9 @@ use Psr\Http\Message\RequestInterface;
 Interop::register('Request');
 
 /**
- * @package Slytherin
+ * @property string                         $method
+ * @property string                         $target
+ * @property \Psr\Http\Message\UriInterface $uri
  *
  * @method string                             getMethod()
  * @method string                             getRequestTarget()
@@ -15,6 +17,8 @@ Interop::register('Request');
  * @method \Psr\Http\Message\RequestInterface withMethod(string $method)
  * @method \Psr\Http\Message\RequestInterface withRequestTarget(string $requestTarget)
  * @method \Psr\Http\Message\RequestInterface withUri(\Psr\Http\Message\UriInterface $uri, bool $preserveHost = false)
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */

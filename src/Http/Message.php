@@ -7,7 +7,9 @@ use Psr\Http\Message\MessageInterface;
 Interop::register('Message');
 
 /**
- * @package Slytherin
+ * @property \Psr\Http\Message\StreamInterface $body
+ * @property array<string, string[]>           $headers
+ * @property string                            $version
  *
  * @method \Psr\Http\Message\StreamInterface  getBody()
  * @method string[]                           getHeader(string $name)
@@ -20,6 +22,8 @@ Interop::register('Message');
  * @method \Psr\Http\Message\MessageInterface withHeader(string $name, $value)
  * @method \Psr\Http\Message\MessageInterface withoutHeader(string $name)
  * @method \Psr\Http\Message\MessageInterface withProtocolVersion(string $version)
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */

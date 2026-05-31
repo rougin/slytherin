@@ -7,7 +7,15 @@ use Psr\Http\Message\ServerRequestInterface;
 Interop::register('ServerRequest');
 
 /**
- * @package Slytherin
+ * @property array<string, string>                                    $attributes
+ * @property array<string, string>                                    $cookies
+ * @property array<string, mixed>|object|null                         $data
+ * @property array<string, string>                                    $query
+ * @property array<string, string>                                    $server
+ * @property array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploaded
+ * @property string                                                   $method
+ * @property string                                                   $target
+ * @property \Psr\Http\Message\UriInterface                           $uri
  *
  * @method mixed                                                    getAttribute(string $name, $default = null)
  * @method array<string, string>                                    getAttributes()
@@ -22,6 +30,8 @@ Interop::register('ServerRequest');
  * @method \Psr\Http\Message\ServerRequestInterface                 withParsedBody($data)
  * @method \Psr\Http\Message\ServerRequestInterface                 withQueryParams(array<string, string> $query)
  * @method \Psr\Http\Message\ServerRequestInterface                 withUploadedFiles(array<string, \Psr\Http\Message\UploadedFileInterface[]> $uploadedFiles)
+ *
+ * @package Slytherin
  *
  * @author Rougin Gutib <rougingutib@gmail.com>
  */
