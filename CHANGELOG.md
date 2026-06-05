@@ -9,6 +9,7 @@ All notable changes to `Slytherin` will be documented in this file.
 - Conformed test cases from `php-http/psr7-integration-tests`
 - Support for `2.0` of `psr/container`
 - Support for `2.0` of `psr/http-message`
+- Getters, setters for `Config`, `Container` in `System`
 
 ### Changed
 - Do not override `System` implementations if already defined from `ContainerInterface`

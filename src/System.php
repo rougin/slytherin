@@ -70,9 +70,12 @@ class System
      */
     public function __construct($container = null, $config = null)
     {
-        $this->config = $config;
-
         $this->container = $container;
+
+        if ($config)
+        {
+            $this->setConfig($config);
+        }
     }
 
     /**
@@ -244,6 +247,20 @@ class System
         }
 
         echo $this->emit($request)->getBody();
+    }
+
+    /**
+     * Sets the configuration.
+     *
+     * @param \Rougin\Slytherin\Integration\Configuration $config
+     *
+     * @return self
+     */
+    public function setConfig(Configuration $config)
+    {
+        $this->config = $config;
+
+        return $this;
     }
 
     /**
