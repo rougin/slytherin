@@ -17,6 +17,7 @@ All notable changes to `Slytherin` will be documented in this file.
 
 ### Fixed
 - [Implicitly nullable parameter declarations](https://php.watch/versions/8.4/implicitly-marking-parameter-type-nullable-deprecated)
+- Server request not affected by middleware in `Routing`
 
 ### Removed
 - `(array)`, `(bool)`, `(int)`, `(string)` type castings

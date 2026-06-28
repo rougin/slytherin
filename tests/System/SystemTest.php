@@ -4,7 +4,9 @@ namespace Rougin\Slytherin\System;
 
 use Rougin\Slytherin\Container\Container;
 use Rougin\Slytherin\Fixture\Classes\NewClass;
+use Rougin\Slytherin\Http\Response;
 use Rougin\Slytherin\Http\ServerRequest;
+use Rougin\Slytherin\Middleware\Dispatcher as MiddlewareDispatcher;
 use Rougin\Slytherin\Routing\Dispatcher;
 use Rougin\Slytherin\Routing\Router;
 use Rougin\Slytherin\System;
@@ -159,6 +161,58 @@ class SystemTest extends Testcase
         $system = new System($this->container);
 
         $system->handle($request);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_passed_if_middleware_runs_before_dispatch()
+    {
+        $router = new Router;
+
+        $router->put('/hello', function ()
+        {
+            return 'Hello from PUT';
+        });
+
+        $dispatcher = new Dispatcher($router);
+
+        $this->container->set(System::DISPATCHER, $dispatcher);
+
+        $this->container->set(System::RESPONSE, new Response);
+
+        $middleware = new MiddlewareDispatcher;
+
+        $fn = function ($request, $next)
+        {
+            /** @var \Psr\Http\Message\ServerRequestInterface $request */
+            $request = $request->withMethod('PUT');
+
+            /** @var callable $next */
+            return $next($request);
+        };
+
+        $middleware->push($fn);
+
+        $this->container->set(System::MIDDLEWARE, $middleware);
+
+        $server = array();
+        $server['REQUEST_METHOD'] = 'POST';
+        $server['REQUEST_URI'] = '/hello';
+        $server['SERVER_NAME'] = 'localhost';
+        $server['SERVER_PORT'] = '8000';
+
+        $request = new ServerRequest($server);
+
+        $system = new System($this->container);
+
+        $response = $system->handle($request);
+
+        $expect = 'Hello from PUT';
+
+        $actual = $response->getBody();
+
+        $this->assertEquals($expect, $actual);
     }
 
     /**

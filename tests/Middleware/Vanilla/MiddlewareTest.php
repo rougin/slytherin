@@ -4,7 +4,7 @@ namespace Rougin\Slytherin\Middleware\Vanilla;
 
 use Rougin\Slytherin\Http\ServerRequest;
 use Rougin\Slytherin\Middleware\MiddlewareTestCases;
-use Rougin\Slytherin\System\Lastone;
+use Rougin\Slytherin\Fixture\Lastone;
 
 /**
  * @package Slytherin

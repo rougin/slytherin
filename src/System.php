@@ -9,6 +9,7 @@ use Rougin\Slytherin\Debug\ErrorHandlerInterface;
 use Rougin\Slytherin\Integration\Configuration;
 use Rougin\Slytherin\Integration\IntegrationInterface;
 use Rougin\Slytherin\Middleware\DispatcherInterface as MiddlewareInterface;
+use Rougin\Slytherin\Middleware\Handler;
 use Rougin\Slytherin\Routing\DispatcherInterface as RoutingInterface;
 use Rougin\Slytherin\Routing\RouterInterface;
 use Rougin\Slytherin\System\Errors\DebuggerNotFound;
@@ -17,7 +18,7 @@ use Rougin\Slytherin\System\Errors\IntegrationNotFound;
 use Rougin\Slytherin\System\Errors\MiddlewareNotFound;
 use Rougin\Slytherin\System\Errors\RequestNotFound;
 use Rougin\Slytherin\System\Errors\RouterNotFound;
-use Rougin\Slytherin\System\Handler;
+use Rougin\Slytherin\System\Lastone;
 
 /**
  * @package Slytherin
@@ -118,11 +119,7 @@ class System
      */
     public function handle(ServerRequestInterface $request)
     {
-        $uri = $request->getUri()->getPath();
-
         $app = $this->getContainer();
-
-        $method = $request->getMethod();
 
         $dispatcher = $app->get(self::DISPATCHER);
 
@@ -143,15 +140,11 @@ class System
             $dispatcher = $dispatcher->setRouter($router);
         }
 
-        $route = $dispatcher->dispatch($method, $uri);
-
-        $items = $route->getMiddlewares();
-
-        $handler = new Handler($route, $app);
+        $last = new Lastone($app, $dispatcher);
 
         if (! $app->has(self::MIDDLEWARE))
         {
-            return $handler->handle($request);
+            return $last->handle($request);
         }
 
         $middleware = $app->get(self::MIDDLEWARE);
@@ -163,14 +156,9 @@ class System
 
         $stack = $middleware->getStack();
 
-        foreach ($items as $item)
-        {
-            $stack[] = $item;
-        }
+        $handler = new Handler($stack, $last);
 
-        $middleware->setStack($stack);
-
-        return $middleware->process($request, $handler);
+        return $handler->handle($request);
     }
 
     /**
