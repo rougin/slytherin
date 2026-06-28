@@ -37,14 +37,14 @@ class ReflectionContainer extends PsrReflectionContainer implements PsrInterface
      * Resolves the specified parameters from
      * a container.
      *
-     * @param \ReflectionFunctionAbstract $reflector
-     * @param mixed[]                     $parameters
+     * @param \ReflectionFunctionAbstract $reflect
+     * @param mixed[]                     $params
      *
      * @return array<integer, mixed>
      */
-    public function getArguments(\ReflectionFunctionAbstract $reflector, $parameters = array())
+    public function getArguments(\ReflectionFunctionAbstract $reflect, $params = array())
     {
-        $items = $reflector->getParameters();
+        $items = $reflect->getParameters();
 
         $result = array();
 
@@ -54,9 +54,9 @@ class ReflectionContainer extends PsrReflectionContainer implements PsrInterface
 
             $name = $item->getName();
 
-            if (array_key_exists($name, $parameters))
+            if (array_key_exists($name, $params))
             {
-                $result[$key] = $parameters[$name];
+                $result[$key] = $params[$name];
             }
 
             if ($argument)
