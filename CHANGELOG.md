@@ -7,6 +7,7 @@ All notable changes to `Slytherin` will be documented in this file.
 ### Added
 - Conformed to `Level 10` of `PHPStan`
 - Conformed test cases from `php-http/psr7-integration-tests`
+- Unit tests for resolving scalar data types
 - Support for `2.0` of `psr/container`
 - Support for `2.0` of `psr/http-message`
 - Getters, setters for `Config`, `Container` in `System`

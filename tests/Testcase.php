@@ -107,6 +107,19 @@ class Testcase extends Legacy
     /**
      * @return void
      */
+    public function checkIfScalarTypesAllowewd()
+    {
+        if (version_compare(PHP_VERSION, '7.0.0', '>='))
+        {
+            return;
+        }
+
+        $this->markTestSkipped('Scalar type hints require PHP 7.0 or newer.');
+    }
+
+    /**
+     * @return void
+     */
     public function checkIfStratigilityExists()
     {
         if (class_exists('Zend\Stratigility\MiddlewarePipe'))
