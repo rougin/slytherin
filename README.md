@@ -103,7 +103,7 @@ The MIT License (MIT). Please see [LICENSE][link-license] for more information.
 [link-homepage]: https://roug.in
 [link-license]: https://github.com/rougin/slytherin/blob/master/LICENSE.md
 [link-packagist]: https://packagist.org/packages/rougin/slytherin
-[link-wiki-example]: https://github.com/rougin/slytherin/wiki/The-First-%22Hello-World%22
+[link-wiki-example]: https://github.com/rougin/slytherin/wiki/The-First-Hello-World
 [link-wiki-http]: https://github.com/rougin/slytherin/wiki/Http
 [link-wiki-routing]: https://github.com/rougin/slytherin/wiki/Routing
 [link-wiki-upgrade]: https://github.com/rougin/slytherin/wiki/Upgrade-Guide
